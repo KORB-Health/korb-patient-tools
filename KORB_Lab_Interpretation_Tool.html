@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KORB Health — Lab Interpretation Tool</title>
+<style>
+  :root{
+    --navy:#1E2D5B;--teal:#00B4C8;--lt:#E0F6F9;--ln:#EEF0F7;--bd:#D6E0E3;
+    --tx:#1A1A2E;--mu:#5A6070;--gb:#F5F5F5;--amber:#FFF8E1;--amberbd:#F9A825;
+    --high:#C62828;--highlt:#FFEBEE;--low:#1565C0;--lowlt:#E3F2FD;--ok:#2E7D32;--oklt:#E8F5E9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:Arial,sans-serif;font-size:14px;color:var(--tx);background:#fff;}
+  .wrap{max-width:960px;margin:0 auto;padding:24px 20px 48px;}
+
+  .top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-bottom:14px;border-bottom:2.5px solid var(--teal);margin-bottom:20px;}
+  .top-bar img{height:46px;}
+  .top-bar-title h1{font-size:19px;font-weight:700;color:var(--navy);}
+  .top-bar-title p{font-size:12px;color:var(--mu);margin-top:2px;}
+  .badge{background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+
+  .jump-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+  .jump-link{font-size:12px;font-weight:700;color:var(--navy);background:var(--ln);border:1px solid var(--bd);border-radius:20px;padding:6px 14px;text-decoration:none;cursor:pointer;}
+  .jump-link:hover{background:var(--lt);border-color:var(--teal);}
+
+  .controls{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:16px 18px;margin-bottom:20px;}
+  .ctrl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;align-items:end;}
+  .cg{display:flex;flex-direction:column;gap:5px;}
+  .cg label{font-size:12px;font-weight:700;color:var(--navy);}
+  .cg input,.cg select{padding:7px 10px;border:1.5px solid var(--teal);border-radius:6px;font-size:13px;color:var(--navy);background:#fff;font-family:Arial,sans-serif;}
+  .chk-row{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--navy);cursor:pointer;}
+  .reset-btn{background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;font-weight:700;align-self:end;font-family:Arial,sans-serif;}
+
+  .info-box{background:var(--amber);border:1px solid var(--amberbd);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:12px;line-height:1.7;}
+  .info-box strong{color:#5D3A00;}
+
+  .panel-card{border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+  .panel-hdr{background:var(--navy);color:#fff;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;}
+  .panel-hdr .tog{font-size:11px;color:#B8D4E0;}
+  .panel-body{display:none;}
+  .panel-body.open{display:block;}
+
+  .priority-card{border:2px solid var(--teal);border-radius:8px;overflow:hidden;margin-bottom:20px;}
+  .priority-hdr{background:linear-gradient(90deg,var(--navy),var(--teal));color:#fff;padding:10px 16px;font-size:13px;font-weight:700;}
+  .priority-sub{font-size:11px;font-weight:400;color:#E0F6F9;margin-top:2px;}
+
+  .subgroup{border-top:1px solid var(--bd);}
+  .subgroup-hdr{background:#EAF7F9;color:var(--navy);padding:8px 16px;font-size:11.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;}
+  .subgroup-hdr .tog{font-size:10.5px;color:var(--mu);font-weight:400;}
+  .subgroup-body{display:none;}
+  .subgroup-body.open{display:block;}
+
+  table.lab{width:100%;border-collapse:collapse;font-size:12px;}
+  table.lab th{background:var(--ln);color:var(--navy);padding:7px 10px;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;border-bottom:1.5px solid var(--bd);}
+  table.lab td{padding:7px 10px;border-bottom:1px solid var(--bd);vertical-align:middle;line-height:1.5;}
+  table.lab tr:last-child td{border-bottom:none;}
+  table.lab tr:nth-child(even) td{background:#FAFCFC;}
+  td.lname{font-weight:700;color:var(--navy);}
+  td.lcode{color:var(--mu);font-size:11px;white-space:nowrap;}
+
+  .tog-grp{display:flex;gap:4px;}
+  .tog-btn{border:1.5px solid var(--bd);background:#fff;color:var(--mu);font-size:11px;font-weight:700;padding:5px 10px;border-radius:5px;cursor:pointer;font-family:Arial,sans-serif;}
+  .tog-btn.sel-normal{background:var(--ok);border-color:var(--ok);color:#fff;}
+  .tog-btn.sel-high{background:var(--high);border-color:var(--high);color:#fff;}
+  .tog-btn.sel-low{background:var(--low);border-color:var(--low);color:#fff;}
+  .num-input{width:80px;padding:5px 8px;border:1.5px solid var(--bd);border-radius:5px;font-size:12px;font-family:Arial,sans-serif;}
+  .num-status{font-size:10.5px;font-weight:700;margin-left:6px;padding:2px 6px;border-radius:4px;}
+  .num-status.normal{background:var(--oklt);color:var(--ok);}
+  .num-status.high{background:var(--highlt);color:var(--high);}
+  .num-status.low{background:var(--lowlt);color:var(--low);}
+
+  .rec-wrap{border:2px solid var(--navy);border-radius:10px;overflow:hidden;margin:24px 0;}
+  .rec-hdr{background:var(--navy);color:#fff;padding:10px 16px;font-size:13px;font-weight:700;}
+  .rec-body{padding:14px 16px;}
+  .rec-empty{font-size:12px;color:var(--mu);font-style:italic;}
+  .rec-card{border-radius:7px;padding:10px 12px;margin-bottom:8px;font-size:12.5px;line-height:1.6;}
+  .rec-card:last-child{margin-bottom:0;}
+  .rec-card.sourced{background:var(--highlt);border:1px solid var(--high);}
+  .rec-card.sourced .rec-tag{color:var(--high);}
+  .rec-card.generic{background:var(--amber);border:1px solid var(--amberbd);}
+  .rec-card.generic .rec-tag{color:#5D3A00;}
+  .rec-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:3px;}
+  .rec-lab{font-weight:700;color:var(--navy);}
+
+  .sec{font-size:14px;font-weight:700;color:var(--navy);border-left:4px solid var(--teal);padding-left:10px;margin:24px 0 12px;}
+
+  .copy-box{background:#1A1A2E;color:#E8F5E9;border-radius:8px;padding:16px 18px;font-family:"Courier New",monospace;font-size:11px;line-height:1.9;white-space:pre-wrap;position:relative;margin-bottom:20px;}
+  .copy-btn{position:absolute;top:10px;right:10px;background:var(--teal);color:#fff;border:none;border-radius:5px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif;}
+  .copy-btn.ok{background:var(--ok);}
+
+  .disc{font-size:11px;color:var(--mu);border-top:1px solid var(--bd);padding-top:12px;margin-top:24px;line-height:1.6;}
+
+  @media(max-width:600px){
+    table.lab, table.lab thead, table.lab tbody, table.lab th, table.lab td, table.lab tr{display:block;}
+    table.lab th{display:none;}
+    table.lab td{border-bottom:none;padding:3px 10px;}
+    table.lab tr{border-bottom:1px solid var(--bd);padding:8px 0;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-bar">
+    <img id="logoImg" alt="KORB Health Group">
+    <div class="top-bar-title">
+      <h1>Lab Interpretation Tool</h1>
+      <p>Defaults to Normal — change only the abnormal values &nbsp;·&nbsp; Internal Use Only</p>
+    </div>
+    <span class="badge">PROVIDER TOOL</span>
+  </div>
+
+  <div class="jump-nav">
+    <a class="jump-link" href="#priority">Priority</a>
+    <a class="jump-link" href="#standard">KORB Standard Longevity</a>
+    <a class="jump-link" href="#trt">KORB TRT</a>
+    <a class="jump-link" href="#recommendations">Recommendations</a>
+    <a class="jump-link" href="#noteblock">Copy-Paste Note</a>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl-grid">
+      <div class="cg"><label for="selProgram">Program</label>
+        <select id="selProgram" onchange="onProgramChange()">
+          <option value="fhl">Functional Health &amp; Longevity</option>
+          <option value="mens">Men's Health (TRT)</option>
+        </select>
+      </div>
+      <div class="cg"><label for="selGender">Patient gender</label>
+        <select id="selGender" onchange="onContextChange()">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="cg"><label for="numAge">Patient age</label>
+        <input type="number" id="numAge" value="45" min="18" max="100" onchange="onContextChange()">
+      </div>
+      <button class="reset-btn" onclick="resetAll()">&#8635; Reset All</button>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>How to use:</strong> Every lab defaults to <strong>Normal</strong> — only click High or Low on the values that are actually abnormal. Reference ranges aren't shown here (they're already on the lab report); this tool uses them behind the scenes to drive the Recommendations panel. PSA is added to the Standard panel automatically for male patients age 45+ — no separate checkbox needed. IGF-1 auto-flags against Dr. Rose's titration target (120-160 ng/mL goal band; reduce-dose ceiling >190 male / >170 female) — the same target applies across Sermorelin, CJC-1295/Ipamorelin, and Tesamorelin per Dr. Rose, for consistency across programs — not the general Quest population range, which is much wider and isn't the right benchmark for a patient on therapy. Guidance in <strong style="color:var(--high);">red</strong> is sourced from Dr. Rose's Clinician Peptide Reference Binder or the program QRCs. Guidance in <strong>amber is generic and has not been clinically reviewed</strong> — treat it as a prompt to apply judgment, not a protocol.
+  </div>
+
+  <div id="priorityRoot"></div>
+
+  <div id="panelsRoot"></div>
+
+  <div class="rec-wrap" id="recommendations">
+    <div class="rec-hdr">Recommendations</div>
+    <div class="rec-body" id="recBody"><p class="rec-empty">All labs normal — nothing to flag.</p></div>
+  </div>
+
+  <div class="sec" id="noteblock" style="margin-top:8px;">Copy-Paste Chart Note</div>
+  <div class="copy-box" id="noteBox">
+    <button class="copy-btn" id="copyBtn" onclick="copyNote()">Copy</button>
+    <span id="noteText">All labs normal — note will list only flagged values.</span>
+  </div>
+
+  <div class="disc">
+    Clinical framing (IGF-1 target range, GH-axis diabetogenic watch, GHK-Cu copper/ceruloplasmin discontinue trigger, thyroid-before-GH-axis, PSA oncologic screen) is sourced from Dr. Rose's Clinician Peptide Reference Binder (Summit 2026) and the program QRC documents — the source of truth for KORB clinical content. This tool does not make dosing or titration decisions and does not replace individualized clinical judgment.<br><br>
+    <strong style="display:block;text-align:center;">KORB Health Medical Texas PA &middot; Lab Interpretation Tool</strong>
+  </div>
+</div>
+
+<script>
+const LOGO_B64 = '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';
+document.getElementById('logoImg').src = 'data:image/png;base64,' + LOGO_B64;
+
+// ─── DATA ──────────────────────────────────────────────────────────────────
+// range() is used ONLY for recommendation logic / IGF-1 auto-flagging — never displayed.
+const PSA_LAB = {id:'psa', name:'PSA, Total', code:'5363', unit:'ng/mL', range:()=>[null,4.00], type:'toggle',
+  highG:{text:'Part of the oncologic safety screen — GH/IGF-1 is mitogenic, and the shared malignancy contraindication applies across all agents. Consider urology referral per your standard practice before continuing GH-axis or BPC-157/GHK-Cu therapy.', sourced:true}};
+
+const LABS = {
+standard: [
+  {id:'wbc', name:'WBC', code:'6399', unit:'Thousand/uL', group:'cbc', range:()=>[3.8,10.8], type:'toggle',
+    highG:{text:'Evaluate for infection/inflammation; correlate with differential.', sourced:false},
+    lowG:{text:'Evaluate for marrow suppression or immune concern; correlate with differential.', sourced:false}},
+  {id:'rbc', name:'RBC', code:'6399', unit:'Million/uL', group:'cbc', range:()=>[4.20,5.80], type:'toggle',
+    highG:{text:'Correlate with hematocrit/hemoglobin; consider polycythemia workup if persistent.', sourced:false},
+    lowG:{text:'Correlate with hemoglobin/hematocrit; evaluate for anemia.', sourced:false}},
+  {id:'hgb', name:'Hemoglobin', code:'6399', unit:'g/dL', group:'cbc', range:()=>[13.2,17.1], type:'toggle',
+    highG:{text:'Correlate with hematocrit; consider polycythemia workup if persistent.', sourced:false},
+    lowG:{text:'Evaluate for anemia before initiating or continuing GH-axis therapy.', sourced:false}},
+  {id:'hct', name:'Hematocrit', code:'6399', unit:'%', group:'cbc', range:()=>[39.4,51.1], type:'toggle',
+    highG:{text:'Correlate with hemoglobin/RBC; consider polycythemia workup if persistent.', sourced:false},
+    lowG:{text:'Evaluate for anemia before initiating or continuing GH-axis therapy.', sourced:false}},
+  {id:'mcv', name:'MCV', code:'6399', unit:'fL', group:'cbc', range:()=>[81.4,101.7], type:'toggle', highG:{text:'Correlate with B12/folate if macrocytic.', sourced:false}, lowG:{text:'Correlate with iron studies if microcytic.', sourced:false}},
+  {id:'mch', name:'MCH', code:'6399', unit:'pg', group:'cbc', range:()=>[27.0,33.0], type:'toggle', highG:{text:'Correlate with MCV/MCHC.', sourced:false}, lowG:{text:'Correlate with MCV/MCHC.', sourced:false}},
+  {id:'mchc', name:'MCHC', code:'6399', unit:'g/dL', group:'cbc', range:()=>[31.6,35.4], type:'toggle', highG:{text:'Correlate with MCV/MCH.', sourced:false}, lowG:{text:'Correlate with MCV/MCH.', sourced:false}},
+  {id:'rdw', name:'RDW', code:'6399', unit:'%', group:'cbc', range:()=>[11.0,15.0], type:'toggle', highG:{text:'Correlate with MCV/iron studies if anemia present.', sourced:false}, lowG:{text:'Generally not clinically significant in isolation.', sourced:false}},
+  {id:'plt', name:'Platelet Count', code:'6399', unit:'Thousand/uL', group:'cbc', range:()=>[140,400], type:'toggle',
+    highG:{text:'Correlate clinically; consider reactive vs. primary thrombocytosis if persistent.', sourced:false},
+    lowG:{text:'Caution with injectable therapies (BPC-157/GHK-Cu) if significantly low; correlate clinically.', sourced:false}},
+  {id:'mpv', name:'MPV', code:'6399', unit:'fL', group:'cbc', range:()=>[7.5,12.5], type:'toggle', highG:{text:'Correlate with platelet count.', sourced:false}, lowG:{text:'Correlate with platelet count.', sourced:false}},
+  {id:'na', name:'Sodium', code:'10231', unit:'mmol/L', group:'cmp', range:()=>[135,146], type:'toggle', highG:{text:'Evaluate hydration/renal status.', sourced:false}, lowG:{text:'Evaluate hydration/renal status.', sourced:false}},
+  {id:'k', name:'Potassium', code:'10231', unit:'mmol/L', group:'cmp', range:()=>[3.5,5.3], type:'toggle', highG:{text:'Correlate with renal function; caution if significantly elevated.', sourced:false}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'cl', name:'Chloride', code:'10231', unit:'mmol/L', group:'cmp', range:()=>[98,110], type:'toggle', highG:{text:'Evaluate acid-base/renal status.', sourced:false}, lowG:{text:'Evaluate acid-base/renal status.', sourced:false}},
+  {id:'co2', name:'Carbon Dioxide', code:'10231', unit:'mmol/L', group:'cmp', range:()=>[20,32], type:'toggle', highG:{text:'Evaluate acid-base status.', sourced:false}, lowG:{text:'Evaluate acid-base status.', sourced:false}},
+  {id:'ca', name:'Calcium', code:'10231', unit:'mg/dL', group:'cmp', range:()=>[8.6,10.2], type:'toggle', highG:{text:'Correlate with albumin; consider parathyroid/bone workup if persistent.', sourced:false}, lowG:{text:'Correlate with albumin.', sourced:false}},
+  {id:'bun', name:'BUN', code:'10231', unit:'mg/dL', group:'cmp', range:()=>[7,25], type:'toggle', highG:{text:'Correlate with creatinine/eGFR; assess hydration and renal function.', sourced:false}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'creat', name:'Creatinine', code:'10231', unit:'mg/dL', group:'cmp', range:()=>[0.50,0.99], type:'toggle', highG:{text:'Correlate with eGFR; assess renal function before continuing therapy.', sourced:false}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'egfr', name:'eGFR', code:'10231', unit:'mL/min/1.73m²', group:'cmp', range:()=>[60,null], type:'toggle', lowG:{text:'Evaluate renal function before continuing GH-axis or copper-containing therapy.', sourced:false}},
+  {id:'buncr', name:'BUN/Creatinine Ratio', code:'10231', unit:'calc', group:'cmp', range:()=>[6,22], type:'toggle', highG:{text:'Correlate with hydration/renal status.', sourced:false}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'tprot', name:'Protein, Total', code:'10231', unit:'g/dL', group:'cmp', range:()=>[6.1,8.1], type:'toggle', highG:{text:'Correlate clinically.', sourced:false}, lowG:{text:'Correlate with hepatic/nutritional status.', sourced:false}},
+  {id:'alb', name:'Albumin', code:'10231', unit:'g/dL', group:'cmp', range:()=>[3.6,5.1], type:'toggle', highG:{text:'Correlate clinically.', sourced:false}, lowG:{text:'Correlate with hepatic/nutritional status.', sourced:false}},
+  {id:'glob', name:'Globulin (calc)', code:'10231', unit:'g/dL', group:'cmp', range:()=>[1.9,3.7], type:'toggle', highG:{text:'Correlate clinically.', sourced:false}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'agr', name:'Albumin/Globulin Ratio (calc)', code:'10231', unit:'calc', group:'cmp', range:()=>[1.0,2.5], type:'toggle', highG:{text:'Correlate clinically.', sourced:false}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'tbili', name:'Bilirubin, Total', code:'10231', unit:'mg/dL', group:'cmp', range:()=>[0.2,1.2], type:'toggle', highG:{text:'Correlate with AST/ALT/ALP; evaluate hepatic status — relevant to copper-hepatic monitoring if on GHK-Cu.', sourced:false}, lowG:{text:'Generally not clinically significant.', sourced:false}},
+  {id:'alp', name:'Alkaline Phosphatase', code:'10231', unit:'U/L', group:'cmp', range:()=>[31,125], type:'toggle', highG:{text:'Correlate with AST/ALT/bilirubin; part of hepatic status monitored alongside copper load if on GHK-Cu.', sourced:true}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'ast', name:'AST', code:'10231', unit:'U/L', group:'cmp', range:()=>[10,35], type:'toggle', highG:{text:'Hepatic marker — if on GHK-Cu add-on, upward drift alongside copper/ceruloplasmin is a discontinue-and-reassess trigger per the GHK-Cu monitoring note.', sourced:true}, lowG:{text:'Generally not clinically significant.', sourced:false}},
+  {id:'alt', name:'ALT', code:'10231', unit:'U/L', group:'cmp', range:()=>[6,29], type:'toggle', highG:{text:'Hepatic marker — if on GHK-Cu add-on, upward drift alongside copper/ceruloplasmin is a discontinue-and-reassess trigger per the GHK-Cu monitoring note.', sourced:true}, lowG:{text:'Generally not clinically significant.', sourced:false}},
+  {id:'tchol', name:'Total Cholesterol', code:'7600', unit:'mg/dL', group:'lipid', range:()=>[null,200], type:'toggle', highG:{text:'Standard cardiometabolic risk assessment; consider lipid-lowering referral per your usual practice.', sourced:false}},
+  {id:'hdl', name:'HDL Cholesterol', code:'7600', unit:'mg/dL', group:'lipid', range:(g)=> g==='male'?[40,null]:[50,null], type:'toggle', lowG:{text:'Standard cardiometabolic risk factor.', sourced:false}, highG:{text:'Not typically a risk factor at high levels.', sourced:false}},
+  {id:'trig', name:'Triglycerides', code:'7600', unit:'mg/dL', group:'lipid', range:()=>[null,150], type:'toggle', highG:{text:'Standard cardiometabolic risk assessment.', sourced:false}},
+  {id:'ldl', name:'LDL Cholesterol (calc)', code:'7600', unit:'mg/dL', group:'lipid', range:()=>[null,100], type:'toggle', highG:{text:'Standard cardiometabolic risk assessment.', sourced:false}},
+  {id:'cholhdl', name:'Cholesterol/HDL Ratio (calc)', code:'7600', unit:'calc', group:'lipid', range:()=>[null,5.0], type:'toggle', highG:{text:'Standard cardiometabolic risk assessment.', sourced:false}},
+  {id:'nonhdl', name:'Non-HDL Cholesterol (calc)', code:'7600', unit:'mg/dL', group:'lipid', range:()=>[null,130], type:'toggle', highG:{text:'Standard cardiometabolic risk assessment.', sourced:false}},
+  {id:'tsh', name:'TSH', code:'899', unit:'mIU/L', group:'thyroid', range:()=>[0.40,4.50], type:'toggle',
+    highG:{text:'Untreated hypothyroidism blunts the GH response. Confirm euthyroid status before starting or continuing GH-axis therapy (Sermorelin, CJC-1295/Ipamorelin, Tesamorelin).', sourced:true},
+    lowG:{text:'Evaluate thyroid status — hyperthyroidism should be addressed before continuing GH-axis therapy.', sourced:false}},
+  {id:'ft4', name:'Free T4', code:'866', unit:'ng/dL', group:'thyroid', range:()=>[0.8,1.8], type:'toggle', highG:{text:'Correlate with TSH; confirm euthyroid status before GH-axis therapy.', sourced:true}, lowG:{text:'Correlate with TSH; confirm euthyroid status before GH-axis therapy.', sourced:true}},
+  {id:'ft3', name:'Free T3', code:'34429', unit:'pg/mL', group:'thyroid', range:()=>[2.3,4.2], type:'toggle', highG:{text:'Correlate with TSH/FT4; confirm euthyroid status before GH-axis therapy.', sourced:true}, lowG:{text:'Correlate with TSH/FT4; confirm euthyroid status before GH-axis therapy.', sourced:true}},
+  {id:'cu', name:'Copper, RBC', code:'3481', unit:'mg/L', group:'ghkcu', range:()=>[0.53,0.91], type:'toggle',
+    highG:{text:'GHK-Cu introduces a copper load. Per the monitoring note: reassess each cycle and discontinue GHK-Cu if copper or ceruloplasmin trend upward, or if hepatic markers (AST/ALT) drift.', sourced:true},
+    lowG:{text:'Correlate clinically; not a typical GHK-Cu concern direction.', sourced:false}},
+  {id:'zn', name:'Zinc, RBC', code:'6354', unit:'mg/L', group:'ghkcu', range:()=>[9.0,14.7], type:'toggle',
+    lowG:{text:'Zinc antagonizes copper status — a low zinc alongside rising copper/ceruloplasmin strengthens the case to reassess the GHK-Cu add-on.', sourced:true},
+    highG:{text:'Correlate clinically.', sourced:false}},
+  {id:'ceru', name:'Ceruloplasmin', code:'326', unit:'mg/dL', group:'ghkcu', range:(g)=> g==='male'?[14,30]:[14,48], type:'toggle',
+    highG:{text:'GHK-Cu introduces a copper load. Per the monitoring note: reassess each cycle and discontinue GHK-Cu if copper or ceruloplasmin trend upward, or if hepatic markers drift.', sourced:true},
+    lowG:{text:'Correlate clinically.', sourced:false}},
+],
+priority: [
+  {id:'a1c', name:'HbA1c', code:'496', unit:'%', range:()=>[null,5.7], type:'toggle',
+    highG:{text:'GH is diabetogenic. HbA1c \u2265 5.7% is a relative-contraindication threshold in the KORB intake criteria. Per Dr. Rose\'s titration decision tree, this is checked FIRST, before IGF-1 — upward drift here mandates a dose reduction regardless of where IGF-1 sits.', sourced:true}},
+  {id:'insulin', name:'Fasting Insulin', code:'561', unit:'uIU/mL', range:()=>[null,18.4], type:'toggle',
+    highG:{text:'GH is diabetogenic. Per Dr. Rose\'s titration decision tree, this is checked FIRST alongside HbA1c, before IGF-1 — upward drift here mandates a dose reduction regardless of where IGF-1 sits.', sourced:true}},
+  {id:'igf1', name:'IGF-1 (LC/MS)', code:'16293', unit:'ng/mL', type:'numeric',
+    highG:{text:'Above the reduce-dose ceiling (>190 male / >170 female) from Dr. Rose\'s titration guidance. Target goal band is 120-160 ng/mL. Check HbA1c/Fasting Insulin first — an upward drift there overrides a reassuring IGF-1 read. This tool flags range only; it does not calculate the actual dose step. Confirmed per Dr. Rose: this target applies the same way to all three GH-axis agents (Sermorelin, CJC-1295/Ipamorelin, Tesamorelin) — kept consistent across programs rather than using a separate SD-score-based ceiling for the latter two.', sourced:true},
+    lowG:{text:'Below the 120 ng/mL goal-band floor from Dr. Rose\'s titration guidance — may indicate insufficient response. Applies the same way across Sermorelin, CJC-1295/Ipamorelin, and Tesamorelin. This tool flags range only; it does not calculate the actual dose step.', sourced:true}},
+],
+trt: [
+  {id:'wbc_trt', name:'WBC', code:'6399', unit:'Thousand/uL', group:'cbc', range:()=>[3.8,10.8], type:'toggle',
+    highG:{text:'Evaluate for infection/inflammation; correlate with differential.', sourced:false},
+    lowG:{text:'Evaluate for marrow suppression or immune concern; correlate with differential.', sourced:false}},
+  {id:'rbc_trt', name:'RBC', code:'6399', unit:'Million/uL', group:'cbc', range:()=>[4.20,5.80], type:'toggle',
+    highG:{text:'Testosterone therapy can drive erythrocytosis. Correlate with hematocrit/hemoglobin.', sourced:false},
+    lowG:{text:'Correlate with hemoglobin/hematocrit; evaluate for anemia.', sourced:false}},
+  {id:'hgb_trt', name:'Hemoglobin', code:'6399', unit:'g/dL', range:()=>[13.2,17.1], type:'toggle',
+    highG:{text:'Testosterone therapy can raise hemoglobin/hematocrit (erythrocytosis) — correlate with hematocrit; consider dose adjustment or therapeutic phlebotomy per your standard practice if significantly elevated.', sourced:false},
+    lowG:{text:'Evaluate for anemia before initiating/continuing testosterone therapy.', sourced:false}},
+  {id:'hct_trt', name:'Hematocrit', code:'6399', unit:'%', range:()=>[39.4,51.1], type:'toggle',
+    highG:{text:'Testosterone therapy can raise hematocrit/hemoglobin (erythrocytosis) — a key TRT-specific safety flag. Consider dose adjustment or therapeutic phlebotomy per your standard practice if significantly elevated.', sourced:false},
+    lowG:{text:'Evaluate for anemia before initiating/continuing testosterone therapy.', sourced:false}},
+  {id:'mcv_trt', name:'MCV', code:'6399', unit:'fL', group:'cbc', range:()=>[81.4,101.7], type:'toggle', highG:{text:'Correlate with B12/folate if macrocytic.', sourced:false}, lowG:{text:'Correlate with iron studies if microcytic.', sourced:false}},
+  {id:'mch_trt', name:'MCH', code:'6399', unit:'pg', group:'cbc', range:()=>[27.0,33.0], type:'toggle', highG:{text:'Correlate with MCV/MCHC.', sourced:false}, lowG:{text:'Correlate with MCV/MCHC.', sourced:false}},
+  {id:'mchc_trt', name:'MCHC', code:'6399', unit:'g/dL', group:'cbc', range:()=>[31.6,35.4], type:'toggle', highG:{text:'Correlate with MCV/MCH.', sourced:false}, lowG:{text:'Correlate with MCV/MCH.', sourced:false}},
+  {id:'rdw_trt', name:'RDW', code:'6399', unit:'%', group:'cbc', range:()=>[11.0,15.0], type:'toggle', highG:{text:'Correlate with MCV/iron studies if anemia present.', sourced:false}, lowG:{text:'Generally not clinically significant in isolation.', sourced:false}},
+  {id:'plt_trt', name:'Platelet Count', code:'6399', unit:'Thousand/uL', group:'cbc', range:()=>[140,400], type:'toggle',
+    highG:{text:'Correlate clinically; consider reactive vs. primary thrombocytosis if persistent.', sourced:false},
+    lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'mpv_trt', name:'MPV', code:'6399', unit:'fL', group:'cbc', range:()=>[7.5,12.5], type:'toggle', highG:{text:'Correlate with platelet count.', sourced:false}, lowG:{text:'Correlate with platelet count.', sourced:false}},
+  {id:'lh', name:'LH', code:'7137', unit:'mIU/mL', range:()=>[null,null], type:'toggle', highG:{text:'Correlate with testosterone/estradiol to assess axis status.', sourced:false}, lowG:{text:'Correlate with testosterone to distinguish primary vs. secondary hypogonadism.', sourced:false}},
+  {id:'fsh', name:'FSH', code:'7137', unit:'mIU/mL', range:()=>[null,null], type:'toggle', highG:{text:'Correlate with testosterone/LH to assess axis status.', sourced:false}, lowG:{text:'Correlate with testosterone/LH to assess axis status.', sourced:false}},
+  {id:'prolactin', name:'Prolactin', code:'746', unit:'ng/mL', range:(g)=> g==='male'?[2.0,18.0]:[3.0,30.0], type:'toggle', highG:{text:'Evaluate for pituitary/hypothalamic cause or medication effect before continuing hormone therapy.', sourced:false}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'estradiol', name:'Estradiol', code:'4021', unit:'pg/mL', range:(g)=> g==='male'?[null,39]:[null,null], type:'toggle', highG:{text:'In men on testosterone therapy, elevated estradiol (aromatization) is a common reason for dose or protocol adjustment — correlate clinically.', sourced:false}, lowG:{text:'Correlate clinically.', sourced:false}},
+  {id:'testo', name:'Testosterone, Total, MS', code:'15983', unit:'ng/dL', type:'numeric',
+    range:(g)=> g==='male' ? [250,1100] : [2,45],
+    highG:{text:'Above the Quest population reference range. Note this is the general lab reference, not a TRT treatment target — correlate clinically; consider supraphysiologic dosing review if on therapy.', sourced:false},
+    lowG:{text:'Below the Quest population reference range. Correlate with LH/FSH to distinguish primary vs. secondary hypogonadism before initiating/adjusting therapy.', sourced:false}},
+  {id:'psa_trt', name:'PSA, Total', code:'5363', unit:'ng/mL', range:()=>[null,4.00], type:'toggle',
+    highG:{text:'Part of the oncologic safety screen before initiating/continuing testosterone therapy. Consider urology referral per your standard practice.', sourced:true}},
+],
+};
+
+const state = {};
+const subOpen = {}; // 'pid:group' -> bool, default collapsed
+
+function getCtx(){
+  return { gender: document.getElementById('selGender').value, age: parseFloat(document.getElementById('numAge').value)||45 };
+}
+
+function isFhl(){ return document.getElementById('selProgram').value === 'fhl'; }
+
+function activePanelIds(){
+  return isFhl() ? ['standard'] : ['trt'];
+}
+
+function panelTitle(id){
+  if(id==='standard'){
+    const ctx = getCtx();
+    return (ctx.gender==='male' && ctx.age>=45) ? 'KORB Men 45 Longevity' : 'KORB Standard Longevity';
+  }
+  return {trt:'KORB TRT'}[id];
+}
+
+const GROUP_META = {
+  cbc: {title:'CBC w/ Differential — remaining values'},
+  cmp: {title:'CMP — remaining values'},
+  lipid: {title:'Lipid Panel'},
+  ghkcu: {title:'GHK-Cu Monitoring (Copper, Zinc, Ceruloplasmin)'},
+  thyroid: {title:'Thyroid Panel (TSH, Free T4, Free T3)'},
+};
+
+function onProgramChange(){
+  onContextChange();
+}
+
+function labsForPanel(id){
+  if(id==='standard'){
+    const arr = LABS.standard.slice();
+    const ctx = getCtx();
+    if(ctx.gender==='male' && ctx.age>=45) arr.push(PSA_LAB);
+    return arr;
+  }
+  return LABS[id];
+}
+
+function ensureDefaultsFor(labs){
+  labs.forEach(l=>{ if(l.type==='toggle' && !(l.id in state)) state[l.id] = 'normal'; });
+}
+function ensureDefaults(){
+  activePanelIds().forEach(pid=> ensureDefaultsFor(labsForPanel(pid)));
+  if(isFhl()) ensureDefaultsFor(LABS.priority);
+}
+
+function renderPriority(){
+  const root = document.getElementById('priorityRoot');
+  if(!isFhl()){ root.innerHTML=''; return; }
+  const ctx = getCtx();
+  root.innerHTML = `<div class="priority-card" id="priority">
+    <div class="priority-hdr">Priority — Dose-Adjustment Drivers</div>
+    <table class="lab"><thead><tr><th>Test</th><th>Quest Code</th><th>Result</th></tr></thead>
+    <tbody>${LABS.priority.map(l=>rowHtml(l,ctx)).join('')}</tbody></table>
+  </div>`;
+}
+
+function renderPanels(){
+  ensureDefaults();
+  renderPriority();
+  const ctx = getCtx();
+  const root = document.getElementById('panelsRoot');
+  root.innerHTML = '';
+  activePanelIds().forEach(pid=>{
+    const labs = labsForPanel(pid);
+    const ungrouped = labs.filter(l=>!l.group);
+    const groupKeys = [...new Set(labs.filter(l=>l.group).map(l=>l.group))];
+    const subHtml = groupKeys.map(gk=>{
+      const glabs = labs.filter(l=>l.group===gk);
+      const key = pid+':'+gk;
+      const open = !!subOpen[key];
+      return `<div class="subgroup">
+        <div class="subgroup-hdr" onclick="toggleSubgroup('${key}')">${GROUP_META[gk].title} (${glabs.length})<span class="tog">${open?'&#9660; collapse':'&#9654; expand'}</span></div>
+        <div class="subgroup-body ${open?'open':''}" id="sub-${key}"><table class="lab">
+          <thead><tr><th>Test</th><th>Quest Code</th><th>Result</th></tr></thead>
+          <tbody>${glabs.map(l=>rowHtml(l,ctx)).join('')}</tbody></table></div>
+      </div>`;
+    }).join('');
+    const card = document.createElement('div');
+    card.className = 'panel-card';
+    card.id = pid;
+    card.innerHTML = `<div class="panel-hdr" onclick="togglePanel('${pid}')">${panelTitle(pid)}<span class="tog" id="tog-${pid}">&#9660; collapse</span></div>
+      <div class="panel-body open" id="body-${pid}"><table class="lab">
+      <thead><tr><th>Test</th><th>Quest Code</th><th>Result</th></tr></thead>
+      <tbody>${ungrouped.map(l=>rowHtml(l,ctx)).join('')}</tbody></table>${subHtml}</div>`;
+    root.appendChild(card);
+  });
+}
+
+function rowHtml(l, ctx){
+  if(l.type==='numeric'){
+    const val = state[l.id];
+    const st = numStatus(l, val, ctx);
+    return `<tr><td class="lname">${l.name}<div style="font-size:10.5px;color:var(--mu);">${l.unit}${l.pendingRange?' — target range pending':''}</div></td>
+      <td class="lcode">#${l.code}</td>
+      <td><input type="number" step="0.1" class="num-input" value="${val!=null?val:''}" onchange="setNumeric('${l.id}', this.value)">
+      ${st.text?`<span class="num-status ${st.cls}">${st.text}</span>`:''}</td></tr>`;
+  }
+  const cur = state[l.id] || 'normal';
+  return `<tr><td class="lname">${l.name}<div style="font-size:10.5px;color:var(--mu);">${l.unit||''}</div></td>
+    <td class="lcode">#${l.code}</td>
+    <td><div class="tog-grp">
+      <button class="tog-btn ${cur==='normal'?'sel-normal':''}" onclick="setToggle('${l.id}','normal')">Normal</button>
+      <button class="tog-btn ${cur==='high'?'sel-high':''}" onclick="setToggle('${l.id}','high')">High</button>
+      <button class="tog-btn ${cur==='low'?'sel-low':''}" onclick="setToggle('${l.id}','low')">Low</button>
+    </div></td></tr>`;
+}
+
+// IGF-1: Dr. Rose's flat titration target (confirmed to apply across Sermorelin, CJC-1295/Ipamorelin,
+// and Tesamorelin alike, not an age-tiered population range) —
+// target 120-160 ng/mL; reduce-dose ceiling >190 (male) / >170 (female). This is the on-therapy target,
+// not the general Quest reference range (which is much wider and meant for untreated screening).
+function igf1StatusClass(val, ctx){
+  if(val==null||val==='') return '';
+  const v = parseFloat(val);
+  const ceiling = ctx.gender==='male' ? 190 : 170;
+  if(v < 120) return 'low';
+  if(v > ceiling) return 'high';
+  return 'normal';
+}
+function igf1StatusText(val, ctx){ const c = igf1StatusClass(val,ctx); return c ? c.charAt(0).toUpperCase()+c.slice(1) : ''; }
+
+// Generic numeric-field status — IGF-1 uses Dr. Rose's flat titration target band (not the population
+// range); any other numeric lab with a range() falls back to that range's min/max; pendingRange
+// (nothing wired up yet) just confirms the value was recorded.
+function numStatus(l, val, ctx){
+  if(val==null||val==='') return {cls:'', text:''};
+  if(l.id==='igf1'){ const c = igf1StatusClass(val,ctx); return {cls:c, text: c?c.charAt(0).toUpperCase()+c.slice(1):''}; }
+  if(l.range){
+    const v = parseFloat(val);
+    const [lo,hi] = l.range(ctx.gender, ctx.age);
+    let cls='normal';
+    if(lo!=null && v<lo) cls='low';
+    else if(hi!=null && v>hi) cls='high';
+    return {cls, text: cls.charAt(0).toUpperCase()+cls.slice(1)};
+  }
+  if(l.pendingRange) return {cls:'normal', text:'Recorded'};
+  return {cls:'', text:''};
+}
+
+function togglePanel(id){
+  const body = document.getElementById('body-'+id);
+  const tog = document.getElementById('tog-'+id);
+  body.classList.toggle('open');
+  tog.innerHTML = body.classList.contains('open') ? '&#9660; collapse' : '&#9654; expand';
+}
+
+function toggleSubgroup(key){
+  subOpen[key] = !subOpen[key];
+  renderPanels();
+}
+
+function setToggle(id, val){
+  state[id] = val;
+  renderPanels(); updateRecommendations(); updateNote();
+}
+function setNumeric(id, val){
+  state[id] = val;
+  renderPanels(); updateRecommendations(); updateNote();
+}
+function onContextChange(){ renderPanels(); updateRecommendations(); updateNote(); }
+
+function allActiveLabs(){
+  let out = [];
+  activePanelIds().forEach(pid=>{ out = out.concat(labsForPanel(pid).map(l=>({...l, panel:panelTitle(pid)}))); });
+  if(isFhl()) out = out.concat(LABS.priority.map(l=>({...l, panel:'Priority'})));
+  return out;
+}
+
+function updateRecommendations(){
+  const ctx = getCtx();
+  const body = document.getElementById('recBody');
+  const cards = [];
+  allActiveLabs().forEach(l=>{
+    if(l.type==='numeric'){
+      const v = state[l.id];
+      if(v==null || v==='') return;
+      const st = numStatus(l, v, ctx);
+      if(st.cls==='high' && l.highG) cards.push(cardHtml(l,'High',l.highG));
+      if(st.cls==='low' && l.lowG) cards.push(cardHtml(l,'Low',l.lowG));
+    } else {
+      const s = state[l.id];
+      if(s==='high'){ cards.push(cardHtml(l,'High', l.highG || {text:'No program-specific guidance defined for this flag yet — apply clinical judgment.', sourced:false})); }
+      if(s==='low'){ cards.push(cardHtml(l,'Low', l.lowG || {text:'No program-specific guidance defined for this flag yet — apply clinical judgment.', sourced:false})); }
+    }
+  });
+  body.innerHTML = cards.length ? cards.join('') : '<p class="rec-empty">All labs normal — nothing to flag.</p>';
+}
+
+function cardHtml(l, dir, g){
+  return `<div class="rec-card ${g.sourced?'sourced':'generic'}">
+    <span class="rec-tag">${g.sourced?'Sourced guidance':'Generic — pending clinical review'}</span>
+    <span class="rec-lab">${l.name} — ${dir}.</span> ${g.text}
+  </div>`;
+}
+
+function updateNote(){
+  const ctx = getCtx();
+  const lines = [`Lab review (${ctx.gender}, age ${ctx.age}):`];
+  let anyAbnormal = false;
+  let anyRecorded = false;
+  allActiveLabs().forEach(l=>{
+    if(l.type==='numeric'){
+      const v = state[l.id];
+      if(v==null||v==='') return;
+      anyRecorded = true;
+      if(l.pendingRange){ lines.push(`- ${l.name}: ${v} ${l.unit} (target range pending)`); return; }
+      const st = numStatus(l, v, ctx);
+      lines.push(`- ${l.name}: ${v} ${l.unit} (${st.text})`);
+      if(st.cls==='high' || st.cls==='low') anyAbnormal = true;
+    } else {
+      const s = state[l.id];
+      if(!s || s==='normal') return;
+      lines.push(`- ${l.name}: ${s.charAt(0).toUpperCase()+s.slice(1)}`);
+      anyAbnormal = true;
+    }
+  });
+  if(!anyAbnormal && !anyRecorded){ document.getElementById('noteText').textContent = 'All labs within normal limits.'; return; }
+  if(anyAbnormal) lines.push('', 'All other labs within normal limits.');
+  lines.push('', 'Recommendations reviewed and discussed with patient as applicable.');
+  document.getElementById('noteText').textContent = lines.join('\n');
+}
+
+function copyNote(){
+  const text = document.getElementById('noteText').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent='Copy'; btn.classList.remove('ok'); }, 1500);
+  });
+}
+
+function resetAll(){
+  Object.keys(state).forEach(k=>delete state[k]);
+  Object.keys(subOpen).forEach(k=>delete subOpen[k]);
+  document.getElementById('selProgram').value='fhl';
+  document.getElementById('selGender').value='male';
+  document.getElementById('numAge').value=45;
+  onProgramChange();
+}
+
+onProgramChange();
+</script>
+</body>
+</html>
