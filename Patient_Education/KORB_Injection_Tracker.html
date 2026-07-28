@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KORB Health — My Injection Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--cream:#ECE9D1;--orange:#FBB040;
+  --bd:#D6E0E3;--mu:#5A6070;--gb:#F7F8FA;--ln:#EEF0F7;
+  --done:#1D7A35;--donebg:#E8F5E9;--donebd:#7FC08D;
+  --amber:#FFF8E1;--amberbd:#F9A825;--red:#C62828;
+  --premier:#1565C0;--greenwich:#B45309;
+  --disp:'Archivo','Segoe UI',Arial,sans-serif;
+  --body:'Source Sans 3','Segoe UI',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:var(--body);font-size:17px;line-height:1.55;color:#1A1A2E;background:#fff;}
+.wrap{max-width:760px;margin:0 auto;padding:20px 18px 48px;}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:700;color:var(--navy);line-height:1.25;}
+
+/* Header */
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:3px solid var(--teal);margin-bottom:22px;}
+.hdr h1{font-size:20px;}
+.hdr .sub{font-size:14px;color:var(--mu);margin-top:2px;}
+.btn-ghost{font-family:var(--body);font-size:15px;font-weight:600;background:#fff;color:var(--navy);
+  border:2px solid var(--bd);border-radius:9px;padding:10px 16px;cursor:pointer;}
+.btn-ghost:hover{border-color:var(--teal);}
+
+.demo-banner{display:none;background:var(--amber);border:2px solid var(--amberbd);border-radius:11px;
+  padding:12px 15px;margin-bottom:18px;font-size:14.5px;font-weight:600;color:var(--orange);line-height:1.55;}
+
+/* Setup */
+.setup{background:var(--lt);border:2px solid var(--teal);border-radius:12px;padding:18px;margin-bottom:22px;}
+.setup h2{font-size:18px;margin-bottom:4px;}
+.setup .lead{font-size:15px;color:var(--mu);margin-bottom:14px;}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.f.wide{grid-column:1/-1;}
+.f label{font-size:15px;font-weight:700;color:var(--navy);}
+.f select,.f input{width:100%;min-width:0;font-family:var(--body);font-size:17px;color:var(--navy);
+  background:#fff;border:2px solid var(--bd);border-radius:9px;padding:12px 12px;min-height:50px;}
+.f select:focus,.f input:focus{outline:none;border-color:var(--teal);}
+.f .hint{font-size:13.5px;color:var(--mu);line-height:1.5;}
+.addon{grid-column:1/-1;background:#fff;border:2px solid var(--bd);border-radius:9px;padding:12px 14px;display:none;}
+.addon label{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:600;color:var(--navy);cursor:pointer;}
+.addon input{width:24px;height:24px;accent-color:var(--teal);flex-shrink:0;}
+.btn-done-setup{display:block;width:100%;margin-top:16px;min-height:56px;padding:14px;
+  font-family:var(--disp);font-size:17px;font-weight:700;color:#fff;background:var(--navy);
+  border:none;border-radius:11px;cursor:pointer;}
+.btn-done-setup:hover{background:#2C3474;}
+.btn-done-setup:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+.setup-note{font-size:13.5px;color:var(--mu);margin-top:14px;line-height:1.6;}
+
+/* Setup summary bar */
+.sbar{display:none;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  background:var(--gb);border:1px solid var(--bd);border-radius:11px;padding:13px 16px;margin-bottom:22px;}
+.sbar .who{font-size:15px;color:var(--navy);line-height:1.5;}
+.sbar .who strong{font-family:var(--disp);}
+.sbar button{font-family:var(--body);font-size:15px;font-weight:700;background:#fff;color:var(--navy);
+  border:2px solid var(--bd);border-radius:9px;padding:9px 16px;cursor:pointer;white-space:nowrap;}
+.sbar button:hover{border-color:var(--teal);}
+
+/* TODAY */
+.today{border:3px solid var(--navy);border-radius:14px;overflow:hidden;margin-bottom:22px;}
+.today-hd{background:var(--navy);color:#fff;padding:15px 18px;}
+.today-hd .d{font-family:var(--disp);font-size:21px;font-weight:700;}
+.today-hd .w{font-size:14.5px;opacity:.82;margin-top:2px;}
+.today-bd{padding:6px 16px 16px;background:#fff;}
+
+.dose{border:2px solid var(--bd);border-radius:11px;padding:15px 16px;margin-top:14px;}
+.dose.is-due{border-color:var(--navy);}
+.dose.is-done{border-color:var(--donebd);background:var(--donebg);}
+.dose.is-miss{border-color:var(--amberbd);background:var(--amber);}
+.dose.is-rest{background:var(--gb);}
+.dose-name{font-family:var(--disp);font-size:19px;font-weight:700;color:var(--navy);}
+.dose-amt{font-size:16px;color:var(--navy);font-weight:600;margin-top:3px;}
+.dose-plan{font-size:14.5px;color:var(--mu);margin-top:3px;}
+.dose-how{font-size:15.5px;color:#333;margin-top:8px;line-height:1.6;}
+.dose-state{font-size:16px;font-weight:700;margin-top:6px;}
+.dose-state.rest{color:var(--mu);}
+.dose-state.done{color:var(--done);}
+.dose-state.miss{color:var(--orange);}
+
+.btn-miss{display:block;width:100%;margin-top:9px;min-height:44px;padding:10px 14px;
+  font-family:var(--body);font-size:15px;font-weight:600;color:var(--mu);background:#fff;
+  border:2px solid var(--bd);border-radius:10px;cursor:pointer;}
+.btn-miss:hover{border-color:var(--amberbd);color:var(--orange);}
+.btn-miss:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+
+.btn-log{display:block;width:100%;margin-top:13px;min-height:58px;padding:14px 16px;
+  font-family:var(--disp);font-size:18px;font-weight:700;color:#fff;background:var(--navy);
+  border:none;border-radius:11px;cursor:pointer;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.btn-log:hover{background:#2C3474;}
+.btn-log:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+.done-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:11px;}
+.done-msg{font-size:16.5px;font-weight:700;color:var(--done);}
+.btn-undo{font-family:var(--body);font-size:15px;font-weight:600;background:#fff;color:var(--mu);
+  border:2px solid var(--donebd);border-radius:9px;padding:9px 15px;cursor:pointer;white-space:nowrap;}
+.btn-undo:hover{color:var(--red);border-color:var(--red);}
+.next-up{font-size:15px;color:var(--mu);margin-top:9px;line-height:1.55;}
+.all-clear{margin-top:15px;padding:14px 16px;background:var(--donebg);border:2px solid var(--donebd);
+  border-radius:11px;font-size:16.5px;font-weight:700;color:var(--done);text-align:center;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.notice{padding:16px 18px;font-size:16px;line-height:1.6;color:var(--navy);}
+
+/* Reminder call-out */
+.rem-cta{background:var(--lt);border:2px solid var(--teal);border-radius:12px;padding:15px 16px;margin-bottom:22px;}
+.rem-cta h3{font-size:16.5px;margin-bottom:4px;}
+.rem-cta p{font-size:14.5px;color:var(--mu);line-height:1.55;margin-bottom:12px;}
+.rem-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;}
+.rem-row label{font-size:15px;font-weight:700;color:var(--navy);}
+.rem-row input{font-family:var(--body);font-size:17px;color:var(--navy);background:#fff;
+  border:2px solid var(--bd);border-radius:9px;padding:9px 11px;min-height:48px;}
+.rem-add{font-family:var(--disp);font-size:15.5px;font-weight:700;color:#fff;background:var(--navy);
+  border:none;border-radius:10px;padding:12px 18px;min-height:48px;cursor:pointer;}
+.rem-add:hover{background:#2C3474;}
+.rem-add:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+.rem-skip{display:block;margin-top:10px;background:none;border:none;font-family:var(--body);
+  font-size:13.5px;font-weight:600;color:var(--mu);cursor:pointer;padding:6px 0;text-decoration:underline;}
+
+/* Week strip */
+.wk-block{margin-bottom:12px;}
+.wk-block:last-child{margin-bottom:0;}
+.wk-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+.wk-name{font-family:var(--disp);font-size:16px;font-weight:700;color:var(--navy);}
+.wk-count{font-size:15px;font-weight:700;color:var(--mu);}
+.wk-count.done{color:var(--done);}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.day{font-family:var(--body);border:2px solid var(--bd);border-radius:10px;background:#fff;
+  padding:9px 2px;text-align:center;cursor:pointer;min-height:62px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.day:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+.day .dw{display:block;font-size:11.5px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;}
+.day .dn{display:block;font-size:17px;font-weight:700;color:var(--navy);margin-top:1px;}
+.day .dm{display:block;font-size:13px;font-weight:700;color:#C9CFDA;margin-top:1px;line-height:1;}
+.day.on{background:var(--donebg);border-color:var(--done);}
+.day.on .dn,.day.on .dm{color:var(--done);}
+.day.on .dm{font-size:15px;}
+.day.miss{background:var(--amber);border-color:var(--amberbd);}
+.day.miss .dn{color:var(--orange);}
+.day.miss .dm{color:var(--orange);font-size:10px;letter-spacing:.2px;font-weight:700;}
+.day.today{box-shadow:0 0 0 3px var(--teal);}
+.day.locked{opacity:.42;cursor:default;}
+.day.picked{box-shadow:0 0 0 3px var(--teal);}
+
+/* Day chooser */
+.pick{margin-top:9px;background:var(--lt);border:2px solid var(--teal);border-radius:10px;padding:12px 13px;}
+.pick-q{font-family:var(--disp);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.pick-hint{font-size:13px;color:var(--mu);margin-bottom:10px;}
+.pick-btns{display:flex;flex-direction:column;gap:8px;}
+.pick-btns button{font-family:var(--body);font-size:16px;font-weight:700;border-radius:10px;
+  min-height:50px;padding:11px 14px;cursor:pointer;text-align:center;}
+.pick-yes{background:var(--navy);color:#fff;border:none;}
+.pick-yes:hover{background:#2C3474;}
+.pick-miss{background:#fff;color:var(--orange);border:2px solid var(--amberbd);}
+.pick-miss:hover{background:var(--amber);}
+.pick-clear{background:#fff;color:var(--mu);border:2px solid var(--bd);}
+.pick-cancel{background:none;color:var(--mu);border:none;font-weight:600;min-height:40px;}
+.pick-btns button:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+
+/* Always-visible sections (no collapse) */
+.secs{border:1px solid var(--bd);border-radius:12px;margin-bottom:12px;overflow:hidden;background:#fff;}
+.secs-hd{padding:14px 16px;background:var(--ln);border-bottom:1px solid var(--bd);}
+
+/* Sections */
+.sec{border:1px solid var(--bd);border-radius:12px;margin-bottom:12px;overflow:hidden;background:#fff;}
+.sec>summary{list-style:none;cursor:pointer;padding:14px 16px;background:var(--gb);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:64px;}
+.sec>summary::-webkit-details-marker{display:none;}
+.sec>summary:focus-visible{outline:3px solid var(--teal);outline-offset:-3px;}
+.sec-t{font-family:var(--disp);font-size:17px;font-weight:700;color:var(--navy);line-height:1.3;}
+.sec-d{font-size:14px;color:var(--mu);margin-top:2px;line-height:1.45;}
+.sec-pill{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;font-family:var(--body);
+  font-size:15px;font-weight:700;color:var(--navy);background:#fff;border:2px solid var(--teal);
+  border-radius:24px;padding:9px 16px;white-space:nowrap;}
+.sec-pill::before{content:'Open';}
+.sec[open]>summary .sec-pill::before{content:'Close';}
+.sec-pill::after{content:'\25BE';font-size:13px;color:var(--teal);transition:transform .15s;}
+.sec[open]>summary .sec-pill::after{transform:rotate(180deg);}
+.sec[open]>summary{border-bottom:1px solid var(--bd);background:var(--ln);}
+.sec-body{padding:18px;}
+.sec-body p{margin-bottom:12px;font-size:16px;}
+.sec-body p:last-child{margin-bottom:0;}
+.sec-body h4{font-size:16px;margin:18px 0 7px;}
+.sec-body h4:first-child{margin-top:0;}
+.sec-body ul{padding-left:22px;margin-bottom:12px;font-size:16px;}
+.sec-body li{margin-bottom:6px;}
+
+.card{border:1px solid var(--bd);border-radius:11px;overflow:hidden;margin-bottom:14px;}
+.card:last-child{margin-bottom:0;}
+.card-hd{padding:12px 15px;font-family:var(--disp);font-size:17px;font-weight:700;color:#fff;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.card-bd{padding:14px 15px;font-size:16px;line-height:1.65;background:#fff;}
+.kv{display:flex;gap:10px;margin-bottom:7px;}
+.kv b{font-weight:700;color:var(--navy);min-width:104px;flex-shrink:0;}
+.instr{background:var(--lt);border:1px solid var(--teal);border-radius:9px;padding:12px 14px;
+  font-size:16px;font-weight:600;color:var(--navy);margin-top:11px;line-height:1.6;}
+.lbl{font-family:var(--disp);font-size:13px;font-weight:700;color:var(--navy);text-transform:uppercase;
+  letter-spacing:.6px;margin:14px 0 5px;}
+.lbl:first-child{margin-top:0;}
+
+.box{border-radius:10px;padding:14px 16px;margin-bottom:14px;font-size:16px;line-height:1.65;}
+.box.amber{background:var(--amber);border:1px solid var(--amberbd);}
+.box.teal{background:var(--lt);border:1px solid var(--teal);}
+.box.gray{background:var(--gb);border:1px solid var(--bd);}
+.box:last-child{margin-bottom:0;}
+
+.store{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;}
+.store div{text-align:center;padding:13px 10px;background:#fff;border:1px solid var(--bd);border-radius:10px;font-size:14.5px;line-height:1.5;}
+.store b{display:block;font-size:15.5px;margin-bottom:3px;}
+
+/* Full schedule */
+.sched-wk{border:1px solid var(--bd);border-radius:11px;margin-bottom:11px;overflow:hidden;}
+.sched-wk.now{border:2px solid var(--teal);}
+.sched-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  padding:12px 15px;background:var(--gb);cursor:pointer;min-height:54px;}
+.sched-wk.now .sched-hd{background:var(--lt);}
+.sched-hd:focus-visible{outline:3px solid var(--teal);outline-offset:-3px;}
+.sched-l{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.sched-n{font-family:var(--disp);font-size:16px;font-weight:700;color:var(--navy);}
+.sched-d{font-size:14.5px;color:var(--mu);}
+.tag{font-size:11.5px;font-weight:700;color:#fff;background:var(--teal);padding:3px 9px;border-radius:20px;
+  letter-spacing:.4px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.tag.amber{background:var(--amberbd);}
+.tag.navy{background:var(--navy);}
+.sched-s{font-size:14.5px;font-weight:700;color:var(--mu);white-space:nowrap;}
+.sched-s.done{color:var(--done);}
+.sched-bd{padding:14px 15px;border-top:1px solid var(--bd);background:#fff;}
+.milestone{background:var(--ln);border:1px solid var(--bd);border-radius:10px;padding:13px 16px;
+  font-size:15.5px;color:var(--navy);line-height:1.6;margin-top:4px;}
+
+/* Syringe graphic */
+.syr{margin-top:12px;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px 10px 6px;}
+.dose.is-due .syr{border-color:var(--navy);}
+.syr svg{display:block;width:100%;height:auto;}
+.syr-cap{font-size:13px;color:var(--mu);line-height:1.5;margin-top:6px;padding:0 4px 4px;}
+
+/* Add to home screen */
+.a2hs{display:none;background:var(--cream);border:1px solid #D8D3B4;border-radius:12px;
+  padding:15px 16px;margin-bottom:22px;}
+.a2hs h3{font-size:16.5px;margin-bottom:5px;}
+.a2hs p{font-size:15px;line-height:1.6;margin-bottom:8px;}
+.a2hs ol{padding-left:22px;font-size:15px;line-height:1.7;margin-bottom:10px;}
+.a2hs .a2hs-row{display:flex;justify-content:flex-end;}
+.a2hs button{font-family:var(--body);font-size:14.5px;font-weight:700;background:#fff;color:var(--navy);
+  border:2px solid #D8D3B4;border-radius:9px;padding:9px 15px;cursor:pointer;}
+.a2hs button:hover{border-color:var(--navy);}
+
+/* Cycle summary (shown only when printing the summary) */
+#cycSummary{display:none;}
+body.print-summary #cycSummary{display:block;}
+body.print-summary .wrap>*:not(#cycSummary){display:none!important;}
+.cs-hd{border-bottom:3px solid var(--teal);padding-bottom:10px;margin-bottom:14px;}
+.cs-hd h1{font-size:19px;}
+.cs-meta{font-size:13px;color:var(--mu);margin-top:4px;line-height:1.6;}
+.cs-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0 14px;}
+.cs-table th{background:var(--navy);color:#fff;text-align:left;padding:7px 9px;font-family:var(--disp);
+  font-size:11.5px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.cs-table td{border:1px solid var(--bd);padding:6px 9px;vertical-align:top;}
+.cs-table tr.cs-now td{background:var(--lt);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.cs-miss{color:var(--orange);font-weight:700;}
+.cs-ok{color:var(--done);font-weight:700;}
+.cs-tot{font-size:13.5px;line-height:1.8;margin-bottom:12px;}
+.cs-note{font-size:12.5px;color:var(--mu);border-top:1px solid var(--bd);padding-top:10px;line-height:1.6;}
+.btn-line{display:inline-block;font-family:var(--body);font-size:15px;font-weight:700;color:var(--navy);
+  background:#fff;border:2px solid var(--teal);border-radius:10px;padding:11px 17px;cursor:pointer;min-height:48px;}
+.btn-line:hover{background:var(--lt);}
+.btn-line:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+
+/* Payment schedule */
+.pay-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bd);
+  border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin-top:14px;}
+.pay-card{background:#fff;text-align:center;padding:0 10px 13px;}
+.pay-num{background:var(--navy);color:#fff;font-family:var(--disp);font-size:12px;font-weight:700;
+  padding:6px 0;margin:0 -10px 10px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.pay-when{font-family:var(--disp);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.pay-note{font-size:13px;color:var(--mu);line-height:1.5;}
+@media(max-width:600px){.pay-grid{grid-template-columns:1fr 1fr;}}
+
+/* Emergency + footer */
+.sos{background:#FFF5F5;border:2px solid var(--red);border-radius:11px;padding:14px 16px;
+  font-size:15.5px;line-height:1.6;color:#7A1010;margin:22px 0 14px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.sos b{color:var(--red);font-family:var(--disp);}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  background:var(--gb);border:1px solid var(--bd);border-radius:11px;padding:14px 16px;
+  font-size:14px;color:var(--mu);line-height:1.65;}
+.btn-reset{font-family:var(--body);font-size:14.5px;font-weight:700;background:#fff;color:var(--mu);
+  border:2px solid var(--bd);border-radius:9px;padding:10px 15px;cursor:pointer;white-space:nowrap;}
+.btn-reset:hover{border-color:var(--red);color:var(--red);}
+.disc{font-size:13.5px;color:var(--mu);border-top:1px solid var(--bd);padding-top:14px;margin-top:20px;
+  line-height:1.65;text-align:center;}
+.hide{display:none!important;}
+
+@media(max-width:600px){
+  body{font-size:16.5px;}
+  .wrap{padding:16px 13px 40px;}
+  .fields{grid-template-columns:1fr;}
+  .store{grid-template-columns:1fr;}
+  .days{gap:4px;}
+  .day{padding:8px 0;min-height:58px;}
+  .day .dn{font-size:16px;}
+  .day .dw{font-size:10.5px;}
+  .kv{flex-direction:column;gap:1px;}
+  .kv b{min-width:0;}
+  .today-hd .d{font-size:19px;}
+}
+@media print{
+  .btn-ghost,.btn-log,.btn-undo,.btn-reset,.sbar button,.setup,.a2hs{display:none!important;}
+  body{font-size:12.5px;}
+  .wrap{max-width:100%;padding:0;}
+  .sec,.sched-wk,.today{page-break-inside:avoid;}
+  .sec-body,.sched-bd{display:block!important;}
+  a{text-decoration:none;color:var(--navy);}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hdr">
+  <div>
+    <h1>My Injection Tracker</h1>
+    <div class="sub">KORB Health Group &middot; Functional Health &amp; Longevity</div>
+  </div>
+  <button type="button" class="btn-ghost" onclick="printAll()">Print / Save PDF</button>
+</div>
+
+<!-- DEMO BANNER -->
+<div class="demo-banner" id="demoBanner">Demo mode &mdash; for staff demonstrations only. Future days are unlocked and nothing you tap here is saved. Remove <strong>?demo</strong> from the address for the real patient tool.</div>
+
+<!-- SETUP -->
+<div class="setup" id="setup">
+  <h2>Set up my schedule</h2>
+  <div class="lead">You only need to do this once. Your provider gave you these details at your visit.</div>
+  <div class="fields">
+    <div class="f">
+      <label for="selProgram">My program</label>
+      <select id="selProgram" onchange="onProgramChange()">
+        <option value="" selected>Choose your program</option>
+        <option value="foundation">Foundation Program</option>
+        <option value="gateway">Gateway Program</option>
+        <option value="peakA">Peak Performance &mdash; Pathway A</option>
+        <option value="peakB">Peak Performance &mdash; Pathway B</option>
+      </select>
+    </div>
+    <div class="f" id="fAgent">
+      <label for="selAgent">My medication</label>
+      <select id="selAgent" onchange="build()">
+        <option value="" selected>Choose your medication</option>
+        <option value="sermorelin">Sermorelin</option>
+        <option value="bpc157">BPC-157</option>
+        <option value="cjcipam">CJC-1295 / Ipamorelin</option>
+      </select>
+    </div>
+    <div class="f hide" id="fGwSerm">
+      <label for="selGwSermDose">My Sermorelin dose</label>
+      <select id="selGwSermDose" onchange="build()">
+        <option value="" selected>Choose your dose</option>
+        <option value="200">200 mcg</option><option value="300">300 mcg</option>
+        <option value="400">400 mcg</option><option value="500">500 mcg</option>
+      </select>
+    </div>
+    <div class="f hide" id="fCjc">
+      <label for="selCjcDose">My CJC-1295 / Ipamorelin dose</label>
+      <select id="selCjcDose" onchange="build()">
+        <option value="" selected>Choose your dose</option>
+        <option value="100">100 mcg / 100 mcg</option><option value="150">150 mcg / 150 mcg</option>
+        <option value="200">200 mcg / 200 mcg</option>
+      </select>
+    </div>
+    <div class="f hide" id="fTesa">
+      <label for="selDose">My Tesamorelin dose</label>
+      <select id="selDose" onchange="build()">
+        <option value="" selected>Choose your dose</option>
+        <option value="1mg">1 mg</option><option value="15mg">1.5 mg</option><option value="2mg">2 mg</option>
+      </select>
+    </div>
+    <div class="f">
+      <label for="selPharmacy">My pharmacy</label>
+      <select id="selPharmacy" onchange="build()">
+        <option value="">Choose your pharmacy</option>
+        <option value="premier">Premier Pharmacy</option>
+        <option value="greenwich">Greenwich Pharmacy</option>
+      </select>
+    </div>
+    <div class="f wide">
+      <label for="sd">The day I start my medication</label>
+      <input type="date" id="sd" onchange="build()">
+      <span class="hint">Use the day you plan to take your first injection, once your medication has arrived. Many patients pick the next Monday.</span>
+    </div>
+    <div class="addon" id="addonRow">
+      <label><input type="checkbox" id="ghkChk" onchange="build()"> I also have the GHK-Cu add-on</label>
+    </div>
+  </div>
+  <button type="button" class="btn-done-setup hide" id="btnDoneSetup" onclick="closeSetup()">Save and see my schedule</button>
+  <div class="setup-note" id="setupNote">Nothing you enter here is sent to KORB. It is saved on this device only, so your schedule is waiting for you next time you open this page.</div>
+</div>
+
+<!-- SETUP SUMMARY -->
+<div class="sbar" id="sbar">
+  <div class="who" id="sbarText"></div>
+  <button type="button" onclick="openSetup()">Change</button>
+</div>
+
+<!-- ADD TO HOME SCREEN -->
+<div class="a2hs" id="a2hs">
+  <h3>Keep this tracker one tap away</h3>
+  <p>Add it to your home screen and it works like an app &mdash; no link to find, and your check-offs stay saved.</p>
+  <div id="a2hsSteps"></div>
+  <div class="a2hs-row"><button type="button" onclick="dismissA2HS()">Got it, don&rsquo;t show this again</button></div>
+</div>
+
+<!-- TODAY -->
+<div id="todayCard" aria-live="polite"></div>
+
+<!-- REMINDER CALL-OUT -->
+<div id="remCta"></div>
+
+<!-- THIS WEEK -->
+<div id="weekCard"></div>
+
+<!-- REFERENCE SECTIONS -->
+<div id="ref"></div>
+
+<div class="sos" id="sos">
+  <b>Call 911 or go to the nearest emergency room</b> if you have trouble breathing, swelling of the face or throat,
+  a severe or spreading rash, chest pain, fainting, confusion, or any symptom that feels urgent or unsafe.
+</div>
+
+<div class="foot">
+  <span id="footText"></span>
+  <button type="button" class="btn-reset" onclick="resetAll()">Clear and start over</button>
+</div>
+
+<div id="cycSummary" aria-hidden="true"></div>
+
+<div class="disc">
+  For KORB patient reference only. Do not share or reproduce.<br>
+  This schedule is for personal reference only. Always follow your prescription label and pharmacy instructions.
+  Contact KORB Operations for general questions, or use the Patient Portal for medical questions. Not for emergencies.
+</div>
+
+</div>
+<script>
+// ── PHARMACY DATA ─────────────────────────────────────────────────────
+// Pharmacy is selected directly by the patient (Premier or Greenwich) — no state lookup.
+
+// Patient-facing injection instructions per drug per pharmacy
+var INSTR={
+  sermorelin:{
+    premier:'Inject 20 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
+    greenwich:'Inject 7 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
+  },
+  sermorelin300:{
+    premier:'Inject 30 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
+    greenwich:'Inject 10 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
+  },
+  sermorelin400:{
+    premier:'Inject 40 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
+    greenwich:'Inject 13 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
+  },
+  sermorelin500:{
+    premier:'Inject 50 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
+    greenwich:'Inject 17 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
+  },
+  bpc157:{
+    premier:'Inject 13 units subcutaneously once daily.',
+    greenwich:'Inject 17 units subcutaneously once daily.'
+  },
+  cjcipam:{
+    premier:'Inject 5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
+    greenwich:'Inject 5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
+  },
+  cjcipam150:{
+    premier:'Inject 7.5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
+    greenwich:'Inject 7.5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
+  },
+  cjcipam200:{
+    premier:'Inject 10 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
+    greenwich:'Inject 10 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
+  },
+  ghkcu:{
+    premier:'Inject 20 units subcutaneously three times weekly in the evening.',
+    greenwich:'Inject 20 units subcutaneously three times weekly in the evening.'
+  },
+  tesamorelin1mg:{
+    premier:'Inject 20 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
+    greenwich:'Inject 33 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
+  },
+  tesamorelin15mg:{
+    premier:'Inject 30 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
+    greenwich:'Inject 50 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
+  },
+  tesamorelin2mg:{
+    premier:'Inject 40 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
+    greenwich:'Inject 67 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
+  }
+};
+
+// Medication metadata
+var AGENTS={
+  sermorelin:{label:'Sermorelin',dose:'200 mcg',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  sermorelin300:{label:'Sermorelin',dose:'300 mcg',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  sermorelin400:{label:'Sermorelin',dose:'400 mcg',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  sermorelin500:{label:'Sermorelin',dose:'500 mcg',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  bpc157:{label:'BPC-157',dose:'500 mcg',color:'#1D7A35',onWeeks:[1,6],
+    schedule:'Every day (7 days a week)',timing:'Any consistent time · No food restriction',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'daily',pillBg:'#1D7A35'},
+  cjcipam:{label:'CJC-1295 / Ipamorelin',dose:'100 mcg CJC-1295 / 100 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  cjcipam150:{label:'CJC-1295 / Ipamorelin',dose:'150 mcg CJC-1295 / 150 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  cjcipam200:{label:'CJC-1295 / Ipamorelin',dose:'200 mcg CJC-1295 / 200 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  ghkcu:{label:'GHK-Cu',dose:'2 mg',color:'#4A148C',onWeeks:[5,8],
+    schedule:'3 times per week (evenings)',timing:'Evening · Choose consistent days (e.g. Mon / Wed / Fri)',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'3×/week',pillBg:'#6A1B9A'},
+  tesamorelin1mg:{label:'Tesamorelin 1 mg',dose:'1 mg',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  tesamorelin15mg:{label:'Tesamorelin 1.5 mg',dose:'1.5 mg',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
+  tesamorelin2mg:{label:'Tesamorelin 2 mg',dose:'2 mg',color:'#21275B',onWeeks:[1,12],
+    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
+    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
+    pillLabel:'6 on / 1 off',pillBg:'#21275B'}
+};
+
+// Medication education content
+var EDU={
+  sermorelin:{
+    what:'Sermorelin is a peptide that signals your pituitary gland to release growth hormone (GH) naturally — it does not replace GH, it encourages your own body to produce it.',
+    maySupport:['Sleep quality and depth','Exercise recovery and muscle recovery','Body composition support as part of a lifestyle program','Morning energy and sense of wellness'],
+    notFor:'Not a fat-loss drug, age-reversal cure, or guaranteed outcome. Response varies between patients.',
+    expect:'Most patients who respond notice changes in sleep quality and recovery within the first 4–8 weeks. Some patients notice minimal change during a cycle — this does not necessarily mean the therapy is not working. Your provider will assess your IGF-1 labs at renewal.'
+  },
+  bpc157:{
+    what:'BPC-157 is a synthetic peptide derived from a protective protein found in the stomach. It is being studied for its potential role in soft tissue recovery and musculoskeletal support.',
+    maySupport:['Tendon, ligament, and connective tissue recovery','Musculoskeletal wellness during rehabilitation','Exercise recovery quality','Gut support in some contexts'],
+    notFor:'Not a proven injury treatment. All human evidence is preclinical (animal studies only). Not a replacement for physical therapy, imaging, or specialist evaluation.',
+    expect:'BPC-157 is a short-course therapy, typically 6 weeks. Noticeable changes, if any, typically emerge over the course of the full cycle. Your provider will reassess at your 16-week visit.'
+  },
+  cjcipam:{
+    what:'CJC-1295 / Ipamorelin is a dual-peptide combination. CJC-1295 extends GH-releasing signals; Ipamorelin directly stimulates GH release. Together they promote a more sustained, pulsatile GH effect.',
+    maySupport:['Body composition — lean mass preservation and fat metabolism support','Sleep quality and recovery physiology','GH/IGF-1 axis support','Exercise recovery'],
+    notFor:'Not GH replacement. Not a muscle-building shortcut. Not a guaranteed body composition program.',
+    expect:'Response typically emerges over the full 12-week active course. Sleep quality is often the first change patients notice. Your provider will assess IGF-1 at your 16-week renewal visit.'
+  },
+  ghkcu:{
+    what:'GHK-Cu is a copper-binding peptide found naturally in the body. It is being studied for its potential role in tissue health, collagen support, and anti-inflammatory processes.',
+    maySupport:['Skin quality and collagen support','Tissue healing and wound recovery','Anti-inflammatory processes','Cellular health discussions'],
+    notFor:'Not a cosmetic treatment or guaranteed skin improvement. Requires copper/zinc lab monitoring. Not appropriate with Wilson\'s disease.',
+    expect:'GHK-Cu runs as an add-on, active Weeks 5–8 in Gateway and Peak Performance. Your provider will monitor copper and zinc levels at baseline and at renewal.'
+  },
+  tesamorelin1mg:{
+    what:'Tesamorelin is a growth hormone releasing factor analog with the strongest human clinical evidence base for visceral fat reduction. It is approved for HIV-related lipodystrophy and used off-label in longevity programs for body composition.',
+    maySupport:['Visceral and central adiposity reduction','Waist circumference improvement','Body composition and metabolic health','IGF-1 axis support'],
+    notFor:'Not a weight-loss drug or obesity treatment. Glycemically neutral but glucose monitoring is still required. Not for use if diabetic without careful provider oversight.',
+    expect:'Clinical studies show visceral fat reduction over sustained cycles. Response varies. Your provider will assess IGF-1, waist circumference, and body composition trends at your 16-week renewal visit.'
+  },
+  tesamorelin2mg:{
+    what:'Tesamorelin 2 mg is a higher-dose option of the same medication. Your provider selected this dose based on your clinical profile.',
+    maySupport:['Visceral and central adiposity reduction','Waist circumference improvement','Body composition and metabolic health','IGF-1 axis support'],
+    notFor:'Not a weight-loss drug. Glucose monitoring required throughout your program.',
+    expect:'Same as the 1 mg formulation — response varies. Your provider will assess at each 16-week renewal visit and may adjust dose as appropriate.'
+  },
+  tesamorelin15mg:{
+    what:'Tesamorelin 1.5 mg is a mid-range dose option of the same medication. Your provider selected this dose based on your clinical profile.',
+    maySupport:['Visceral and central adiposity reduction','Waist circumference improvement','Body composition and metabolic health','IGF-1 axis support'],
+    notFor:'Not a weight-loss drug. Glucose monitoring required throughout your program.',
+    expect:'Same as the 1 mg and 2 mg formulations — response varies. Your provider will assess at each 16-week renewal visit and may adjust dose as appropriate.'
+  }
+};
+// Sermorelin and CJC-1295/Ipamorelin education content is the same regardless of
+// dose step — only the injection amount changes, not what the medication is or does.
+// Alias the higher-dose keys to the same content as the base entry.
+EDU.sermorelin300=EDU.sermorelin;
+EDU.sermorelin400=EDU.sermorelin;
+EDU.sermorelin500=EDU.sermorelin;
+EDU.cjcipam150=EDU.cjcipam;
+EDU.cjcipam200=EDU.cjcipam;
+
+
+
+/* ── DATES ─────────────────────────────────────────────────────────── */
+function addDays(d,n){var r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function fmt(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+function fmts(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+function fmtLong(d){return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});}
+function parseDate(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function iso(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(x<10?'0':'')+x;}
+function wkStart(start,wk){return addDays(start,(wk-1)*7);}
+function wkRange(start,wk){var s=wkStart(start,wk);return fmts(s)+' – '+fmts(addDays(s,6));}
+function today(){var n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate());}
+function sameDay(a,b){return a.getTime()===b.getTime();}
+var DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+/* ── DEVICE-LOCAL STORAGE ──────────────────────────────────────────────
+   Written to this browser only. Nothing is transmitted to KORB, and no
+   other patient opening this link can read it. */
+var LS_LOG='korb.tracker.v1', LS_CFG='korb.setup.v1';
+/* Demo mode: append ?demo to the URL. For staff presentations only —
+   future days unlock so a full week can be walked through, and nothing
+   is read from or written to this device's saved tracker. */
+var DEMO_SERVER=/*DEMO_INJECT*/false/*END_DEMO_INJECT*/; // set true by the Apps Script wrapper when ?demo is on the outer URL
+var DEMO=DEMO_SERVER||(function(){try{return /(^|[?&#])demo/.test(location.search+location.hash);}catch(e){return false;}})();
+var OK=(function(){try{localStorage.setItem('korb.t','1');localStorage.removeItem('korb.t');return true;}catch(e){return false;}})();
+function lsGet(k,fb){try{var v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch(e){return fb;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+var LOG=(OK&&!DEMO)?lsGet(LS_LOG,{}):{};
+/* Address printed inside calendar reminders, resolved in this order:
+   1. PERMANENT_URL below, if you set it (always wins)
+   2. a URL injected by a server wrapper, e.g. the Apps Script host, which
+      is needed there because the page runs in a frame and cannot see the
+      real address
+   3. the address of this page — correct for GitHub Pages or any plain
+      static host, whatever the file is named
+   Reminder events sit in patients' calendars for 16 weeks, so set
+   PERMANENT_URL if this page is ever served from a temporary address. */
+var PERMANENT_URL='';
+var TOOL_URL_INJECTED='/*URL_INJECT*//*END_URL_INJECT*/';
+function reminderURL(){
+  if(PERMANENT_URL)return PERMANENT_URL;
+  var inj=TOOL_URL_INJECTED.replace(/\/\*[\s\S]*?\*\//g,'').trim();
+  if(inj)return inj;
+  try{
+    if(/^https?:$/.test(location.protocol))return location.origin+location.pathname;
+  }catch(e){}
+  return 'https://korb-health.github.io/korb-patient-tools/';
+}
+var TOOL_URL=reminderURL();
+/* REMINDER_TEXT: wording patients see in their calendar. Edit freely. */
+var REMINDER_TITLE='KORB injection reminder';
+function reminderBody(){
+  return 'Time for tonight\'s injection.\n\n'
+    +'Open your KORB tracker to see exactly what is due, check it off, and confirm you are done for the day:\n'
+    +reminderURL()+'\n\n'
+    +'Questions about your medication go to your provider through the Patient Portal. '
+    +'Questions about scheduling, shipping, or billing go to KORB Operations.';
+}
+var UI={setupOpen:true,open:{}};
+
+/* ── MEDICATION RULES ──────────────────────────────────────────────── */
+function famOf(k){
+  if(k.indexOf('sermorelin')===0)return'sermorelin';
+  if(k.indexOf('cjcipam')===0)return'cjcipam';
+  if(k.indexOf('tesamorelin')===0)return'tesamorelin';
+  return k;
+}
+function target(f){return f==='bpc157'?7:(f==='ghkcu'?3:6);}
+function planLabel(f){
+  if(f==='bpc157')return'Every day';
+  if(f==='ghkcu')return'3 days a week, on days you choose';
+  return'6 days a week — usually Monday through Saturday';
+}
+/* Green is reserved for "done" everywhere on this page, so medications
+   never use it as an identity color. */
+function medColor(f){
+  if(f==='bpc157')return'#1565C0';
+  if(f==='ghkcu')return'#6A1B9A';
+  return'#21275B';
+}
+
+/* ── SYRINGE GRAPHIC ───────────────────────────────────────────────────
+   Reads the unit count straight out of the pharmacy directions text, so
+   the picture can never disagree with the written instruction. Drawn as a
+   standard U-100 insulin syringe (100 units = 1 mL). */
+function unitsFor(key,pharm){
+  var t=INSTR[key]&&INSTR[key][pharm];if(!t)return null;
+  var m=t.match(/([\d.]+)\s*units/i);
+  return m?parseFloat(m[1]):null;
+}
+function syringeSVG(units,accent){
+  if(!units||units<=0||units>100)return'';
+  var x0=78,x1=560,yTop=52,bh=34,yBot=yTop+bh;
+  var px=x0+(x1-x0)*units/100;
+  var s='<svg viewBox="0 0 640 118" xmlns="http://www.w3.org/2000/svg" role="img" '
+    +'aria-label="Syringe filled to the '+units+' unit line on a 100 unit scale">';
+  /* callout */
+  s+='<text x="'+px+'" y="16" text-anchor="middle" font-family="Archivo,Arial,sans-serif" font-size="15" font-weight="700" fill="'+accent+'">Fill to '+units+'</text>';
+  s+='<line x1="'+px+'" y1="22" x2="'+px+'" y2="'+(yTop-6)+'" stroke="'+accent+'" stroke-width="2"/>';
+  s+='<path d="M'+(px-5)+' '+(yTop-10)+' L'+px+' '+(yTop-4)+' L'+(px+5)+' '+(yTop-10)+' Z" fill="'+accent+'"/>';
+  /* needle + hub (left) */
+  s+='<rect x="14" y="'+(yTop+bh/2-1.2)+'" width="44" height="2.4" fill="#8A93A6"/>';
+  s+='<rect x="58" y="'+(yTop+bh/2-7)+'" width="20" height="14" rx="3" fill="#C6CCD8"/>';
+  /* barrel */
+  s+='<rect x="'+x0+'" y="'+yTop+'" width="'+(x1-x0)+'" height="'+bh+'" rx="6" fill="#FDFDFE" stroke="#8A93A6" stroke-width="2"/>';
+  /* medication fill up to the dose line */
+  s+='<rect x="'+(x0+2)+'" y="'+(yTop+2)+'" width="'+Math.max(0,px-x0-2)+'" height="'+(bh-4)+'" rx="4" fill="#BDE9EF"/>';
+  /* plunger seal at the dose line, rod to the right */
+  s+='<rect x="'+px+'" y="'+(yTop+2)+'" width="7" height="'+(bh-4)+'" fill="#3A4270"/>';
+  s+='<rect x="'+(px+7)+'" y="'+(yTop+bh/2-3)+'" width="'+Math.max(0,x1-px-2)+'" height="6" fill="#C6CCD8"/>';
+  s+='<rect x="'+(x1+4)+'" y="'+(yTop+bh/2-13)+'" width="8" height="26" rx="2" fill="#C6CCD8"/>';
+  /* dose line drawn over everything so it reads at the exact mark */
+  s+='<line x1="'+px+'" y1="'+(yTop-2)+'" x2="'+px+'" y2="'+(yBot+14)+'" stroke="'+accent+'" stroke-width="2.5"/>';
+  /* scale: minor tick every 5, major every 10 with labels */
+  for(var u=0;u<=100;u+=5){
+    var x=x0+(x1-x0)*u/100, major=(u%10===0);
+    s+='<line x1="'+x+'" y1="'+yBot+'" x2="'+x+'" y2="'+(yBot+(major?10:6))+'" stroke="#5A6070" stroke-width="'+(major?1.6:1)+'"/>';
+    if(major)s+='<text x="'+x+'" y="'+(yBot+26)+'" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="'+(u===Math.round(units/10)*10&&Math.abs(u-units)<5?'700':'400')+'" fill="#3A4152">'+u+'</text>';
+  }
+  s+='<text x="'+x1+'" y="'+(yBot+42)+'" text-anchor="end" font-family="Arial,sans-serif" font-size="11.5" fill="#5A6070">units</text>';
+  s+='</svg>';
+  return s;
+}
+function syringeBlock(key,pharm,accent){
+  var u=unitsFor(key,pharm);
+  if(u===null||u>100)return'';
+  return '<div class="syr">'+syringeSVG(u,accent||'#21275B')
+    +'<div class="syr-cap">Shown on a standard U-100 insulin syringe (100 units = 1 mL). '
+    +'If your syringe looks different from this picture, follow your prescription label or contact KORB before injecting.</div></div>';
+}
+
+/* ── ADD TO HOME SCREEN ────────────────────────────────────────────── */
+function isStandalone(){
+  try{return window.navigator.standalone===true||window.matchMedia('(display-mode: standalone)').matches;}catch(e){return false;}
+}
+function a2hsSteps(){
+  var ua=navigator.userAgent||'';
+  if(/iPad|iPhone|iPod/.test(ua)){
+    return '<ol><li>Tap the <strong>Share</strong> button at the bottom of Safari (the square with an arrow).</li>'
+      +'<li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>'
+      +'<li>Tap <strong>Add</strong>. The tracker will appear with your other apps.</li></ol>';
+  }
+  if(/Android/.test(ua)){
+    return '<ol><li>Tap the <strong>three dots</strong> menu at the top of your browser.</li>'
+      +'<li>Tap <strong>Add to Home screen</strong>.</li>'
+      +'<li>Tap <strong>Add</strong>. The tracker will appear with your other apps.</li></ol>';
+  }
+  return '<p>On your phone, open your browser&rsquo;s menu and choose <strong>Add to Home Screen</strong>. On a computer, bookmark this page.</p>';
+}
+function showA2HS(hasPlan){
+  var el=g('a2hs');
+  var dismissed=OK?lsGet('korb.a2hs.dismissed',false):true;
+  var show=hasPlan&&!dismissed&&!isStandalone()&&!DEMO;
+  el.style.display=show?'block':'none';
+  if(show)g('a2hsSteps').innerHTML=a2hsSteps();
+}
+function dismissA2HS(){if(OK)lsSet('korb.a2hs.dismissed',true);g('a2hs').style.display='none';}
+/* Log values: 1 = injected, 'm' = marked missed, absent = nothing recorded. */
+function stateOf(f,d){
+  var v=LOG[f+'|'+iso(d)];
+  return (v===1||v===true)?'on':(v==='m'?'miss':'');
+}
+function setLog(f,dISO,val){
+  if(val)LOG[f+'|'+dISO]=val;else delete LOG[f+'|'+dISO];
+  if(OK&&!DEMO)lsSet(LS_LOG,LOG);
+}
+function onWeek(key,prog,w){
+  if(prog==='foundation'){var a=AGENTS[key];return w>=a.onWeeks[0]&&w<=a.onWeeks[1];}
+  var f=famOf(key);
+  if(f==='bpc157')return w>=3&&w<=8;
+  if(f==='ghkcu')return w>=5&&w<=8;
+  return w>=1&&w<=12;
+}
+function weekOf(start,d){
+  var diff=Math.floor((d-start)/86400000);
+  if(diff<0)return 0;
+  return Math.floor(diff/7)+1;
+}
+function countWeek(key,prog,start,w){
+  var f=famOf(key),ws=wkStart(start,w),n=0;
+  for(var i=0;i<7;i++){if(stateOf(f,addDays(ws,i))==='on')n++;}
+  return n;
+}
+function missWeek(key,prog,start,w){
+  var f=famOf(key),ws=wkStart(start,w),n=0;
+  for(var i=0;i<7;i++){if(stateOf(f,addDays(ws,i))==='miss')n++;}
+  return n;
+}
+/* Next day this medication is actually due, scanning forward from a date. */
+function nextDue(key,prog,start,from){
+  var f=famOf(key);
+  for(var i=1;i<=120;i++){
+    var d=addDays(from,i),w=weekOf(start,d);
+    if(w<1||w>16)return null;
+    if(!onWeek(key,prog,w))continue;
+    if(countWeek(key,prog,start,w)>=target(f)&&w===weekOf(start,from))continue;
+    return d;
+  }
+  return null;
+}
+
+/* ── SETUP STATE ───────────────────────────────────────────────────── */
+function g(id){return document.getElementById(id);}
+function saveSetup(){
+  if(!OK||DEMO)return;
+  lsSet(LS_CFG,{prog:g('selProgram').value,agent:g('selAgent').value,gwSerm:g('selGwSermDose').value,
+    cjc:g('selCjcDose').value,tesa:g('selDose').value,pharm:g('selPharmacy').value,
+    sd:g('sd').value,ghk:g('ghkChk').checked});
+}
+function restoreSetup(){
+  if(!OK||DEMO)return;
+  var c=lsGet(LS_CFG,null);if(!c)return;
+  var s=function(id,v){if(v)g(id).value=v;};
+  s('selProgram',c.prog);s('selAgent',c.agent);s('selGwSermDose',c.gwSerm);
+  s('selCjcDose',c.cjc);s('selDose',c.tesa);s('selPharmacy',c.pharm);s('sd',c.sd);
+  g('ghkChk').checked=!!c.ghk;
+  if(c.pharm&&c.sd)UI.setupOpen=false;
+}
+function onProgramChange(){
+  var p=g('selProgram').value;
+  g('fAgent').className='f'+(p==='foundation'?'':' hide');
+  g('fGwSerm').className='f'+(p==='gateway'?'':' hide');
+  g('fCjc').className='f'+(p==='peakA'?'':' hide');
+  g('fTesa').className='f'+(p==='peakB'?'':' hide');
+  g('addonRow').style.display=(p&&p!=='foundation')?'block':'none';
+  build();
+}
+function openSetup(){UI.setupOpen=true;build();window.scrollTo({top:0,behavior:'smooth'});}
+function closeSetup(){UI.setupOpen=false;build();window.scrollTo({top:0,behavior:'smooth'});}
+function resetAll(){
+  if(!confirm('This clears the saved schedule and every injection logged on this device, and starts over with a blank form.\n\nUse this if this is not your schedule, or if you want to begin again.\n\nContinue?'))return;
+  try{localStorage.removeItem(LS_LOG);localStorage.removeItem(LS_CFG);}catch(e){}
+  LOG={};location.reload();
+}
+function printAll(){
+  var all=document.querySelectorAll('details.sec');
+  for(var i=0;i<all.length;i++)all[i].open=true;
+  window.print();
+}
+
+/* ── CURRENT PLAN ──────────────────────────────────────────────────── */
+function plan(){
+  var pharm=g('selPharmacy').value, sd=g('sd').value;
+  if(!pharm||!sd)return null;
+  var prog=g('selProgram').value, ghk=g('ghkChk').checked, keys=[];
+  if(!prog)return null;
+  if(prog==='foundation'){var ag0=g('selAgent').value;if(!ag0)return null;keys=[ag0];}
+  else if(prog==='gateway'){var a=g('selGwSermDose').value;if(!a)return null;keys=[(a==='200'?'sermorelin':'sermorelin'+a),'bpc157'];if(ghk)keys.push('ghkcu');}
+  else if(prog==='peakA'){var b=g('selCjcDose').value;if(!b)return null;keys=[(b==='100'?'cjcipam':'cjcipam'+b),'bpc157'];if(ghk)keys.push('ghkcu');}
+  else if(prog==='peakB'){var dd=g('selDose').value;if(!dd)return null;keys=['tesamorelin'+dd,'bpc157'];if(ghk)keys.push('ghkcu');}
+  return {prog:prog,pharm:pharm,start:parseDate(sd),keys:keys,ghk:ghk,
+    label:{foundation:'Foundation Program',gateway:'Gateway Program',
+      peakA:'Peak Performance — Pathway A',peakB:'Peak Performance — Pathway B'}[prog]};
+}
+
+/* ── ACTIONS ───────────────────────────────────────────────────────── */
+function tap(fam,dISO,val){
+  setLog(fam,dISO,val);
+  UI.pick=null;
+  build();
+  /* Keep keyboard and screen-reader focus on the medication just changed,
+     instead of dropping to the top of the document on re-render. */
+  var el=document.getElementById('focus-'+fam);
+  if(el&&typeof el.focus==='function')el.focus({preventScroll:true});
+}
+/* Grid cells select one or more days of the same medication in the same
+   week; the chooser then applies one answer to the whole selection. */
+function pickDay(fam,wsISO,dISO){
+  if(UI.pick&&UI.pick.f===fam&&UI.pick.ws===wsISO){
+    var ix=UI.pick.days.indexOf(dISO);
+    if(ix>=0){UI.pick.days.splice(ix,1);if(!UI.pick.days.length)UI.pick=null;}
+    else UI.pick.days.push(dISO);
+  } else {
+    UI.pick={f:fam,ws:wsISO,days:[dISO]};
+  }
+  build();
+}
+function cancelPick(){UI.pick=null;build();}
+/* Applies the choice to every selected day.
+   val 1: fills chronologically and stops at the weekly target, so a
+     selection can never push a week past its dose count.
+   val 'm': marks selected days missed.
+   val 0: clears every selected day. */
+function applyPick(val){
+  if(!UI.pick)return;
+  var f=UI.pick.f, tg=target(f), ws=parseDate(UI.pick.ws);
+  var days=UI.pick.days.slice().sort();
+  if(val===1){
+    var n=0;
+    for(var i=0;i<7;i++){if(stateOf(f,addDays(ws,i))==='on')n++;}
+    days.forEach(function(dI){
+      if(stateOf(f,parseDate(dI))==='on')return;
+      if(n>=tg)return;
+      setLog(f,dI,1);n++;
+    });
+  } else if(val==='m'){
+    days.forEach(function(dI){setLog(f,dI,'m');});
+  } else {
+    days.forEach(function(dI){setLog(f,dI,0);});
+  }
+  UI.pick=null;
+  build();
+  var el=document.getElementById('focus-'+f);
+  if(el&&typeof el.focus==='function')el.focus({preventScroll:true});
+}
+
+/* ── RENDER ────────────────────────────────────────────────────────── */
+function build(){
+  saveSetup();
+  g('demoBanner').style.display=DEMO?'block':'none';
+  var p=plan();
+  g('setup').className='setup'+((UI.setupOpen||!p)?'':' hide');
+  g('btnDoneSetup').className='btn-done-setup'+(p?'':' hide');
+
+  if(!p){
+    g('sbar').style.display='none';
+    g('todayCard').innerHTML='';
+    g('weekCard').innerHTML='';
+    g('ref').innerHTML='';
+    g('footText').innerHTML='Your schedule is saved on this device only.';
+    g('remCta').innerHTML='';
+    showA2HS(false);
+    return;
+  }
+
+  var pharmName=(p.pharm==='premier')?'Premier Pharmacy':'Greenwich Pharmacy';
+  g('sbar').style.display=UI.setupOpen?'none':'flex';
+  g('sbarText').innerHTML='<strong>'+p.label+'</strong><br>'+pharmName+' &middot; started '+fmt(p.start);
+
+  renderToday(p);
+  renderWeek(p);
+  renderRemCta(p);
+  renderRef(p,pharmName);
+  showA2HS(true);
+  g('footText').innerHTML=DEMO
+    ? 'Demo mode: nothing on this page is being saved.'
+    : OK
+    ? 'Your schedule and check-offs are saved on this device only. They are not sent to KORB, and no one else who opens this link can see them. They will not appear on a different phone or computer.'
+    : '<strong style="color:var(--red)">This browser is not saving your progress.</strong> You can still tap the days, but they will clear when you close the page. Try turning off private browsing, or print this page and check days off on paper.';
+}
+
+function renderToday(p){
+  var t=today(), w=weekOf(p.start,t), h='';
+
+  if(t<p.start){
+    var days=Math.round((p.start-t)/86400000);
+    h='<div class="today"><div class="today-hd"><div class="d">'+fmtLong(t)+'</div>'
+      +'<div class="w">Your program has not started yet</div></div>'
+      +'<div class="notice">Your first injection is on <strong>'+fmtLong(p.start)+'</strong>, which is '
+      +(days===1?'tomorrow':'in '+days+' days')+'. Come back to this page that day and it will tell you exactly what to do.</div></div>';
+    g('todayCard').innerHTML=h;return;
+  }
+  if(w>16){
+    h='<div class="today"><div class="today-hd"><div class="d">'+fmtLong(t)+'</div>'
+      +'<div class="w">Your 16-week cycle is finished</div></div>'
+      +'<div class="notice">This cycle ended on '+fmt(addDays(p.start,111))+'. Contact KORB Operations to schedule your renewal visit &mdash; '
+      +'and print your cycle summary below to bring with you. When your new cycle is prescribed, press <strong>Clear and start over</strong> to set it up.'
+      +'<br><br><button type="button" class="btn-line" onclick="printSummary()">Print my cycle summary</button></div></div>';
+    g('todayCard').innerHTML=h;return;
+  }
+
+  h='<div class="today"><div class="today-hd"><div class="d">'+fmtLong(t)+'</div>'
+    +'<div class="w">Week '+w+' of 16</div></div><div class="today-bd">';
+
+  var active=[],anyDue=false,anyShown=false,anyMissToday=false;
+  p.keys.forEach(function(k){if(onWeek(k,p.prog,w))active.push(k);});
+
+  if(!active.length){
+    h+='<div class="notice" style="padding:16px 2px;">No injections are scheduled for this week. Your next medication starts later in your cycle. '
+      +'Open <strong>My full 16-week schedule</strong> below to see when.</div>';
+  }
+
+  active.forEach(function(key){
+    var ag=AGENTS[key], f=famOf(key), n=countWeek(key,p.prog,p.start,w), tg=target(f);
+    var st=stateOf(f,t);
+    var done=st==='on', missed=st==='miss', full=st===''&&n>=tg;
+    var instr=(INSTR[key]&&INSTR[key][p.pharm])?INSTR[key][p.pharm]:'Follow your prescription label.';
+    anyShown=true;
+    var cls=done?'is-done':(missed?'is-miss':(full?'is-rest':'is-due'));
+    h+='<div class="dose '+cls+'">';
+    h+='<div class="dose-name">'+ag.label+'</div><div class="dose-amt">'+ag.dose+'</div>'
+      +'<div class="dose-plan">'+planLabel(f)+'</div>';
+
+    if(done){
+      h+='<div class="done-row"><span class="done-msg">&#10003; You injected this today</span>'
+        +'<button type="button" class="btn-undo" id="focus-'+f+'" onclick="tap(\''+f+'\',\''+iso(t)+'\',0)">I did not &mdash; undo</button></div>';
+      var nd=nextDue(key,p.prog,p.start,t);
+      h+='<div class="next-up">'+(nd?'Next '+ag.label+' injection: <strong>'+fmtLong(nd)+'</strong>.':'That was your last '+ag.label+' injection of this cycle.')+'</div>';
+    } else if(missed){
+      anyMissToday=true;
+      h+='<div class="done-row"><span class="dose-state miss">Marked as missed. Skip it &mdash; never take two doses to catch up.</span>'
+        +'<button type="button" class="btn-undo" id="focus-'+f+'" onclick="tap(\''+f+'\',\''+iso(t)+'\',0)">Undo</button></div>';
+      var nm=nextDue(key,p.prog,p.start,t);
+      if(nm)h+='<div class="next-up">Continue as normal: next '+ag.label+' injection is <strong>'+fmtLong(nm)+'</strong>.</div>';
+    } else if(full){
+      h+='<div class="dose-state done">&#10003; Finished for this week &mdash; '+tg+' of '+tg+' done.</div>';
+      var nf=nextDue(key,p.prog,p.start,t);
+      h+='<div class="next-up">'+(nf?'Next '+ag.label+' injection: <strong>'+fmtLong(nf)+'</strong>. Nothing to do until then.':'You have finished '+ag.label+' for this cycle.')+'</div>';
+    } else {
+      anyDue=true;
+      h+='<div class="dose-how">'+instr+'</div>';
+      h+=syringeBlock(key,p.pharm,medColor(f));
+      h+='<button type="button" class="btn-log" id="focus-'+f+'" onclick="tap(\''+f+'\',\''+iso(t)+'\',1)">&#10003; &nbsp;I injected my '+ag.label+'</button>';
+      h+='<button type="button" class="btn-miss" onclick="tap(\''+f+'\',\''+iso(t)+'\',\'m\')">I missed this dose today</button>';
+      h+='<div class="next-up">'+n+' of '+tg+' done so far this week.</div>';
+    }
+    h+='</div>';
+  });
+
+  if(anyShown&&!anyDue)h+='<div class="all-clear">&#10003; '+(anyMissToday?'Nothing else to do today':'You are all done for today')+'</div>';
+  h+='</div></div>';
+  g('todayCard').innerHTML=h;
+}
+
+function dayGrid(key,p,w,t){
+  var ag=AGENTS[key], f=famOf(key), ws=wkStart(p.start,w), tg=target(f);
+  var n=countWeek(key,p.prog,p.start,w), miss=missWeek(key,p.prog,p.start,w), cells='', chooser='';
+  var sel=(UI.pick&&UI.pick.f===f&&UI.pick.ws===iso(ws))?UI.pick.days:[];
+  for(var i=0;i<7;i++){
+    var d=addDays(ws,i), dI=iso(d), st=stateOf(f,d);
+    var future=!DEMO&&st===''&&d>t, lock=st===''&&(n>=tg||future);
+    var picked=sel.indexOf(dI)>=0;
+    var cls='day'+(st==='on'?' on':'')+(st==='miss'?' miss':'')+(lock?' locked':'')+(sameDay(d,t)?' today':'')+(picked?' picked':'');
+    var mark=st==='on'?'&#10003;':(st==='miss'?'missed':'&middot;');
+    var aria=ag.label+', '+DOW[d.getDay()]+' '+fmts(d)
+      +(st==='on'?', injected':(st==='miss'?', marked missed':', nothing recorded'))
+      +(lock?'':'. Tap to select');
+    cells+='<button type="button" class="'+cls+'"'+(lock?' disabled':'')
+      +' aria-label="'+aria+'" aria-pressed="'+(picked?'true':'false')+'"'
+      +' onclick="pickDay(\''+f+'\',\''+iso(ws)+'\',\''+dI+'\')">'
+      +'<span class="dw">'+DOW[d.getDay()]+'</span><span class="dn">'+d.getDate()+'</span>'
+      +'<span class="dm">'+mark+'</span></button>';
+  }
+  if(sel.length){
+    var one=sel.length===1?parseDate(sel[0]):null;
+    var head=one?(DOW[one.getDay()]+', '+fmt(one)+' &mdash; '+ag.label):(sel.length+' days selected &mdash; '+ag.label);
+    var hasState=sel.some(function(dI){return stateOf(f,parseDate(dI))!=='';});
+    chooser='<div class="pick">'
+      +'<div class="pick-q">'+head+'</div>'
+      +'<div class="pick-hint">Tap more days to add them, or choose below.</div>'
+      +'<div class="pick-btns">'
+      +'<button type="button" class="pick-yes" onclick="applyPick(1)">&#10003; I injected '+(one?'this day':'these days')+'</button>'
+      +'<button type="button" class="pick-miss" onclick="applyPick(\'m\')">I missed '+(one?'this dose':'these doses')+'</button>'
+      +(hasState?'<button type="button" class="pick-clear" onclick="applyPick(0)">Clear '+(one?'this day':'these days')+'</button>':'')
+      +'<button type="button" class="pick-cancel" onclick="cancelPick()">Cancel</button>'
+      +'</div></div>';
+  }
+  var cnt=n+' of '+tg+' this week'+(miss>0?' &middot; '+miss+' missed':'');
+  return '<div class="wk-block"><div class="wk-top"><span class="wk-name">'+ag.label+'</span>'
+    +'<span class="wk-count'+(n>=tg?' done':'')+'">'+cnt+'</span></div>'
+    +'<div class="days">'+cells+'</div>'+chooser+'</div>';
+}
+
+function renderWeek(p){
+  var t=today(), w=weekOf(p.start,t);
+  if(w<1||w>16){g('weekCard').innerHTML='';return;}
+  var active=[];
+  p.keys.forEach(function(k){if(onWeek(k,p.prog,w))active.push(k);});
+  if(!active.length){g('weekCard').innerHTML='';return;}
+  var h='<div class="secs">'+secHeadStatic('This week at a glance','Tap a day to check it off')+'<div class="sec-body">';
+  h+='<p style="font-size:15px;color:var(--mu);margin-bottom:14px;">'
+    +'Tap one or more days, then tell us what happened: injected <span style="color:var(--done);font-weight:700;">(turns green &#10003;)</span> '
+    +'or missed <span style="color:var(--orange);font-weight:700;">(turns orange)</span>. '
+    +'If you miss a day, keep going as normal &mdash; whichever day you do not need becomes your day off. '
+    +'The tracker stops each week at its dose count'+(DEMO?'':' and you cannot check off a day before it arrives')+'.</p>';
+  active.forEach(function(k){h+=dayGrid(k,p,w,t);});
+  h+='</div></div>';
+  g('weekCard').innerHTML=h;
+}
+
+function renderRef(p,pharmName){
+  var t=today(), cur=weekOf(p.start,t), h='';
+
+  /* Full schedule */
+  h+='<div class="secs" id="secSched">'+secHeadStatic('My full 16-week schedule','Every week of your cycle, with lab and visit weeks')+'<div class="sec-body">';
+  if(p.prog!=='foundation'){
+    h+='<div class="box amber"><strong>Your medications start at different times.</strong> Week 1 begins with '
+      +AGENTS[p.keys[0]].label+' only. BPC-157 is added at Week 3.'
+      +(p.ghk?' GHK-Cu runs from Week 5 through Week 8.':'')
+      +' Do not start anything early without speaking to your KORB provider.</div>';
+  }
+  for(var w=1;w<=15;w++){
+    var act=[];
+    p.keys.forEach(function(k){if(onWeek(k,p.prog,w))act.push(k);});
+    if(!act.length)continue;
+    /* Default open state is derived from today's date, never stored, so the
+       expanded week follows the calendar on its own as the cycle advances. */
+    var isNow=(w===cur), open=(UI.open[w]===undefined)?isNow:UI.open[w];
+    var tot=0,tgt=0,mtot=0,rows='';
+    act.forEach(function(k){
+      var f=famOf(k);tot+=Math.min(countWeek(k,p.prog,p.start,w),target(f));tgt+=target(f);
+      mtot+=missWeek(k,p.prog,p.start,w);
+      rows+=dayGrid(k,p,w,t);
+    });
+    var tags=(isNow?'<span class="tag">THIS WEEK</span>':'');
+    if(w===3&&p.prog!=='foundation')tags+='<span class="tag navy">BPC-157 STARTS</span>';
+    if(w===5&&p.ghk&&p.prog!=='foundation')tags+='<span class="tag navy">GHK-CU STARTS</span>';
+    if(w===12)tags+='<span class="tag amber">LAB DRAW</span>';
+    h+='<div class="sched-wk'+(isNow?' now':'')+'">'
+      +'<div class="sched-hd" role="button" tabindex="0" aria-expanded="'+(open?'true':'false')+'"'
+      +' onclick="toggleWk('+w+')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleWk('+w+');}">'
+      +'<span class="sched-l"><span class="sched-n">Week '+w+'</span><span class="sched-d">'+wkRange(p.start,w)+'</span>'+tags+'</span>'
+      +'<span class="sched-s'+(tot>=tgt?' done':'')+'">'+(tot>=tgt?'All done &#10003;':tot+' of '+tgt+(mtot>0?' &middot; '+mtot+' missed':''))+'</span></div>'
+      +'<div class="sched-bd"'+(open?'':' style="display:none"')+'>'+rows+'</div></div>';
+  }
+  h+='<div class="milestone"><strong>Week 16 ('+wkRange(p.start,16)+'):</strong> Provider visit. Your labs are reviewed and your prescriptions renewed. This is the start of your next cycle.</div>';
+  h+='<p style="margin:14px 0 2px;"><button type="button" class="btn-line" onclick="printSummary()">Print my cycle summary</button>'
+    +'<span style="display:block;font-size:13.5px;color:var(--mu);margin-top:7px;">A one-page record of every week &mdash; bring it to your provider visit.</span></p>';
+  h+='</div></div>';
+
+  /* How to take + storage */
+  h+='<details class="sec">'+secHead('Taking and storing my medications','Directions, syringe pictures, and how to keep it fresh')+'<div class="sec-body">';
+  p.keys.forEach(function(k){
+    var ag=AGENTS[k],f=famOf(k);
+    var instr=(INSTR[k]&&INSTR[k][p.pharm])?INSTR[k][p.pharm]:'Follow your prescription label.';
+    h+='<div class="card"><div class="card-hd" style="background:'+medColor(famOf(k))+'">'+ag.label+'</div><div class="card-bd">'
+      +'<div class="kv"><b>Dose</b><span>'+ag.dose+'</span></div>'
+      +'<div class="kv"><b>Pharmacy</b><span>'+pharmName+'</span></div>'
+      +'<div class="kv"><b>When</b><span>'+planLabel(f)+'</span></div>'
+      +'<div class="kv"><b>Time of day</b><span>'+ag.timing+'</span></div>'
+      +'<div class="kv"><b>How</b><span>'+ag.how+'</span></div>'
+      +'<div class="instr">'+instr+'</div>'
+      +syringeBlock(k,p.pharm,medColor(f))
+      +'</div></div>';
+  });
+  h+='<h4>Every time you inject</h4><ul>'
+    +'<li><strong>Change the spot.</strong> Rotate between your stomach, outer thigh, and outer upper arm.</li>'
+    +'<li><strong>Use a new needle.</strong> Never reuse a needle or syringe.</li>'
+    +'<li><strong>Let the vial warm up.</strong> Bring it to room temperature before drawing. Do not shake it.</li>'
+    +'<li><strong>Watch the spot.</strong> A little redness is normal. If it spreads or worsens, or you get a fever or swelling, contact KORB.</li>'
+    +'</ul>';
+  h+='<div class="box teal"><strong>Missed a day?</strong> Skip it. Never take two doses to catch up. Just continue as normal. '
+    +'If you are missing doses often, message your provider through the Patient Portal.</div>';
+  h+='<div class="box gray"><strong>Throwing away needles.</strong> Used needles go in a sharps container, never in household trash. '
+    +'Rules vary by location. Find a drop-off near you at <a href="https://safeneedledisposal.org/state-search/" target="_blank" rel="noopener">SafeNeedleDisposal.org</a> '
+    +'or call <a href="tel:+18006431643">1-800-643-1643</a>.</div>';
+  h+='<h4>Storing my medication</h4>'
+    +'<div class="store">'
+    +'<div><b>Keep it cold</b>36&deg;F to 46&deg;F (2&deg;C to 8&deg;C), in the refrigerator</div>'
+    +'<div><b>Never freeze it</b>Freezing ruins the medication</div>'
+    +'<div><b>Keep it out of light</b>Away from direct sunlight</div>'
+    +'<div><b>Throw it out at 28 days</b>Write the date you opened it on the vial. Discard 28 days later even if medication is left.</div>'
+    +'</div>';
+  h+='</div></details>';
+
+  /* About */
+  h+='<details class="sec">'+secHead('About my medications','What each one is, and what to expect')+'<div class="sec-body">';
+  p.keys.forEach(function(k){
+    var ag=AGENTS[k],e=EDU[k];if(!e)return;
+    h+='<div class="card"><div class="card-hd" style="background:'+medColor(famOf(k))+'">'+ag.label+'</div><div class="card-bd">'
+      +'<div class="lbl">What it is</div><p style="font-size:15.5px;">'+e.what+'</p>'
+      +'<div class="lbl">What it may support</div><ul style="font-size:15.5px;">';
+    e.maySupport.forEach(function(x){h+='<li>'+x+'</li>';});
+    h+='</ul><div class="lbl">What it is not</div><p style="font-size:15.5px;">'+e.notFor+'</p>'
+      +'<div class="lbl">What to expect</div><p style="font-size:15.5px;margin-bottom:0;">'+e.expect+'</p></div></div>';
+  });
+  h+='</div></details>';
+
+  /* Questions and contacts */
+  h+='<details class="sec">'+secHead('Questions and contacts','Who to reach out to for what')+'<div class="sec-body">'
+    +'<h4>KORB Operations</h4><p style="font-size:15.5px;">Scheduling and appointments, billing and payments, pharmacy and shipping, refills, and anything about your program or this page.</p>'
+    +'<h4>Patient Portal</h4><p style="font-size:15.5px;">Medical questions for your provider: side effects, symptoms, lab results, and questions about continuing or adjusting your therapy. '
+    +'It is checked once each morning and once each afternoon on your provider&rsquo;s clinic days. Not for emergencies.</p>'
+    +'<p style="margin-bottom:0;"><a href="https://portal.kareo.com/app/new/login" target="_blank" rel="noopener" '
+    +'style="display:inline-block;background:var(--navy);color:#fff;font-family:var(--disp);font-size:16px;font-weight:700;padding:13px 20px;border-radius:10px;text-decoration:none;">Open Patient Portal</a></p>'
+    +'</div></details>';
+
+  /* Program pricing */
+  h+='<details class="sec">'+secHead('Program pricing &mdash; 4 equal payments','What your payments cover and when they happen')+'<div class="sec-body">'
+    +'<p style="font-size:15.5px;">Your 16-week cycle is billed as 4 equal payments. This structure is designed to reduce the burden of a high upfront cost and give more patients access to a structured longevity program.</p>'
+    +'<h4>What your 4 payments cover &mdash; all inclusive</h4><ul>'
+    +'<li>Lab review at every visit</li><li>Provider visit</li><li>Cycle labs at Quest Diagnostics</li><li>All cycle peptides</li>'
+    +'<li>Pharmacy shipping</li><li>Injection supplies (needles and syringes)</li><li>16-week renewal visit</li></ul>'
+    +'<div class="pay-grid">'
+    +'<div class="pay-card"><div class="pay-num">Payment 1 of 4</div><div class="pay-when">At Your Visit</div><div class="pay-note">Collected by your provider at your visit</div></div>'
+    +'<div class="pay-card"><div class="pay-num">Payment 2 of 4</div><div class="pay-when">28 Days Later</div><div class="pay-note">Charged automatically to the card on file, approximately 28 days after Payment 1</div></div>'
+    +'<div class="pay-card"><div class="pay-num">Payment 3 of 4</div><div class="pay-when">28 Days After Payment 2</div><div class="pay-note">Charged automatically to the card on file, approximately 28 days after Payment 2</div></div>'
+    +'<div class="pay-card"><div class="pay-num">Payment 4 of 4</div><div class="pay-when">28 Days After Payment 3</div><div class="pay-note">Charged automatically to the card on file, approximately 28 days after Payment 3</div></div>'
+    +'</div>'
+    +'<p style="font-size:14px;color:var(--mu);margin:12px 0 0;">All 4 payments are your responsibility for each 16-week cycle. Not covered by insurance. HSA/FSA eligible. '
+    +'For billing dates, amounts, or any question about your payments, see your service agreement or contact KORB Operations.</p>'
+    +'</div></details>';
+
+  g('ref').innerHTML=h;
+}
+
+/* ── REMINDER CALL-OUT ─────────────────────────────────────────────── */
+function remControls(idSuffix){
+  return '<div class="rem-row"><label for="remTime'+idSuffix+'">Remind me at</label>'
+    +'<input type="time" id="remTime'+idSuffix+'" value="'+(UI.remTime||'21:00')+'" onchange="UI.remTime=this.value"></div>'
+    +'<div class="rem-row" style="margin-top:10px;">'
+    +'<button type="button" class="rem-add" onclick="openGCal()">Add to Google Calendar</button>'
+    +'<button type="button" class="btn-line" onclick="downloadICS()">Apple or other calendar</button></div>'
+    +'<p style="font-size:13px;color:var(--mu);margin:9px 0 0;line-height:1.55;">Google Calendar opens a page where you press <strong>Save</strong>. '
+    +'The Apple/other option downloads a small file &mdash; on a phone it opens straight into your calendar; on a computer, open it from your downloads.</p>';
+}
+function remStatusHTML(){
+  if(UI.remStatus==='gcal')return '<p style="font-size:14.5px;font-weight:600;color:var(--done);margin:0 0 4px;">&#10003; Google Calendar opened in a new tab &mdash; press <strong>Save</strong> there to finish.</p>';
+  if(UI.remStatus==='ics')return '<p style="font-size:14.5px;font-weight:600;color:var(--done);margin:0 0 4px;">&#10003; Reminder file downloaded. Open it (check your downloads) and your calendar will offer to add it.</p>';
+  return '';
+}
+/* Permanent fixture near the top of the page: patients can add or re-add a
+   reminder, or change its time, at any point in the cycle. */
+function renderRemCta(p){
+  var el=g('remCta');
+  var ended=p&&weekOf(p.start,today())>16;
+  if(!p||DEMO||ended){el.innerHTML='';return;}
+  el.innerHTML='<div class="rem-cta"><h3>My daily reminder</h3>'
+    +remStatusHTML()
+    +'<p>Add a daily alert to your calendar so you never forget a dose. It repeats every evening for the rest of your cycle &mdash; nothing is sent to KORB. '
+    +'To change the time, set it below and add it again, then delete the old event in your calendar.</p>'
+    +remControls('Top')
+    +'</div>';
+}
+
+/* ── CALENDAR REMINDER ─────────────────────────────────────────────────
+   Two paths to the same daily alert:
+   - Google Calendar: a prefilled-event URL. No file, works on desktop.
+   - .ics download: for Apple/other calendar apps. On phones the file
+     opens straight into the calendar; on computers it must be opened
+     from downloads, so the UI says so.
+   Floating time (no TZID) so the alert follows the patient's clock. */
+function remWindow(p){
+  var t=today();
+  var first=(p.start>t)?p.start:t;
+  var end=addDays(p.start,111);
+  var days=Math.floor((end-first)/86400000)+1;
+  if(days<1)return null;
+  return {first:first,count:days};
+}
+function pad2(x){return (x<10?'0':'')+x;}
+function gcalHref(p,hhmm){
+  var wnd=remWindow(p);if(!wnd)return null;
+  var hm=(hhmm||'21:00').split(':');
+  var st=new Date(wnd.first);st.setHours(+hm[0],+hm[1],0,0);
+  var en=new Date(st.getTime()+15*60000);
+  var f=function(d){return iso(d).replace(/-/g,'')+'T'+pad2(d.getHours())+pad2(d.getMinutes())+'00';};
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    +'&text='+encodeURIComponent(REMINDER_TITLE)
+    +'&dates='+f(st)+'/'+f(en)
+    +'&recur='+encodeURIComponent('RRULE:FREQ=DAILY;COUNT='+wnd.count)
+    +'&details='+encodeURIComponent(reminderBody());
+}
+function openGCal(){
+  var p=plan();if(!p)return;
+  var href=gcalHref(p,UI.remTime||'21:00');
+  if(!href){alert('This cycle has already ended, so there are no days left to remind you about.');return;}
+  window.open(href,'_blank');
+  UI.remStatus='gcal';
+  build();
+}
+function icsText(p,hhmm){
+  var wnd=remWindow(p);if(!wnd)return null;
+  var days=wnd.count;
+  var hm=(hhmm||'21:00').split(':');
+  var pad=pad2;
+  var dt=iso(wnd.first).replace(/-/g,'')+'T'+pad(+hm[0])+pad(+hm[1])+'00';
+  var stamp=new Date();
+  var dtstamp=stamp.getUTCFullYear()+pad(stamp.getUTCMonth()+1)+pad(stamp.getUTCDate())
+    +'T'+pad(stamp.getUTCHours())+pad(stamp.getUTCMinutes())+pad(stamp.getUTCSeconds())+'Z';
+  var url=reminderURL();
+  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//KORB Health//Injection Tracker//EN',
+    'BEGIN:VEVENT','UID:korb-reminder-'+Date.now()+'@korb-health',
+    'DTSTAMP:'+dtstamp,'DTSTART:'+dt,'RRULE:FREQ=DAILY;COUNT='+days,
+    'SUMMARY:'+REMINDER_TITLE,
+    'DESCRIPTION:'+reminderBody().replace(/\n/g,'\\n'),
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+REMINDER_TITLE,'TRIGGER:PT0M','END:VALARM',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+}
+function downloadICS(){
+  var p=plan();if(!p)return;
+  var txt=icsText(p,UI.remTime||'21:00');
+  if(!txt){alert('This cycle has already ended, so there are no days left to remind you about.');return;}
+  try{
+    var blob=new Blob([txt],{type:'text/calendar'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='KORB_injection_reminder.ics';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},2000);
+    UI.remStatus='ics';
+    build();
+  }catch(e){alert('Your browser blocked the download. Try a different browser, or set a repeating alarm in your Clock app instead.');}
+}
+
+/* ── CYCLE SUMMARY ─────────────────────────────────────────────────── */
+function summaryHTML(p){
+  var t=today(), cur=weekOf(p.start,t), pharmName=(p.pharm==='premier')?'Premier Pharmacy':'Greenwich Pharmacy';
+  var h='<div class="cs-hd"><h1>KORB Health &mdash; My Cycle Summary</h1>'
+    +'<div class="cs-meta"><strong>'+p.label+'</strong> &middot; '+pharmName
+    +' &middot; Cycle: '+fmt(p.start)+' &ndash; '+fmt(addDays(p.start,111))
+    +'<br>Printed '+fmt(t)+'. Logged by the patient on their own device.</div></div>';
+  h+='<table class="cs-table"><tr><th style="width:52px">Week</th><th style="width:110px">Dates</th>';
+  p.keys.forEach(function(k){h+='<th>'+AGENTS[k].label+'</th>';});
+  h+='<th style="width:90px">Notes</th></tr>';
+  var tots={};
+  p.keys.forEach(function(k){tots[k]={done:0,tgt:0,miss:0};});
+  for(var w=1;w<=15;w++){
+    var any=false; p.keys.forEach(function(k){if(onWeek(k,p.prog,w))any=true;});
+    if(!any)continue;
+    h+='<tr'+(w===cur?' class="cs-now"':'')+'><td><strong>Wk '+w+'</strong></td><td>'+wkRange(p.start,w)+'</td>';
+    p.keys.forEach(function(k){
+      if(!onWeek(k,p.prog,w)){h+='<td>&mdash;</td>';return;}
+      var f=famOf(k), n=countWeek(k,p.prog,p.start,w), m=missWeek(k,p.prog,p.start,w), tg=target(f);
+      if(w<=cur){tots[k].done+=Math.min(n,tg);tots[k].tgt+=tg;tots[k].miss+=m;}
+      var cell=(w>cur)?'&mdash;':(n>=tg?'<span class="cs-ok">'+n+' of '+tg+' &#10003;</span>':n+' of '+tg);
+      if(m>0)cell+=' <span class="cs-miss">&middot; '+m+' missed</span>';
+      h+='<td>'+cell+'</td>';
+    });
+    var note=(w===12?'Lab draw':'')+(w===cur?(w===12?' &middot; ':'')+'Current week':'');
+    h+='<td>'+(note||'')+'</td></tr>';
+  }
+  h+='</table>';
+  h+='<div class="cs-tot"><strong>Cycle totals so far:</strong><br>';
+  p.keys.forEach(function(k){
+    var x=tots[k], pct=x.tgt?Math.round(100*x.done/x.tgt):0;
+    h+=AGENTS[k].label+': '+x.done+' of '+x.tgt+' doses ('+pct+'%)'+(x.miss?', <span class="cs-miss">'+x.miss+' marked missed</span>':'')+'<br>';
+  });
+  h+='</div>';
+  h+='<div class="cs-note">Weeks after the current week show &mdash; because they have not happened yet. '
+    +'Bring this summary to your Week 16 provider visit, or have it open on your phone. '
+    +'This record was kept by the patient on their own device and was not transmitted to KORB.</div>';
+  return h;
+}
+function printSummary(){
+  var p=plan();if(!p)return;
+  g('cycSummary').innerHTML=summaryHTML(p);
+  document.body.classList.add('print-summary');
+  var done=function(){document.body.classList.remove('print-summary');window.removeEventListener('afterprint',done);};
+  window.addEventListener('afterprint',done);
+  if(typeof window.print==='function')window.print();
+  setTimeout(done,2000);
+}
+
+function toggleWk(w){
+  var p=plan();
+  var isNow=p?(w===weekOf(p.start,today())):false;
+  UI.open[w]=!(UI.open[w]===undefined?isNow:UI.open[w]);
+  build();
+}
+function secHead(title,desc){
+  return '<summary><span><span class="sec-t">'+title+'</span>'
+    +'<span class="sec-d" style="display:block">'+desc+'</span></span>'
+    +'<span class="sec-pill" aria-hidden="true"></span></summary>';
+}
+function secHeadStatic(title,desc){
+  return '<div class="secs-hd"><span class="sec-t">'+title+'</span>'
+    +'<span class="sec-d" style="display:block">'+desc+'</span></div>';
+}
+
+/* ── INIT ──────────────────────────────────────────────────────────── */
+(function(){
+  g('sd').value=iso(today());
+  restoreSetup();
+  onProgramChange();
+})();
+window.addEventListener('beforeprint',function(){
+  var a=document.querySelectorAll('details.sec');
+  for(var i=0;i<a.length;i++)a[i].open=true;
+});
+</script>
+</body>
+</html>
