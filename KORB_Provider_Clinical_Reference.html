@@ -66,7 +66,6 @@
   .code-chip{display:inline-block;background:#FFF6DF;color:#8A5A00;border:1px solid #F0D98C;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;}
   .lo-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-right:6px;}
   .lo-badge.type{background:var(--ln);color:var(--navy);border:1px solid var(--bd);}
-  .lo-badge.priority-stat{background:#FDECEA;color:#C62828;border:1px solid #E57373;}
   .lo-badge.priority-routine{background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7;}
   .code-chip-wrap{display:inline-flex;align-items:center;gap:6px;}
   .code-copy-btn{background:var(--teal);color:#fff;border:none;border-radius:4px;padding:2px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif;}
@@ -407,15 +406,12 @@ Object.keys(STATES).forEach(function(k){
   stSel.appendChild(o);
 });
 
-// Quick-reference dosing summary (used in Rx snapshot cards + Tebra note generator)
+// Pharmacy display metadata only. All dosing, quantity, refill, and days-supply
+    // values live in RX below, which holds the exact Tebra Compounded Drug Favorite fields.
 var PHARM = {
-  greenwich:{name:'Greenwich Pharmacy',color:'#2E7D32',
-    serm:{conc:'3mg/ml',vial:'5ml',rx:'12 weeks + 0 refills',instr:'Inject 7 units subcutaneously once daily at bedtime on an empty stomach. Monday through Saturday. Sunday off (recommended).'},
-    bpc:{conc:'3mg/ml',vial:'5ml',rx:'6 weeks + 0 refills',instr:'Inject 17 units subcutaneously once daily during active course (Weeks 3–8 of cycle).'}},
-  premier:{name:'Premier Pharmacy',color:'#1565C0',
-    serm:{conc:'1mg/ml',vial:'6ml',rx:'4 weeks + 2 refills',instr:'Inject 20 units subcutaneously once daily at bedtime on an empty stomach. Monday through Saturday. Sunday off (recommended).'},
-    bpc:{conc:'4mg/ml',vial:'6ml',rx:'4 weeks + 1 refill',instr:'Inject 13 units subcutaneously once daily during active course (Weeks 3-8 of cycle).'}}
-};
+      greenwich:{name:'Greenwich Pharmacy',color:'#2E7D32'},
+      premier:{name:'Premier Pharmacy',color:'#1565C0'}
+    };
 
 // ─── FULL TEBRA PRESCRIBING DATA (exact fields for Compounded Drug Favorite entry) ──
 var SERM_COUNSEL = [
@@ -834,7 +830,7 @@ var RX = {
     monitor: [
       'Skin / tissue quality trend toward documented goal',
       'Injection site reactions',
-      'Copper, RBC / Zinc, RBC / Ceruloplasmin (per GHK-Cu lab panel)',
+      'Copper, RBC / Zinc, RBC / Ceruloplasmin (baseline Standard panel)',
       'Any systemic symptoms',
       'Course completion vs. discontinuation',
     ]
@@ -960,8 +956,8 @@ var FOUNDATION_AGENTS = {
   sermorelin: { key:'sermorelin', label:'Sermorelin', onWeeks:[1,12], doseLabel:'200 mcg', titrate:false,
     schedule:'Nightly SQ · 6 days ON / 1 day OFF · Mon–Sat, Sunday off recommended · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing:'Bedtime, on an empty stomach (\u22652 hrs post-meal)' },
-  bpc157: { key:'bpc157', label:'BPC-157', onWeeks:[1,6], doseLabel:'500 mcg', titrate:false,
-    schedule:'Daily SQ · Active Weeks 1–6, off Weeks 7–16 of cycle',
+  bpc157: { key:'bpc157', label:'BPC-157', onWeeks:[1,8], doseLabel:'500 mcg', titrate:false,
+    schedule:'Daily SQ · Active Weeks 1–8, off Weeks 9–16 of cycle',
     timing:'Any consistent time daily. No food restriction.' },
   cjcipam: { key:'cjcipam', label:'CJC-1295 / Ipamorelin', onWeeks:[1,12], doseLabel:'(per pharmacy — see Rx reference)',
     doseLabelByPharm:{ greenwich:'100 mcg CJC-1295 / 100 mcg Ipamorelin', premier:'100 mcg CJC-1295 / 100 mcg Ipamorelin' },
@@ -1361,7 +1357,7 @@ function buildInitialConsultation(){
   document.getElementById('rxFieldsContainer').innerHTML='<div class="info-box"><strong>No Rx is issued at Initial Consultation.</strong> This visit is baseline labs only. Select a specific program (Foundation, Gateway, or Peak) above once the patient is ready to begin treatment at the next visit.</div>';
   document.getElementById('counselingContainer').innerHTML='';
   document.getElementById('wkSections').innerHTML='';
-  document.getElementById('wfBody').innerHTML='<tr><td>Pre</td><td>\u2014</td><td><div class="pill-stack"><span class="pill pv">Visit</span><span class="pill pcp">Payment</span><span class="pill plo">Labs Ordered</span></div></td><td>Collect payment for baseline labs.<br>Order baseline labs directly in Tebra (Quest integration) — same-day collection, no STAT designation needed.<br>Ops to schedule Week 1 visit once baseline lab results are received from Quest.</td></tr>';
+  document.getElementById('wfBody').innerHTML='<tr><td>Pre</td><td>\u2014</td><td><div class="pill-stack"><span class="pill pv">Visit</span><span class="pill pcp">Payment</span><span class="pill plo">Labs Ordered</span></div></td><td>Collect payment for baseline labs.<br>Order baseline labs directly in Tebra (Quest integration) — same-day collection.<br>Ops to schedule Week 1 visit once baseline lab results are received from Quest.</td></tr>';
 
   var initLines=[
     'KORB HEALTH — INITIAL CONSULTATION',
@@ -1403,7 +1399,7 @@ function buildGateway(){
     document.getElementById('rxFieldsContainer').innerHTML='<div class="info-box"><strong>No Rx is issued at Initial Consultation.</strong> This visit is baseline labs only. The Tebra Prescribing Reference below will populate once Routine 16-Week Visit is selected (after Week 1).</div>';
     document.getElementById('counselingContainer').innerHTML='';
     document.getElementById('wkSections').innerHTML='';
-    document.getElementById('wfBody').innerHTML='<tr><td>Pre</td><td>\u2014</td><td><div class="pill-stack"><span class="pill pv">Visit</span><span class="pill pcp">Payment</span><span class="pill plo">Labs Ordered</span></div></td><td>Collect payment for baseline labs.<br>Order baseline labs directly in Tebra (Quest integration) — same-day collection, no STAT designation needed.<br>Ops to schedule Week 1 visit once baseline lab results are received from Quest.</td></tr>';
+    document.getElementById('wfBody').innerHTML='<tr><td>Pre</td><td>\u2014</td><td><div class="pill-stack"><span class="pill pv">Visit</span><span class="pill pcp">Payment</span><span class="pill plo">Labs Ordered</span></div></td><td>Collect payment for baseline labs.<br>Order baseline labs directly in Tebra (Quest integration) — same-day collection.<br>Ops to schedule Week 1 visit once baseline lab results are received from Quest.</td></tr>';
     var initLines=[
       'KORB HEALTH — INITIAL CONSULTATION',
       'This is the patient\u2019s initial consultation. No medication is prescribed at this visit. Program has not been assigned yet — the program shown in the reference tool above is for provider review only and is not locked in until the next visit.',
@@ -1437,7 +1433,7 @@ function buildGateway(){
   var rows=[
     {wk:'Pre',label:'Initial Consult (Patient\u2019s First Cycle Only)',type:'vl',rc:'vr',tasks:[
       'Collect payment for baseline labs.',
-      'Order baseline labs directly in Tebra (Quest integration) — same-day collection, no STAT designation needed.',
+      'Order baseline labs directly in Tebra (Quest integration) — same-day collection.',
       'Ops to schedule Week 1 visit once baseline lab results received from Quest.'
     ]},
     {wk:1,label:'Week 1 — Provider Visit + Rx',type:'vr',rc:'vr',tasks:[
@@ -1447,7 +1443,7 @@ function buildGateway(){
       'Issue Rx: Sermorelin.',
       'Issue Rx: '+RX[bpcKey].name+'.',
       ghkOn?'Issue Rx: GHK-Cu (optional add-on, active Weeks 5\u20138).':null,
-      'Order labs in Tebra with a future collection date of '+dtag(fmts(addDays(start,84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration, no STAT designation. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
+      'Order labs in Tebra with a future collection date of '+dtag(fmts(addDays(start,84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
       'Schedule next 16-week visit: '+dtag(nextVisitMF(start))+'.'
     ].filter(Boolean)},
     {wk:12,label:'Week 12 — Lab Draw',type:'l',rc:'lr',dateOverride:fmts(addDays(start,84)),tasks:[
@@ -1463,7 +1459,7 @@ function buildGateway(){
       'Renew Rx: Sermorelin.',
       'Renew Rx: '+RX[bpcKey].name+'.',
       ghkOn?'Renew Rx: GHK-Cu (optional add-on).':null,
-      'Order labs for the next cycle in Tebra with a future collection date of '+dtag(fmts(addDays(start,16*7+84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration, no STAT designation. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
+      'Order labs for the next cycle in Tebra with a future collection date of '+dtag(fmts(addDays(start,16*7+84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
       'Schedule next 16-week visit: '+dtag(nextVisitMF(addDays(start,16*7)))+'.'
     ].filter(Boolean)}
   ];
@@ -1587,7 +1583,7 @@ function buildFoundation(){
     document.getElementById('rxFieldsContainer').innerHTML='<div class="info-box"><strong>No Rx is issued at Initial Consultation.</strong> This visit is baseline labs only. The Tebra Prescribing Reference below will populate once Routine 16-Week Visit is selected (after Week 1).</div>';
     document.getElementById('counselingContainer').innerHTML='';
     document.getElementById('wkSections').innerHTML='';
-    document.getElementById('wfBody').innerHTML='<tr><td>Pre</td><td>\u2014</td><td><div class="pill-stack"><span class="pill pv">Visit</span><span class="pill pcp">Payment</span><span class="pill plo">Labs Ordered</span></div></td><td>Collect payment for baseline labs.<br>Order baseline labs directly in Tebra (Quest integration) — same-day collection, no STAT designation needed.<br>Ops to schedule Week 1 visit once baseline lab results are received from Quest.</td></tr>';
+    document.getElementById('wfBody').innerHTML='<tr><td>Pre</td><td>\u2014</td><td><div class="pill-stack"><span class="pill pv">Visit</span><span class="pill pcp">Payment</span><span class="pill plo">Labs Ordered</span></div></td><td>Collect payment for baseline labs.<br>Order baseline labs directly in Tebra (Quest integration) — same-day collection.<br>Ops to schedule Week 1 visit once baseline lab results are received from Quest.</td></tr>';
     var initLines=[
       'KORB HEALTH — INITIAL CONSULTATION',
       'This is the patient\u2019s initial consultation. No medication is prescribed at this visit. Program has not been assigned yet — the program shown in the reference tool above is for provider review only and is not locked in until the next visit.',
@@ -1604,7 +1600,7 @@ function buildFoundation(){
   var rows=[
     {wk:'Pre',label:'Initial Consult (Patient\u2019s First Cycle Only)',type:'vl',rc:'vr',tasks:[
       'Collect payment for baseline labs.',
-      'Order baseline labs directly in Tebra (Quest integration) — same-day collection, no STAT designation needed.',
+      'Order baseline labs directly in Tebra (Quest integration) — same-day collection.',
       'Ops to schedule Week 1 visit once baseline lab results received from Quest.'
     ]},
     {wk:1,label:'Week 1 — Provider Visit + Rx',type:'vr',rc:'vr',tasks:[
@@ -1612,7 +1608,7 @@ function buildFoundation(){
       'Review baseline lab results (Cycle 1) or prior cycle lab results (subsequent cycles).',
       'Collect payment.',
       'Issue Rx: '+agentMeta.label+' (active Weeks '+onStart+'\u2013'+onEnd+' of this cycle; off remaining weeks until next renewal).',
-      'Order labs in Tebra with a future collection date of '+dtag(fmts(addDays(start,84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration, no STAT designation. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
+      'Order labs in Tebra with a future collection date of '+dtag(fmts(addDays(start,84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
       'Schedule next 16-week visit: '+dtag(nextVisitMF(start))+'.'
     ]},
     {wk:12,label:'Week 12 — Lab Draw',type:'l',rc:'lr',dateOverride:fmts(addDays(start,84)),tasks:[
@@ -1626,7 +1622,7 @@ function buildFoundation(){
       'Review lab results'+(agentMeta.titrate?' — assess IGF-1. Adjust '+agentMeta.label+' dose in 50 mcg increments if indicated (titration at 16-week visits only).':'.'),
       'Collect payment.',
       'Renew Rx: '+agentMeta.label+'.',
-      'Order labs for the next cycle in Tebra with a future collection date of '+dtag(fmts(addDays(start,16*7+84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration, no STAT designation. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
+      'Order labs for the next cycle in Tebra with a future collection date of '+dtag(fmts(addDays(start,16*7+84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
       'Schedule next 16-week visit: '+dtag(nextVisitMF(addDays(start,16*7)))+'.'
     ]}
   ];
@@ -1774,7 +1770,7 @@ function buildPeak(pathwayKey){
     document.getElementById('rxFieldsContainer').innerHTML='<div class="info-box"><strong>No Rx is issued at Initial Consultation.</strong> This visit is baseline labs only. The Tebra Prescribing Reference below will populate once Routine 16-Week Visit is selected (after Week 1).</div>';
     document.getElementById('counselingContainer').innerHTML='';
     document.getElementById('wkSections').innerHTML='';
-    document.getElementById('wfBody').innerHTML='<tr><td>Pre</td><td>\u2014</td><td><div class="pill-stack"><span class="pill pv">Visit</span><span class="pill pcp">Payment</span><span class="pill plo">Labs Ordered</span></div></td><td>Collect payment for baseline labs.<br>Order baseline labs directly in Tebra (Quest integration) — same-day collection, no STAT designation needed.<br>Ops to schedule Week 1 visit once baseline lab results are received from Quest.</td></tr>';
+    document.getElementById('wfBody').innerHTML='<tr><td>Pre</td><td>\u2014</td><td><div class="pill-stack"><span class="pill pv">Visit</span><span class="pill pcp">Payment</span><span class="pill plo">Labs Ordered</span></div></td><td>Collect payment for baseline labs.<br>Order baseline labs directly in Tebra (Quest integration) — same-day collection.<br>Ops to schedule Week 1 visit once baseline lab results are received from Quest.</td></tr>';
     var initLines=[
       'KORB HEALTH — INITIAL CONSULTATION',
       'This is the patient\u2019s initial consultation. No medication is prescribed at this visit. Program has not been assigned yet — the program shown in the reference tool above is for provider review only and is not locked in until the next visit.',
@@ -1814,11 +1810,11 @@ function buildPeak(pathwayKey){
   var rows=[
     {wk:'Pre',label:'Initial Consult (Patient\u2019s First Cycle Only)',type:'vl',rc:'vr',tasks:[
       'Collect payment for baseline labs.',
-      'Order baseline labs directly in Tebra (Quest integration) — same-day collection, no STAT designation needed.',
+      'Order baseline labs directly in Tebra (Quest integration) — same-day collection.',
       'Ops to schedule Week 1 visit once baseline lab results received from Quest.'
     ]},
     {wk:1,label:'Week 1 — Provider Visit + Rx',type:'vr',rc:'vr',tasks:['Perform visit.','Review baseline lab results (Cycle 1) or prior cycle lab results (subsequent cycles).','Collect payment.'].concat(rxIssueLines).concat([
-      'Order labs in Tebra with a future collection date of '+dtag(fmts(addDays(start,84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration, no STAT designation. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
+      'Order labs in Tebra with a future collection date of '+dtag(fmts(addDays(start,84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
       'Schedule next 16-week visit: '+dtag(nextVisitMF(start))+'.'
     ].filter(Boolean))},
     {wk:12,label:'Week 12 — Lab Draw',type:'l',rc:'lr',dateOverride:fmts(addDays(start,84)),tasks:[
@@ -1827,7 +1823,7 @@ function buildPeak(pathwayKey){
       'No new Rx order will be sent to pharmacy until labs have been completed and reviewed.'
     ]},
     {wk:16,label:'Week 16 / Next Cycle Week 1 — Provider Visit + Rx Renewal',type:'vr',rc:'vr',tasks:['Perform visit.','Confirm Week 12 lab results received before proceeding — if not, do not proceed until labs complete.','Review lab results.','Collect payment.'].concat(rxRenewLines).concat([
-      'Order labs for the next cycle in Tebra with a future collection date of '+dtag(fmts(addDays(start,16*7+84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration, no STAT designation. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
+      'Order labs for the next cycle in Tebra with a future collection date of '+dtag(fmts(addDays(start,16*7+84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
       'Schedule next 16-week visit: '+dtag(nextVisitMF(addDays(start,16*7)))+'.'
     ])}
   ];
@@ -2032,7 +2028,7 @@ function renderLabs(){
   var container = document.getElementById('labsContainer');
   var html = '';
   html += '<div class="info-box"><strong>Vendor:</strong> Quest Diagnostics — ordered directly through the Tebra/Quest integration. No lab order is sent to Ops.<br>'
-    + '<strong>Lab cadence:</strong> Baseline (before medication start, same-day collection) \u2192 then every 16 weeks, ordered at each visit with a future collection date set 12 weeks out. No STAT designation is used for either.<br>'
+    + '<strong>Lab cadence:</strong> Baseline (before medication start, same-day collection) \u2192 then every 16 weeks, ordered at each visit with a future collection date set 12 weeks out.<br>'
     + '<strong>Enter patient gender and age above</strong> and the Copy-Paste Note / Lab Order sections will automatically resolve to the correct panel (Standard vs. Men 45+). GHK-Cu markers (Copper RBC, Zinc RBC, Ceruloplasmin) are part of both standard panels for every patient, regardless of which agent is prescribed.<br>'
     + '<strong>12-week follow-up orders:</strong> Tebra/Quest holds the order until the collection date automatically. Use the Lab Order section below for the release-date-only copy-paste for the KORB FH&L Lab Queue Google Chat, then add the patient\u2019s name and DOB from Tebra directly — this tool never displays patient identifiers.<br>'
     + '<strong>After baseline labs received:</strong> Ops contacts patient to schedule Week 1 visit. All subsequent lab results are reviewed at the next scheduled 16-week provider visit — no separate lab review visits.</div>';
