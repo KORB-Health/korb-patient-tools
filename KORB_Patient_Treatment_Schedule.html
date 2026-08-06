@@ -233,113 +233,16 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
 <div class="disc">This schedule is for personal reference only. Always follow your prescription label and pharmacy instructions. Contact KORB Operations for general questions, or use the Patient Portal for medical questions — not for emergencies. For emergencies call 911 or go to the nearest emergency room.</div>
 </div>
 
+<script src="korb-dosing-data.js"></script>
 <script>
 // ── PHARMACY DATA ─────────────────────────────────────────────────────
 // Pharmacy is selected directly by the patient (Premier or Greenwich) — no state lookup.
 
 // Patient-facing injection instructions per drug per pharmacy
-var INSTR={
-  sermorelin:{
-    premier:'Inject 20 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
-    greenwich:'Inject 7 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
-  },
-  sermorelin300:{
-    premier:'Inject 30 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
-    greenwich:'Inject 10 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
-  },
-  sermorelin400:{
-    premier:'Inject 40 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
-    greenwich:'Inject 13 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
-  },
-  sermorelin500:{
-    premier:'Inject 50 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
-    greenwich:'Inject 17 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
-  },
-  bpc157:{
-    premier:'Inject 13 units subcutaneously once daily.',
-    greenwich:'Inject 17 units subcutaneously once daily.'
-  },
-  cjcipam:{
-    premier:'Inject 5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
-    greenwich:'Inject 5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
-  },
-  cjcipam150:{
-    premier:'Inject 7.5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
-    greenwich:'Inject 7.5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
-  },
-  cjcipam200:{
-    premier:'Inject 10 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
-    greenwich:'Inject 10 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
-  },
-  ghkcu:{
-    premier:'Inject 20 units subcutaneously three times weekly in the evening.',
-    greenwich:'Inject 20 units subcutaneously three times weekly in the evening.'
-  },
-  tesamorelin1mg:{
-    premier:'Inject 20 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
-    greenwich:'Inject 33 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
-  },
-  tesamorelin15mg:{
-    premier:'Inject 30 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
-    greenwich:'Inject 50 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
-  },
-  tesamorelin2mg:{
-    premier:'Inject 40 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
-    greenwich:'Inject 67 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
-  }
-};
+var INSTR = KORB_DOSING.instructions
 
 // Medication metadata
-var AGENTS={
-  sermorelin:{label:'Sermorelin',dose:'200 mcg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  sermorelin300:{label:'Sermorelin',dose:'300 mcg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  sermorelin400:{label:'Sermorelin',dose:'400 mcg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  sermorelin500:{label:'Sermorelin',dose:'500 mcg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  bpc157:{label:'BPC-157',dose:'500 mcg',color:'#1D7A35',onWeeks:[1,8],
-    schedule:'Every day (7 days a week)',timing:'Any consistent time · No food restriction',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'daily',pillBg:'#1D7A35'},
-  cjcipam:{label:'CJC-1295 / Ipamorelin',dose:'100 mcg CJC-1295 / 100 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  cjcipam150:{label:'CJC-1295 / Ipamorelin',dose:'150 mcg CJC-1295 / 150 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  cjcipam200:{label:'CJC-1295 / Ipamorelin',dose:'200 mcg CJC-1295 / 200 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  ghkcu:{label:'GHK-Cu',dose:'2 mg',color:'#4A148C',onWeeks:[5,8],
-    schedule:'3 times per week (evenings)',timing:'Evening · Choose consistent days (e.g. Mon / Wed / Fri)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'3×/week',pillBg:'#6A1B9A'},
-  tesamorelin1mg:{label:'Tesamorelin 1 mg',dose:'1 mg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  tesamorelin15mg:{label:'Tesamorelin 1.5 mg',dose:'1.5 mg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  tesamorelin2mg:{label:'Tesamorelin 2 mg',dose:'2 mg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'}
-};
+var AGENTS = (function(){var o={},S=KORB_DOSING.agents;Object.keys(S).forEach(function(k){var a=S[k];o[k]={label:a.label,dose:a.dose,color:a.color,onWeeks:(a.onWeeksFoundation||a.onWeeksOptionalAddon||a.onWeeksAddon),schedule:a.schedule,timing:a.timing,how:a.how,pillLabel:a.pillLabel,pillBg:a.pillBg};});return o;})()
 
 // Medication education content
 var EDU={
