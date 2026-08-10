@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>KORB Functional Health Tracker v1.6</title>
+<title>KORB Functional Health Tracker v1.7</title>
 <style>
   :root{
     --navy:#1E2D5B; --navy-dk:#141F42; --teal:#00B4C8; --teal-dk:#00919F;
@@ -167,7 +167,7 @@
   </div>
   <div class="kicker">Functional Health &amp; Longevity</div>
   <h1>Your Peptide Tracker</h1>
-  <div style="display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:800;letter-spacing:.1em;color:#fff;">BUILD v1.6</div>
+  <div style="display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:800;letter-spacing:.1em;color:#fff;">BUILD v1.7</div>
 </header>
 
 <div class="wrap">
@@ -214,7 +214,7 @@
     <div class="err" id="setupErr">Please answer every question above before building your schedule.</div>
 
     <button class="btn-primary" onclick="generateTracker()">Build My Schedule</button>
-    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.05em;">BUILD v1.6</p>
+    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.05em;">BUILD v1.7</p>
     <p style="font-size:.66em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.04em;">build v1.4</p>
   </div>
 
@@ -261,7 +261,7 @@
     <p class="disclaimer">
       <b>This tracker stays on your device.</b> Nothing you check off here is sent to KORB or stored anywhere but this browser. It's a personal reminder tool, not part of your medical record — if you miss a dose or have questions about your protocol, contact KORB directly.
     </p>
-    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.05em;">KORB Functional Health Tracker &middot; BUILD v1.6</p>
+    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.05em;">KORB Functional Health Tracker &middot; BUILD v1.7</p>
     <p style="font-size:.66em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.04em;">KORB Functional Health Tracker · build v1.4</p>
   </div>
 
@@ -749,13 +749,27 @@ function buildSeries(){
     var lastDay  = addDays(state.start, (a.weeks[1]-1)*7 + 6);
 
     if(cad === 'weeklyTally3'){
-      // Weekly reminder anchored to the patient's own start weekday
-      out.push({
-        start: firstDay, until: lastDay,
-        rule: 'FREQ=WEEKLY;BYDAY=' + ICS_DAY[startWd],
-        summary: ag.label + ' — 3 doses this week',
-        desc: 'Get 3 evenly spaced GHK-Cu doses this week. ' + instr
-      });
+      // GHK-Cu: 3 doses per week. Dr. Rose confirmed Monday / Wednesday / Friday
+      // is the recommended pattern rather than a requirement, so it is the
+      // sensible default to put on a calendar. The in-app tally still lets a
+      // patient log whichever three days they actually use.
+      // DTSTART has to fall on a day that is part of the recurrence, otherwise
+      // some calendar apps add an extra first instance on the wrong weekday.
+      var GHK_DAYS = [1, 3, 5]; // Mon, Wed, Fri
+      var ghkStart = new Date(firstDay.getTime());
+      var guard = 0;
+      while(GHK_DAYS.indexOf(ghkStart.getDay()) === -1 && guard < 7){
+        ghkStart = addDaysD(ghkStart, 1);
+        guard++;
+      }
+      if(ghkStart <= lastDay){
+        out.push({
+          start: ghkStart, until: lastDay,
+          rule: 'FREQ=WEEKLY;BYDAY=MO,WE,FR',
+          summary: ag.label + (units ? ' — ' + units + ' units' : ' — ' + ag.dose),
+          desc: instr + ' Monday, Wednesday and Friday is the recommended pattern. Any three evenly spaced days work.'
+        });
+      }
     } else if(cad === 'daily'){
       out.push({
         start: firstDay, until: lastDay,
