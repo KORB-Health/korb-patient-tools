@@ -68,7 +68,11 @@
     background:rgba(255,255,255,.08); border-radius:11px; padding:12px 14px; margin-bottom:10px;
     border:1px solid rgba(255,255,255,.14);
   }
-  .dose-item.done{background:rgba(0,180,200,.22); border-color:rgba(0,180,200,.5);}
+  .dose-item.done{background:var(--teal); border-color:#7FE3EF; box-shadow:inset 5px 0 0 #06414F;}
+  .dose-item.done .agent{color:#06303B;}
+  .dose-item.done .units-big{color:#06303B;}
+  .dose-item.done .instr{color:#0A4453;}
+  .dose-item.done .dose-sub{color:#0A4453 !important;}
   .dose-item .di-top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
   .dose-item .agent{font-weight:800;font-size:.98em;}
   .dose-item .instr{font-size:.82em;color:#D7DEEF;margin-top:4px;line-height:1.4;}
@@ -76,13 +80,10 @@
     flex-shrink:0; background:#fff; color:var(--navy); border-radius:8px; padding:7px 12px;
     font-size:.78em; font-weight:800; width:auto; white-space:nowrap;
   }
-  .mark-btn.on{background:var(--teal); color:#fff;}
+  .mark-btn.on{background:#06303B; color:#fff;}
   .no-doses{color:#C7D2EC;font-size:.9em;padding:6px 2px;}
   .units-big{color:var(--teal);font-weight:900;}
   .units-inline{color:var(--teal-dk);font-weight:900;}
-  .syr-wrap{margin-top:10px;padding:9px 8px 7px;background:rgba(255,255,255,.94);border-radius:9px;}
-  .syr-cap{font-size:.7em;color:var(--mu);text-align:center;}
-  .syr-cap b{color:var(--navy);}
 
   .ghk-tally{
     background:#FBF3E8; border:1px solid #F3DDB1; border-radius:11px; padding:12px 14px; margin-bottom:16px;
@@ -117,7 +118,7 @@
   .agent-row .an{font-size:.83em;font-weight:800;color:var(--navy);margin-bottom:6px;}
   .day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
   .day-cell{
-    aspect-ratio:1; border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    aspect-ratio:1; min-height:46px; border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center;
     font-size:.62em; font-weight:700; cursor:pointer; border:1.5px solid var(--bd); background:#fff; color:var(--mu);
     gap:1px; padding:2px;
   }
@@ -227,7 +228,7 @@
 
     <div class="card">
       <h2 class="ct">Your 16-Week Cycle</h2>
-      <p class="sub" style="margin-bottom:10px;">Tap a week to see every dose day. Tap a day to mark it done.</p>
+      <p class="sub" id="cycleSub" style="margin-bottom:10px;">Tap a week to see every dose day. Tap a day to mark it done.</p>
       <div class="week-list" id="weekList"></div>
     </div>
 
@@ -273,56 +274,6 @@ function unitsFor(agentKey, pharmacyKey){
   return m ? m[1] : null;
 }
 
-// ── Syringe visual ───────────────────────────────────────────────────────
-// Premier ships standard 100-unit (1 mL) syringes across the board. Greenwich
-// ships 50-unit (0.5 mL) syringes, except for doses over 50 units — those
-// patients are supplied a 100-unit syringe instead (currently only affects
-// Tesamorelin 2 mg, dosed at 67 units on Greenwich). Mirrors the same logic
-// used in the patient treatment schedule tool so the two stay consistent.
-function syringeCapacity(pharmacyKey, units){
-  if(pharmacyKey === 'premier') return 100;
-  if(units !== null && parseFloat(units) > 50) return 100;
-  return 50;
-}
-function syringeSVG(units, maxUnits, colorHex){
-  colorHex = colorHex || '#00B4C8';
-  maxUnits = maxUnits || 100;
-  units = Math.max(0, Math.min(maxUnits, parseFloat(units) || 0));
-  var bx=58,bw=196,by=15,bh=24;
-  var w = bx + (units/maxUnits)*bw;
-  var tickStep = maxUnits/10;   // 10 for a 100u barrel, 5 for a 50u barrel
-  var majorStep = maxUnits/5;   // 20 for a 100u barrel, 10 for a 50u barrel
-  var s = '<svg viewBox="0 0 300 58" style="width:100%;max-width:280px;height:auto;display:block;margin:2px auto 0;">';
-  s += '<line x1="4" y1="27" x2="34" y2="27" stroke="#8A8F98" stroke-width="2"/>';
-  s += '<path d="M34 25 L'+bx+' '+by+' L'+bx+' '+(by+bh)+' L34 29 Z" fill="#fff" stroke="#8A8F98" stroke-width="1"/>';
-  s += '<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="3" fill="#fff" stroke="#8A8F98" stroke-width="1.5"/>';
-  s += '<rect x="'+(bx+bw-3)+'" y="'+(by-6)+'" width="6" height="'+(bh+12)+'" fill="#EEF0F7" stroke="#8A8F98" stroke-width="1"/>';
-  s += '<rect x="'+bx+'" y="'+by+'" width="'+Math.max(0,(w+1)-bx)+'" height="'+bh+'" fill="'+colorHex+'" opacity="0.28"/>';
-  for(var u=0; u<=maxUnits; u+=tickStep){
-    var x = bx + (u/maxUnits)*bw;
-    var tall = (u % majorStep === 0);
-    s += '<line x1="'+x+'" y1="'+by+'" x2="'+x+'" y2="'+(by+(tall?9:5))+'" stroke="#5A6070" stroke-width="1"/>';
-    if(tall) s += '<text x="'+x+'" y="'+(by-3)+'" font-size="7" text-anchor="middle" fill="#5A6070" font-family="Arial,sans-serif">'+u+'</text>';
-  }
-  s += '<rect x="'+(w+1)+'" y="'+(by+1)+'" width="7" height="'+(bh-2)+'" fill="#2B2F36"/>';
-  var rodEnd = bx+bw+24;
-  s += '<rect x="'+(w+8)+'" y="'+(by+bh/2-2)+'" width="'+Math.max(0,rodEnd-(w+8))+'" height="4" fill="#C6CAD2"/>';
-  s += '<rect x="'+rodEnd+'" y="'+(by-5)+'" width="10" height="'+(bh+10)+'" rx="2" fill="#EEF0F7" stroke="#8A8F98" stroke-width="1"/>';
-  s += '</svg>';
-  return s;
-}
-// Builds the light "draw up to N units" card, syringe barrel included.
-// Returns '' when there's no unit count to show (e.g. no instruction match).
-function syringeBlock(agentKey, pharmacyKey, units){
-  if(units === null || units === undefined) return '';
-  var cap = syringeCapacity(pharmacyKey, units);
-  var capLabel = cap === 50 ? '50-unit (0.5 mL)' : '100-unit (1 mL)';
-  return '<div class="syr-wrap">' +
-    '<div class="syr-cap">Draw up to <b>'+units+' units</b> on a standard '+capLabel+' insulin syringe</div>' +
-    syringeSVG(units, cap) +
-  '</div>';
-}
-
 // ── Program → agent picker wiring ────────────────────────────────────────────
 function onProgramChange(){
   var prog = document.getElementById('selProgram').value;
@@ -362,30 +313,57 @@ function onProgramChange(){
 }
 
 // ── Build the full agent list for the selected program ──────────────────────
-function resolveAgents(){
-  var prog = document.getElementById('selProgram').value;
-  var pharm = document.getElementById('selPharmacy').value;
-  var start = document.getElementById('startDate').value;
-  if(!prog || !pharm || !start) return null;
+// Reads the patient's raw selections off the form. These selections — and ONLY
+// these — are what get saved. Everything derived from the dosing data is
+// recomputed from KORB_DOSING on every load.
+function currentSelections(){
+  var agEl = document.getElementById('selAgent');
+  var dsEl = document.getElementById('selDose');
+  return {
+    prog:  document.getElementById('selProgram').value,
+    agent: agEl ? agEl.value : '',
+    dose:  dsEl ? dsEl.value : '',
+    pharm: document.getElementById('selPharmacy').value,
+    start: document.getElementById('startDate').value,
+    ghk:   document.getElementById('ghkChk').checked
+  };
+}
 
-  var agents = []; // [{key, contextForWeeks}]
-  if(prog === 'foundation'){
-    var chosen = document.getElementById('selAgent').value;
-    if(!chosen) return null;
-    agents.push({ key: chosen, weeks: KORB_DOSING.getActiveWeeks(chosen, 'foundation') });
+// Derives the full schedule from selections + the CURRENT dosing data.
+// Deliberately re-derived rather than stored: if korb-dosing-data.js is later
+// corrected (as the Foundation BPC-157 course length was), patients who
+// already built a schedule must pick up the correction, not stay frozen on
+// whatever the numbers were the day they set it up.
+function buildState(sel){
+  if(!window.KORB_DOSING) return null;
+  if(!sel || !sel.prog || !sel.pharm || !sel.start) return null;
+  if(!KORB_DOSING.programs[sel.prog]) return null;
+
+  var agents = [];
+  if(sel.prog === 'foundation'){
+    if(!sel.agent) return null;
+    agents.push({ key: sel.agent, weeks: KORB_DOSING.getActiveWeeks(sel.agent, 'foundation') });
   } else {
-    var doseVal = document.getElementById('selDose').value;
-    if(!doseVal) return null;
-    var P = KORB_DOSING.programs[prog];
-    var primaryKey = KORB_DOSING.resolvePrimaryKey(P.primaryFamily, doseVal);
+    if(!sel.dose) return null;
+    var P = KORB_DOSING.programs[sel.prog];
+    var primaryKey = KORB_DOSING.resolvePrimaryKey(P.primaryFamily, sel.dose);
     agents.push({ key: primaryKey, weeks: KORB_DOSING.getActiveWeeks(primaryKey, 'foundation') || [1,12] });
     agents.push({ key: 'bpc157', weeks: KORB_DOSING.getActiveWeeks('bpc157', 'gatewayPeakBase') });
-    if(document.getElementById('ghkChk').checked){
+    if(sel.ghk){
       agents.push({ key: 'ghkcu', weeks: KORB_DOSING.getActiveWeeks('ghkcu', 'optionalAddon') });
     }
   }
-  return { prog: prog, pharm: pharm, start: start, agents: agents };
+
+  // Guard: if a dosing key was renamed or removed upstream, fail cleanly back
+  // to setup rather than rendering undefined doses.
+  for(var i=0;i<agents.length;i++){
+    if(!KORB_DOSING.agents[agents[i].key] || !agents[i].weeks) return null;
+    if(!KORB_DOSING.instructions[agents[i].key]) return null;
+  }
+
+  return { sel: sel, prog: sel.prog, pharm: sel.pharm, start: sel.start, agents: agents };
 }
+
 
 // ── Generate ─────────────────────────────────────────────────────────────────
 function generateTracker(){
@@ -393,18 +371,20 @@ function generateTracker(){
     fail('This tool could not load its dosing data (korb-dosing-data.js). Contact KORB — this schedule cannot be built until that is fixed.');
     return;
   }
-  var r = resolveAgents();
+  var sel = currentSelections();
+  var r = buildState(sel);
   if(!r){
     fail('Please answer every question above before building your schedule.');
     return;
   }
   document.getElementById('setupErr').style.display = 'none';
   state = r;
-  localStorage.setItem('korbFHT_state', JSON.stringify(state));
+  localStorage.setItem('korbFHT_sel', JSON.stringify(sel));
   document.getElementById('setup').style.display = 'none';
   document.getElementById('tracker').style.display = 'block';
   renderAll();
 }
+
 
 function resetTracker(){
   if(!confirm('Start a new schedule? This clears your saved check-offs on this device.')) return;
@@ -420,13 +400,46 @@ function addDays(dateStr, n){
   d.setDate(d.getDate() + n);
   return d;
 }
-function iso(d){ return d.toISOString().split('T')[0]; }
+// Local-date formatter. Deliberately NOT toISOString(), which converts to UTC
+// and shifts the date by a day for anyone east of Greenwich (including a
+// patient who travels). Storage keys and calendar dates must follow the
+// calendar the patient is actually looking at.
+function iso(d){
+  var mm = String(d.getMonth()+1).padStart(2,'0');
+  var dd = String(d.getDate()).padStart(2,'0');
+  return d.getFullYear()+'-'+mm+'-'+dd;
+}
+function addDaysD(d, n){ var x = new Date(d.getTime()); x.setDate(x.getDate()+n); return x; }
+
+// Calendar-day difference. Subtracting raw milliseconds is wrong across a
+// daylight-saving change (a spring-forward day is only 23 hours), which made
+// the day counter off by one for any cycle spanning March. Normalising both
+// dates to UTC midnight first removes DST from the arithmetic entirely.
+function utcMid(d){ return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()); }
+function dayIndexFor(date){
+  var s = new Date(state.start + 'T00:00:00');
+  return Math.round((utcMid(date) - utcMid(s)) / 86400000) + 1;
+}
 function fmtShort(d){ return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
+
+// The rest day is derived from the patient's own start date, not hardcoded to
+// Sunday. Each 7-day block counted from their start date is 6 days on, 1 off —
+// so the off day is always the weekday immediately before their start weekday.
+// Start Monday -> off Sunday. Start Sunday -> off Saturday. Start Wednesday ->
+// off Tuesday. Weekday-based (not day-count-based) so it is immune to DST.
+function offWeekday(){
+  if(!state || !state.start) return 0;
+  var sd = new Date(state.start + 'T00:00:00').getDay();
+  return (sd + 6) % 7;
+}
+function offWeekdayName(){
+  return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][offWeekday()];
+}
 
 function isDueOnDate(agentKey, date){
   var cad = cadenceFor(agentKey);
   if(cad === 'daily') return true;
-  if(cad === 'sixOnOneOff') return date.getDay() !== 0; // Sunday off
+  if(cad === 'sixOnOneOff') return date.getDay() !== offWeekday();
   return false; // weeklyTally3 handled separately, not per-day
 }
 
@@ -443,7 +456,7 @@ function renderAll(){
 
   var today = new Date(); today.setHours(0,0,0,0);
   var start = new Date(state.start + 'T00:00:00');
-  var dayIndex = Math.floor((today - start) / 86400000) + 1; // 1-based
+  var dayIndex = dayIndexFor(today); // 1-based, DST-safe
   var totalDays = 112;
   var clampedDay = Math.max(1, Math.min(dayIndex, totalDays));
   var pct = Math.round((clampedDay/totalDays)*100);
@@ -451,6 +464,13 @@ function renderAll(){
   document.getElementById('dayLbl').textContent = (dayIndex < 1) ? 'Starts ' + fmtShort(start) : (dayIndex > totalDays ? 'Cycle complete' : 'Day ' + dayIndex + ' of ' + totalDays);
   document.getElementById('pctLbl').textContent = pct + '%';
   document.getElementById('progFill').style.width = Math.max(0,Math.min(100,pct)) + '%';
+
+  var cs = document.getElementById('cycleSub');
+  if(cs){
+    cs.innerHTML = 'Tap a week to see every dose day. Tap a day to mark it done.<br>' +
+      '<span style="color:var(--navy);font-weight:700;">Your rest day is ' + offWeekdayName() + '</span>' +
+      ', set from your start date. The protocol is 6 days on, 1 day off. The specific day is a recommendation, not a requirement, so ask KORB if a different day suits you better.';
+  }
 
   renderToday(today, dayIndex);
   renderGhkTally(dayIndex);
@@ -487,7 +507,7 @@ function renderToday(today, dayIndex){
     var msg = 'No injections scheduled for today.';
     var inWashout = weekActiveAgents(weekNum).length === 0;
     if(inWashout) msg = "You're in a washout week — no medication this week.";
-    else if(today.getDay() === 0) msg = "It's Sunday — your scheduled day off.";
+    else if(today.getDay() === offWeekday()) msg = "It's " + offWeekdayName() + " — your scheduled day off for this cycle.";
     list.innerHTML = '<div class="no-doses">' + msg + '</div>';
     return;
   }
@@ -502,11 +522,10 @@ function renderToday(today, dayIndex){
     div.innerHTML =
       '<div class="di-top">' +
         '<div><div class="agent">'+ag.label+(units ? ' — <span class="units-big">'+units+' units</span>' : ' — '+ag.dose)+'</div>' +
-        (units ? '<div style="font-size:.72em;color:#C7D2EC;margin-top:1px;">('+ag.dose+')</div>' : '') + '</div>' +
+        (units ? '<div class="dose-sub" style="font-size:.72em;color:#C7D2EC;margin-top:1px;">('+ag.dose+')</div>' : '') + '</div>' +
         '<button class="mark-btn'+(done?' on':'')+'" onclick="toggleDone(new Date(\''+iso(today)+'T00:00:00\'),\''+a.key+'\')">'+(done?'✓ Done':'Mark Done')+'</button>' +
       '</div>' +
-      '<div class="instr">'+instr+'</div>' +
-      syringeBlock(a.key, state.pharm, units);
+      '<div class="instr">'+instr+'</div>';
     list.appendChild(div);
   });
 }
@@ -523,8 +542,10 @@ var WASHOUT_FOCUS = [
   { title: 'Protect your sleep', tip: 'Aim for a consistent bedtime and wake time. Recovery weeks are a good time to catch up on sleep debt.' },
   { title: 'Manage stress', tip: 'Build in a few minutes a day for whatever actually lowers your stress — a walk outside, journaling, breathing exercises, time away from screens.' }
 ];
-function washoutBlock(){
-  var f = WASHOUT_FOCUS[Math.floor(Math.random()*WASHOUT_FOCUS.length)];
+function washoutBlock(weekNum){
+  // Deterministic by week number, so the topic is stable every time the page
+  // re-renders and consecutive washout weeks each get a different focus.
+  var f = WASHOUT_FOCUS[(weekNum - 1) % WASHOUT_FOCUS.length];
   return '<div class="wash-row">No medication this week — washout period.</div>' +
     '<div class="wash-focus">' +
       '<div class="wf-label">This week, focus on:</div>' +
@@ -548,7 +569,7 @@ function ghkTallyBlock(weekNum){
   return '<div class="ghk-tally">' +
     '<div class="gt-top"><b>GHK-Cu — Week '+weekNum+'</b><span style="font-size:.78em;color:var(--mu);">'+count+' of 3</span></div>' +
     '<div class="ghk-dots">'+dots+'</div>' +
-    '<div class="ghk-note">'+instr+' Tap a circle each time you dose — aim for 3 evenly spaced days this week.</div>' +
+    '<div class="ghk-note">'+instr+' Tap a circle each time you dose — aim for 3 evenly spaced days. A common pattern is Monday, Wednesday, and Friday, but any spacing that fits your routine works.</div>' +
   '</div>';
 }
 
@@ -573,7 +594,7 @@ function renderWeeks(){
   list.innerHTML = '';
   var start = new Date(state.start + 'T00:00:00');
   var today = new Date(); today.setHours(0,0,0,0);
-  var todayIndex = Math.floor((today - start) / 86400000) + 1;
+  var todayIndex = dayIndexFor(today);
   var todayWeek = Math.ceil(todayIndex/7);
 
   for(var w=1; w<=16; w++){
@@ -599,7 +620,7 @@ function renderWeeks(){
 
     var bodyEl = card.querySelector('#'+bodyId);
     if(isWashout){
-      bodyEl.innerHTML = washoutBlock();
+      bodyEl.innerHTML = washoutBlock(w);
       continue;
     }
     activeAgents.forEach(function(a){
@@ -650,44 +671,87 @@ function toggleWeek(w){
 }
 
 // ── Calendar export ──────────────────────────────────────────────────────
-function downloadICS(){
-  var totalDays = state.agents.reduce(function(sum,a){
-    if(cadenceFor(a.key) === 'weeklyTally3') return sum + (a.weeks[1]-a.weeks[0]+1);
-    var count = 0;
-    for(var w=a.weeks[0]; w<=a.weeks[1]; w++){ for(var d=0; d<7; d++){ if(isDueOnDate(a.key, addDays(state.start,(w-1)*7+d))) count++; } }
-    return sum + count;
-  }, 0);
-  var ok = confirm(
-    'This creates ' + totalDays + ' real events on your phone or computer calendar — one per dose day. ' +
-    'This tool cannot remove them later; you would need to delete them yourself from your calendar app. ' +
-    'Every event title starts with "KORB:" to make them easy to find and bulk-delete if this was just a test. Continue?'
-  );
-  if(!ok) return;
+var ICS_DAY = ['SU','MO','TU','WE','TH','FR','SA'];
 
-  var lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//KORB Health Group//Functional Health Tracker//EN'];
-  var progLabels = { foundation:'Foundation', gateway:'Gateway', peakA:'Peak Performance A', peakB:'Peak Performance B' };
+function icsDate(d){ return iso(d).replace(/-/g,''); }
+function icsStamp(){ return new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z'; }
+function icsEsc(s){ return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n'); }
+
+// Builds one RECURRING series per medication instead of one event per dose day.
+// A full Gateway/Peak cycle becomes 3 calendar entries rather than ~114, so the
+// patient can remove the whole thing with their calendar app's
+// "delete all events in this series" option.
+function buildSeries(){
+  var out = [];
+  var off = offWeekday();
+  var startWd = new Date(state.start + 'T00:00:00').getDay();
 
   state.agents.forEach(function(a){
     var ag = KORB_DOSING.agents[a.key];
     var cad = cadenceFor(a.key);
+    var instr = KORB_DOSING.getInstruction(a.key, state.pharm);
+    var units = unitsFor(a.key, state.pharm);
+    var firstDay = addDays(state.start, (a.weeks[0]-1)*7);
+    var lastDay  = addDays(state.start, (a.weeks[1]-1)*7 + 6);
+
     if(cad === 'weeklyTally3'){
-      // One weekly all-day reminder per active week, on the Monday of that week
-      for(var w=a.weeks[0]; w<=a.weeks[1]; w++){
-        var wkStart = addDays(state.start, (w-1)*7);
-        var mon = new Date(wkStart);
-        while(mon.getDay() !== 1){ mon.setDate(mon.getDate()+1); if(mon - wkStart > 6*86400000) break; }
-        addEvent(lines, mon, ag.label + ' — 3 doses this week', 'Reminder: get 3 evenly-spaced GHK-Cu doses in this week. ' + KORB_DOSING.getInstruction(a.key, state.pharm));
-      }
+      // Weekly reminder anchored to the patient's own start weekday
+      out.push({
+        start: firstDay, until: lastDay,
+        rule: 'FREQ=WEEKLY;BYDAY=' + ICS_DAY[startWd],
+        summary: ag.label + ' — 3 doses this week',
+        desc: 'Get 3 evenly spaced GHK-Cu doses this week. ' + instr
+      });
+    } else if(cad === 'daily'){
+      out.push({
+        start: firstDay, until: lastDay,
+        rule: 'FREQ=DAILY',
+        summary: ag.label + (units ? ' — ' + units + ' units' : ' — ' + ag.dose),
+        desc: instr
+      });
     } else {
-      for(var w2=a.weeks[0]; w2<=a.weeks[1]; w2++){
-        for(var d=0; d<7; d++){
-          var dayDate = addDays(state.start, (w2-1)*7+d);
-          if(isDueOnDate(a.key, dayDate)){
-            addEvent(lines, dayDate, ag.label + ' — ' + ag.dose + ' dose', KORB_DOSING.getInstruction(a.key, state.pharm));
-          }
-        }
-      }
+      // 6 on / 1 off: list the six on-weekdays, skipping their derived rest day
+      var days = [];
+      for(var i=0;i<7;i++){ if(i !== off) days.push(ICS_DAY[i]); }
+      out.push({
+        start: firstDay, until: lastDay,
+        rule: 'FREQ=WEEKLY;BYDAY=' + days.join(','),
+        summary: ag.label + (units ? ' — ' + units + ' units' : ' — ' + ag.dose),
+        desc: instr
+      });
     }
+  });
+  return out;
+}
+
+function downloadICS(){
+  var series = buildSeries();
+  var ok = confirm(
+    'This adds ' + series.length + ' recurring calendar entr' + (series.length === 1 ? 'y' : 'ies') +
+    ' (one per medication) — not hundreds of separate events.\n\n' +
+    'Every title starts with "KORB:". To remove them later, open any one and choose ' +
+    '"Delete all events in this series" in your calendar app.\n\nContinue?'
+  );
+  if(!ok) return;
+
+  var lines = ['BEGIN:VCALENDAR','VERSION:2.0','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+               'PRODID:-//KORB Health Group//Functional Health Tracker//EN'];
+
+  series.forEach(function(s, idx){
+    lines.push('BEGIN:VEVENT');
+    lines.push('UID:korb-fht-' + icsDate(s.start) + '-' + idx + '-' + Math.random().toString(36).slice(2,8) + '@korbhealth.com');
+    lines.push('DTSTAMP:' + icsStamp());
+    lines.push('SUMMARY:KORB: ' + icsEsc(s.summary));
+    // All-day events: DTEND is EXCLUSIVE per the iCalendar spec, so it must be
+    // the day AFTER the event. Setting DTEND equal to DTSTART (the earlier bug)
+    // makes some calendar apps drop or misrender the entry.
+    lines.push('DTSTART;VALUE=DATE:' + icsDate(s.start));
+    lines.push('DTEND;VALUE=DATE:' + icsDate(addDaysD(s.start, 1)));
+    lines.push('RRULE:' + s.rule + ';UNTIL=' + icsDate(s.until));
+    lines.push('DESCRIPTION:' + icsEsc(s.desc));
+    lines.push('CATEGORIES:KORB Functional Health Tracker');
+    lines.push('TRANSP:TRANSPARENT');
+    lines.push('END:VEVENT');
   });
 
   lines.push('END:VCALENDAR');
@@ -697,18 +761,7 @@ function downloadICS(){
   a.href = url; a.download = 'korb-functional-health-schedule.ics';
   a.click();
 }
-function addEvent(lines, date, summary, desc){
-  var ds = iso(date).replace(/-/g,'');
-  var uid = 'korb-fht-' + ds + '-' + Math.random().toString(36).slice(2,8) + '@korbhealth.com';
-  lines.push('BEGIN:VEVENT');
-  lines.push('UID:' + uid);
-  lines.push('SUMMARY:KORB: ' + summary);
-  lines.push('DTSTART;VALUE=DATE:' + ds);
-  lines.push('DTEND;VALUE=DATE:' + ds);
-  lines.push('DESCRIPTION:' + desc.replace(/,/g,'\\,'));
-  lines.push('CATEGORIES:KORB Functional Health Tracker');
-  lines.push('END:VEVENT');
-}
+
 
 // ── Resume a saved schedule on reload ────────────────────────────────────
 (function init(){
@@ -730,13 +783,21 @@ function addEvent(lines, date, summary, desc){
     fail('This tool could not load its dosing data (korb-dosing-data.js). Make sure that file is saved in the same folder as this tool, then reload the page. The medication, dose, and GHK-Cu options below will not appear until it loads.');
   }
 
-  var saved = localStorage.getItem('korbFHT_state');
+  // Retire the old storage format, which baked dosing week-ranges into the
+  // saved record and could never pick up later corrections.
+  if(localStorage.getItem('korbFHT_state')) localStorage.removeItem('korbFHT_state');
+
+  var saved = localStorage.getItem('korbFHT_sel');
   if(saved){
     try{
-      state = JSON.parse(saved);
-      document.getElementById('setup').style.display = 'none';
-      document.getElementById('tracker').style.display = 'block';
-      renderAll();
+      var sel = JSON.parse(saved);
+      var rebuilt = buildState(sel);   // re-derived from CURRENT dosing data
+      if(rebuilt){
+        state = rebuilt;
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('tracker').style.display = 'block';
+        renderAll();
+      }
     }catch(e){ /* fall through to setup */ }
   }
 })();
