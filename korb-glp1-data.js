@@ -94,6 +94,20 @@ var KORB_GLP1 = {
       'option for an Indiana patient. Premier does not list IN in its documented ' +
       'ship-to. Marked unconfirmed pending verification with Premier.',
 
+      '2026-08-10 (MONOGRAPHS): Deep clinical reference added for semaglutide, ' +
+      'tirzepatide and orforglipron \u2014 definition, mechanism, evidence, absolute ' +
+      'contraindications separated from cautions, medication interactions, monitoring, ' +
+      'counseling script, chart attestation and ICD-10 documentation codes. Also a ' +
+      'program-wide escalation block. NEWLY AUTHORED CLINICAL CONTENT \u2014 requires ' +
+      'Clinical Director sign-off before distribution. Note the framing differs from the ' +
+      'peptide program: these molecules ARE FDA-approved with large RCT evidence; what is ' +
+      'off-label is the compounded preparation, not the molecule.',
+
+      '2026-08-10 (ADDRESSES): Dispensing addresses added for all four compounding ' +
+      'pharmacies. Belmar carries a warning \u2014 they have several US locations and KORB ' +
+      'must use the ARIZONA one; selecting another Belmar location in Tebra sends the ' +
+      'prescription to the wrong pharmacy.',
+
       '2026-08-09 (PUBLIC-SAFE): Legacy cohort rate and the client organisations ' +
       'behind it removed from this file ahead of publishing to GitHub Pages, which ' +
       'serves without authentication. The fact that a closed cohort exists is retained ' +
@@ -213,6 +227,24 @@ var KORB_GLP1 = {
      Nothing here should reach a patient or a prescription until closed. */
   needsConfirmation: [
     {
+      id: 'MONOGRAPH-CLINICAL-SIGNOFF',
+      severity: 'high',
+      type: 'review-required',
+      issue: 'The drug monographs \u2014 mechanism, evidence, contraindications split into ' +
+             'absolute and cautions, medication interactions, monitoring, counseling ' +
+             'scripts, chart attestation language and ICD-10 codes \u2014 are newly authored. ' +
+             'They are not transcribed from an existing KORB document and have not been ' +
+             'clinically reviewed.',
+      question: 'Clinical Director sign-off required before these documents are ' +
+                'distributed to providers. Particular attention to: the tirzepatide oral ' +
+                'contraceptive interaction and its four-week windows, the peri-procedural ' +
+                'holding guidance, and the ICD-10 selections.',
+      owner: 'Clinical Director',
+      note: 'The orforglipron monograph is the least certain and carries its own ' +
+            'verify-against-prescribing-information flag in the document.'
+    },
+
+    {
       id: 'BRAND-DOC-OUTDATED',
       severity: 'low',
       issue: 'The brand prescribing document predates Foundayo, the Zepbound KwikPen and ' +
@@ -248,7 +280,7 @@ var KORB_GLP1 = {
     mandatory: false,
     decisionOwner: 'Provider',
     patientInitiated: false,
-    decisionNote: 'Provider-driven throughout. The 8-week program is an offer the provider extends, not a milestone the patient reaches or requests. Escalation, holding, reducing and weaning off are all provider discretion.',
+    decisionNote: 'The 8-week program is an offer the provider extends, not a milestone the patient reaches or requests. Escalation, holding, reducing and weaning off are all provider discretion.',
     weaning: { decisionOwner: 'Provider', note: 'Dose reduction and weaning off therapy are entirely at provider discretion. No fixed taper schedule is defined at the program level.' },
     reasonsToStayOnFourWeek: [
       'Cost \u2014 the 4-week program is the lower per-visit outlay and carries the discounted rate.',
@@ -370,6 +402,7 @@ var KORB_GLP1 = {
         'being confused: the ROUTING DEFAULT for a state is overridable (a provider may ' +
         'choose Premier where Farmakeio is default, or vice versa), but Premier\u2019s ' +
         'LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.',
+      address: 'Premier Pharmacy, 2425 Babcock Rd, Ste 108A, San Antonio, TX 78229',
       orderVia: 'Tebra Compound',
       billing: 'Bill to KORB Health Group, ship to patient',
       notes: [
@@ -407,6 +440,8 @@ var KORB_GLP1 = {
         'Belmar pricing is higher than the other compounding pharmacies, which is why ' +
         'patients are kept in California unless there is a specific reason. Selecting ' +
         'Belmar outside California is allowed but should be a deliberate exception.',
+      address: 'Belmar Pharmacy \u2014 ARIZONA location, 12012 N 111th Ave, Youngtown, AZ 85363-1339',
+      addressWarning: 'Belmar has several locations across the US. KORB uses the ARIZONA address. Confirm the Arizona address is the one selected in Tebra before sending \u2014 another Belmar location will be wrong.',
       orderVia: 'Tebra Compound',
       billing: 'Bill to KORB Health Group, ship to patient',
       notes: [
@@ -483,6 +518,7 @@ var KORB_GLP1 = {
       shipsToNote: 'Ships to 49 states plus DC. California is the single state Farmakeio ' +
                    'will not ship to, and that cannot be overridden. Preferred everywhere ' +
                    'except CA, TX, FL, AZ and NV.',
+      address: 'Farmakeio Pharmacy, 1736 N Greenville Ave, Richardson, TX 75081',
       orderVia: 'Tebra Compound',
       billing: 'Bill to KORB Health Group, ship to patient',
       notes: [
@@ -633,7 +669,7 @@ var KORB_GLP1 = {
      Identical in all eight pharmacy documents. Stated once here. */
   clinical: {
 
-    programName: 'Get Fit Now',
+    programName: 'Metabolic Health & Weight Loss Program',
     visitCadence: 'Every 4 to 8 weeks',
 
     indications: [
@@ -658,9 +694,8 @@ var KORB_GLP1 = {
       ],
       diabetesNote:
         'KORB treats weight loss. Patients who are diabetic or pre-diabetic are ' +
-        'acceptable. Diabetic patients can usually obtain coverage through insurance; ' +
-        'where cost or availability prevents that, KORB can supply the medication. ' +
-        'The patient must continue diabetes management with their PCP.'
+        'acceptable. The patient must continue diabetes management with their PCP \u2014 ' +
+        'KORB does not manage diabetes and does not order or monitor labs for it.'
     },
 
     contraindications: [
@@ -703,6 +738,337 @@ var KORB_GLP1 = {
       'Counsel the patient to discard at 28 days even if medication remains.'
     ]
   },
+
+// ── DRUG MONOGRAPHS ────────────────────────────────────────────────────────
+//  Deep clinical reference, one entry per molecule. Mirrors the structure of the
+//  Functional Health clinician reference.
+//
+//  IMPORTANT DIFFERENCE FROM THE PEPTIDE PROGRAM: semaglutide and tirzepatide are
+//  FDA-approved molecules with large randomised trial evidence. The peptides in
+//  Functional Health are not. Do not carry the "investigational, preclinical only"
+//  framing across. What IS off-label here is the COMPOUNDED preparation, not the
+//  molecule, and that distinction should be stated accurately to patients.
+  monographs: {
+
+    semaglutide: {
+      drug: 'semaglutide',
+      title: 'Semaglutide \u2014 GLP-1 receptor agonist',
+      definition:
+        'Long-acting glucagon-like peptide-1 (GLP-1) receptor agonist. A 31-amino-acid ' +
+        'analogue with roughly 94% homology to human GLP-1, acylated with a C18 fatty ' +
+        'diacid that binds albumin and extends the half-life to about one week, allowing ' +
+        'once-weekly dosing. FDA-approved as Ozempic and Rybelsus for type 2 diabetes and ' +
+        'as Wegovy for chronic weight management.',
+      mechanism: [
+        'Agonises the GLP-1 receptor.',
+        'Glucose-dependent insulin secretion from pancreatic beta cells.',
+        'Suppression of inappropriate glucagon release.',
+        'Slowed gastric emptying, which prolongs satiety.',
+        'Direct action on hypothalamic appetite centres, principally the arcuate nucleus, ' +
+        'reducing hunger and energy intake.',
+        'Insulin release is glucose-dependent, so hypoglycaemia risk is low as monotherapy.'
+      ],
+      evidence: [
+        'Strong randomised evidence \u2014 for the BRANDED product.',
+        'STEP 1: mean weight loss near 15% of body weight at 68 weeks, against roughly 2.4% on placebo.',
+        'SELECT: significant reduction in major adverse cardiovascular events in adults with ' +
+        'overweight or obesity and established cardiovascular disease, without diabetes.',
+        'Weight regain is common after discontinuation. Raise this at the start rather than ' +
+        'letting it become a later surprise.'
+      ],
+      compoundedNote:
+        'KORB dispenses a COMPOUNDED preparation, not the FDA-approved branded product. ' +
+        'The molecule is approved; this specific formulation is not, and compounded ' +
+        'products are not reviewed by the FDA for safety, efficacy or quality. Counsel ' +
+        'accordingly and document that the distinction was explained.',
+      absoluteContraindications: [
+        'Personal or family history of medullary thyroid carcinoma (MTC)',
+        'Multiple endocrine neoplasia syndrome type 2 (MEN2)',
+        'Known hypersensitivity to semaglutide or any component of the formulation',
+        'Pregnancy, breastfeeding, or planning pregnancy'
+      ],
+      cautions: [
+        'History of pancreatitis \u2014 evaluate carefully before initiating',
+        'Gastroparesis or other significant gastrointestinal motility disorder',
+        'Active gallbladder disease or prior gallbladder-related surgical complications',
+        'Severe renal impairment (eGFR below 30 mL/min/1.73 m\u00b2)',
+        'Diabetic retinopathy \u2014 rapid glycaemic improvement can transiently worsen it',
+        'History of suicidal ideation or active depression \u2014 no causal link has been ' +
+        'established in regulatory review, but monitor and ask'
+      ],
+      interactions: [
+        'Delayed gastric emptying can alter absorption of concomitant oral medication. ' +
+        'Use caution with narrow-therapeutic-index drugs such as levothyroxine and warfarin.',
+        'Insulin and sulfonylureas: additive hypoglycaemia risk. Dose reduction of the ' +
+        'concomitant agent is often required. Coordinate with the prescribing PCP.',
+        'Alcohol may increase hypoglycaemia risk and worsen gastrointestinal side effects.',
+        'ANAESTHESIA AND PROCEDURES: delayed gastric emptying raises aspiration risk under ' +
+        'sedation. Anaesthesia guidance generally advises holding weekly GLP-1 therapy ' +
+        'before an elective procedure. Tell the patient to disclose GLP-1 use to any ' +
+        'surgeon, proceduralist or anaesthetist.',
+        'Other GLP-1 receptor agonists: do not combine. Concomitant use is not recommended.'
+      ],
+      monitoring: [
+        'Weight and BMI at each visit',
+        'Ask about blood pressure \u2014 monitored by the PCP, not measured by KORB',
+        'Ask about recent HbA1c or glucose if diabetic \u2014 ordered by the PCP, not by KORB',
+        'Gastrointestinal tolerance, especially through dose escalation',
+        'Abdominal pain that is severe or radiates to the back \u2014 assess for pancreatitis',
+        'Right-upper-quadrant pain \u2014 assess for gallbladder disease',
+        'Mood and mental health',
+        'Lean mass preservation \u2014 protein intake and resistance training',
+        'Injection site and adherence'
+      ],
+      counselingScript:
+        'Semaglutide works on the same pathway as a hormone your body already makes. It ' +
+        'slows how quickly your stomach empties and reduces appetite signalling, so you ' +
+        'feel full sooner and stay full longer. Nausea is the most common side effect and ' +
+        'is usually worst in the first days after a dose increase. This is a compounded ' +
+        'preparation rather than the brand-name product. Weight tends to come back if the ' +
+        'medication stops, so we should talk about this as a long-term plan rather than a ' +
+        'short course. Tell any surgeon or anaesthetist that you are taking this.',
+      attestation:
+        'Patient counseled on semaglutide as a GLP-1 receptor agonist for chronic weight ' +
+        'management, including that a compounded preparation is being dispensed rather ' +
+        'than the FDA-approved branded product. Mechanism, expected time course, ' +
+        'gastrointestinal side effects during titration, pancreatitis and gallbladder ' +
+        'warning signs, the need to disclose GLP-1 use before any procedure requiring ' +
+        'sedation, likelihood of weight regain on discontinuation, and the monitoring and ' +
+        'follow-up plan were reviewed. Patient verbalized understanding and consented to ' +
+        'proceed.',
+      icd10: {
+        note: 'DOCUMENTATION ONLY \u2014 NOT BILLING. Select the code matching the documented presentation.',
+        primary: ['E66.9 \u2014 Obesity, unspecified',
+                  'E66.01 \u2014 Morbid (severe) obesity due to excess calories',
+                  'E66.3 \u2014 Overweight'],
+        secondary: ['Z68.\u2013 \u2014 Body mass index (add the matching BMI code)',
+                    'Z71.3 \u2014 Dietary counseling and surveillance',
+                    'Z72.3 \u2014 Lack of physical exercise']
+      }
+    },
+
+    tirzepatide: {
+      drug: 'tirzepatide',
+      title: 'Tirzepatide \u2014 dual GIP and GLP-1 receptor agonist',
+      definition:
+        'A 39-amino-acid synthetic peptide based on the native GIP sequence, engineered to ' +
+        'agonise both the glucose-dependent insulinotropic polypeptide (GIP) receptor and ' +
+        'the GLP-1 receptor. A C20 fatty diacid moiety extends the half-life to roughly ' +
+        'five days, allowing once-weekly dosing. FDA-approved as Mounjaro for type 2 ' +
+        'diabetes and as Zepbound for chronic weight management and obstructive sleep ' +
+        'apnoea in adults with obesity.',
+      mechanism: [
+        'Dual incretin agonism \u2014 both the GIP and the GLP-1 receptor.',
+        'GLP-1 component: glucose-dependent insulin secretion, glucagon suppression, delayed ' +
+        'gastric emptying, central appetite reduction.',
+        'GIP component: enhanced insulin secretion and improved insulin sensitivity in adipose tissue.',
+        'GIP agonism may also blunt the nausea seen with GLP-1 activity alone, one proposed ' +
+        'reason tolerability holds up at higher relative efficacy.'
+      ],
+      evidence: [
+        'SURMOUNT-1: mean weight loss around 20% of body weight at 15 mg over 72 weeks \u2014 the ' +
+        'largest effect seen with a pharmacological agent in this class.',
+        'SURPASS programme: glycaemic efficacy in type 2 diabetes, generally exceeding ' +
+        'semaglutide in head-to-head comparison.',
+        'SURMOUNT-OSA: supported the obstructive sleep apnoea indication.',
+        'As with semaglutide, weight regain after discontinuation is well documented.'
+      ],
+      compoundedNote:
+        'KORB dispenses a COMPOUNDED preparation, not the FDA-approved branded product. ' +
+        'The molecule is approved; this specific formulation is not, and compounded ' +
+        'products are not reviewed by the FDA for safety, efficacy or quality. Counsel ' +
+        'accordingly and document that the distinction was explained.',
+      absoluteContraindications: [
+        'Personal or family history of medullary thyroid carcinoma (MTC)',
+        'Multiple endocrine neoplasia syndrome type 2 (MEN2)',
+        'Known hypersensitivity to tirzepatide or any component of the formulation',
+        'Pregnancy, breastfeeding, or planning pregnancy'
+      ],
+      cautions: [
+        'History of pancreatitis \u2014 evaluate carefully before initiating',
+        'Gastroparesis or other significant gastrointestinal motility disorder',
+        'Active gallbladder disease or prior gallbladder-related surgical complications',
+        'Severe renal impairment (eGFR below 30 mL/min/1.73 m\u00b2)',
+        'Diabetic retinopathy \u2014 rapid glycaemic improvement can transiently worsen it',
+        'History of suicidal ideation or active depression \u2014 monitor and ask'
+      ],
+      interactions: [
+        'ORAL CONTRACEPTIVES: tirzepatide reduces the effectiveness of oral hormonal ' +
+        'contraception. Advise a non-oral method, or add a barrier method, for four weeks ' +
+        'after initiation and for four weeks after each dose increase. This is specific to ' +
+        'tirzepatide and is easy to miss.',
+        'Delayed gastric emptying can alter absorption of concomitant oral medication. ' +
+        'Use caution with narrow-therapeutic-index drugs such as levothyroxine and warfarin.',
+        'Insulin and sulfonylureas: additive hypoglycaemia risk. Dose reduction of the ' +
+        'concomitant agent is often required. Coordinate with the prescribing PCP.',
+        'Alcohol may increase hypoglycaemia risk and worsen gastrointestinal side effects.',
+        'ANAESTHESIA AND PROCEDURES: delayed gastric emptying raises aspiration risk under ' +
+        'sedation. Anaesthesia guidance generally advises holding weekly GLP-1 therapy ' +
+        'before an elective procedure. Tell the patient to disclose use to any surgeon, ' +
+        'proceduralist or anaesthetist.',
+        'Other GLP-1 or dual incretin agonists: do not combine.'
+      ],
+      monitoring: [
+        'Weight and BMI at each visit',
+        'Ask about blood pressure \u2014 monitored by the PCP, not measured by KORB',
+        'Ask about recent HbA1c or glucose if diabetic \u2014 ordered by the PCP, not by KORB',
+        'Gastrointestinal tolerance, especially through dose escalation',
+        'Abdominal pain that is severe or radiates to the back \u2014 assess for pancreatitis',
+        'Right-upper-quadrant pain \u2014 assess for gallbladder disease',
+        'Contraceptive method if the patient uses oral hormonal contraception',
+        'Mood and mental health',
+        'Lean mass preservation \u2014 protein intake and resistance training',
+        'Injection site and adherence'
+      ],
+      counselingScript:
+        'Tirzepatide works on two gut hormone pathways rather than one, which is why it ' +
+        'tends to produce more weight loss than semaglutide. It slows stomach emptying and ' +
+        'reduces appetite. Nausea is the most common side effect and is usually worst in ' +
+        'the days after a dose increase. This is a compounded preparation rather than the ' +
+        'brand-name product. If you take a birth control pill, it may not work as reliably ' +
+        'for four weeks after we start and after each dose increase, so use a backup ' +
+        'method. Weight tends to come back if the medication stops. Tell any surgeon or ' +
+        'anaesthetist that you are taking this.',
+      attestation:
+        'Patient counseled on tirzepatide as a dual GIP/GLP-1 receptor agonist for chronic ' +
+        'weight management, including that a compounded preparation is being dispensed ' +
+        'rather than the FDA-approved branded product. Mechanism, expected time course, ' +
+        'gastrointestinal side effects during titration, pancreatitis and gallbladder ' +
+        'warning signs, reduced oral contraceptive effectiveness with the recommended ' +
+        'backup precautions, the need to disclose use before any procedure requiring ' +
+        'sedation, likelihood of weight regain on discontinuation, and the monitoring and ' +
+        'follow-up plan were reviewed. Patient verbalized understanding and consented to ' +
+        'proceed.',
+      icd10: {
+        note: 'DOCUMENTATION ONLY \u2014 NOT BILLING. Select the code matching the documented presentation.',
+        primary: ['E66.9 \u2014 Obesity, unspecified',
+                  'E66.01 \u2014 Morbid (severe) obesity due to excess calories',
+                  'E66.3 \u2014 Overweight'],
+        secondary: ['Z68.\u2013 \u2014 Body mass index (add the matching BMI code)',
+                    'G47.33 \u2014 Obstructive sleep apnea (if documented and relevant)',
+                    'Z71.3 \u2014 Dietary counseling and surveillance',
+                    'Z72.3 \u2014 Lack of physical exercise']
+      }
+    },
+
+    orforglipron: {
+      drug: 'orforglipron',
+      title: 'Orforglipron \u2014 oral non-peptide GLP-1 receptor agonist',
+      dataFreshnessFlag:
+        'NEWEST AGENT IN THE PROGRAM. This monograph is the least certain in this document. ' +
+        'Verify against the current FDA prescribing information before relying on any ' +
+        'specific claim, particularly dosing intervals, contraindications and interactions.',
+      definition:
+        'A small-molecule, non-peptide GLP-1 receptor agonist taken orally once daily. ' +
+        'Because it is not a peptide, it does not require the absorption enhancer that ' +
+        'oral semaglutide depends on, and it is taken without the empty-stomach and ' +
+        'water-volume restrictions that apply to oral semaglutide.',
+      mechanism: [
+        'Binds and activates the GLP-1 receptor as a small molecule rather than a peptide analogue.',
+        'Glucose-dependent insulin secretion and glucagon suppression.',
+        'Slowed gastric emptying and central appetite reduction, as with the class.',
+        'Not a peptide, so it needs no absorption enhancer and carries none of the ' +
+        'empty-stomach or water-volume restrictions that apply to oral semaglutide.'
+      ],
+      evidence: [
+        'Supported by the phase 3 programme in obesity and type 2 diabetes.',
+        'Evidence base is smaller and shorter than for semaglutide or tirzepatide, simply ' +
+        'because the agent is newer.',
+        'Long-term outcome data are correspondingly limited.'
+      ],
+      compoundedNote:
+        'Brand product dispensed through the manufacturer programme. Not compounded. ' +
+        'Fulfilment, payment and shipping are handled by the manufacturer, not KORB.',
+      absoluteContraindications: [
+        'Personal or family history of medullary thyroid carcinoma (MTC)',
+        'Multiple endocrine neoplasia syndrome type 2 (MEN2)',
+        'Known hypersensitivity to orforglipron or any component of the formulation',
+        'Pregnancy, breastfeeding, or planning pregnancy'
+      ],
+      cautions: [
+        'History of pancreatitis',
+        'Gastroparesis or other significant gastrointestinal motility disorder',
+        'Active gallbladder disease',
+        'Severe renal impairment',
+        'History of suicidal ideation or active depression \u2014 monitor and ask'
+      ],
+      interactions: [
+        'Delayed gastric emptying can alter absorption of concomitant oral medication.',
+        'Insulin and sulfonylureas: additive hypoglycaemia risk.',
+        'ANAESTHESIA AND PROCEDURES: as with the injectable GLP-1 agents, disclose use ' +
+        'before any procedure requiring sedation.',
+        'Other GLP-1 receptor agonists: do not combine.',
+        'Verify the current prescribing information \u2014 the interaction profile for this ' +
+        'agent is less established than for the older molecules.'
+      ],
+      monitoring: [
+        'Weight and BMI at each visit',
+        'Ask about blood pressure \u2014 monitored by the PCP, not measured by KORB',
+        'Ask about recent HbA1c or glucose if diabetic \u2014 ordered by the PCP, not by KORB',
+        'Gastrointestinal tolerance through titration',
+        'Abdominal pain that is severe or radiates to the back \u2014 assess for pancreatitis',
+        'Mood and mental health',
+        'Lean mass preservation \u2014 protein intake and resistance training',
+        'Adherence \u2014 daily dosing is easier to miss than weekly'
+      ],
+      counselingScript:
+        'This is a once-daily tablet that works on the same gut hormone pathway as the ' +
+        'injectable medications, but it is a different kind of molecule, so you can take ' +
+        'it with or without food and without the water restrictions that apply to some ' +
+        'other oral options. Swallow it whole. Nausea is the most common side effect and ' +
+        'is usually worst after a dose increase. It is newer than the injectables, so ' +
+        'there is less long-term data. Tell any surgeon or anaesthetist that you take it.',
+      attestation:
+        'Patient counseled on orforglipron as an oral GLP-1 receptor agonist for chronic ' +
+        'weight management. Mechanism, once-daily administration, expected time course, ' +
+        'gastrointestinal side effects during titration, pancreatitis warning signs, the ' +
+        'more limited long-term evidence base relative to the injectable agents, the need ' +
+        'to disclose use before any procedure requiring sedation, and the monitoring and ' +
+        'follow-up plan were reviewed. Patient verbalized understanding and consented to ' +
+        'proceed.',
+      icd10: {
+        note: 'DOCUMENTATION ONLY \u2014 NOT BILLING. Select the code matching the documented presentation.',
+        primary: ['E66.9 \u2014 Obesity, unspecified',
+                  'E66.01 \u2014 Morbid (severe) obesity due to excess calories',
+                  'E66.3 \u2014 Overweight'],
+        secondary: ['Z68.\u2013 \u2014 Body mass index (add the matching BMI code)',
+                    'Z71.3 \u2014 Dietary counseling and surveillance',
+                    'Z72.3 \u2014 Lack of physical exercise']
+      }
+    }
+  },
+
+  /* Applies across every GLP-1 agent, regardless of molecule or pharmacy. */
+  escalation: {
+    hardStop: [
+      'Suspected pancreatitis \u2014 severe persistent abdominal pain, often radiating to the ' +
+      'back, with or without vomiting. Stop the medication and evaluate.',
+      'Hypersensitivity or anaphylaxis-type reaction.',
+      'Pregnancy identified or confirmed.',
+      'Medullary thyroid carcinoma or MEN2 identified at any point.',
+      'Persistent severe vomiting with dehydration or acute kidney injury.'
+    ],
+    flagAndReassess: [
+      'Gastrointestinal side effects that do not settle within two weeks of a dose increase ' +
+      '\u2014 hold at the current dose or step back rather than pushing forward.',
+      'Right-upper-quadrant pain, or gallstone symptoms.',
+      'Rapid or excessive weight loss, or loss of lean mass.',
+      'New or worsening depression, or any mention of suicidal thoughts.',
+      'Worsening retinopathy in a diabetic patient during rapid glycaemic improvement.',
+      'Plateau with no further response at the maximum tolerated dose \u2014 reassess the plan ' +
+      'rather than continuing indefinitely.',
+      'Patient scheduled for surgery or a procedure requiring sedation \u2014 coordinate holding.'
+    ]
+  },
+
+  /* WADA does not currently prohibit GLP-1 receptor agonists, unlike the growth
+     hormone secretagogues in the Functional Health program. The athlete hard stop
+     that applies there does NOT transfer here. Verify current status if a
+     competitive athlete is being considered. */
+  athleteNote:
+    'GLP-1 receptor agonists are not currently on the WADA prohibited list, so the athlete ' +
+    'hard stop used in the Functional Health peptide program does not apply to this ' +
+    'program. Confirm current WADA status before treating a tested competitive athlete.',
 
   /* ── PRODUCTS ────────────────────────────────────────────────────────────
      One entry per pharmacy + drug + formulation. Prescribing fields follow the
@@ -873,6 +1239,10 @@ var KORB_GLP1 = {
       pharmacy: 'premier',
       drug: 'semaglutide',
       label: 'Premier \u2014 Semaglutide / B-12 / Glycine',
+      exclusiveTo: 'premier',
+      exclusiveNote: 'The glycine formulation is only available from Premier. A patient ' +
+        'moving to a state Premier cannot ship to must move to another pharmacy and ' +
+        'switch to semaglutide WITHOUT glycine \u2014 there is no glycine equivalent elsewhere.',
       visibility: 'provider',
       route: 'subcutaneous',
       frequency: 'once weekly',
@@ -2090,6 +2460,9 @@ var KORB_GLP1 = {
       pharmacy: 'premier',
       drug: 'tirzepatide',
       label: 'Premier \u2014 Oral Tirzepatide Dots',
+      exclusiveTo: 'premier',
+      exclusiveNote: 'Oral tirzepatide is only available from Premier. No other pharmacy ' +
+        'offers an oral tirzepatide product.',
       visibility: 'provider',
       route: 'sublingual',
       frequency: 'once daily',
