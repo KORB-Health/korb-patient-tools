@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>KORB Functional Health Tracker v1.4</title>
+<title>KORB Functional Health Tracker v1.6</title>
 <style>
   :root{
     --navy:#1E2D5B; --navy-dk:#141F42; --teal:#00B4C8; --teal-dk:#00919F;
@@ -52,12 +52,18 @@
   .btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--bd);font-weight:700;padding:9px;font-size:.82em;}
   .gcal-btn{
     display:block; text-decoration:none; text-align:center;
-    background:#fff; color:var(--navy); border:1.5px solid var(--teal);
-    border-radius:10px; padding:13px 12px; margin-bottom:10px;
-    font-weight:800; font-size:.9em; line-height:1.3;
+    background:var(--teal); color:#fff; border:none;
+    border-radius:10px; padding:15px 12px; margin-bottom:10px;
+    font-weight:800; font-size:.95em; line-height:1.3;
+    box-shadow:0 2px 6px rgba(0,180,200,.3);
   }
+  .gcal-btn .gcal-sub{display:block;font-size:.72em;font-weight:700;opacity:.9;margin-top:2px;letter-spacing:.03em;}
   .gcal-btn:last-child{margin-bottom:0;}
-  .gcal-btn:active{background:#F4FBFC;}
+  .gcal-btn:active{background:var(--teal-dk);}
+  .btn-download{
+    background:transparent; color:var(--navy);
+    border:1.5px solid var(--bd); font-weight:700; font-size:.88em;
+  }
   #setup{display:block;}
   #tracker{display:none;}
 
@@ -161,7 +167,7 @@
   </div>
   <div class="kicker">Functional Health &amp; Longevity</div>
   <h1>Your Peptide Tracker</h1>
-  <div style="display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:800;letter-spacing:.1em;color:#fff;">BUILD v1.4</div>
+  <div style="display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:800;letter-spacing:.1em;color:#fff;">BUILD v1.6</div>
 </header>
 
 <div class="wrap">
@@ -208,7 +214,7 @@
     <div class="err" id="setupErr">Please answer every question above before building your schedule.</div>
 
     <button class="btn-primary" onclick="generateTracker()">Build My Schedule</button>
-    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.05em;">BUILD v1.4</p>
+    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.05em;">BUILD v1.6</p>
     <p style="font-size:.66em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.04em;">build v1.4</p>
   </div>
 
@@ -241,7 +247,7 @@
     <div class="card">
       <h2 class="ct">Other calendar apps</h2>
       <p class="sub" style="margin-bottom:12px;">For Apple Calendar or Outlook. This downloads a file, and your device decides what to do with it — on Windows that's usually Outlook, and on iPhone it saves to Files rather than opening.</p>
-      <button class="btn-secondary" onclick="downloadICS()">Download Calendar File (.ics)</button>
+      <button class="btn-download" onclick="downloadICS()">Download Calendar File (.ics)</button>
       <div id="icsHint" style="display:none;background:#FBF3E8;border:1px solid #F3DDB1;border-radius:9px;padding:12px 14px;margin-top:12px;font-size:.8em;line-height:1.45;color:var(--ink);"></div>
       <p style="font-size:.72em;color:var(--mu);text-align:center;margin:10px 0 0;line-height:1.4;">Creates a recurring entry for each medication. Every event title starts with "KORB:" so you can find and delete them later.</p>
     </div>
@@ -255,7 +261,7 @@
     <p class="disclaimer">
       <b>This tracker stays on your device.</b> Nothing you check off here is sent to KORB or stored anywhere but this browser. It's a personal reminder tool, not part of your medical record — if you miss a dose or have questions about your protocol, contact KORB directly.
     </p>
-    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.05em;">KORB Functional Health Tracker &middot; BUILD v1.4</p>
+    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.05em;">KORB Functional Health Tracker &middot; BUILD v1.6</p>
     <p style="font-size:.66em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.04em;">KORB Functional Health Tracker · build v1.4</p>
   </div>
 
@@ -774,14 +780,6 @@ function buildSeries(){
 
 function downloadICS(){
   var series = buildSeries();
-  var ok = confirm(
-    'This adds ' + series.length + ' recurring calendar entr' + (series.length === 1 ? 'y' : 'ies') +
-    ' (one per medication) — not hundreds of separate events.\n\n' +
-    'Every title starts with "KORB:". To remove them later, open any one and choose ' +
-    '"Delete all events in this series" in your calendar app.\n\nContinue?'
-  );
-  if(!ok) return;
-
   var lines = ['BEGIN:VCALENDAR','VERSION:2.0','CALSCALE:GREGORIAN','METHOD:PUBLISH',
                'PRODID:-//KORB Health Group//Functional Health Tracker//EN'];
 
@@ -858,7 +856,7 @@ function renderGcalButtons(){
     a.target = '_blank';
     a.rel = 'noopener';
     a.className = 'gcal-btn';
-    a.textContent = s.summary;
+    a.innerHTML = s.summary + '<span class="gcal-sub">ADD TO GOOGLE CALENDAR</span>';
     wrap.appendChild(a);
   });
 }
