@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>KORB Functional Health Tracker</title>
+<title>KORB Functional Health Tracker v1.4</title>
 <style>
   :root{
     --navy:#1E2D5B; --navy-dk:#141F42; --teal:#00B4C8; --teal-dk:#00919F;
@@ -161,6 +161,7 @@
   </div>
   <div class="kicker">Functional Health &amp; Longevity</div>
   <h1>Your Peptide Tracker</h1>
+  <div style="display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:800;letter-spacing:.1em;color:#fff;">BUILD v1.4</div>
 </header>
 
 <div class="wrap">
@@ -207,7 +208,8 @@
     <div class="err" id="setupErr">Please answer every question above before building your schedule.</div>
 
     <button class="btn-primary" onclick="generateTracker()">Build My Schedule</button>
-    <p style="font-size:.66em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.04em;">build v1.3</p>
+    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.05em;">BUILD v1.4</p>
+    <p style="font-size:.66em;color:var(--mu);text-align:center;margin:12px 0 0;letter-spacing:.04em;">build v1.4</p>
   </div>
 
   <!-- ===================== TRACKER ===================== -->
@@ -232,14 +234,15 @@
 
     <div class="card">
       <h2 class="ct">Add to Google Calendar</h2>
-      <p class="sub" style="margin-bottom:12px;">One button per medication. Tap them one at a time, since your browser may block several tabs from opening at once. You'll need to be signed in to Google.</p>
+      <p class="sub" style="margin-bottom:12px;"><b style="color:var(--navy);">Best option on a phone.</b> One button per medication, no file to download. Tap them one at a time. You'll need to be signed in to Google.</p>
       <div id="gcalBtns"></div>
     </div>
 
     <div class="card">
       <h2 class="ct">Other calendar apps</h2>
-      <p class="sub" style="margin-bottom:12px;">Downloads a calendar file for Apple Calendar, Outlook, or anything else. On a Windows PC this may open in Outlook, because Windows decides which app handles calendar files.</p>
+      <p class="sub" style="margin-bottom:12px;">For Apple Calendar or Outlook. This downloads a file, and your device decides what to do with it — on Windows that's usually Outlook, and on iPhone it saves to Files rather than opening.</p>
       <button class="btn-secondary" onclick="downloadICS()">Download Calendar File (.ics)</button>
+      <div id="icsHint" style="display:none;background:#FBF3E8;border:1px solid #F3DDB1;border-radius:9px;padding:12px 14px;margin-top:12px;font-size:.8em;line-height:1.45;color:var(--ink);"></div>
       <p style="font-size:.72em;color:var(--mu);text-align:center;margin:10px 0 0;line-height:1.4;">Creates a recurring entry for each medication. Every event title starts with "KORB:" so you can find and delete them later.</p>
     </div>
 
@@ -252,7 +255,8 @@
     <p class="disclaimer">
       <b>This tracker stays on your device.</b> Nothing you check off here is sent to KORB or stored anywhere but this browser. It's a personal reminder tool, not part of your medical record — if you miss a dose or have questions about your protocol, contact KORB directly.
     </p>
-    <p style="font-size:.66em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.04em;">KORB Functional Health Tracker · build v1.3</p>
+    <p style="font-size:.7em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.05em;">KORB Functional Health Tracker &middot; BUILD v1.4</p>
+    <p style="font-size:.66em;color:var(--mu);text-align:center;margin:10px 0 0;letter-spacing:.04em;">KORB Functional Health Tracker · build v1.4</p>
   </div>
 
 </div>
@@ -810,6 +814,14 @@ function downloadICS(){
   var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   if(isIOS){
+    // iPhone and iPad save the file rather than offering to open it, and a blob
+    // has no filename so it lands as "Unknown.ics". Tell the patient the next
+    // step instead of leaving them at a Save sheet with no explanation.
+    var hint = document.getElementById('icsHint');
+    if(hint){
+      hint.style.display = 'block';
+      hint.innerHTML = '<b>Saved as a file.</b> To finish adding it to Apple Calendar: open the <b>Files</b> app, find the file you just saved (it may be named <b>Unknown.ics</b>), tap it, then tap <b>Add All</b>.<br><br>Using Google Calendar instead? Close this and use the three buttons above — those skip the file completely.';
+    }
     window.location.href = url;
     return;
   }
