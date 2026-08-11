@@ -94,6 +94,13 @@ var KORB_GLP1 = {
       'option for an Indiana patient. Premier does not list IN in its documented ' +
       'ship-to. Marked unconfirmed pending verification with Premier.',
 
+      '2026-08-11 (OPS VIEW SPEC): Operations confirmed they work from the same ' +
+      'documents as providers but need less depth. Dose, quantity and vials stay in ' +
+      'the Ops view because Ops handles patient questions, short-dose complaints and ' +
+      'pharmacy follow-up, and cannot resolve those without knowing what should have ' +
+      'shipped. Spec recorded in opsView. To be built as a third visibility value and ' +
+      'a toggle, not a separate document set.',
+
       '2026-08-10 (MONOGRAPHS): Deep clinical reference added for semaglutide, ' +
       'tirzepatide and orforglipron \u2014 definition, mechanism, evidence, absolute ' +
       'contraindications separated from cautions, medication interactions, monitoring, ' +
@@ -301,6 +308,59 @@ var KORB_GLP1 = {
       supplyIsNotCadence: 'Dispensed quantity and follow-up interval are separate decisions. The compounded orals dispense as a 90-day supply, but the patient is still seen at 30 or 60 days. Do not read a 90-day supply as a 90-day follow-up.',
       modality: 'Video or asynchronous, same as the injectable programs.'
     }
+  },
+
+  /* ── OPS VIEW ────────────────────────────────────────────────────────────
+     Operations works from the same documents as providers, filtered down.
+     Confirmed with Clinical Ops and Operations 2026-08-11.
+
+     WHY OPS NEEDS DOSE AND QUANTITY: they field patient questions directly,
+     handle short-dose complaints, and reissue refills when a pharmacy has made
+     an error. Ops also follows up with pharmacies when there is a problem. They
+     cannot resolve "I did not get enough" without knowing what should have
+     shipped. This is the reason the numbers stay in the Ops view even though
+     Ops does not prescribe.
+
+     Ops also schedules patients and manages subscriptions for both patients
+     and providers. */
+  opsView: {
+    confirmed: '2026-08-11',
+    principle: 'Same documents, less depth. Ops needs enough to answer a patient ' +
+               'and chase a pharmacy, not enough to prescribe.',
+    include: [
+      'Pharmacy routing by state, and which pharmacy a patient belongs to',
+      'Order path (Tebra Compound vs Tebra Standard)',
+      'Filling and dispensing address',
+      'Program length (4-week / 8-week / 30-day / 60-day / 90-day)',
+      'Charge codes and pricing, including the discounted bands',
+      'Dose, quantity, and vials dispensed \u2014 needed to resolve short-dose reports',
+      'Refill and days supply',
+      'The Belmar split-fill refill workflow in full \u2014 Ops owns the second fill',
+      'If the patient moves state',
+      'Escalation contacts'
+    ],
+    exclude: [
+      'Drug Formulation dropdown strings',
+      'Patient Instructions / sig text',
+      'Reason for Compounding',
+      'Pharmacy Instructions',
+      'Agent monographs \u2014 mechanism, evidence, contraindications, interactions',
+      'Monitoring checklists',
+      'Counseling scripts and chart attestation',
+      'ICD-10 codes',
+      'Clinical escalation and discontinuation',
+      'Candidate selection / is-this-the-right-patient'
+    ],
+    openQuestions: [
+      'Patient Instructions are currently excluded. They may actually help Ops ' +
+      'reason about a short-dose report \u2014 knowing a patient injects 0.6 mL weekly ' +
+      'explains how long a 2.4 mL vial should last. Confirm with Operations before ' +
+      'building.'
+    ],
+    implementation: 'Every product already carries a `visibility` field and the tool ' +
+                    'routes rendering through filter functions, so this is a third ' +
+                    'visibility value plus a toggle rather than a separate document set. ' +
+                    'Do NOT fork the documents \u2014 one source, one build, two views.'
   },
 
   /* ── TEBRA FIELD LIMITS ─────────────────────────────────────────────────
