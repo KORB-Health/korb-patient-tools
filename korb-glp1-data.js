@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '1.3',
+    version: '1.4',
     created: '2026-08-06',
     lastUpdated: '2026-08-09',
     owner: 'Director of Clinical Operations',
@@ -67,6 +67,16 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-08-12 (v1.4): Premier Pharmacy becomes the preferred and default pharmacy ' +
+      'for AZ, MO, IL, FL, NJ, MD, OH and NY on the GLP-1 program. AZ and FL were ' +
+      'already Premier; the six that moved are MO, IL, NJ, MD, OH and NY, all of which ' +
+      'previously fell through to Farmakeio on the catch-all rule. Verified before the ' +
+      'change that Premier ships to all six and hard-excludes none of them. Three fields ' +
+      'updated together so the tool and the documents cannot disagree: states.routing, ' +
+      'premier.preferredStates, and farmakeio.preferredStates. Established patients are ' +
+      'not moved - routing sets the default for a NEW start, and the provider can still ' +
+      'override. Functional Health already routed all eight to Premier and is unaffected.',
+
       '2026-08-12 (v1.3): Belmar 8-week tirzepatide charge codes issued by Finance ' +
       'and stored: FITTirzMTB1 (T1), FITTirzMTB2 (T2), FITTirzMTB3 (T3). This closes ' +
       'open item BELMAR-TIRZ-8WK-CODE, which has been removed. The placeholder held ' +
@@ -419,7 +429,10 @@ var KORB_GLP1 = {
     // A default can be overridden; whether a given pharmacy can actually serve
     // the state is a separate question answered by hardExcludes.
     routing: [
-      { states: ['TX', 'NV', 'AZ', 'FL'], pharmacy: 'premier', basis: 'preferred pharmacy' },
+      /* 2026-08-12: MO, IL, NJ, MD, OH and NY moved here from the Farmakeio catch-all.
+         AZ and FL were already Premier. Premier ships to all six and excludes none. */
+      { states: ['TX', 'NV', 'AZ', 'FL', 'IL', 'MD', 'MO', 'NJ', 'NY', 'OH'],
+        pharmacy: 'premier', basis: 'preferred pharmacy' },
       { states: ['CA'],                   pharmacy: 'belmar',
         basis: 'sole California pharmacy \u2014 semaglutide and tirzepatide',
         note: 'Farmakeio cannot ship to CA at all. Greenwich is continuation only.' },
@@ -447,7 +460,7 @@ var KORB_GLP1 = {
       type: 'compounding',
       visibility: 'provider',
       status: 'active',
-      preferredStates: ['TX', 'NV', 'AZ', 'FL'],
+      preferredStates: ['TX', 'NV', 'AZ', 'FL', 'IL', 'MD', 'MO', 'NJ', 'NY', 'OH'],
       shipsTo: [
         'AZ', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'IL', 'KS', 'KY',
         'LA', 'MD', 'ME', 'MI', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE',
@@ -566,13 +579,7 @@ var KORB_GLP1 = {
       type: 'compounding',
       visibility: 'provider',
       status: 'active',
-      preferredStates: [
-        'AK', 'AL', 'AR', 'CO', 'CT', 'DC', 'DE', 'GA', 'HI', 'IA',
-        'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI',
-        'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
-        'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'UT',
-        'VA', 'VT', 'WA', 'WI', 'WV', 'WY'
-      ],
+      preferredStates: ['AK', 'AL', 'AR', 'CO', 'CT', 'DC', 'DE', 'GA', 'HI', 'IA', 'ID', 'IN', 'KS', 'KY', 'LA', 'MA', 'ME', 'MI', 'MN', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NM', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
       shipsTo: [
         'AK', 'AL', 'AR', 'AZ', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
         'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD',
