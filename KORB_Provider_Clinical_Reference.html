@@ -398,7 +398,7 @@ var LOGO_B64 = 'iVBORw0KGgoAAAANSUhEUgAABLAAAAHzCAYAAAAw1eSqAAAACXBIWXMAACxKAAAs
 document.getElementById('logoImg').src = 'data:image/png;base64,' + LOGO_B64;
 
 // ─── PHARMACY / STATE DATA ────────────────────────────────────────────────────
-var PREMIER = new Set(['AZ','CO','CT','DC','DE','FL','GA','IL','KS','KY','LA','MD','ME','MI','MO','MS','MT','NC','ND','NE','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SD','TN','TX','UT','VA','VT','WI','WV','WY']);
+var PREMIER = new Set(KORB_DOSING.states.premierRouting);
 var STATES = {AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DC:'Washington D.C.',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming'};
 
 var stSel = document.getElementById('st');
@@ -447,22 +447,8 @@ var PEAK_SCHEDULE = KORB_DOSING.peakSchedule
 // The BPC-157 Injury Add-On (the 12-week extension treatment itself) has also been
 // discontinued entirely as of 2026-07-09 — Gateway and Peak now offer only the
 // GHK-Cu add-on. Do not reintroduce injury-related toggles, RX entries, or copy.
-var LAB_BASE = [
-  { name: 'CBC w/ Differential', code: '6399' },
-  { name: 'CMP', code: '10231' },
-  { name: 'Lipid Panel', code: '7600' },
-  { name: 'HbA1c', code: '496' },
-  { name: 'Fasting Glucose', code: '483' },
-  { name: 'Fasting Insulin', code: '561' },
-  { name: 'IGF-1 (LC/MS)', code: '16293' },
-  { name: 'TSH', code: '899' },
-  { name: 'Free T4', code: '866' },
-  { name: 'T3, Free', code: '34429' },
-  { name: 'Copper, RBC', code: '3481' },
-  { name: 'Zinc, RBC', code: '6354' },
-  { name: 'Ceruloplasmin', code: '326' },
-];
-var LAB_MEN45 = { name: 'PSA, Total (Men 45+)', code: '5363', note: 'Men age 45 and older only' };
+var LAB_BASE = KORB_DOSING.labs.base;
+var LAB_MEN45 = KORB_DOSING.labs.men45Plus;
 var PREMIER_STATES = Array.from(PREMIER).sort();
 
 function isMen45Plus(){
@@ -516,41 +502,7 @@ function renderLabOrder(start, isBaseline){
 // ─── PRICING DATA ──────────────────────────────────────────────────────────────
 // Source: Nick / Finance — "Pricing for HTML" doc, confirmed 2026-07-08.
 // Tebra procedure codes confirmed by Don's pricing spreadsheet, 2026-07-11 — final, not placeholders.
-var PRICING = {
-  baseline: {
-    label: 'Baseline Labs (one-time, before program selection)',
-    website: 99.00, partner: 99.00, code: 'BASEPeptideLab'
-  },
-  foundation: {
-    label: 'Foundation Program',
-    website: { payment: 249.00, total: 996.00 }, partner: { payment: 199.00, total: 796.00 },
-    // Foundation bills per agent, not one flat program code.
-    codeByAgent: {
-      bpc157:  { website: 'FndnPeptide001', partner: 'FndnPeptideP01' },
-      sermorelin: { website: 'FndnPeptide002', partner: 'FndnPeptideP02' },
-      cjcipam: { website: 'FndnPeptide003', partner: 'FndnPeptideP03' }
-    }
-  },
-  gateway: {
-    label: 'Gateway Program',
-    website: { payment: 349.00, total: 1396.00 }, partner: { payment: 299.00, total: 1196.00 },
-    code: { website: 'GatePeptide001', partner: 'GatePeptideP01' }
-  },
-  peakA: {
-    label: 'Peak Performance — Pathway A',
-    website: { payment: 449.00, total: 1796.00 }, partner: { payment: 399.00, total: 1596.00 },
-    code: { website: 'PeakPeptide001', partner: 'PeakPeptideP01' }
-  },
-  peakB: {
-    label: 'Peak Performance — Pathway B',
-    website: { payment: 449.00, total: 1796.00 }, partner: { payment: 399.00, total: 1596.00 },
-    code: { website: 'PeakPeptide002', partner: 'PeakPeptideP02' }
-  },
-  ghkcu: {
-    label: 'GHK-Cu Add-On (one-time)',
-    website: 199.00, partner: 199.00, code: 'GHKCUPeptide01'
-  }
-};
+var PRICING = KORB_DOSING.pricing;
 function money(n){ return '$' + n.toFixed(2); }
 function codeChipHtml(code){
   return '<span class="code-chip-wrap"><span class="code-chip">'+code+'</span>'
@@ -1530,8 +1482,8 @@ var visitType = 'routine';
 // patients auto-route to Premier. NH is NOT in the PREMIER set, so NH patients
 // auto-route to Greenwich (which ships to all 50 states + DC). Greenwich unit
 // counts differ from Premier — the Rx reference handles this automatically.
-var UNAVAILABLE_STATES = ['AL','AK','DC','GA','HI','MA','MN','NJ','NY','RI','SC','WV'];
-var UNAVAILABLE_STATES_LAB_WORKFLOW = ['NY','NJ','RI'];
+var UNAVAILABLE_STATES = KORB_DOSING.states.unavailable;
+var UNAVAILABLE_STATES_LAB_WORKFLOW = KORB_DOSING.states.unavailableLabWorkflow;
 function stateBlockedMessage(st){
   var name = STATES[st] || st;
   if (UNAVAILABLE_STATES_LAB_WORKFLOW.indexOf(st) !== -1) {

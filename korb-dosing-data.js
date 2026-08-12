@@ -3,7 +3,7 @@
    Single source of truth for peptide dosing, schedules, pharmacy instructions,
    and Tebra prescribing fields across KORB tools.
 
-   VERSION: 2.4   UPDATED: 2026-08-12
+   VERSION: 2.5   UPDATED: 2026-08-12
 
    WHAT CHANGED IN 2.0
      - Added `prescribing`: the exact Tebra Compounded Drug Favorite fields
@@ -89,7 +89,7 @@ var TESA_MONITOR = [
 var KORB_DOSING = {
 
   meta: {
-    version: '2.4',
+    version: '2.5',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
@@ -142,7 +142,18 @@ var KORB_DOSING = {
       'outstanding. REMAINING ACTION IS OPERATIONAL, NOT CLINICAL: the Tebra Compounded ' +
       'Drug Favorite entries are typed by hand inside Tebra and must be updated there ' +
       'before these sigs reach Premier or Greenwich. Deploying this file updates the ' +
-      'tools only.'
+      'tools only.',
+
+      '2026-08-12 (v2.5): Pricing, lab protocol and state routing moved out of ' +
+      'KORB_Provider_Clinical_Reference.html and into this file as pricing, labs and ' +
+      'states. The provider tool now holds no clinical, pricing or routing values of ' +
+      'its own - only presentation. This closes the last of the hardcoding: the tool ' +
+      'previously carried 33 copies of the rest day while this file sat beside it in ' +
+      'the same repo. Values were copied verbatim, not retyped, and the rewired tool ' +
+      'was rendered and diffed against the previous build to confirm no behaviour ' +
+      'change. FIELD_LEGEND and the US state-name lookup stay in the tool - they are ' +
+      'presentation, not KORB data. Enables the FH&L provider reference documents to ' +
+      'be generated from one source, the way the eleven GLP-1 documents are.'
     ]
   },
 
@@ -937,6 +948,78 @@ var KORB_DOSING = {
       optionalAddon: 'ghkcu',
       stagger: true
     }
+  },
+
+  // ── PRICING ───────────────────────────────────────────────────────────────
+  // PROVIDER AND INTERNAL ONLY. Never render in a patient-facing tool or document.
+  // Moved out of KORB_Provider_Clinical_Reference.html 2026-08-12 so a price change
+  // lands in the tool and every generated document at once.
+  pricing: {
+    baseline: {
+      label: 'Baseline Labs (one-time, before program selection)',
+      website: 99.00, partner: 99.00, code: 'BASEPeptideLab'
+    },
+    foundation: {
+      label: 'Foundation Program',
+      website: { payment: 249.00, total: 996.00 }, partner: { payment: 199.00, total: 796.00 },
+      // Foundation bills per agent, not one flat program code.
+      codeByAgent: {
+        bpc157:  { website: 'FndnPeptide001', partner: 'FndnPeptideP01' },
+        sermorelin: { website: 'FndnPeptide002', partner: 'FndnPeptideP02' },
+        cjcipam: { website: 'FndnPeptide003', partner: 'FndnPeptideP03' }
+      }
+    },
+    gateway: {
+      label: 'Gateway Program',
+      website: { payment: 349.00, total: 1396.00 }, partner: { payment: 299.00, total: 1196.00 },
+      code: { website: 'GatePeptide001', partner: 'GatePeptideP01' }
+    },
+    peakA: {
+      label: 'Peak Performance — Pathway A',
+      website: { payment: 449.00, total: 1796.00 }, partner: { payment: 399.00, total: 1596.00 },
+      code: { website: 'PeakPeptide001', partner: 'PeakPeptideP01' }
+    },
+    peakB: {
+      label: 'Peak Performance — Pathway B',
+      website: { payment: 449.00, total: 1796.00 }, partner: { payment: 399.00, total: 1596.00 },
+      code: { website: 'PeakPeptide002', partner: 'PeakPeptideP02' }
+    },
+    ghkcu: {
+      label: 'GHK-Cu Add-On (one-time)',
+      website: 199.00, partner: 199.00, code: 'GHKCUPeptide01'
+    }
+  },
+
+  // ── LAB PROTOCOL ──────────────────────────────────────────────────────────
+  labs: {
+    base: [
+      { name: 'CBC w/ Differential', code: '6399' },
+      { name: 'CMP', code: '10231' },
+      { name: 'Lipid Panel', code: '7600' },
+      { name: 'HbA1c', code: '496' },
+      { name: 'Fasting Glucose', code: '483' },
+      { name: 'Fasting Insulin', code: '561' },
+      { name: 'IGF-1 (LC/MS)', code: '16293' },
+      { name: 'TSH', code: '899' },
+      { name: 'Free T4', code: '866' },
+      { name: 'T3, Free', code: '34429' },
+      { name: 'Copper, RBC', code: '3481' },
+      { name: 'Zinc, RBC', code: '6354' },
+      { name: 'Ceruloplasmin', code: '326' },
+    ],
+    men45Plus: { name: 'PSA, Total (Men 45+)', code: '5363', note: 'Men age 45 and older only' }
+  },
+
+  // ── STATE ROUTING AND AVAILABILITY ────────────────────────────────────────
+  // premierRouting: states that default to Premier. Everything else goes to
+  // Greenwich, which ships to all 50 states plus DC.
+  // unavailable: FH&L is not offered in these states yet.
+  // unavailableLabWorkflow: a distinct reason - lab workflow and state-specific
+  // legislation, not provider coverage.
+  states: {
+    premierRouting: ['AZ','CO','CT','DC','DE','FL','GA','IL','KS','KY','LA','MD','ME','MI','MO','MS','MT','NC','ND','NE','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SD','TN','TX','UT','VA','VT','WI','WV','WY'],
+    unavailable: ['AL','AK','DC','GA','HI','MA','MN','NJ','NY','RI','SC','WV'],
+    unavailableLabWorkflow: ['NY','NJ','RI']
   },
 
   // ── HELPERS ───────────────────────────────────────────────────────────────
