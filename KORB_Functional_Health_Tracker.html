@@ -102,6 +102,9 @@
   .no-doses{color:#C7D2EC;font-size:.9em;padding:6px 2px;}
   .units-big{color:var(--teal);font-weight:900;}
   .units-inline{color:var(--teal-dk);font-weight:900;}
+  .syr-wrap{margin-top:10px;padding:9px 8px 7px;background:rgba(255,255,255,.94);border-radius:9px;}
+  .syr-cap{font-size:.7em;color:var(--mu);text-align:center;}
+  .syr-cap b{color:var(--navy);}
 
   .ghk-tally{
     background:#FBF3E8; border:1px solid #F3DDB1; border-radius:11px; padding:12px 14px; margin-bottom:16px;
@@ -307,6 +310,56 @@ function unitsFor(agentKey, pharmacyKey){
   var text = KORB_DOSING.getInstruction(agentKey, pharmacyKey);
   var m = text && text.match(/(\d+(?:\.\d+)?)\s*units/i);
   return m ? m[1] : null;
+}
+
+// ── Syringe visual ───────────────────────────────────────────────────────
+// Premier ships standard 100-unit (1 mL) syringes across the board. Greenwich
+// ships 50-unit (0.5 mL) syringes, except for doses over 50 units — those
+// patients are supplied a 100-unit syringe instead (currently only affects
+// Tesamorelin 2 mg, dosed at 67 units on Greenwich). Mirrors the same logic
+// used in the patient treatment schedule tool so the two stay consistent.
+function syringeCapacity(pharmacyKey, units){
+  if(pharmacyKey === 'premier') return 100;
+  if(units !== null && parseFloat(units) > 50) return 100;
+  return 50;
+}
+function syringeSVG(units, maxUnits, colorHex){
+  colorHex = colorHex || '#00B4C8';
+  maxUnits = maxUnits || 100;
+  units = Math.max(0, Math.min(maxUnits, parseFloat(units) || 0));
+  var bx=58,bw=196,by=15,bh=24;
+  var w = bx + (units/maxUnits)*bw;
+  var tickStep = maxUnits/10;   // 10 for a 100u barrel, 5 for a 50u barrel
+  var majorStep = maxUnits/5;   // 20 for a 100u barrel, 10 for a 50u barrel
+  var s = '<svg viewBox="0 0 300 58" style="width:100%;max-width:280px;height:auto;display:block;margin:2px auto 0;">';
+  s += '<line x1="4" y1="27" x2="34" y2="27" stroke="#8A8F98" stroke-width="2"/>';
+  s += '<path d="M34 25 L'+bx+' '+by+' L'+bx+' '+(by+bh)+' L34 29 Z" fill="#fff" stroke="#8A8F98" stroke-width="1"/>';
+  s += '<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="3" fill="#fff" stroke="#8A8F98" stroke-width="1.5"/>';
+  s += '<rect x="'+(bx+bw-3)+'" y="'+(by-6)+'" width="6" height="'+(bh+12)+'" fill="#EEF0F7" stroke="#8A8F98" stroke-width="1"/>';
+  s += '<rect x="'+bx+'" y="'+by+'" width="'+Math.max(0,(w+1)-bx)+'" height="'+bh+'" fill="'+colorHex+'" opacity="0.28"/>';
+  for(var u=0; u<=maxUnits; u+=tickStep){
+    var x = bx + (u/maxUnits)*bw;
+    var tall = (u % majorStep === 0);
+    s += '<line x1="'+x+'" y1="'+by+'" x2="'+x+'" y2="'+(by+(tall?9:5))+'" stroke="#5A6070" stroke-width="1"/>';
+    if(tall) s += '<text x="'+x+'" y="'+(by-3)+'" font-size="7" text-anchor="middle" fill="#5A6070" font-family="Arial,sans-serif">'+u+'</text>';
+  }
+  s += '<rect x="'+(w+1)+'" y="'+(by+1)+'" width="7" height="'+(bh-2)+'" fill="#2B2F36"/>';
+  var rodEnd = bx+bw+24;
+  s += '<rect x="'+(w+8)+'" y="'+(by+bh/2-2)+'" width="'+Math.max(0,rodEnd-(w+8))+'" height="4" fill="#C6CAD2"/>';
+  s += '<rect x="'+rodEnd+'" y="'+(by-5)+'" width="10" height="'+(bh+10)+'" rx="2" fill="#EEF0F7" stroke="#8A8F98" stroke-width="1"/>';
+  s += '</svg>';
+  return s;
+}
+// Builds the light "draw up to N units" card, syringe barrel included.
+// Returns '' when there's no unit count to show (e.g. no instruction match).
+function syringeBlock(agentKey, pharmacyKey, units){
+  if(units === null || units === undefined) return '';
+  var cap = syringeCapacity(pharmacyKey, units);
+  var capLabel = cap === 50 ? '50-unit (0.5 mL)' : '100-unit (1 mL)';
+  return '<div class="syr-wrap">' +
+    '<div class="syr-cap">Draw up to <b>'+units+' units</b> on a standard '+capLabel+' insulin syringe</div>' +
+    syringeSVG(units, cap) +
+  '</div>';
 }
 
 // ── Program → agent picker wiring ────────────────────────────────────────────
@@ -561,7 +614,8 @@ function renderToday(today, dayIndex){
         (units ? '<div class="dose-sub" style="font-size:.72em;color:#C7D2EC;margin-top:1px;">('+ag.dose+')</div>' : '') + '</div>' +
         '<button class="mark-btn'+(done?' on':'')+'" onclick="toggleDone(new Date(\''+iso(today)+'T00:00:00\'),\''+a.key+'\')">'+(done?'✓ Done':'Mark Done')+'</button>' +
       '</div>' +
-      '<div class="instr">'+instr+'</div>';
+      '<div class="instr">'+instr+'</div>' +
+      syringeBlock(a.key, state.pharm, units);
     list.appendChild(div);
   });
 }
