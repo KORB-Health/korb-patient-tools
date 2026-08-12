@@ -716,7 +716,11 @@ function renderPricing(p){
             ' <span style="font-weight:400;color:var(--mu);">' + esc(t.appliesTo) + '</span></div>';
     html += '<div class="tbl-wrap"><table><thead><tr><th>Program</th><th>Price</th><th>Charge code</th><th>Tier</th></tr></thead><tbody>';
     if (S.supply === 'supply8'){
-      html += '<tr><td>8-week</td><td>$' + t.eightWeek.price + '</td><td><span class="code-chip">' + esc(t.eightWeek.code) + '</span></td><td>' + tierChip + '</td></tr>';
+      // Price is identical at every pharmacy; the CODE is not. Belmar splits the
+      // 8-week into 4 weeks plus a refill, and its code is what tells Ops to place
+      // the second order. Same selection semaglutide already uses below.
+      var tCode = (S.pharmacy === 'belmar') ? t.eightWeek.codes.belmar : t.eightWeek.codes.standard;
+      html += '<tr><td>8-week</td><td>$' + t.eightWeek.price + '</td><td><span class="code-chip">' + esc(tCode.code) + '</span></td><td>' + tierChip + '</td></tr>';
     } else {
       html += '<tr><td>4-week \u2014 Corporate partner</td><td>$' + t.corpPartner.price + '</td><td><span class="code-chip">' + esc(t.corpPartner.code) + '</span></td><td>' + tierChip + '</td></tr>';
       html += '<tr><td>4-week \u2014 Standard</td><td>$' + t.fourWeek.price + '</td><td><span class="code-chip">' + esc(t.fourWeek.code) + '</span></td><td>' + tierChip + '</td></tr>';
@@ -727,9 +731,11 @@ function renderPricing(p){
     html += '<div class="pricing-note">' + esc(K.pricing.tirzepatideTiers.corporateNote) + '</div>';
 
     if (S.pharmacy === 'belmar' && S.supply === 'supply8'){
-      var b = K.pricing.tirzepatideTiers.belmarEightWeek;
-      html += '<div class="openflag"><strong>Belmar 8-week tirzepatide code:</strong> ' +
-              '<span class="code-chip pending">' + esc(b.renderAs) + '</span><br>' + esc(b.note) + '</div>';
+      var bel = t.eightWeek.codes.belmar;
+      html += '<div class="openflag"><strong>Belmar 8-week is a split fill.</strong> ' +
+              'Use <span class="code-chip">' + esc(bel.code) + '</span> for this tier, not ' +
+              '<span class="code-chip">' + esc(t.eightWeek.codes.standard.code) + '</span>.<br>' +
+              esc(bel.note) + '</div>';
     }
 
   } else if (p.drug === 'semaglutide' && !p.doses[0].rx){

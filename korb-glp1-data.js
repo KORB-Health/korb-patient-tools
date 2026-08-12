@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '1.2',
+    version: '1.3',
     created: '2026-08-06',
     lastUpdated: '2026-08-09',
     owner: 'Director of Clinical Operations',
@@ -67,6 +67,20 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-08-12 (v1.3): Belmar 8-week tirzepatide charge codes issued by Finance ' +
+      'and stored: FITTirzMTB1 (T1), FITTirzMTB2 (T2), FITTirzMTB3 (T3). This closes ' +
+      'open item BELMAR-TIRZ-8WK-CODE, which has been removed. The placeholder held ' +
+      'one code, but Belmar dispenses tirzepatide across all three tiers, so the ' +
+      'shape changed: each tier eightWeek now carries codes.standard and codes.belmar, ' +
+      'identical to how semaglutide already worked. FIXES A LIVE DEFECT - the 8-week ' +
+      'table rendered tier.eightWeek.code for every pharmacy, so Belmar patients were ' +
+      'shown the standard code, which does not trigger Ops to place the second fill. ' +
+      'Price is unchanged and deliberately not duplicated per pharmacy: Belmar 8-week ' +
+      'is the same tier price as everywhere else, only the code differs. Confirmed by ' +
+      'Don 2026-08-12. BREAKING for consumers: tier.eightWeek.code no longer exists, ' +
+      'select by pharmacy. The provider tool and both PDF builders were updated in the ' +
+      'same change.',
+
       '2026-08-06 (v1.0): Initial consolidation. Eight pharmacy documents plus ' +
       'the brand-name document merged into one structure. Boilerplate that was ' +
       'identical across all eight (indications, candidate criteria, ' +
@@ -260,17 +274,9 @@ var KORB_GLP1 = {
       question: 'Regenerate the brand document from korb-glp1-data.js so there is one ' +
                 'current source rather than a stale one to work around.',
       owner: 'Clinical Operations'
-    },
-    {
-      id: 'BELMAR-TIRZ-8WK-CODE',
-      severity: 'medium',
-      type: 'placeholder',
-      issue: 'Belmar 8-week is a split fill. The charge code is what tells Ops to order ' +
-             'the second 4 weeks. Semaglutide has FITSemaMBL; tirzepatide does not yet.',
-      question: 'Swap PLACEHOLDER-TIRZ-8WK-BELMAR once VP Finance issues the real code.',
-      owner: 'VP Finance/Compliance'
     }
   ],
+
 
   /* ── PROGRAM PROGRESSION ─────────────────────────────────────────────────
      How a patient moves between the 4-week and 8-week programs. Provider-driven
@@ -3003,9 +3009,11 @@ var KORB_GLP1 = {
   },
 
   /* ── PRICING & CHARGE CODES — PROVIDER ONLY ──────────────────────────────
-     Never render in a patient-facing tool or document. Tirzepatide pricing is
-     uniform across Premier, Belmar, Farmakeio and Greenwich and is keyed by
-     dose tier, not by pharmacy. */
+     Never render in a patient-facing tool or document. Tirzepatide PRICING is
+     uniform across Premier, Belmar, Farmakeio and Greenwich and is keyed by dose
+     tier, not by pharmacy. The 8-week CHARGE CODE is not: Belmar splits the fill,
+     so it has its own code per tier which is what tells Ops to place the second
+     4-week order. Select by pharmacy, never by tier alone. */
   pricing: {
     visibility: 'provider',
     includes: 'Telehealth visit, medication, shipping and supplies',
@@ -3022,36 +3030,70 @@ var KORB_GLP1 = {
         appliesTo: 'Low doses — 2 / 2.5 / 4 / 4.5 / 5 mg depending on pharmacy',
         corpPartner: { price: 349, code: 'FITTirzCP2' },
         fourWeek:    { price: 349, code: 'FITTirz002' },
-        eightWeek:   { price: 599, code: 'FITTirzMT1' }
+        eightWeek: {
+          price: 599,
+          /* Price is the same at every pharmacy. Only the code differs, because
+             the code is what tells Ops whether a second fill has to be placed. */
+          codes: {
+            standard: {
+              code: 'FITTirzMT1',
+              pharmacies: ['premier', 'farmakeio', 'greenwich'],
+              note: 'Single fill, full 8-week supply shipped at once.'
+            },
+            belmar: {
+              code: 'FITTirzMTB1',
+              pharmacies: ['belmar'],
+              note: 'Split fill. This code is what triggers Ops to order the second 4-week supply. Do not substitute the standard code for a Belmar patient.'
+            }
+          }
+        }
       },
       T2A: {
         tier: 'T2A',
         appliesTo: 'Mid doses — 6.5 / 7.5 / 8.5 / 9 / 10 mg depending on pharmacy',
         corpPartner: { price: 399, code: 'FITTirzCP3' },
         fourWeek:    { price: 399, code: 'FITTirz003' },
-        eightWeek:   { price: 649, code: 'FITTirzMT2' }
+        eightWeek: {
+          price: 649,
+          /* Price is the same at every pharmacy. Only the code differs, because
+             the code is what tells Ops whether a second fill has to be placed. */
+          codes: {
+            standard: {
+              code: 'FITTirzMT2',
+              pharmacies: ['premier', 'farmakeio', 'greenwich'],
+              note: 'Single fill, full 8-week supply shipped at once.'
+            },
+            belmar: {
+              code: 'FITTirzMTB2',
+              pharmacies: ['belmar'],
+              note: 'Split fill. This code is what triggers Ops to order the second 4-week supply. Do not substitute the standard code for a Belmar patient.'
+            }
+          }
+        }
       },
       T3A: {
         tier: 'T3A',
         appliesTo: 'High doses — 12.5 / 13.5 / 15 / 16 mg depending on pharmacy',
         corpPartner: { price: 449, code: 'FITTirzCP4' },
         fourWeek:    { price: 449, code: 'FITTirz004' },
-        eightWeek:   { price: 799, code: 'FITTirzMT3' }
+        eightWeek: {
+          price: 799,
+          /* Price is the same at every pharmacy. Only the code differs, because
+             the code is what tells Ops whether a second fill has to be placed. */
+          codes: {
+            standard: {
+              code: 'FITTirzMT3',
+              pharmacies: ['premier', 'farmakeio', 'greenwich'],
+              note: 'Single fill, full 8-week supply shipped at once.'
+            },
+            belmar: {
+              code: 'FITTirzMTB3',
+              pharmacies: ['belmar'],
+              note: 'Split fill. This code is what triggers Ops to order the second 4-week supply. Do not substitute the standard code for a Belmar patient.'
+            }
+          }
+        }
       },
-
-      /* Belmar splits the 8-week into 4 weeks plus a refill, so it needs its own
-         code to trigger the Ops action. Placeholder until Finance issues the real one. */
-      belmarEightWeek: {
-        code: 'PLACEHOLDER-TIRZ-8WK-BELMAR',
-        isPlaceholder: true,
-        pending: true,
-        flag: 'BELMAR-TIRZ-8WK-CODE',
-        note: 'Belmar-only 8-week tirzepatide code, confirmed in progress with ' +
-              'VP Finance 2026-08-06. Replace the code string when issued — this is ' +
-              'the only place it needs changing. Any tool rendering this must show ' +
-              'it visibly as a placeholder, not as a usable code.',
-        renderAs: 'Code pending — contact Operations before booking'
-      }
     },
 
     semaglutide: {
