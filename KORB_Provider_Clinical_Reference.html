@@ -43,6 +43,10 @@
   .state-blocked-top{background:#FDECEA;border:2.5px solid #C62828;border-radius:8px;padding:16px 20px;margin:14px 0;font-size:14px;color:#7A1F1F;}
   .state-blocked-top strong{display:block;font-size:16px;margin-bottom:6px;color:#C62828;}
   .state-blocked strong{display:block;font-size:14px;margin-bottom:4px;}
+  /* Harder variant for the no-ship exclusions (AL/MS/SC) — these are not
+     "not yet" states, so they must not read like the Phase 1 banner. */
+  .state-noship{background:#7A1F1F;border-color:#7A1F1F;color:#FFF;}
+  .state-noship strong{color:#FFD9D9;}
 
   .pharm-banner{display:none;border-radius:8px;padding:12px 16px;margin-bottom:20px;border:1.5px solid;}
   .pharm-banner.premier{background:#E3F2FD;border-color:#1565C0;}
@@ -649,16 +653,21 @@ function build(){
   var stCheck=document.getElementById('st').value;
   if(stCheck && UNAVAILABLE_STATES.indexOf(stCheck)!==-1){
     document.getElementById('stateBlockTop').style.display='';
-    document.getElementById('stateBlockTop').innerHTML='<div class="state-blocked-top"><strong>\u26A0 State Not Yet Available</strong>'+stateBlockedMessage(stCheck)+'</div>';
-    document.getElementById('pricingBox').innerHTML='<div class="info-box">Pricing is not shown — this program is not yet offered in the selected state. See banner above.</div>';
+    document.getElementById('stateBlockTop').innerHTML='<div class="state-blocked-top'+stateBlockedClass(stCheck)+'"><strong>\u26A0 '+stateBlockedHeading(stCheck)+'</strong>'+stateBlockedMessage(stCheck)+'</div>';
+    document.getElementById('pricingBox').innerHTML='<div class="info-box">Pricing is not shown — '+(UNAVAILABLE_STATES_NO_SHIP.indexOf(stCheck)!==-1 ? 'this state is excluded from the Functional Health &amp; Longevity offering' : 'this program is not yet offered in the selected state')+'. See banner above.</div>';
     document.getElementById('pb').style.display='none';
     document.getElementById('ovr').style.display='none';
     document.getElementById('ghkRow').style.display='none';
     document.getElementById('rxGrid').style.display='none';
-    document.getElementById('rxFieldsContainer').innerHTML='<div class="state-blocked"><strong>\u26A0 State Not Yet Available</strong>'+stateBlockedMessage(stCheck)+'</div>';
+    document.getElementById('rxFieldsContainer').innerHTML='<div class="state-blocked'+stateBlockedClass(stCheck)+'"><strong>\u26A0 '+stateBlockedHeading(stCheck)+'</strong>'+stateBlockedMessage(stCheck)+'</div>';
     document.getElementById('counselingContainer').innerHTML='';
-    document.getElementById('copyBox').textContent='Patient state is not yet covered — see banner above. No documentation should be generated until coverage is confirmed.';
-    document.getElementById('labOrderCopyBox').textContent='Patient state is not yet covered — see banner above.';
+    var noShip = UNAVAILABLE_STATES_NO_SHIP.indexOf(stCheck) !== -1;
+    document.getElementById('copyBox').textContent = noShip
+      ? 'DO NOT SHIP — '+(STATES[stCheck]||stCheck)+' is excluded from the Functional Health & Longevity offering. No peptide or FH&L product may be shipped to this state. Do not generate documentation for this visit.'
+      : 'Patient state is not yet covered — see banner above. No documentation should be generated until coverage is confirmed.';
+    document.getElementById('labOrderCopyBox').textContent = noShip
+      ? 'DO NOT SHIP — '+(STATES[stCheck]||stCheck)+' is excluded from the FH&L offering. Do not order labs for this program in this state.'
+      : 'Patient state is not yet covered — see banner above.';
     document.getElementById('wkSections').innerHTML='';
     document.getElementById('wfBody').innerHTML='';
     return;
@@ -1392,10 +1401,22 @@ function renderLabs(){
 
   html += '<div class="sec csec-hdr" style="background:var(--navy);color:#fff;font-size:15px;font-weight:700;padding:10px 14px;border-radius:8px;margin-top:20px;margin-bottom:0;" onclick="togSec(\'labsStates\')">Premier Pharmacy — State Shipping Reference<span class="tog" id="tog-labsStates" style="color:#fff;">&#9658; expand</span></div>';
   html += '<div class="csec-body collapsed" id="body-labsStates" style="padding-top:12px;">';
-  html += '<div style="font-size:12px;color:var(--mu);margin-bottom:8px;">Premier is the default pharmacy where available. Use Greenwich for all other states (ships to all 50 states + DC).</div>';
+  html += '<div style="font-size:12px;color:var(--mu);margin-bottom:8px;">Premier is the default pharmacy where available. Use Greenwich for all other states (ships to all 50 states + DC). States where KORB does not offer Functional Health &amp; Longevity are not listed here, whatever the pharmacy can ship.</div>';
   html += '<div class="state-grid">';
-  PREMIER_STATES.forEach(function(s){ html += '<div class="state-chip">&#10003; '+s+'</div>'; });
+  // Filter out any state FH&L is not offered in. A provider scanning this grid
+  // reads a checkmark as "you can send it there" — showing a blocked state here
+  // is the exact failure this list is meant to prevent.
+  PREMIER_STATES.filter(function(s){ return UNAVAILABLE_STATES.indexOf(s) === -1; })
+    .forEach(function(s){ html += '<div class="state-chip">&#10003; '+s+'</div>'; });
   html += '</div>';
+  if(UNAVAILABLE_STATES_NO_SHIP.length){
+    html += '<div style="margin-top:12px;padding:10px 14px;background:#FDECEA;border:2px solid #C62828;border-radius:8px;font-size:12px;color:#7A1F1F;">';
+    html += '<strong style="display:block;color:#C62828;margin-bottom:4px;">&#9888; Do not ship — excluded states</strong>';
+    html += 'No peptide or Functional Health &amp; Longevity product may be shipped to '
+         + UNAVAILABLE_STATES_NO_SHIP.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', ')
+         + '. These states are excluded from the offering, not pending launch. Confirm with Ops before any exception.';
+    html += '</div>';
+  }
   html += '</div>'; // end body-labsStates
 
   container.innerHTML = html;
@@ -1472,20 +1493,41 @@ document.getElementById('peakCjcDoseGroup').style.display=(document.getElementBy
 var visitType = 'routine';
 
 // ─── UNAVAILABLE STATES ─────────────────────────────────────────────────────
-// States where the Functional Health & Longevity program is NOT yet offered.
-// NY/NJ/RI have a distinct reason (lab workflow, state-specific legislation) —
-// the rest are provider coverage / operational bandwidth as KORB scales up.
-// Update this list as states are added or workflows are finalized.
+// States where the Functional Health & Longevity program is NOT offered.
+// Three reasons, three messages:
+//   - no-ship exclusions (AL/MS/SC): excluded from the offering outright. No
+//     peptide or FH&L product ships there. Not a sequencing question.
+//   - lab workflow (NY/NJ/RI): state-specific legislation and a different lab
+//     workflow the team is still working through.
+//   - everything else: provider coverage / operational bandwidth as KORB scales.
+// All three lists live in korb-dosing-data.js. Update them there, not here.
 //
 // 2026-08-10: ME, NH, UT and WI removed — FH&L is now offered in these states.
 // Note on pharmacy routing: ME, UT and WI are in the PREMIER set, so those
 // patients auto-route to Premier. NH is NOT in the PREMIER set, so NH patients
 // auto-route to Greenwich (which ships to all 50 states + DC). Greenwich unit
 // counts differ from Premier — the Rx reference handles this automatically.
+//
+// 2026-08-24: MS added and flagged no-ship alongside AL and SC, which were
+// already blocked but were showing the generic bandwidth message. MS was also
+// removed from the Premier routing set, so it can no longer appear as a
+// shippable state anywhere in this tool.
 var UNAVAILABLE_STATES = KORB_DOSING.states.unavailable;
+var UNAVAILABLE_STATES_NO_SHIP = KORB_DOSING.states.unavailableNoShip || [];
 var UNAVAILABLE_STATES_LAB_WORKFLOW = KORB_DOSING.states.unavailableLabWorkflow;
+function stateBlockedHeading(st){
+  return (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1)
+    ? 'Do Not Ship — State Excluded'
+    : 'State Not Yet Available';
+}
+function stateBlockedClass(st){
+  return (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1) ? ' state-noship' : '';
+}
 function stateBlockedMessage(st){
   var name = STATES[st] || st;
+  if (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1) {
+    return name+' is excluded from the Functional Health &amp; Longevity offering. Peptides and all other Functional Health &amp; Longevity products may NOT be shipped to '+name+'. Do not start a visit, do not prescribe, and do not send an order to either pharmacy. This is not a launch-sequencing item and will not clear on its own — route any question to Ops or Compliance.';
+  }
   if (UNAVAILABLE_STATES_LAB_WORKFLOW.indexOf(st) !== -1) {
     return 'KORB is not yet launching the Functional Health & Longevity program in '+name+' during Phase 1. The team is still working through a different lab workflow required by '+name+'-specific legislation. Do not proceed with a visit or prescription until this is confirmed with Ops.';
   }

@@ -1013,12 +1013,26 @@ var KORB_DOSING = {
   // ── STATE ROUTING AND AVAILABILITY ────────────────────────────────────────
   // premierRouting: states that default to Premier. Everything else goes to
   // Greenwich, which ships to all 50 states plus DC.
-  // unavailable: FH&L is not offered in these states yet.
+  // unavailable: FH&L is not offered in these states. This is the list the
+  //   provider tool blocks on - if a state is here, no visit, no prescription,
+  //   no shipment.
+  // unavailableNoShip: a subset of unavailable with a harder reason. These are
+  //   not "not yet" states waiting on coverage or bandwidth - they are excluded
+  //   from the offering, and no peptide or other Functional Health & Longevity
+  //   product may be shipped there. Treated as a permanent exclusion until
+  //   Compliance says otherwise, not a Phase 1 sequencing item.
   // unavailableLabWorkflow: a distinct reason - lab workflow and state-specific
-  // legislation, not provider coverage.
+  //   legislation, not provider coverage.
+  //
+  // 2026-08-24: MS added to unavailable and to the new unavailableNoShip list,
+  // and removed from premierRouting. AL and SC were already blocked and are now
+  // also flagged no-ship, so the tool states the real reason rather than the
+  // generic "provider coverage and operational bandwidth" line. Source: notice
+  // to Don, 2026-08-24, that MS, AL and SC are out of the FH&L offering.
   states: {
-    premierRouting: ['AZ','CO','CT','DC','DE','FL','GA','IL','KS','KY','LA','MD','ME','MI','MO','MS','MT','NC','ND','NE','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SD','TN','TX','UT','VA','VT','WI','WV','WY'],
-    unavailable: ['AL','AK','DC','GA','HI','MA','MN','NJ','NY','RI','SC','WV'],
+    premierRouting: ['AZ','CO','CT','DC','DE','FL','GA','IL','KS','KY','LA','MD','ME','MI','MO','MT','NC','ND','NE','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SD','TN','TX','UT','VA','VT','WI','WV','WY'],
+    unavailable: ['AL','AK','DC','GA','HI','MA','MN','MS','NJ','NY','RI','SC','WV'],
+    unavailableNoShip: ['AL','MS','SC'],
     unavailableLabWorkflow: ['NY','NJ','RI']
   },
 
