@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.7',
+    version: '2.8',
     created: '2026-08-06',
     lastUpdated: '2026-09-05',
     owner: 'Director of Clinical Operations',
@@ -67,6 +67,35 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-05 (v2.8): BELMAR TRIMMED TO MATCH THE OTHER PHARMACIES. Belmar was ' +
+      'carrying ten pharmacy notes where Premier and Farmakeio carry four, plus a ' +
+      'rendered vial-plan panel no other pharmacy had. None of the extra weight was ' +
+      'clinical - it was accumulated working notes. Don asked for it cleaned up and ' +
+      'made consistent, and this is that pass. REMOVED FROM THE SIGS: the ' +
+      '"Compound date must be within 41 days of ship date" clause, off all 11 8-week ' +
+      'pharmacy-instruction fields. The BUD is the pharmacy\'s to manage and stating ' +
+      'it on the order added nothing a prescriber acts on; the figures stay in ' +
+      'vialConstraints.bud as reference, marked deliberately not stated. Pharmacy ' +
+      'notes drop from 158 characters back to 114. NOTES REMOVED, five of ten: the ' +
+      'stale QUANTITY NOT YET CONFIRMED warning, which the v2.2 vial plans closed ' +
+      'and which had been contradicting the file ever since; the L-carnitine line, ' +
+      'which is tirzepatide-specific and was surfacing on the semaglutide view ' +
+      'because pharmacy notes are shared across both drugs; and three notes stating ' +
+      'things a provider already knows - that Belmar doses in mg, that the sig ' +
+      'describes the fill, and that 1.0 mg draws a full 100-unit syringe. The ' +
+      'historical Greenwich note was tightened to its one operational sentence. Five ' +
+      'notes remain, all of them things a provider cannot infer: routing, the single ' +
+      'fill, the standard charge code, the two concentrations by dose band, and the ' +
+      'syringes-go-in-the-directions rule, which is the one that actually bites. ' +
+      'PANEL REMOVED from the provider tool: the vial-plan block that rendered ' +
+      'doses-per-vial, leftover volume and the compound-to-ship window. The data ' +
+      'stays in the file and selfCheck still enforces it - it is simply no longer ' +
+      'rendered. NOTE FOR THE RECORD: this also removed the cross-vial draw line for ' +
+      'tirzepatide 7.5, 12.5 and 15 mg, which told a provider that some doses finish ' +
+      'one vial and draw the remainder from the next. That was the one item in the ' +
+      'panel a provider could not work out unaided, and it does not fit the ' +
+      '140-character sig. Flagged to Don rather than silently kept.',
+
       '2026-09-05 (v2.7): DISCARD INSTRUCTION MADE PROGRAM-WIDE, PLUS TIRZEPATIDE ' +
       'INDICATIONS. Three answers from Don landed together. (1) The vial-discard ' +
       'instruction now reads "Discard after 4 doses or 28 days." and sits on all 88 ' +
@@ -890,36 +919,20 @@ var KORB_GLP1 = {
       orderVia: 'Tebra Compound',
       billing: 'Bill to KORB Health Group, ship to patient',
       notes: [
-        'Belmar historically carried semaglutide only, which is why California ' +
-        'tirzepatide went to Greenwich. Belmar now carries both, so all new ' +
-        'California starts go here regardless of drug.',
+        'Carries both semaglutide and tirzepatide. All new California starts go ' +
+        'here regardless of drug.',
         'SINGLE FILL as of 2026-09-05. Belmar now ships the full 8-week supply at ' +
         'one time for both semaglutide and tirzepatide. The split fill is retired. ' +
         'Belmar no longer differs from the other pharmacies on fill structure.',
-        'QUANTITY NOT YET CONFIRMED \u2014 the 8-week dispensed quantity and vial counts ' +
-        'in this file still hold the old per-fill figures and have not been verified ' +
-        'against the new Belmar terms. See needsConfirmation BELMAR-8WK-QTY. Refill, ' +
-        'days supply and sig are correct; quantity is not.',
         'Belmar 8-week now bills on the standard 8-week charge code. The ' +
         'Belmar-specific codes are retired \u2014 they existed only to trigger the ' +
         'second fill, and there is no second fill.',
         'Semaglutide 2.5 mg / 1 mg / ml is used for 1.7 and 2.4 mg doses; ' +
         '1 mg / 1 mg / ml for 0.25, 0.5 and 1.0 mg doses.',
-        'Tirzepatide is compounded with L-carnitine, not B-12.',
         'SYRINGES GO IN THE DIRECTIONS, NOT PHARMACY INSTRUCTIONS. Belmar reads the ' +
         'patient directions field. If the insulin-syringe note is moved to Pharmacy ' +
         'Instructions they may not see it and will not ship syringes. Keep ' +
         '"(Include one pack of insulin syringes)" at the end of every Belmar sig.',
-        'Belmar doses in MG, both drugs. Semaglutide has been ordered this way for a ' +
-        'couple of years and tirzepatide was brought over to match it. Do not convert ' +
-        'either to units/mL.',
-        'Belmar sigs describe the fill, same convention as everywhere else. The ' +
-        '4-week sig reads "AS DIRECTED FOR 4 WEEKS" and the 8-week sig now reads ' +
-        '"AS DIRECTED FOR 8 WEEKS". Before 2026-09-05 both read 4 weeks, because ' +
-        'the 8-week program was a 4-week fill plus a refill.',
-        'Belmar 1.0 mg semaglutide draws 100 units into a 100-unit syringe with no ' +
-        'headroom. That is how Belmar wants it. No syringe callout \u2014 same as Greenwich, ' +
-        'the Functional Health callout rule does not apply here.'
       ],
       /* splitFill removed 2026-09-05. Belmar 8-week is a single fill. The retired
          structure is preserved in splitFillRetired below so a billing or supply
@@ -955,8 +968,8 @@ var KORB_GLP1 = {
           from: 'compound date, NOT ship date',
           lastDoseDay: 49,
           maxCompoundToShipDays: 41,
-          orderRequirement: 'The compound date must be within 41 days of shipping. ' +
-                            'State this on the order.'
+          note: 'Reference only. Deliberately NOT stated on the order or in the sig - ' +
+                'removed 2026-09-05, the pharmacy manages its own BUD.'
         },
         outstandingWithBelmar: 'Whether Belmar treats day 28 as a usable dose. Every ' +
                                'plan here assumes it is NOT. If Belmar confirms in ' +
@@ -2127,7 +2140,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 0.25 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2177,7 +2190,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2229,7 +2242,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 1 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2281,7 +2294,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 1.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2336,7 +2349,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 2.4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2406,7 +2419,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 2.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2455,7 +2468,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2504,7 +2517,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2556,7 +2569,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 10 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2605,7 +2618,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -2657,7 +2670,7 @@ var KORB_GLP1 = {
             days: 56,
             ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug

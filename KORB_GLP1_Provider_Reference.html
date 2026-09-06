@@ -534,37 +534,17 @@ function renderFillNotice(){
 
   var blocks = [];
 
-  /* The vial plan. dosesPerVial and the cross-vial draws are computed facts the
-     provider cannot get from the sig - the cross-vial instruction in particular
-     was too long for the 140-character Patient Instructions field, so it lives
-     here as data and this is the only place it surfaces. */
-  var d   = (S.product && S.dose) ? K.getDose(S.product, S.dose) : null;
-  var rec = d ? d[S.supply] : null;
-  var vp  = rec && rec.vialPlan;
-  if (vp){
-    var vc = ph.vialConstraints;
-    var over = vc && vp.dosesPerVial > vc.maxDosesPerVial;
-    var h = '<strong>Vial plan — ' + esc(vp.ship) + '</strong>';
-    h += '<ul>';
-    h += '<li>One vial yields <strong>' + vp.dosesPerVial + ' doses</strong>' +
-         (vc ? ' against a ceiling of ' + vc.maxDosesPerVial : '') +
-         (over ? ' — <strong>over the ceiling</strong>, see the limitation below' : '') + '</li>';
-    if (vp.leftoverMl > 0){
-      h += '<li>Leaves <strong>' + vp.leftoverMl + ' ml</strong> undispensed, which is ' +
-           vp.leftoverDoses + ' further doses a patient can still draw</li>';
-    } else {
-      h += '<li>No leftover — the shipped volume is exactly the ' +
-           (S.supply === 'supply8' ? 'eight-week' : 'four-week') + ' need</li>';
-    }
-    if (vp.crossVialNote){
-      h += '<li>' + esc(vp.crossVialNote) + '</li>';
-    }
-    if (vc && vc.bud && S.supply === 'supply8'){
-      h += '<li>' + esc(vc.bud.orderRequirement) + '</li>';
-    }
-    h += '</ul>';
-    blocks.push(h);
-  }
+  /* The vial plan panel was removed 2026-09-05 at Don's direction. It rendered
+     doses-per-vial, leftover volume and the 90-day BUD compound-to-ship window
+     above the separation line, and none of it earned the space: providers already
+     know a vial yields four weekly doses and already know what leftover means,
+     and the compound date is the pharmacy's problem rather than the prescriber's.
+     Belmar was carrying far more panel than Premier or Farmakeio for no clinical
+     gain. The data is still in the file under supply4/supply8 vialPlan and is
+     still enforced by selfCheck - it is simply not rendered.
+
+     What survives below is what a provider cannot work out for themselves: an
+     accepted limitation, and a live transition between fill structures. */
 
   /* An ACCEPTED limitation is not a warning that something is unfinished - it is
      a known problem that was decided and shipped anyway, and the mitigation is
