@@ -89,13 +89,36 @@ var TESA_MONITOR = [
 var KORB_DOSING = {
 
   meta: {
-    version: '2.6',
+    version: '2.7',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+    '2026-09-06 (v2.7): THE FOUNDATION TITRATION IS NOW REACHABLE. v2.6 added ' +
+    'programs.foundation.primaryDoseOptions - sermorelin 200/300/400, CJC ' +
+    '100/150/200 - with prescribing records, sig text and schedules behind all ' +
+    'six. None of it rendered. The provider tool reads foundationAgents, which ' +
+    'still said titrate:false with a single fixed doseLabel, so a provider saw ' +
+    'one dose per agent and the ladder existed only as a declaration. Two parts ' +
+    'of this file disagreeing, and the tool read the half nobody updated. ' +
+    'foundationAgents is reconciled: titrate:true for sermorelin and CJC, ' +
+    'titrationLadder on each, doseLabel demoted to a starting-dose fallback. The ' +
+    'tool gains a Foundation Dose selector populated from the data, and resolves ' +
+    'the selection through resolvePrimaryKey so the Tebra fields, patient ' +
+    'directions, counseling and copy-paste note all follow the chosen dose ' +
+    'rather than the starting one. Verified by driving it: sermorelin dispenses ' +
+    '18/27/36 ml across the ladder and CJC stays at 9 ml at all three, which is ' +
+    'the arithmetic the v2.6 note claimed. The 50 mcg increment wording is ' +
+    'replaced by the real ladder. GUARD ADDED, regression-tested four ways: ' +
+    'primaryDoseOptions and foundationAgents.titrationLadder must match in both ' +
+    'directions, and an agent with more than one option must declare ' +
+    'titrate:true. WHY THIS WAS MISSED: the v2.6 guard checked that every ' +
+    'offered dose resolved to a prescribing record. It passed. It verified the ' +
+    'back half of the path and never asked whether anything surfaced the front ' +
+    'half. A dose nothing exposes is not an offered dose.',
+
       '2026-09-05 (v2.6): FOUNDATION GAINS TITRATION. Decided by Don. ' +
       'CJC-1295/Ipamorelin in Foundation now matches Peak Pathway A exactly at ' +
       '100 / 150 / 200 mcg. Sermorelin matches Gateway minus the 500 mcg step, so ' +
@@ -798,16 +821,33 @@ var KORB_DOSING = {
 },
 
   // ── PROGRAM SHAPE ────────────────────────────────────────
+  /* RECONCILED 2026-09-06. These entries said titrate:false and carried a single
+     fixed doseLabel, while programs.foundation.primaryDoseOptions offered three
+     doses for sermorelin and three for CJC. Two parts of the same file
+     disagreeing, and the provider tool reads THIS one - which is why the
+     titration decided on 2026-09-05 was invisible to a provider for a day.
+     doseLabel is now the STARTING dose and a fallback only; the tool shows
+     whichever dose is selected. titrationLadder is the authority for what the
+     ladder is, and selfCheck asserts it matches primaryDoseOptions exactly. */
   foundationAgents: {
-  sermorelin: { key:'sermorelin', label:'Sermorelin', onWeeks:[1,12], doseLabel:'200 mcg', titrate:false,
+  sermorelin: { key:'sermorelin', label:'Sermorelin', onWeeks:[1,12],
+    doseLabel:'200 mcg (starting dose)', titrate:true,
+    titrationLadder:['200','300','400'],
+    titrationNote:'Titrate 200 → 300 → 400 mcg at 16-week visits, based on IGF-1. ' +
+      '500 mcg is NOT a Foundation dose - a patient who needs it moves to Gateway ' +
+      'rather than being held at 400. See programs.foundation.sermorelin500ExclusionReason.',
     schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing:'Bedtime, on an empty stomach (\u22652 hrs post-meal)' },
   bpc157: { key:'bpc157', label:'BPC-157', onWeeks:[1,8], doseLabel:'500 mcg', titrate:false,
     schedule:'Daily SQ · Active Weeks 1–8, off Weeks 9–16 of cycle',
     timing:'Any consistent time daily. No food restriction.' },
-  cjcipam: { key:'cjcipam', label:'CJC-1295 / Ipamorelin', onWeeks:[1,12], doseLabel:'(per pharmacy — see Rx reference)',
+  cjcipam: { key:'cjcipam', label:'CJC-1295 / Ipamorelin', onWeeks:[1,12],
+    doseLabel:'100 mcg / 100 mcg (starting dose)',
     doseLabelByPharm:{ greenwich:'100 mcg CJC-1295 / 100 mcg Ipamorelin', premier:'100 mcg CJC-1295 / 100 mcg Ipamorelin' },
-    titrate:false,
+    titrate:true,
+    titrationLadder:['100','150','200'],
+    titrationNote:'Titrate 100 → 150 → 200 mcg at 16-week visits. All three doses ' +
+      'dispense the same quantity, so titration changes no vial and no cost.',
     schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing:'Before bed, on an empty stomach' }
 },
@@ -1267,6 +1307,53 @@ KORB_DOSING.selfCheck = function(){
       });
     });
   });
+
+  /* Foundation's dose ladder is declared in TWO places and the provider tool
+     reads only one of them. programs.foundation.primaryDoseOptions is what the
+     decision was recorded in; foundationAgents is what the tool renders from.
+     On 2026-09-05 the first was updated and the second was not, so the titration
+     existed in the file and was unreachable by a provider - the decision looked
+     done and was not. This asserts the two agree, in both directions.
+
+     The deeper lesson, recorded here because it cost a day: the guard written
+     alongside that change checked that every offered dose resolved to a
+     prescribing record. It passed. It verified the back half of the path and
+     never asked whether anything surfaced the front half. A dose that nothing
+     exposes is not an offered dose. */
+  (function () {
+    var opts = KORB_DOSING.programs.foundation.primaryDoseOptions || {};
+    Object.keys(opts).forEach(function (fam) {
+      var ladder = opts[fam];
+      var agent = KORB_DOSING.foundationAgents[fam];
+      if (!ladder) return;                       // bpc157 has no ladder, correctly
+      if (!agent) {
+        problems.push('FOUNDATION ' + fam + ': primaryDoseOptions offers doses but ' +
+                      'there is no foundationAgents entry, so the tool cannot render it');
+        return;
+      }
+      if (ladder.length > 1 && agent.titrate !== true) {
+        problems.push('FOUNDATION ' + fam + ': ' + ladder.length + ' dose options but ' +
+                      'foundationAgents.titrate is not true - the tool will present it ' +
+                      'as a fixed-dose agent and the ladder stays invisible');
+      }
+      var declared = agent.titrationLadder || [];
+      if (declared.join(',') !== ladder.join(',')) {
+        problems.push('FOUNDATION ' + fam + ': primaryDoseOptions [' + ladder.join(',') +
+                      '] does not match foundationAgents.titrationLadder [' +
+                      declared.join(',') + ']. These are read by different code paths ' +
+                      'and must not disagree.');
+      }
+    });
+    /* And the reverse: an agent claiming a ladder the program does not offer. */
+    Object.keys(KORB_DOSING.foundationAgents).forEach(function (fam) {
+      var agent = KORB_DOSING.foundationAgents[fam];
+      if (!agent.titrationLadder) return;
+      if (!opts[fam]) {
+        problems.push('FOUNDATION ' + fam + ': foundationAgents declares a titration ' +
+                      'ladder but programs.foundation.primaryDoseOptions offers none');
+      }
+    });
+  })();
 
   if (!problems.length) console.log('KORB_DOSING selfCheck: OK');
   else problems.forEach(function(p){ console.warn('KORB_DOSING selfCheck: ' + p); });

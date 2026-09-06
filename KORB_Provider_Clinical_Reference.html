@@ -288,6 +288,10 @@
           <option value="compare">Compare All 3 Agents</option>
         </select>
       </div>
+      <div class="cg" id="fdnDoseGroup" style="display:none;"><label for="selFdnDose">Foundation Dose (this cycle)</label>
+        <select id="selFdnDose" onchange="build()"></select>
+        <span id="fdnDoseNote" style="font-size:10.5px;color:var(--mu);display:block;margin-top:3px;"></span>
+      </div>
       <div class="cg" id="gwSermDoseGroup" style="display:none;"><label for="selGwSermDose">Sermorelin Dose (this cycle)</label>
         <select id="selGwSermDose" onchange="onProgramChange()">
           <option value="200">200 mcg (starting dose)</option>
@@ -622,9 +626,41 @@ function getPharm(){
   return(PREMIER.has(st)&&!ovrChk.checked)?'premier':'greenwich';
 }
 
+/* The Foundation dose ladder comes from the data file, never from a list typed
+   into this page. programs.foundation.primaryDoseOptions is the authority;
+   foundationAgents.titrationLadder must match it and selfCheck enforces that.
+   Rebuilt whenever the agent changes, because the ladders differ per agent and
+   BPC-157 has none. */
+function populateFdnDose(){
+  var prog=document.getElementById('selProgram').value;
+  var agent=document.getElementById('selFdnAgent').value;
+  var grp=document.getElementById('fdnDoseGroup');
+  var sel=document.getElementById('selFdnDose');
+  var note=document.getElementById('fdnDoseNote');
+  var opts=(KORB_DOSING.programs.foundation.primaryDoseOptions||{})[agent];
+
+  if(prog!=='foundation' || agent==='compare' || !opts || opts.length<2){
+    grp.style.display='none'; sel.innerHTML=''; note.textContent='';
+    return;
+  }
+  var prev=sel.value;
+  sel.innerHTML='';
+  opts.forEach(function(d,i){
+    var o=document.createElement('option');
+    o.value=d;
+    o.textContent=(agent==='cjcipam' ? d+' mcg / '+d+' mcg' : d+' mcg') + (i===0?' (starting dose)':'');
+    sel.appendChild(o);
+  });
+  sel.value=(opts.indexOf(prev)!==-1)?prev:opts[0];
+  grp.style.display='';
+  var meta=FOUNDATION_AGENTS[agent];
+  note.textContent=(meta && meta.titrationNote) ? meta.titrationNote : '';
+}
+
 function onProgramChange(){
   var prog=document.getElementById('selProgram').value;
   document.getElementById('fdnAgentGroup').style.display=(prog==='foundation')?'':'none';
+  populateFdnDose();
   document.getElementById('gwSermDoseGroup').style.display=(prog==='gateway')?'':'none';
   document.getElementById('peakCjcDoseGroup').style.display=(prog==='peakA')?'':'none';
   document.getElementById('peakTesaGroup').style.display=(prog==='peakB')?'':'none';
@@ -917,15 +953,28 @@ function buildFoundation(){
   }
 
   var agentMeta=FOUNDATION_AGENTS[agentSel];
-  var rx=RX[agentSel];
+  /* Resolve the SELECTED dose to its prescribing key. Everything downstream -
+     Tebra fields, patient directions, counseling - keys off rxKey rather than
+     the agent, so choosing 400 mcg gives the 400 mcg prescription rather than
+     the starting dose relabelled. resolvePrimaryKey lives in the data file and
+     is the same function the Gateway and Peak paths use. */
+  var fdnOpts=(KORB_DOSING.programs.foundation.primaryDoseOptions||{})[agentSel];
+  var fdnDoseEl=document.getElementById('selFdnDose');
+  var fdnDose=(fdnOpts && fdnOpts.length>1 && fdnDoseEl && fdnDoseEl.value) ? fdnDoseEl.value : null;
+  var rxKey=fdnDose ? KORB_DOSING.resolvePrimaryKey(agentSel, fdnDose) : agentSel;
+  if(!RX[rxKey]){ rxKey=agentSel; fdnDose=null; }   // never render a blank card
+
+  var rx=RX[rxKey];
   var onStart=agentMeta.onWeeks[0], onEnd=agentMeta.onWeeks[1];
 
   // Rx snapshot card
   var rg=document.getElementById('rxGrid');
   if(ph){
     rg.style.display='';
-    var doseLabel=(agentMeta.doseLabelByPharm && agentMeta.doseLabelByPharm[pk])?agentMeta.doseLabelByPharm[pk]:agentMeta.doseLabel;
-    var instr = ACTUAL_DIRECTIONS[agentSel][pk];
+    var doseLabel = fdnDose
+      ? (agentSel==='cjcipam' ? fdnDose+' mcg CJC-1295 / '+fdnDose+' mcg Ipamorelin' : fdnDose+' mcg')
+      : ((agentMeta.doseLabelByPharm && agentMeta.doseLabelByPharm[pk])?agentMeta.doseLabelByPharm[pk]:agentMeta.doseLabel);
+    var instr = ACTUAL_DIRECTIONS[rxKey][pk];
     rg.innerHTML='<div class="rx-card"><div class="rx-hdr">'+agentMeta.label+'</div><div class="rx-ph" style="background:'+ph.color+'">'+ph.name+'</div><div class="rx-body"><strong>Dose:</strong> '+doseLabel+'<br><strong>Active weeks:</strong> '+onStart+'\u2013'+onEnd+' of 16-week cycle<br><strong>Schedule:</strong> '+agentMeta.schedule+'<br><strong>Patient instructions:</strong> '+instr+'</div></div>';
   } else { rg.style.display='none'; }
 
@@ -970,7 +1019,7 @@ function buildFoundation(){
     {wk:16,label:'Week 16 / Next Cycle Week 1 — Provider Visit + Rx Renewal',type:'vr',rc:'vr',tasks:[
       'Perform visit.',
       'Confirm Week 12 lab results received before proceeding — if not, do not proceed until labs complete.',
-      'Review lab results'+(agentMeta.titrate?' — assess IGF-1. Adjust '+agentMeta.label+' dose in 50 mcg increments if indicated (titration at 16-week visits only).':'.'),
+      'Review lab results'+(agentMeta.titrate?' — assess IGF-1. Adjust '+agentMeta.label+' dose if indicated (titration at 16-week visits only): '+(agentMeta.titrationLadder||[]).join(' → ')+' mcg.':'.'),
       'Collect payment.',
       'Renew Rx: '+agentMeta.label+'.',
       'Order labs for the next cycle in Tebra with a future collection date of '+dtag(fmts(addDays(start,16*7+84)))+' (12 weeks from this visit) — ordered directly via the Tebra/Quest integration, no STAT designation. Log the patient\u2019s name, DOB, and this date in the KORB FH&L Lab Queue Google Chat (Lab Order section below) so Ops can schedule the reminder email.',
@@ -988,8 +1037,8 @@ function buildFoundation(){
     return '<tr class="'+r.rc+'"><td style="font-weight:700;color:var(--navy);white-space:nowrap">'+wkLabel+'</td><td style="font-size:11px;white-space:nowrap">'+dr+'</td><td>'+pill+'</td><td>'+tasks+'</td></tr>';
   }).join('');
 
-  renderFoundationPrescribing(pk||'premier', agentSel, agentMeta);
-  renderFoundationCounseling(agentSel);
+  renderFoundationPrescribing(pk||'premier', rxKey, agentMeta);
+  renderFoundationCounseling(rxKey);
   renderLabs();
 
   // Copy block
@@ -999,10 +1048,12 @@ function buildFoundation(){
   lines.push('');
   lines.push('PRESCRIPTION');
   if(ph){
-    var instr2 = ACTUAL_DIRECTIONS[agentSel][pk];
-    var doseLabel2=(agentMeta.doseLabelByPharm && agentMeta.doseLabelByPharm[pk])?agentMeta.doseLabelByPharm[pk]:agentMeta.doseLabel;
+    var instr2 = ACTUAL_DIRECTIONS[rxKey][pk];
+    var doseLabel2 = fdnDose
+      ? (agentSel==='cjcipam' ? fdnDose+' mcg CJC-1295 / '+fdnDose+' mcg Ipamorelin' : fdnDose+' mcg')
+      : ((agentMeta.doseLabelByPharm && agentMeta.doseLabelByPharm[pk])?agentMeta.doseLabelByPharm[pk]:agentMeta.doseLabel);
     lines.push(agentMeta.label);
-    lines.push('  Dose: '+doseLabel2+(agentMeta.titrate?'  |  Titrate in 50 mcg increments at each 16-week visit based on IGF-1':''));
+    lines.push('  Dose: '+doseLabel2+(agentMeta.titrate?'  |  Ladder: '+(agentMeta.titrationLadder||[]).join(' → ')+' mcg, titrated at 16-week visits based on IGF-1':''));
     lines.push('  Active: Weeks '+onStart+'\u2013'+onEnd+' of this 16-week cycle only (off remaining weeks)');
     lines.push('  Schedule: '+agentMeta.schedule);
     lines.push('  Instructions: '+instr2);
@@ -1484,6 +1535,7 @@ document.getElementById('ghkChk').addEventListener('change',build);
 document.getElementById('selGender').addEventListener('change',build);
 document.getElementById('patAge').addEventListener('input',build);
 document.getElementById('fdnAgentGroup').style.display=(document.getElementById('selProgram').value==='foundation')?'':'none';
+populateFdnDose();
 document.getElementById('gwSermDoseGroup').style.display=(document.getElementById('selProgram').value==='gateway')?'':'none';
 document.getElementById('peakCjcDoseGroup').style.display=(document.getElementById('selProgram').value==='peakA')?'':'none';
 
