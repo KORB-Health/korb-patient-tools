@@ -47,9 +47,9 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.8',
+    version: '2.13',
     created: '2026-08-06',
-    lastUpdated: '2026-09-05',
+    lastUpdated: '2026-09-06',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -67,6 +67,123 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-06 (v2.13): COST IS OUT OF THIS FILE, IN WORDS AS WELL AS FIGURES, ' +
+      'AND THE FINANCE ITEMS ARE GONE. Don, 2026-09-06: this is a clinical project ' +
+      'and cost was only ever working data for sizing vials. That work is finished. ' +
+      'Removed BELMAR-VIAL-RATE-QUOTES (a procurement task, every word about what ' +
+      'KORB pays) and BELMAR-8WK-CODE-RETIRE (a Finance confirmation; the ' +
+      'retirement decision itself stays recorded in this changelog and in the ' +
+      'pharmacy record). BELMAR-DAY28-USABLE stops being an open question and ' +
+      'becomes a stated assumption, BELMAR-DAY28-DOSE-CEILING: four doses per vial, ' +
+      'never five, as the conservative reading of a 28-day in-use limit on a vial a ' +
+      'patient draws from at home. needsConfirmation is now EMPTY. THE PART THAT ' +
+      'MATTERED MORE THAN THE DELETIONS: v2.5 removed the cost FIGURES but left the ' +
+      'cost REASONING - text still said one vial option cost materially more and ' +
+      'that a Belmar confirmation would make several rows cheaper. That is ' +
+      'acquisition cost stated in words rather than numbers, and on a public file ' +
+      'it is the same disclosure. Rewritten in the accepted limitation, the Belmar ' +
+      'routing note and the vial constraints. GUARD REWRITTEN AND WIDENED: it ' +
+      'checked currency symbols in two lists; it now walks the WHOLE file except ' +
+      'the patient-pricing block and costPolicy, and fails on cost LANGUAGE as well ' +
+      '- acquisition cost, rate card, what KORB pays, negotiated rate, rows getting ' +
+      'cheaper. Both leaks found today were outside the two lists the old guard ' +
+      'looked at. Verified by regression on four separate injections. SIG: the ' +
+      '8-week and 12-week brand injectable records drop "for 4 weeks" - on a ' +
+      'prescription carrying refills that reads as an instruction to stop. Fill ' +
+      'length is carried by quantity, refill and days supply. The 4-week records ' +
+      'keep it, because there the sig and the fill say the same thing.',
+
+      '2026-09-06 (v2.12): PERI-PROCEDURAL HOLD IS NOW A NUMBER, AND THE BRAND ' +
+      'PROGRAMS ARE REBUILT. Don, 2026-09-06. All three monographs previously told ' +
+      'a provider to hold GLP-1 therapy before an elective procedure and did not ' +
+      'say for how long, which in practice meant each provider picked their own ' +
+      'answer. They now state: hold 7 days (one week) before an elective procedure ' +
+      'requiring sedation, or longer if the anaesthesia team or the surgeon\'s ' +
+      'office requires it - their instruction takes precedence. BRAND SUPPLY: brand ' +
+      'pharmacies will not ship more than 4 weeks of an INJECTABLE per shipment, so ' +
+      'Zepbound and the Wegovy pen now offer 4-week (refill 0), 8-week (refill 1) ' +
+      'and 12-week (refill 2) - the same fill repeated, days supply 28 throughout ' +
+      'because days supply describes the fill. Orals are not subject to that ' +
+      'ceiling and dispense as one fill, so oral Wegovy and Foundayo now offer 30, ' +
+      '60 and 90 day supplies, quantity equal to days, no refills. Every new record ' +
+      'was CLONED from its 4-week or 30-day sibling rather than retyped, so it ' +
+      'cannot disagree on drug string, sig or quantity. RENDERER FIX FOUND WHILE ' +
+      'DOING THIS: sectionRx read supply keys from a hardcoded array, so every ' +
+      'rx12 and rx90 record would have silently not rendered - the documents would ' +
+      'have looked complete while missing a program providers had been told to use. ' +
+      'It now reads the keys from the product\'s own dispensing list and surfaces ' +
+      'any record the list does not declare. THREE GUARDS ADDED, each proved by ' +
+      'deliberate breakage: a program declared with no matching dose records, a ' +
+      'dose record no program declares, a dose record whose quantity/refill/days ' +
+      'disagree with its program, and a label whose week count does not equal ' +
+      '(refill + 1) x days. All four are the copy-a-sibling-and-forget-a-field ' +
+      'mistake this change was one slip away from making.',
+
+      '2026-09-06 (v2.11): CLINICAL SIGN-OFF IS NOW A MECHANISM, NOT A TO-DO. ' +
+      'MONOGRAPH-CLINICAL-SIGNOFF is removed from needsConfirmation and replaced ' +
+      'by monographSignoff plus signoffStatus(), a state computed per molecule at ' +
+      'render time. Each record pins a fingerprint of the monograph AS SIGNED ' +
+      '(monographFingerprint: FNV-1a over a canonical sorted serialisation, ' +
+      'covering every field except the molecule name). Three states: unsigned ' +
+      'renders the red gate, current renders an attribution line at the foot of ' +
+      'the clinical section, and stale - meaning the monograph was edited after ' +
+      'signing - renders the gate again AND fails selfCheck. The reason for the ' +
+      'fingerprint is the whole point: a sign-off recorded as a date and a name ' +
+      'would sit on top of text the signer never saw the moment anyone edited a ' +
+      'contraindication, putting a clinician\'s name over content they did not ' +
+      'approve. Verified end to end by signing tirzepatide, confirming the gate ' +
+      'cleared, then appending one caution and confirming the gate returned and ' +
+      'the build refused. BRAND-DOC-OUTDATED CLOSED: three brand documents now ' +
+      'generate from this file, and both defects it named were checked and are ' +
+      'absent - Foundayo present, Zepbound/Wegovy quantities not swapped. ' +
+      'Remaining open items are all external: two need Belmar in writing, one ' +
+      'needs Finance.',
+
+      '2026-09-06 (v2.10): THE TWO OPEN INDICATION QUESTIONS ARE CLOSED. Don ' +
+      'confirmed KORB treats adults 18 and older only, so the sixth semaglutide ' +
+      'indication held in v2.9 is now permanently absent rather than pending, and ' +
+      'SEMA-ADOLESCENT-INDICATION is removed from needsConfirmation. The rule is ' +
+      'stated POSITIVELY as clinical.candidateCriteria.age - "adults 18 and older, ' +
+      'KORB does not treat patients under 18" - which renders on all eleven ' +
+      'documents. An omission is not a policy: semaglutide is approved from age 12, ' +
+      'so a provider reading an approval list with no age line has nothing telling ' +
+      'them KORB is narrower. Orforglipron indications supplied by Don and stored, ' +
+      'with a korbScope note, closing the Foundayo gap where the document rendered ' +
+      'with no Indications section at all. GUARDS ADDED, both regression-tested by ' +
+      'deliberate breakage: selfCheck now fails if any of the three molecules loses ' +
+      'its indications, its korbScope or its indicationsSource, and fails if the age ' +
+      'rule is dropped. A missing indications section and a wrong one are the same ' +
+      'defect - the provider is not reading this drug\'s indications.',
+
+      '2026-09-05 (v2.9): INDICATIONS ARE NOW PER MOLECULE, WITH A SCOPE NOTE. Don ' +
+      'supplied semaglutide\'s. Both monographs now carry their own indications plus a ' +
+      'korbScope note stating that KORB treats weight loss ONLY and every other ' +
+      'indication stays with the patient\'s PCP or specialist - KORB does not manage ' +
+      'type 2 diabetes, cardiovascular risk, chronic kidney disease, MASH or sleep ' +
+      'apnea and does not order or monitor labs for them. The renderer places that ' +
+      'note immediately beneath the indication list inside the same section, because ' +
+      'separated the list reads to a provider as a menu of things KORB does. ' +
+      'clinical.candidateCriteria.fdaApproved is RETIRED - that shared list was ' +
+      'semaglutide\'s and every drug inherited it, which is how the Belmar tirzepatide ' +
+      'document came to carry semaglutide indications. Marked fdaApprovedRetired and ' +
+      'skipped by the renderer. FIXED A REGRESSION OF MY OWN: skipping that shared ' +
+      'list in v2.8 left the five semaglutide documents and Foundayo with no ' +
+      'Indications section at all - a wrong list traded for a missing one. Semaglutide ' +
+      'is now correct; orforglipron still has none and needs Don. HELD, NOT GUESSED: ' +
+      'the sixth semaglutide indication Don listed reads "adolescents >= 18 years", ' +
+      'which is internally inconsistent - adolescent means 12 to 17 and 18-plus is an ' +
+      'adult already covered by the first indication. The approved adolescent ' +
+      'threshold is 12. It is deliberately absent rather than corrected, because a ' +
+      'provider document listing an adolescent indication reads as authorising ' +
+      'treatment of a minor, and the prior question is whether KORB treats under-18s ' +
+      'at all. See SEMA-ADOLESCENT-INDICATION. ALSO FIXED: sectionGate rendered every ' +
+      'high-severity open item on every document, so the moment a semaglutide-specific ' +
+      'item existed it appeared on the tirzepatide and orforglipron documents - the ' +
+      'same cross-molecule leak this rebuild exists to fix, reproduced inside the gate ' +
+      'meant to warn about it. Items carrying appliesTo now render only on matching ' +
+      'documents; items without it still render everywhere. Verified: the adolescent ' +
+      'item appears on the three semaglutide documents and none of the others.',
+
       '2026-09-05 (v2.8): BELMAR TRIMMED TO MATCH THE OTHER PHARMACIES. Belmar was ' +
       'carrying ten pharmacy notes where Premier and Farmakeio carry four, plus a ' +
       'rendered vial-plan panel no other pharmacy had. None of the extra weight was ' +
@@ -520,10 +637,9 @@ var KORB_GLP1 = {
       whyNotFixable: 'Semaglutide 1.0 mg needs 1.00 ml a week, 1.7 mg needs 0.68 ml and ' +
                      '2.4 mg needs 0.96 ml. No stocked vial size divides into four doses ' +
                      'for any of them. The only zero-leftover alternative is 8 x 1 ml ' +
-                     'for 1.0 mg, at a materially higher acquisition cost, and nothing ' +
-                     'at all for 1.7 and 2.4 mg. Tirzepatide avoids this entirely ' +
-                     'because 10 mg/ml divides evenly into the stocked sizes. Figures ' +
-                     'held by Operations - see costPolicy.',
+                     'for 1.0 mg, which Operations ruled out, and nothing at all for ' +
+                     '1.7 and 2.4 mg. Tirzepatide avoids this entirely because 10 mg/ml ' +
+                     'divides evenly into the stocked sizes.',
       mitigation: 'Every compounded injectable sig now carries "Discard after 4 doses ' +
                   'or 28 days." On these three doses that instruction is the whole ' +
                   'mitigation rather than a reminder - the vial physically holds a 5th ' +
@@ -545,82 +661,33 @@ var KORB_GLP1 = {
                'had. Treat it as expected rather than as a dispensing error.',
       revisitIf: 'Belmar changes its stocked vial sizes, or confirms a day-28 dose is ' +
                  'usable - see BELMAR-DAY28-USABLE.'
+    },
+
+    {
+      id: 'BELMAR-DAY28-DOSE-CEILING',
+      decidedBy: 'Don',
+      decidedOn: '2026-09-06',
+      limitation: 'Every vial plan in this file assumes a vial yields at most FOUR ' +
+                  'weekly doses. A fifth dose would fall on day 28 itself, and 28 days ' +
+                  'is the stated in-use limit rather than a day that sits inside it.',
+      decision: 'Four doses per vial, never five. This is the operating assumption and ' +
+                'it is not pending anything - it is the conservative reading of the ' +
+                'in-use limit, which is the right way to read a limit on a multi-dose ' +
+                'vial a patient is drawing from at home.',
+      consequence: 'Some vial plans carry leftover volume they would not carry under a ' +
+                   'five-dose reading. That leftover is controlled by the sig, which ' +
+                   'tells the patient to discard after 4 doses or 28 days - see ' +
+                   'BELMAR-SEMA-VIAL-OVERSIZE.',
+      revisitIf: 'Belmar states in writing that a dose drawn on day 28 is acceptable. ' +
+                 'Then vialConstraints.maxDosesPerVial and every vialPlan derived from ' +
+                 'it need revisiting. A verbal answer is not enough to move a patient- ' +
+                 'facing in-use limit.'
     }
   ],
 
   needsConfirmation: [
-    {
-      id: 'MONOGRAPH-CLINICAL-SIGNOFF',
-      severity: 'high',
-      type: 'review-required',
-      issue: 'The drug monographs \u2014 mechanism, evidence, contraindications split into ' +
-             'absolute and cautions, medication interactions, monitoring, counseling ' +
-             'scripts, chart attestation language and ICD-10 codes \u2014 are newly authored. ' +
-             'They are not transcribed from an existing KORB document and have not been ' +
-             'clinically reviewed.',
-      question: 'Clinical Director sign-off required before these documents are ' +
-                'distributed to providers. Particular attention to: the tirzepatide oral ' +
-                'contraceptive interaction and its four-week windows, the peri-procedural ' +
-                'holding guidance, and the ICD-10 selections.',
-      owner: 'Clinical Director',
-      note: 'The orforglipron monograph is the least certain and carries its own ' +
-            'verify-against-prescribing-information flag in the document.'
-    },
 
-    {
-      id: 'BELMAR-VIAL-RATE-QUOTES',
-      severity: 'medium',
-      type: 'confirmation-required',
-      issue: 'The 8-week vial plans need vial counts that Belmar\'s published tiers do ' +
-             'not price. Any figure in use is an addition of smaller tiers, not a quote.',
-      question: 'Get rates for: semaglutide 1 ml at 4 vials; tirzepatide 1 ml at 4 and ' +
-                'at 6 vials; tirzepatide 4 ml at 3 vials. Record the figures with ' +
-                'Operations, not here - see costPolicy.',
-      owner: 'Director of Clinical Operations',
-      note: 'These affect cost only. No prescribing field depends on them, and program ' +
-            'pricing to the patient is unchanged.'
-    },
 
-    {
-      id: 'BELMAR-DAY28-USABLE',
-      severity: 'medium',
-      type: 'confirmation-required',
-      issue: 'Every vial plan in this file assumes a vial yields at most four weekly ' +
-             'doses, because a fifth would fall on day 28 itself and 28 days is the ' +
-             'stated in-use limit rather than a dose that sits inside it.',
-      question: 'Confirm with Belmar, in writing, whether a dose drawn on day 28 is ' +
-                'acceptable. If it is, several rows get cheaper and some of the ' +
-                'oversize problem eases. Do not act on a verbal answer.',
-      owner: 'Director of Clinical Operations',
-      note: 'Assumed NOT usable throughout. If this changes, revisit ' +
-            'vialConstraints.maxDosesPerVial and every vialPlan derived from it.'
-    },
-
-    {
-      id: 'BELMAR-8WK-CODE-RETIRE',
-      severity: 'medium',
-      type: 'confirmation-required',
-      issue: 'The Belmar-specific 8-week charge codes (FITSemaMBL, FITTirzMTB1, ' +
-             'FITTirzMTB2, FITTirzMTB3) existed for one reason: to flag the order so ' +
-             'Operations would place the second half of the split fill. With the split ' +
-             'fill gone there is nothing for them to trigger, so they have been retired ' +
-             'and Belmar now bills on the standard 8-week code like every other pharmacy.',
-      question: 'Finance to confirm the retired codes are deactivated rather than left ' +
-                'live, and that no reporting or partner attribution depended on them.',
-      owner: 'VP Finance/Compliance',
-      note: 'Retirement decision made by Don 2026-09-05. Finance confirmation outstanding.'
-    },
-
-    {
-      id: 'BRAND-DOC-OUTDATED',
-      severity: 'low',
-      issue: 'The brand prescribing document predates Foundayo, the Zepbound KwikPen and ' +
-             'the Wegovy pen, and its Program Supply Options section has the two products ' +
-             'swapped. Every current value now lives in this file instead.',
-      question: 'Regenerate the brand document from korb-glp1-data.js so there is one ' +
-                'current source rather than a stale one to work around.',
-      owner: 'Clinical Operations'
-    }
   ],
 
 
@@ -911,9 +978,9 @@ var KORB_GLP1 = {
       shipsToNote: 'Ships to all 50 states and DC. Preferred for California only.',
       discouragedOutsidePreferred: true,
       discouragedReason:
-        'Belmar pricing is higher than the other compounding pharmacies, which is why ' +
-        'patients are kept in California unless there is a specific reason. Selecting ' +
-        'Belmar outside California is allowed but should be a deliberate exception.',
+        'Belmar is the California pharmacy. Patients are routed here for California ' +
+        'and kept on the other compounding pharmacies elsewhere. Selecting Belmar ' +
+        'outside California is allowed but should be a deliberate exception.',
       address: 'Belmar Pharmacy \u2014 ARIZONA location, 12012 N 111th Ave, Youngtown, AZ 85363-1339',
       addressWarning: 'Belmar has several locations across the US. KORB uses the ARIZONA address. Confirm the Arizona address is the one selected in Tebra before sending \u2014 another Belmar location will be wrong.',
       orderVia: 'Tebra Compound',
@@ -971,10 +1038,10 @@ var KORB_GLP1 = {
           note: 'Reference only. Deliberately NOT stated on the order or in the sig - ' +
                 'removed 2026-09-05, the pharmacy manages its own BUD.'
         },
-        outstandingWithBelmar: 'Whether Belmar treats day 28 as a usable dose. Every ' +
-                               'plan here assumes it is NOT. If Belmar confirms in ' +
-                               'writing that it is, several rows get cheaper. Do not ' +
-                               'rely on it until that is in writing.'
+        dosesPerVial: 'Four doses per vial, never five. A fifth dose would fall on ' +
+                      'day 28 itself, and the 28-day in-use limit is read as a limit ' +
+                      'rather than a day inside the window. See acceptedLimitations ' +
+                      'BELMAR-DAY28-DOSE-CEILING.'
       },
 
       fillStructure: {
@@ -1207,10 +1274,20 @@ var KORB_GLP1 = {
     ],
 
     candidateCriteria: {
+      /* Don, 2026-09-06. KORB sees adults only. Stated here rather than left
+         implicit, because these molecules carry approved adolescent indications
+         (semaglutide from age 12) and a provider reading an approval list with no
+         age line has nothing telling them KORB's scope is narrower. */
+      age: 'Adults 18 years and older. KORB does not treat patients under 18.',
       bmi: [
         'BMI greater than 25 is overweight',
         'BMI greater than 30 is obese'
       ],
+      /* RETIRED 2026-09-05. This list is semaglutide's and it was shared by every
+         drug, which is how the Belmar tirzepatide document came to carry semaglutide's
+         indications. Each monograph now holds its own. Kept only so an older consumer
+         does not throw; the renderer deliberately skips it. DO NOT render this. */
+      fdaApprovedRetired: true,
       fdaApproved: [
         'Weight loss',
         'Type 2 diabetes',
@@ -1277,6 +1354,33 @@ var KORB_GLP1 = {
 
     semaglutide: {
       drug: 'semaglutide',
+      /* Supplied by Don 2026-09-05. Five of the six he listed. The sixth - chronic
+         weight management in adolescents - is CLOSED, not pending: Don confirmed on
+         2026-09-06 that KORB treats adults 18 and older only, so the adolescent
+         indication is deliberately absent and stays absent. The adults-only rule is
+         stated positively in clinical.candidateCriteria.age rather than left as an
+         omission a reader has to notice. */
+      indications: [
+        'Chronic weight management and long-term maintenance of weight reduction in ' +
+        'adults with obesity, or overweight with at least one weight-related comorbid condition',
+        'Improvement of glycemic control in adults with type 2 diabetes mellitus',
+        'Reduction of cardiovascular risk in adults with type 2 diabetes and ' +
+        'established cardiovascular disease',
+        'Reduction of kidney disease progression and cardiovascular death in adults ' +
+        'with type 2 diabetes and chronic kidney disease',
+        'Treatment of noncirrhotic MASH with moderate-to-advanced liver fibrosis ' +
+        '(F2-F3) in adults'
+      ],
+      indicationsSource: 'Don, 2026-09-05',
+      /* Don, 2026-09-05: applies to BOTH molecules. The indication list is what the
+         molecule is approved for; it is not what KORB treats. Rendered directly
+         beneath the indications on every document so the two are never read apart. */
+      korbScope:
+        'KORB treats weight loss only. Every other indication above stays with the ' +
+        'patient\'s PCP or specialist - KORB does not manage type 2 diabetes, ' +
+        'cardiovascular risk, chronic kidney disease or MASH, and does not order or ' +
+        'monitor labs for them. A patient carrying one of those diagnoses is ' +
+        'acceptable on the weight-loss program provided that care continues elsewhere.',
       title: 'Semaglutide \u2014 GLP-1 receptor agonist',
       definition:
         'Long-acting glucagon-like peptide-1 (GLP-1) receptor agonist. A 31-amino-acid ' +
@@ -1322,10 +1426,12 @@ var KORB_GLP1 = {
         'Insulin and sulfonylureas: additive hypoglycaemia risk. Dose reduction of the ' +
         'concomitant agent is often required. Coordinate with the prescribing PCP.',
         'Alcohol may increase hypoglycaemia risk and worsen gastrointestinal side effects.',
-        'ANAESTHESIA AND PROCEDURES: delayed gastric emptying raises aspiration risk under ' +
-        'sedation. Anaesthesia guidance generally advises holding weekly GLP-1 therapy ' +
-        'before an elective procedure. Tell the patient to disclose GLP-1 use to any ' +
-        'surgeon, proceduralist or anaesthetist.',
+        'ANAESTHESIA AND PROCEDURES: delayed gastric emptying raises aspiration ' +
+        'risk under sedation. HOLD for 7 days (one week) before an elective ' +
+        'procedure requiring sedation, or for whatever longer period the ' +
+        'anaesthesia team or the surgeon\'s office requires - their instruction ' +
+        'takes precedence over this one. Tell the patient to disclose GLP-1 use to ' +
+        'any surgeon, proceduralist or anaesthetist.',
         'Other GLP-1 receptor agonists: do not combine. Concomitant use is not recommended.'
       ],
       monitoring: [
@@ -1383,6 +1489,13 @@ var KORB_GLP1 = {
         'Treatment of moderate-to-severe obstructive sleep apnea in adults with obesity'
       ],
       indicationsSource: 'Don, 2026-09-05',
+      /* Don, 2026-09-05: same rule as semaglutide. */
+      korbScope:
+        'KORB treats weight loss only. Every other indication above stays with the ' +
+        'patient\'s PCP or specialist - KORB does not manage type 2 diabetes or ' +
+        'obstructive sleep apnea, and does not order or monitor labs for them. A ' +
+        'patient carrying one of those diagnoses is acceptable on the weight-loss ' +
+        'program provided that care continues elsewhere.',
       definition:
         'A 39-amino-acid synthetic peptide based on the native GIP sequence, engineered to ' +
         'agonise both the glucose-dependent insulinotropic polypeptide (GIP) receptor and ' +
@@ -1430,10 +1543,12 @@ var KORB_GLP1 = {
         'Insulin and sulfonylureas: additive hypoglycaemia risk. Dose reduction of the ' +
         'concomitant agent is often required. Coordinate with the prescribing PCP.',
         'Alcohol may increase hypoglycaemia risk and worsen gastrointestinal side effects.',
-        'ANAESTHESIA AND PROCEDURES: delayed gastric emptying raises aspiration risk under ' +
-        'sedation. Anaesthesia guidance generally advises holding weekly GLP-1 therapy ' +
-        'before an elective procedure. Tell the patient to disclose use to any surgeon, ' +
-        'proceduralist or anaesthetist.',
+        'ANAESTHESIA AND PROCEDURES: delayed gastric emptying raises aspiration ' +
+        'risk under sedation. HOLD for 7 days (one week) before an elective ' +
+        'procedure requiring sedation, or for whatever longer period the ' +
+        'anaesthesia team or the surgeon\'s office requires - their instruction ' +
+        'takes precedence over this one. Tell the patient to disclose GLP-1 use to ' +
+        'any surgeon, proceduralist or anaesthetist.',
         'Other GLP-1 or dual incretin agonists: do not combine.'
       ],
       monitoring: [
@@ -1482,6 +1597,26 @@ var KORB_GLP1 = {
     orforglipron: {
       drug: 'orforglipron',
       title: 'Orforglipron \u2014 oral non-peptide GLP-1 receptor agonist',
+      /* Supplied by Don 2026-09-06. Before this, Foundayo rendered with no
+         Indications section at all. Narrower than semaglutide's and tirzepatide's -
+         weight management only, no diabetes or cardiovascular claim - which is
+         consistent with the agent being the newest in the program. */
+      indications: [
+        'Reduction of excess body weight in adults with obesity',
+        'Reduction of excess body weight in adults with overweight who have at least ' +
+        'one weight-related comorbid condition',
+        'Long-term maintenance of weight reduction',
+        'Used in combination with a reduced-calorie diet and increased physical activity'
+      ],
+      indicationsSource: 'Don, 2026-09-06',
+      /* Same rule as the other two molecules. Stated even though this list is
+         already weight-only, so the three documents read identically and a provider
+         is never left inferring scope from which note happens to be present. */
+      korbScope:
+        'KORB treats weight loss. The indications above are the approved uses of the ' +
+        'molecule and are not a list of conditions KORB manages - any other diagnosis ' +
+        'the patient carries stays with their PCP or specialist, and KORB does not ' +
+        'order or monitor labs for it. Adults 18 and older only.',
       dataFreshnessFlag:
         'NEWEST AGENT IN THE PROGRAM. This monograph is the least certain in this document. ' +
         'Verify against the current FDA prescribing information before relying on any ' +
@@ -1520,8 +1655,11 @@ var KORB_GLP1 = {
       interactions: [
         'Delayed gastric emptying can alter absorption of concomitant oral medication.',
         'Insulin and sulfonylureas: additive hypoglycaemia risk.',
-        'ANAESTHESIA AND PROCEDURES: as with the injectable GLP-1 agents, disclose use ' +
-        'before any procedure requiring sedation.',
+        'ANAESTHESIA AND PROCEDURES: the same rule as the injectable GLP-1 agents. ' +
+        'HOLD for 7 days (one week) before an elective procedure requiring ' +
+        'sedation, or for whatever longer period the anaesthesia team or the ' +
+        'surgeon\'s office requires - their instruction takes precedence. The ' +
+        'patient must disclose use before any procedure requiring sedation.',
         'Other GLP-1 receptor agonists: do not combine.',
         'Verify the current prescribing information \u2014 the interaction profile for this ' +
         'agent is less established than for the older molecules.'
@@ -3440,50 +3578,74 @@ var KORB_GLP1 = {
         { key: 'rx4', label: '4-week (28-day)', quantity: 1, unit: 'pen', refill: 0, days: 28,
           use: 'New prescription or any dose change. Use until the dose is stable.' },
         { key: 'rx8', label: '8-week (56-day) \u2014 1 pen + 1 refill', quantity: 1, unit: 'pen', refill: 1, days: 28,
-          use: 'Clinically stable patients only. Each fill is one pen covering 4 weeks.' }
+          use: 'Clinically stable patients only. Each fill is one pen covering 4 weeks.' },
+        /* Don, 2026-09-06. Brand pharmacies will not ship more than 4 weeks of an
+           injectable at a time, so a 12-week program is the same 4-week fill with two
+           refills rather than a bigger shipment. Days supply stays 28 because it
+           describes the fill, which is the rule used everywhere in this file. */
+        { key: "rx12", label: "12-week (84-day) \u2014 1 pen + 2 refills", quantity: 1, unit: "pen", refill: 2, days: 28,
+          use: "Clinically stable patients on a settled dose. Three fills of one pen, four weeks each." }
       ],
       doses: [
         { dose: '2.5 mg', mg: 2.5, use: 'Initiation',
           rx4: { drug: 'Zepbound kwikpen 2.5 mg/0.6 ml(10 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 2.5 mg SQ 4-week',
                  ptInstructions: 'Inject 2.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
+          rx12: { drug: 'Zepbound kwikpen 2.5 mg/0.6 ml(10 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 2.5 mg SQ 12-week',
+                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 2.5 mg/0.6 ml(10 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 2.5 mg SQ 8-week',
-                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '5 mg', mg: 5, use: 'Titration',
           rx4: { drug: 'Zepbound kwikpen 5 mg/0.6 ml (20 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 5 mg SQ 4-week',
                  ptInstructions: 'Inject 5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
+          rx12: { drug: 'Zepbound kwikpen 5 mg/0.6 ml (20 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 5 mg SQ 12-week',
+                 ptInstructions: 'Inject 5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 5 mg/0.6 ml (20 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 5 mg SQ 8-week',
-                 ptInstructions: 'Inject 5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '7.5 mg', mg: 7.5, use: 'Titration',
           rx4: { drug: 'Zepbound kwikpen 7.5 mg/0.6 ml(30 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 7.5 mg SQ 4-week',
                  ptInstructions: 'Inject 7.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
+          rx12: { drug: 'Zepbound kwikpen 7.5 mg/0.6 ml(30 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 7.5 mg SQ 12-week',
+                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 7.5 mg/0.6 ml(30 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 7.5 mg SQ 8-week',
-                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '10 mg', mg: 10, use: 'Advanced dose',
           rx4: { drug: 'Zepbound kwikpen 10 mg/0.6 ml (40 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 10 mg SQ 4-week',
                  ptInstructions: 'Inject 10 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
+          rx12: { drug: 'Zepbound kwikpen 10 mg/0.6 ml (40 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 10 mg SQ 12-week',
+                 ptInstructions: 'Inject 10 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 10 mg/0.6 ml (40 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 10 mg SQ 8-week',
-                 ptInstructions: 'Inject 10 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 10 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '12.5 mg', mg: 12.5, use: 'Advanced dose',
           rx4: { drug: 'Zepbound kwikpen 12.5 mg/0.6 ml (50 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 12.5 mg SQ 4-week',
                  ptInstructions: 'Inject 12.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
+          rx12: { drug: 'Zepbound kwikpen 12.5 mg/0.6 ml (50 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 12.5 mg SQ 12-week',
+                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 12.5 mg/0.6 ml (50 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 12.5 mg SQ 8-week',
-                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '15 mg', mg: 15, use: 'Maintenance / maximum dose',
           rx4: { drug: 'Zepbound kwikpen 15 mg/0.6 ml (60 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 15 mg SQ 4-week',
                  ptInstructions: 'Inject 15 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
+          rx12: { drug: 'Zepbound kwikpen 15 mg/0.6 ml (60 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 15 mg SQ 12-week',
+                 ptInstructions: 'Inject 15 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 15 mg/0.6 ml (60 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 15 mg SQ 8-week',
-                 ptInstructions: 'Inject 15 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 15 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } }
       ],
       prescribingNotes: [
@@ -3520,7 +3682,10 @@ var KORB_GLP1 = {
         { key: "rx30", label: "30-day supply", quantity: 30, refill: 0, days: 30,
           use: "New prescription or any dose change. Use until the dose is stable." },
         { key: "rx60", label: "60-day supply", quantity: 60, refill: 0, days: 60,
-          use: "Clinically stable patients only. Quantity 60, no refill." }
+          use: "Clinically stable patients only. Quantity 60, no refill." },
+        /* Don, 2026-09-06. Same as oral Wegovy: one fill, larger quantity, no refill. */
+        { key: "rx90", label: "90-day supply", quantity: 90, refill: 0, days: 90,
+          use: "Clinically stable patients on a settled dose. Quantity 90, no refill." }
       ],
       doses: [
         {
@@ -3530,6 +3695,9 @@ var KORB_GLP1 = {
       rx30: { drug: "Foundayo 0.8 mg tablet", label: "Foundayo 0.8 mg tablet 30-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 30, refill: 0, days: 30 },
+      rx90: { drug: "Foundayo 0.8 mg tablet", label: "Foundayo 0.8 mg tablet 90-day supply",
+              ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
+              quantity: 90, refill: 0, days: 90 },
       rx60: { drug: "Foundayo 0.8 mg tablet", label: "Foundayo 0.8 mg tablet 60-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 60, refill: 0, days: 60 }
@@ -3541,6 +3709,9 @@ var KORB_GLP1 = {
       rx30: { drug: "Foundayo 2.5 mg tablet", label: "Foundayo 2.5 mg tablet 30-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 30, refill: 0, days: 30 },
+      rx90: { drug: "Foundayo 2.5 mg tablet", label: "Foundayo 2.5 mg tablet 90-day supply",
+              ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
+              quantity: 90, refill: 0, days: 90 },
       rx60: { drug: "Foundayo 2.5 mg tablet", label: "Foundayo 2.5 mg tablet 60-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 60, refill: 0, days: 60 }
@@ -3552,6 +3723,9 @@ var KORB_GLP1 = {
       rx30: { drug: "Foundayo 5.5 mg tablet", label: "Foundayo 5.5 mg tablet 30-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 30, refill: 0, days: 30 },
+      rx90: { drug: "Foundayo 5.5 mg tablet", label: "Foundayo 5.5 mg tablet 90-day supply",
+              ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
+              quantity: 90, refill: 0, days: 90 },
       rx60: { drug: "Foundayo 5.5 mg tablet", label: "Foundayo 5.5 mg tablet 60-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 60, refill: 0, days: 60 }
@@ -3563,6 +3737,9 @@ var KORB_GLP1 = {
       rx30: { drug: "Foundayo 9 mg tablet", label: "Foundayo 9 mg tablet 30-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 30, refill: 0, days: 30 },
+      rx90: { drug: "Foundayo 9 mg tablet", label: "Foundayo 9 mg tablet 90-day supply",
+              ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
+              quantity: 90, refill: 0, days: 90 },
       rx60: { drug: "Foundayo 9 mg tablet", label: "Foundayo 9 mg tablet 60-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 60, refill: 0, days: 60 }
@@ -3574,6 +3751,9 @@ var KORB_GLP1 = {
       rx30: { drug: "Foundayo 14.5 mg tablet", label: "Foundayo 14.5 mg tablet 30-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 30, refill: 0, days: 30 },
+      rx90: { drug: "Foundayo 14.5 mg tablet", label: "Foundayo 14.5 mg tablet 90-day supply",
+              ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
+              quantity: 90, refill: 0, days: 90 },
       rx60: { drug: "Foundayo 14.5 mg tablet", label: "Foundayo 14.5 mg tablet 60-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 60, refill: 0, days: 60 }
@@ -3585,6 +3765,9 @@ var KORB_GLP1 = {
       rx30: { drug: "Foundayo 17.2 mg tablet", label: "Foundayo 17.2 mg tablet 30-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 30, refill: 0, days: 30 },
+      rx90: { drug: "Foundayo 17.2 mg tablet", label: "Foundayo 17.2 mg tablet 90-day supply",
+              ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
+              quantity: 90, refill: 0, days: 90 },
       rx60: { drug: "Foundayo 17.2 mg tablet", label: "Foundayo 17.2 mg tablet 60-day supply",
               ptInstructions: "Take 1 tablet by mouth once daily with or without food. Swallow whole. Do not break, crush, or chew.",
               quantity: 60, refill: 0, days: 60 }
@@ -3623,7 +3806,11 @@ var KORB_GLP1 = {
         { key: "rx4", label: "4-week (28-day)", quantity: 4, refill: 0, days: 28,
           use: "New prescription or any dose change. Use until the dose is stable." },
         { key: "rx8", label: "8-week (56-day) \u2014 4 pens + 1 refill", quantity: 4, refill: 1, days: 28,
-          use: "Clinically stable patients only." }
+          use: "Clinically stable patients only." },
+        /* Don, 2026-09-06. Same brand shipping ceiling as Zepbound - 4 weeks per
+           shipment - so 12 weeks is three fills of four single-dose pens. */
+        { key: "rx12", label: "12-week (84-day) \u2014 4 pens + 2 refills", quantity: 4, refill: 2, days: 28,
+          use: "Clinically stable patients on a settled dose. Three fills of four pens, four weeks each." }
       ],
       doses: [
         {
@@ -3632,8 +3819,10 @@ var KORB_GLP1 = {
       use: "Initiation",
       rx4: { drug: "Wegovy 0.25 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 0.25 mg SQ 4-week",
              ptInstructions: "Inject 0.25 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 0, days: 28 },
+      rx12: { drug: "Wegovy 0.25 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 0.25 mg SQ 12-week",
+             ptInstructions: "Inject 0.25 mg subcutaneously once weekly.", quantity: 4, refill: 2, days: 28 },
       rx8: { drug: "Wegovy 0.25 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 0.25 mg SQ 8-week",
-             ptInstructions: "Inject 0.25 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 1, days: 28 }
+             ptInstructions: "Inject 0.25 mg subcutaneously once weekly.", quantity: 4, refill: 1, days: 28 }
         },
         {
       dose: "0.5 mg",
@@ -3641,8 +3830,10 @@ var KORB_GLP1 = {
       use: "Titration",
       rx4: { drug: "Wegovy 0.5 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 0.5 mg SQ 4-week",
              ptInstructions: "Inject 0.5 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 0, days: 28 },
+      rx12: { drug: "Wegovy 0.5 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 0.5 mg SQ 12-week",
+             ptInstructions: "Inject 0.5 mg subcutaneously once weekly.", quantity: 4, refill: 2, days: 28 },
       rx8: { drug: "Wegovy 0.5 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 0.5 mg SQ 8-week",
-             ptInstructions: "Inject 0.5 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 1, days: 28 }
+             ptInstructions: "Inject 0.5 mg subcutaneously once weekly.", quantity: 4, refill: 1, days: 28 }
         },
         {
       dose: "1 mg",
@@ -3650,8 +3841,10 @@ var KORB_GLP1 = {
       use: "Titration",
       rx4: { drug: "Wegovy 1 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 1 mg SQ 4-week",
              ptInstructions: "Inject 1 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 0, days: 28 },
+      rx12: { drug: "Wegovy 1 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 1 mg SQ 12-week",
+             ptInstructions: "Inject 1 mg subcutaneously once weekly.", quantity: 4, refill: 2, days: 28 },
       rx8: { drug: "Wegovy 1 mg/0.5 ml subcutaneous pen injector", label: "Wegovy 1 mg SQ 8-week",
-             ptInstructions: "Inject 1 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 1, days: 28 }
+             ptInstructions: "Inject 1 mg subcutaneously once weekly.", quantity: 4, refill: 1, days: 28 }
         },
         {
       dose: "1.7 mg",
@@ -3659,8 +3852,10 @@ var KORB_GLP1 = {
       use: "Advanced dose",
       rx4: { drug: "Wegovy 1.7 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 1.7 mg SQ 4-week",
              ptInstructions: "Inject 1.7 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 0, days: 28 },
+      rx12: { drug: "Wegovy 1.7 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 1.7 mg SQ 12-week",
+             ptInstructions: "Inject 1.7 mg subcutaneously once weekly.", quantity: 4, refill: 2, days: 28 },
       rx8: { drug: "Wegovy 1.7 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 1.7 mg SQ 8-week",
-             ptInstructions: "Inject 1.7 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 1, days: 28 }
+             ptInstructions: "Inject 1.7 mg subcutaneously once weekly.", quantity: 4, refill: 1, days: 28 }
         },
         {
       dose: "2.4 mg",
@@ -3668,8 +3863,10 @@ var KORB_GLP1 = {
       use: "Maintenance dose",
       rx4: { drug: "Wegovy 2.4 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 2.4 mg SQ 4-week",
              ptInstructions: "Inject 2.4 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 0, days: 28 },
+      rx12: { drug: "Wegovy 2.4 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 2.4 mg SQ 12-week",
+             ptInstructions: "Inject 2.4 mg subcutaneously once weekly.", quantity: 4, refill: 2, days: 28 },
       rx8: { drug: "Wegovy 2.4 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 2.4 mg SQ 8-week",
-             ptInstructions: "Inject 2.4 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 1, days: 28 }
+             ptInstructions: "Inject 2.4 mg subcutaneously once weekly.", quantity: 4, refill: 1, days: 28 }
         },
         {
       dose: "7.2 mg",
@@ -3678,8 +3875,10 @@ var KORB_GLP1 = {
       brandVariant: "Wegovy HD",
       rx4: { drug: "Wegovy hd 7.2 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 7.2 mg SQ 4-week",
              ptInstructions: "Inject 7.2 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 0, days: 28 },
+      rx12: { drug: "Wegovy hd 7.2 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 7.2 mg SQ 12-week",
+             ptInstructions: "Inject 7.2 mg subcutaneously once weekly.", quantity: 4, refill: 2, days: 28 },
       rx8: { drug: "Wegovy hd 7.2 mg/0.75 ml subcutaneous pen injector", label: "Wegovy 7.2 mg SQ 8-week",
-             ptInstructions: "Inject 7.2 mg subcutaneously once weekly for 4 weeks.", quantity: 4, refill: 1, days: 28 }
+             ptInstructions: "Inject 7.2 mg subcutaneously once weekly.", quantity: 4, refill: 1, days: 28 }
         }
       ],
       prescribingNotes: [
@@ -3707,13 +3906,21 @@ var KORB_GLP1 = {
         { key: 'rx30', label: '30-day supply', quantity: 30, refill: 0, days: 30,
           use: 'New prescription or any dose change. Use until the dose is stable.' },
         { key: 'rx60', label: '60-day supply', quantity: 60, refill: 0, days: 60,
-          use: 'Clinically stable patients only. Quantity 60, no refill \u2014 not 30 with a refill.' }
+          use: 'Clinically stable patients only. Quantity 60, no refill \u2014 not 30 with a refill.' },
+        /* Don, 2026-09-06. Orals are NOT subject to the 4-week injectable shipping
+           ceiling - they dispense as one fill, so the longer oral programs are a larger
+           quantity with no refill rather than refills. */
+        { key: "rx90", label: "90-day supply", quantity: 90, refill: 0, days: 90,
+          use: "Clinically stable patients on a settled dose. Quantity 90, no refill." }
       ],
       doses: [
         { dose: '1.5 mg', mg: 1.5, use: 'Initiation',
           rx30: { drug: 'Wegovy 1.5 mg tablet', label: 'Wegovy 1.5 mg tablet 30-day supply',
                   ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
                   quantity: 30, refill: 0, days: 30 },
+          rx90: { drug: 'Wegovy 1.5 mg tablet', label: 'Wegovy 1.5 mg tablet 90-day supply',
+                  ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
+                  quantity: 90, refill: 0, days: 90 },
           rx60: { drug: 'Wegovy 1.5 mg tablet', label: 'Wegovy 1.5 mg tablet 60-day supply',
                   ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
                   quantity: 60, refill: 0, days: 60 } },
@@ -3721,6 +3928,9 @@ var KORB_GLP1 = {
           rx30: { drug: 'Wegovy 4 mg tablet', label: 'Wegovy 4 mg tablet 30-day supply',
                   ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
                   quantity: 30, refill: 0, days: 30 },
+          rx90: { drug: 'Wegovy 4 mg tablet', label: 'Wegovy 4 mg tablet 90-day supply',
+                  ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
+                  quantity: 90, refill: 0, days: 90 },
           rx60: { drug: 'Wegovy 4 mg tablet', label: 'Wegovy 4 mg tablet 60-day supply',
                   ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
                   quantity: 60, refill: 0, days: 60 } },
@@ -3728,6 +3938,9 @@ var KORB_GLP1 = {
           rx30: { drug: 'Wegovy 9 mg tablet', label: 'Wegovy 9 mg tablet 30-day supply',
                   ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
                   quantity: 30, refill: 0, days: 30 },
+          rx90: { drug: 'Wegovy 9 mg tablet', label: 'Wegovy 9 mg tablet 90-day supply',
+                  ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
+                  quantity: 90, refill: 0, days: 90 },
           rx60: { drug: 'Wegovy 9 mg tablet', label: 'Wegovy 9 mg tablet 60-day supply',
                   ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
                   quantity: 60, refill: 0, days: 60 } },
@@ -3735,6 +3948,9 @@ var KORB_GLP1 = {
           rx30: { drug: 'Wegovy 25 mg tablet', label: 'Wegovy 25 mg tablet 30-day supply',
                   ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
                   quantity: 30, refill: 0, days: 30 },
+          rx90: { drug: 'Wegovy 25 mg tablet', label: 'Wegovy 25 mg tablet 90-day supply',
+                  ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
+                  quantity: 90, refill: 0, days: 90 },
           rx60: { drug: 'Wegovy 25 mg tablet', label: 'Wegovy 25 mg tablet 60-day supply',
                   ptInstructions: 'Take 1 tablet by mouth daily on empty stomach with up to 4 oz water. Swallow whole. No food, drink or other oral meds for 30 min.',
                   quantity: 60, refill: 0, days: 60 } }
@@ -4031,6 +4247,21 @@ var KORB_GLP1 = {
          provider's screen becomes a wrong price quoted to a patient. Checking
          price and coverage is the patient's responsibility, not KORB's. If a
          provider needs a figure, send the patient to the manufacturer site. */
+      /* Don, 2026-09-06. This has to be ON the document. Without it, a provider
+         sees a line labelled "12-week" carrying days supply 28 and two refills
+         and has no way to tell whether that is correct or a mistake. */
+      injectableSupplyRule:
+        'Brand pharmacies will not ship more than a 4-week supply of an injectable ' +
+        'at a time. The 8-week and 12-week programs are therefore the SAME 4-week ' +
+        'fill with refills, not a larger shipment - which is why days supply stays ' +
+        '28 on all three. It describes the fill, not the program.',
+      oralSupplyRule:
+        'Orals are not subject to that ceiling and dispense as a single fill, so ' +
+        'the 30, 60 and 90 day supplies are quantity changes with NO refill.',
+      controlNote:
+        'KORB does not control brand fulfilment. The prescription is sent like any ' +
+        'other, and the patient pays the pharmacy directly. Price and coverage are ' +
+        'between the patient and the manufacturer programme.',
       doNotStorePricing: true,
       doNotStoreReason:
         'Manufacturer pricing changes without notice and KORB does not control it. ' +
@@ -4113,6 +4344,128 @@ var KORB_GLP1 = {
      a missing flag must fail loudly at the call site rather than default to
      "compounded" and reintroduce the false chart attestation. selfCheck()
      asserts every product declares it, so null should be unreachable. */
+  /* -- CLINICAL SIGN-OFF ---------------------------------------------------
+     The monographs were newly authored for this file. They were not transcribed
+     from an existing KORB document, so nobody has attested to them clinically.
+     Until someone does, every generated document says so on page one.
+
+     WHY THIS IS A DATA STRUCTURE AND NOT A LINE IN A CHANGELOG
+     A sign-off that is not pinned to content is a rubber stamp. If the record
+     said only "reviewed by Don on 2026-09-06", then editing a contraindication
+     next month would leave that attestation sitting on top of text the signer
+     never saw, and the document would carry a clinician's name over content they
+     did not approve. That is the failure mode worth engineering against.
+
+     So each record stores a fingerprint of the monograph AS SIGNED. signoffStatus
+     recomputes it at render time and compares:
+
+       unsigned  no record           -> gate renders, document is not cleared
+       current   fingerprint matches -> attribution line renders
+       stale     fingerprint differs -> gate renders again, saying so
+
+     A stale sign-off is treated exactly like no sign-off. Re-reviewing is cheap;
+     a provider acting on unreviewed contraindications is not.
+
+     TO RECORD A SIGN-OFF: add a record below. Do not edit a fingerprint by hand
+     to make a warning go away - that is forging the attestation. Regenerate it
+     with monographFingerprint(drug) after the reviewer has seen the current text. */
+  monographSignoff: {
+    /* Empty until a clinician signs. Keyed by molecule, because they are reviewed
+       separately - orforglipron is the newest and least certain and should not
+       inherit confidence from semaglutide's review. */
+    records: {
+      // semaglutide: {
+      //   signedBy: 'Donald Stevenson, PA-C',
+      //   role: 'Director of Clinical Operations and Lead Provider',
+      //   date: '2026-09-06',
+      //   dataVersion: '2.11',
+      //   fingerprint: '<from monographFingerprint("semaglutide")>',
+      //   attests: 'Reviewed the full monograph as rendered, including the ' +
+      //            'interaction windows, peri-procedural holding guidance and ' +
+      //            'ICD-10 selections, and approve it for provider distribution.',
+      //   exceptions: []
+      // },
+    },
+
+    /* The areas the reviewer should look at hardest. Not the only things being
+       signed - the ones where an error is least likely to be caught downstream by
+       a provider's own knowledge. */
+    focusAreas: [
+      'Tirzepatide and oral contraceptives - the interaction and both four-week windows',
+      'Peri-procedural holding guidance across all three molecules',
+      'ICD-10 primary and secondary selections',
+      'Orforglipron generally - newest agent, thinnest evidence base, and it carries ' +
+      'its own verify-against-prescribing-information flag'
+    ]
+  },
+
+  /* Deterministic fingerprint of a monograph's content. FNV-1a over a canonical
+     serialisation with sorted keys, so the same content always yields the same
+     value in Node and in the browser, and any edit anywhere in the monograph
+     changes it. Not a security hash and not trying to be - it defends against
+     drift, not against someone determined to forge a record. */
+  monographFingerprint: function (drug) {
+    var m = KORB_GLP1.monographs[drug];
+    if (!m) return null;
+    function canon(v) {
+      if (v === null || v === undefined) return 'n';
+      if (Array.isArray(v)) return '[' + v.map(canon).join('') + ']';
+      if (typeof v === 'object') {
+        return '{' + Object.keys(v).sort().map(function (k) {
+          return k + canon(v[k]);
+        }).join('') + '}';
+      }
+      return String(v);
+    }
+    /* Everything except the molecule name is in scope. Deliberately over-broad:
+       a cosmetic title edit invalidating a sign-off costs one re-read, whereas a
+       narrow field list is how a contraindication edit slips past unnoticed. */
+    var scoped = {};
+    Object.keys(m).forEach(function (k) { if (k !== 'drug') scoped[k] = m[k]; });
+    var str = canon(scoped);
+    var h = 0x811c9dc5;
+    for (var i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+    }
+    return 'fp-' + ('0000000' + h.toString(16)).slice(-8) + '-' + str.length;
+  },
+
+  /* Rendered by every provider document. Returns a state plus text the renderer
+     can print without deciding clinical questions of its own. */
+  signoffStatus: function (drug) {
+    var rec = (KORB_GLP1.monographSignoff.records || {})[drug];
+    var now = KORB_GLP1.monographFingerprint(drug);
+    if (!rec) {
+      return {
+        state: 'unsigned', drug: drug, fingerprint: now,
+        headline: 'Not yet clinically reviewed',
+        detail: 'This monograph was newly authored for this file rather than ' +
+                'transcribed from an existing KORB document, and has not been ' +
+                'signed off by a clinician. Verify any specific claim against the ' +
+                'current prescribing information before relying on it.'
+      };
+    }
+    if (rec.fingerprint !== now) {
+      return {
+        state: 'stale', drug: drug, fingerprint: now, record: rec,
+        headline: 'Sign-off is out of date - the monograph changed after it was signed',
+        detail: rec.signedBy + ' signed this monograph on ' + rec.date + ' against ' +
+                'data v' + rec.dataVersion + '. The content has changed since. That ' +
+                'sign-off does not cover the current text, and this document is not ' +
+                'cleared until it is re-reviewed.'
+      };
+    }
+    return {
+      state: 'current', drug: drug, fingerprint: now, record: rec,
+      headline: 'Clinically reviewed',
+      detail: 'Reviewed and signed off by ' + rec.signedBy + ' (' + rec.role + ') on ' +
+              rec.date + ', against korb-glp1-data.js v' + rec.dataVersion + '.' +
+              (rec.exceptions && rec.exceptions.length
+                 ? ' Signed with exceptions: ' + rec.exceptions.join('; ') : '')
+    };
+  },
+
   preparationFor: function (productKey) {
     var p = KORB_GLP1.getProduct(productKey);
     if (!p || typeof p.compounded !== 'boolean') return null;
@@ -4491,23 +4844,69 @@ var KORB_GLP1 = {
       });
     }
 
-    /* No currency figure in the open-item or accepted-limitation text. Those are
-       where working notes get pasted, and this file is public - see costPolicy.
-       Program pricing lives in the pricing block, which is deliberately exempt. */
+    /* This file is public and it is a CLINICAL file. Two things must not appear
+       in it: a currency figure outside the patient-facing pricing block, and the
+       language of what KORB pays a pharmacy.
+
+       The currency half caught the 2026-09-05 breach, where Belmar per-vial
+       figures were pasted into two open items. The language half was added on
+       2026-09-06 because the figures had gone but the reasoning had not - text
+       still said one option cost materially more and that a Belmar confirmation
+       would make several rows cheaper. That is acquisition cost stated in words
+       instead of numbers, and it is the same disclosure.
+
+       Scope is the whole file except the pricing block and costPolicy itself,
+       rather than just the two open-item lists, because the leak was found in a
+       pharmacy record and in an accepted limitation, neither of which the
+       original guard looked at. */
     (function () {
       var money = /(\$|USD\s*)\d/;
-      [['needsConfirmation', KORB_GLP1.needsConfirmation],
-       ['acceptedLimitations', KORB_GLP1.acceptedLimitations || []]].forEach(function (pair) {
-        (pair[1] || []).forEach(function (item) {
-          Object.keys(item).forEach(function (f) {
-            var v = item[f];
-            if (typeof v === 'string' && money.test(v)) {
-              problems.push(pair[0] + ' ' + item.id + '.' + f + ': contains a currency ' +
-                            'figure. This file is public - acquisition cost and rate-card ' +
-                            'figures belong with Operations, not here. See costPolicy.');
+      var costWords = [
+        /acquisition cost/i,
+        /rate card/i,
+        /what (we|KORB) pay/i,
+        /(rows?|doses?|vials?|options?)\s+(get|would be|are)\s+cheaper/i,
+        /negotiated (rate|tier|price)/i,
+        /(higher|lower) (acquisition |unit |per-vial )?cost/i,
+        /cost per (vial|fill|dose)/i
+      ];
+      var EXEMPT = { pricing: 1, costPolicy: 1 };
+
+      function walk(node, path, depth) {
+        if (depth > 8 || node === null || node === undefined) return;
+        if (typeof node === 'string') {
+          if (money.test(node)) {
+            problems.push(path + ': contains a currency figure outside the pricing ' +
+                          'block. This file is public - acquisition cost and rate-card ' +
+                          'figures belong with Operations. See costPolicy.');
+          }
+          costWords.forEach(function (re) {
+            if (re.test(node)) {
+              problems.push(path + ': describes what KORB pays a pharmacy (' +
+                            re.source + '). Cost reasoning is the same disclosure as ' +
+                            'a cost figure. See costPolicy.');
             }
           });
+          return;
+        }
+        if (typeof node !== 'object') return;
+        if (Array.isArray(node)) {
+          node.forEach(function (v, i) { walk(v, path + '[' + i + ']', depth + 1); });
+          return;
+        }
+        Object.keys(node).forEach(function (k) {
+          if (typeof node[k] === 'function') return;
+          walk(node[k], path + '.' + k, depth + 1);
         });
+      }
+
+      Object.keys(KORB_GLP1).forEach(function (k) {
+        if (EXEMPT[k] || typeof KORB_GLP1[k] === 'function') return;
+        /* meta.changelog records history, including the breach itself and how it
+           was closed. Deleting that history to satisfy a guard would remove the
+           record of the mistake, which is the opposite of the point. */
+        if (k === 'meta') return;
+        walk(KORB_GLP1[k], k, 0);
       });
     })();
 
@@ -4608,6 +5007,140 @@ var KORB_GLP1 = {
       if (ph && ph.status === 'legacy-continuity') {
         problems.push('routing rule for ' + r.states.join('/') + ' points at legacy pharmacy ' + ph.name);
       }
+    });
+
+    /* Every molecule a provider document can be built for must carry its OWN
+       indications and its own scope note. Two defects motivate this. Foundayo
+       shipped with no Indications section at all after the shared list was
+       retired, and before that the Belmar tirzepatide document carried
+       semaglutide's list. A missing section and a wrong section are the same
+       failure: the provider is not reading this drug's indications. Regression-
+       tested by deleting monographs.orforglipron.indications - selfCheck fails. */
+    ['semaglutide', 'tirzepatide', 'orforglipron'].forEach(function (d) {
+      var m = KORB_GLP1.monographs[d];
+      if (!m) { problems.push('monograph missing for ' + d); return; }
+      if (!m.indications || !m.indications.length) {
+        problems.push('monographs.' + d + ': no indications - the generated document ' +
+                      'would render with no Indications section');
+      }
+      if (!m.korbScope) {
+        problems.push('monographs.' + d + ': indications present but no korbScope - an ' +
+                      'approval list with no scope note reads as a menu of what KORB treats');
+      }
+      if (!m.indicationsSource) {
+        problems.push('monographs.' + d + ': indications carry no indicationsSource');
+      }
+    });
+
+    /* Adults-only is a clinical eligibility rule, not a stylistic note. If it is
+       dropped, every document silently reverts to an FDA approval list whose
+       adolescent thresholds are wider than KORB's practice. */
+    if (!KORB_GLP1.clinical.candidateCriteria.age) {
+      problems.push('clinical.candidateCriteria.age missing - documents would carry no ' +
+                    'age eligibility statement');
+    }
+
+    /* Sign-off guards. The point of the fingerprint is that it cannot be
+       satisfied by editing a list, so these check the mechanism itself is intact
+       rather than checking whether anyone has signed. Regression-tested by
+       deleting monographSignoff and by hand-editing a stored fingerprint. */
+    if (!KORB_GLP1.monographSignoff || !KORB_GLP1.monographSignoff.records) {
+      problems.push('monographSignoff.records missing - documents would lose the ' +
+                    'clinical sign-off gate entirely and read as cleared');
+    } else {
+      ['semaglutide', 'tirzepatide', 'orforglipron'].forEach(function (d) {
+        var st = KORB_GLP1.signoffStatus(d);
+        if (st.state === 'stale') {
+          /* A problem, not a warning: the document is carrying a clinician's name
+             over text they did not review. The gate renders, but a build should
+             stop and make someone look. */
+          problems.push('monographs.' + d + ': sign-off is STALE - ' +
+                        st.record.signedBy + ' signed ' + st.record.fingerprint +
+                        ' but the monograph now fingerprints ' + st.fingerprint +
+                        '. Re-review and re-record, do not edit the fingerprint.');
+        }
+        if (st.state === 'unsigned') {
+          warnings.push('monographs.' + d + ': not clinically signed off. The ' +
+                        'generated documents say so on page one.');
+        }
+        var rec = KORB_GLP1.monographSignoff.records[d];
+        if (rec) {
+          ['signedBy', 'role', 'date', 'dataVersion', 'fingerprint', 'attests']
+            .forEach(function (k) {
+              if (!rec[k]) problems.push('monographSignoff.records.' + d +
+                                         ': missing ' + k);
+            });
+        }
+      });
+    }
+
+    /* Dispensing programs and dose records must agree in both directions. This
+       guard exists because adding the 12-week and 90-day brand programs meant
+       touching two places per product - the dispensing list and every dose - and
+       either half can be added without the other with no error anywhere. A
+       program listed but not built renders an empty section; a record built but
+       not listed simply does not render, which is worse because the document
+       looks complete. Regression-tested by deleting one rx12 record and by
+       deleting one dispensing entry; each is caught. */
+    Object.keys(KORB_GLP1.products).forEach(function (k) {
+      var p = KORB_GLP1.products[k];
+      if (!p.dispensing || !p.dispensing.length) return;
+      var declared = p.dispensing.map(function (x) { return x.key; });
+
+      declared.forEach(function (sk) {
+        var missing = (p.doses || []).filter(function (d) { return !d[sk]; });
+        if (missing.length) {
+          problems.push(k + ': dispensing declares "' + sk + '" but ' + missing.length +
+                        ' dose(s) have no ' + sk + ' record - the program would render ' +
+                        'with gaps: ' + missing.map(function (d) { return d.dose; }).join(', '));
+        }
+      });
+
+      (p.doses || []).forEach(function (d) {
+        Object.keys(d).forEach(function (key) {
+          if (!/^rx/.test(key)) return;
+          if (!d[key] || typeof d[key] !== 'object') return;
+          if (declared.indexOf(key) === -1) {
+            problems.push(k + ' dose ' + d.dose + ': has a "' + key + '" record that ' +
+                          'dispensing does not declare - it would silently not render');
+          }
+        });
+      });
+
+      /* Each dose record must match the program it belongs to on quantity,
+         refill and days. Records are cloned from a sibling when a program is
+         added, so the failure mode is a copy where one field was not updated -
+         a 90-day supply record still carrying days 30, which a provider would
+         copy into Tebra verbatim. Verified as a real check: all four brand
+         products currently agree on every field, so any deviation is a defect
+         rather than an intentional exception. */
+      p.dispensing.forEach(function (x) {
+        (p.doses || []).forEach(function (d) {
+          var r = d[x.key];
+          if (!r) return;
+          ['quantity', 'refill', 'days'].forEach(function (f) {
+            if (x[f] !== undefined && r[f] !== x[f]) {
+              problems.push(k + ' dose ' + d.dose + ' ' + x.key + ': ' + f + ' is ' +
+                            r[f] + ' but the program declares ' + x[f]);
+            }
+          });
+        });
+      });
+
+      /* Refill/days arithmetic. A brand injectable program is the same fill
+         repeated, so total weeks = (refill + 1) x days. Catches the specific
+         mistake of copying a record and forgetting to change refill. */
+      p.dispensing.forEach(function (x) {
+        var m = /^(\d+)-week/.exec(x.label || '');
+        if (!m || !x.days || x.refill === undefined) return;
+        var claimed = parseInt(m[1], 10) * 7;
+        var actual = (x.refill + 1) * x.days;
+        if (claimed !== actual) {
+          problems.push(k + ' ' + x.key + ': label claims ' + m[1] + ' weeks (' +
+                        claimed + ' days) but ' + (x.refill + 1) + ' fill(s) x ' +
+                        x.days + ' days = ' + actual);
+        }
+      });
     });
 
     if (warnings.length) {

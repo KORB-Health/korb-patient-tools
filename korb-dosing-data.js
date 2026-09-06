@@ -477,7 +477,7 @@ var KORB_DOSING = {
         { field: 'Days Supply', val: '56', copy: true },
         { field: 'Patient Instructions', val: 'INJECT 13 UNITS SUBCUTANEOUSLY ONCE DAILY', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 50 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 60 insulin syringes.', copy: true },
       ]
     },
     greenwich: {
@@ -1207,6 +1207,30 @@ KORB_DOSING.selfCheck = function(){
       if (!pi || pi.indexOf('100-UNIT SYRINGES') === -1) {
         problems.push('SYRINGE ' + k + '/' + ph + ': ' + n + ' units meets or exceeds the ' +
                       cfg.standardUnits + '-unit standard syringe, but Pharmacy Instructions does not state 100-UNIT SYRINGES');
+      }
+    });
+  });
+
+  /* Syringe count against actual dose count. BPC-157 dispensed 50 syringes for a
+     56-day daily course - the patient ran out six days early. Nothing checked it
+     because the syringe guard above only looks at 100-unit callouts, not counts.
+     Daily records only; the weekly and 6-on/1-off agents are covered by their own
+     quantities. */
+  Object.keys(KORB_DOSING.prescribing).forEach(function(k){
+    ['premier','greenwich'].forEach(function(ph){
+      var e = KORB_DOSING.prescribing[k] && KORB_DOSING.prescribing[k][ph];
+      if (!e || !e.fields) return;
+      var g = function(f){ var x = e.fields.filter(function(y){return y.field===f;})[0]; return x ? x.val : null; };
+      var sig = g('Patient Instructions') || '';
+      if (!/ONCE DAILY/i.test(sig)) return;
+      var days = parseInt(g('Days Supply'), 10);
+      var m = (g('Pharmacy Instructions') || '').match(/Dispense\s+(\d+)\s+insulin syringes/i);
+      if (!days || !m) return;
+      var syringes = parseInt(m[1], 10);
+      if (syringes < days) {
+        problems.push('SYRINGE COUNT ' + k + '/' + ph + ': dispenses ' + syringes +
+                      ' syringes for ' + days + ' daily doses - the patient runs out ' +
+                      (days - syringes) + ' days early');
       }
     });
   });
