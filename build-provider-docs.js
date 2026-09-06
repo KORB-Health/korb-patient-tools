@@ -74,8 +74,10 @@ ${R.CSS}
           border: 1px solid #C3E0D2; padding: 4px 9px; display: inline-block; margin-bottom: 14px; }
   .tools { float: right; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
   .tools a { color: #0F5F69; margin-left: 12px; }
+  .mast { border-bottom: 1.5px solid #00B2C3; padding-bottom: 7px; margin-bottom: 16px; }
+  .mast img { height: 34px; width: auto; display: block; }
 }
-@media print { .live, .tools { display: none; } body { padding: 0; max-width: none; } }
+@media print { .live, .tools, .mast { display: none; } body { padding: 0; max-width: none; } }
 </style>
 </head>
 <body>
@@ -94,6 +96,13 @@ ${R.CSS}
       return;
     }
     KORB_DOCS.mount(${JSON.stringify(doc.id)}, KORB_GLP1);
+    /* Masthead, so the on-screen page carries the same lockup as the printed
+       one. The PDF gets it from Chromium's running header, which the browser
+       view has no equivalent of. */
+    var mast = document.createElement('div');
+    mast.className = 'mast';
+    mast.innerHTML = '<img src="' + KORB_DOCS.LOGO_URI + '" alt="KORB Health Group">';
+    document.body.insertBefore(mast, document.body.firstChild);
     var bar = document.createElement('div');
     bar.innerHTML = '<span class="live">Live — reflects korb-glp1-data.js v' +
       KORB_DOCS.esc(KORB_GLP1.meta.version) + ' as of this page load</span>' +
@@ -142,8 +151,24 @@ async function main() {
       format: 'Letter', printBackground: true,
       margin: { top: '0.85in', bottom: '0.7in', left: '0.6in', right: '0.6in' },
       displayHeaderFooter: true,
-      headerTemplate: `<div style="font-size:7pt;color:#767B94;width:100%;padding:0 0.6in;text-align:right;font-family:Helvetica,Arial,sans-serif;">${R.esc('GLP-1 Provider Reference · ' + doc.title)} &nbsp;·&nbsp; KORB Health Group</div>`,
-      footerTemplate: `<div style="font-size:7pt;color:#767B94;width:100%;padding:0 0.6in;display:flex;justify-content:space-between;font-family:Helvetica,Arial,sans-serif;"><span>For KORB provider use only. Not for patient distribution.</span><span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span></div>`
+      /* Running header: KORB lockup left, document identity right, teal rule
+         beneath - the same masthead the FH&L provider references carry, so a
+         page torn out of either set is recognisably from the same library.
+         The logo is a data URI because Chromium's header template has no
+         document base URL and silently drops a file:// or relative image. */
+      headerTemplate: `<div style="width:100%;padding:0 0.6in;font-family:Helvetica,Arial,sans-serif;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:5px;border-bottom:1.5px solid #00B2C3;">
+          <img src="${R.LOGO_URI}" style="height:26px;width:auto;">
+          <div style="text-align:right;font-size:7.5pt;color:#21275B;line-height:1.3;">
+            <div style="font-weight:bold;">${R.esc('GLP-1 Provider Reference · ' + doc.title)}</div>
+            <div style="font-weight:bold;">KORB Health Group</div>
+          </div>
+        </div></div>`,
+      footerTemplate: `<div style="width:100%;padding:0 0.6in;font-family:Helvetica,Arial,sans-serif;">
+        <div style="border-top:1.5px solid #00B2C3;padding-top:5px;display:flex;justify-content:space-between;font-size:7pt;color:#4A4F6B;">
+          <span>For KORB provider use only. Not for patient distribution.</span>
+          <span>Page <span class="pageNumber"></span></span>
+        </div></div>`
     });
     await page.close();
     const pdfBytes = fs.statSync(path.join(OUT, doc.file + '.pdf')).size;

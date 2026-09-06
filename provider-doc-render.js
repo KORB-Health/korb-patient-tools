@@ -25,49 +25,111 @@
    renderer lived inside the builder. */
 var K = null;
 
-const CSS = `  @page { size: Letter; margin: 0.75in 0.6in; }
+const CSS = `  @page { size: Letter; margin: 0.95in 0.6in 0.75in; }
+  /* --------------------------------------------------------------------
+     KORB house style, matched to the Functional Health & Longevity provider
+     references so the whole provider library reads as one set: navy filled
+     section bars, a cream stamp bar under the title, navy table headers with
+     zebra rows, and callouts that are colour-coded by what they are telling
+     you rather than all looking the same.
+
+     Colours are the brand values - navy #21275B, teal #00B2C3, cream #ECE9D1,
+     orange #FBB040 - not the near-miss shades (#1E2D5B / #00B4C8) that some of
+     the older HTML tools drifted onto.
+
+     Print-first. Screen rules live in the document shell, not here.
+     -------------------------------------------------------------------- */
   :root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--orange:#FBB040;
-        --ink:#1A1D33;--ink2:#4A4F6B;--ink3:#767B94;--rule:#DFDCCB;--panel:#F7F6EF;}
+        --ink:#1A1D33;--ink2:#4A4F6B;--ink3:#767B94;
+        --rule:#D5D5CC;--panel:#F5F5F1;--zebra:#F7F7F4;
+        --info:#E8F6F8;--warnbg:#FDF4E3;--okbg:#EEF5F1;--ok:#1B6349;
+        --stop:#A32A20;--stopbg:#FBEDEC;}
   *{box-sizing:border-box;}
-  body{margin:0;font-family:"Source Serif 4",Georgia,serif;font-size:10.2pt;line-height:1.5;color:var(--ink);}
-  h1{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:24pt;margin:0;color:var(--navy);letter-spacing:-.01em;}
-  .sub{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:11pt;color:var(--ink2);margin:2pt 0 0;}
-  .byline{font-family:"IBM Plex Mono",monospace;font-size:7.6pt;color:var(--ink3);margin:10pt 0 0;
-          border-top:1pt solid var(--rule);padding-top:6pt;}
-  .lede{color:var(--ink2);margin:10pt 0 14pt;}
-  h2{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:13pt;color:var(--navy);
-     margin:20pt 0 7pt;padding-bottom:3pt;border-bottom:2pt solid var(--teal);break-after:avoid;}
-  h3{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:10.5pt;margin:13pt 0 5pt;color:var(--ink);break-after:avoid;}
-  h3.prod{background:var(--navy);color:#fff;padding:5pt 8pt;margin-top:16pt;}
-  h3.prod .via{float:right;font-weight:400;font-size:8.4pt;opacity:.75;}
-  h4{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:9.6pt;margin:11pt 0 4pt;color:var(--navy);break-after:avoid;}
-  table{border-collapse:collapse;width:100%;margin:5pt 0 9pt;break-inside:avoid;}
-  .kv th{width:31%;text-align:left;background:var(--panel);color:var(--ink2);font-weight:600;
-         font-family:Archivo,Helvetica,Arial,sans-serif;font-size:8.4pt;vertical-align:top;}
-  .kv th,.kv td{border:0.6pt solid var(--rule);padding:4pt 7pt;vertical-align:top;}
+  body{margin:0;font-family:"Source Serif 4",Georgia,serif;font-size:10.2pt;
+       line-height:1.5;color:var(--ink);}
+
+  /* Title band. Navy fill, white title, teal subtitle - the FH&L opener. */
+  .titleband{background:var(--navy);padding:16pt 18pt 15pt;break-inside:avoid;}
+  h1{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:23pt;margin:0;
+     color:#fff;letter-spacing:-.01em;line-height:1.1;}
+  .titleband .sub{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:11pt;
+     color:var(--teal);margin:4pt 0 0;font-weight:600;}
+
+  /* Stamp bar. Cream, centred, monospace - what built this and when. */
+  .byline{font-family:"IBM Plex Mono",monospace;font-size:8pt;color:var(--ink2);
+          background:var(--cream);margin:0;padding:6pt 10pt;text-align:center;}
+
+  /* Opening note, teal-framed. */
+  .lede{background:var(--info);border:1pt solid var(--teal);color:var(--ink);
+        padding:9pt 12pt;margin:12pt 0 4pt;font-style:italic;break-inside:avoid;}
+
+  /* Section bars. */
+  h2{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:12.5pt;color:#fff;
+     background:var(--navy);margin:18pt 0 8pt;padding:7pt 12pt;
+     break-after:avoid;break-inside:avoid;font-weight:600;}
+  h3{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:10.5pt;
+     margin:13pt 0 5pt;color:var(--navy);break-after:avoid;font-weight:700;}
+  h3.prod{background:var(--navy);color:#fff;padding:6pt 10pt;margin-top:16pt;font-size:10.5pt;}
+  h3.prod .via{float:right;font-weight:400;font-size:8.4pt;opacity:.8;}
+  h4{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:9.8pt;
+     margin:11pt 0 4pt;color:var(--navy);break-after:avoid;font-weight:700;}
+
+  /* Tables. Navy header rows, zebra body, hairline rules. */
+  /* Tables may break across pages; individual ROWS may not. Keeping whole
+     tables intact left a third of several pages blank whenever the next table
+     did not fit, which on an 11-page document is pages of nothing. A split row
+     is the thing that actually misleads a reader, so that is what is forbidden. */
+  table{border-collapse:collapse;width:100%;margin:5pt 0 9pt;}
+  tr{break-inside:avoid;}
+  /* A dose heading and its Tebra fields are one unit. */
+  .rxblock{break-inside:avoid;}
+  thead{display:table-header-group;}
+  .kv th{width:31%;text-align:left;background:#fff;color:var(--navy);font-weight:700;
+         font-family:Archivo,Helvetica,Arial,sans-serif;font-size:8.6pt;vertical-align:top;}
+  .kv th,.kv td{border:0.6pt solid var(--rule);padding:5pt 8pt;vertical-align:top;}
+  .kv tr:nth-child(even) th{background:var(--zebra);}
+  .kv tr:nth-child(even) td{background:var(--zebra);}
   .rx td{font-family:"IBM Plex Mono",monospace;font-size:8.4pt;}
   .grid th{background:var(--navy);color:#fff;font-family:Archivo,Helvetica,Arial,sans-serif;
-           font-size:8pt;text-align:left;padding:4pt 7pt;}
-  .grid td{border:0.6pt solid var(--rule);padding:4pt 7pt;font-size:9pt;}
+           font-size:8.2pt;text-align:left;padding:5pt 8pt;font-weight:600;
+           border:0.6pt solid var(--navy);}
+  .grid td{border:0.6pt solid var(--rule);padding:5pt 8pt;font-size:9pt;}
+  .grid tr:nth-child(even) td{background:var(--zebra);}
+
   ul{margin:4pt 0 9pt;padding-left:14pt;} li{margin-bottom:3pt;}
-  .callout{border-left:3pt solid var(--teal);background:var(--panel);padding:7pt 10pt;margin:9pt 0;break-inside:avoid;}
-  .callout.warn{border-left-color:var(--orange);}
-  .callout.ok{border-left-color:#1E6B4F;background:#F1F7F4;}
-  .callout.ok h3{color:#1E6B4F;}
-  .callout h3{margin:0 0 3pt;font-size:9.6pt;}
+
+  /* Callouts carry meaning in their colour: teal informs, amber warns,
+     green confirms, red stops. Previously they were all the same panel with a
+     different edge, which made a warning look like a footnote. */
+  .callout{border:1pt solid var(--teal);border-left:3.5pt solid var(--teal);
+           background:var(--info);padding:8pt 11pt;margin:9pt 0;break-inside:avoid;}
+  .callout.warn{border-color:var(--orange);border-left-color:var(--orange);background:var(--warnbg);}
+  .callout.ok{border-color:var(--ok);border-left-color:var(--ok);background:var(--okbg);}
+  .callout.ok h3{color:var(--ok);}
+  .callout h3{margin:0 0 3pt;font-size:9.8pt;color:var(--navy);}
   .callout p{margin:0 0 4pt;font-size:9.2pt;} .callout p:last-child{margin-bottom:0;}
-  .gate{border:1.5pt solid #B3261E;background:#FBEDEC;padding:9pt 12pt;margin:12pt 0;break-inside:avoid;}
-  .gate h3{margin:0 0 5pt;color:#B3261E;font-size:10.5pt;}
+
+  .gate{border:1.5pt solid var(--stop);border-left:4pt solid var(--stop);
+        background:var(--stopbg);padding:10pt 13pt;margin:12pt 0;break-inside:avoid;}
+  .gate h3{margin:0 0 5pt;color:var(--stop);font-size:10.5pt;}
   .gate p{margin:0 0 5pt;font-size:9.2pt;} .gate-q{color:var(--ink2);}
+
   .meta{font-family:"IBM Plex Mono",monospace;font-size:7.6pt;color:var(--ink3);}
   .fine{font-size:8.6pt;color:var(--ink2);margin:4pt 0;}
-  .sublabel{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:8.6pt;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin:7pt 0 2pt;}
-  .attest{background:var(--panel);border-left:3pt solid var(--navy);padding:7pt 10pt;font-style:italic;}
-  code{font-family:"IBM Plex Mono",monospace;font-size:8.6pt;background:var(--panel);padding:1pt 3pt;border:0.5pt solid var(--rule);}
-  .foot{margin-top:22pt;border-top:1pt solid var(--rule);padding-top:8pt;font-size:8.4pt;color:var(--ink2);
-        display:flex;gap:26pt;break-inside:avoid;}
+  .sublabel{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:8.6pt;color:var(--ink3);
+            text-transform:uppercase;letter-spacing:.06em;margin:7pt 0 2pt;}
+  .attest{background:var(--panel);border-left:3.5pt solid var(--navy);padding:8pt 11pt;font-style:italic;}
+  code{font-family:"IBM Plex Mono",monospace;font-size:8.6pt;background:var(--panel);
+       padding:1pt 3pt;border:0.5pt solid var(--rule);}
+  .foot{margin-top:22pt;border-top:2pt solid var(--teal);padding-top:9pt;
+        font-size:8.4pt;color:var(--ink2);display:flex;gap:26pt;break-inside:avoid;}
   .foot h4{margin:0 0 3pt;}
   .foot ul{margin:0;padding-left:12pt;}`;
+
+/* The KORB lockup, embedded so the PDF header needs no network and no file
+   beside it. Downsampled to 300px wide and colour-reduced: 4 KB, which is
+   nothing against a 200 KB document, and it prints crisply at 0.55in. */
+const LOGO_URI = 'data:image/png;base64,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';
 
 /* ── THE ELEVEN DOCUMENTS ────────────────────────────────────────────────
    Each names the products it covers. A document may bundle an injectable and
@@ -352,7 +414,7 @@ function sectionRx(doc) {
     });
     const constantLabels = constant.map(c => c[0]);
     if (constant.length) {
-      h += `<h4>Same for every dose</h4><table class="kv rx">${rows(constant)}</table>`;
+      h += `<div class="rxblock"><h4>Same for every dose</h4><table class="kv rx">${rows(constant)}</table></div>`;
     }
 
     /* Short headings. The dispensing list carries the full label ("8-week
@@ -369,8 +431,14 @@ function sectionRx(doc) {
           const v = val(label, get, x);
           return v === undefined ? null : [label, v];
         });
-      h += `<h4>${esc(x.d.dose)}${x.d.presentation ? ' · ' + esc(x.d.presentation) : ''} — ${esc(LABEL[x.sk] || x.sk)}</h4>
-        <table class="kv rx">${rows(varying)}</table>`;
+      /* Heading and its fields are ONE unit that never splits. Letting tables
+         flow freely filled the pages but broke a dose block across two of them,
+         so page 4 opened with Quantity and Days Supply and no dose heading -
+         Tebra values with nothing saying which dose they belong to, in the one
+         document whose entire purpose is copying those values correctly. */
+      h += `<div class="rxblock">
+        <h4>${esc(x.d.dose)}${x.d.presentation ? ' · ' + esc(x.d.presentation) : ''} — ${esc(LABEL[x.sk] || x.sk)}</h4>
+        <table class="kv rx">${rows(varying)}</table></div>`;
     });
   });
   return h;
@@ -489,11 +557,13 @@ function renderBody(data, doc) {
   const p0 = K.getProduct(doc.products[0]);
   const ph = doc.brand ? null : K.pharmacies[p0.pharmacy];
   return `
-<h1>${esc(doc.title)}</h1>
-<p class="sub">GLP-1 Provider Reference</p>
-<p class="byline">Weight Loss Program · KORB Health Group · korb-glp1-data.js v${esc(K.meta.version)} · ${esc(doc.stamp || 'live — reflects the data file as of this page load')}</p>
+<div class="titleband">
+  <h1>${esc(doc.title)}</h1>
+  <p class="sub">Weight Loss &amp; Metabolic Health · Provider Reference</p>
+</div>
+<p class="byline">KORB Health Group · korb-glp1-data.js v${esc(K.meta.version)} · ${esc(doc.stamp || 'live — reflects the data file as of this page load')}</p>
 
-<p class="lede">Everything needed to prescribe ${esc(doc.title.replace(/ — /, ' '))}, complete on its own. Values are copied literally into Tebra — do not paraphrase, and do not adjust quantity, refill or days supply.</p>
+<div class="lede">Everything needed to prescribe ${esc(doc.title.replace(/ — /, ' '))}, complete on its own. Values are copied literally into Tebra — do not paraphrase, and do not adjust quantity, refill or days supply.</div>
 
 ${sectionGate(doc)}
 ${sectionGlance(doc, ph)}
@@ -530,5 +600,5 @@ function mount(docId, data) {
   document.body.innerHTML = renderBody(K, doc);
 }
 
-return { DOCS: DOCS, esc: esc, renderBody: renderBody, mount: mount, CSS: CSS };
+return { DOCS: DOCS, esc: esc, renderBody: renderBody, mount: mount, CSS: CSS, LOGO_URI: LOGO_URI };
 }));
