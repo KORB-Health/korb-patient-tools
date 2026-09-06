@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.13',
+    version: '2.14',
     created: '2026-08-06',
     lastUpdated: '2026-09-06',
     owner: 'Director of Clinical Operations',
@@ -67,6 +67,21 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-06 (v2.14): SIGNED OFF. Don Stevenson, PA-C, Director of Clinical ' +
+      'Operations and Lead Provider, reviewed all three monographs against v2.13 and ' +
+      'approved them with no changes and no exceptions. Records written to ' +
+      'monographSignoff.records, each pinning the fingerprint that monograph had ' +
+      'when he read it. All eleven provider documents lose the red "Not cleared for ' +
+      'distribution" gate and instead carry a line naming him as reviewer, the date ' +
+      'and the fingerprint. Orforglipron is signed flat rather than with an ' +
+      'exception, at his direction; its own verify-against-prescribing-information ' +
+      'flag still renders on the Foundayo document independently of the sign-off, ' +
+      'so the newest agent keeps its caveat either way. WHAT THIS DOES NOT DO: the ' +
+      'sign-off covers the text as it stood. Editing any monograph turns its record ' +
+      'STALE, restores the gate on that molecule\'s documents and fails the build ' +
+      'until it is re-reviewed. That is the point of the fingerprint and it is ' +
+      'verified by regression, not asserted.',
+
       '2026-09-06 (v2.13): COST IS OUT OF THIS FILE, IN WORDS AS WELL AS FIGURES, ' +
       'AND THE FINANCE ITEMS ARE GONE. Don, 2026-09-06: this is a clinical project ' +
       'and cost was only ever working data for sizing vials. That work is finished. ' +
@@ -4373,18 +4388,47 @@ var KORB_GLP1 = {
     /* Empty until a clinician signs. Keyed by molecule, because they are reviewed
        separately - orforglipron is the newest and least certain and should not
        inherit confidence from semaglutide's review. */
+    /* Signed by Don on 2026-09-06. He reviewed the three monographs and
+       approved all of them with no changes and no exceptions. Each record
+       pins the fingerprint the monograph had at that moment; edit any of
+       those monographs and signoffStatus turns that record STALE, the gate
+       comes back on its documents, and the build refuses. Do not hand-edit a
+       fingerprint to silence that - regenerate it after a reviewer has seen
+       the current text. */
     records: {
-      // semaglutide: {
-      //   signedBy: 'Donald Stevenson, PA-C',
-      //   role: 'Director of Clinical Operations and Lead Provider',
-      //   date: '2026-09-06',
-      //   dataVersion: '2.11',
-      //   fingerprint: '<from monographFingerprint("semaglutide")>',
-      //   attests: 'Reviewed the full monograph as rendered, including the ' +
-      //            'interaction windows, peri-procedural holding guidance and ' +
-      //            'ICD-10 selections, and approve it for provider distribution.',
-      //   exceptions: []
-      // },
+      semaglutide: {
+        signedBy: 'Donald Stevenson, PA-C',
+        role: 'Director of Clinical Operations and Lead Provider',
+        date: '2026-09-06',
+        dataVersion: '2.13',
+        fingerprint: 'fp-ff64f4c7-5796',
+        attests:
+          'Reviewed the monograph as rendered on the provider documents - indications and KORB scope, interactions including the peri-procedural hold and the tirzepatide oral contraceptive windows, absolute contraindications, cautions, monitoring, ICD-10 selections, the chart attestation language and the patient counseling script - and approve it for distribution to KORB providers.',
+        exceptions: []
+      },
+
+      tirzepatide: {
+        signedBy: 'Donald Stevenson, PA-C',
+        role: 'Director of Clinical Operations and Lead Provider',
+        date: '2026-09-06',
+        dataVersion: '2.13',
+        fingerprint: 'fp-6cc941b7-6106',
+        attests:
+          'Reviewed the monograph as rendered on the provider documents - indications and KORB scope, interactions including the peri-procedural hold and the tirzepatide oral contraceptive windows, absolute contraindications, cautions, monitoring, ICD-10 selections, the chart attestation language and the patient counseling script - and approve it for distribution to KORB providers.',
+        exceptions: []
+      },
+
+      orforglipron: {
+        signedBy: 'Donald Stevenson, PA-C',
+        role: 'Director of Clinical Operations and Lead Provider',
+        date: '2026-09-06',
+        dataVersion: '2.13',
+        fingerprint: 'fp-2c45be91-4791',
+        attests:
+          'Reviewed the monograph as rendered on the provider documents - indications and KORB scope, interactions including the peri-procedural hold and the tirzepatide oral contraceptive windows, absolute contraindications, cautions, monitoring, ICD-10 selections, the chart attestation language and the patient counseling script - and approve it for distribution to KORB providers.',
+        note: 'Signed flat rather than with an exception, at Don\'s direction. The monograph keeps its own standing flag telling providers to verify against current prescribing information, which renders on the Foundayo document independently of this record.',
+        exceptions: []
+      }
     },
 
     /* The areas the reviewer should look at hardest. Not the only things being

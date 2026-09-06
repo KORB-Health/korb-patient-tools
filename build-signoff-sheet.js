@@ -42,27 +42,35 @@ const QUESTIONS = {
   all: [],
   tirzepatide: [
     {
-      risk: 'High',
+      risk: 'Resolved',
       title: 'Oral contraceptive windows',
       body: 'Written as: advise a non-oral method, or add a barrier method, for four weeks after ' +
             'initiation AND for four weeks after each dose increase. The second window is the ' +
             'one providers miss, because a dose increase does not feel like a new start.',
-      ask: 'Confirm both four-week windows are what KORB wants counselled, and confirm this ' +
-           'stays tirzepatide-only rather than being applied across the class.'
+      ask: 'CONFIRMED as written, 2026-09-06. Both four-week windows stand, and this ' +
+           'stays tirzepatide-only - it is not applied to semaglutide or orforglipron.'
     }
   ],
   orforglipron: [
     {
-      risk: 'High',
-      title: 'Signing the newest agent',
+      risk: 'Resolved',
+      title: 'The newest agent',
       body: 'This monograph carries its own standing flag telling providers to verify against ' +
             'current prescribing information, and its interaction list ends with the same ' +
             'caveat. The evidence section says the outcome data are limited.',
-      ask: 'You can sign this one with an exception recorded rather than signing it flat — the ' +
-           'record supports it, and the exception prints on the document. Say which you want.'
+      ask: 'SIGNED FLAT, 2026-09-06, no exception recorded. The monograph keeps its own ' +
+           'verify-against-prescribing-information flag, which prints on the Foundayo ' +
+           'document independently of the sign-off, so the newest agent carries its ' +
+           'caveat either way.'
     }
   ]
 };
+
+const REC = K.monographSignoff.records.semaglutide || {};
+const SIGNER = REC.signedBy || '—';
+const SIGNROLE = REC.role || '—';
+const SIGNDATE = REC.date || '—';
+const SIGNVER = REC.dataVersion || K.meta.version;
 
 const MOLECULES = ['semaglutide', 'tirzepatide', 'orforglipron'];
 const NAMES = {
@@ -79,10 +87,10 @@ const SCOPE = {
 
 function questionCard(q) {
   return `<div class="q">
-    <p class="risk">${esc(q.risk)} risk</p>
+    <p class="risk">${esc(q.risk)}</p>
     <h4>${esc(q.title)}</h4>
     <p>${esc(q.body)}</p>
-    <p class="ask"><span class="asklabel">Needs your answer</span> ${esc(q.ask)}</p>
+    <p class="ask"><span class="asklabel">Answered</span> ${esc(q.ask)}</p>
   </div>`;
 }
 
@@ -99,7 +107,7 @@ function molecule(d) {
           ${esc(SCOPE[d])}</p>
       </div>
       <div class="fpbox">
-        <p class="fplabel">Fingerprint being signed</p>
+        <p class="fplabel">Fingerprint signed</p>
         <p class="fp">${esc(fp)}</p>
       </div>
     </header>
@@ -141,7 +149,7 @@ const html = `<title>Monograph Sign-Off</title>
   --rule:#DCDCD3;
   --navy:#21275B; --teal:#00B2C3;
   --stop:#A32A20; --stopbg:#FBEEEC;
-  --ok:#1C6349;
+  --ok:#1C6349; --okbg:#EFF5F1;
   --ask:#8A5300; --askbg:#FBF3E4;
 }
 @media (prefers-color-scheme: dark){
@@ -151,7 +159,7 @@ const html = `<title>Monograph Sign-Off</title>
     --rule:#31364A;
     --navy:#9FA8E0; --teal:#39CBD8;
     --stop:#F0918A; --stopbg:#2B1B1A;
-    --ok:#7DD0AE;
+    --ok:#7DD0AE; --okbg:#17251F;
     --ask:#E8B872; --askbg:#2A2318;
   }
 }
@@ -161,7 +169,7 @@ const html = `<title>Monograph Sign-Off</title>
   --rule:#31364A;
   --navy:#9FA8E0; --teal:#39CBD8;
   --stop:#F0918A; --stopbg:#2B1B1A;
-  --ok:#7DD0AE;
+  --ok:#7DD0AE; --okbg:#17251F;
   --ask:#E8B872; --askbg:#2A2318;
 }
 *{box-sizing:border-box;}
@@ -208,13 +216,13 @@ section.mol{margin-top:52px;padding-top:8px;}
 .fp{font-family:"IBM Plex Mono",monospace;font-size:.82rem;margin:0;color:var(--ink);}
 
 .qs{margin-top:22px;display:flex;flex-direction:column;gap:14px;}
-.q{background:var(--askbg);border-left:3px solid var(--ask);padding:16px 19px;}
+.q{background:var(--okbg);border-left:3px solid var(--ok);padding:16px 19px;}
 .risk{font-size:.68rem;text-transform:uppercase;letter-spacing:.13em;
-  color:var(--ask);font-weight:700;margin:0 0 5px;}
+  color:var(--ok);font-weight:700;margin:0 0 5px;}
 .q p{font-size:.96rem;}
 .ask{margin-bottom:0;}
 .asklabel{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;
-  font-weight:700;color:var(--ask);display:block;margin-bottom:2px;}
+  font-weight:700;color:var(--ok);display:block;margin-bottom:2px;}
 
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:0 30px;}
 .minilabel{font-size:.7rem;text-transform:uppercase;letter-spacing:.11em;
@@ -231,6 +239,10 @@ th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;
   color:var(--ink3);border-bottom:1px solid var(--rule);padding:0 10px 6px 0;font-weight:600;}
 td{padding:9px 10px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top;}
 td.who{color:var(--ink2);white-space:nowrap;}
+.signed{background:var(--okbg);border-left:3px solid var(--ok);padding:15px 19px;margin:0 0 6px;}
+.signedby{font-family:Archivo,sans-serif;font-weight:700;color:var(--ok);margin:0 0 6px;
+  font-size:.95rem;letter-spacing:.01em;}
+.signed p{font-size:.95rem;margin-bottom:0;}
 a{color:var(--navy);}
 </style>
 
@@ -238,42 +250,37 @@ a{color:var(--navy);}
 <header class="top">
   <p class="eyebrow">KORB Health · GLP-1 Provider Reference</p>
   <h1>Monograph clinical sign-off</h1>
-  <p class="lede">Eleven provider documents are built and correct. All eleven currently
-  open with a red notice saying the clinical content has not been reviewed. This is
-  what clears it.</p>
+  <p class="lede">Signed. All three monographs were reviewed and approved with no
+  changes and no exceptions, and the eleven provider documents now carry an attribution
+  line instead of the red notice. This page is the record of what was approved.</p>
+  <div class="signed">
+    <p class="signedby">${esc(SIGNER)} · ${esc(SIGNROLE)} · ${esc(SIGNDATE)}</p>
+    <p>Approved with no changes and no exceptions, against korb-glp1-data.js v${esc(SIGNVER)}.
+    Each monograph below shows the fingerprint that was signed. If any of them is edited,
+    that record goes stale on its own, the red notice returns to that molecule's documents,
+    and the build stops until it is re-reviewed.</p>
+  </div>
   <p class="stamp">korb-glp1-data.js v${esc(K.meta.version)} · three monographs ·
   ${esc(Object.keys(K.products).length)} products · prepared for
   Donald Stevenson, PA-C</p>
 </header>
 
 <div class="how">
-  <h3>How to sign off</h3>
-  <ol>
-    <li><strong>Read the three sections below.</strong> Each carries the clinical content
-    that a provider would not independently catch if it were wrong — interactions,
-    contraindications, cautions, monitoring, ICD-10, and the attestation language that
-    goes into the chart. Everything else in the documents is dosing and Tebra fields,
-    which you have already been through.</li>
-    <li><strong>Answer the two amber questions.</strong> They are things I could not
-    decide for you without making a clinical call that is yours. The peri-procedural
-    hold you already answered — 7 days, or longer if anaesthesia or the surgeon's
-    office require it — is written into all three monographs and appears in the
-    interaction lists below.</li>
-    <li><strong>Tell me the verdict per molecule</strong> — approve, approve with an
-    exception, or changes needed. You can sign one and hold another; they are recorded
-    separately, on purpose, so orforglipron does not inherit confidence from
-    semaglutide.</li>
-  </ol>
+  <h3>What was signed, and what it covers</h3>
+  <p>The sections below are the clinical content a provider would not independently catch
+  if it were wrong: indications and KORB scope, interactions, absolute contraindications,
+  cautions, monitoring, ICD-10 selections, the chart attestation copied into the note, and
+  the patient counseling script. The rest of each document is dosing and Tebra fields.</p>
   <div class="mech">
-    <p><strong>What happens when you approve.</strong> I record your name, role, date and
-    the fingerprint printed beside each molecule. The red notice on those documents is
-    replaced by a line naming you as the reviewer.</p>
-    <p style="margin-bottom:0"><strong>Why the fingerprint.</strong> It is a checksum of
-    the monograph exactly as you are reading it. Every document re-checks it on open. If
-    anyone edits that monograph afterwards — me included — the checksum stops matching,
-    your sign-off is marked as no longer covering the text, the red notice comes back,
-    and the build refuses until it is re-reviewed. A sign-off recorded as just a name and
-    a date would keep sitting there over content you never saw.</p>
+    <p><strong>The sign-off is pinned to the text.</strong> Each record stores a checksum
+    of the monograph as it stood when it was read. Every document recomputes that checksum
+    when it opens. A sign-off recorded as only a name and a date would keep sitting on the
+    page after someone edited a contraindication, putting a clinician's name over content
+    they never saw.</p>
+    <p style="margin-bottom:0"><strong>Re-review is triggered automatically.</strong>
+    Verified rather than assumed: adding one contraindication to the semaglutide monograph
+    after signing restored the red notice on the five semaglutide documents, left the
+    tirzepatide documents alone, and stopped the build. Nothing about that is manual.</p>
   </div>
 </div>
 
