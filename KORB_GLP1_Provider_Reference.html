@@ -4,9 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KORB Health — GLP-1 Provider Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
 <style>
   :root{
-    --navy:#1E2D5B;--teal:#00B4C8;--lt:#E0F6F9;--ln:#EEF0F7;--bd:#D6E0E3;
+    --navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--ln:#EEF0F7;--bd:#D6E0E3;
     --tx:#1A1A2E;--mu:#5A6070;--gb:#F5F5F5;--amber:#FFF8E1;--amberbd:#F9A825;
     --premier:#1565C0;--premierlt:#E3F2FD;
     --belmar:#6A1B9A;--belmarlt:#F3E5F5;
@@ -16,7 +19,7 @@
     --ok:#2E7D32;--oklt:#E8F5E9;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:Arial,sans-serif;font-size:14px;color:var(--tx);background:#fff;}
+  body{font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;color:var(--tx);background:#fff;}
   .wrap{max-width:980px;margin:0 auto;padding:24px 20px 48px;}
 
   /* Header */
@@ -31,12 +34,12 @@
   .ctrl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;align-items:start;}
   .cg{display:flex;flex-direction:column;gap:5px;}
   .cg label{font-size:12px;font-weight:700;color:var(--navy);}
-  .cg select{padding:7px 10px;border:1.5px solid var(--teal);border-radius:6px;font-size:13px;color:var(--navy);background:#fff;font-family:Arial,sans-serif;}
+  .cg select{padding:7px 10px;border:1.5px solid var(--teal);border-radius:6px;font-size:13px;color:var(--navy);background:#fff;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
   .cg select:disabled{background:var(--gb);color:var(--mu);border-color:var(--bd);}
   .cg .hint{font-size:11px;color:var(--mu);}
   .btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
-  .print-btn{background:var(--navy);color:#fff;border:none;border-radius:6px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:700;font-family:Arial,sans-serif;}
-  .reset-btn{background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;font-weight:700;font-family:Arial,sans-serif;}
+  .print-btn{background:var(--navy);color:#fff;border:none;border-radius:6px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:700;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
+  .reset-btn{background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;font-weight:700;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
 
   /* Compatibility banner */
   .compat{border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;border:1.5px solid;display:none;}
@@ -86,10 +89,10 @@
   .rx-row{display:grid;grid-template-columns:190px 1fr auto;gap:10px;align-items:start;padding:8px 14px;border-bottom:1px solid var(--bd);}
   .rx-row:last-child{border-bottom:none;}
   .rx-lbl{font-size:12px;font-weight:700;color:var(--navy);}
-  .rx-val{font-size:12.5px;font-family:'Courier New',monospace;word-break:break-word;color:var(--tx);}
-  .copy-btn{background:var(--teal);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif;white-space:nowrap;}
+  .rx-val{font-size:12.5px;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.012em;word-break:break-word;color:var(--tx);}
+  .copy-btn{background:var(--teal);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;white-space:nowrap;}
   .copy-btn.ok{background:var(--ok);}
-  .copy-all{background:#fff;color:var(--navy);border:none;border-radius:4px;padding:4px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif;}
+  .copy-all{background:#fff;color:var(--navy);border:none;border-radius:4px;padding:4px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
 
   /* Pricing */
   .pricing-panel{border:1.5px solid var(--navy);border-radius:8px;padding:14px 16px;margin-bottom:8px;}
@@ -684,16 +687,16 @@ function renderRx(p){
     }).join('');
     if (!br){
       bh += '<div class="rx-row"><div class="rx-lbl" style="color:#7A1F1F;">Incomplete</div>' +
-            '<div class="rx-val" style="font-family:Arial,sans-serif;color:#7A1F1F;">' +
+            '<div class="rx-val" style="font-family:Montserrat,Helvetica,Arial,sans-serif;color:#7A1F1F;">' +
             'Tebra prescribing values are not on file for this product. Confirm the drug ' +
             'dropdown text and patient instructions with Operations before sending.</div><div></div></div>';
     }
     if (p.presentationConflict){
       bh += '<div class="rx-row"><div class="rx-lbl" style="color:#8A5A00;">Check</div>' +
-            '<div class="rx-val" style="font-family:Arial,sans-serif;color:#5D3A00;">' + esc(p.presentationConflict) + '</div><div></div></div>';
+            '<div class="rx-val" style="font-family:Montserrat,Helvetica,Arial,sans-serif;color:#5D3A00;">' + esc(p.presentationConflict) + '</div><div></div></div>';
     }
     if (p.prescribingNotes && p.prescribingNotes.length){
-      bh += '<div class="rx-row"><div class="rx-lbl">Notes</div><div class="rx-val" style="font-family:Arial,sans-serif;">' +
+      bh += '<div class="rx-row"><div class="rx-lbl">Notes</div><div class="rx-val" style="font-family:Montserrat,Helvetica,Arial,sans-serif;">' +
             p.prescribingNotes.map(function(n){ return '\u2022 ' + esc(n); }).join('<br>') + '</div><div></div></div>';
     }
     el.innerHTML = bh; el.style.display = 'block';
@@ -741,7 +744,7 @@ function renderRx(p){
 
   if (d.tebraDrugSelectNote){
     html += '<div class="rx-row"><div class="rx-lbl" style="color:#8A5A00;">Note</div>' +
-            '<div class="rx-val" style="font-family:Arial,sans-serif;color:#5D3A00;">' + esc(d.tebraDrugSelectNote) + '</div><div></div></div>';
+            '<div class="rx-val" style="font-family:Montserrat,Helvetica,Arial,sans-serif;color:#5D3A00;">' + esc(d.tebraDrugSelectNote) + '</div><div></div></div>';
   }
 
   el.innerHTML = html;
@@ -850,7 +853,7 @@ function renderProgression(){
           pr.reasonsToStayOnFourWeek.map(function(r){ return '<tr><td>' + esc(r) + '</td></tr>'; }).join('') +
           '</tbody></table></div>';
   if (isOralProd && pr.oral){
-    html += '<div class="openflag" style="background:#E0F6F9;border-color:#00B4C8;color:#004E58;">' +
+    html += '<div class="openflag" style="background:#E0F6F9;border-color:#00B2C3;color:#004E58;">' +
             '<strong>This is an oral product \u2014 different follow-up rule.</strong><br>' +
             esc(pr.oral.rule) + ' Options: ' + esc(pr.oral.followUpOptions.join(' or ')) + '. ' +
             esc(pr.oral.modality) + '<br><strong>' + esc(pr.oral.supplyIsNotCadence) + '</strong></div>';

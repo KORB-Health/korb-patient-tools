@@ -141,7 +141,7 @@ function molecule(d) {
 }
 
 const html = `<title>Monograph Sign-Off</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap">
 <style>
 :root{
   --ground:#F6F6F2; --panel:#FFFFFF; --sunk:#EFEFE9;
@@ -174,14 +174,14 @@ const html = `<title>Monograph Sign-Off</title>
 }
 *{box-sizing:border-box;}
 body{background:var(--ground);color:var(--ink);
-  font-family:"Source Serif 4",Georgia,serif;font-size:16.5px;line-height:1.58;
+  font-family:Montserrat,"Helvetica Neue",Arial,sans-serif;font-size:16.5px;line-height:1.58;
   margin:0;padding:0 20px 90px;}
 .wrap{max-width:47rem;margin:0 auto;}
 h1,h2,h3,h4,.eyebrow,.minilabel,.risk,.fplabel,.asklabel,.stamp{
-  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;}
-h1{font-size:2.05rem;line-height:1.14;margin:0 0 10px;font-weight:700;
+  font-family:Montserrat,"Helvetica Neue",Arial,sans-serif;}
+h1{font-size:2rem;line-height:1.14;margin:0 0 10px;font-weight:800;
   letter-spacing:-.015em;text-wrap:balance;}
-h2{font-size:1.5rem;margin:0 0 3px;font-weight:700;letter-spacing:-.01em;}
+h2{font-size:1.45rem;margin:0 0 3px;font-weight:800;letter-spacing:-.01em;}
 h3{font-size:.94rem;text-transform:uppercase;letter-spacing:.09em;
   color:var(--ink2);font-weight:600;margin:30px 0 8px;
   padding-bottom:5px;border-bottom:1px solid var(--rule);}
@@ -195,7 +195,7 @@ header.top{padding:54px 0 0;}
 .eyebrow{font-size:.73rem;text-transform:uppercase;letter-spacing:.15em;
   color:var(--teal);font-weight:600;margin:0 0 9px;}
 .lede{font-size:1.12rem;color:var(--ink2);margin-bottom:22px;}
-.stamp{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--ink3);
+.stamp{font-family:Montserrat,"Helvetica Neue",Arial,sans-serif;letter-spacing:.02em;font-size:.74rem;color:var(--ink3);
   letter-spacing:.03em;border-top:1px solid var(--rule);padding-top:11px;}
 
 .how{background:var(--panel);border:1px solid var(--rule);
@@ -213,7 +213,7 @@ section.mol{margin-top:52px;padding-top:8px;}
 .fpbox{background:var(--sunk);padding:9px 13px;border:1px solid var(--rule);}
 .fplabel{font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;
   color:var(--ink3);margin:0 0 3px;font-weight:600;}
-.fp{font-family:"IBM Plex Mono",monospace;font-size:.82rem;margin:0;color:var(--ink);}
+.fp{font-family:Montserrat,"Helvetica Neue",Arial,sans-serif;letter-spacing:.02em;font-size:.82rem;margin:0;color:var(--ink);}
 
 .qs{margin-top:22px;display:flex;flex-direction:column;gap:14px;}
 .q{background:var(--okbg);border-left:3px solid var(--ok);padding:16px 19px;}
@@ -233,14 +233,14 @@ blockquote{margin:0 0 11px;padding:13px 17px;background:var(--panel);
 
 .close{margin-top:56px;border-top:2px solid var(--navy);padding-top:20px;}
 .close h3{border:0;margin-top:0;}
-table{width:100%;border-collapse:collapse;font-family:Archivo,sans-serif;
+table{width:100%;border-collapse:collapse;font-family:Montserrat,"Helvetica Neue",Arial,sans-serif;
   font-size:.9rem;margin-bottom:16px;}
 th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;
   color:var(--ink3);border-bottom:1px solid var(--rule);padding:0 10px 6px 0;font-weight:600;}
 td{padding:9px 10px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top;}
 td.who{color:var(--ink2);white-space:nowrap;}
 .signed{background:var(--okbg);border-left:3px solid var(--ok);padding:15px 19px;margin:0 0 6px;}
-.signedby{font-family:Archivo,sans-serif;font-weight:700;color:var(--ok);margin:0 0 6px;
+.signedby{font-family:Montserrat,"Helvetica Neue",Arial,sans-serif;font-weight:700;color:var(--ok);margin:0 0 6px;
   font-size:.95rem;letter-spacing:.01em;}
 .signed p{font-size:.95rem;margin-bottom:0;}
 a{color:var(--navy);}

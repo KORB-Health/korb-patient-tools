@@ -69,10 +69,10 @@ ${R.CSS}
   body { max-width: 8.5in; margin: 0 auto; padding: 28px 26px 60px; font-size: 15px; background: #FBFAF6; }
   h1 { font-size: 30px; } h2 { font-size: 19px; } h3 { font-size: 15px; } h4 { font-size: 14px; }
   table { font-size: 14px; } .rx td { font-size: 13px; }
-  .live { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .06em;
+  .live { font-family: Montserrat, Helvetica, Arial, sans-serif; font-weight: 600; font-size: 10px; letter-spacing: .06em;
           text-transform: uppercase; color: #1E6B4F; background: #E9F3EE;
           border: 1px solid #C3E0D2; padding: 4px 9px; display: inline-block; margin-bottom: 14px; }
-  .tools { float: right; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+  .tools { float: right; font-family: Montserrat, Helvetica, Arial, sans-serif; font-weight: 600; font-size: 12px; }
   .tools a { color: #0F5F69; margin-left: 12px; }
   .mast { border-bottom: 1.5px solid #00B2C3; padding-bottom: 7px; margin-bottom: 16px; }
   .mast img { height: 34px; width: auto; display: block; }
@@ -156,7 +156,7 @@ async function main() {
          page torn out of either set is recognisably from the same library.
          The logo is a data URI because Chromium's header template has no
          document base URL and silently drops a file:// or relative image. */
-      headerTemplate: `<div style="width:100%;padding:0 0.6in;font-family:Helvetica,Arial,sans-serif;">
+      headerTemplate: `<div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:5px;border-bottom:1.5px solid #00B2C3;">
           <img src="${R.LOGO_URI}" style="height:26px;width:auto;">
           <div style="text-align:right;font-size:7.5pt;color:#21275B;line-height:1.3;">
@@ -164,7 +164,7 @@ async function main() {
             <div style="font-weight:bold;">KORB Health Group</div>
           </div>
         </div></div>`,
-      footerTemplate: `<div style="width:100%;padding:0 0.6in;font-family:Helvetica,Arial,sans-serif;">
+      footerTemplate: `<div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
         <div style="border-top:1.5px solid #00B2C3;padding-top:5px;display:flex;justify-content:space-between;font-size:7pt;color:#4A4F6B;">
           <span>For KORB provider use only. Not for patient distribution.</span>
           <span>Page <span class="pageNumber"></span></span>
@@ -176,6 +176,29 @@ async function main() {
     console.log(`  ${doc.file}  html ${String(htmlBytes).padStart(5)}  pdf ${String(pdfBytes).padStart(7)}${errs.length ? '  ERRORS: ' + errs.join('|') : ''}`);
   }
   await browser.close();
+
+  /* Every produced PDF must carry ONLY the brand typeface. A dropped @font-face
+     falls back to Helvetica silently and the page still looks plausible, which
+     is exactly the kind of defect that ships. Regression-tested by renaming the
+     family in the CSS: the build fails. */
+  const offBrand = [];
+  for (const doc of list) {
+    const buf = fs.readFileSync(path.join(OUT, doc.file + '.pdf'));
+    const faces = new Set();
+    const re = /\/BaseFont\s*\/([A-Za-z0-9+\-,]+)/g;
+    let m; const str = buf.toString('latin1');
+    while ((m = re.exec(str)) !== null) faces.add(m[1].split('+').pop());
+    [...faces].filter(f => !/^Montserrat/.test(f))
+              .forEach(f => offBrand.push(doc.file + ': ' + f));
+  }
+  if (offBrand.length) {
+    console.error('BUILD FAILED — non-brand typeface embedded in the PDF output:');
+    offBrand.forEach(x => console.error('  - ' + x));
+    console.error('The KORB guidelines specify Montserrat. Check the @font-face data URIs in provider-doc-render.js.');
+    process.exit(1);
+  }
+  console.log('Typeface check: all ' + list.length + ' PDFs embed Montserrat only.');
+
   console.log(`\nBuilt ${list.length} document(s) from korb-glp1-data.js v${K.meta.version} on ${BUILD_DATE}`);
   console.log('HTML renders live from the data file. PDF is a snapshot of this build.');
 }

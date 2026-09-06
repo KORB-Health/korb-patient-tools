@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.14',
+    version: '2.15',
     created: '2026-08-06',
     lastUpdated: '2026-09-06',
     owner: 'Director of Clinical Operations',
@@ -67,6 +67,28 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-06 (v2.15): BRAND TYPEFACE. The KORB guidelines specify Montserrat ' +
+      'ExtraBold for headlines and Montserrat Regular for body copy. The documents ' +
+      'were set in Archivo and Source Serif and the provider tool in Arial, so none ' +
+      'of them was on brand. All three are now Montserrat throughout. Four weights ' +
+      'are EMBEDDED in provider-doc-render.js as subsetted woff2 data URIs rather ' +
+      'than pulled from Google Fonts: a document opened from an intranet behind a ' +
+      'proxy that blocks external CDNs still renders in the brand face, the PDF ' +
+      'build does not depend on Montserrat being installed on whichever machine ' +
+      'runs it, and an offline copy keeps its typography. Subsetted to Latin plus ' +
+      'the punctuation these documents actually use - 68 KB for all four weights ' +
+      'against 350 KB for the full families. The literal Tebra values lost their ' +
+      'monospace face, since that face is not in the guidelines; the copy-this- ' +
+      'exactly signal is now a tinted panel and open letter-spacing instead. The ' +
+      'provider tool also moves off the near-miss shades #1E2D5B and #00B4C8 onto ' +
+      'brand navy #21275B and teal #00B2C3. GUARD ADDED, proved by renaming the ' +
+      'family and watching the build fail: the builder inspects every PDF it ' +
+      'produces and refuses to report success if any non-Montserrat face is ' +
+      'embedded. A dropped @font-face falls back to Helvetica silently and the page ' +
+      'still looks plausible, which is exactly the kind of defect that ships. ' +
+      'Presentation only - no data changed, and the three sign-off records stay ' +
+      'current, verified rather than assumed.',
+
       '2026-09-06 (v2.14): SIGNED OFF. Don Stevenson, PA-C, Director of Clinical ' +
       'Operations and Lead Provider, reviewed all three monographs against v2.13 and ' +
       'approved them with no changes and no exceptions. Records written to ' +
