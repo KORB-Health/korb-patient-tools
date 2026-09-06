@@ -47,9 +47,9 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '1.4',
+    version: '2.7',
     created: '2026-08-06',
-    lastUpdated: '2026-08-09',
+    lastUpdated: '2026-09-05',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -67,6 +67,209 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-05 (v2.7): DISCARD INSTRUCTION MADE PROGRAM-WIDE, PLUS TIRZEPATIDE ' +
+      'INDICATIONS. Three answers from Don landed together. (1) The vial-discard ' +
+      'instruction now reads "Discard after 4 doses or 28 days." and sits on all 88 ' +
+      'compounded injectable sigs across Premier, Premier glycine, Belmar, Farmakeio ' +
+      'and Greenwich, both programs - not just the three oversize semaglutide doses ' +
+      'it was added to on the first pass. Don asked for consistency, and the wording ' +
+      'is harmless where a vial empties before four doses and protective where it ' +
+      'does not. It was sized to the cap before being written: at 139 of 140 ' +
+      'characters on the longest record, belmar_sema 0.25 mg 4-week, it fits with one ' +
+      'character spare, and "Discard vial after 4 doses or 28 days" does not fit at ' +
+      'all. Oral products are excluded - there is no vial to discard. 66 sigs also ' +
+      'gained a full stop where the base sentence previously ran straight into the ' +
+      'new one. The accepted-limitation requiresSigText was updated to match, so the ' +
+      'guard tracks the new wording rather than the old. (2) Tirzepatide indications ' +
+      'are now stored on its monograph, supplied by Don. This surfaced because the ' +
+      'Belmar tirzepatide source document carried SEMAGLUTIDE\'s indication list - a ' +
+      'provider reading the tirzepatide document was reading the wrong drug. Storing ' +
+      'them per molecule means no generated document can inherit the wrong set. ' +
+      '(3) The two-code oral semaglutide arrangement was confirmed CORRECT, not a ' +
+      'defect. Belmar makes one tablet strength at twice the concentration, so a ' +
+      '0.5 mg patient takes half a tablet and needs 45 for 90 days; Premier and ' +
+      'Farmakeio stock a dot per strength and dispense 90 either way. The 90 and 180 ' +
+      'in the code names are price tiers, not tablet counts. Reasoning is now written ' +
+      'into the pricing block with an explicit do-not-fix note, because it reads as ' +
+      'an inconsistency to anyone auditing it and the quantities are right.',
+
+      '2026-09-05 (v2.6): ONE ACCESSOR FOR BILLING. Confirmed with Don that program ' +
+      'pricing and charge codes stay in the provider documents; only KORB cost prices ' +
+      'come out. This entry is the consistency pass on top of that. There were SIX ' +
+      'different shapes for "the charge code": tirzepatideTiers.<tier>.fourWeek.code, ' +
+      'tirzepatideTiers.<tier>.eightWeek.codes.standard.code, ' +
+      'semaglutide.fourWeek.bands[].code (absent on two of the three bands), ' +
+      'semaglutide.eightWeek.codes.standard.code, oral reached through the dose\'s ' +
+      'chargeCode, and brandName.billingCode. Every consumer had to branch on product ' +
+      'type to find one, and each could get it wrong differently - which is exactly ' +
+      'how the retired Belmar code stayed live in the 8-week table after it was ' +
+      'retired. NEW: billingPrograms(productKey) lists the program lengths a product ' +
+      'offers, and billingFor(productKey, program, dose) returns the SAME object for ' +
+      'all 16 products and all 28 product-program combinations: { productKey, ' +
+      'program, programLabel, options[], note }. options is always an array, because ' +
+      'semaglutide 4-week genuinely has three price bands; one code is simply one ' +
+      'option rather than a special case. A null code paired with a codeNote is a ' +
+      'real answer meaning Operations supplies it, and is distinguishable from a ' +
+      'missing one. GUARD ADDED and verified by regression: every product must ' +
+      'resolve billing for every program it offers, every option must carry a code or ' +
+      'a note naming who supplies one, and every option must carry a price or a note ' +
+      'explaining why not - a blank where a charge code belongs reads as "none ' +
+      'needed" rather than "ask Operations". The provider tool now renders pricing ' +
+      'from this accessor and its three-way branch is gone.',
+
+      '2026-09-05 (v2.5): PHARMACY ACQUISITION COST REMOVED FROM THIS FILE. While ' +
+      'working out the Belmar vial plans, per-vial acquisition figures were written ' +
+      'into two needsConfirmation entries - BELMAR-SEMA-VIAL-OVERSIZE and ' +
+      'BELMAR-VIAL-RATE-QUOTES. That is what KORB pays Belmar, not what a patient ' +
+      'pays, and no provider needs it. This repository is public and the file is ' +
+      'served from GitHub Pages without authentication, so those figures were ' +
+      'world-readable. Both entries are rewritten to describe the cost difference in ' +
+      'words and point at Operations. Nothing else used them: the vial plans stand on ' +
+      'volume and the 28-day puncture limit alone, which is why removing the figures ' +
+      'changes no quantity, no vial count and no prescribing field. NEW costPolicy ' +
+      'block states the line explicitly - program pricing and charge codes may be ' +
+      'stored because a provider needs them and the patient is quoted them anyway; ' +
+      'acquisition cost, pharmacy rate cards, negotiated tiers, partner-funded rates ' +
+      'and the legacy cohort rate must not be. This was not a new rule; the ' +
+      'grandfathered block already applied it and gave the reason, and it was simply ' +
+      'broken. GUARD ADDED and verified by regression: selfCheck fails on any ' +
+      'currency figure appearing anywhere in needsConfirmation or ' +
+      'acceptedLimitations, which is where working notes get pasted. The pricing ' +
+      'block is deliberately exempt.',
+
+      '2026-09-05 (v2.4): BILLING SHAPE VERIFIED AND NOW ENFORCED. Audited every ' +
+      'injectable compounded dose against its charge code, both programs. Result: ' +
+      'all 20 semaglutide doses across Premier, Premier glycine, Belmar and Farmakeio ' +
+      'resolve to the single 8-week code FITSemaMNT at $349, and all 24 tirzepatide ' +
+      'doses across Premier, Belmar, Farmakeio and Greenwich resolve to their tier ' +
+      'code - FITTirzMT1 $599, FITTirzMT2 $649, FITTirzMT3 $799. Pharmacy no longer ' +
+      'affects code selection anywhere on the program; that ended when the ' +
+      'Belmar-specific codes were retired in v2.0. All eight injectable products ' +
+      'carry both supply4 and supply8 on every dose. No defects found - this entry ' +
+      'records the check, and the guards that keep it true. THREE GUARDS ADDED, each ' +
+      'verified by deliberate regression: every pharmacy dispensing a drug must be ' +
+      'listed on that drug\'s 8-week code, since that list stopped being a selection ' +
+      'mechanism and became a roster that can silently go stale when a pharmacy is ' +
+      'added; every injectable compounded dose must offer both program lengths; and ' +
+      'every tirzepatide dose must carry a priceTier, because without one no charge ' +
+      'code resolves for either program. NOT IN SCOPE, by design rather than ' +
+      'omission: compounded orals are 90-day only and brand products use their own ' +
+      'record shape, so neither has a 4-week/8-week pair to check.',
+
+      '2026-09-05 (v2.3): SEMAGLUTIDE VIAL OVERSIZE ACCEPTED AND SHIPPED. Don decided ' +
+      '2026-09-05 to ship 1.0, 1.7 and 2.4 mg on the existing 5 ml vials. Belmar ' +
+      'stocks 1 ml and 5 ml at 1 mg/ml and 5 ml at 2.5 mg/ml, no new sizes will be ' +
+      'requested, and none of those divides into four doses for these three weekly ' +
+      'volumes - so this is the best configuration that exists, not a compromise ' +
+      'waiting on something better. The BELMAR-SEMA-VIAL-OVERSIZE item therefore ' +
+      'moves out of needsConfirmation into a new acceptedLimitations array. That ' +
+      'array exists so a decided problem stays visible: an open item is waiting on an ' +
+      'answer, an accepted limitation already has one and the answer was to ship. The ' +
+      'risk did not disappear when the decision was made and the file should not read ' +
+      'as though it did. MITIGATION, and it is now the only thing holding these rows ' +
+      'inside the puncture limit: all six affected records (three doses across both ' +
+      'programs) carry "Discard each vial after 4 doses." appended to the sig, at ' +
+      '135-137 characters against the 140 cap. selfCheck enforces it - the accepted ' +
+      'limitation declares requiresSigText and any flagged record missing that exact ' +
+      'string is a problem, so the instruction cannot be lost to a reword or a ' +
+      'regeneration. selfCheck now also resolves a record flag against either array. ' +
+      'RESIDUAL RISK, recorded rather than solved: counseling does not fully work here ' +
+      'because the premise of the original concern is that patients do not discard a ' +
+      'vial with drug in it. Expect extra doses at these three tiers and expect the ' +
+      'short-supply complaint on stepping up from 1.7 mg, where the spare is 6.7 ' +
+      'doses. opsNote records that such a report is expected behaviour, not a ' +
+      'dispensing error. Revisit only if Belmar changes stocked sizes or confirms a ' +
+      'day-28 dose is usable.',
+
+      '2026-09-05 (v2.2): BELMAR 8-WEEK VIAL PLANS LANDED. Closes the quantity item ' +
+      'that had blocked the v2.0 change. All 11 supply8 records now carry a verified ' +
+      'dispensed quantity, vial breakdown and vialPlan block. Every figure was ' +
+      're-derived from dose, concentration and the 28-day puncture limit rather than ' +
+      'transcribed, and the cross-vial timelines for tirzepatide 7.5, 12.5 and 15 mg ' +
+      'were simulated dose by dose - no vial is in use beyond 21 days on any ' +
+      'tirzepatide row. Tirzepatide is zero-leftover at every dose because 10 mg/ml ' +
+      'divides evenly into the stocked vial sizes. Semaglutide 0.25 and 0.5 mg are ' +
+      'also zero-leftover. NEW DATA: pharmacies.belmar.vialConstraints stores the ' +
+      '28-day in-use limit, the 4-dose ceiling, the sizing principle, and the 90-day ' +
+      'BUD measured from COMPOUND date with its 41-day compound-to-ship window, which ' +
+      'is now stated in the 8-week Pharmacy Instructions (158 chars, cap 170). The ' +
+      '41-day figure is 8-week only - a 4-week fill\'s last dose is day 21, so its ' +
+      'window is 69 days, and the 4-week records were deliberately left unchanged. ' +
+      'vialPlan blocks were added to the 4-week records too, so both programs are ' +
+      'checkable. NEW GUARDS in selfCheck, each verified by deliberate regression: ' +
+      'vialPlan.totalMl must equal the dispensed quantity; withinPunctureLimit must ' +
+      'agree with dosesPerVial against the pharmacy limit; any record exceeding the ' +
+      'limit must carry a needsConfirmation flag; and both Tebra character caps are ' +
+      'now enforced rather than merely documented. STILL OPEN AND BLOCKING FOR THREE ' +
+      'ROWS: semaglutide 1.0, 1.7 and 2.4 mg ship 5 ml vials yielding 5.00, 7.35 and ' +
+      '5.21 doses against a limit of 4, so the first vial stays in use to day 28, 49 ' +
+      'and 35 under ordinary use. That is a sterility and potency exposure rather than ' +
+      'a cost question. It is NOT introduced by this change - the same three doses ' +
+      'already breach the limit on the live 4-week program. See ' +
+      'BELMAR-SEMA-VIAL-OVERSIZE. Two further items opened: BELMAR-VIAL-RATE-QUOTES ' +
+      'for the vial counts Belmar\'s tiers do not price, and BELMAR-DAY28-USABLE, ' +
+      'since every plan here assumes a day-28 dose is not permitted.',
+
+      '2026-09-05 (v2.1): PREPARATION IS NOW A PROPERTY OF THE PRODUCT, NOT THE ' +
+      'MOLECULE. Fixes a live defect with patient-facing and medico-legal ' +
+      'consequences. The compounded-preparation disclosure was stored as ' +
+      'monographs.<drug>.compoundedNote, so it was keyed to the molecule. Zepbound ' +
+      'is tirzepatide and the Wegovy pen and tablet are semaglutide, so all three ' +
+      'brand products inherited "KORB dispenses a COMPOUNDED preparation" even ' +
+      'though they are FDA-approved brand products fulfilled by LillyDirect and ' +
+      'NovoCare. The generated provider documents printed it as a callout, put it ' +
+      'in the counseling script the provider reads aloud, and put it in the chart ' +
+      'attestation - so a provider was instructed to tell a Zepbound patient they ' +
+      'were receiving a compounded product and to sign that into the record. It was ' +
+      'false. Foundayo escaped only because orforglipron has exactly one product and ' +
+      'someone wrote a brand-shaped note into its monograph; it still rendered under ' +
+      'a "Compounded preparation" heading because the heading came from elsewhere. ' +
+      'WHAT CHANGED: a new top-level `preparation` block holds the compounded and ' +
+      'brand variants, each carrying heading, note, counselingLine and ' +
+      'attestationClause together so a renderer cannot mix them; every one of the 16 ' +
+      'products declares `compounded: true|false` (12 true, 4 false); ' +
+      'preparationFor(productKey) is the only supported accessor and returns null ' +
+      'rather than defaulting when the flag is absent; the three ' +
+      'monographs.<drug>.compoundedNote entries are REMOVED, not deprecated, so no ' +
+      'consumer can keep reading them. GUARDS ADDED to selfCheck, each verified by ' +
+      'deliberate regression: every product must declare the flag; brandName true ' +
+      'must mean compounded false and vice versa, so the two can never disagree; and ' +
+      'no monograph may carry compoundedNote again. That last one is what makes the ' +
+      'original mistake structurally impossible rather than merely corrected. ' +
+      'BREAKING for consumers: monographs.<drug>.compoundedNote is gone - call ' +
+      'preparationFor(productKey) and take the heading and body from the same block. ' +
+      'DOCUMENTS AFFECTED: the Zepbound and both Wegovy references are wrong until ' +
+      'rebuilt; the Foundayo reference has the right body under the wrong heading. ' +
+      'The provider tool reads no monograph content and is unaffected.',
+
+      '2026-09-05 (v2.0): BELMAR 8-WEEK IS NOW A SINGLE FILL. Belmar ships the full ' +
+      'eight-week supply at one time for both semaglutide and tirzepatide. The split ' +
+      'fill - a 4-week fill plus one manually placed Operations refill - is retired. ' +
+      'This was the last remaining pharmacy-specific fill structure on the GLP-1 ' +
+      'program; no pharmacy splits a fill now. Changed together so nothing can ' +
+      'disagree: every belmar_sema and belmar_tirz supply8 record moves to refill 0 ' +
+      'and days 56 (11 records), the 8-week sigs move from "AS DIRECTED FOR 4 WEEKS" ' +
+      'to "AS DIRECTED FOR 8 WEEKS", vials8 loses its "(each fill)" qualifier, ' +
+      'daysConvention drops belmar from injectableWithRefill, opsView.include is ' +
+      'rewritten, and pharmacies.belmar.splitFill is replaced by fillStructure plus ' +
+      'splitFillRetired. CHARGE CODES RETIRED: the Belmar-specific 8-week codes ' +
+      'FITSemaMBL, FITTirzMTB1, FITTirzMTB2 and FITTirzMTB3 existed only to flag an ' +
+      'order for Ops to place the second fill, so they are retired and Belmar bills ' +
+      'the standard code. Retirement decided by Don 2026-09-05; Finance confirmation ' +
+      'is open under BELMAR-8WK-CODE-RETIRE. BREAKING for consumers: codes.belmar no ' +
+      'longer exists, read codes.standard for every pharmacy; codes.retired is ' +
+      'historical and must never be rendered as a current code. TRANSITION: patients ' +
+      'already dispensed under the split fill finish that cycle on the old structure ' +
+      'and convert at their next 8-week order - Ops still owes those second fills. ' +
+      'See pharmacies.belmar.transition, which Operations closes when the backlog ' +
+      'clears. NOT DONE IN THIS CHANGE, AND BLOCKING: the dispensed quantity. Every ' +
+      'supply8 quantity and vials8 value still holds the old per-fill figure, which ' +
+      'was right for a four-week fill and is almost certainly short for eight. Every ' +
+      'other pharmacy doubles its vial count between supply4 and supply8, so double ' +
+      'is the expected shape, but this file does not derive a quantity it cannot ' +
+      'verify against the pharmacy. See needsConfirmation BELMAR-8WK-QTY. Do not ' +
+      'prescribe from the Belmar 8-week quantity fields until that is closed.',
+
       '2026-08-12 (v1.4): Premier Pharmacy becomes the preferred and default pharmacy ' +
       'for AZ, MO, IL, FL, NJ, MD, OH and NY on the GLP-1 program. AZ and FL were ' +
       'already Premier; the six that moved are MO, IL, NJ, MD, OH and NY, all of which ' +
@@ -256,6 +459,66 @@ var KORB_GLP1 = {
      Open items surfaced by consolidating the documents. Each is a place the
      sources disagreed, were silent, or where this file derived a value.
      Nothing here should reach a patient or a prescription until closed. */
+  /* -- ACCEPTED LIMITATIONS ------------------------------------------------
+     Known problems that have been DECIDED, not resolved. Separate from
+     needsConfirmation on purpose: an open item is waiting on an answer, an
+     accepted limitation already has one and the answer was "ship it anyway".
+
+     Both still have to be declared. A record that breaks a stored constraint
+     must point at an entry in one array or the other, so selfCheck can tell
+     "we know and we chose this" apart from "nobody noticed". What must never
+     happen is the constraint quietly disappearing because the decision went
+     the other way - the risk did not go away when the decision was made, and
+     whoever reads this file in six months needs to see that. */
+  acceptedLimitations: [
+    {
+      id: 'BELMAR-SEMA-VIAL-OVERSIZE',
+      severity: 'high',
+      status: 'accepted',
+      decidedBy: 'Don',
+      decidedOn: '2026-09-05',
+      appliesTo: ['belmar_sema'],
+      doses: ['1.0 mg', '1.7 mg', '2.4 mg'],
+      programs: ['4-week', '8-week'],
+      issue: 'These three doses use a 5 ml vial that yields 5.00, 7.35 and 5.21 weekly ' +
+             'doses against a 4-dose ceiling. A patient who finishes the open vial ' +
+             'rather than discarding it draws from it past the 28-day in-use limit, ' +
+             'and gets 1.0 to 6.7 doses more than intended.',
+      decision: 'Ship as-is. Belmar offers 1 ml and 5 ml at 1 mg/ml and 5 ml at ' +
+                '2.5 mg/ml, and no new vial sizes will be requested. These are the ' +
+                'sizes available, so this is the best configuration that exists rather ' +
+                'than a compromise pending something better.',
+      whyNotFixable: 'Semaglutide 1.0 mg needs 1.00 ml a week, 1.7 mg needs 0.68 ml and ' +
+                     '2.4 mg needs 0.96 ml. No stocked vial size divides into four doses ' +
+                     'for any of them. The only zero-leftover alternative is 8 x 1 ml ' +
+                     'for 1.0 mg, at a materially higher acquisition cost, and nothing ' +
+                     'at all for 1.7 and 2.4 mg. Tirzepatide avoids this entirely ' +
+                     'because 10 mg/ml divides evenly into the stocked sizes. Figures ' +
+                     'held by Operations - see costPolicy.',
+      mitigation: 'Every compounded injectable sig now carries "Discard after 4 doses ' +
+                  'or 28 days." On these three doses that instruction is the whole ' +
+                  'mitigation rather than a reminder - the vial physically holds a 5th ' +
+                  'dose, so if the line is dropped the limitation becomes an ' +
+                  'uncontrolled 28-day breach. Applied program-wide on 2026-09-05 at ' +
+                  'Don\'s direction, for consistency: harmless where a vial empties ' +
+                  'before four doses, protective where it does not.',
+      /* Machine-checked. selfCheck asserts every record carrying this flag has this
+         exact string in its Patient Instructions, so the mitigation cannot be lost
+         to a reword, a regeneration or a well-meant tidy-up. */
+      requiresSigText: 'Discard after 4 doses or 28 days.',
+      residualRisk: 'Counseling does not fully solve it. The reason this was raised in ' +
+                    'the first place is that patients do not discard a vial with drug ' +
+                    'left in it. Expect extra doses at these three tiers and expect the ' +
+                    'short-supply complaint at the next escalation, particularly moving ' +
+                    'off 1.7 mg where the spare is 6.7 doses.',
+      opsNote: 'A patient reporting they "ran out early" after stepping up from 1.7 mg ' +
+               'is almost certainly comparing against extra doses they should not have ' +
+               'had. Treat it as expected rather than as a dispensing error.',
+      revisitIf: 'Belmar changes its stocked vial sizes, or confirms a day-28 dose is ' +
+                 'usable - see BELMAR-DAY28-USABLE.'
+    }
+  ],
+
   needsConfirmation: [
     {
       id: 'MONOGRAPH-CLINICAL-SIGNOFF',
@@ -273,6 +536,50 @@ var KORB_GLP1 = {
       owner: 'Clinical Director',
       note: 'The orforglipron monograph is the least certain and carries its own ' +
             'verify-against-prescribing-information flag in the document.'
+    },
+
+    {
+      id: 'BELMAR-VIAL-RATE-QUOTES',
+      severity: 'medium',
+      type: 'confirmation-required',
+      issue: 'The 8-week vial plans need vial counts that Belmar\'s published tiers do ' +
+             'not price. Any figure in use is an addition of smaller tiers, not a quote.',
+      question: 'Get rates for: semaglutide 1 ml at 4 vials; tirzepatide 1 ml at 4 and ' +
+                'at 6 vials; tirzepatide 4 ml at 3 vials. Record the figures with ' +
+                'Operations, not here - see costPolicy.',
+      owner: 'Director of Clinical Operations',
+      note: 'These affect cost only. No prescribing field depends on them, and program ' +
+            'pricing to the patient is unchanged.'
+    },
+
+    {
+      id: 'BELMAR-DAY28-USABLE',
+      severity: 'medium',
+      type: 'confirmation-required',
+      issue: 'Every vial plan in this file assumes a vial yields at most four weekly ' +
+             'doses, because a fifth would fall on day 28 itself and 28 days is the ' +
+             'stated in-use limit rather than a dose that sits inside it.',
+      question: 'Confirm with Belmar, in writing, whether a dose drawn on day 28 is ' +
+                'acceptable. If it is, several rows get cheaper and some of the ' +
+                'oversize problem eases. Do not act on a verbal answer.',
+      owner: 'Director of Clinical Operations',
+      note: 'Assumed NOT usable throughout. If this changes, revisit ' +
+            'vialConstraints.maxDosesPerVial and every vialPlan derived from it.'
+    },
+
+    {
+      id: 'BELMAR-8WK-CODE-RETIRE',
+      severity: 'medium',
+      type: 'confirmation-required',
+      issue: 'The Belmar-specific 8-week charge codes (FITSemaMBL, FITTirzMTB1, ' +
+             'FITTirzMTB2, FITTirzMTB3) existed for one reason: to flag the order so ' +
+             'Operations would place the second half of the split fill. With the split ' +
+             'fill gone there is nothing for them to trigger, so they have been retired ' +
+             'and Belmar now bills on the standard 8-week code like every other pharmacy.',
+      question: 'Finance to confirm the retired codes are deactivated rather than left ' +
+                'live, and that no reporting or partner attribution depended on them.',
+      owner: 'VP Finance/Compliance',
+      note: 'Retirement decision made by Don 2026-09-05. Finance confirmation outstanding.'
     },
 
     {
@@ -351,7 +658,8 @@ var KORB_GLP1 = {
       'Charge codes and pricing, including the discounted bands',
       'Dose, quantity, and vials dispensed \u2014 needed to resolve short-dose reports',
       'Refill and days supply',
-      'The Belmar split-fill refill workflow in full \u2014 Ops owns the second fill',
+      'The Belmar transition \u2014 Ops still owes second fills to patients dispensed ' +
+      'under the retired split fill, and must stop placing new ones',
       'If the patient moves state',
       'Escalation contacts'
     ],
@@ -385,7 +693,9 @@ var KORB_GLP1 = {
   /* ── DAYS SUPPLY CONVENTION ──────────────────────────────────────────────
      Settled 2026-08-09. Days supply describes THE FILL, not the whole program.
        Injectable, single fill      4-week = 28   8-week = 56
-       Injectable, fill + refill    28 per fill, refill 1 (Belmar, Zepbound, Wegovy pen)
+       Injectable, fill + refill    28 per fill, refill 1 (Zepbound, Wegovy pen)
+       2026-09-05: Belmar moved from fill+refill to single fill and is no longer
+       listed on the refill convention. Its 8-week records are now 56 / refill 0.
        Oral, brand                  30 or 60
        Oral, compounded             90 only
      Writing 56 on a refill fill would read as 112 days of medication. Audited
@@ -393,7 +703,9 @@ var KORB_GLP1 = {
   daysConvention: {
     injectableSingleFill: { fourWeek: 28, eightWeek: 56 },
     injectableWithRefill: { perFill: 28, refills: 1,
-      appliesTo: ['belmar', 'zepbound', 'wegovy_pen'] },
+      appliesTo: ['zepbound', 'wegovy_pen'],
+      removed: [{ pharmacy: 'belmar', on: '2026-09-05',
+                  reason: 'Belmar now ships the full 8-week supply in one fill.' }] },
     oralBrand: [30, 60],
     oralCompounded: [90],
     rule: 'Days supply describes the fill, not the program.'
@@ -405,6 +717,60 @@ var KORB_GLP1 = {
     pharmacyInstructions: 170,
     note: 'Exceeding a cap truncates silently in some views, so text is written ' +
           'to fit rather than trimmed later.'
+  },
+
+  /* -- PREPARATION: COMPOUNDED vs BRAND ------------------------------------
+     Added 2026-09-05 to fix a live defect.
+
+     This text used to live on the MOLECULE, as monographs.<drug>.compoundedNote.
+     That is the wrong key. Zepbound is tirzepatide and Wegovy is semaglutide, so
+     both inherited "KORB dispenses a COMPOUNDED preparation" from their molecule
+     even though both are brand products fulfilled by the manufacturer. The
+     generated provider documents printed it as a callout, put it in the spoken
+     counseling script, and put it in the chart attestation - so a provider was
+     told to counsel a Zepbound patient that they were receiving a compounded
+     product, and to sign that statement into the record. It was false.
+
+     Foundayo escaped only because orforglipron happens to have exactly one
+     product and someone wrote a brand-shaped note into its monograph. That is
+     luck, not design - and it still printed under a "Compounded preparation"
+     heading, because the heading came from somewhere else.
+
+     Preparation is a property of the PRODUCT, never of the molecule. Every
+     product now declares `compounded: true|false` and every consumer resolves
+     through preparationFor(). The three monograph-level notes are REMOVED
+     rather than deprecated, so nothing can quietly keep reading them.
+
+     RENDERING RULE: take the heading, the note, the counseling line and the
+     attestation clause from the SAME resolved block. Mixing sources is the
+     specific mistake that produced the Foundayo heading. */
+  preparation: {
+    compounded: {
+      key: 'compounded',
+      appliesTo: 'Compounded products from Premier, Belmar, Farmakeio and Greenwich.',
+      heading: 'Compounded preparation',
+      note: 'KORB dispenses a COMPOUNDED preparation, not the FDA-approved branded ' +
+            'product. The molecule is approved; this specific formulation is not, and ' +
+            'compounded products are not reviewed by the FDA for safety, efficacy or ' +
+            'quality. Counsel accordingly and document that the distinction was ' +
+            'explained.',
+      counselingLine: 'This is a compounded preparation rather than the brand-name product.',
+      attestationClause: 'including that a compounded preparation is being dispensed ' +
+                         'rather than the FDA-approved branded product'
+    },
+    brand: {
+      key: 'brand',
+      appliesTo: 'Brand products fulfilled by the manufacturer - Zepbound and Foundayo ' +
+                 'through LillyDirect, Wegovy pen and Wegovy tablet through NovoCare.',
+      heading: 'Brand product',
+      note: 'Brand product dispensed through the manufacturer programme. Not ' +
+            'compounded. Fulfilment, payment and shipping are handled by the ' +
+            'manufacturer, not KORB.',
+      counselingLine: 'This is the FDA-approved brand-name product, filled and shipped ' +
+                      'by the manufacturer rather than by KORB.',
+      attestationClause: 'including that the FDA-approved branded product is dispensed ' +
+                         'through the manufacturer programme'
+    }
   },
 
   /* ── STATES ──────────────────────────────────────────────────────────────
@@ -527,12 +893,16 @@ var KORB_GLP1 = {
         'Belmar historically carried semaglutide only, which is why California ' +
         'tirzepatide went to Greenwich. Belmar now carries both, so all new ' +
         'California starts go here regardless of drug.',
-        'SPLIT FILL \u2014 Belmar is the only pharmacy that will not ship an 8-week ' +
-        'supply at one time. Their 8-week program is a 4-week supply with one ' +
-        'refill, for both semaglutide and tirzepatide.',
-        'The refill is not automatic. Ops must manually approve and order the ' +
-        'second 4 weeks. The 8-week charge code is what triggers that Ops action, ' +
-        'which is why Belmar 8-week uses its own code rather than the standard one.',
+        'SINGLE FILL as of 2026-09-05. Belmar now ships the full 8-week supply at ' +
+        'one time for both semaglutide and tirzepatide. The split fill is retired. ' +
+        'Belmar no longer differs from the other pharmacies on fill structure.',
+        'QUANTITY NOT YET CONFIRMED \u2014 the 8-week dispensed quantity and vial counts ' +
+        'in this file still hold the old per-fill figures and have not been verified ' +
+        'against the new Belmar terms. See needsConfirmation BELMAR-8WK-QTY. Refill, ' +
+        'days supply and sig are correct; quantity is not.',
+        'Belmar 8-week now bills on the standard 8-week charge code. The ' +
+        'Belmar-specific codes are retired \u2014 they existed only to trigger the ' +
+        'second fill, and there is no second fill.',
         'Semaglutide 2.5 mg / 1 mg / ml is used for 1.7 and 2.4 mg doses; ' +
         '1 mg / 1 mg / ml for 0.25, 0.5 and 1.0 mg doses.',
         'Tirzepatide is compounded with L-carnitine, not B-12.',
@@ -543,31 +913,100 @@ var KORB_GLP1 = {
         'Belmar doses in MG, both drugs. Semaglutide has been ordered this way for a ' +
         'couple of years and tirzepatide was brought over to match it. Do not convert ' +
         'either to units/mL.',
-        'Belmar sigs always read "AS DIRECTED FOR 4 WEEKS" on both programs, because ' +
-        'the 8-week program is a 4-week fill plus a refill. The sig describes the fill.',
+        'Belmar sigs describe the fill, same convention as everywhere else. The ' +
+        '4-week sig reads "AS DIRECTED FOR 4 WEEKS" and the 8-week sig now reads ' +
+        '"AS DIRECTED FOR 8 WEEKS". Before 2026-09-05 both read 4 weeks, because ' +
+        'the 8-week program was a 4-week fill plus a refill.',
         'Belmar 1.0 mg semaglutide draws 100 units into a 100-unit syringe with no ' +
         'headroom. That is how Belmar wants it. No syringe callout \u2014 same as Greenwich, ' +
         'the Functional Health callout rule does not apply here.'
       ],
-      splitFill: {
-        applies: ['8-week'],
-        drugs: ['semaglutide', 'tirzepatide'],
-        structure: '4-week supply with 1 refill',
-        refillOwner: 'Operations',
-        refillAutomatic: false,
-        trigger: 'The Belmar-specific 8-week charge code flags the order for Ops to ' +
-                 'place the second 4-week fill.',
-        timing: {
-          opsTriggeredAt: 'Week 3',
-          opsTriggeredAtApproximate: false,
-          confirmed: '2026-08-06',
-          goal: 'The second 4-week supply should reach the patient a few days before ' +
-                'their next set of injections is due, so there is no lapse in dosing.'
+      /* splitFill removed 2026-09-05. Belmar 8-week is a single fill. The retired
+         structure is preserved in splitFillRetired below so a billing or supply
+         question about a patient dispensed before the change can still be answered.
+         Consumers must not read splitFillRetired as current behaviour. */
+      /* -- VIAL AND PUNCTURE CONSTRAINTS -------------------------------------
+         Added 2026-09-05 with the 8-week vial plans. These are the rules the
+         plans were sized against, stored so a future change can be checked
+         rather than re-reasoned.
+
+         The binding constraint is the 28-day in-use limit, and the number that
+         matters is how many doses ONE VIAL yields - not how much is shipped in
+         total. Weekly doses land on days 0, 7, 14 and 21. A fifth dose from the
+         same vial falls on day 28 itself, which is outside the window.
+
+         Sizing rule, per Don, and it overrides both cost and convenience:
+         do not ship a vial with meaningful leftover. Patients are told to
+         discard after 4 doses or 28 days and they do not - they use the vial
+         until it is empty, get extra doses, and then report the next dose tier
+         as short when it behaves correctly. Size the vial so a 5th dose is
+         physically impossible rather than merely discouraged. */
+      vialConstraints: {
+        punctureDays: 28,
+        maxDosesPerVial: 4,
+        doseDays: [0, 7, 14, 21],
+        rule: 'single-vial volume divided by weekly volume must be <= 4',
+        whyNotFive: 'A fifth dose from the same vial lands on day 28 itself, which ' +
+                    'is the limit rather than inside it.',
+        sizingPrinciple: 'Do not ship a vial with meaningful leftover. Make a fifth ' +
+                         'dose impossible, not merely discouraged.',
+        bud: {
+          days: 90,
+          from: 'compound date, NOT ship date',
+          lastDoseDay: 49,
+          maxCompoundToShipDays: 41,
+          orderRequirement: 'The compound date must be within 41 days of shipping. ' +
+                            'State this on the order.'
         },
-        providerScript: 'Tell a California patient on the 8-week program that their ' +
-                        'medication arrives in two shipments, and that the second ' +
-                        'arrives before the first runs out. They do not need to ' +
-                        'request it.'
+        outstandingWithBelmar: 'Whether Belmar treats day 28 as a usable dose. Every ' +
+                               'plan here assumes it is NOT. If Belmar confirms in ' +
+                               'writing that it is, several rows get cheaper. Do not ' +
+                               'rely on it until that is in writing.'
+      },
+
+      fillStructure: {
+        fourWeek: 'Single fill, 28 days, no refill.',
+        eightWeek: 'Single fill, 56 days, no refill.',
+        changedOn: '2026-09-05',
+        note: 'Belmar previously split the 8-week program into two 4-week fills. ' +
+              'It no longer does. No pharmacy on the GLP-1 program splits a fill.'
+      },
+
+      splitFillRetired: {
+        retired: true,
+        retiredOn: '2026-09-05',
+        historicalOnly: true,
+        doNotApplyToNewOrders: true,
+        appliedTo: ['8-week semaglutide', '8-week tirzepatide'],
+        structure: '4-week supply with 1 refill, second fill placed manually by Operations',
+        trigger: 'A Belmar-specific 8-week charge code flagged the order for Ops.',
+        opsTriggeredAt: 'Week 3',
+        whyRetained: 'A patient dispensed under this structure is still working through ' +
+                     'it. Ops and Finance need the old shape to answer questions about ' +
+                     'those orders. It is not a live workflow.'
+      },
+
+      /* ── TRANSITION ────────────────────────────────────────────────────────
+         Both structures are live at once for a period. This block exists so a
+         provider or Ops person can tell which patient is on which. */
+      transition: {
+        active: true,
+        decision: 'Patients already dispensed under the split fill finish that 8-week ' +
+                  'cycle on the old structure. They convert to the single fill at their ' +
+                  'next 8-week order, not mid-cycle.',
+        decidedBy: 'Don',
+        decidedOn: '2026-09-05',
+        appliesTo: 'California Belmar patients on the 8-week program',
+        newStarts: 'Any 8-week order placed on or after 2026-09-05 is a single fill.',
+        opsAction: 'Operations still owes a second fill to every patient whose first ' +
+                   '4-week Belmar fill went out before 2026-09-05. Do not cancel those ' +
+                   'second fills. Stop placing new ones once the backlog clears.',
+        providerScript: 'A California patient starting the 8-week program now receives ' +
+                        'their full eight weeks in one shipment. A patient who started ' +
+                        'before the change still has a second shipment coming and does ' +
+                        'not need to request it.',
+        endsWhen: 'The last pre-change second fill has shipped. Operations closes this ' +
+                  'block and sets active to false.'
       }
     },
 
@@ -849,11 +1288,6 @@ var KORB_GLP1 = {
         'Weight regain is common after discontinuation. Raise this at the start rather than ' +
         'letting it become a later surprise.'
       ],
-      compoundedNote:
-        'KORB dispenses a COMPOUNDED preparation, not the FDA-approved branded product. ' +
-        'The molecule is approved; this specific formulation is not, and compounded ' +
-        'products are not reviewed by the FDA for safety, efficacy or quality. Counsel ' +
-        'accordingly and document that the distinction was explained.',
       absoluteContraindications: [
         'Personal or family history of medullary thyroid carcinoma (MTC)',
         'Multiple endocrine neoplasia syndrome type 2 (MEN2)',
@@ -923,6 +1357,19 @@ var KORB_GLP1 = {
     tirzepatide: {
       drug: 'tirzepatide',
       title: 'Tirzepatide \u2014 dual GIP and GLP-1 receptor agonist',
+      /* Supplied by Don 2026-09-05. The Belmar tirzepatide source document carried
+         semaglutide's indication list, which is how this surfaced - a provider
+         reading the tirzepatide document was reading the wrong drug's indications.
+         Stored here so every generated tirzepatide document renders the same four
+         and none of them inherits semaglutide's by accident. */
+      indications: [
+        'Chronic weight management in adults with obesity (BMI >= 30 kg/m2), or ' +
+        'overweight (BMI >= 27 kg/m2) with at least one weight-related comorbid condition',
+        'Long-term maintenance of weight reduction',
+        'Improvement of glycemic control in patients with type 2 diabetes mellitus',
+        'Treatment of moderate-to-severe obstructive sleep apnea in adults with obesity'
+      ],
+      indicationsSource: 'Don, 2026-09-05',
       definition:
         'A 39-amino-acid synthetic peptide based on the native GIP sequence, engineered to ' +
         'agonise both the glucose-dependent insulinotropic polypeptide (GIP) receptor and ' +
@@ -946,11 +1393,6 @@ var KORB_GLP1 = {
         'SURMOUNT-OSA: supported the obstructive sleep apnoea indication.',
         'As with semaglutide, weight regain after discontinuation is well documented.'
       ],
-      compoundedNote:
-        'KORB dispenses a COMPOUNDED preparation, not the FDA-approved branded product. ' +
-        'The molecule is approved; this specific formulation is not, and compounded ' +
-        'products are not reviewed by the FDA for safety, efficacy or quality. Counsel ' +
-        'accordingly and document that the distinction was explained.',
       absoluteContraindications: [
         'Personal or family history of medullary thyroid carcinoma (MTC)',
         'Multiple endocrine neoplasia syndrome type 2 (MEN2)',
@@ -1049,9 +1491,6 @@ var KORB_GLP1 = {
         'because the agent is newer.',
         'Long-term outcome data are correspondingly limited.'
       ],
-      compoundedNote:
-        'Brand product dispensed through the manufacturer programme. Not compounded. ' +
-        'Fulfilment, payment and shipping are handled by the manufacturer, not KORB.',
       absoluteContraindications: [
         'Personal or family history of medullary thyroid carcinoma (MTC)',
         'Multiple endocrine neoplasia syndrome type 2 (MEN2)',
@@ -1160,6 +1599,7 @@ var KORB_GLP1 = {
 
     premier_sema: {
       key: 'premier_sema',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'premier',
       drug: 'semaglutide',
       label: 'Premier \u2014 Semaglutide / B-12',
@@ -1180,7 +1620,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1191,7 +1631,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1207,7 +1647,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1218,7 +1658,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1234,7 +1674,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1245,7 +1685,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1261,7 +1701,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1272,7 +1712,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1288,7 +1728,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1299,7 +1739,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1309,6 +1749,7 @@ var KORB_GLP1 = {
 
     premier_sema_glycine: {
       key: 'premier_sema_glycine',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'premier',
       drug: 'semaglutide',
       label: 'Premier \u2014 Semaglutide / B-12 / Glycine',
@@ -1333,7 +1774,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -1344,7 +1785,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -1360,7 +1801,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -1371,7 +1812,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -1387,7 +1828,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -1398,7 +1839,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -1414,7 +1855,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -1425,7 +1866,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -1441,7 +1882,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -1452,7 +1893,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -1462,6 +1903,7 @@ var KORB_GLP1 = {
 
     premier_tirz: {
       key: 'premier_tirz',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'premier',
       drug: 'tirzepatide',
       label: 'Premier \u2014 Tirzepatide / B-12',
@@ -1482,7 +1924,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1493,7 +1935,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1509,7 +1951,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1520,7 +1962,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1536,7 +1978,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1547,7 +1989,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1563,7 +2005,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1574,7 +2016,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1590,7 +2032,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1601,7 +2043,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1617,7 +2059,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS',
+            ptInstructions: 'INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1628,7 +2070,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS',
+            ptInstructions: 'INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1638,6 +2080,7 @@ var KORB_GLP1 = {
 
     belmar_sema: {
       key: 'belmar_sema',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'belmar',
       drug: 'semaglutide',
       label: 'Belmar \u2014 Semaglutide / B-12',
@@ -1646,12 +2089,14 @@ var KORB_GLP1 = {
       frequency: 'once weekly',
       orderVia: 'Tebra Compound',
       formulation: 'Semaglutide / B-12, two concentrations by dose band',
-      supplyNote: '8-week program is a 1-month supply with 1 refill.',
+      supplyNote: '8-week program ships as a single fill, 56 days, no refill ' +
+                  '(changed 2026-09-05). Dispensed quantity pending confirmation ' +
+                  '— see needsConfirmation BELMAR-8WK-QTY.',
       doses: [
         {
           dose: '0.25 mg', mg: 0.25, units: 25,
           conc: '1 mg/1 mg/ml',
-          vials4: '1 ml x 1 vial', vials8: '1 ml x 1 vial (each fill)',
+          vials4: '1 ml x 1 vial', vials8: '1 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Semaglutide 0.25 mg \u2013 4-Week Supply',
@@ -1660,26 +2105,48 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.25 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 0.25 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '1 x 1 ml @ 1 mg/ml',
+              totalMl: 1,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 4,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Semaglutide 0.25 mg \u2013 8-Week Supply',
             allowSubstitution: true,
-            quantity: 1,
+            quantity: 2,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 0.25 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 0.25 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '2 x 1 ml @ 1 mg/ml',
+              totalMl: 2,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 4,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           }
         },
         {
           dose: '0.5 mg', mg: 0.5, units: 50,
           conc: '1 mg/1 mg/ml',
-          vials4: '1 ml x 2 vials', vials8: '1 ml x 2 vials (each fill)',
+          vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Semaglutide 0.5 mg \u2013 4-Week Supply',
@@ -1688,104 +2155,204 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '2 x 1 ml @ 1 mg/ml',
+              totalMl: 2,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Semaglutide 0.5 mg \u2013 8-Week Supply',
             allowSubstitution: true,
-            quantity: 2,
+            quantity: 4,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '4 x 1 ml @ 1 mg/ml',
+              totalMl: 4,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           }
         },
         {
           dose: '1.0 mg', mg: 1, units: 100,
           conc: '1 mg/1 mg/ml',
-          vials4: '5 ml x 1 vial', vials8: '5 ml x 1 vial (each fill)',
+          vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Semaglutide 1.0 mg \u2013 4-Week Supply',
+            flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 5,
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 1 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 1 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '1 x 5 ml @ 1 mg/ml',
+              totalMl: 5,
+              leftoverMl: 1,
+              leftoverDoses: 1,
+              dosesPerVial: 5,
+              withinPunctureLimit: false,
+              crossVialDoses: []
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Semaglutide 1.0 mg \u2013 8-Week Supply',
+            flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
-            quantity: 5,
+            quantity: 10,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 1 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 1 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '2 x 5 ml @ 1 mg/ml',
+              totalMl: 10,
+              leftoverMl: 2,
+              leftoverDoses: 2,
+              dosesPerVial: 5,
+              withinPunctureLimit: false,
+              crossVialDoses: []
+            },
           }
         },
         {
           dose: '1.7 mg', mg: 1.7, units: 68,
           conc: '2.5 mg/1 mg/ml',
-          vials4: '5 ml x 1 vial', vials8: '5 ml x 1 vial (each fill)',
+          vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 2.5mg/1mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Semaglutide 1.7 mg \u2013 4-Week Supply',
+            flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 5,
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 1.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 1.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '1 x 5 ml @ 2.5 mg/ml',
+              totalMl: 5,
+              leftoverMl: 2.28,
+              leftoverDoses: 3.35,
+              dosesPerVial: 7.35,
+              withinPunctureLimit: false,
+              crossVialDoses: []
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Semaglutide 1.7 mg \u2013 8-Week Supply',
+            flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
-            quantity: 5,
+            quantity: 10,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 1.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 1.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '2 x 5 ml @ 2.5 mg/ml',
+              totalMl: 10,
+              leftoverMl: 4.56,
+              leftoverDoses: 6.71,
+              dosesPerVial: 7.35,
+              withinPunctureLimit: false,
+              crossVialDoses: [8],
+              crossVialNote: 'Dose 8 finish one vial and draw the '  +
+                             'remainder from the next. Counsel this directly - it '  +
+                             'does not fit the 140-character Patient Instructions field.'
+            },
           }
         },
         {
           dose: '2.4 mg', mg: 2.4, units: 96,
           conc: '2.5 mg/1 mg/ml',
-          vials4: '5 ml x 1 vial', vials8: '5 ml x 1 vial (each fill)',
+          vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 2.5mg/1mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Semaglutide 2.4 mg \u2013 4-Week Supply',
+            flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 5,
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 2.4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 2.4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '1 x 5 ml @ 2.5 mg/ml',
+              totalMl: 5,
+              leftoverMl: 1.16,
+              leftoverDoses: 1.21,
+              dosesPerVial: 5.21,
+              withinPunctureLimit: false,
+              crossVialDoses: []
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Semaglutide 2.4 mg \u2013 8-Week Supply',
+            flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
-            quantity: 5,
+            quantity: 10,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 2.4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 2.4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '2 x 5 ml @ 2.5 mg/ml',
+              totalMl: 10,
+              leftoverMl: 2.32,
+              leftoverDoses: 2.42,
+              dosesPerVial: 5.21,
+              withinPunctureLimit: false,
+              crossVialDoses: [6],
+              crossVialNote: 'Dose 6 finish one vial and draw the '  +
+                             'remainder from the next. Counsel this directly - it '  +
+                             'does not fit the 140-character Patient Instructions field.'
+            },
           }
         }
       ]
@@ -1793,6 +2360,7 @@ var KORB_GLP1 = {
 
     belmar_tirz: {
       key: 'belmar_tirz',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'belmar',
       drug: 'tirzepatide',
       label: 'Belmar \u2014 Tirzepatide / L-Carnitine',
@@ -1801,11 +2369,13 @@ var KORB_GLP1 = {
       frequency: 'once weekly',
       orderVia: 'Tebra Compound',
       formulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
-      supplyNote: '8-week program provides a 1-month supply with 1 refill.',
+      supplyNote: '8-week program ships as a single fill, 56 days, no refill ' +
+                  '(changed 2026-09-05). Dispensed quantity pending confirmation ' +
+                  '— see needsConfirmation BELMAR-8WK-QTY.',
       doses: [
         {
           dose: '2.5 mg', mg: 2.5, units: 25, priceTier: 'T1A',
-          vials4: '1 ml x 1 vial', vials8: '1 ml x 1 vial (each fill)',
+          vials4: '1 ml x 1 vial', vials8: '1 ml x 2 vials',
           drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 2.5 mg \u2013 4-Week Supply',
@@ -1814,25 +2384,47 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 2.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 2.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '1 x 1 ml',
+              totalMl: 1,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 4,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Tirzepatide 2.5 mg \u2013 8-Week Supply',
             allowSubstitution: true,
-            quantity: 1,
+            quantity: 2,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 2.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 2.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '2 x 1 ml',
+              totalMl: 2,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 4,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           }
         },
         {
           dose: '5 mg', mg: 5, units: 50, priceTier: 'T1A',
-          vials4: '1 ml x 2 vials', vials8: '1 ml x 2 vials (each fill)',
+          vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
           drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 5 mg \u2013 4-Week Supply',
@@ -1841,25 +2433,47 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '2 x 1 ml',
+              totalMl: 2,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Tirzepatide 5 mg \u2013 8-Week Supply',
             allowSubstitution: true,
-            quantity: 2,
+            quantity: 4,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '4 x 1 ml',
+              totalMl: 4,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           }
         },
         {
           dose: '7.5 mg', mg: 7.5, units: 75, priceTier: 'T2A',
-          vials4: '1 ml x 3 vials', vials8: '1 ml x 3 vials (each fill)',
+          vials4: '1 ml x 3 vials', vials8: '1 ml x 6 vials',
           drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 7.5 mg \u2013 4-Week Supply',
@@ -1868,25 +2482,50 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '3 x 1 ml',
+              totalMl: 3,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 1.33,
+              withinPunctureLimit: true,
+              crossVialDoses: [2, 3]
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Tirzepatide 7.5 mg \u2013 8-Week Supply',
             allowSubstitution: true,
-            quantity: 3,
+            quantity: 6,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '6 x 1 ml',
+              totalMl: 6,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 1.33,
+              withinPunctureLimit: true,
+              crossVialDoses: [2, 3, 6, 7],
+              crossVialNote: 'Dose 2, 3, 6, 7 finish one vial and draw the '  +
+                             'remainder from the next. Counsel this directly - it '  +
+                             'does not fit the 140-character Patient Instructions field.'
+            },
           }
         },
         {
           dose: '10 mg', mg: 10, units: 100, priceTier: 'T2A',
-          vials4: '4 ml x 1 vial', vials8: '4 ml x 1 vial (each fill)',
+          vials4: '4 ml x 1 vial', vials8: '4 ml x 2 vials',
           drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 10 mg \u2013 4-Week Supply',
@@ -1895,25 +2534,47 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 10 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 10 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '1 x 4 ml',
+              totalMl: 4,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 4,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Tirzepatide 10 mg \u2013 8-Week Supply',
             allowSubstitution: true,
-            quantity: 4,
+            quantity: 8,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 10 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 10 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '2 x 4 ml',
+              totalMl: 8,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 4,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            },
           }
         },
         {
           dose: '12.5 mg', mg: 12.5, units: 125, priceTier: 'T3A',
-          vials4: '1 ml x 1 vial & 4 ml x 1 vial', vials8: '1 ml x 1 vial & 4 ml x 1 vial (each fill)',
+          vials4: '1 ml x 1 vial & 4 ml x 1 vial', vials8: '4 ml x 2 vials & 1 ml x 2 vials',
           drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 12.5 mg \u2013 4-Week Supply',
@@ -1922,25 +2583,50 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '1 x 4 ml + 1 x 1 ml',
+              totalMl: 5,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 3.2,
+              withinPunctureLimit: true,
+              crossVialDoses: [4]
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Tirzepatide 12.5 mg \u2013 8-Week Supply',
             allowSubstitution: true,
-            quantity: 5,
+            quantity: 10,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '2 x 4 ml + 2 x 1 ml',
+              totalMl: 10,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 3.2,
+              withinPunctureLimit: true,
+              crossVialDoses: [4, 7, 8],
+              crossVialNote: 'Dose 4, 7, 8 finish one vial and draw the '  +
+                             'remainder from the next. Counsel this directly - it '  +
+                             'does not fit the 140-character Patient Instructions field.'
+            },
           }
         },
         {
           dose: '15 mg', mg: 15, units: 150, priceTier: 'T3A',
-          vials4: '1 ml x 2 vials & 4 ml x 1 vial', vials8: '1 ml x 2 vials & 4 ml x 1 vial (each fill)',
+          vials4: '1 ml x 2 vials & 4 ml x 1 vial', vials8: '4 ml x 3 vials',
           drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 15 mg \u2013 4-Week Supply',
@@ -1949,20 +2635,45 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            vialPlan: {
+              ship: '1 x 4 ml + 2 x 1 ml',
+              totalMl: 6,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2.67,
+              withinPunctureLimit: true,
+              crossVialDoses: [3]
+            },
           },
           supply8: {
             name: 'BELMAR \u2013 Tirzepatide 15 mg \u2013 8-Week Supply',
             allowSubstitution: true,
-            quantity: 6,
+            quantity: 12,
             unit: 'ml',
-            refill: 1,
-            days: 28,
-            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes)',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:'
+            pharmacyNotes: 'Bill to KORB Health Group, ship to patient. Compound date must be within 41 days of ship date. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
+               dosesPerVial is what ONE full vial yields, which is the number that
+               matters - not the total shipped. Above 4 the vial still holds drug
+               after day 21, so a patient who does not discard it takes a 5th. */
+            vialPlan: {
+              ship: '3 x 4 ml',
+              totalMl: 12,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2.67,
+              withinPunctureLimit: true,
+              crossVialDoses: [3, 6],
+              crossVialNote: 'Dose 3, 6 finish one vial and draw the '  +
+                             'remainder from the next. Counsel this directly - it '  +
+                             'does not fit the 140-character Patient Instructions field.'
+            },
           }
         }
       ]
@@ -1970,6 +2681,7 @@ var KORB_GLP1 = {
 
     farmakeio_sema: {
       key: 'farmakeio_sema',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'semaglutide',
       label: 'Farmakeio \u2014 Semaglutide / B-6 Home Kit',
@@ -1991,7 +2703,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2002,7 +2714,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2018,7 +2730,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2029,7 +2741,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2045,7 +2757,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2056,7 +2768,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2072,7 +2784,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.68ML (68 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.68ML (68 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2083,7 +2795,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.68ML (68 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.68ML (68 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2099,7 +2811,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 1.00ML (100 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 1.00ML (100 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2110,7 +2822,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 1.00ML (100 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 1.00ML (100 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2120,6 +2832,7 @@ var KORB_GLP1 = {
 
     farmakeio_tirz: {
       key: 'farmakeio_tirz',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'tirzepatide',
       label: 'Farmakeio \u2014 Tirzepatide / B-6 Home Kit',
@@ -2141,7 +2854,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2152,7 +2865,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2168,7 +2881,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.25ML (25 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.25ML (25 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2179,7 +2892,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.25ML (25 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.25ML (25 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2195,7 +2908,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.42ML (42 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.42ML (42 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2206,7 +2919,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.42ML (42 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.42ML (42 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2222,7 +2935,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2233,7 +2946,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2249,7 +2962,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.75ML (75 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.75ML (75 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2260,7 +2973,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.75ML (75 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.75ML (75 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2276,7 +2989,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.83ML (83 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.83ML (83 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2287,7 +3000,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.83ML (83 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.83ML (83 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2297,6 +3010,7 @@ var KORB_GLP1 = {
 
     greenwich_tirz: {
       key: 'greenwich_tirz',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'greenwich',
       drug: 'tirzepatide',
       label: 'Greenwich \u2014 Tirzepatide / B-12',
@@ -2321,7 +3035,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
@@ -2332,7 +3046,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           }
@@ -2349,7 +3063,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
@@ -2360,7 +3074,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           }
@@ -2377,7 +3091,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
@@ -2388,7 +3102,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           }
@@ -2405,7 +3119,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
@@ -2416,7 +3130,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           }
@@ -2433,7 +3147,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
@@ -2444,7 +3158,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           }
@@ -2461,7 +3175,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
@@ -2472,7 +3186,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY',
+            ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           }
@@ -2482,6 +3196,7 @@ var KORB_GLP1 = {
 
     premier_oral_sema: {
       key: 'premier_oral_sema',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'premier',
       drug: 'semaglutide',
       label: 'Premier \u2014 Oral Semaglutide Dots',
@@ -2530,6 +3245,7 @@ var KORB_GLP1 = {
 
     premier_oral_tirz: {
       key: 'premier_oral_tirz',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'premier',
       drug: 'tirzepatide',
       label: 'Premier \u2014 Oral Tirzepatide Dots',
@@ -2580,6 +3296,7 @@ var KORB_GLP1 = {
 
     belmar_oral_sema: {
       key: 'belmar_oral_sema',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'belmar',
       drug: 'semaglutide',
       label: 'Belmar \u2014 Oral Semaglutide FastSL',
@@ -2627,6 +3344,7 @@ var KORB_GLP1 = {
 
     farmakeio_oral_sema: {
       key: 'farmakeio_oral_sema',
+      compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'semaglutide',
       label: 'Farmakeio \u2014 Oral Semaglutide',
@@ -2676,6 +3394,7 @@ var KORB_GLP1 = {
     /* ── BRAND NAME — Tebra STANDARD prescriptions, not Compound ─────────── */
     zepbound: {
       key: 'zepbound',
+      compounded: false,  // brand product, fulfilled by the manufacturer
       brandFamily: 'Zepbound',
       presentationLabel: 'KwikPen',
       pharmacy: 'lillydirect',
@@ -2767,6 +3486,7 @@ var KORB_GLP1 = {
     },
     foundayo: {
       key: "foundayo",
+      compounded: false,  // brand product, fulfilled by the manufacturer
       brandFamily: "Foundayo",
       presentationLabel: "Oral tablet",
       pharmacy: "lillydirect",
@@ -2864,6 +3584,7 @@ var KORB_GLP1 = {
     },
     wegovy_pen: {
       key: "wegovy_pen",
+      compounded: false,  // brand product, fulfilled by the manufacturer
       brandFamily: "Wegovy",
       presentationLabel: "Pen",
       pharmacy: "novocare",
@@ -2955,6 +3676,7 @@ var KORB_GLP1 = {
     },
     wegovy_pill: {
       key: 'wegovy_pill',
+      compounded: false,  // brand product, fulfilled by the manufacturer
       brandFamily: 'Wegovy',
       presentationLabel: 'Oral tablet',
       pharmacy: 'novocare',
@@ -3018,9 +3740,50 @@ var KORB_GLP1 = {
   /* ── PRICING & CHARGE CODES — PROVIDER ONLY ──────────────────────────────
      Never render in a patient-facing tool or document. Tirzepatide PRICING is
      uniform across Premier, Belmar, Farmakeio and Greenwich and is keyed by dose
-     tier, not by pharmacy. The 8-week CHARGE CODE is not: Belmar splits the fill,
-     so it has its own code per tier which is what tells Ops to place the second
-     4-week order. Select by pharmacy, never by tier alone. */
+     tier, not by pharmacy. The 8-week CHARGE CODE was pharmacy-dependent until
+     2026-09-05, because Belmar split the fill and needed its own code per tier to
+     tell Ops to place the second 4-week order. Belmar no longer splits the fill.
+     Every pharmacy now bills the standard 8-week code for its tier. The retired
+     Belmar codes are kept under codes.retired for historical orders only. */
+  /* -- WHAT MAY AND MAY NOT BE STORED HERE -------------------------------
+     This file is published to GitHub Pages and served without authentication.
+     The repository is public. Anything written here is world-readable, so the
+     line is drawn by audience, not by sensitivity in the abstract.
+
+     MAY be stored - a provider needs it to do the job, and it is the price the
+     patient is quoted anyway:
+       program pricing ($269 / $349 / $599 / $649 / $799 / the $79 visit fee)
+       charge codes
+       dose ladders, Tebra fields, pharmacy routing
+
+     MUST NOT be stored - commercially sensitive and no provider needs it:
+       what KORB pays a pharmacy per vial or per fill (acquisition cost)
+       pharmacy rate cards, tier pricing, negotiated discounts
+       partner-specific funded rates and the legacy 8-week cohort rate
+
+     This is not a new rule. The grandfathered block below already applies it,
+     and states the reason. It is written out here because it was broken on
+     2026-09-05: Belmar per-vial acquisition figures were pasted into two
+     needsConfirmation entries while working out the vial plans. They were
+     removed the same day. The vial sizing work needed those numbers; the file
+     did not, and the vial plans stand on volume and the puncture limit alone.
+
+     selfCheck asserts no currency figure appears in needsConfirmation or
+     acceptedLimitations, which is where working notes tend to land. */
+  costPolicy: {
+    fileIsPublic: true,
+    servedWithoutAuthentication: true,
+    mayStore: ['program pricing quoted to the patient', 'charge codes',
+               'dose ladders', 'Tebra prescribing fields', 'pharmacy routing'],
+    mustNotStore: ['pharmacy acquisition cost per vial or per fill',
+                   'pharmacy rate cards and negotiated tiers',
+                   'partner-funded rates', 'the legacy 8-week cohort rate'],
+    heldBy: 'Operations and Finance',
+    breachedOn: '2026-09-05',
+    breachNote: 'Belmar per-vial acquisition figures were written into two open ' +
+                'items during the vial-plan work and removed the same day.'
+  },
+
   pricing: {
     visibility: 'provider',
     includes: 'Telehealth visit, medication, shipping and supplies',
@@ -3044,14 +3807,18 @@ var KORB_GLP1 = {
           codes: {
             standard: {
               code: 'FITTirzMT1',
-              pharmacies: ['premier', 'farmakeio', 'greenwich'],
-              note: 'Single fill, full 8-week supply shipped at once.'
+              pharmacies: ['premier', 'belmar', 'farmakeio', 'greenwich'],
+              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05.'
             },
-            belmar: {
-              code: 'FITTirzMTB1',
-              pharmacies: ['belmar'],
-              note: 'Split fill. This code is what triggers Ops to order the second 4-week supply. Do not substitute the standard code for a Belmar patient.'
-            }
+            retired: [
+              {
+                code: 'FITTirzMTB1',
+                pharmacies: ['belmar'],
+                retiredOn: '2026-09-05',
+                reason: 'Belmar-specific split-fill code. Existed only to flag the order for Ops to place the second 4-week fill. Belmar now ships 8 weeks in a single fill, so there is nothing to trigger.',
+                note: 'HISTORICAL. Do not put this code on a new order. It may still appear on orders placed before 2026-09-05. Finance confirmation of deactivation is open - see needsConfirmation BELMAR-8WK-CODE-RETIRE.'
+              }
+            ]
           }
         }
       },
@@ -3067,14 +3834,18 @@ var KORB_GLP1 = {
           codes: {
             standard: {
               code: 'FITTirzMT2',
-              pharmacies: ['premier', 'farmakeio', 'greenwich'],
-              note: 'Single fill, full 8-week supply shipped at once.'
+              pharmacies: ['premier', 'belmar', 'farmakeio', 'greenwich'],
+              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05.'
             },
-            belmar: {
-              code: 'FITTirzMTB2',
-              pharmacies: ['belmar'],
-              note: 'Split fill. This code is what triggers Ops to order the second 4-week supply. Do not substitute the standard code for a Belmar patient.'
-            }
+            retired: [
+              {
+                code: 'FITTirzMTB2',
+                pharmacies: ['belmar'],
+                retiredOn: '2026-09-05',
+                reason: 'Belmar-specific split-fill code. Existed only to flag the order for Ops to place the second 4-week fill. Belmar now ships 8 weeks in a single fill, so there is nothing to trigger.',
+                note: 'HISTORICAL. Do not put this code on a new order. It may still appear on orders placed before 2026-09-05. Finance confirmation of deactivation is open - see needsConfirmation BELMAR-8WK-CODE-RETIRE.'
+              }
+            ]
           }
         }
       },
@@ -3090,14 +3861,18 @@ var KORB_GLP1 = {
           codes: {
             standard: {
               code: 'FITTirzMT3',
-              pharmacies: ['premier', 'farmakeio', 'greenwich'],
-              note: 'Single fill, full 8-week supply shipped at once.'
+              pharmacies: ['premier', 'belmar', 'farmakeio', 'greenwich'],
+              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05.'
             },
-            belmar: {
-              code: 'FITTirzMTB3',
-              pharmacies: ['belmar'],
-              note: 'Split fill. This code is what triggers Ops to order the second 4-week supply. Do not substitute the standard code for a Belmar patient.'
-            }
+            retired: [
+              {
+                code: 'FITTirzMTB3',
+                pharmacies: ['belmar'],
+                retiredOn: '2026-09-05',
+                reason: 'Belmar-specific split-fill code. Existed only to flag the order for Ops to place the second 4-week fill. Belmar now ships 8 weeks in a single fill, so there is nothing to trigger.',
+                note: 'HISTORICAL. Do not put this code on a new order. It may still appear on orders placed before 2026-09-05. Finance confirmation of deactivation is open - see needsConfirmation BELMAR-8WK-CODE-RETIRE.'
+              }
+            ]
           }
         }
       },
@@ -3148,16 +3923,24 @@ var KORB_GLP1 = {
         discountNote: 'No discounted rate on 8-week. Corporate, friends and family, ' +
                       'and military patients all pay $349 for 8-week. The $199 rate ' +
                       'is 4-week only.',
-        /* These two codes ARE retained, unlike the 4-week codes, because they are
-           operationally load-bearing rather than a tracking label: the Belmar code
-           is what triggers Ops to place the second half of the split fill. */
+        /* This code IS retained, unlike the 4-week codes, because it is
+           operationally load-bearing rather than a tracking label. Until 2026-09-05
+           there was a second, Belmar-specific code whose job was to trigger the
+           second half of a split fill. Belmar no longer splits the fill, so that
+           code is retired and every pharmacy bills on the standard code. */
         codes: {
-          standard: { code: 'FITSemaMNT', pharmacies: ['premier', 'farmakeio'],
-                      note: 'Single fill, full 8-week supply shipped at once.' },
-          belmar:   { code: 'FITSemaMBL', pharmacies: ['belmar'],
-                      note: 'Split fill. This code is what triggers Ops to order the ' +
-                            'second 4-week supply. Do not substitute the standard code ' +
-                            'for a Belmar patient.' }
+          standard: { code: 'FITSemaMNT',
+                      pharmacies: ['premier', 'belmar', 'farmakeio'],
+                      note: 'Single fill, full 8-week supply shipped at once. Every ' +
+                            'pharmacy, including Belmar as of 2026-09-05.' },
+          retired: [
+            { code: 'FITSemaMBL', pharmacies: ['belmar'], retiredOn: '2026-09-05',
+              reason: 'Belmar-specific split-fill code. Existed only to flag the ' +
+                      'order for Ops to place the second 4-week fill.',
+              note: 'HISTORICAL. Do not put this code on a new order. Finance ' +
+                    'confirmation of deactivation is open - see needsConfirmation ' +
+                    'BELMAR-8WK-CODE-RETIRE.' }
+          ]
         }
       },
 
@@ -3180,6 +3963,31 @@ var KORB_GLP1 = {
       }
     },
 
+    /* -- WHY THERE ARE ONLY TWO ORAL SEMAGLUTIDE CODES ---------------------
+       Confirmed by Don 2026-09-05, after this looked like a defect on audit.
+       It is not. The tablet counts differ per pharmacy and the codes do not
+       track them, which is deliberate.
+
+         Premier    0.5 mg -> Oral Dot #90,  qty 90   FITSemOrl90
+                    1 mg   -> Oral Dot #90,  qty 90   FITSemOrl180
+         Farmakeio  same shape as Premier
+         Belmar     0.5 mg -> FastSL #45,    qty 45   FITSemOrl90
+                    1 mg   -> FastSL #90,    qty 90   FITSemOrl180
+
+       Premier and Farmakeio stock a dot at each strength, so a patient takes one
+       dot daily either way and receives 90 for a 90-day supply. Belmar makes ONE
+       strength, the 1 mg tablet, which is twice as strong - so a 0.5 mg patient
+       takes half a tablet and needs only 45 for the same 90 days, and a 1 mg
+       patient takes a whole tablet and needs 90.
+
+       So the 90 and 180 in the code names are PRICE TIERS, not tablet counts.
+       They happen to match Belmar's counts and not Premier's. Nick set it up this
+       way on purpose rather than issue a code per pharmacy per strength, which
+       would be four more codes to reconcile for no billing benefit.
+
+       DO NOT "fix" Premier or Farmakeio to #180 to make the names line up. The
+       quantities are correct as they stand and changing them would under- or
+       over-supply the patient. */
     oral: {
       semaglutide90:  { price: 299, code: 'FITSemOrl90'  },
       semaglutide180: { price: 399, code: 'FITSemOrl180' },
@@ -3282,6 +4090,23 @@ var KORB_GLP1 = {
     return KORB_GLP1.products[key] || null;
   },
 
+  /* The ONLY supported way to get preparation text for a product. Returns the
+     whole block - heading, note, counselingLine, attestationClause - so a caller
+     cannot take the heading from one preparation and the body from another,
+     which is exactly how Foundayo ended up under a "Compounded preparation"
+     heading while its text said it was not compounded.
+
+     Returns null when the product does not declare `compounded`, deliberately:
+     a missing flag must fail loudly at the call site rather than default to
+     "compounded" and reintroduce the false chart attestation. selfCheck()
+     asserts every product declares it, so null should be unreachable. */
+  preparationFor: function (productKey) {
+    var p = KORB_GLP1.getProduct(productKey);
+    if (!p || typeof p.compounded !== 'boolean') return null;
+    return p.compounded ? KORB_GLP1.preparation.compounded
+                        : KORB_GLP1.preparation.brand;
+  },
+
   getDose: function (productKey, doseLabel) {
     var p = KORB_GLP1.getProduct(productKey);
     if (!p || !p.doses) return null;
@@ -3289,6 +4114,116 @@ var KORB_GLP1 = {
       if (p.doses[i].dose === doseLabel) return p.doses[i];
     }
     return null;
+  },
+
+  /* ── BILLING: ONE ACCESSOR FOR EVERY PRODUCT ────────────────────────────
+     Added 2026-09-05. Program pricing and charge codes stay in the documents;
+     what KORB pays a pharmacy does not - see costPolicy. This is about how a
+     consumer FINDS the code, which until now depended on what kind of product
+     it was. There were six different shapes:
+
+       tirzepatideTiers.<tier>.fourWeek.code
+       tirzepatideTiers.<tier>.eightWeek.codes.standard.code
+       semaglutide.fourWeek.bands[].code        (absent on two of three bands)
+       semaglutide.eightWeek.codes.standard.code
+       oral.<key>.code, reached via the dose's chargeCode
+       brandName.billingCode
+
+     So the provider tool, the PDF builder and anything else each re-implemented
+     the same branching, and each could get it wrong differently. That is what
+     made the retired Belmar code a live defect for as long as it was: the 8-week
+     table read one shape for every pharmacy.
+
+     billingFor() returns the same object for every product and program:
+
+       { productKey, program, programLabel, options: [ { label, price, code,
+         codeNote, priceNote } ], note }
+
+     `options` is always an array because semaglutide's 4-week price genuinely
+     has three bands. One code is one option; it is not a special case. A null
+     `code` with a `codeNote` is a real answer - it means Operations supplies it -
+     and is not the same as a missing one. */
+  billingPrograms: function (productKey) {
+    var p = KORB_GLP1.getProduct(productKey);
+    if (!p || !p.doses || !p.doses.length) return [];
+    var d = p.doses[0];
+    return ['supply4', 'supply8', 'rx', 'rx4', 'rx8', 'rx30', 'rx60']
+      .filter(function (k) { return !!d[k]; });
+  },
+
+  billingFor: function (productKey, program, doseLabel) {
+    var p = KORB_GLP1.getProduct(productKey);
+    if (!p) return null;
+    var d = doseLabel ? KORB_GLP1.getDose(productKey, doseLabel) : p.doses[0];
+    if (!d) return null;
+
+    var LABEL = { supply4: '4-week', supply8: '8-week', rx: '90-day',
+                  rx4: '4-week', rx8: '8-week', rx30: '30-day', rx60: '60-day' };
+    var out = { productKey: productKey, program: program,
+                programLabel: LABEL[program] || program, options: [], note: null };
+
+    // Brand: one visit fee, one code, both programs, every channel.
+    if (p.brandName) {
+      var b = KORB_GLP1.pricing.brandName;
+      out.options.push({
+        label: 'Prescription visit fee',
+        price: b.prescriptionVisitFee,
+        code: b.billingCode,
+        priceNote: b.doNotStorePricing ? b.doNotStoreReason : null
+      });
+      out.note = b.appliesTo;
+      return out;
+    }
+
+    // Compounded oral: the code lives on the dose, the price resolves from it.
+    if (d.rx) {
+      out.options.push({
+        label: d.presentation || d.dose,
+        price: d.price != null ? d.price : KORB_GLP1.priceForCode(d.chargeCode),
+        code: d.chargeCode || null,
+        codeNote: d.chargeCode ? null : 'Operations will provide the charge code'
+      });
+      return out;
+    }
+
+    // Injectable compounded, tirzepatide: tiered by dose.
+    if (p.drug === 'tirzepatide') {
+      var t = KORB_GLP1.pricing.tirzepatideTiers[d.priceTier];
+      if (!t) return out;
+      if (program === 'supply8') {
+        out.options.push({ label: '8-week', price: t.eightWeek.price,
+                           code: t.eightWeek.codes.standard.code,
+                           codeNote: t.eightWeek.codes.standard.note });
+      } else {
+        out.options.push({ label: '4-week — corporate partner', price: t.corpPartner.price,
+                           code: t.corpPartner.code,
+                           priceNote: KORB_GLP1.pricing.tirzepatideTiers.corporateNote });
+        out.options.push({ label: '4-week — standard', price: t.fourWeek.price,
+                           code: t.fourWeek.code });
+      }
+      out.note = 'Dose tier ' + t.tier + ' — ' + t.appliesTo;
+      return out;
+    }
+
+    // Injectable compounded, semaglutide: flat 8-week, banded 4-week.
+    var sg = KORB_GLP1.pricing.semaglutide;
+    if (program === 'supply8') {
+      out.options.push({ label: sg.eightWeek.label, price: sg.eightWeek.price,
+                         code: sg.eightWeek.codes.standard.code,
+                         priceNote: sg.eightWeek.discountNote });
+    } else {
+      sg.fourWeek.bands.forEach(function (band) {
+        out.options.push({
+          label: '4-week — ' + band.label,
+          price: band.price,
+          code: band.code || null,
+          codeNote: band.code ? null : sg.chargeCodePolicy.renderAs,
+          priceNote: band.note
+        });
+      });
+      out.note = sg.fourWeek.discountAppliesTo;
+    }
+    return out;
   },
 
   // Price lookup for a tirzepatide dose by product + dose label.
@@ -3403,7 +4338,10 @@ var KORB_GLP1 = {
   // Structural integrity check. Run in the console after any edit.
   selfCheck: function () {
     var problems = [];
-    var flagIds = KORB_GLP1.needsConfirmation.map(function (f) { return f.id; });
+    /* A record's flag may point at an open item OR an accepted limitation.
+       Both are declarations; only the disposition differs. */
+    var flagIds = KORB_GLP1.needsConfirmation.map(function (f) { return f.id; })
+      .concat((KORB_GLP1.acceptedLimitations || []).map(function (f) { return f.id; }));
 
     for (var k in KORB_GLP1.products) {
       if (!KORB_GLP1.products.hasOwnProperty(k)) continue;
@@ -3413,6 +4351,27 @@ var KORB_GLP1 = {
       if (!KORB_GLP1.pharmacies[p.pharmacy]) problems.push(k + ': unknown pharmacy "' + p.pharmacy + '"');
       if (['patient', 'provider'].indexOf(p.visibility) === -1) problems.push(k + ': invalid visibility');
       if (!p.doses || !p.doses.length) problems.push(k + ': no doses');
+
+      /* Preparation guards. These exist because the compounded/brand distinction
+         was previously inferred from the molecule, which put a false statement in
+         the chart attestation for every brand product. Three assertions, because
+         each catches a different way of reintroducing it. */
+      if (typeof p.compounded !== 'boolean') {
+        problems.push(k + ': must declare compounded: true or false - a product with ' +
+                          'no preparation flag cannot be rendered safely');
+      } else {
+        if (p.brandName === true && p.compounded !== false) {
+          problems.push(k + ': brandName is true but compounded is not false - a brand ' +
+                            'product would be described as compounded');
+        }
+        if (p.brandName !== true && p.compounded !== true) {
+          problems.push(k + ': compounded is false but brandName is not true - a ' +
+                            'compounded product would lose its FDA disclosure');
+        }
+        if (!KORB_GLP1.preparationFor(k)) {
+          problems.push(k + ': preparationFor() does not resolve');
+        }
+      }
 
       (p.doses || []).forEach(function (d) {
         if (d.flag && flagIds.indexOf(d.flag) === -1) problems.push(k + ' ' + d.dose + ': flag "' + d.flag + '" not in needsConfirmation');
@@ -3425,6 +4384,185 @@ var KORB_GLP1 = {
           if (typeof d[s].days === 'undefined') problems.push(k + ' ' + d.dose + ' ' + s + ': missing days');
         });
       });
+    }
+
+    /* Vial plans against the pharmacy's own puncture limit, plus the Tebra
+       character caps. Both were previously documented in prose and checked by
+       hand, which is how a 20% short supply and a silent truncation each got
+       through once. A stored plan that disagrees with its constraint is a
+       defect regardless of which side is right. */
+    for (var pk in KORB_GLP1.products) {
+      if (!KORB_GLP1.products.hasOwnProperty(pk)) continue;
+      var prod = KORB_GLP1.products[pk];
+      var vc = (KORB_GLP1.pharmacies[prod.pharmacy] || {}).vialConstraints;
+      (prod.doses || []).forEach(function (dd) {
+        ['supply4', 'supply8'].forEach(function (sup) {
+          var rec = dd[sup];
+          if (!rec) return;
+
+          if (typeof rec.ptInstructions === 'string' &&
+              rec.ptInstructions.length > KORB_GLP1.tebraLimits.patientInstructions) {
+            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': Patient Instructions ' +
+                          rec.ptInstructions.length + ' chars, cap is ' +
+                          KORB_GLP1.tebraLimits.patientInstructions + ' - truncates silently');
+          }
+          if (typeof rec.pharmacyNotes === 'string' &&
+              rec.pharmacyNotes.length > KORB_GLP1.tebraLimits.pharmacyInstructions) {
+            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': Pharmacy Instructions ' +
+                          rec.pharmacyNotes.length + ' chars, cap is ' +
+                          KORB_GLP1.tebraLimits.pharmacyInstructions + ' - truncates silently');
+          }
+
+          var vp = rec.vialPlan;
+          if (!vp || !vc) return;
+          if (vp.totalMl !== rec.quantity) {
+            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': vialPlan.totalMl ' +
+                          vp.totalMl + ' does not match dispensed quantity ' + rec.quantity);
+          }
+          var exceeds = vp.dosesPerVial > vc.maxDosesPerVial;
+          if (exceeds !== (vp.withinPunctureLimit === false)) {
+            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': withinPunctureLimit ' +
+                          'disagrees with dosesPerVial ' + vp.dosesPerVial +
+                          ' against a limit of ' + vc.maxDosesPerVial);
+          }
+          /* If the record's flag is an accepted limitation whose mitigation lives
+             in the sig, the sig must actually carry it. */
+          if (rec.flag) {
+            var acc = (KORB_GLP1.acceptedLimitations || []).filter(function (a) {
+              return a.id === rec.flag && a.requiresSigText;
+            })[0];
+            if (acc && String(rec.ptInstructions || '').indexOf(acc.requiresSigText) === -1) {
+              problems.push(pk + ' ' + dd.dose + ' ' + sup + ': flagged ' + acc.id +
+                            ' but the sig is missing its required mitigation text "' +
+                            acc.requiresSigText + '" - that instruction is the only thing ' +
+                            'holding this within the puncture limit');
+            }
+          }
+
+          if (exceeds && !rec.flag) {
+            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': one vial yields ' +
+                          vp.dosesPerVial + ' doses against a limit of ' + vc.maxDosesPerVial +
+                          ' and carries no flag - it must point at a needsConfirmation ' +
+                          'item or an acceptedLimitations entry so the choice is visible; ' +
+                          'a patient who does not discard it takes a dose past the ' +
+                          vc.punctureDays + '-day window');
+          }
+        });
+      });
+    }
+
+    /* Every product must produce billing for every program it offers, and every
+       option must resolve to a code OR say in words who supplies it. Silence is
+       the failure mode that matters: a blank where a charge code should be reads
+       as "no code needed" rather than "ask Operations". */
+    for (var bk in KORB_GLP1.products) {
+      if (!KORB_GLP1.products.hasOwnProperty(bk)) continue;
+      var progs = KORB_GLP1.billingPrograms(bk);
+      if (!progs.length) { problems.push(bk + ': no billable program'); continue; }
+      progs.forEach(function (pr) {
+        var bill = KORB_GLP1.billingFor(bk, pr);
+        if (!bill || !bill.options.length) {
+          problems.push(bk + ' ' + pr + ': billingFor() resolves no options');
+          return;
+        }
+        bill.options.forEach(function (o) {
+          if (!o.code && !o.codeNote) {
+            problems.push(bk + ' ' + pr + ' "' + o.label + '": no charge code and no ' +
+                          'note saying who supplies one - it will render blank');
+          }
+          if (o.price == null && !o.priceNote) {
+            problems.push(bk + ' ' + pr + ' "' + o.label + '": no price and no note ' +
+                          'explaining why');
+          }
+        });
+      });
+    }
+
+    /* No currency figure in the open-item or accepted-limitation text. Those are
+       where working notes get pasted, and this file is public - see costPolicy.
+       Program pricing lives in the pricing block, which is deliberately exempt. */
+    (function () {
+      var money = /(\$|USD\s*)\d/;
+      [['needsConfirmation', KORB_GLP1.needsConfirmation],
+       ['acceptedLimitations', KORB_GLP1.acceptedLimitations || []]].forEach(function (pair) {
+        (pair[1] || []).forEach(function (item) {
+          Object.keys(item).forEach(function (f) {
+            var v = item[f];
+            if (typeof v === 'string' && money.test(v)) {
+              problems.push(pair[0] + ' ' + item.id + '.' + f + ': contains a currency ' +
+                            'figure. This file is public - acquisition cost and rate-card ' +
+                            'figures belong with Operations, not here. See costPolicy.');
+            }
+          });
+        });
+      });
+    })();
+
+    /* Every pharmacy that dispenses a drug must appear on that drug's 8-week code.
+       Since the Belmar-specific codes were retired the code is uniform, so this
+       list is no longer a selection mechanism - it is a roster, and a roster is
+       exactly the kind of thing that goes stale when a pharmacy is added. */
+    (function () {
+      function carriers(drug) {
+        var out = [];
+        for (var ck in KORB_GLP1.products) {
+          if (!KORB_GLP1.products.hasOwnProperty(ck)) continue;
+          var cp = KORB_GLP1.products[ck];
+          if (cp.drug === drug && cp.route === 'subcutaneous' && !cp.brandName &&
+              cp.doses && cp.doses[0] && cp.doses[0].supply8 &&
+              out.indexOf(cp.pharmacy) === -1) { out.push(cp.pharmacy); }
+        }
+        return out;
+      }
+      var semaStd = KORB_GLP1.pricing.semaglutide.eightWeek.codes.standard;
+      carriers('semaglutide').forEach(function (ph) {
+        if (semaStd.pharmacies.indexOf(ph) === -1) {
+          problems.push('pricing.semaglutide.eightWeek: ' + ph + ' dispenses 8-week ' +
+                        'semaglutide but is not listed on code ' + semaStd.code);
+        }
+      });
+      var tirzPh = carriers('tirzepatide');
+      ['T1A', 'T2A', 'T3A'].forEach(function (t) {
+        var std = KORB_GLP1.pricing.tirzepatideTiers[t].eightWeek.codes.standard;
+        tirzPh.forEach(function (ph) {
+          if (std.pharmacies.indexOf(ph) === -1) {
+            problems.push('pricing.tirzepatideTiers.' + t + '.eightWeek: ' + ph +
+                          ' dispenses 8-week tirzepatide but is not listed on code ' + std.code);
+          }
+        });
+      });
+    })();
+
+    /* Every injectable compounded dose must offer BOTH program lengths, and every
+       tirzepatide dose must carry a price tier - without one, no charge code
+       resolves at all. Both are holes a provider only discovers at the point of
+       prescribing. */
+    for (var ik in KORB_GLP1.products) {
+      if (!KORB_GLP1.products.hasOwnProperty(ik)) continue;
+      var ip = KORB_GLP1.products[ik];
+      if (ip.route !== 'subcutaneous' || ip.brandName) continue;
+      (ip.doses || []).forEach(function (dd) {
+        if (dd.rx) return;                       // brand-shaped record, different keys
+        if (!dd.supply4) problems.push(ik + ' ' + dd.dose + ': has no 4-week option');
+        if (!dd.supply8) problems.push(ik + ' ' + dd.dose + ': has no 8-week option');
+        if (ip.drug === 'tirzepatide' && !dd.priceTier) {
+          problems.push(ik + ' ' + dd.dose + ': tirzepatide dose with no priceTier - ' +
+                        'no charge code resolves for either program');
+        }
+      });
+    }
+
+    /* No monograph may carry preparation text again. This is the assertion that
+       makes the original defect structurally impossible rather than merely fixed:
+       the text lived on the molecule, so every product sharing that molecule
+       inherited it regardless of how it is actually dispensed. */
+    for (var mk in (KORB_GLP1.monographs || {})) {
+      if (!KORB_GLP1.monographs.hasOwnProperty(mk)) continue;
+      if (typeof KORB_GLP1.monographs[mk].compoundedNote !== 'undefined') {
+        problems.push('monographs.' + mk + ': carries compoundedNote. Preparation is a ' +
+                      'property of the product, not the molecule - move it to the ' +
+                      'product compounded flag and read it via preparationFor()');
+      }
     }
 
     // Every KORB active state must resolve to a pharmacy that actually ships there.

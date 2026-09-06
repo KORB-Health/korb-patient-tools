@@ -3,7 +3,7 @@
    Single source of truth for peptide dosing, schedules, pharmacy instructions,
    and Tebra prescribing fields across KORB tools.
 
-   VERSION: 2.5   UPDATED: 2026-08-12
+   VERSION: 2.6   UPDATED: 2026-08-12
 
    WHAT CHANGED IN 2.0
      - Added `prescribing`: the exact Tebra Compounded Drug Favorite fields
@@ -89,13 +89,37 @@ var TESA_MONITOR = [
 var KORB_DOSING = {
 
   meta: {
-    version: '2.5',
+    version: '2.6',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-09-05 (v2.6): FOUNDATION GAINS TITRATION. Decided by Don. ' +
+      'CJC-1295/Ipamorelin in Foundation now matches Peak Pathway A exactly at ' +
+      '100 / 150 / 200 mcg. Sermorelin matches Gateway minus the 500 mcg step, so ' +
+      '200 / 300 / 400. Foundation previously offered a single dose per agent. ' +
+      'WHY 500 IS EXCLUDED, and it is a margin decision rather than a clinical ' +
+      'ceiling: Premier sermorelin is 1 mg/ml so dispensed volume scales with the ' +
+      'dose - 18 ml at 200 mcg, 27 at 300, 36 at 400, and 45 at a correctly ' +
+      'supplied 500. That last step is the one that puts a Foundation patient into ' +
+      'another vial each month and Foundation margin does not cover it. A patient ' +
+      'who needs 500 mcg moves to Gateway rather than being held at 400. VERIFIED ' +
+      'WHILE IMPLEMENTING: CJC titration costs nothing. Its dispensed quantity is ' +
+      '9 ml at all three doses because at 2 mg/ml even 200 mcg needs only 7.2 ml a ' +
+      'cycle, so the 9 ml already carries the house 1.25x margin at the top of the ' +
+      'ladder. Adding 150 and 200 changes no quantity, no vial and no cost - the ' +
+      'reasoning behind the decision holds against the records. ALSO FIXED: ' +
+      'peakSchedule was missing cjcipam150, cjcipam200 and tesamorelin15mg, all ' +
+      'three reachable from primaryDoseOptions, so a provider selecting them got a ' +
+      'blank schedule. Added. GUARD ADDED and verified by regression: every dose a ' +
+      'program offers must resolve to a prescribing record, and to a peakSchedule ' +
+      'entry where the program declares usesPeakSchedule. Gateway is staggered but ' +
+      'renders its schedule from hardcoded strings in the provider tool rather than ' +
+      'from this file, so it declares false - that hardcoding is a separate known ' +
+      'defect and this flag records it rather than hiding it.',
+
       '2026-07-31 (v1.1): Foundation BPC-157 corrected from [1,6] to [1,8] per confirmation ' +
       'from Don (Director of Clinical Operations & Lead Provider) — the course was updated ' +
       'to 8 weeks on / 8-week washout some weeks prior, to align with the 16-week cycle. ' +
@@ -787,9 +811,17 @@ var KORB_DOSING = {
     schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing:'Before bed, on an empty stomach' }
 },
+  /* Every dose a program can offer needs an entry here or the schedule renders
+     blank for that selection. cjcipam150, cjcipam200 and tesamorelin15mg were
+     reachable from primaryDoseOptions and missing from this object - added
+     2026-09-05. Schedule does not vary by dose within an agent; the entries exist
+     so the lookup cannot miss. selfCheck now asserts the coverage. */
   peakSchedule: {
   cjcipam: { schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle', timing:'Before bed, on an empty stomach' },
+  cjcipam150: { schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle', timing:'Before bed, on an empty stomach' },
+  cjcipam200: { schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle', timing:'Before bed, on an empty stomach' },
   tesamorelin1mg: { schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle', timing:'Evening' },
+  tesamorelin15mg: { schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle', timing:'Evening' },
   tesamorelin2mg: { schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle', timing:'Evening' },
   bpc157: { schedule:'Daily SQ · Weeks 3–8 of each 16-week cycle (starts 2 weeks after primary agent)', timing:'Any consistent time daily. No food restriction.' },
   ghkcu: { schedule:'3x weekly SQ (evening) · Optional add-on · Weeks 5–8 of each 16-week cycle', timing:'3 times weekly, evening' }
@@ -922,11 +954,52 @@ var KORB_DOSING = {
       label: 'Foundation Program',
       agentChoices: ['sermorelin', 'cjcipam', 'bpc157'],   // provider selects ONE
       stagger: false,
-      optionalAddon: null   // GHK-Cu is never a Foundation option
+      optionalAddon: null,  // GHK-Cu is never a Foundation option
+
+      /* Titration added to Foundation 2026-09-05, decided by Don.
+         CJC-1295/Ipamorelin matches Peak Pathway A exactly - 100 / 150 / 200.
+         Sermorelin matches Gateway MINUS the 500 mcg step.
+
+         Why 500 is excluded, and it is a margin reason rather than a clinical
+         one: Premier sermorelin is 1 mg/ml, so dispensed volume scales with the
+         dose - 200 mcg is 18 ml, 300 is 27, 400 is 36, and a correctly supplied
+         500 is 45. That last step is the one that puts a Foundation patient into
+         another vial each month, and Foundation's markup does not cover it.
+         Gateway keeps 500 because its pricing does. A Foundation patient who
+         needs 500 mcg moves to Gateway rather than being held at 400.
+
+         CJC costs nothing to titrate. Its dispensed quantity is 9 ml at all
+         three doses, because at 2 mg/ml even 200 mcg needs only 7.2 ml a cycle -
+         the 9 ml already carries the house 1.25x margin at the top dose. Adding
+         150 and 200 to Foundation changes no quantity, no vial and no cost.
+         Verified against the prescribing records 2026-09-05.
+
+         BPC-157 has no dose options in any program; it is 500 mcg throughout. */
+      primaryDoseOptions: {
+        sermorelin: ['200', '300', '400'],
+        cjcipam:    ['100', '150', '200'],
+        bpc157:     null
+      },
+      /* Foundation timing comes from foundationAgents, not peakSchedule. */
+      usesPeakSchedule: false,
+      doseOptionsAddedOn: '2026-09-05',
+      doseOptionsDecidedBy: 'Don',
+      sermorelin500Excluded: true,
+      sermorelin500ExclusionReason:
+        'A correctly supplied 500 mcg is 45 ml a cycle against 36 ml at 400 mcg, ' +
+        'which requires an additional vial each month. Foundation margin does not ' +
+        'justify it. Gateway retains 500 mcg. This is a commercial ceiling, not a ' +
+        'clinical one - escalate the patient to Gateway rather than holding at 400.'
     },
     gateway: {
       label: 'Gateway Program',
       primaryFamily: 'sermorelin',
+      /* Gateway's schedule strings are currently hardcoded in
+         KORB_Provider_Clinical_Reference.html rather than read from here. That is
+         a known defect - see the audit - and it is why this is false rather than
+         true: Gateway does not read peakSchedule, so asserting coverage against it
+         would report a problem that is not one. */
+      usesPeakSchedule: false,
       primaryDoseOptions: ['200', '300', '400', '500'],
       baseProtocol: ['sermorelin', 'bpc157'],   // BPC-157 is part of the base protocol, not optional
       optionalAddon: 'ghkcu',                    // the only optional add-on
@@ -934,6 +1007,7 @@ var KORB_DOSING = {
     },
     peakA: {
       label: 'Peak Performance — Pathway A',
+      usesPeakSchedule: true,   // reads peakSchedule for its agent timing
       primaryFamily: 'cjcipam',
       primaryDoseOptions: ['100', '150', '200'],
       baseProtocol: ['cjcipam', 'bpc157'],
@@ -942,6 +1016,7 @@ var KORB_DOSING = {
     },
     peakB: {
       label: 'Peak Performance — Pathway B',
+      usesPeakSchedule: true,   // reads peakSchedule for its agent timing
       primaryFamily: 'tesamorelin',
       primaryDoseOptions: ['1mg', '15mg', '2mg'],
       baseProtocol: ['tesamorelin', 'bpc157'],
@@ -1133,6 +1208,39 @@ KORB_DOSING.selfCheck = function(){
         problems.push('SYRINGE ' + k + '/' + ph + ': ' + n + ' units meets or exceeds the ' +
                       cfg.standardUnits + '-unit standard syringe, but Pharmacy Instructions does not state 100-UNIT SYRINGES');
       }
+    });
+  });
+
+  /* Added 2026-09-05 with Foundation titration. Every dose a program offers must
+     resolve to a real key in every object that consumes it. Foundation gained
+     per-agent dose options, and Peak already offered doses whose peakSchedule
+     entries did not exist - a provider could select 150 mcg and get a blank
+     schedule. This keeps the option lists and the records in step.
+
+     Reads primaryDoseOptions in both shapes: an array where a program has one
+     primary family, or a map keyed by agent, which is what Foundation needs since
+     its ladder differs per agent. peakSchedule is asserted only where a program
+     declares usesPeakSchedule - Gateway is staggered but renders its schedule from
+     elsewhere, so asserting it there would report a problem that is not one. */
+  Object.keys(KORB_DOSING.programs).forEach(function(pk){
+    var prog = KORB_DOSING.programs[pk];
+    var opts = prog.primaryDoseOptions;
+    if (!opts) return;
+    var byFamily = Array.isArray(opts)
+      ? (function(){ var o = {}; o[prog.primaryFamily] = opts; return o; })()
+      : opts;
+    Object.keys(byFamily).forEach(function(fam){
+      (byFamily[fam] || []).forEach(function(dv){
+        var key = KORB_DOSING.resolvePrimaryKey(fam, dv);
+        if (!KORB_DOSING.prescribing[key]) {
+          problems.push('DOSE OPTION ' + pk + '/' + fam + ' ' + dv + ' -> ' + key +
+                        ': no prescribing record, nothing to prescribe from');
+        }
+        if (prog.usesPeakSchedule && !KORB_DOSING.peakSchedule[key]) {
+          problems.push('DOSE OPTION ' + pk + '/' + fam + ' ' + dv + ' -> ' + key +
+                        ': no peakSchedule entry, the schedule renders blank');
+        }
+      });
     });
   });
 

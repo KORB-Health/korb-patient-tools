@@ -60,10 +60,10 @@
   .pb-greenwich{background:var(--greenwichlt);border-color:var(--greenwich);}
   .pb-greenwich h3{color:var(--greenwich);}
 
-  /* Split fill callout */
-  .splitfill{display:none;background:var(--amber);border:2px solid var(--amberbd);border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#5D3A00;}
-  .splitfill strong{display:block;font-size:14px;margin-bottom:5px;color:#8A5A00;}
-  .splitfill ul{margin:6px 0 0 18px;line-height:1.6;}
+  /* Fill-structure notice: quantity flags and live transitions */
+  .fillnotice{display:none;background:var(--amber);border:2px solid var(--amberbd);border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#5D3A00;}
+  .fillnotice strong{display:block;font-size:14px;margin-bottom:5px;color:#8A5A00;}
+  .fillnotice ul{margin:6px 0 0 18px;line-height:1.6;}
 
   /* Sections */
   .sec{font-size:15px;font-weight:700;color:var(--navy);border-left:4px solid var(--teal);padding-left:10px;margin:24px 0 12px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
@@ -174,7 +174,7 @@
 
   <div class="compat" id="compatBanner"></div>
   <div class="pharm-banner" id="pharmBanner"></div>
-  <div class="splitfill" id="splitFill"></div>
+  <div class="fillnotice" id="fillNotice"></div>
 
   <div id="emptyState" class="empty">Select a state and drug to begin.</div>
 
@@ -346,7 +346,7 @@ function resetAll(){
   $('doseSel').innerHTML='<option value="">—</option>'; $('doseSel').disabled=true;
   $('compatBanner').style.display='none';
   $('pharmBanner').style.display='none';
-  $('splitFill').style.display='none';
+  $('fillNotice').style.display='none';
   $('results').style.display='none';
   $('emptyState').style.display='block';
   $('stateHint').textContent = 'Sets the default pharmacy.';
@@ -461,7 +461,7 @@ function buildDoses(){
 function render(){
   renderCompat();
   renderPharmBanner();
-  renderSplitFill();
+  renderFillNotice();
 
   var p = S.product ? K.getProduct(S.product) : null;
   if (!p || !S.state || !S.drug){
@@ -519,19 +519,101 @@ function renderPharmBanner(){
   el.style.display = 'block';
 }
 
-function renderSplitFill(){
-  var el = $('splitFill');
+/* Was renderSplitFill. Belmar stopped splitting the 8-week fill on 2026-09-05,
+   which removed the last pharmacy-specific fill structure on the program. What a
+   provider needs on this panel now is not "your medication ships in two parts" but
+   two things that are true during the changeover: the dispensed quantity has not
+   been confirmed against the new Belmar terms, and patients who started before the
+   change are still on the old structure. Both come from the data file, so this
+   panel empties itself when Operations closes the transition and the quantity flag
+   is cleared. It does not need to be edited again to go away. */
+function renderFillNotice(){
+  var el = $('fillNotice');
   var ph = S.pharmacy ? K.pharmacies[S.pharmacy] : null;
-  if (!ph || !ph.splitFill || S.supply !== 'supply8'){ el.style.display='none'; return; }
-  var sf = ph.splitFill;
-  var html = '<strong>Split fill \u2014 this 8-week program ships in two parts</strong>' +
-             esc(sf.structure) + '. ' + esc(sf.trigger);
-  html += '<ul>';
-  html += '<li>Refill owner: <strong>' + esc(sf.refillOwner) + '</strong>. Not automatic.</li>';
-  if (sf.timing) html += '<li>Ops triggered at <strong>' + esc(sf.timing.opsTriggeredAt) + '</strong>. ' + esc(sf.timing.goal) + '</li>';
-  if (sf.providerScript) html += '<li>Tell the patient: ' + esc(sf.providerScript) + '</li>';
-  html += '</ul>';
-  el.innerHTML = html;
+  if (!ph){ el.style.display='none'; return; }
+
+  var blocks = [];
+
+  /* The vial plan. dosesPerVial and the cross-vial draws are computed facts the
+     provider cannot get from the sig - the cross-vial instruction in particular
+     was too long for the 140-character Patient Instructions field, so it lives
+     here as data and this is the only place it surfaces. */
+  var d   = (S.product && S.dose) ? K.getDose(S.product, S.dose) : null;
+  var rec = d ? d[S.supply] : null;
+  var vp  = rec && rec.vialPlan;
+  if (vp){
+    var vc = ph.vialConstraints;
+    var over = vc && vp.dosesPerVial > vc.maxDosesPerVial;
+    var h = '<strong>Vial plan — ' + esc(vp.ship) + '</strong>';
+    h += '<ul>';
+    h += '<li>One vial yields <strong>' + vp.dosesPerVial + ' doses</strong>' +
+         (vc ? ' against a ceiling of ' + vc.maxDosesPerVial : '') +
+         (over ? ' — <strong>over the ceiling</strong>, see the limitation below' : '') + '</li>';
+    if (vp.leftoverMl > 0){
+      h += '<li>Leaves <strong>' + vp.leftoverMl + ' ml</strong> undispensed, which is ' +
+           vp.leftoverDoses + ' further doses a patient can still draw</li>';
+    } else {
+      h += '<li>No leftover — the shipped volume is exactly the ' +
+           (S.supply === 'supply8' ? 'eight-week' : 'four-week') + ' need</li>';
+    }
+    if (vp.crossVialNote){
+      h += '<li>' + esc(vp.crossVialNote) + '</li>';
+    }
+    if (vc && vc.bud && S.supply === 'supply8'){
+      h += '<li>' + esc(vc.bud.orderRequirement) + '</li>';
+    }
+    h += '</ul>';
+    blocks.push(h);
+  }
+
+  /* An ACCEPTED limitation is not a warning that something is unfinished - it is
+     a known problem that was decided and shipped anyway, and the mitigation is
+     usually something the provider has to say out loud. So it belongs in front of
+     whoever is writing the prescription, not buried in the data file. This is the
+     one panel that survives after the open flags are closed. Shows on both
+     programs, because an accepted limitation is not specific to the 8-week fill. */
+  (K.acceptedLimitations || []).forEach(function(a){
+    var hitsProduct = (a.appliesTo || []).indexOf(S.product) !== -1;
+    var hitsDose    = !a.doses || !a.doses.length || a.doses.indexOf(S.dose) !== -1;
+    if (!hitsProduct || !hitsDose) return;
+
+    var h = '<strong>Known limitation \u2014 accepted, not fixed</strong>' + esc(a.issue);
+    h += '<ul>';
+    if (a.mitigation) h += '<li><strong>Mitigation:</strong> ' + esc(a.mitigation) + '</li>';
+    if (a.residualRisk) h += '<li><strong>What this still leaves:</strong> ' + esc(a.residualRisk) + '</li>';
+    if (a.opsNote) h += '<li><strong>For Operations:</strong> ' + esc(a.opsNote) + '</li>';
+    h += '<li>Decided by <strong>' + esc(a.decidedBy || 'unrecorded') + '</strong>' +
+         (a.decidedOn ? ' on ' + esc(a.decidedOn) : '') +
+         ' \u00b7 <span class="code-chip">' + esc(a.id) + '</span></li>';
+    h += '</ul>';
+    blocks.push(h);
+  });
+
+  // Blocking: any open flag naming this pharmacy's products.
+  var qtyFlag = (K.needsConfirmation || []).filter(function(f){
+    return f.type === 'blocking' && (f.appliesTo || []).some(function(k){
+      return K.products[k] && K.products[k].pharmacy === ph.key;
+    });
+  })[0];
+  if (qtyFlag && S.supply === 'supply8'){
+    blocks.push('<strong>Dispensed quantity is not confirmed \u2014 do not prescribe from it</strong>' +
+                esc(qtyFlag.issue) +
+                '<ul><li>' + esc(qtyFlag.question) + '</li>' +
+                '<li>Owner: <strong>' + esc(qtyFlag.owner) + '</strong> \u00b7 open item <span class="code-chip">' + esc(qtyFlag.id) + '</span></li></ul>');
+  }
+
+  // Informational: an active transition between fill structures.
+  var tr = ph.transition;
+  if (tr && tr.active && S.supply === 'supply8'){
+    blocks.push('<strong>Two fill structures are live right now</strong>' +
+                esc(tr.decision) +
+                '<ul><li>New starts: ' + esc(tr.newStarts) + '</li>' +
+                '<li>Operations: ' + esc(tr.opsAction) + '</li>' +
+                '<li>Tell the patient: ' + esc(tr.providerScript) + '</li></ul>');
+  }
+
+  if (!blocks.length){ el.style.display='none'; return; }
+  el.innerHTML = blocks.join('<hr style="border:0;border-top:1px solid var(--amberbd);margin:10px 0;">');
   el.style.display = 'block';
 }
 
@@ -540,9 +622,18 @@ function renderLadder(p){
   var tbody = $('ladderTbl').querySelector('tbody');
   var isOral = p.doses[0] && p.doses[0].rx && !p.doses[0].supply4;
 
+  /* If an open blocking flag covers this product's quantities, mark the column
+     itself. The banner above the table already says so, but a provider reading
+     across a row should not have to connect the two. Driven off needsConfirmation,
+     so the marker clears itself when the flag is closed. */
+  var qtyUnconfirmed = (K.needsConfirmation || []).some(function(f){
+    return f.type === 'blocking' && (f.appliesTo || []).indexOf(p.key) !== -1;
+  });
+  var eightCol = '8-week vials' + (qtyUnconfirmed ? ' — NOT CONFIRMED' : '');
+
   var cols = isOral
     ? ['Dose','Presentation','Route','Frequency']
-    : ['Dose','Units','Concentration','4-week vials','8-week vials'];
+    : ['Dose','Units','Concentration','4-week vials',eightCol];
   thead.innerHTML = '<tr>' + cols.map(function(c){ return '<th>' + esc(c) + '</th>'; }).join('') + '</tr>';
 
   tbody.innerHTML = p.doses.map(function(d){
@@ -691,90 +782,70 @@ function copyAll(){
   navigator.clipboard.writeText(t);
 }
 
+/* Rewritten 2026-09-05 to read KORB_GLP1.billingFor(), which returns the same
+   shape for every product and program. This function used to branch three ways -
+   brand, tirzepatide tiers, compounded oral - and pick a code out of a different
+   place in each. The PDF builder branched the same way separately. That duplicated
+   branching is what let the retired Belmar code stay live in the 8-week table: the
+   rule changed in one place and not the other. There is now one place. */
 function renderPricing(p){
   var el = $('pricingPanel');
-  var html = '';
-  var d = K.getDose(S.product, S.dose);
-
-  if (p.brandName){
-    var bn = K.pricing.brandName;
-    html += '<div class="tbl-wrap"><table><thead><tr><th>Item</th><th>Price</th><th>Charge code</th></tr></thead><tbody>' +
-            '<tr><td>Prescription visit fee</td><td>$' + bn.prescriptionVisitFee +
-            '</td><td><span class="code-chip">' + esc(bn.billingCode) + '</span></td></tr>' +
-            '</tbody></table></div>';
-    html += '<div class="pricing-note">' + esc(bn.appliesTo) + '<br>' + esc(bn.note) + '</div>';
-    html += '<div class="openflag"><strong>No medication pricing here, deliberately.</strong> ' +
-            esc(bn.doNotStoreReason) + '</div>';
-    el.innerHTML = html;
+  var bill = K.billingFor(S.product, S.supply, S.dose);
+  if (!bill || !bill.options.length){
+    el.innerHTML = '<div class="pricing-note">No billing resolved for this selection.</div>';
     return;
   }
 
-  if (p.drug === 'tirzepatide' && d && d.priceTier){
-    var t = K.pricing.tirzepatideTiers[d.priceTier];
-    var tierChip = '<span class="tier-chip">' + esc(t.tier) + '</span>';
-    html += '<div class="tier-head">Dose tier for ' + esc(d.dose) + ': ' + tierChip +
-            ' <span style="font-weight:400;color:var(--mu);">' + esc(t.appliesTo) + '</span></div>';
-    html += '<div class="tbl-wrap"><table><thead><tr><th>Program</th><th>Price</th><th>Charge code</th><th>Tier</th></tr></thead><tbody>';
-    if (S.supply === 'supply8'){
-      // Price is identical at every pharmacy; the CODE is not. Belmar splits the
-      // 8-week into 4 weeks plus a refill, and its code is what tells Ops to place
-      // the second order. Same selection semaglutide already uses below.
-      var tCode = (S.pharmacy === 'belmar') ? t.eightWeek.codes.belmar : t.eightWeek.codes.standard;
-      html += '<tr><td>8-week</td><td>$' + t.eightWeek.price + '</td><td><span class="code-chip">' + esc(tCode.code) + '</span></td><td>' + tierChip + '</td></tr>';
-    } else {
-      html += '<tr><td>4-week \u2014 Corporate partner</td><td>$' + t.corpPartner.price + '</td><td><span class="code-chip">' + esc(t.corpPartner.code) + '</span></td><td>' + tierChip + '</td></tr>';
-      html += '<tr><td>4-week \u2014 Standard</td><td>$' + t.fourWeek.price + '</td><td><span class="code-chip">' + esc(t.fourWeek.code) + '</span></td><td>' + tierChip + '</td></tr>';
-    }
-    html += '</tbody></table></div>';
-    html += '<div class="pricing-note">Showing <strong>' + (S.supply === 'supply8' ? '8-week' : '4-week') +
-            '</strong> pricing only, matching the selected program length.</div>';
-    html += '<div class="pricing-note">' + esc(K.pricing.tirzepatideTiers.corporateNote) + '</div>';
+  var html = '';
+  if (bill.note) html += '<div class="tier-head">' + esc(bill.note) + '</div>';
 
-    if (S.pharmacy === 'belmar' && S.supply === 'supply8'){
-      var bel = t.eightWeek.codes.belmar;
-      html += '<div class="openflag"><strong>Belmar 8-week is a split fill.</strong> ' +
-              'Use <span class="code-chip">' + esc(bel.code) + '</span> for this tier, not ' +
-              '<span class="code-chip">' + esc(t.eightWeek.codes.standard.code) + '</span>.<br>' +
-              esc(bel.note) + '</div>';
-    }
+  html += '<div class="tbl-wrap"><table><thead><tr><th>Program</th><th>Price</th><th>Charge code</th></tr></thead><tbody>';
+  bill.options.forEach(function(o){
+    /* A null code is a real answer, not a gap - it means Operations supplies it.
+       Rendered as a different chip so it never reads as a code you can use. */
+    var codeCell = o.code
+      ? '<span class="code-chip">' + esc(o.code) + '</span>'
+      : '<span class="ops-chip">' + esc(o.codeNote || 'Operations will provide') + '</span>';
+    html += '<tr><td>' + esc(o.label) + '</td>' +
+            '<td>' + (o.price != null ? '$' + o.price : 'Varies') + '</td>' +
+            '<td>' + codeCell + '</td></tr>';
+  });
+  html += '</tbody></table></div>';
 
-  } else if (p.drug === 'semaglutide' && !p.doses[0].rx){
-    var sg = K.pricing.semaglutide;
-    var show8 = (S.supply === 'supply8');
-    html += '<div class="tbl-wrap"><table><thead><tr><th>Program</th><th>Price</th><th>Charge code</th></tr></thead><tbody>';
-    if (!show8){
-      // Cheapest first. Order set deliberately: all others, discounted, full price.
-      var ORDER = ['other','discounted','standard'];
-      ORDER.forEach(function(k){
-        var b = sg.fourWeek.bands.filter(function(x){ return x.key === k; })[0];
-        if (!b) return;
-        html += '<tr><td>4-week \u2014 ' + esc(b.label) +
-                (b.eligibility ? '<br><span style="font-size:11px;color:#5A6070;">' + esc(b.eligibility.join(' \u00b7 ')) + '</span>' : '') +
-                '</td><td>' + (b.price ? '$' + b.price : 'Varies') + '</td>' +
-                '<td><span class="ops-chip">' + esc(b.code || sg.chargeCodePolicy.renderAs) + '</span></td></tr>';
-      });
-    } else {
-      var codeObj = (S.pharmacy === 'belmar') ? sg.eightWeek.codes.belmar : sg.eightWeek.codes.standard;
-      html += '<tr><td>8-week \u2014 ' + esc(sg.eightWeek.label) + '</td><td>$' + sg.eightWeek.price +
-              '</td><td><span class="code-chip">' + esc(codeObj.code) + '</span></td></tr>';
-    }
-    html += '</tbody></table></div>';
-    html += '<div class="pricing-note">Showing <strong>' + (show8 ? '8-week' : '4-week') +
-            '</strong> pricing only, matching the selected program length.<br>' +
-            (show8 ? esc(sg.eightWeek.discountNote)
-                   : '<strong>Charge codes:</strong> ' + esc(sg.chargeCodePolicy.reason) + ' ' +
-                     esc(sg.chargeCodePolicy.providedBy) + '.') + '</div>';
+  html += '<div class="pricing-note">Showing <strong>' + esc(bill.programLabel) +
+          '</strong> pricing only, matching the selected program length.</div>';
 
-  } else if (d && d.chargeCode){
-    var op = K.priceForCode(d.chargeCode);
-    html += '<div class="tbl-wrap"><table><thead><tr><th>Product</th><th>Price</th><th>Charge code</th></tr></thead><tbody>' +
-            '<tr><td>' + esc(d.presentation || d.dose) + '</td><td>' + (op ? '$' + op : '\u2014') +
-            '</td><td><span class="code-chip">' + esc(d.chargeCode) + '</span></td></tr>' +
-            '</tbody></table></div>';
-    html += '<div class="pricing-note">Oral pricing is fixed to the charge code and does not vary by pharmacy.</div>';
-  } else {
-    html += '<div class="pricing-note">No charge code stored for this product. ' +
-            esc(p.chargeCodeNote || 'Operations will provide the code at scheduling.') + '</div>';
+  var seen = {};
+  bill.options.forEach(function(o){
+    [o.priceNote, o.codeNote].forEach(function(n){
+      if (!n || seen[n]) return;
+      seen[n] = 1;
+      html += '<div class="pricing-note">' + esc(n) + '</div>';
+    });
+  });
+
+  /* Retired codes still turn up on orders placed before they were retired, so
+     name them rather than letting a mismatch read as an error. Driven off
+     codes.retired, so this clears itself when the list empties. */
+  var d = K.getDose(S.product, S.dose);
+  var retired = [];
+  if (S.supply === 'supply8'){
+    if (p.drug === 'tirzepatide' && d && d.priceTier){
+      retired = K.pricing.tirzepatideTiers[d.priceTier].eightWeek.codes.retired || [];
+    } else if (p.drug === 'semaglutide' && !p.brandName && d && d.supply8){
+      retired = K.pricing.semaglutide.eightWeek.codes.retired || [];
+    }
+  }
+  retired.filter(function(r){ return r.pharmacies.indexOf(S.pharmacy) !== -1; })
+         .forEach(function(r){
+    html += '<div class="openflag"><strong>Retired code \u2014 do not use on a new order.</strong> ' +
+            '<span class="code-chip">' + esc(r.code) + '</span> was retired on ' + esc(r.retiredOn) +
+            '. This now bills the code above, like every other pharmacy.<br>' + esc(r.reason) + '</div>';
+  });
+
+  if (p.brandName && K.pricing.brandName.doNotStorePricing){
+    html += '<div class="openflag"><strong>No medication pricing here, deliberately.</strong> ' +
+            esc(K.pricing.brandName.doNotStoreReason) + '</div>';
   }
 
   html += '<div class="pricing-note"><strong>Includes:</strong> ' + esc(K.pricing.includes) +
