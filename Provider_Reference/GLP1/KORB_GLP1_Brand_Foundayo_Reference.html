@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foundayo — brand orforglipron — GLP-1 Provider Reference</title>
+<style>
+  @page { size: Letter; margin: 0.75in 0.6in; }
+  :root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--orange:#FBB040;
+        --ink:#1A1D33;--ink2:#4A4F6B;--ink3:#767B94;--rule:#DFDCCB;--panel:#F7F6EF;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Source Serif 4",Georgia,serif;font-size:10.2pt;line-height:1.5;color:var(--ink);}
+  h1{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:24pt;margin:0;color:var(--navy);letter-spacing:-.01em;}
+  .sub{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:11pt;color:var(--ink2);margin:2pt 0 0;}
+  .byline{font-family:"IBM Plex Mono",monospace;font-size:7.6pt;color:var(--ink3);margin:10pt 0 0;
+          border-top:1pt solid var(--rule);padding-top:6pt;}
+  .lede{color:var(--ink2);margin:10pt 0 14pt;}
+  h2{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:13pt;color:var(--navy);
+     margin:20pt 0 7pt;padding-bottom:3pt;border-bottom:2pt solid var(--teal);break-after:avoid;}
+  h3{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:10.5pt;margin:13pt 0 5pt;color:var(--ink);break-after:avoid;}
+  h3.prod{background:var(--navy);color:#fff;padding:5pt 8pt;margin-top:16pt;}
+  h3.prod .via{float:right;font-weight:400;font-size:8.4pt;opacity:.75;}
+  h4{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:9.6pt;margin:11pt 0 4pt;color:var(--navy);break-after:avoid;}
+  table{border-collapse:collapse;width:100%;margin:5pt 0 9pt;break-inside:avoid;}
+  .kv th{width:31%;text-align:left;background:var(--panel);color:var(--ink2);font-weight:600;
+         font-family:Archivo,Helvetica,Arial,sans-serif;font-size:8.4pt;vertical-align:top;}
+  .kv th,.kv td{border:0.6pt solid var(--rule);padding:4pt 7pt;vertical-align:top;}
+  .rx td{font-family:"IBM Plex Mono",monospace;font-size:8.4pt;}
+  .grid th{background:var(--navy);color:#fff;font-family:Archivo,Helvetica,Arial,sans-serif;
+           font-size:8pt;text-align:left;padding:4pt 7pt;}
+  .grid td{border:0.6pt solid var(--rule);padding:4pt 7pt;font-size:9pt;}
+  ul{margin:4pt 0 9pt;padding-left:14pt;} li{margin-bottom:3pt;}
+  .callout{border-left:3pt solid var(--teal);background:var(--panel);padding:7pt 10pt;margin:9pt 0;break-inside:avoid;}
+  .callout.warn{border-left-color:var(--orange);}
+  .callout.ok{border-left-color:#1E6B4F;background:#F1F7F4;}
+  .callout.ok h3{color:#1E6B4F;}
+  .callout h3{margin:0 0 3pt;font-size:9.6pt;}
+  .callout p{margin:0 0 4pt;font-size:9.2pt;} .callout p:last-child{margin-bottom:0;}
+  .gate{border:1.5pt solid #B3261E;background:#FBEDEC;padding:9pt 12pt;margin:12pt 0;break-inside:avoid;}
+  .gate h3{margin:0 0 5pt;color:#B3261E;font-size:10.5pt;}
+  .gate p{margin:0 0 5pt;font-size:9.2pt;} .gate-q{color:var(--ink2);}
+  .meta{font-family:"IBM Plex Mono",monospace;font-size:7.6pt;color:var(--ink3);}
+  .fine{font-size:8.6pt;color:var(--ink2);margin:4pt 0;}
+  .sublabel{font-family:Archivo,Helvetica,Arial,sans-serif;font-size:8.6pt;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin:7pt 0 2pt;}
+  .attest{background:var(--panel);border-left:3pt solid var(--navy);padding:7pt 10pt;font-style:italic;}
+  code{font-family:"IBM Plex Mono",monospace;font-size:8.6pt;background:var(--panel);padding:1pt 3pt;border:0.5pt solid var(--rule);}
+  .foot{margin-top:22pt;border-top:1pt solid var(--rule);padding-top:8pt;font-size:8.4pt;color:var(--ink2);
+        display:flex;gap:26pt;break-inside:avoid;}
+  .foot h4{margin:0 0 3pt;}
+  .foot ul{margin:0;padding-left:12pt;}
+/* Screen presentation. The rules above are shared with the PDF build. */
+@media screen {
+  body { max-width: 8.5in; margin: 0 auto; padding: 28px 26px 60px; font-size: 15px; background: #FBFAF6; }
+  h1 { font-size: 30px; } h2 { font-size: 19px; } h3 { font-size: 15px; } h4 { font-size: 14px; }
+  table { font-size: 14px; } .rx td { font-size: 13px; }
+  .live { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .06em;
+          text-transform: uppercase; color: #1E6B4F; background: #E9F3EE;
+          border: 1px solid #C3E0D2; padding: 4px 9px; display: inline-block; margin-bottom: 14px; }
+  .tools { float: right; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+  .tools a { color: #0F5F69; margin-left: 12px; }
+}
+@media print { .live, .tools { display: none; } body { padding: 0; max-width: none; } }
+</style>
+</head>
+<body>
+<p>Loading…</p>
+<script src="../../korb-glp1-data.js"></script>
+<script src="../../provider-doc-render.js"></script>
+<script>
+  /* Renders from the data file at page load, so this document is never stale.
+     If the data file moves or fails to load, say so plainly rather than
+     rendering a half-empty page that looks authoritative. */
+  (function () {
+    if (typeof KORB_GLP1 === 'undefined' || typeof KORB_DOCS === 'undefined') {
+      document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E">' +
+        'Could not load korb-glp1-data.js or provider-doc-render.js. ' +
+        'This document renders from those files and cannot display without them.</p>';
+      return;
+    }
+    KORB_DOCS.mount("foundayo", KORB_GLP1);
+    var bar = document.createElement('div');
+    bar.innerHTML = '<span class="live">Live — reflects korb-glp1-data.js v' +
+      KORB_DOCS.esc(KORB_GLP1.meta.version) + ' as of this page load</span>' +
+      '<span class="tools"><a href="KORB_GLP1_Brand_Foundayo_Reference.pdf">PDF version</a>' +
+      '<a href="#" onclick="window.print();return false;">Print</a></span>';
+    document.body.insertBefore(bar, document.body.firstChild);
+  })();
+</script>
+</body></html>
