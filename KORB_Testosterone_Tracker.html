@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KORB — My Testosterone Tracker</title>
+<style>
+:root{--navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--bd:#D6E0E3;--mu:#5A6070;--cream:#ECE9D1;
+ --amber:#FFF8E1;--amberbd:#F9A825;--gb:#F8F9FA;--red:#C62828;--redbg:#FDECEA;--green:#2E7D32;--greenbg:#E8F5E9;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+ font-size:15px;color:#1A1A2E;background:#fff;line-height:1.55;}
+.wrap{max-width:720px;margin:0 auto;padding:18px 14px 64px;}
+
+.top{padding-bottom:13px;border-bottom:2.5px solid var(--teal);margin-bottom:16px;}
+.top h1{font-size:20px;font-weight:700;color:var(--navy);line-height:1.25;}
+.top p{font-size:13px;color:var(--mu);margin-top:4px;}
+
+.sec{font-size:14px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
+ padding:10px 14px;margin:22px 0 12px;border-radius:4px;}
+
+.panel{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:15px 14px;margin-bottom:16px;}
+
+/* mobile first: single column, widen on larger screens */
+.grid{display:grid;grid-template-columns:1fr;gap:13px;}
+@media(min-width:600px){.grid{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));}}
+
+.f{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.f label{font-size:12.5px;font-weight:700;color:var(--navy);}
+/* 16px prevents iOS auto-zoom on focus; 46px is a comfortable touch target */
+.f select,.f input{width:100%;max-width:100%;min-height:46px;padding:10px 12px;
+ border:1.5px solid var(--teal);border-radius:8px;font-size:16px;color:var(--navy);
+ background:#fff;font-family:inherit;-webkit-appearance:none;appearance:none;}
+.f input[type="date"]{-webkit-appearance:none;appearance:none;display:block;text-align:left;}
+.f select{background-image:linear-gradient(45deg,transparent 50%,var(--navy) 50%),
+ linear-gradient(135deg,var(--navy) 50%,transparent 50%);
+ background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;
+ background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:36px;}
+
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:6px;}
+.day{min-height:46px;padding:6px 2px;border:1.5px solid var(--bd);border-radius:8px;background:#fff;
+ font-size:12.5px;font-weight:700;color:var(--mu);cursor:pointer;text-align:center;font-family:inherit;}
+.day.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+
+.btn{background:var(--teal);color:var(--navy);border:0;border-radius:24px;min-height:48px;
+ padding:12px 22px;font-size:14.5px;font-weight:800;cursor:pointer;font-family:inherit;}
+.btn:active{opacity:.85;}
+.btn.wide{width:100%;font-size:16px;}
+.btn.ghost{background:#fff;border:1.5px solid var(--bd);color:var(--mu);font-size:13px;min-height:44px;padding:10px 16px;}
+.btnrow{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;}
+.btnrow .btn{flex:1 1 auto;}
+
+.hero{border-radius:12px;padding:22px 18px;text-align:center;margin-bottom:14px;
+ border:2px solid var(--teal);background:var(--lt);}
+.hero.due{background:var(--greenbg);border-color:var(--green);}
+.hero.today{background:var(--amber);border-color:var(--amberbd);}
+.hero.over{background:var(--redbg);border-color:var(--red);}
+.hero .k{font-size:11px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;color:var(--mu);}
+.hero .big{font-size:30px;font-weight:800;color:var(--navy);margin:6px 0 3px;line-height:1.15;}
+.hero .sub{font-size:13.5px;color:var(--mu);}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+@media(max-width:380px){.cards{grid-template-columns:1fr;}}
+.c{border:1px solid var(--bd);border-radius:9px;padding:12px 13px;background:var(--gb);min-width:0;}
+.c .k{font-size:10px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;color:var(--mu);}
+.c .v{font-size:17px;font-weight:800;color:var(--navy);margin-top:3px;overflow-wrap:anywhere;}
+.c .s{font-size:11.5px;color:var(--mu);margin-top:2px;}
+
+.box{border-radius:8px;padding:12px 15px;margin-top:12px;font-size:13px;line-height:1.7;}
+.box.teal{background:var(--lt);border:1px solid var(--teal);}
+.box.amber{background:var(--amber);border:1px solid var(--amberbd);}
+.box.red{background:var(--redbg);border:1px solid var(--red);color:#7A1F1F;}
+
+table.log{width:100%;border-collapse:collapse;font-size:13.5px;}
+table.log th{background:var(--cream);color:var(--navy);text-align:left;padding:9px 8px;font-size:11.5px;
+ border-bottom:1.5px solid var(--bd);}
+table.log td{padding:11px 8px;border-bottom:1px solid var(--bd);overflow-wrap:anywhere;}
+table.log td.x{text-align:right;white-space:nowrap;}
+table.log a{color:var(--mu);font-size:12.5px;text-decoration:none;cursor:pointer;
+ display:inline-block;padding:6px 4px;}
+table.log a:active{color:var(--red);}
+
+.empty{border:1.5px dashed var(--bd);border-radius:10px;padding:28px 18px;text-align:center;
+ color:var(--mu);font-size:13.5px;}
+footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size:12px;
+ color:var(--mu);text-align:center;line-height:1.75;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <h1>My Testosterone Tracker</h1>
+    <p>Keep track of when you last injected, when your next dose is due, and which site to use next.</p>
+  </div>
+
+  <div class="box teal" id="storeNote" style="margin-top:0;margin-bottom:16px;"></div>
+
+  <div class="sec">My Schedule</div>
+  <div class="panel">
+    <div class="grid">
+      <div class="f">
+        <label for="route">How I inject</label>
+        <select id="route">
+          <option value="im1">Into the muscle, once a week</option>
+          <option value="sq2">Under the skin, twice a week</option>
+          <option value="sq3">Under the skin, three times a week</option>
+        </select>
+      </div>
+      <div class="f">
+        <label for="dose">Amount per injection (mL)</label>
+        <input type="number" id="dose" step="0.01" min="0.01" placeholder="e.g. 0.42">
+      </div>
+      <div class="f">
+        <label for="vialDate">Date I opened my vial</label>
+        <input type="date" id="vialDate">
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <label style="font-size:11.5px;font-weight:700;color:var(--navy);">My injection days</label>
+      <div class="days" id="dayPicker"></div>
+      <div style="font-size:11px;color:var(--mu);margin-top:6px;" id="dayHint"></div>
+    </div>
+    <div class="btnrow">
+      <button class="btn" onclick="saveSetup()">Save my schedule</button>
+      <button class="btn ghost" onclick="resetAll()">Clear everything</button>
+    </div>
+  </div>
+
+  <div id="dash"></div>
+
+  <div class="sec">Log an Injection</div>
+  <div class="panel">
+    <div class="grid">
+      <div class="f">
+        <label for="logDate">Date</label>
+        <input type="date" id="logDate">
+      </div>
+      <div class="f">
+        <label for="logSite">Where I injected</label>
+        <select id="logSite"></select>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <button class="btn wide" onclick="logDose()">Log this injection</button>
+    </div>
+  </div>
+
+  <div class="sec">My Injection History</div>
+  <div id="history"></div>
+
+  <footer>
+    For KORB patient education only. Do not share or reproduce.<br>
+    This tracker is a personal record. It does not replace your prescription label or your provider's
+    instructions. Questions? info@korbhealth.com or +1 (888) 959-7299.
+  </footer>
+</div>
+
+<script>
+var VIAL_ML = 10.0;
+var DISCARD_DAYS = 90;   // medication is discarded 90 days after the vial is opened
+var DAYNAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var SITES = {
+  sq: ["Abdomen — left","Abdomen — right","Thigh — left","Thigh — right","Upper buttock — left","Upper buttock — right"],
+  im: ["Glute — left","Glute — right","Shoulder — left","Shoulder — right","Outer thigh — left","Outer thigh — right"]
+};
+var NEEDED = {im1:1, sq2:2, sq3:3};
+
+var state = { route:"sq2", dose:null, vialDate:null, days:[], log:[] };
+var canPersist = true;
+
+/* ---------- storage ---------- */
+function save(){
+  if(!canPersist) return;
+  try{ localStorage.setItem("korb_trt_tracker", JSON.stringify(state)); }
+  catch(e){ canPersist=false; noteStorage(); }
+}
+function load(){
+  try{
+    var raw = localStorage.getItem("korb_trt_tracker");
+    if(raw){ var p=JSON.parse(raw); if(p && typeof p==="object") state=Object.assign(state,p); }
+  }catch(e){ canPersist=false; }
+}
+function noteStorage(){
+  document.getElementById("storeNote").innerHTML = canPersist
+    ? "Your entries are saved on this device in this browser only. They are not sent to KORB and your care team cannot see them. Use the same device and browser each time."
+    : "<b>This browser is not saving your entries.</b> The tracker still works, but everything clears when you close the page. Try opening it outside a private or incognito window.";
+}
+
+/* ---------- dates ---------- */
+function parseD(s){ if(!s) return null; var p=s.split("-"); return new Date(+p[0],+p[1]-1,+p[2]); }
+function iso(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function fmt(d){ return DAYNAMES[d.getDay()]+" "+(d.getMonth()+1)+"/"+d.getDate(); }
+function fmtLong(d){ return DAYNAMES[d.getDay()]+", "+(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear(); }
+function today(){ var t=new Date(); return new Date(t.getFullYear(),t.getMonth(),t.getDate()); }
+function diffD(a,b){ return Math.round((b-a)/86400000); }
+function addD(d,n){ var r=new Date(d.getTime()); r.setDate(r.getDate()+n); return r; }
+
+/* ---------- setup UI ---------- */
+function buildDayPicker(){
+  var c=document.getElementById("dayPicker"); c.innerHTML="";
+  DAYNAMES.forEach(function(n,i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="day"+(state.days.indexOf(i)>-1?" on":"");
+    b.textContent=n;
+    b.onclick=function(){ toggleDay(i); };
+    c.appendChild(b);
+  });
+  var need=NEEDED[state.route];
+  document.getElementById("dayHint").textContent =
+    "Pick the "+need+" day"+(need>1?"s":"")+" of the week you inject. Currently selected: "+
+    (state.days.length? state.days.map(function(i){return DAYNAMES[i];}).join(", ") : "none");
+}
+function toggleDay(i){
+  var need=NEEDED[state.route], k=state.days.indexOf(i);
+  if(k>-1) state.days.splice(k,1);
+  else { if(state.days.length>=need) state.days.shift(); state.days.push(i); }
+  state.days.sort(function(a,b){return a-b;});
+  buildDayPicker();
+}
+function buildSites(){
+  var kind = state.route==="im1" ? "im" : "sq";
+  var sel=document.getElementById("logSite"); sel.innerHTML="";
+  SITES[kind].forEach(function(s){ var o=document.createElement("option"); o.value=s; o.textContent=s; sel.appendChild(o); });
+  var sug=suggestSite();
+  if(sug) sel.value=sug;
+}
+function suggestSite(){
+  var kind = state.route==="im1" ? "im" : "sq";
+  var list = SITES[kind], used = state.log.map(function(e){return e.site;});
+  for(var i=0;i<list.length;i++){ if(used.indexOf(list[i])===-1) return list[i]; }
+  // all used: pick the one used longest ago
+  var best=null, bestIdx=-1;
+  list.forEach(function(s){
+    var idx = used.indexOf(s); // log is newest-first
+    if(idx > bestIdx){ bestIdx=idx; best=s; }
+  });
+  return best;
+}
+function saveSetup(){
+  var d=parseFloat(document.getElementById("dose").value);
+  state.route=document.getElementById("route").value;
+  state.dose=(d>0? d : null);
+  state.vialDate=document.getElementById("vialDate").value||null;
+  var need=NEEDED[state.route];
+  if(state.days.length!==need){
+    alert("Please pick exactly "+need+" injection day"+(need>1?"s":"")+" for your schedule.");
+    return;
+  }
+  save(); buildSites(); render();
+}
+function resetAll(){
+  if(!confirm("Clear your schedule and all logged injections? This cannot be undone.")) return;
+  state={route:"sq2",dose:null,vialDate:null,days:[],log:[]};
+  try{ localStorage.removeItem("korb_trt_tracker"); }catch(e){}
+  document.getElementById("dose").value="";
+  document.getElementById("vialDate").value="";
+  document.getElementById("route").value="sq2";
+  buildDayPicker(); buildSites(); render();
+}
+
+/* ---------- logging ---------- */
+function logDose(){
+  var ds=document.getElementById("logDate").value;
+  if(!ds){ alert("Pick the date you injected."); return; }
+  var site=document.getElementById("logSite").value;
+  if(state.log.some(function(e){ return e.date===ds && e.site===site; })){
+    alert("You already logged an injection at that site on that date.");
+    return;
+  }
+  var sameDay=state.log.filter(function(e){ return e.date===ds; });
+  if(sameDay.length && !confirm("You already logged an injection on "+fmtLong(parseD(ds))+
+     ". Most schedules are one injection per day. Add another anyway?")) return;
+  state.log.push({date:ds, site:site});
+  state.log.sort(function(a,b){ return a.date<b.date?1:-1; });
+  save(); buildSites(); render();
+  document.getElementById("logDate").value="";
+}
+function delDose(i){
+  if(!confirm("Remove this entry?")) return;
+  state.log.splice(i,1); save(); buildSites(); render();
+}
+
+/* ---------- schedule math ---------- */
+function nextDueFrom(start){
+  if(!state.days.length) return null;
+  for(var i=1;i<=14;i++){
+    var d=new Date(start.getTime()); d.setDate(d.getDate()+i);
+    if(state.days.indexOf(d.getDay())>-1) return d;
+  }
+  return null;
+}
+function nextDue(){
+  if(!state.days.length) return null;
+  if(state.log.length){
+    return nextDueFrom(parseD(state.log[0].date));
+  }
+  var t=today();
+  if(state.days.indexOf(t.getDay())>-1) return t;
+  return nextDueFrom(t);
+}
+
+/* ---------- render ---------- */
+function render(){
+  var dash=document.getElementById("dash");
+  if(!state.dose || !state.days.length){
+    dash.innerHTML='<div class="empty">Set your schedule above to see your next dose.</div>';
+    renderHistory(); return;
+  }
+
+  var h="", nd=nextDue(), t=today();
+  if(nd){
+    var dd=diffD(t,nd), cls="", k="Next dose due", big=fmt(nd), sub="";
+    if(dd<0){ cls="over"; k="Dose overdue"; sub=Math.abs(dd)+" day"+(Math.abs(dd)===1?"":"s")+" ago"; }
+    else if(dd===0){ cls="today"; k="Dose due today"; big="Today"; sub=fmtLong(nd); }
+    else if(dd===1){ cls="due"; sub="Tomorrow"; }
+    else { cls=""; sub="in "+dd+" days"; }
+    h+='<div class="hero '+cls+'"><div class="k">'+k+'</div><div class="big">'+big+'</div><div class="sub">'+sub+'</div></div>';
+  }
+
+  h+='<div class="cards">';
+  if(state.log.length){
+    var last=parseD(state.log[0].date), ago=diffD(last,t);
+    h+='<div class="c"><div class="k">Last injection</div><div class="v">'+fmt(last)+'</div><div class="s">'+
+       (ago===0?"today":ago===1?"yesterday":ago+" days ago")+'</div></div>';
+    h+='<div class="c"><div class="k">Last site</div><div class="v" style="font-size:12.5px;">'+state.log[0].site+'</div></div>';
+  } else {
+    h+='<div class="c"><div class="k">Last injection</div><div class="v" style="font-size:13px;">None yet</div></div>';
+  }
+  h+='<div class="c"><div class="k">Next site to use</div><div class="v" style="font-size:12.5px;">'+(suggestSite()||"—")+'</div><div class="s">rotate every time</div></div>';
+
+  var used=state.log.length*state.dose, left=VIAL_ML-used;
+  var discardOn=null, toDiscard=null;
+  if(state.vialDate){
+    discardOn = addD(parseD(state.vialDate), DISCARD_DAYS);
+    toDiscard = diffD(t, discardOn);
+    h+='<div class="c"><div class="k">Discard vial on</div><div class="v">'+fmt(discardOn)+'</div>'+
+       '<div class="s">'+(toDiscard<0 ? Math.abs(toDiscard)+' days ago'
+                         : toDiscard===0 ? 'today'
+                         : toDiscard+' days from now')+'</div></div>';
+  }
+  h+='</div>';
+
+  if(nd){
+    h+='<div class="box teal"><b>Lab reminder.</b> When your labs are due, get your blood drawn on an '+
+       'injection day <b>before</b> you take that dose. Your next injection day is '+fmtLong(nd)+
+       '. Drawing after a dose makes your level read high. Results can take up to a week, so do not leave '+
+       'the draw to the last few days.</div>';
+  }
+  if(state.vialDate && toDiscard<0){
+    h+='<div class="box red"><b>This vial is past its discard date.</b> It should have been thrown away on '+
+       fmtLong(discardOn)+'. Do not keep using it, even if medication is left. Contact KORB if you have not '+
+       'received your new supply.</div>';
+  } else if(state.vialDate && toDiscard<=14){
+    h+='<div class="box amber"><b>Discard this vial on '+fmtLong(discardOn)+'.</b> Throw away whatever is left '+
+       'once your new supply arrives, even if the vial is not empty. Make sure your follow-up visit is booked '+
+       'so your refill is not delayed.</div>';
+  } else if(state.vialDate && left<=state.dose*4 && left>0){
+    h+='<div class="box amber"><b>You are getting low.</b> Roughly '+Math.floor(left/state.dose)+
+       ' more injection'+(Math.floor(left/state.dose)===1?"":"s")+' left. Make sure your follow-up visit is '+
+       'booked so your refill is not delayed.</div>';
+  } else if(state.vialDate && left<=0){
+    h+='<div class="box red"><b>Your vial should be empty.</b> Contact KORB if you have not received your refill.</div>';
+  }
+  dash.innerHTML=h;
+  renderHistory();
+}
+
+function renderHistory(){
+  var el=document.getElementById("history");
+  if(!state.log.length){ el.innerHTML='<div class="empty">No injections logged yet.</div>'; return; }
+  var h='<table class="log"><thead><tr><th>Date</th><th>Site</th><th></th></tr></thead><tbody>';
+  state.log.forEach(function(e,i){
+    h+='<tr><td>'+fmtLong(parseD(e.date))+'</td><td>'+e.site+'</td>'+
+       '<td class="x"><a onclick="delDose('+i+')">remove</a></td></tr>';
+  });
+  h+='</tbody></table>';
+  h+='<div style="font-size:11px;color:var(--mu);margin-top:9px;">'+state.log.length+
+     ' injection'+(state.log.length===1?"":"s")+' logged.</div>';
+  el.innerHTML=h;
+}
+
+/* ---------- init ---------- */
+document.getElementById("route").addEventListener("change", function(){
+  state.route=this.value; state.days=[]; buildDayPicker(); buildSites();
+});
+load();
+noteStorage();
+document.getElementById("route").value=state.route;
+if(state.dose) document.getElementById("dose").value=state.dose;
+if(state.vialDate) document.getElementById("vialDate").value=state.vialDate;
+document.getElementById("logDate").value=iso(today());
+buildDayPicker(); buildSites(); render();
+</script>
+</body>
+</html>

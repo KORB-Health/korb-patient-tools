@@ -406,7 +406,13 @@ footer strong{color:#fff;}
       <div class="lbl">Available Add-Ons</div>
       <div class="addon-pills">
         <div class="addon-pill">Sexual Health <span>— KORB Rise</span></div>
+        <div class="addon-pill">Hair Loss <span>— pill or topical</span></div>
         <div class="addon-pill">Skin Care <span>— topical support</span></div>
+      </div>
+      <div class="links" style="margin-top:12px;">
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Sexual_Health.pdf">📄 Sexual Health Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">📄 Hair Loss Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">📄 Skin Care Guide</a>
       </div>
     </div>
 
@@ -425,10 +431,8 @@ footer strong{color:#fff;}
       <h4>Men's Health Guides</h4>
       <p>Your written guides for this program are being finalized. Your provider and the KORB team will walk you through everything in the meantime.</p>
       <div class="links">
-        <!-- WHEN READY: replace the span below with <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_MensHealth_Program_Overview.pdf">📄 Men's Health Program Overview</a> -->
-        <span class="soon">○ Men's Health Program Overview · coming soon</span>
-        <!-- WHEN READY: replace the span below with <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Testosterone.pdf">📄 Testosterone Therapy Guide</a> -->
-        <span class="soon">○ Testosterone Therapy Guide · coming soon</span>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_MensHealth_Program_Overview.pdf">📄 Men's Health Program Overview</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Testosterone.pdf">📄 Testosterone Guide</a>
       </div>
     </div>
   </div>
@@ -477,9 +481,14 @@ footer strong{color:#fff;}
     <div class="addon-strip">
       <div class="lbl">Available Add-Ons</div>
       <div class="addon-pills">
-        <div class="addon-pill">Hair Loss <span>— thinning support</span></div>
+        <div class="addon-pill">Hair Loss <span>— pill or topical</span></div>
         <div class="addon-pill">Sexual Health <span>— KORB Electric</span></div>
         <div class="addon-pill">Skin Care <span>— topical support</span></div>
+      </div>
+      <div class="links" style="margin-top:12px;">
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Sexual_Health.pdf">📄 Sexual Health Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">📄 Hair Loss Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">📄 Skin Care Guide</a>
       </div>
     </div>
     <div class="pcard accent-top" style="--accent:var(--wh);margin-top:20px;">
@@ -608,6 +617,12 @@ footer strong{color:#fff;}
       </div>
       <div class="tool-card">
         <div class="eyebrow tag">Tool</div>
+        <h3>My Testosterone Tracker</h3>
+        <p>Log each injection, see when your next dose is due, rotate sites, and know when to discard your vial.</p>
+        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Testosterone_Tracker.html">Open Tool →</a>
+      </div>
+      <div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
         <h3>GLP-1 Dose &amp; Injection Guide</h3>
         <p>See your exact injection volume and syringe fill for your medication, pharmacy, and dose.</p>
         <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html">Open Tool →</a>
@@ -620,9 +635,55 @@ footer strong{color:#fff;}
           <iframe src="https://drive.google.com/file/d/1UO4x_cukxMi4GSypQ9tAsQx08gvJjS01/preview" allow="autoplay" allowfullscreen></iframe>
         </div>
       </div>
+      <div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
+        <h3>Protein Target Calculator</h3>
+        <p>Based on the 2025-2030 USDA Dietary Guidelines. A general reference, not personalized medical or nutrition advice — ask your provider for individual guidance.</p>
+        <div style="margin-top:14px;">
+          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin-bottom:5px;">Your Weight</label>
+          <div style="display:flex;gap:8px;margin-bottom:10px;">
+            <input type="number" id="proteinWeight" placeholder="e.g. 180" style="flex:1;padding:9px 10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:13px;">
+            <select id="proteinUnit" style="padding:9px 10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:var(--navy);color:#fff;font-size:13px;">
+              <option value="lb">lb</option>
+              <option value="kg">kg</option>
+            </select>
+          </div>
+          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin-bottom:5px;">Goal</label>
+          <select id="proteinGoal" style="width:100%;padding:9px 10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:var(--navy);color:#fff;font-size:13px;margin-bottom:12px;">
+            <option value="maintain">General health / maintenance</option>
+            <option value="loss">Active weight loss (preserve muscle)</option>
+          </select>
+          <button type="button" onclick="calcProtein()" style="width:100%;background:var(--teal);color:var(--navy);border:0;border-radius:24px;padding:10px;font-size:13px;font-weight:800;cursor:pointer;">Calculate</button>
+          <div id="proteinResult" style="margin-top:14px;"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+function calcProtein(){
+  const w = parseFloat(document.getElementById('proteinWeight').value);
+  const unit = document.getElementById('proteinUnit').value;
+  const goal = document.getElementById('proteinGoal').value;
+  const out = document.getElementById('proteinResult');
+  if(!w || w <= 0){
+    out.innerHTML = '<div style="font-size:12.5px;color:#FBB040;">Enter your weight to see a target range.</div>';
+    return;
+  }
+  const kg = unit === 'lb' ? w / 2.20462 : w;
+  let lowMult, highMult;
+  if(goal === 'loss'){ lowMult = 1.6; highMult = 2.0; }
+  else { lowMult = 1.2; highMult = 1.6; }
+  const low = Math.round(kg * lowMult);
+  const high = Math.round(kg * highMult);
+  out.innerHTML = '<div style="background:rgba(255,255,255,.08);border-radius:8px;padding:14px;text-align:center;">'
+    + '<div style="font-size:10.5px;color:#9FB0E0;text-transform:uppercase;letter-spacing:.4px;font-weight:700;">Daily Target</div>'
+    + '<div style="font-size:22px;font-weight:800;color:#fff;margin-top:4px;">' + low + '–' + high + 'g</div>'
+    + '<div style="font-size:11px;color:#C7CBE6;margin-top:6px;">Spread across 3-4 meals for best results</div>'
+    + '</div>';
+}
+</script>
 
 <!-- ============ RESOURCES ============ -->
 <div class="wrap res-sec">
@@ -646,6 +707,14 @@ footer strong{color:#fff;}
     <div class="res-card">
       <div class="res-icon">🗑</div>
       <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">💊</div>
+      <div><h4>How Your Medication Is Prepared</h4><p>Your medication is compounded by a licensed 503A pharmacy — prepared to your specific prescription rather than mass-produced. Learn what that means, straight from the FDA.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers">📄 FDA: Compounding Q&amp;A</a></div></div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">🥩</div>
+      <div><h4>Good Sources of Protein</h4><p>Chicken breast (3 oz): ~26g · Greek yogurt (1 cup): ~20g · Eggs (2 large): ~12g · Salmon (3 oz): ~22g · Cottage cheese (1 cup): ~25g · Lentils (1 cup): ~18g · Tofu (½ cup): ~10g · Whey protein (1 scoop): ~24g</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://www.dietaryguidelines.gov/">📄 USDA Dietary Guidelines</a></div></div>
     </div>
   </div>
 
