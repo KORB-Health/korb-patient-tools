@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KORB — Add-On Selector</title>
+<style>
+:root{--navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--bd:#D6E0E3;--mu:#5A6070;--cream:#ECE9D1;
+ --amber:#FFF8E1;--amberbd:#F9A825;--gb:#F8F9FA;--red:#C62828;--redbg:#FDECEA;--green:#2E7D32;--greenbg:#E8F5E9;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+ font-size:15px;color:#1A1A2E;background:#fff;line-height:1.55;}
+.wrap{max-width:900px;margin:0 auto;padding:18px 14px 64px;}
+.top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;
+ padding-bottom:13px;border-bottom:2.5px solid var(--teal);margin-bottom:16px;}
+.top h1{font-size:20px;font-weight:700;color:var(--navy);}
+.top p{font-size:13px;color:var(--mu);margin-top:4px;max-width:600px;}
+.tag{background:var(--navy);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.5px;
+ padding:6px 12px;border-radius:20px;white-space:nowrap;}
+.panel{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:15px 14px;margin-bottom:16px;}
+.grid{display:grid;grid-template-columns:1fr;gap:13px;}
+@media(min-width:640px){.grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.f label{font-size:12.5px;font-weight:700;color:var(--navy);}
+.f select{width:100%;min-height:46px;padding:10px 12px;border:1.5px solid var(--teal);border-radius:8px;
+ font-size:16px;color:var(--navy);background:#fff;font-family:inherit;-webkit-appearance:none;appearance:none;
+ background-image:linear-gradient(45deg,transparent 50%,var(--navy) 50%),linear-gradient(135deg,var(--navy) 50%,transparent 50%);
+ background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px,5px 5px;
+ background-repeat:no-repeat;padding-right:36px;}
+.chk{display:flex;align-items:flex-start;gap:10px;margin-top:13px;padding:11px 13px;background:#fff;
+ border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;}
+.chk input{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--teal);}
+.chk span{font-size:13px;color:var(--navy);}
+.sec{font-size:14px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
+ padding:10px 14px;margin:22px 0 12px;border-radius:4px;}
+.route{border-radius:10px;padding:15px 16px;margin-bottom:14px;border:2px solid var(--teal);background:var(--lt);}
+.route.block{background:var(--redbg);border-color:var(--red);}
+.route .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;color:var(--mu);}
+.route .v{font-size:20px;font-weight:800;color:var(--navy);margin:4px 0 3px;}
+.route.block .v{color:var(--red);}
+.route .s{font-size:13px;color:var(--mu);}
+.card{border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:13px;}
+.card.off{opacity:.72;}
+.chdr{background:var(--navy);color:#fff;padding:11px 15px;display:flex;justify-content:space-between;
+ align-items:center;gap:10px;flex-wrap:wrap;}
+.card.off .chdr{background:#6E7288;}
+.chdr strong{font-size:14px;}
+.pill{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:14px;white-space:nowrap;}
+.pill.yes{background:var(--teal);color:var(--navy);}
+.pill.no{background:#fff;color:var(--red);}
+.cbody{padding:14px 15px;background:#fff;}
+table.d{width:100%;border-collapse:collapse;font-size:13px;}
+table.d td{padding:7px 0;border-bottom:1px solid var(--bd);vertical-align:top;}
+table.d td.l{color:var(--mu);width:38%;padding-right:12px;}
+table.d tr:last-child td{border-bottom:0;}
+.box{border-radius:8px;padding:11px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;}
+.box.teal{background:var(--lt);border:1px solid var(--teal);}
+.box.amber{background:var(--amber);border:1px solid var(--amberbd);}
+.box.red{background:var(--redbg);border:1px solid var(--red);color:#7A1F1F;}
+.copybox{background:var(--gb);border:1px solid var(--bd);border-radius:8px;padding:13px 14px;
+ font-family:"Courier New",monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;
+ overflow-wrap:anywhere;margin-top:10px;}
+.copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;min-height:40px;
+ padding:8px 18px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;}
+.copybtn.done{background:var(--green);color:#fff;}
+
+.fldwrap{border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-top:8px;}
+table.fld{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.fld td{padding:8px 9px;border-bottom:1px solid var(--bd);vertical-align:top;}
+table.fld tr:last-child td{border-bottom:0;}
+table.fld td.k{width:34%;font-weight:700;color:var(--navy);background:var(--gb);}
+table.fld td.v{overflow-wrap:anywhere;}
+table.fld td.b{width:70px;text-align:right;}
+.cbtn{background:var(--teal);color:var(--navy);border:0;border-radius:16px;min-height:32px;
+ padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;}
+.cbtn.done{background:var(--green);color:#fff;}
+.cc{display:block;font-size:10.5px;color:var(--mu);margin-top:3px;}
+.cc.over{color:var(--red);font-weight:800;}
+@media(max-width:520px){table.fld td.k{width:42%;}table.fld td.b{width:58px;}.cbtn{padding:5px 8px;}}
+.empty{border:1.5px dashed var(--bd);border-radius:10px;padding:30px 18px;text-align:center;color:var(--mu);}
+footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size:12px;color:var(--mu);
+ text-align:center;line-height:1.75;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div>
+      <h1>Add-On Selector</h1>
+      <p>Sexual health, hair loss, and skin care. Confirms what is actually available for this patient's
+         state and routes to the correct pharmacy.</p>
+    </div>
+    <div class="tag">PROVIDER USE ONLY</div>
+  </div>
+
+  <div class="panel">
+    <div class="grid">
+      <div class="f">
+        <label for="st">Patient state</label>
+        <select id="st"><option value="">Select…</option></select>
+      </div>
+      <div class="f">
+        <label for="prog">Current program</label>
+        <select id="prog">
+          <option value="">Select…</option>
+          <option>Weight Loss &amp; Metabolic Health</option>
+          <option>Men's Health</option>
+          <option>Women's Health</option>
+          <option>Functional Health &amp; Longevity</option>
+        </select>
+      </div>
+      <div class="f">
+        <label for="sex">Patient sex</label>
+        <select id="sex">
+          <option value="">Select…</option>
+          <option value="m">Male</option>
+          <option value="f">Female</option>
+        </select>
+      </div>
+    </div>
+    <label class="chk">
+      <input type="checkbox" id="fko">
+      <span>Patient already receives GLP-1 from FarmaKeio. Route add-ons to FarmaKeio to keep one pharmacy.</span>
+    </label>
+  </div>
+
+  <div id="out">
+    <div class="empty">Select state, program, and sex to see available add-ons.</div>
+  </div>
+
+  <footer>
+    KORB internal provider reference. Not patient-facing.<br>
+    Clinical detail lives in the Add-On Clinical Reference. Pharmacy sourcing is under review; confirm before
+    relying on routing for a new product.
+  </footer>
+</div>
+
+<script>
+var STATE_NAME = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
+function stName(a){ return (STATE_NAME[a]||a)+" ("+a+")"; }
+var PREMIER = ["AZ","CO","CT","DC","DE","FL","GA","IL","KS","KY","LA","MD","ME","MI","MO","MS","MT","NC","ND",
+  "NE","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SD","TN","TX","UT","VA","VT","WI","WV","WY"];
+var FKO = ["AK","AL","AR","AZ","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD",
+  "ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD",
+  "TN","TX","UT","VA","VT","WA","WI","WV","WY"];
+var ALL = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME",
+  "MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+  "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+
+var sel=document.getElementById("st");
+ALL.forEach(function(s){ var o=document.createElement("option"); o.value=s; o.textContent=stName(s); sel.appendChild(o); });
+["st","prog","sex","fko"].forEach(function(id){ document.getElementById(id).addEventListener("change", render); });
+
+function esc(s){ return String(s).replace(/</g,"&lt;"); }
+
+/* Tebra silently truncates past these caps (source: korb-glp1-data.js tebraLimits),
+   so values are written to fit rather than trimmed after the fact. */
+var TEBRA_CAP = { ptInstructions:140, reasonForCompounding:30, pharmacyNotes:170 };
+
+function fieldTable(id, o){
+  var rows = [
+    {k:"Drug Formulation", v:o.form || o.drug},
+    {k:"Name",             v:o.label},
+    {k:"Select",           v:"Allow Substitution"},
+    {k:"Quantity",         v:o.qty},
+    {k:"Unit",             v:o.unit || "each"},
+    {k:"Refill",           v:"0"},
+    {k:"Days",             v:o.days},
+    {k:"Patient Instructions",   v:o.sig, cap:TEBRA_CAP.ptInstructions}
+  ];
+  if(o.reason) rows.push({k:"Reason for Compounding", v:o.reason, cap:TEBRA_CAP.reasonForCompounding});
+  rows.push({k:"Pharmacy Instructions", v:o.notes, cap:TEBRA_CAP.pharmacyNotes});
+  var h = '<div class="fldwrap"><table class="fld" id="'+id+'">';
+  rows.forEach(function(f){
+    var v=String(f.v), cap=f.cap||0, over=cap && v.length>cap;
+    h += '<tr><td class="k">'+f.k+'</td><td class="v"><span class="fv">'+esc(v)+'</span>';
+    if(cap) h += '<span class="cc'+(over?' over':'')+'">'+v.length+' / '+cap+' characters'
+               + (over?' — OVER LIMIT, will truncate in Tebra':'')+'</span>';
+    h += '</td><td class="b"><button class="cbtn" onclick="copyField(this)">Copy</button></td></tr>';
+  });
+  return h + '</table></div>';
+}
+function copyField(btn){
+  doCopy(btn.parentNode.parentNode.querySelector(".fv").innerText, btn, "Copy");
+}
+function copyAll(btn, id){
+  var rows=document.getElementById(id).querySelectorAll("tr"), out=[];
+  for(var i=0;i<rows.length;i++){
+    var k=rows[i].querySelector("td.k"), v=rows[i].querySelector(".fv");
+    if(k&&v) out.push(k.innerText+": "+v.innerText);
+  }
+  doCopy(out.join("\n"), btn, "Copy all fields");
+}
+function doCopy(t,btn,restore){
+  function ok(){ btn.textContent="Copied"; btn.classList.add("done");
+    setTimeout(function(){btn.textContent=restore;btn.classList.remove("done");},1500); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(ok,function(){fb(t,ok);});
+  } else fb(t,ok);
+}
+
+function products(ph, sex){
+  var male = (sex==="m"), P = (ph==="Premier");
+  var list = [];
+
+  // ---- sexual health ----
+  if(male){
+    list.push(P ? {
+      cat:"Sexual Health", name:"KORB Rise", price:"$99", code:"INTRISE001",
+      form:"Sildenafil 50 mg / Tadalafil 10 mg / L-Arginine 90 mg / Oxytocin 0.04 mg troche",
+      dose:"½ to 1 troche 30 min before sex, increase by ½ as needed. Up to 36 hours.",
+      supply:"20 troches, approx. 20–40 encounters", nitrate:true,
+      t:{drug:"Viagra 50 mg tablet (from drop-down)", form:"Sildenafil/Tadalafil/L-Arginine/Oxytocin 50/10/90/0.04mg troche", reason:"ED combination therapy", unit:"troche", label:"KORB Rise Troches (Premier Pharmacy)",
+         sig:"KORB RISE Take ½ - 1 troche as needed for sex/erection", qty:"20", days:"90",
+         notes:"KORB RISE compound Sildenafil 50mg/Tadalafil 10mg/L-Arginine 90mg/Oxytocin 0.04mg troches. Bill to office, ship to patient. No FDA-approved equivalent."}
+    } : {
+      cat:"Sexual Health", name:"PERFORM", price:"$99", code:"INTRISE001",
+      form:"Sildenafil 88 mg / Tadalafil 22 mg rapid ODT",
+      dose:"One ODT 30 min before sex. Up to 36 hours.",
+      supply:"20 ODTs", nitrate:true,
+      note:"No L-Arginine in this formulation, so headache may be more noticeable than with KORB Rise.",
+      t:{drug:"Viagra 50 mg tablet (from drop-down)", form:"Sildenafil/Tadalafil 88/22mg rapid ODT", reason:"ED combination therapy", unit:"tablet", label:"PERFORM Rapid ODT (Farmakeio)",
+         sig:"PERFORM Rapid ODT: Take one ODT 30 minutes before sex as needed for sex/erection", qty:"20", days:"90",
+         notes:"PERFORM Rapid ODT compound Sildenafil 88 mg, Tadalafil 22 mg/ODT Tablet, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"}
+    });
+  } else {
+    list.push({
+      cat:"Sexual Health", name:"KORB Electric", price:"$99", code:"INTELEC001",
+      form: P ? "Sildenafil 1.5% / Theophylline 3% / L-Arginine 6% topical"
+              : "Arginine HCl 6% / Sildenafil 2% / DHEA 1% topical",
+      dose:"Apply 1–2 clicks to the clitoris 30 min before sexual activity",
+      supply:"One bottle, approx. 20 encounters", nitrate:true,
+      t:{drug:"vaginal lubricant inserts (from drop-down)",
+         form:P?"Sildenafil/Theophylline/L-Arginine 1.5/3/6% topical":"Arginine HCl/Sildenafil/DHEA 6/2/1% topical", reason:"Female arousal topical", unit:"bottle", label:"KORB Electric ("+(P?"Premier Pharmacy":"Farmakeio")+")",
+         sig:"KORB ELECTRIC Apply 1-2 clicks topically to the clitoris 30 minutes before a sexual encounter",
+         qty:"1", days:"90",
+         notes:"KORB ELECTRIC compound "+(P?"Sildenafil 1.5%, Theophylline 3%, L-Arginine 6% TOPICAL":"Arginine Hydrochloride 6%, Sildenafil 2%, DHEA 1% TOPICAL")+", Bill to office/ship to patient, no FDA-approved or commercially available equivalent"}
+    });
+  }
+
+  // ---- hair loss: oral ----
+  list.push(male ? {
+    cat:"Hair Loss — oral", name:"Finasteride 1 mg", price:"$99", code:"AGEHairPLreg",
+    form:"Finasteride 1 mg tablet", dose:"One tablet daily", supply:"90 tablets, 90 days",
+    warn:"Never prescribe finasteride to women. Teratogenic.",
+    note:"3 to 6 months before visible results. Side effects: reduced libido, mood changes, gynecomastia, orthostatic hypotension.",
+    t:{drug:"finasteride 1mg (from drop-down)", form:"Finasteride 1mg tablet", reason:"", unit:"tablet", label:"Finasteride 1mg (Men Hair Loss)",
+       sig:"Take one tablet daily for hair loss", qty:"90", days:"90",
+       notes:"Bill to office/Ship to patient"}
+  } : {
+    cat:"Hair Loss — oral", name:"Spironolactone 50 mg", price:"$99", code:"AGEHairPLreg",
+    form:"Spironolactone 50 mg tablet",
+    dose:"50 mg daily. Increase to 100 mg at the 90-day follow-up if needed.",
+    supply:"90 tablets, 90 days",
+    note:"3 to 6 months before visible results. Side effects: dizziness, low energy, raised potassium, breast enlargement and tenderness. Also used for acne, hirsutism, PCOS.",
+    t:{drug:"Spironolactone 50mg tablet (from drop-down)", form:"Spironolactone 50mg tablet", reason:"", unit:"tablet", label:"Spironolactone 50mg tablet (Women's Hair Loss)",
+       sig:"Take one tablet daily for hair loss", qty:"90", days:"90",
+       notes:"Bill to office/Ship to patient"}
+  });
+
+  // ---- hair loss: topical ----
+  var actives = male ? "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025%"
+                     : "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01%";
+  list.push({
+    cat:"Hair Loss — topical", name: P ? "Topical foam" : "Topical spray", price:"$149", code:"AGEHairFOreg",
+    form: actives + (P ? " — 60 mL foam" : " — 30 mL spray, 120 sprays"),
+    dose:"Apply 1 to 2 to dry hair once daily",
+    supply: P ? "42 days at 2/day, up to 85 at 1/day" : "60 days at 2/day, up to 120 at 1/day",
+    warnAmber:"Days field is "+(P?"42":"60")+", not 90. This product does not last 90 days at two applications daily.",
+    t:{drug: male ? (P?"minoxidiL 5% topical solution (from drop-down)":"Hair Regrowth Treatment 5 % topical solution (from drop-down)")
+                  : (P?"MinoxidiL 2% topical solution (from drop-down)":"Hair Regrowth Treatment 2 % topical solution (from drop-down)"),
+       form:actives+(P?" topical foam":" topical spray"), reason:"Multi-active combination", unit:P?"bottle":"bottle", label:(P?"":"FKO ")+(male?"Minoxidil 6%":"Minoxidil 2%")+" topical "+(P?"foam":"solution")+" ("+(male?"MEN":"Women's")+" Hair Loss)",
+       sig: P ? "Apply 1-2 pumps topically to dry hair once daily"
+              : "Apply 1-2 sprays topically once daily to dry hair, leave on for at least 4 hours or overnight",
+       qty:"1", days: P?"42":"60",
+       notes:"Compound "+actives+", "+(P?"Topical Foam, 60ml bottle":"Top Spray, qty 30ml (120 Sprays)")+", Bill to office/Ship to patient, no equivalent commercial option"}
+  });
+
+  // ---- skin care: Premier only ----
+  if(P){
+    list.push({
+      cat:"Skin Care", name:"Tretinoin cream", price:"$49", code:"AGESkinCRToE",
+      form:"0.025%, 0.05%, or 0.1% — 20 g tube",
+      dose:"Apply a pea-sized amount once daily", supply:"approx. 80 days",
+      note:"For acne, oily skin, scarring, spots. Causes sun sensitivity — counsel on sun protection.",
+      t:{drug:"tretinoin 0.025 % topical cream (from drop-down)", form:"Tretinoin 0.025% topical cream", reason:"Strength not commercial", unit:"tube", label:"Tretinoin Cream 0.025%",
+         sig:"Apply a pea-sized amount daily as needed", qty:"1", days:"80",
+         notes:"20 gm Tube, Bill to office/Ship to patient"}
+    });
+    list.push({
+      cat:"Skin Care", name:"Estriol cream 0.3%", price:"$49", code:"AGESkinCRToE",
+      form:"Estriol 0.3% — 30 mL", dose:"Apply 1 click (0.25 mL) once daily", supply:"120 days",
+      warnAmber:"Contains a hormone. Can cause breast tenderness or bleeding. Consider carefully for a patient already on hormone therapy.",
+      t:{drug:"estradioL 0.75 mg/0.75 gram (0.1%) transdermal gel packet (from drop-down)",
+         form:"Estriol 0.3% topical cream", reason:"Compounded strength", unit:"bottle", label:"Estriol Cream 0.3%",
+         sig:"Apply (1 click/0.25 ml/0.25 g, containing estriol 0.075%) to the affected external area once daily as directed",
+         qty:"1", days:"120",
+         notes:"Compounded Estriol Cream 0.3%, QTY: 30ml, Bill to office/Ship to patient, no FDA-approved or commercially available equivalent"}
+    });
+    list.push({
+      cat:"Skin Care", name:"Combo cream", price:"$99", code:"AGESkinCRCmb",
+      form:"Estriol 0.3% / GHK-Cu 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5% — 30 mL",
+      dose:"Apply 1 click (0.25 mL) once daily", supply:"120 days",
+      warnAmber:"Contains estriol, a hormone. Same consideration as above.",
+      t:{drug:"estradioL 0.25 mg/0.25 gram (0.1 %) transdermal gel packet (from drop-down)",
+         form:"Estriol/GHK-Cu/HA/Niacinamide cream", reason:"Multi-active combination", unit:"bottle", label:"Estriol Combo Cream",
+         sig:"Apply (1 click/0.25 ml/0.25 g) to the affected area once daily as directed", qty:"1", days:"120",
+         notes:"Compound: Estriol 0.3% / GHK-CU 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5%, QTY: 30ml, Bill office/Ship patient, no FDA-approved or commercially equivalent"}
+    });
+  }
+  return list;
+}
+
+function render(){
+  var st=document.getElementById("st").value,
+      prog=document.getElementById("prog").value,
+      sex=document.getElementById("sex").value,
+      preferFko=document.getElementById("fko").checked,
+      out=document.getElementById("out");
+
+  if(!st||!prog||!sex){
+    out.innerHTML='<div class="empty">Select state, program, and sex to see available add-ons.</div>'; return;
+  }
+
+  var inP=PREMIER.indexOf(st)>-1, inF=FKO.indexOf(st)>-1;
+
+  if(!inP && !inF){
+    out.innerHTML='<div class="route block"><div class="k">No add-ons available</div>'+
+      '<div class="v">'+stName(st)+'</div><div class="s">Neither Premier nor FarmaKeio is licensed to ship to '+STATE_NAME[st]+
+      '. Belmar and Empower serve this state but do not source any add-on product. There is no workaround.</div></div>'+
+      '<div class="box red"><b>Do not offer an add-on to this patient.</b> No sexual health, hair loss, or skin '+
+      'care product can be filled. Raising it and then withdrawing it is worse than not raising it.</div>';
+    return;
+  }
+
+  var ph, why;
+  if(inP && inF){
+    if(preferFko){ ph="FarmaKeio"; why="Both pharmacies serve "+STATE_NAME[st]+". Routed to FarmaKeio to keep this patient on one pharmacy alongside their GLP-1."; }
+    else { ph="Premier"; why="Both pharmacies serve "+STATE_NAME[st]+". Premier is the default. Tick the box above to consolidate with FarmaKeio instead."; }
+  } else if(inP){ ph="Premier"; why="Premier is licensed in "+STATE_NAME[st]+"."; }
+  else { ph="FarmaKeio"; why="Premier is not licensed in "+STATE_NAME[st]+", so FarmaKeio is the only option."; }
+
+  var h='<div class="route"><div class="k">Route to</div><div class="v">'+ph+' Pharmacy</div>'+
+        '<div class="s">'+why+'</div></div>';
+
+  if(ph==="FarmaKeio"){
+    h+='<div class="box amber"><b>Skin care is not available through FarmaKeio.</b> It is sourced from Premier '+
+       'only, so this patient cannot receive tretinoin, estriol, or combo cream'+
+       (inP?' unless you route them back to Premier.':' at all.')+'</div>';
+  }
+
+  h+='<div class="sec">Available for '+prog+' · '+stName(st)+'</div>';
+
+  products(ph, sex).forEach(function(p,i){
+    h+='<div class="card"><div class="chdr"><strong>'+esc(p.name)+'</strong>'+
+       '<span class="pill yes">'+p.cat+'</span></div><div class="cbody">';
+    h+='<table class="d">'+
+       '<tr><td class="l">Formulation</td><td>'+esc(p.form)+'</td></tr>'+
+       '<tr><td class="l">Dosing</td><td>'+esc(p.dose)+'</td></tr>'+
+       '<tr><td class="l">Supply</td><td>'+esc(p.supply)+'</td></tr>'+
+       '<tr><td class="l">Price / code</td><td>'+p.price+' &middot; '+p.code+'</td></tr>'+
+       '</table>';
+    if(p.warn)      h+='<div class="box red"><b>'+esc(p.warn)+'</b></div>';
+    if(p.warnAmber) h+='<div class="box amber"><b>'+esc(p.warnAmber)+'</b></div>';
+    if(p.nitrate)   h+='<div class="box red"><b>Confirm the patient is not taking nitrates.</b> Ask directly. '+
+                       'Nitrates with this product can cause a life-threatening drop in blood pressure.</div>';
+    if(p.note)      h+='<div class="box teal">'+esc(p.note)+'</div>';
+    h+='<div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'+
+       '<span style="font-size:12.5px;font-weight:700;color:var(--navy);">Tebra Compounded Drug Favorite</span>'+
+       '<button class="copybtn" onclick="copyAll(this,\'tb'+i+'\')">Copy all fields</button></div>'+
+       fieldTable('tb'+i, p.t);
+    h+='</div></div>';
+  });
+
+  if(ph==="Premier" && !inF){ /* not possible with current lists, kept for future sourcing changes */ }
+
+  h+='<div class="box teal"><b>Documentation.</b> Record the add-on in the chart and add it to the CC section. '+
+     'For any sexual health product, document that nitrate use was asked about and excluded. For hair loss and '+
+     'skin care, document counselling on the 3 to 6 month timeline and on sun sensitivity.</div>';
+
+  out.innerHTML=h;
+}
+
+function fb(t,cb){ var a=document.createElement("textarea"); a.value=t;
+  a.style.position="fixed"; a.style.opacity="0"; document.body.appendChild(a); a.select();
+  try{document.execCommand("copy");cb();}catch(e){} document.body.removeChild(a); }
+</script>
+</body>
+</html>
