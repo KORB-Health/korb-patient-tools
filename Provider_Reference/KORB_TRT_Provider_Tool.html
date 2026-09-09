@@ -229,6 +229,7 @@ var MAX_DAYS = 90;     // nothing is dispensed or scheduled beyond 90 days     /
 
 var STATE_NAME = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
 function stName(a){ return (STATE_NAME[a]||a)+" ("+a+")"; }
+var PRESCRIBER = { TX:"Don Stevenson", CA:"Larisa or LaTonya" };
 var PHARM = {
   TX: { name:"Premier Pharmacy", supplies:false,
         notes:"Bill to office/ship to patient" },
@@ -425,6 +426,10 @@ function render(){
      + '<strong>'+W+' mg/week &middot; '+c.R.label+'</strong>'
      + '<span>'+P.name+' &middot; '+STATE_NAME[st]+'</span>'
      + '</div><div class="card-body">';
+
+  h += '<div class="info-box red"><b>Prescriber restriction.</b> In '+STATE_NAME[st]+', testosterone may only '
+     + 'be prescribed by <b>'+PRESCRIBER[st]+'</b>. If that is not you, do not send this prescription. Route '
+     + 'the patient to a provider registered in this state.</div>';
 
   h += '<div class="stat-grid">';
   h += '<div class="stat"><div class="lbl">Per dose</div><div class="val">'+c.mgDose.toFixed(0)+' mg</div></div>';
