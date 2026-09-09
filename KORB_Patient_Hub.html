@@ -198,20 +198,32 @@ footer strong{color:#fff;}
       <div class="eyebrow hero-eyebrow">Patient Resources</div>
       <h1>Everything about your care, in one place.</h1>
       <p class="lead">Your program guide, your dosing calendar, and your safety information — organized around what you're actually doing this week, not a filing cabinet of PDFs.</p>
+      <p style="font-size:12.5px;color:var(--mu);font-weight:700;margin-top:10px;letter-spacing:.2px;">All we have is now — KORB Health</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#longevity">Find My Program</a>
+        <a class="btn btn-primary" href="#programs">Find My Program</a>
         <a class="btn btn-ghost" href="#tools">Open My Tools</a>
       </div>
     </div>
     <div class="phase-ring-wrap">
-      <svg viewBox="0 0 320 320" width="280" height="280">
-        <circle cx="160" cy="160" r="128" fill="none" stroke="#DADCE8" stroke-width="14"/>
-        <circle cx="160" cy="160" r="128" fill="none" stroke="#00B2C3" stroke-width="14" stroke-dasharray="201 603" stroke-linecap="round" transform="rotate(-90 160 160)"/>
-        <circle cx="160" cy="160" r="128" fill="none" stroke="#21275B" stroke-width="14" stroke-dasharray="0.01 201 201 603" stroke-linecap="round" transform="rotate(-90 160 160)" opacity="0"/>
-        <text x="160" y="150" text-anchor="middle" font-family="Manrope" font-size="34" font-weight="800" fill="#21275B">16</text>
-        <text x="160" y="178" text-anchor="middle" font-family="Inter" font-size="12" fill="#6B6F84" font-weight="600">week cycle</text>
-      </svg>
-      <div class="phase-caption">Every KORB program runs on this same rhythm</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:280px;">
+        <a href="#weightloss" style="text-decoration:none;background:linear-gradient(150deg,#00B2C3,#00838f);border-radius:16px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7L2 14a3 3 0 0 0 6 0L5 7z"/><path d="M19 7l-3 7a3 3 0 0 0 6 0l-3-7z"/></svg>
+          <div style="font-size:11.5px;font-weight:800;text-align:center;">Weight Loss</div>
+        </a>
+        <a href="#menshealth" style="text-decoration:none;background:linear-gradient(150deg,#21275B,#141834);border-radius:16px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.2 9.8L20 4"/><path d="M14.5 4h5.5v5.5"/></svg>
+          <div style="font-size:11.5px;font-weight:800;text-align:center;">Men's Health</div>
+        </a>
+        <a href="#womenshealth" style="text-decoration:none;background:linear-gradient(150deg,#B0498B,#7c2f61);border-radius:16px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg>
+          <div style="font-size:11.5px;font-weight:800;text-align:center;">Women's Health</div>
+        </a>
+        <a href="#longevity" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#d98f1f);border-radius:16px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 15.5a3.5 3.5 0 1 1 0-7c2.5 0 4 2 5.5 3.5s3 3.5 5.5 3.5a3.5 3.5 0 1 0 0-7c-2.5 0-4 2-5.5 3.5s-3 3.5-5.5 3.5z"/></svg>
+          <div style="font-size:11.5px;font-weight:800;text-align:center;">Longevity</div>
+        </a>
+      </div>
+      <div class="phase-caption" style="position:static;margin-top:12px;">Four programs, one place to manage them all</div>
     </div>
   </div>
 </div>
@@ -238,7 +250,7 @@ footer strong{color:#fff;}
   </div>
 </div>
 
-<div class="wrap selector">
+<div class="wrap selector" id="programs">
   <div class="sec-head">
     <div class="eyebrow">Your Programs</div>
     <h2>Pick up where your provider left off.</h2>
@@ -292,7 +304,7 @@ footer strong{color:#fff;}
       </div>
       <div class="pcard accent-top" style="--accent:var(--wl)">
         <div class="eyebrow">Getting Started</div>
-        <h4>Labs &amp; Follow-Up</h4>
+        <h4>Your Follow-Up Schedule</h4>
         <p>Your provider reviews your plan every 4–8 weeks and adjusts your dose based on how you're responding. Your pharmacy is assigned automatically based on your state — no action needed from you.</p>
       </div>
     </div>
@@ -300,14 +312,30 @@ footer strong{color:#fff;}
         <div class="pcard accent-top" style="--accent:var(--wl);margin-top:20px;">
       <div class="eyebrow">Program Guides</div>
       <h4>Weight Loss / GLP-1 Guides</h4>
-      <p>Your written guides for this program are being finalized. Your provider and the KORB team will walk you through everything in the meantime.</p>
+      <p>Everything on your medication, how to use it, and what to expect.</p>
       <div class="links">
-        <!-- WHEN READY: replace the span below with <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_WeightLoss_Program_Overview.pdf">📄 Weight Loss Program Overview</a> -->
-        <span class="soon">○ Weight Loss Program Overview · coming soon</span>
-        <!-- WHEN READY: replace the span below with <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Semaglutide.pdf">📄 Semaglutide Guide</a> -->
-        <span class="soon">○ Semaglutide Guide · coming soon</span>
-        <!-- WHEN READY: replace the span below with <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Tirzepatide.pdf">📄 Tirzepatide Guide</a> -->
-        <span class="soon">○ Tirzepatide Guide · coming soon</span>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_WeightLoss_Program_Overview.pdf">📄 Weight Loss Program Overview</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Semaglutide.pdf">📄 Semaglutide Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Tirzepatide.pdf">📄 Tirzepatide Guide</a>
+      </div>
+    </div>
+
+    <div class="pcard accent-top" style="--accent:var(--wl);margin-top:16px;">
+      <div class="eyebrow">Your Dose</div>
+      <h4>GLP-1 Dose &amp; Injection Guide</h4>
+      <p>See your exact injection volume and syringe fill for your medication, pharmacy, and dose.</p>
+      <div class="links">
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html">🧮 Open Dose Guide</a>
+      </div>
+    </div>
+
+    <div class="pcard accent-top" style="--accent:var(--wl);margin-top:16px;">
+      <div class="eyebrow">Always Accessible</div>
+      <h4>Safety &amp; Storage</h4>
+      <p>Quick links you shouldn't have to hunt for — available right here, no matter where you landed on this page.</p>
+      <div class="links">
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.pdf">📄 Injection Storage &amp; Safety</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.pdf">📄 When to Contact KORB or ER</a>
       </div>
     </div>
     <div class="video-block">
@@ -579,6 +607,12 @@ footer strong{color:#fff;}
         <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Patient_Treatment_Schedule.html">Open Tool →</a>
       </div>
       <div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
+        <h3>GLP-1 Dose &amp; Injection Guide</h3>
+        <p>See your exact injection volume and syringe fill for your medication, pharmacy, and dose.</p>
+        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html">Open Tool →</a>
+      </div>
+      <div class="tool-card">
         <div class="eyebrow tag">Video</div>
         <h3>How to Give Your Injection</h3>
         <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection.</p>
@@ -610,8 +644,8 @@ footer strong{color:#fff;}
       <div><h4>Quest Lab Ordering Guide</h4><p>How to schedule and complete your Quest lab draw.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_Schedule_Your_Lab_Appointment.pdf">📄 View PDF</a></div></div>
     </div>
     <div class="res-card">
-      <div class="res-icon">◎</div>
-      <div><h4>Join the Circle Community</h4><p>Connect with others on the program for extra support.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://go.korbhealth.com/JoinKORBcirclecommunity">👥 Join Now</a></div></div>
+      <div class="res-icon">🗑</div>
+      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
     </div>
   </div>
 
