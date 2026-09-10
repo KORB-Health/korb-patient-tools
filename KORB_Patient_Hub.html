@@ -32,7 +32,7 @@ button{font-family:inherit;cursor:pointer;}
 .nav-links{display:flex;gap:26px;font-size:13.5px;font-weight:600;color:#4A4E66;}
 .nav-links a:hover{color:var(--teal);}
 .nav-cta{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:10px 18px;border-radius:30px;}
-.nav-cta:hover{background:var(--teal);}
+@media (hover:hover){.nav-cta:hover{background:var(--teal);}}
 @media (max-width:820px){.nav-links{display:none;}}
 
 /* ================= HERO ================= */
@@ -69,7 +69,7 @@ button{font-family:inherit;cursor:pointer;}
 
 .prog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
 .prog-card{border-radius:16px;padding:22px 20px;color:#fff;position:relative;overflow:hidden;min-height:168px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .18s ease;}
-.prog-card:hover{transform:translateY(-3px);}
+@media (hover:hover){.prog-card:hover{transform:translateY(-3px);}}
 .prog-card.wl{background:linear-gradient(150deg,#00B2C3,#00838f);}
 .prog-card.mh{background:linear-gradient(150deg,#21275B,#141834);}
 .prog-card.wh{background:linear-gradient(150deg,#B0498B,#7c2f61);}
@@ -98,18 +98,21 @@ button{font-family:inherit;cursor:pointer;}
 .pcard .eyebrow{color:var(--accent);}
 .pcard h4{font-size:15.5px;color:var(--navy);margin-top:5px;font-weight:800;}
 .pcard p{font-size:12.8px;color:var(--mu);margin-top:6px;line-height:1.6;}
-.pcard .links{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
-.pcard .links a{font-size:13px;font-weight:700;color:var(--navy);background:var(--cream);
+.pcard .links,.addon-strip .links{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+.pcard .links a,.addon-strip .links a{font-size:13px;font-weight:700;color:var(--navy);background:var(--cream);
  border:1.5px solid var(--bd2);border-radius:10px;padding:12px 16px;display:flex;align-items:center;
  justify-content:space-between;gap:8px;width:100%;min-height:46px;transition:all .15s ease;}
-.pcard .links a::after{content:'\203A';font-size:19px;font-weight:800;opacity:.55;}
-.pcard .links a:active{transform:scale(.99);}
+.pcard .links a::after,.addon-strip .links a::after{content:'\203A';font-size:19px;font-weight:800;opacity:.55;}
+.pcard .links a:active,.addon-strip .links a:active{transform:scale(.99);}
+.addon-strip .links a{background:#fff;}
 .res-card a.dl{font-size:12.5px;font-weight:700;color:var(--navy);background:var(--cream);
  border:1.5px solid var(--bd2);border-radius:20px;padding:9px 15px;display:inline-flex;
  align-items:center;gap:5px;min-height:42px;transition:all .15s ease;}
-.pcard .links a:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+@media (hover:hover){
+  .pcard .links a:hover,.addon-strip .links a:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+}
     .links .soon{width:100%;font-size:12px;font-weight:700;color:var(--mu,#6b7280);background:#F4F4F6;border:1px dashed var(--bd2);border-radius:20px;padding:8px 14px;display:inline-flex;align-items:center;gap:5px;cursor:default;}
-.res-card a.dl:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
+@media (hover:hover){.res-card a.dl:hover{background:var(--teal);color:#fff;border-color:var(--teal);}}
 
 .addon-strip{background:var(--cream);border-radius:14px;padding:20px 22px;margin-top:8px;}
 .addon-strip .lbl{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--navy);margin-bottom:10px;}
@@ -136,7 +139,7 @@ button{font-family:inherit;cursor:pointer;}
 .tool-card h3{font-size:16px;font-weight:800;margin-top:6px;}
 .tool-card p{font-size:12.8px;color:#C7CBE6;margin-top:6px;line-height:1.6;}
 .tool-card a.launch{display:inline-flex;gap:6px;margin-top:16px;background:var(--teal);color:var(--navy);font-size:12.5px;font-weight:800;padding:9px 18px;border-radius:24px;}
-.tool-card a.launch:hover{background:#fff;}
+@media (hover:hover){.tool-card a.launch:hover{background:#fff;}}
 
 /* ================= EMBEDDED TOOL (iframe) ================= */
 /* Deliberately boxed and NOT auto-height: a compact, roughly square preview
@@ -209,30 +212,29 @@ footer strong{color:#fff;}
       <p class="lead">Your program guide, your dosing calendar, and your safety information — organized around what you're actually doing this week, not a filing cabinet of PDFs.</p>
       <p style="font-size:12.5px;color:var(--mu);font-weight:700;margin-top:10px;letter-spacing:.2px;">All we have is now — KORB Health</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#programs">Find My Program</a>
-        <a class="btn btn-ghost" href="#tools">Open My Tools</a>
+        <a class="btn btn-primary" href="#tools">Open My Tools</a>
       </div>
     </div>
     <div class="phase-ring-wrap">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;width:100%;max-width:460px;">
-        <a href="#weightloss" style="text-decoration:none;background:linear-gradient(150deg,#00B2C3,#00838f);border-radius:16px;padding:26px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;">
-          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7L2 14a3 3 0 0 0 6 0L5 7z"/><path d="M19 7l-3 7a3 3 0 0 0 6 0l-3-7z"/></svg>
-          <div style="font-size:13px;font-weight:800;text-align:center;">Weight Loss</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:520px;">
+        <a href="#weightloss" style="text-decoration:none;background:linear-gradient(150deg,#00B2C3,#00838f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7L2 14a3 3 0 0 0 6 0L5 7z"/><path d="M19 7l-3 7a3 3 0 0 0 6 0l-3-7z"/></svg>
+          <div style="font-size:14.5px;font-weight:800;text-align:center;">Weight Loss</div>
         </a>
-        <a href="#menshealth" style="text-decoration:none;background:linear-gradient(150deg,#21275B,#141834);border-radius:16px;padding:26px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;">
-          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.2 9.8L20 4"/><path d="M14.5 4h5.5v5.5"/></svg>
-          <div style="font-size:13px;font-weight:800;text-align:center;">Men's Health</div>
+        <a href="#menshealth" style="text-decoration:none;background:linear-gradient(150deg,#21275B,#141834);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.2 9.8L20 4"/><path d="M14.5 4h5.5v5.5"/></svg>
+          <div style="font-size:14.5px;font-weight:800;text-align:center;">Men's Health</div>
         </a>
-        <a href="#womenshealth" style="text-decoration:none;background:linear-gradient(150deg,#B0498B,#7c2f61);border-radius:16px;padding:26px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;">
-          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg>
-          <div style="font-size:13px;font-weight:800;text-align:center;">Women's Health</div>
+        <div style="grid-column:1/-1;text-align:center;font-size:13px;font-weight:700;color:var(--mu);padding:2px 0;">Four programs, one place to manage them all</div>
+        <a href="#womenshealth" style="text-decoration:none;background:linear-gradient(150deg,#B0498B,#7c2f61);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg>
+          <div style="font-size:14.5px;font-weight:800;text-align:center;">Women's Health</div>
         </a>
-        <a href="#longevity" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#d98f1f);border-radius:16px;padding:26px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;">
-          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 15.5a3.5 3.5 0 1 1 0-7c2.5 0 4 2 5.5 3.5s3 3.5 5.5 3.5a3.5 3.5 0 1 0 0-7c-2.5 0-4 2-5.5 3.5s-3 3.5-5.5 3.5z"/></svg>
-          <div style="font-size:13px;font-weight:800;text-align:center;">Longevity</div>
+        <a href="#longevity" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#d98f1f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 15.5a3.5 3.5 0 1 1 0-7c2.5 0 4 2 5.5 3.5s3 3.5 5.5 3.5a3.5 3.5 0 1 0 0-7c-2.5 0-4 2-5.5 3.5s-3 3.5-5.5 3.5z"/></svg>
+          <div style="font-size:14.5px;font-weight:800;text-align:center;">Longevity</div>
         </a>
       </div>
-      <div class="phase-caption" style="position:static;margin-top:16px;font-size:12.5px;">Four programs, one place to manage them all</div>
     </div>
   </div>
 </div>
@@ -256,36 +258,6 @@ footer strong{color:#fff;}
     <div class="video-frame">
       <iframe src="https://drive.google.com/file/d/1iPt4e2ndM5pgqZA7vkOsqD2-JcoPL8s6/preview" allow="autoplay" allowfullscreen></iframe>
     </div>
-  </div>
-</div>
-
-<div class="wrap selector" id="programs">
-  <div class="sec-head">
-    <div class="eyebrow">Your Programs</div>
-    <h2>Pick up where your provider left off.</h2>
-    <p>Each program below has its own guides, dosing information, and add-ons.</p>
-  </div>
-  <div class="prog-grid">
-    <a class="prog-card wl" href="#weightloss">
-      <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7L2 14a3 3 0 0 0 6 0L5 7z"/><path d="M19 7l-3 7a3 3 0 0 0 6 0l-3-7z"/></svg></div>
-      <div><div class="tag">Weight Loss</div><h3>GLP-1 Program</h3></div>
-      <div class="go">View program</div>
-    </a>
-    <a class="prog-card mh" href="#menshealth">
-      <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.2 9.8L20 4"/><path d="M14.5 4h5.5v5.5"/></svg></div>
-      <div><div class="tag">Men's Health</div><h3>Hormones &amp; More</h3></div>
-      <div class="go">View program</div>
-    </a>
-    <a class="prog-card wh" href="#womenshealth">
-      <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg></div>
-      <div><div class="tag">Women's Health</div><h3>Hormones &amp; More</h3></div>
-      <div class="go">View program</div>
-    </a>
-    <a class="prog-card lg" href="#longevity">
-      <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 15.5a3.5 3.5 0 1 1 0-7c2.5 0 4 2 5.5 3.5s3 3.5 5.5 3.5a3.5 3.5 0 1 0 0-7c-2.5 0-4 2-5.5 3.5s-3 3.5-5.5 3.5z"/></svg></div>
-      <div><div class="tag">Functional Health</div><h3>Longevity Program</h3></div>
-      <div class="go">View program</div>
-    </a>
   </div>
 </div>
 
