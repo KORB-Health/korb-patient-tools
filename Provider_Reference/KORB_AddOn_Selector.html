@@ -278,6 +278,32 @@ function products(ph, sex){
        notes:"Compound "+actives+", "+(P?"Topical Foam, 60ml bottle":"Top Spray, qty 30ml (120 Sprays)")+", Bill to office/Ship to patient, no equivalent commercial option"}
   });
 
+  // ---- anti-aging: NAD+ (all three pharmacies) + Metformin (Premier/FKO) ----
+  list.push({
+    cat:"Anti-Aging", name:"NAD+", price:"$179", code:"AGENAV2001",
+    form: P ? "NAD+ 200 mg/mL, 5 mL vial (1000 mg) SQ injection"
+            : "NAD+ 200 mg/mL, 5 mL vial (1000 mg) SQ injection",
+    dose:"Start 50 mg SQ twice weekly. Increase to 100 mg twice weekly if needed.",
+    supply:"28 days", 
+    warnAmber:"28-day supply, not 90. The vial outlasts 28 days at either dose \u2014 patient discards the remainder. Follow-up every 28 days.",
+    note:"Do not combine with isotretinoin (Accutane). Counsel on nausea, fatigue, headache, indigestion.",
+    t:{drug:"Nicotinamide (with chromium) 500 mcg-750 mg tablet (from drop-down)",
+       form:"NAD+ 200mg/mL 5mL vial", reason:"No FDA-approved NAD+", unit:"vial",
+       label:"NAD+ 50mg", qty:"1", days:"28",
+       sig:"Injectable 50 mg subcutaneously twice a week, discard unused medication 28 days after first puncture",
+       notes:"NAD+ 200mg/ml 5 ML vial (1000mg vial), bill to office/ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."}
+  });
+  list.push({
+    cat:"Anti-Aging", name:"Metformin ER 500 mg", price:"$99", code:"AGEMETF009",
+    form:"Metformin ER 500 mg tablet", dose:"One tablet daily", supply:"90 tablets, 90 days",
+    warn:"Not contraindication-free. Screen for eGFR under 30, unstable heart failure, severe hepatic impairment, heavy alcohol use, and metabolic acidosis. Boxed warning for lactic acidosis. Hold around contrast imaging and surgery.",
+    note:"Patient will not feel noticeably different. Set that expectation. Side effects: nausea, upset stomach, headache, fatigue, mild hypoglycaemia symptoms.",
+    t:{drug:"metFORMIN ER 500 mg tablet, extended release 24 hr (from drop-down)",
+       form:"Metformin ER 500 mg tablet", unit:"tablet",
+       label:"Metformin ER 500 mg", qty:"90", days:"90",
+       sig:"TAKE ONE TAB PO QD", notes:"Bill to KORB / ship to patient"}
+  });
+
   // ---- skin care: Premier only ----
   if(P){
     list.push({
