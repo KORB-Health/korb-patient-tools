@@ -1808,7 +1808,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1819,7 +1819,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1835,7 +1835,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1846,7 +1846,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1862,7 +1862,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -1873,7 +1873,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -1962,7 +1962,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -1973,7 +1973,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -1989,7 +1989,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -2000,7 +2000,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2016,7 +2016,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -2027,7 +2027,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2043,7 +2043,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -2054,7 +2054,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2070,7 +2070,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
@@ -2081,7 +2081,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2112,7 +2112,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -2123,7 +2123,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -2166,7 +2166,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -2177,7 +2177,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -2220,7 +2220,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
@@ -2231,7 +2231,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -2343,7 +2343,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             vialPlan: {
@@ -2363,7 +2363,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
@@ -2621,7 +2621,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             vialPlan: {
@@ -2641,7 +2641,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
@@ -2670,7 +2670,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             vialPlan: {
@@ -2690,7 +2690,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
@@ -2771,7 +2771,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             vialPlan: {
@@ -2791,7 +2791,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
@@ -2823,7 +2823,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             vialPlan: {
@@ -2843,7 +2843,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
@@ -2891,7 +2891,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2902,7 +2902,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2918,7 +2918,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2929,7 +2929,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -2945,7 +2945,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -2956,7 +2956,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
@@ -3042,7 +3042,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
@@ -3053,7 +3053,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
+            ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           }
