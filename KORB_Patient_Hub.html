@@ -6,6 +6,8 @@
 <title>KORB Health — Patient Resources</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -16,35 +18,35 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Inter',Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
-h1,h2,h3,h4{font-family:'Manrope',Arial,sans-serif;}
+body{font-family:'Montserrat',Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Montserrat',Arial,sans-serif;}
 a{color:inherit;text-decoration:none;}
 img{max-width:100%;display:block;}
 .wrap{max-width:1140px;margin:0 auto;padding:0 28px;}
-.eyebrow{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
 button{font-family:inherit;cursor:pointer;}
 
 /* ================= NAV ================= */
 .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd2);}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;gap:20px;}
-.nav-brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--navy);font-size:16px;}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;gap:24px;}
+.nav-brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy);font-size:16px;}
 .nav-brand .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);}
-.nav-links{display:flex;gap:26px;font-size:13.5px;font-weight:600;color:#4A4E66;}
+.nav-links{display:flex;gap:24px;font-size:13.5px;font-weight:600;color:#4A4E66;}
 .nav-links a:hover{color:var(--teal);}
-.nav-cta{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:10px 18px;border-radius:30px;}
+.nav-cta{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:10px 18px;border-radius:24px;}
 @media (hover:hover){.nav-cta:hover{background:var(--teal);}}
 @media (max-width:820px){.nav-links{display:none;}}
 
 /* ================= HERO ================= */
 .hero{background:linear-gradient(180deg,#fff 0%,var(--cream) 100%);padding:64px 0 56px;overflow:hidden;position:relative;}
 .hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;}
-@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:28px;}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:24px;}
   .phase-ring-wrap>div{width:100%!important;max-width:420px;margin:0 auto;}}
 .hero-eyebrow{color:var(--teal);}
 .hero h1{font-size:clamp(30px,4vw,46px);color:var(--navy);line-height:1.12;font-weight:800;margin-top:10px;}
 .hero p.lead{font-size:16px;color:#454965;max-width:480px;margin-top:16px;}
 .hero-ctas{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:30px;font-weight:700;font-size:14px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:24px;font-weight:700;font-size:14px;}
 .btn-primary{background:var(--navy);color:#fff;}
 .btn-primary:hover{background:var(--teal);}
 .btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--bd2);}
@@ -68,7 +70,7 @@ button{font-family:inherit;cursor:pointer;}
 .sec-head p{font-size:14px;color:var(--mu);margin-top:8px;}
 
 .prog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
-.prog-card{border-radius:16px;padding:22px 20px;color:#fff;position:relative;overflow:hidden;min-height:168px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .18s ease;}
+.prog-card{border-radius:16px;padding:20px;color:#fff;position:relative;overflow:hidden;min-height:168px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .18s ease;}
 @media (hover:hover){.prog-card:hover{transform:translateY(-3px);}}
 .prog-card.wl{background:linear-gradient(150deg,#00B2C3,#00838f);}
 .prog-card.mh{background:linear-gradient(150deg,#21275B,#141834);}
@@ -86,18 +88,18 @@ button{font-family:inherit;cursor:pointer;}
 
 /* ================= PROGRAM SECTIONS ================= */
 .psec{padding:74px 0;border-top:1px solid var(--bd2);}
-.psec-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:36px;flex-wrap:wrap;}
+.psec-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:36px;flex-wrap:wrap;}
 .psec-badge{width:46px;height:46px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:17px;}
 .psec-head h2{font-size:24px;color:var(--navy);font-weight:800;}
 .psec-head p{font-size:13.5px;color:var(--mu);margin-top:4px;max-width:560px;}
-.note-flag{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;color:#8A5A00;background:#FFF3DC;padding:4px 10px;border-radius:20px;}
+.note-flag{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:#8A5A00;background:#FFF3DC;padding:4px 10px;border-radius:24px;}
 
 .card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px;}
 .pcard{border:1px solid var(--bd2);border-radius:12px;padding:20px;background:#fff;}
 .pcard.accent-top{border-top:4px solid var(--accent);}
 .pcard .eyebrow{color:var(--accent);}
 .pcard h4{font-size:15.5px;color:var(--navy);margin-top:5px;font-weight:800;}
-.pcard p{font-size:12.8px;color:var(--mu);margin-top:6px;line-height:1.6;}
+.pcard p{font-size:12.5px;color:var(--mu);margin-top:6px;line-height:1.6;}
 .pcard .links,.addon-strip .links{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
 .pcard .links a,.addon-strip .links a{font-size:13px;font-weight:700;color:var(--navy);background:var(--cream);
  border:1.5px solid var(--bd2);border-radius:10px;padding:12px 16px;display:flex;align-items:center;
@@ -106,24 +108,24 @@ button{font-family:inherit;cursor:pointer;}
 .pcard .links a:active,.addon-strip .links a:active{transform:scale(.99);}
 .addon-strip .links a{background:#fff;}
 .res-card a.dl{font-size:12.5px;font-weight:700;color:var(--navy);background:var(--cream);
- border:1.5px solid var(--bd2);border-radius:20px;padding:9px 15px;display:inline-flex;
- align-items:center;gap:5px;min-height:42px;transition:all .15s ease;}
+ border:1.5px solid var(--bd2);border-radius:24px;padding:9px 15px;display:inline-flex;
+ align-items:center;gap:6px;min-height:42px;transition:all .15s ease;}
 @media (hover:hover){
-  .pcard .links a:hover,.addon-strip .links a:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .pcard .links a:hover,.addon-strip .links a:hover{background:var(--accent,var(--teal));color:#fff;border-color:var(--accent,var(--teal));}
 }
-    .links .soon{width:100%;font-size:12px;font-weight:700;color:var(--mu,#6b7280);background:#F4F4F6;border:1px dashed var(--bd2);border-radius:20px;padding:8px 14px;display:inline-flex;align-items:center;gap:5px;cursor:default;}
+    .links .soon{width:100%;font-size:12px;font-weight:700;color:var(--mu,#6b7280);background:#F4F4F6;border:1px dashed var(--bd2);border-radius:24px;padding:8px 14px;display:inline-flex;align-items:center;gap:6px;cursor:default;}
 @media (hover:hover){.res-card a.dl:hover{background:var(--teal);color:#fff;border-color:var(--teal);}}
 
-.addon-strip{background:var(--cream);border-radius:14px;padding:20px 22px;margin-top:8px;}
-.addon-strip .lbl{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--navy);margin-bottom:10px;}
-.addon-pills{display:flex;gap:10px;flex-wrap:wrap;}
-.addon-pill{background:#fff;border:1px solid var(--bd2);border-radius:20px;padding:8px 16px;font-size:12.5px;font-weight:700;color:var(--navy);}
+.addon-strip{background:var(--cream);border-radius:12px;padding:20px 22px;margin-top:8px;}
+.addon-strip .lbl{font-size:11.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--navy);margin-bottom:10px;}
+.addon-pills{display:flex;gap:12px;flex-wrap:wrap;}
+.addon-pill{background:#fff;border:1px solid var(--bd2);border-radius:24px;padding:8px 16px;font-size:12.5px;font-weight:700;color:var(--navy);}
 .addon-pill span{color:var(--mu);font-weight:500;}
 
 .video-block{background:var(--navy);border-radius:16px;padding:26px;color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;margin-top:8px;}
 .video-block .txt .tag{color:var(--teal);}
 .video-block h4{font-size:17px;margin-top:6px;font-weight:800;}
-.video-block p{font-size:12.8px;color:#C7CBE6;margin-top:8px;line-height:1.6;}
+.video-block p{font-size:12.5px;color:#C7CBE6;margin-top:8px;line-height:1.6;}
 .video-frame{border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;}
 .video-frame iframe{width:100%;height:100%;border:0;}
 @media (max-width:760px){.video-block{grid-template-columns:1fr;}}
@@ -134,10 +136,10 @@ button{font-family:inherit;cursor:pointer;}
 .tools-sec .sec-head p{color:#B9C0E8;}
 .tools-sec .sec-head .eyebrow{color:var(--teal);}
 .tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
-.tool-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:22px;}
+.tool-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:20px;}
 .tool-card .tag{color:var(--teal);}
 .tool-card h3{font-size:16px;font-weight:800;margin-top:6px;}
-.tool-card p{font-size:12.8px;color:#C7CBE6;margin-top:6px;line-height:1.6;}
+.tool-card p{font-size:12.5px;color:#C7CBE6;margin-top:6px;line-height:1.6;}
 .tool-card a.launch{display:inline-flex;gap:6px;margin-top:16px;background:var(--teal);color:var(--navy);font-size:12.5px;font-weight:800;padding:9px 18px;border-radius:24px;}
 @media (hover:hover){.tool-card a.launch:hover{background:#fff;}}
 
@@ -151,7 +153,7 @@ button{font-family:inherit;cursor:pointer;}
 .tool-embed-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 18px;border-bottom:1px solid var(--bd2);}
 .tool-embed-head h4{font-size:15.5px;color:var(--navy);font-weight:800;}
 .tool-embed-head p{font-size:12.3px;color:var(--mu);margin-top:4px;line-height:1.5;}
-.tool-embed-expand{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--navy);background:var(--cream);border:1px solid var(--bd2);border-radius:20px;padding:8px 14px;text-decoration:none;white-space:nowrap;transition:all .15s ease;}
+.tool-embed-expand{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--navy);background:var(--cream);border:1px solid var(--bd2);border-radius:24px;padding:8px 14px;text-decoration:none;white-space:nowrap;transition:all .15s ease;}
 .tool-embed-expand:hover{background:var(--lg);color:#fff;border-color:var(--lg);}
 .tool-embed-frame-wrap{background:#F6F5F0;}
 .tool-embed-frame-wrap iframe{width:100%;height:540px;border:0;display:block;}
@@ -159,9 +161,9 @@ button{font-family:inherit;cursor:pointer;}
 
 /* ================= RESOURCES ================= */
 .res-sec{padding-top:72px;padding-bottom:72px;}   /* vertical only: .wrap owns the 28px sides */
-.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;}
-.res-card{border:1px solid var(--bd2);border-radius:12px;padding:18px;display:flex;gap:13px;align-items:flex-start;}
-.res-icon{width:38px;height:38px;border-radius:9px;background:var(--lt);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex-shrink:0;}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;}
+.res-card{border:1px solid var(--bd2);border-radius:12px;padding:20px;display:flex;gap:13px;align-items:flex-start;}
+.res-icon{width:38px;height:38px;border-radius:10px;background:var(--lt);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex-shrink:0;}
 .res-card h4{font-size:13.5px;color:var(--navy);font-weight:800;}
 .res-card p{font-size:12px;color:var(--mu);margin-top:3px;line-height:1.5;}
 
@@ -169,19 +171,20 @@ button{font-family:inherit;cursor:pointer;}
 /* ================= AI PROMPTS ================= */
 .ai-sec{padding-top:64px;padding-bottom:8px;}
 .ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:6px;}
-.pcard-ai{border:1px solid var(--bd2);border-radius:12px;padding:18px;background:#fff;display:flex;
+.pcard-ai{border:1px solid var(--bd2);border-radius:12px;padding:20px;background:#fff;display:flex;
  flex-direction:column;}
 .pcard-ai h4{font-size:14.5px;color:var(--navy);font-weight:800;}
 .pcard-ai .why{font-size:12px;color:var(--mu);margin-top:4px;line-height:1.55;}
-.ptext{background:var(--gb,#F8F9FA);border:1px solid var(--bd2);border-radius:8px;padding:12px 13px;
+.ptext{background:var(--gb,#F8F9FA);border:1px solid var(--bd2);border-radius:10px;padding:12px 13px;
  margin-top:11px;font-size:12px;line-height:1.65;color:#2A2E45;white-space:pre-wrap;flex:1;}
 .pcopy{margin-top:11px;background:var(--cream);color:var(--navy);border:1.5px solid var(--bd2);
- border-radius:22px;min-height:44px;padding:11px 18px;font-size:13px;font-weight:800;cursor:pointer;
+ border-radius:24px;min-height:44px;padding:11px 18px;font-size:13px;font-weight:800;cursor:pointer;
  font-family:inherit;width:100%;transition:all .15s ease;}
 .pcopy.done{background:#2E7D32;border-color:#2E7D32;color:#fff;}
 @media (hover:hover){.pcopy:hover{background:var(--teal);border-color:var(--teal);color:#fff;}}
 .ai-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
-.ai-tool{background:#fff;border:1px solid var(--bd2);border-radius:20px;padding:8px 15px;font-size:12.5px;
+@media (hover:hover){.ai-tool:hover{background:var(--teal);border-color:var(--teal);color:#fff;}}
+.ai-tool{display:inline-flex;align-items:center;gap:6px;text-decoration:none;min-height:44px;background:#fff;border:1px solid var(--bd2);border-radius:24px;padding:8px 15px;font-size:12.5px;
  font-weight:700;color:var(--navy);}
 
 /* ================= SAFETY BANNER ================= */
@@ -197,7 +200,7 @@ button{font-family:inherit;cursor:pointer;}
 .safety{padding-top:56px;padding-bottom:64px;border-top:1px solid var(--bd2);}  /* vertical only */
 .safety .eyebrow{color:#C62828;margin-bottom:8px;display:block;}
 .safety h2{font-size:19px;color:var(--navy);font-weight:800;margin-bottom:16px;}
-.safety-inner{background:#fff;border:1px solid var(--bd2);border-top:4px solid #C62828;border-radius:12px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(20,31,66,.06);}
+.safety-inner{background:#fff;border:1px solid var(--bd2);border-top:4px solid #C62828;border-radius:12px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(20,31,66,.06);}
 .safety-inner .m{font-size:13px;font-weight:700;color:var(--navy);max-width:600px;}
 .safety-inner a{background:#C62828;color:#fff;font-size:12.5px;font-weight:800;padding:10px 18px;border-radius:24px;white-space:nowrap;}
 
@@ -342,15 +345,11 @@ footer strong{color:#fff;}
     <div class="addon-strip" style="margin-top:20px;">
       <div class="lbl">Available Add-Ons</div>
       <p style="font-size:12.5px;color:var(--mu);margin:-4px 0 12px;">These can be added alongside your program. Ask your provider if any are a fit for you.</p>
-      <div class="addon-pills">
-        <div class="addon-pill">Sexual Health</div>
-        <div class="addon-pill">Hair Loss <span>&mdash; pill or topical</span></div>
-        <div class="addon-pill">Skin Care <span>&mdash; topical support</span></div>
-      </div>
+      
       <div class="links" style="margin-top:12px;">
         <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Sexual_Health.pdf">&#128196; Sexual Health Guide</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">&#128196; Hair Loss Guide</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">&#128196; Skin Care Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">&#128196; Hair Loss Guide &mdash; pill or topical</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">&#128196; Skin Care Guide &mdash; topical</a>
       </div>
     </div>
     <div class="video-block">
@@ -429,15 +428,11 @@ footer strong{color:#fff;}
 
     <div class="addon-strip">
       <div class="lbl">Available Add-Ons</div>
-      <div class="addon-pills">
-        <div class="addon-pill">Sexual Health <span>— KORB Rise</span></div>
-        <div class="addon-pill">Hair Loss <span>— pill or topical</span></div>
-        <div class="addon-pill">Skin Care <span>— topical support</span></div>
-      </div>
+      
       <div class="links" style="margin-top:12px;">
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Sexual_Health.pdf">📄 Sexual Health Guide</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">📄 Hair Loss Guide</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">📄 Skin Care Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Sexual_Health.pdf">📄 Sexual Health Guide &mdash; KORB Rise</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">📄 Hair Loss Guide &mdash; pill or topical</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">📄 Skin Care Guide &mdash; topical</a>
       </div>
     </div>
 
@@ -507,15 +502,11 @@ footer strong{color:#fff;}
 
     <div class="addon-strip">
       <div class="lbl">Available Add-Ons</div>
-      <div class="addon-pills">
-        <div class="addon-pill">Hair Loss <span>— pill or topical</span></div>
-        <div class="addon-pill">Sexual Health <span>— KORB Electric</span></div>
-        <div class="addon-pill">Skin Care <span>— topical support</span></div>
-      </div>
+      
       <div class="links" style="margin-top:12px;">
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Sexual_Health.pdf">📄 Sexual Health Guide</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">📄 Hair Loss Guide</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">📄 Skin Care Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Sexual_Health.pdf">📄 Sexual Health Guide &mdash; KORB Electric</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">📄 Hair Loss Guide &mdash; pill or topical</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">📄 Skin Care Guide &mdash; topical</a>
       </div>
     </div>
     
@@ -607,15 +598,11 @@ footer strong{color:#fff;}
     <div class="addon-strip" style="margin-top:20px;">
       <div class="lbl">Available Add-Ons</div>
       <p style="font-size:12.5px;color:var(--mu);margin:-4px 0 12px;">These can be added alongside your program. Ask your provider if any are a fit for you.</p>
-      <div class="addon-pills">
-        <div class="addon-pill">Sexual Health</div>
-        <div class="addon-pill">Hair Loss <span>&mdash; pill or topical</span></div>
-        <div class="addon-pill">Skin Care <span>&mdash; topical support</span></div>
-      </div>
+      
       <div class="links" style="margin-top:12px;">
         <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Sexual_Health.pdf">&#128196; Sexual Health Guide</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">&#128196; Hair Loss Guide</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">&#128196; Skin Care Guide</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Hair_Loss.pdf">&#128196; Hair Loss Guide &mdash; pill or topical</a>
+        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Skin_Care.pdf">&#128196; Skin Care Guide &mdash; topical</a>
       </div>
     </div>
 
@@ -831,11 +818,11 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
       <h4>Free AI assistants you could use</h4>
       <p>All of these have a free version that will handle these prompts. KORB does not endorse or have any relationship with any of them &mdash; pick whichever you already use or like the look of.</p>
       <div class="ai-tools">
-        <div class="ai-tool">ChatGPT</div>
-        <div class="ai-tool">Claude</div>
-        <div class="ai-tool">Google Gemini</div>
-        <div class="ai-tool">Microsoft Copilot</div>
-        <div class="ai-tool">Perplexity</div>
+        <a class="ai-tool" target="_blank" rel="noopener" href="https://chat.openai.com">ChatGPT &#8599;</a>
+        <a class="ai-tool" target="_blank" rel="noopener" href="https://claude.ai">Claude &#8599;</a>
+        <a class="ai-tool" target="_blank" rel="noopener" href="https://gemini.google.com">Google Gemini &#8599;</a>
+        <a class="ai-tool" target="_blank" rel="noopener" href="https://copilot.microsoft.com">Microsoft Copilot &#8599;</a>
+        <a class="ai-tool" target="_blank" rel="noopener" href="https://www.perplexity.ai">Perplexity &#8599;</a>
       </div>
       <p style="margin-top:10px;">Paste the prompt in, press enter, and ask follow-ups in plain language &mdash; for example &ldquo;make these dairy free&rdquo; or &ldquo;I do not like fish.&rdquo;</p>
     </div>
