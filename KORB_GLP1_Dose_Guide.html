@@ -21,9 +21,6 @@ body{font-family:Arial,sans-serif;font-size:14px;color:#1A1A2E;background:#fff;}
 .supply-row{margin-top:12px;display:flex;gap:8px;}
 .supply-row button{flex:1;padding:9px;border-radius:6px;border:1.5px solid var(--teal);background:#fff;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;font-family:Arial,sans-serif;}
 .supply-row button.active{background:var(--teal);color:#fff;}
-.pharm-banner{border-radius:8px;padding:10px 16px;margin-bottom:18px;border:1.5px solid var(--teal);background:var(--lt);display:none;}
-.pharm-banner strong{font-size:13px;color:var(--navy);}
-.pharm-banner p{font-size:12px;color:var(--mu);margin-top:2px;}
 .empty{border:1.5px dashed var(--bd);border-radius:10px;padding:34px 20px;text-align:center;color:var(--mu);}
 .empty h2{font-size:15px;color:var(--navy);margin-bottom:6px;}
 .empty p{font-size:12.5px;}
@@ -68,26 +65,25 @@ footer{margin-top:30px;font-size:11px;color:var(--mu);text-align:center;line-hei
     </div>
     <div class="ctrl-note">This tool is for general reference only. Your prescription label is always the final word on your dose, volume, and directions.</div>
   </div>
-  <div class="pharm-banner" id="pharmBanner"><strong id="pharmBannerTitle"></strong><p id="pharmBannerNote"></p></div>
   <div id="output"><div class="empty"><h2>Select your medication, pharmacy, and dose</h2><p>Your injection volume and syringe fill will appear here.</p></div></div>
   <footer>For KORB patient education only. Do not share or reproduce.<br>Questions? Contact KORB Operations at info@korbhealth.com or +1 (888) 959-7299.</footer>
 </div>
 <script>
 const DATA = {
   semaglutide:{
-    premier:{label:"Premier Pharmacy",note:"Does not ship to California. Preferred for AZ, FL, NV, TX; ships to most other states.",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"3 mg semaglutide / 0.5 mg B-12 per mL",doses:[
+    premier:{label:"Premier Pharmacy",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"3 mg semaglutide / 0.5 mg B-12 per mL",doses:[
       {mg:"0.3",units:10,ml:"0.1",v4:"0.6 ml",v8:"0.6 ml x 2"},
       {mg:"0.6",units:20,ml:"0.2",v4:"1 ml",v8:"1 ml x 2"},
       {mg:"1.2",units:40,ml:"0.4",v4:"0.6 ml x 1 & 1 ml x 1",v8:"0.6 ml x 2 & 1 ml x 2"},
       {mg:"1.8",units:60,ml:"0.6",v4:"2.4 ml",v8:"2.4 ml x 2"},
       {mg:"2.7",units:90,ml:"0.9",v4:"3.6 ml",v8:"3.6 ml x 2"}]},
-    farmakeio:{label:"FarmaKeio Pharmacy",note:"Ships everywhere except Arizona, California, Florida, Nevada, and Texas.",additive:"Pyridoxine (Vitamin B-6)",concentration:"2.5 mg semaglutide / 25 mg B-6 per mL (Home Kit)",doses:[
+    farmakeio:{label:"FarmaKeio Pharmacy",additive:"Pyridoxine (Vitamin B-6)",concentration:"2.5 mg semaglutide / 25 mg B-6 per mL (Home Kit)",doses:[
       {mg:"0.25",units:10,ml:"0.1",v4:"1 ml",v8:"1 ml x 2"},
       {mg:"0.5",units:20,ml:"0.2",v4:"1 ml",v8:"1 ml x 2"},
       {mg:"1.0",units:40,ml:"0.4",v4:"2 ml",v8:"2 ml x 2"},
       {mg:"1.7",units:68,ml:"0.68",v4:"3 ml",v8:"3 ml x 2"},
       {mg:"2.5",units:100,ml:"1",v4:"4 ml",v8:"4 ml x 2"}]},
-    belmar:{label:"Belmar Pharmacy",note:"California patients only. 8-week supply ships as a single 56-day fill \u2014 no refill.",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"1 mg/1 mg per mL (lower doses) or 2.5 mg/1 mg per mL (higher doses)",doses:[
+    belmar:{label:"Belmar Pharmacy",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"1 mg/1 mg per mL (lower doses) or 2.5 mg/1 mg per mL (higher doses)",doses:[
       {mg:"0.25",units:25,ml:"0.25",conc:"1 mg/1 mg/ml",v4:"1 ml x 1 vial",v8:"1 ml x 2 vials"},
       {mg:"0.5",units:50,ml:"0.5",conc:"1 mg/1 mg/ml",v4:"1 ml x 2 vials",v8:"1 ml x 4 vials"},
       {mg:"1.0",units:100,ml:"1",conc:"1 mg/1 mg/ml",v4:"5 ml x 1 vial",v8:"5 ml x 2 vials"},
@@ -95,7 +91,7 @@ const DATA = {
       {mg:"2.4",units:96,ml:"0.96",conc:"2.5 mg/1 mg/ml",v4:"5 ml x 1 vial",v8:"5 ml x 2 vials"}]}
   },
   semaglutide_glycine:{
-    premier:{label:"Premier Pharmacy (with Glycine)",note:"Does not ship to California. Preferred for AZ, FL, NV, TX; ships to most other states.",additive:"Cyanocobalamin (Vitamin B-12) + Glycine",concentration:"3 mg semaglutide / 0.5 mg B-12 / 5 mg Glycine per mL",doses:[
+    premier:{label:"Premier Pharmacy (with Glycine)",additive:"Cyanocobalamin (Vitamin B-12) + Glycine",concentration:"3 mg semaglutide / 0.5 mg B-12 / 5 mg Glycine per mL",doses:[
       {mg:"0.3",units:10,ml:"0.1",v4:"1 ml vial",v8:"1 ml x 2 vials"},
       {mg:"0.6",units:20,ml:"0.2",v4:"1 ml vial",v8:"1 ml x 2 vials"},
       {mg:"1.2",units:40,ml:"0.4",v4:"1 ml x 2 vials",v8:"1 ml x 4 vials"},
@@ -103,28 +99,28 @@ const DATA = {
       {mg:"2.7",units:90,ml:"0.9",v4:"1 ml x 4 vials",v8:"1 ml x 8 vials"}]}
   },
   tirzepatide:{
-    premier:{label:"Premier Pharmacy",note:"Does not ship to California. Preferred for AZ, FL, NV, TX; ships to most other states.",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"18 mg tirzepatide / 500 mcg B-12 per mL",doses:[
+    premier:{label:"Premier Pharmacy",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"18 mg tirzepatide / 500 mcg B-12 per mL",doses:[
       {mg:"2",units:11,ml:"0.11",v4:"0.6 ml",v8:"0.6 ml x 2"},
       {mg:"4",units:22,ml:"0.22",v4:"1 ml",v8:"1 ml x 2"},
       {mg:"6.5",units:36,ml:"0.36",v4:"0.6 ml & 1 ml",v8:"0.6 ml x 2 & 1 ml x 2"},
       {mg:"8.5",units:47,ml:"0.47",v4:"2 ml",v8:"2 ml x 2"},
       {mg:"13.5",units:75,ml:"0.75",v4:"1 ml & 2 ml",v8:"2 ml x 3"},
       {mg:"16",units:89,ml:"0.89",v4:"3.6 ml",v8:"3.6 ml x 2"}]},
-    farmakeio:{label:"FarmaKeio Pharmacy",note:"Ships everywhere except Arizona, California, Florida, Nevada, and Texas.",additive:"Pyridoxine (Vitamin B-6)",concentration:"18 mg tirzepatide / 25 mg B-6 per mL (Home Kit)",doses:[
+    farmakeio:{label:"FarmaKeio Pharmacy",additive:"Pyridoxine (Vitamin B-6)",concentration:"18 mg tirzepatide / 25 mg B-6 per mL (Home Kit)",doses:[
       {mg:"2.5",units:13,ml:"0.13",v4:"1 ml",v8:"1 ml x 2"},
       {mg:"4.5",units:25,ml:"0.25",v4:"1 ml",v8:"1 ml x 2"},
       {mg:"7.5",units:42,ml:"0.42",v4:"2 ml",v8:"2 ml x 2"},
       {mg:"9",units:50,ml:"0.5",v4:"2 ml",v8:"2 ml x 2"},
       {mg:"13.5",units:75,ml:"0.75",v4:"3 ml",v8:"3 ml x 2"},
       {mg:"15",units:83,ml:"0.83",v4:"4 ml",v8:"4 ml x 2"}]},
-    belmar:{label:"Belmar Pharmacy",note:"California patients only. 8-week supply ships as a single 56-day fill \u2014 no refill.",additive:"L-Carnitine",concentration:"10 mg tirzepatide / 50 mg L-Carnitine per mL",doses:[
+    belmar:{label:"Belmar Pharmacy",additive:"L-Carnitine",concentration:"10 mg tirzepatide / 50 mg L-Carnitine per mL",doses:[
       {mg:"2.5",units:25,ml:"0.25",v4:"1 ml x 1 vial",v8:"1 ml x 2 vials"},
       {mg:"5",units:50,ml:"0.5",v4:"1 ml x 2 vials",v8:"1 ml x 4 vials"},
       {mg:"7.5",units:75,ml:"0.75",v4:"1 ml x 3 vials",v8:"1 ml x 6 vials"},
       {mg:"10",units:100,ml:"1",v4:"4 ml x 1 vial",v8:"4 ml x 2 vials"},
       {mg:"12.5",units:125,ml:"1.25",v4:"1 ml x 1 vial & 4 ml x 1 vial",v8:"4 ml x 2 vials & 1 ml x 2 vials"},
       {mg:"15",units:150,ml:"1.5",v4:"1 ml x 2 vials & 4 ml x 1 vial",v8:"4 ml x 3 vials"}]},
-    greenwich:{label:"Greenwich Pharmacy",note:"Concentration increases with each dose step, so injection volume stays constant at 0.5 mL.",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"Concentration is customized per dose so every injection is 0.5 mL (50 units)",doses:[
+    greenwich:{label:"Greenwich Pharmacy",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"Concentration is customized per dose so every injection is 0.5 mL (50 units)",doses:[
       {mg:"2.5",units:50,ml:"0.5",conc:"5 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"},
       {mg:"5",units:50,ml:"0.5",conc:"10 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"},
       {mg:"7.5",units:50,ml:"0.5",conc:"15 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"},
@@ -169,14 +165,13 @@ function syringeSVG(units,colorHex){
   return wrap;
 }
 const medSel=document.getElementById('med'),pharmSel=document.getElementById('pharmacy'),doseSel=document.getElementById('dose');
-const banner=document.getElementById('pharmBanner'),bannerTitle=document.getElementById('pharmBannerTitle'),bannerNote=document.getElementById('pharmBannerNote');
 const output=document.getElementById('output'),btn4=document.getElementById('btn4wk'),btn8=document.getElementById('btn8wk');
 let supply=4;
 medSel.addEventListener('change',()=>{
   const med=medSel.value;
   pharmSel.innerHTML='<option value="">Select pharmacy…</option>';
   doseSel.innerHTML='<option value="">Select pharmacy first…</option>';
-  doseSel.disabled=true; banner.style.display='none'; renderEmpty();
+  doseSel.disabled=true; renderEmpty();
   if(!med){pharmSel.disabled=true;return;}
   pharmSel.disabled=false;
   Object.keys(DATA[med]).forEach(key=>{
@@ -186,9 +181,8 @@ medSel.addEventListener('change',()=>{
 pharmSel.addEventListener('change',()=>{
   const med=medSel.value,pharm=pharmSel.value;
   doseSel.innerHTML='<option value="">Select dose…</option>'; renderEmpty();
-  if(!pharm){doseSel.disabled=true;banner.style.display='none';return;}
+  if(!pharm){doseSel.disabled=true;return;}
   const pdata=DATA[med][pharm];
-  bannerTitle.textContent=pdata.label; bannerNote.textContent=pdata.note; banner.style.display='block';
   doseSel.disabled=false;
   pdata.doses.forEach((d,i)=>{
     const opt=document.createElement('option'); opt.value=i; opt.textContent=d.mg+' mg / week'; doseSel.appendChild(opt);
@@ -206,7 +200,7 @@ function renderResult(){
   const medLabel=MED_LABELS[med]||med;
   let html='<div class="result-card"><div class="result-hdr"><strong>'+medLabel+' — '+d.mg+' mg weekly</strong><p>'+pdata.label+'</p></div><div class="result-body">';
   html+='<div class="stat-grid"><div class="stat"><div class="lbl">Weekly Dose</div><div class="val">'+d.mg+' mg</div></div>';
-  html+='<div class="stat"><div class="lbl">Injection Volume</div><div class="val">'+d.ml+' mL</div></div>';
+  html+='<div class="stat"><div class="lbl">Draw To</div><div class="val">'+d.units+' units</div></div>';
   html+='<div class="stat"><div class="lbl">'+supply+'-Week Supply</div><div class="val" style="font-size:13px;">'+(supply===4?d.v4:d.v8)+'</div></div></div>';
   html+='<div style="font-size:11px;color:var(--mu);text-align:center;">'+(d.units>100 ? 'This dose requires <strong style="color:var(--teal);">2 standard insulin syringes</strong> (100 units each) — KORB does not ship 3 mL syringes.' : 'Draw up to <strong style="color:var(--teal);">'+d.units+' units</strong> on a standard 100-unit (1 mL) insulin syringe')+'</div>';
   html+=syringeSVG(d.units,'#00B2C3');
