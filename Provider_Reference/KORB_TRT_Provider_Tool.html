@@ -213,6 +213,59 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
     Order the full panel at baseline and at each follow-up. Draw testosterone at trough, on an injection
     day before the dose is given. A peak draw will read high and hide a symptomatic trough.
   </div>
+  <div class="info-box amber">
+    <b>SHBG and free testosterone are not in this panel.</b> The move to SQ three times weekly is written
+    against low SHBG, so that criterion cannot be read off the standard panel. Open item in the Men's
+    Health Clinical Reference, pending lab panel review with Dr. Rose.
+  </div>
+
+  <div class="sec">Titration Targets and Action Thresholds</div>
+  <div class="tablewrap"><table class="ref">
+    <thead><tr><th>Marker</th><th>Target / action threshold</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>Total testosterone (trough)</td><td>Goal band 400 &ndash; 700 ng/dL</td>
+          <td>In band with symptoms resolved: hold current dose.</td></tr>
+      <tr><td>Total testosterone (trough)</td><td>Below 400 ng/dL with persistent symptoms</td>
+          <td>Move up one step on the ladder. Recheck in 6 to 8 weeks.</td></tr>
+      <tr><td>Total testosterone (trough)</td><td>Above 700 ng/dL</td>
+          <td>Move down one step, even if the patient feels well.</td></tr>
+      <tr><td>Total testosterone (trough)</td><td>Above 1000 ng/dL</td>
+          <td>Reduce dose regardless of symptoms. Supraphysiologic levels carry cardiovascular and
+              polycythemia risk.</td></tr>
+      <tr><td>Hematocrit</td><td>50 &ndash; 53%</td>
+          <td>Warning range. Recheck, review sleep apnea and hydration, consider increasing injection
+              frequency.</td></tr>
+      <tr><td>Hematocrit</td><td>Above 54%</td>
+          <td>Intervene. Hold or reduce dose, increase frequency, and discuss therapeutic phlebotomy.
+              Do not continue unchanged.</td></tr>
+      <tr><td>Estradiol</td><td>Elevated with symptoms (gynecomastia, nipple tenderness, mood, fluid
+              retention)</td>
+          <td>Increase injection frequency first. Reduce dose if that is insufficient. An aromatase
+              inhibitor is a last resort.</td></tr>
+      <tr><td>PSA</td><td>Rise greater than 1.4 ng/mL within 12 months, or absolute above 4.0 ng/mL</td>
+          <td>Refer to urology before continuing therapy.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="info-box teal">
+    Change one variable at a time. Adjusting dose and frequency together makes it impossible to know which
+    one worked. Recheck labs 6 to 8 weeks after any change, drawn at trough.
+  </div>
+
+  <div class="sec">Do Not Initiate &mdash; Contraindications</div>
+  <div class="info-box red">
+    Do not initiate testosterone therapy with any of the following. Refer to PCP, urology, or the
+    appropriate specialist.
+    <ul style="margin:8px 0 0 18px;">
+      <li>Known or suspected prostate or breast cancer</li>
+      <li>Uncontrolled polycythemia, or elevated hematocrit at baseline</li>
+      <li>Severe untreated obstructive sleep apnea</li>
+      <li>Uncontrolled heart failure; MI or stroke within the last 6 months</li>
+      <li>Thrombophilia</li>
+      <li>Active desire for fertility in the near term (relative; counsel and consider referral)</li>
+      <li>PSA above 4.0 ng/mL, or above 3.0 ng/mL with high prostate cancer risk, without urological
+          evaluation first</li>
+    </ul>
+  </div>
 
   <footer>
     KORB Health Medical Texas PA &middot; Internal provider reference. Not patient-facing.<br>
@@ -224,8 +277,8 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
 var CONC = 200.0;      // mg/mL
 var VIAL_ML = 10.0;    // mL
 var SEND_LEAD = 4;     // send Rx this many days before release
-var LAB_LEAD = 14;
-var MAX_DAYS = 90;     // nothing is dispensed or scheduled beyond 90 days     // order labs this many days before next visit
+var LAB_LEAD = 14;     // order labs this many days before the next visit
+var MAX_DAYS = 90;     // nothing is dispensed or scheduled beyond 90 days
 
 var STATE_NAME = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
 function stName(a){ return (STATE_NAME[a]||a)+" ("+a+")"; }
@@ -262,8 +315,13 @@ function calc(W, routeKey){
   var mlDose = mgDose / CONC;
   var mlWeek = W / CONC;
   var days   = Math.floor((VIAL_ML / mlWeek) * 7);
-  var inj    = Math.ceil(days * R.freq / 7);
-  return { mgDose:mgDose, mlDose:mlDose, mlWeek:mlWeek, days:days, inj:inj, R:R };
+  /* Injections are counted over the days actually written on the Rx, not over the
+     days the vial physically lasts. At 96/120/144 mg the vial outlasts 90 days and
+     the remainder is discarded, so counting on c.days over-ordered supplies for
+     Empower (CA) and printed an injection count the prescription does not cover. */
+  var rxDays = Math.min(days, MAX_DAYS);
+  var inj    = Math.ceil(rxDays * R.freq / 7);
+  return { mgDose:mgDose, mlDose:mlDose, mlWeek:mlWeek, days:days, rxDays:rxDays, inj:inj, R:R };
 }
 
 
@@ -354,7 +412,7 @@ function render(){
   // Scheduling needs both dates. Dosing and the Tebra favorite do not, so they render either way.
   // The vial may physically outlast 90 days, but nothing is written past 90:
   // the patient discards the remainder, so the Rx and the whole schedule cap there.
-  var rxDays = Math.min(c.days, MAX_DAYS);
+  var rxDays = c.rxDays;
   var capped = c.days > MAX_DAYS;
 
   var hasDates = !!(exam && pmp);
@@ -414,7 +472,7 @@ function render(){
 
   h += '<div class="info-box teal">'
      + '<b>What to tell the patient:</b> the pharmacy cannot release before '+fmtShort(release)+'. '
-     + 'Premier ships a few days ahead of the release date on controlled medications, so expect delivery '
+     + P.name+' ships a few days ahead of the release date on controlled medications, so expect delivery '
      + 'around that date rather than well before it. Confirm the shipping window with the pharmacy if the '
      + 'patient is travelling.</div>';
 

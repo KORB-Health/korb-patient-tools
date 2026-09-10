@@ -149,6 +149,13 @@ var ALL = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL"
   "MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 
+/* FKO above is the ship-to list and matches korb-glp1-data.js pharmacies.farmakeio.shipsTo:
+   California is the only state FarmaKeio will not ship to. The Add-On Clinical Reference
+   states FarmaKeio "ships to all states except AZ, CA, FL, NV, TX", which is the PREFERRED
+   list for GLP-1 routing, not the ship-to list, and preferred states do not govern add-ons.
+   Add-on routing is: follow the pharmacy the patient's GLP-1 already uses if it stocks the
+   product, otherwise Premier. Confirmed by Don 2026-09-10. */
+
 var sel=document.getElementById("st");
 ALL.forEach(function(s){ var o=document.createElement("option"); o.value=s; o.textContent=stName(s); sel.appendChild(o); });
 ["st","prog","sex","fko"].forEach(function(id){ document.getElementById(id).addEventListener("change", render); });
@@ -160,7 +167,11 @@ function esc(s){ return String(s).replace(/</g,"&lt;"); }
 var TEBRA_CAP = { ptInstructions:140, reasonForCompounding:30, pharmacyNotes:170 };
 
 function fieldTable(id, o){
+  /* o.drug is the entry to pick in the Tebra Drug Formulation drop-down; o.form is the
+     compound as written. Only o.form was rendered, so the drop-down entry each favorite
+     is built against never reached the provider. Both are shown now. */
   var rows = [
+    {k:"Tebra drop-down entry", v:o.drug || "—"},
     {k:"Drug Formulation", v:o.form || o.drug},
     {k:"Name",             v:o.label},
     {k:"Select",           v:"Allow Substitution"},
@@ -201,6 +212,16 @@ function doCopy(t,btn,restore){
   } else fb(t,ok);
 }
 
+/* Follow-up cadence per add-on category, from the Add-On Clinical Reference availability
+   matrix. The tool previously carried none of this except the NAD+ 28-day note. */
+var FOLLOWUP = {
+  "Sexual Health":"No follow-up scheduled. Advise the patient to request refills through the patient portal; the provider completes an async visit.",
+  "Hair Loss — oral":"90-day check. No routine labs.",
+  "Hair Loss — topical":"90-day check. No routine labs.",
+  "Skin Care":"As needed. No labs.",
+  "Anti-Aging":"NAD+ every 28 days. Metformin every 90 days."
+};
+
 function products(ph, sex){
   var male = (sex==="m"), P = (ph==="Premier");
   var list = [];
@@ -212,6 +233,10 @@ function products(ph, sex){
       form:"Sildenafil 50 mg / Tadalafil 10 mg / L-Arginine 90 mg / Oxytocin 0.04 mg troche",
       dose:"½ to 1 troche 30 min before sex, increase by ½ as needed. Up to 36 hours.",
       supply:"20 troches, approx. 20–40 encounters", nitrate:true,
+      note:"Sildenafil and tadalafil increase blood flow. L-Arginine reduces headache, the most common side "
+          +"effect. Oxytocin was added to the formulation in September 2026. Side effects: headache, nasal "
+          +"congestion, blurred vision, nausea, upset stomach, prolonged erection. Advise emergency care for "
+          +"an erection lasting more than 4 hours.",
       t:{drug:"Viagra 50 mg tablet (from drop-down)", form:"Sildenafil/Tadalafil/L-Arginine/Oxytocin 50/10/90/0.04mg troche", reason:"ED combination therapy", unit:"troche", label:"KORB Rise Troches (Premier Pharmacy)",
          sig:"KORB RISE Take ½ - 1 troche as needed for sex/erection", qty:"20", days:"90",
          notes:"KORB RISE compound Sildenafil 50mg/Tadalafil 10mg/L-Arginine 90mg/Oxytocin 0.04mg troches. Bill to office, ship to patient. No FDA-approved equivalent."}
@@ -220,7 +245,10 @@ function products(ph, sex){
       form:"Sildenafil 88 mg / Tadalafil 22 mg rapid ODT",
       dose:"One ODT 30 min before sex. Up to 36 hours.",
       supply:"20 ODTs", nitrate:true,
-      note:"No L-Arginine in this formulation, so headache may be more noticeable than with KORB Rise.",
+      warnAmber:"The Add-On Clinical Reference gives no price or charge code for PERFORM. $99 / INTRISE001 is "
+          +"carried over from KORB Rise here and has not been confirmed. Check with Nick before quoting.",
+      note:"No L-Arginine in this formulation, so headache may be more noticeable than with KORB Rise. "
+          +"Advise emergency care for an erection lasting more than 4 hours.",
       t:{drug:"Viagra 50 mg tablet (from drop-down)", form:"Sildenafil/Tadalafil 88/22mg rapid ODT", reason:"ED combination therapy", unit:"tablet", label:"PERFORM Rapid ODT (Farmakeio)",
          sig:"PERFORM Rapid ODT: Take one ODT 30 minutes before sex as needed for sex/erection", qty:"20", days:"90",
          notes:"PERFORM Rapid ODT compound Sildenafil 88 mg, Tadalafil 22 mg/ODT Tablet, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"}
@@ -266,7 +294,8 @@ function products(ph, sex){
   list.push({
     cat:"Hair Loss — topical", name: P ? "Topical foam" : "Topical spray", price:"$149", code:"AGEHairFOreg",
     form: actives + (P ? " — 60 mL foam" : " — 30 mL spray, 120 sprays"),
-    dose:"Apply 1 to 2 to dry hair once daily",
+    dose:"Apply 1 to 2 "+(P?"pumps":"sprays")+" to dry hair once daily"
+        +(P?"":", leave on at least 4 hours or overnight"),
     supply: P ? "42 days at 2/day, up to 85 at 1/day" : "60 days at 2/day, up to 120 at 1/day",
     warnAmber:"Days field is "+(P?"42":"60")+", not 90. This product does not last 90 days at two applications daily.",
     t:{drug: male ? (P?"minoxidiL 5% topical solution (from drop-down)":"Hair Regrowth Treatment 5 % topical solution (from drop-down)")
@@ -296,7 +325,14 @@ function products(ph, sex){
   list.push({
     cat:"Anti-Aging", name:"Metformin ER 500 mg", price:"$99", code:"AGEMETF009",
     form:"Metformin ER 500 mg tablet", dose:"One tablet daily", supply:"90 tablets, 90 days",
-    warn:"Not contraindication-free. Screen for eGFR under 30, unstable heart failure, severe hepatic impairment, heavy alcohol use, and metabolic acidosis. Boxed warning for lactic acidosis. Hold around contrast imaging and surgery.",
+    warn:"Do not prescribe with eGFR under 30. Do not initiate between 30 and 45. Also screen for acute or unstable heart failure or any state causing tissue hypoxia, severe hepatic impairment, heavy or binge alcohol use, and metabolic acidosis of any cause. Boxed warning for lactic acidosis. Hold before and after iodinated contrast imaging or surgery.",
+    monitor:[
+      "Baseline: eGFR, hepatic function, and a vitamin B12 level. A longevity indication has no endpoint, so treat this as long-term therapy from day one.",
+      "eGFR: annually at 60 or above, every 3 to 6 months at 45 to 60, every 3 months at 30 to 45 with a 50% dose reduction (FDA).",
+      "Vitamin B12: ADA Standards of Care 2026 recommendation 3.10 (grade B) is periodic assessment on long-term metformin, especially with anemia or peripheral neuropathy. Annual is reasonable past 4 years of therapy or with independent risk factors. Deficiency is below 148 pmol/L, borderline below 200; methylmalonic acid or holotranscobalamin resolve an equivocal level.",
+      "KORB doses 500 mg ER daily, below the 1,500 mg/day threshold where B12 risk rises most sharply, but duration is the other driver and a longevity course is indefinite."
+    ],
+    warnAmber:"Blunts training adaptations. In the MASTERS trial (randomized, double-blind, placebo-controlled, 94 adults 65+, 14 weeks of progressive resistance training) metformin 1,700 mg/day produced smaller gains than placebo in lean body mass (p=.003), thigh muscle mass (p<.001) and thigh muscle area (p=.005). A companion trial found blunted mitochondrial adaptations to aerobic training. Those doses are well above KORB's 500 mg ER, so the size of the effect here is unknown, but raise it with any patient whose goal is strength or performance, including gym-partner referrals.",
     note:"Patient will not feel noticeably different. Set that expectation. Side effects: nausea, upset stomach, headache, fatigue, mild hypoglycaemia symptoms.",
     t:{drug:"metFORMIN ER 500 mg tablet, extended release 24 hr (from drop-down)",
        form:"Metformin ER 500 mg tablet", unit:"tablet",
@@ -353,11 +389,28 @@ function render(){
   var inP=PREMIER.indexOf(st)>-1, inF=FKO.indexOf(st)>-1;
 
   if(!inP && !inF){
-    out.innerHTML='<div class="route block"><div class="k">No add-ons available</div>'+
-      '<div class="v">'+stName(st)+'</div><div class="s">Neither Premier nor FarmaKeio is licensed to ship to '+STATE_NAME[st]+
-      '. Belmar and Empower serve this state but do not source any add-on product. There is no workaround.</div></div>'+
-      '<div class="box red"><b>Do not offer an add-on to this patient.</b> No sexual health, hair loss, or skin '+
-      'care product can be filled. Raising it and then withdrawing it is worse than not raising it.</div>';
+    /* PT-141 and the Belmar NAD+ forms are the exceptions: Belmar ships to all 50 states
+       and DC, so this is not a no-add-on state. Previously this branch told the provider
+       nothing could be filled here, which is wrong for those products. */
+    out.innerHTML='<div class="route block"><div class="k">Compounded add-ons unavailable</div>'+
+      '<div class="v">'+stName(st)+'</div><div class="s">Neither Premier nor FarmaKeio ships to '+STATE_NAME[st]+
+      ', so no sexual health troche or topical, hair loss product or skin care cream can be filled here.</div></div>'+
+      '<div class="box red"><b>Do not offer KORB Rise, PERFORM, KORB Electric, hair loss or skin care to this '+
+      'patient.</b> This is a sourcing limitation with no workaround. Raising it and then withdrawing it is '+
+      'worse than not raising it.</div>'+
+      '<div class="box amber"><b>Two add-ons are available here, both from Belmar.</b> Belmar ships to all 50 '+
+      'states and DC and is the only pharmacy that will ship anything into California. Pricing has been '+
+      'vetted for these two and no others:'+
+      '<ul style="margin:8px 0 0 18px;">'+
+      '<li><b>PT-141</b> — nasal spray 5 mg/mL, 15 mL bottle, one spray in each nostril 1 to 2 hours before '+
+      'activity. 28-day supply. $119 as an add-on (WMN141add) or $149 standalone (WMN141reg).</li>'+
+      '<li><b>NAD+</b> — Belmar nasal spray or FastSL sublingual. 28-day supply, $179 (AGENAV2001).</li>'+
+      '</ul>'+
+      'This tool does not yet carry Tebra favorite fields for either, so build the prescription from the '+
+      'Add-On Clinical Reference.</div>'+
+      '<div class="box teal"><b>Why nothing else.</b> Belmar\'s add-on pricing does not fit KORB\'s patient '+
+      'pricing once shipping is added, so the rest would be dispensed at a loss. This is a cost decision, '+
+      'not a licensure one, and it is under review.</div>';
     return;
   }
 
@@ -377,7 +430,14 @@ function render(){
        (inP?' unless you route them back to Premier.':' at all.')+'</div>';
   }
 
+  h+='<div class="box amber"><b>PT-141 is not in this tool.</b> The Add-On Clinical Reference lists it as a '+
+     'sexual health add-on for both sexes across all programs (Premier injection, Belmar nasal spray, 28-day '+
+     'supply, $119 add-on / WMN141add or $149 standalone / WMN141reg). It does not follow the 90-day cadence '+
+     'and is not scheduled alongside quarterly refills. Build it from the reference until it is added here.</div>';
+
   h+='<div class="sec">Available for '+prog+' · '+stName(st)+'</div>';
+
+  var onHormoneTherapy = (prog==="Women's Health");
 
   products(ph, sex).forEach(function(p,i){
     h+='<div class="card"><div class="chdr"><strong>'+esc(p.name)+'</strong>'+
@@ -387,11 +447,25 @@ function render(){
        '<tr><td class="l">Dosing</td><td>'+esc(p.dose)+'</td></tr>'+
        '<tr><td class="l">Supply</td><td>'+esc(p.supply)+'</td></tr>'+
        '<tr><td class="l">Price / code</td><td>'+p.price+' &middot; '+p.code+'</td></tr>'+
+       (FOLLOWUP[p.cat]?'<tr><td class="l">Follow-up</td><td>'+esc(FOLLOWUP[p.cat])+'</td></tr>':'')+
        '</table>';
     if(p.warn)      h+='<div class="box red"><b>'+esc(p.warn)+'</b></div>';
     if(p.warnAmber) h+='<div class="box amber"><b>'+esc(p.warnAmber)+'</b></div>';
+    if(p.monitor)   h+='<div class="box teal"><b>Screening and monitoring.</b><ul style="margin:6px 0 0 18px;">'+
+                       p.monitor.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';
     if(p.nitrate)   h+='<div class="box red"><b>Confirm the patient is not taking nitrates.</b> Ask directly. '+
                        'Nitrates with this product can cause a life-threatening drop in blood pressure.</div>';
+    /* The program field was collected and never used. It is used here for the one
+       interaction the reference calls out by program. */
+    if(onHormoneTherapy && /estriol|Combo cream/i.test(p.name+" "+p.form))
+      h+='<div class="box amber"><b>This patient is in Women\'s Health and may already be on hormone therapy.</b> '+
+         'This product contains estriol. Reconcile it against her hormone plan before adding it, count it '+
+         'toward her ingredient tier if it is part of that plan, and counsel on breast tenderness and '+
+         'bleeding.</div>';
+    if(/Hair Loss/i.test(p.cat))
+      h+='<div class="box teal"><b>Hair loss products are for patients 18 and older.</b> This tool does not '+
+         'collect age; confirm it before prescribing. Counsel that both oral agents take 3 to 6 months to '+
+         'show results.</div>';
     if(p.note)      h+='<div class="box teal">'+esc(p.note)+'</div>';
     h+='<div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'+
        '<span style="font-size:12.5px;font-weight:700;color:var(--navy);">Tebra Compounded Drug Favorite</span>'+
@@ -399,8 +473,6 @@ function render(){
        fieldTable('tb'+i, p.t);
     h+='</div></div>';
   });
-
-  if(ph==="Premier" && !inF){ /* not possible with current lists, kept for future sourcing changes */ }
 
   h+='<div class="box teal"><b>Documentation.</b> Record the add-on in the chart and add it to the CC section. '+
      'For any sexual health product, document that nitrate use was asked about and excluded. For hair loss and '+

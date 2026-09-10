@@ -174,10 +174,24 @@ function render(){
 
   var h='<div class="route"><div class="k">Route to</div><div class="v">'+ph+'</div><div class="s">'+why+'</div></div>';
 
+  if(ph==="Belmar"){
+    h+='<div class="box amber"><b>Belmar has several locations. KORB uses the ARIZONA address.</b> '
+     + '12012 N 111th Ave, Youngtown, AZ 85363-1339. Confirm that is the Belmar selected in Tebra before '
+     + 'sending, because another Belmar location will be wrong.</div>';
+  }
+
   if(pick.some(function(x){return x.id==="test";})){
     if(TEST_STATES[st]){
       h+='<div class="box red"><b>Prescriber restriction.</b> In '+STATE_NAME[st]+', testosterone may only be '
        + 'prescribed by <b>'+TEST_STATES[st]+'</b>. If that is not you, do not send this prescription.</div>';
+      /* Women's testosterone comes from Belmar, except Texas, which comes from Premier.
+         The Clinical Reference line "Belmar is not used for women's testosterone" is out of
+         date; Don confirmed Belmar is the source 2026-09-10. Texas is Premier only. */
+      if(ins==="partner"){
+        h+='<div class="box teal"><b>Testosterone source: '+(st==="TX"?"Premier":"Belmar")+'.</b> '
+         + 'Women\'s health testosterone comes from Belmar, except in Texas, where it comes from Premier. '
+         + 'Never to a local pharmacy.</div>';
+      }
     } else {
       h+='<div class="box red"><b>Testosterone is not available in '+STATE_NAME[st]+'.</b> It is offered in '
        + 'Texas and California only, because those are the only states where a KORB provider holds the '
@@ -194,7 +208,9 @@ function render(){
      + 'progesterone causes endometrial hyperplasia and can lead to cancer. Add progesterone before sending '
      + 'this prescription.</div>';
   } else if(ut==="yes"&&hasE2&&hasProg){
-    h+='<div class="box green"><b>Endometrial protection in place.</b> Progesterone is included alongside estrogen.</div>';
+    h+='<div class="box green"><b>Progesterone is included alongside estrogen.</b> Check the dose as well as '
+     + 'the presence: protection is written against 200 mg nightly, increasing to 300 mg if needed. The oral '
+     + 'four-hormone capsule supplies 100 mg, which is a starting dose only.</div>';
   }
 
   /* local pharmacy restrictions */
@@ -211,21 +227,53 @@ function render(){
      + 'Insurance tier is $79 (WMNHlthINS).</div>';
   }
 
-  /* pricing tier — counts ingredients */
+  /* pricing tier — counts ingredients.
+     On the insurance route the ingredient tiers do not apply at all: the charge is the
+     flat insurance tier. Rendering both at once put two different prices on screen. */
   var n=pick.length;
-  var t=TIERS[n];
-  h+='<div class="tier"><div class="k">Pricing tier — ingredients counted</div>'
-   + '<div class="v">'+(t?t.p:"No tier")+'</div>'
-   + '<div class="s">'+n+' ingredient'+(n===1?"":"s")+': '+pick.map(function(x){return x.name;}).join(" + ")
-   + (t?'  &middot;  '+t.c:'')+'</div></div>';
-  if(n===4){
-    h+='<div class="box teal"><b>Four actives, billed at the three-ingredient tier.</b> This combination is '
-     + 'only reachable through the oral four-hormone capsule, which bills at $299 (WMNHlth3).</div>';
-  } else if(!t){
-    h+='<div class="box amber"><b>'+n+' ingredients has no tier.</b> Confirm pricing with Nick before quoting.</div>';
+  if(ins==="local"){
+    h+='<div class="tier"><div class="k">Pricing tier — insurance route</div>'
+     + '<div class="v">$79</div>'
+     + '<div class="s">WMNHlthINS &middot; 90-day supply to the patient\'s local pharmacy</div></div>'
+     + '<div class="box teal"><b>Ingredient tiers do not apply on the insurance route.</b> The $220 / $250 / '
+     + '$299 tiers cover the visit, a 90-day supply and shipping from a partner pharmacy. A patient using '
+     + 'insurance is billed the flat insurance tier instead.</div>';
+  } else {
+    var t=TIERS[n];
+    h+='<div class="tier"><div class="k">Pricing tier — ingredients counted</div>'
+     + '<div class="v">'+(t?t.p:"No tier")+'</div>'
+     + '<div class="s">'+n+' ingredient'+(n===1?"":"s")+': '+pick.map(function(x){return x.name;}).join(" + ")
+     + (t?'  &middot;  '+t.c:'')+'</div></div>';
+    if(n===4){
+      h+='<div class="box teal"><b>Four actives, billed at the three-ingredient tier.</b> This combination is '
+       + 'only reachable through the oral four-hormone capsule, which bills at $299 (WMNHlth3).</div>'
+       + '<div class="box red"><b>The oral capsule raises clot risk relative to transdermal routes.</b> Oral '
+       + 'estrogen passes through the liver first, which transdermal does not. Weigh this before choosing the '
+       + 'oral route, particularly in a patient with any cardiovascular or clotting history.</div>'
+       + '<div class="box amber"><b>Progesterone in this capsule is 100 mg, which is a starting dose.</b> '
+       + 'That is the established starting point for this capsule and it may not be enough on its own. The '
+       + 'program standard for endometrial protection is 200 mg nightly, increasing to 300 mg if needed, so '
+       + 'in a patient with a uterus plan to reassess and titrate rather than treating 100 mg as the '
+       + 'maintenance dose. This starting dose is one of the items being re-evaluated in the program update '
+       + 'with Dr. Rose. The capsule also contains testosterone, so the prescriber restriction applies.</div>';
+    } else if(!t){
+      h+='<div class="box amber"><b>'+n+' ingredients has no tier.</b> Confirm pricing with Nick before quoting.</div>';
+    }
+    h+='<div class="box teal"><b>Tiers count ingredients, not prescriptions.</b> A single compounded cream with '
+     + 'three hormones is a three-ingredient charge.</div>'
+     + '<div class="box amber"><b>This code is medication only.</b> If the patient elects Ayumetrix labs, the '
+     + 'tier code above is replaced by the bundled code, not billed alongside it: Basic '
+     + '$339 / $369 / $418 (WMNHlth1Bsc / 2Bsc / 3Bsc), Complete $469 / $499 / $548 '
+     + '(WMNHlth1Cmp / 2Cmp / 3Cmp). Standalone panels are $119 (LABHlthBsc) and $249 (LABHlthCmp).</div>';
   }
-  h+='<div class="box teal"><b>Tiers count ingredients, not prescriptions.</b> A single compounded cream with '
-   + 'three hormones is a three-ingredient charge. Labs, if the patient elects them, are priced separately.</div>';
+
+  /* estradiol: the patch is not stocked at Belmar, so in the 13 non-Premier states the
+     partner route is cream only. The hormone list says "patch or cream" for every state. */
+  if(ins==="partner"&&!inP&&pick.some(function(x){return x.id==="e2";})){
+    h+='<div class="box amber"><b>No estradiol patch through Belmar.</b> The patch is stocked by Premier and '
+     + 'local pharmacies only. In '+STATE_NAME[st]+' the partner route is <b>cream</b>. If this patient needs '
+     + 'a patch, the only route is a local pharmacy on insurance at the $79 tier.</div>';
+  }
 
   /* strengths that differ by pharmacy */
   if(ins==="partner"&&pick.some(function(x){return x.id==="e2";})){
@@ -241,9 +289,15 @@ function render(){
   /* progesterone quantity */
   if(hasProg){
     h+='<div class="card"><div class="chdr"><strong>Progesterone quantity</strong></div><div class="cbody">'
+     + '<div class="box teal"><b>Start at 200 mg nightly, increase to 300 mg if needed.</b> Taken at night, '
+     + 'where it supports sleep. 300 mg is only available compounded; the commercial equivalent is one '
+     + '200 mg plus one 100 mg capsule.</div>'
      + '<table class="d"><tr><th>Patient</th><th>Schedule</th><th>Per 90 days</th></tr>'
      + '<tr><td>Still cycling</td><td>21 on, 7 off</td><td><b>67 capsules</b></td></tr>'
      + '<tr><td>Postmenopausal</td><td>Daily</td><td><b>90 capsules</b></td></tr></table>'
+     + '<div class="box amber"><b>These counts are one capsule per day.</b> On 300 mg via the commercial '
+     + 'route the patient takes two capsules a night, so the quantity doubles to 134 or 180 per 90 days. '
+     + 'A compounded 300 mg capsule stays at 67 or 90.</div>'
      + '<div class="box red"><b>Do not use with a peanut allergy.</b></div>'
      + (ph==="Premier"
         ? '<div class="box amber"><b>Premier stocks both commercial and compounded progesterone.</b> State '
@@ -251,9 +305,16 @@ function render(){
      + '</div></div>';
   }
 
-  if(ins==="partner"&&pick.some(function(x){return x.compounded;})){
-    h+='<div class="box amber"><b>Medical Necessity Statement required.</b> This plan includes a compounded '
-     + 'product. Include the statement with the prescription.</div>';
+  /* The compounded flag marks products with no commercial form at all, which is what the
+     local-pharmacy block needs. The Medical Necessity Statement is wider than that: it
+     applies to any compounded preparation, and estradiol cream and compounded progesterone
+     both qualify even though each has a commercial alternative. */
+  if(ins==="partner"){
+    h+='<div class="box amber"><b>Medical Necessity Statement required for any compounded item in this plan.</b> '
+     + 'Belmar raised this for estradiol cream specifically, but it applies to every compounded preparation, '
+     + 'including testosterone cream, estriol, estradiol cream and compounded progesterone. A commercial '
+     + 'estradiol patch or commercial progesterone capsule does not need one. Include the statement with the '
+     + 'prescription.</div>';
   }
 
   /* plan text */
