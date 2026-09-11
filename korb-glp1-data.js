@@ -4814,6 +4814,15 @@ var KORB_GLP1 = {
     var out = [];
     for (var k in KORB_GLP1.pharmacies) {
       if (!KORB_GLP1.pharmacies.hasOwnProperty(k)) continue;
+      /* A pharmacy retired from the GLP-1 line is omitted from the list, not
+         returned greyed out. Showing it disabled was the first approach and it
+         was wrong: a greyed row still puts the name in front of a provider on a
+         GLP-1 screen, and the rule is that Greenwich appears nowhere on GLP-1.
+         checkPharmacyForState still answers 'error' for it, so anything that
+         asks about it directly gets a reason rather than silence.
+         Changed 2026-09-11 at Don's direction. */
+      var phr = KORB_GLP1.pharmacies[k];
+      if (phr.status === 'glp1-retired' || (phr.glp1Retired && phr.glp1Retired.retired)) continue;
       var check = KORB_GLP1.checkPharmacyForState(k, stateCode);
       out.push({
         key: k,
