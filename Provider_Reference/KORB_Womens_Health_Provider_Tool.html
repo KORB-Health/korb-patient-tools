@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <title>KORB — Women's Health Provider Tool</title>
 <style>
 :root{--navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--bd:#D6E0E3;--mu:#5A6070;--cream:#ECE9D1;
  --amber:#FFF8E1;--amberbd:#F9A825;--gb:#F8F9FA;--red:#C62828;--redbg:#FDECEA;--green:#2E7D32;--greenbg:#E8F5E9;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{-webkit-text-size-adjust:100%;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:15px;
+body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:15px;
  color:#1A1A2E;background:#fff;line-height:1.55;}
 .wrap{max-width:920px;margin:0 auto;padding:18px 14px 64px;}
 .top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;
@@ -53,11 +54,22 @@ table.d th{background:var(--cream);color:var(--navy);text-align:left;padding:8px
  border-bottom:1.5px solid var(--bd);}
 table.d td{padding:8px 9px;border-bottom:1px solid var(--bd);vertical-align:top;}
 .copybox{background:var(--gb);border:1px solid var(--bd);border-radius:8px;padding:13px 14px;
- font-family:"Courier New",monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;
+ font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;
  overflow-wrap:anywhere;margin-top:10px;}
 .copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;min-height:40px;padding:8px 18px;
  font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;}
 .copybtn.done{background:var(--green);color:#fff;}
+/* Charge code as its own chip with a copy button, matching the GLP-1 tool and
+   the Optimization Products selector. The code used to run into the price on
+   one line, so billing had to select it by hand. */
+.codewrap{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:9px;
+ justify-content:center;}
+.code-chip{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:13px;
+ font-weight:600;background:var(--cream);color:var(--navy);border:1px solid var(--bd);
+ border-radius:6px;padding:4px 9px;letter-spacing:.3px;}
+.cbtn{background:var(--teal);color:var(--navy);border:0;border-radius:16px;min-height:32px;
+ padding:5px 12px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;}
+.cbtn.done{background:var(--green);color:#fff;}
 .card{border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:14px;}
 .chdr{background:var(--navy);color:#fff;padding:11px 15px;display:flex;justify-content:space-between;
  align-items:center;gap:10px;flex-wrap:wrap;}
@@ -66,20 +78,36 @@ table.d td{padding:8px 9px;border-bottom:1px solid var(--bd);vertical-align:top;
 .empty{border:1.5px dashed var(--bd);border-radius:10px;padding:30px 18px;text-align:center;color:var(--mu);}
 footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size:12px;color:var(--mu);
  text-align:center;line-height:1.75;}
+
+/* Shared KORB provider masthead — same on every tool in the set. */
+.korb-top{background:var(--navy);color:#fff;border-bottom:4px solid var(--teal);
+ padding:20px 16px 18px;margin:0 0 20px;}
+.korb-top .inner{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;
+ align-items:flex-start;flex-wrap:wrap;gap:12px;}
+.korb-top .eyebrow{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--teal);
+ text-transform:uppercase;margin-bottom:5px;}
+.korb-top h1{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.15;}
+.korb-top p{font-size:13px;color:#C3CBE8;margin-top:6px;max-width:60ch;}
+.korb-top .tagpill{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;
+ font-size:10px;font-weight:800;letter-spacing:.9px;padding:7px 13px;border-radius:20px;
+ white-space:nowrap;align-self:center;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="top">
-    <div>
-      <h1>Women's Health Provider Tool</h1>
-      <p>Pharmacy routing, ingredient-based pricing tier, and the pharmacy-specific strengths that change
-         when you switch a patient between Premier and Belmar.</p>
-    </div>
-    <div class="tag">PROVIDER USE ONLY</div>
-  </div>
 
-  <div class="panel">
+<header class="korb-top">
+  <div class="inner">
+    <div>
+      <div class="eyebrow">KORB Health Medical Texas PA</div>
+      <h1>Women's Health Provider Tool</h1>
+      <p>Pharmacy routing, ingredient-based pricing tier, and the pharmacy-specific strengths that change when you switch a patient between Premier and Belmar.</p>
+    </div>
+    <div class="tagpill">PROVIDER USE ONLY</div>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="panel">
     <div class="grid">
       <div class="f">
         <label for="st">Patient state</label>
@@ -138,6 +166,34 @@ var HORMONES=[
  {id:"test", name:"Testosterone", note:"cream, compounded only", compounded:true},
  {id:"estr", name:"Estriol",      note:"only in the oral four-hormone capsule", compounded:true}
 ];
+function codeChip(code, id){
+  return '<div class="codewrap"><span class="code-chip" id="'+id+'">'+code+'</span>'
+       + '<button type="button" class="cbtn" onclick="copyCode(this,\''+id+'\')">Copy code</button></div>';
+}
+
+/* What each partner pharmacy actually offers. This used to live in a single
+   table showing both pharmacies at once, under a "Dispensing route" control
+   that lumped them together as "Premier or Belmar". A provider then had to
+   work out which row applied to the patient in front of them. The routed
+   pharmacy's own offering is now the primary card and the other pharmacy
+   appears only as a switching caution. */
+var PH_OFFERS = {
+  Premier: {
+    estradiolCream: ["0.2% (0.5 mg/click)", "0.6% (1.5 mg/click)"],
+    estradiolPatch: true,
+    progesterone: "Both commercial and compounded. State which you want.",
+    testosterone: "Texas only, and restricted to named prescribers.",
+    note: null
+  },
+  Belmar: {
+    estradiolCream: ["0.2% (0.5 mg/click)", "0.4% (1 mg/click)", "0.8% (2 mg/click)"],
+    estradiolPatch: false,
+    progesterone: "Compounded only.",
+    testosterone: "All states except Texas.",
+    note: null   /* the Belmar address warning is rendered with the routing block */
+  }
+};
+
 var TIERS={1:{p:"$220",c:"WMNHlth1"},2:{p:"$250",c:"WMNHlth2"},3:{p:"$299",c:"WMNHlth3"},
            4:{p:"$299",c:"WMNHlth3"}};   // 4 actives bill at the 3-ingredient tier
 var TEST_STATES={TX:"Don Stevenson", CA:"Larisa or LaTonya"};
@@ -234,7 +290,8 @@ function render(){
   if(ins==="local"){
     h+='<div class="tier"><div class="k">Pricing tier — insurance route</div>'
      + '<div class="v">$79</div>'
-     + '<div class="s">WMNHlthINS &middot; 90-day supply to the patient\'s local pharmacy</div></div>'
+     + '<div class="s">90-day supply to the patient\'s local pharmacy</div>'
+     + codeChip("WMNHlthINS","tc0")+'</div>'
      + '<div class="box teal"><b>Ingredient tiers do not apply on the insurance route.</b> The $220 / $250 / '
      + '$299 tiers cover the visit, a 90-day supply and shipping from a partner pharmacy. A patient using '
      + 'insurance is billed the flat insurance tier instead.</div>';
@@ -242,8 +299,8 @@ function render(){
     var t=TIERS[n];
     h+='<div class="tier"><div class="k">Pricing tier — ingredients counted</div>'
      + '<div class="v">'+(t?t.p:"No tier")+'</div>'
-     + '<div class="s">'+n+' ingredient'+(n===1?"":"s")+': '+pick.map(function(x){return x.name;}).join(" + ")
-     + (t?'  &middot;  '+t.c:'')+'</div></div>';
+     + '<div class="s">'+n+' ingredient'+(n===1?"":"s")+': '+pick.map(function(x){return x.name;}).join(" + ")+'</div>'
+     + (t?codeChip(t.c,"tc1"):'')+'</div>';
     if(n===4){
       h+='<div class="box teal"><b>Four actives, billed at the three-ingredient tier.</b> This combination is '
        + 'only reachable through the oral four-hormone capsule, which bills at $299 (WMNHlth3).</div>'
@@ -275,15 +332,41 @@ function render(){
      + 'a patch, the only route is a local pharmacy on insurance at the $79 tier.</div>';
   }
 
-  /* strengths that differ by pharmacy */
-  if(ins==="partner"&&pick.some(function(x){return x.id==="e2";})){
-    h+='<div class="card"><div class="chdr"><strong>Estradiol cream strengths — '+ph+'</strong></div><div class="cbody">'
-     + '<table class="d"><tr><th>Pharmacy</th><th>Available strengths</th></tr>'
-     + '<tr><td>Premier</td><td>0.2% (0.5 mg/click), 0.6% (1.5 mg/click)</td></tr>'
-     + '<tr><td>Belmar</td><td>0.2% (0.5 mg/click), 0.4% (1 mg/click), 0.8% (2 mg/click)</td></tr></table>'
-     + '<div class="box amber"><b>Only 0.2% exists at both pharmacies.</b> If you move this patient between '
-     + 'Premier and Belmar, re-select the strength and recalculate the dose in mg. Do not assume the '
-     + 'percentage carries across.</div></div></div>';
+  /* What this pharmacy offers. The two pharmacies used to share one table, so
+     the provider had to pick their own row out of it. The routed pharmacy's
+     offering is the card; the other pharmacy appears below it only as the
+     switching caution, because that is the only time it matters. */
+  if(ins==="partner"){
+    var mine=PH_OFFERS[ph], other=PH_OFFERS[ph==="Premier"?"Belmar":"Premier"],
+        otherName=(ph==="Premier"?"Belmar":"Premier"), rows="";
+
+    if(pick.some(function(x){return x.id==="e2";})){
+      rows+='<tr><td>Estradiol cream</td><td>'+mine.estradiolCream.join("<br>")+'</td></tr>'
+          + '<tr><td>Estradiol patch</td><td>'+(mine.estradiolPatch?"Stocked":"Not stocked — cream only on this route")+'</td></tr>';
+    }
+    if(hasProg) rows+='<tr><td>Progesterone</td><td>'+mine.progesterone+'</td></tr>';
+    if(pick.some(function(x){return x.id==="test";}))
+      rows+='<tr><td>Testosterone</td><td>'+mine.testosterone+'</td></tr>';
+
+    if(rows){
+      h+='<div class="card"><div class="chdr"><strong>What '+ph+' offers for this patient</strong></div>'
+       + '<div class="cbody"><table class="d"><tr><th>Hormone</th><th>Available at '+ph+'</th></tr>'
+       /* The Belmar address warning is already rendered with the routing block
+          above; repeating it here would put it on screen twice. */
+       + rows+'</table></div></div>';
+
+      /* The switching caution, and only the part of it that differs. */
+      if(pick.some(function(x){return x.id==="e2";})){
+        var shared=mine.estradiolCream.filter(function(s){ return other.estradiolCream.indexOf(s)>-1; });
+        h+='<div class="box amber"><b>Estradiol cream strengths do not carry across pharmacies.</b> '
+         + otherName+' stocks '+other.estradiolCream.join(", ")+'. '
+         + (shared.length
+            ? 'Only '+shared.join(" and ")+' exists at both. '
+            : 'No strength is common to both. ')
+         + 'If you move this patient to '+otherName+', re-select the strength and recalculate the dose in mg. '
+         + 'Do not assume the percentage carries across.</div>';
+      }
+    }
   }
 
   /* progesterone quantity */
@@ -342,10 +425,12 @@ function render(){
 
   out.innerHTML=h;
 }
-function cp(btn,id){
-  var t=document.getElementById(id).innerText;
+function cp(btn,id){ doCopy(document.getElementById(id).innerText, btn, "Copy plan"); }
+/* Copies the charge code alone, not the price and ingredient list beside it. */
+function copyCode(btn,id){ doCopy(document.getElementById(id).innerText, btn, "Copy code"); }
+function doCopy(t,btn,restore){
   function ok(){btn.textContent="Copied";btn.classList.add("done");
-    setTimeout(function(){btn.textContent="Copy plan";btn.classList.remove("done");},1500);}
+    setTimeout(function(){btn.textContent=restore;btn.classList.remove("done");},1500);}
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(t).then(ok,function(){fb(t,ok);});
   } else fb(t,ok);

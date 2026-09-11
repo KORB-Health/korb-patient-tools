@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <title>KORB — TRT Provider Tool</title>
 <style>
 :root{
@@ -12,7 +13,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{-webkit-text-size-adjust:100%;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
  font-size:15px;color:#1A1A2E;background:#fff;line-height:1.55;}
 .wrap{max-width:960px;margin:0 auto;padding:18px 14px 64px;}
 
@@ -72,7 +73,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,san
 .info-box.green{background:var(--greenbg);border:1px solid var(--green);}
 
 .copybox{position:relative;background:var(--gb);border:1px solid var(--bd);border-radius:8px;
-  padding:14px 15px;font-family:"Courier New",Courier,monospace;font-size:12px;line-height:1.75;
+  padding:14px 15px;font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:12px;line-height:1.75;
   white-space:pre-wrap;overflow-wrap:anywhere;color:#1A1A2E;margin-top:4px;}
 .copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;
   min-height:42px;padding:9px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;}
@@ -97,6 +98,10 @@ table.fld td.b{width:74px;text-align:right;}
 .cbtn{background:var(--teal);color:var(--navy);border:0;border-radius:16px;min-height:32px;
  padding:5px 13px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;}
 .cbtn.done{background:var(--green);color:#fff;}
+.codewrap{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.code-chip{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:13px;
+ font-weight:600;background:var(--cream);color:var(--navy);border:1px solid var(--bd);
+ border-radius:6px;padding:4px 9px;letter-spacing:.3px;}
 .cc{display:block;font-size:10.5px;color:var(--mu);margin-top:3px;}
 .cc.over{color:var(--red);font-weight:800;}
 @media(max-width:520px){
@@ -107,21 +112,36 @@ table.fld td.b{width:74px;text-align:right;}
 footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu);
   text-align:center;line-height:1.8;}
 
+
+/* Shared KORB provider masthead — same on every tool in the set. */
+.korb-top{background:var(--navy);color:#fff;border-bottom:4px solid var(--teal);
+ padding:20px 16px 18px;margin:0 0 20px;}
+.korb-top .inner{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;
+ align-items:flex-start;flex-wrap:wrap;gap:12px;}
+.korb-top .eyebrow{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--teal);
+ text-transform:uppercase;margin-bottom:5px;}
+.korb-top h1{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.15;}
+.korb-top p{font-size:13px;color:#C3CBE8;margin-top:6px;max-width:60ch;}
+.korb-top .tagpill{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;
+ font-size:10px;font-weight:800;letter-spacing:.9px;padding:7px 13px;border-radius:20px;
+ white-space:nowrap;align-self:center;}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="top-bar">
+<header class="korb-top">
+  <div class="inner">
     <div>
+      <div class="eyebrow">KORB Health Medical Texas PA</div>
       <h1>TRT Provider Tool</h1>
-      <p>Visit timing, refill release dates, dosing, and Tebra fields for testosterone cypionate.
-         Enter the exam date and the PMP last fill date to get the whole schedule.</p>
+      <p>Visit timing, refill release dates, dosing, and Tebra fields for testosterone cypionate. Enter the exam date and the PMP last fill date to get the whole schedule.</p>
     </div>
-    <div class="badge-internal">PROVIDER USE ONLY</div>
+    <div class="tagpill">PROVIDER USE ONLY</div>
   </div>
+</header>
 
-  <div class="controls">
+<div class="wrap">
+<div class="controls">
     <div class="ctrl-grid">
       <div class="cg">
         <label for="examDate">Exam / appointment date</label>
@@ -212,6 +232,23 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
   <div class="info-box teal">
     Order the full panel at baseline and at each follow-up. Draw testosterone at trough, on an injection
     day before the dose is given. A peak draw will read high and hide a symptomatic trough.
+  </div>
+
+  <div class="sec">Pricing &amp; Charge Codes</div>
+  <div class="tablewrap"><table class="ref">
+    <thead><tr><th>Item</th><th>Price</th><th>Charge code</th></tr></thead>
+    <tbody>
+      <tr><td>Initial TRT labs</td><td>$99</td>
+          <td><span class="codewrap"><span class="code-chip" id="ccTRTlab">FITTRTQ100</span>
+              <button type="button" class="cbtn" onclick="copyCode(this,'ccTRTlab')">Copy code</button></span></td></tr>
+      <tr><td>Quarterly TRT &mdash; visit, medication, shipping</td><td>$399</td>
+          <td><span class="codewrap"><span class="code-chip" id="ccTRTqtr">FITTRTQ001</span>
+              <button type="button" class="cbtn" onclick="copyCode(this,'ccTRTqtr')">Copy code</button></span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="info-box teal">
+    KORB does not accept insurance. Compounded medications are not FDA-approved for these specific uses.
+    Add-on pricing is held in the Optimization Products tool so it is maintained in one place.
   </div>
   <div class="info-box amber">
     <b>SHBG and free testosterone are not in this panel.</b> The move to SQ three times weekly is written
@@ -364,6 +401,8 @@ function copyAll(btn, tableId){
   }
   doCopy(out.join("\n"), btn, "Copy all fields");
 }
+/* Charge code copy, same pattern as the other tools. */
+function copyCode(btn,id){ doCopy(document.getElementById(id).innerText, btn, "Copy code"); }
 function doCopy(text, btn, restore){
   function ok(){ btn.textContent="Copied"; btn.classList.add("done");
     setTimeout(function(){ btn.textContent=restore; btn.classList.remove("done"); },1500); }

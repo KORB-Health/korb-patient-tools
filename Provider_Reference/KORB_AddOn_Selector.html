@@ -3,21 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KORB — Add-On Selector</title>
+<title>KORB — Optimization Products</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
-:root{--navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--bd:#D6E0E3;--mu:#5A6070;--cream:#ECE9D1;
+:root{--navy:#21275B;--navy-deep:#1A1F4A;--teal:#00B2C3;--lt:#E0F6F9;--bd:#D6E0E3;--mu:#5A6070;--cream:#ECE9D1;
  --amber:#FFF8E1;--amberbd:#F9A825;--gb:#F8F9FA;--red:#C62828;--redbg:#FDECEA;--green:#2E7D32;--greenbg:#E8F5E9;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{-webkit-text-size-adjust:100%;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
  font-size:15px;color:#1A1A2E;background:#fff;line-height:1.55;}
-.wrap{max-width:900px;margin:0 auto;padding:18px 14px 64px;}
-.top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;
- padding-bottom:13px;border-bottom:2.5px solid var(--teal);margin-bottom:16px;}
-.top h1{font-size:20px;font-weight:700;color:var(--navy);}
-.top p{font-size:13px;color:var(--mu);margin-top:4px;max-width:600px;}
-.tag{background:var(--navy);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.5px;
- padding:6px 12px;border-radius:20px;white-space:nowrap;}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 64px;}
+
+/* Navy masthead. The tool already speaks navy on its section bars and card
+   headers; the title block now matches instead of sitting on white. */
+.top{background:var(--navy);color:#fff;border-bottom:4px solid var(--teal);
+ padding:20px 16px 18px;margin-bottom:0;}
+.top .inner{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;
+ align-items:flex-start;flex-wrap:wrap;gap:12px;}
+.top .eyebrow{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--teal);
+ text-transform:uppercase;margin-bottom:5px;}
+.top h1{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.15;}
+.top p{font-size:13px;color:#C3CBE8;margin-top:6px;max-width:60ch;}
+.tag{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;font-size:10px;
+ font-weight:800;letter-spacing:.9px;padding:7px 13px;border-radius:20px;white-space:nowrap;
+ align-self:center;}
+
+/* Category filter. Sticky so the active selection stays visible while scrolling,
+   which is the whole point of it. */
+.filter{position:sticky;top:0;z-index:20;background:var(--cream);
+ border-bottom:1.5px solid var(--bd);padding:11px 16px;margin-bottom:18px;}
+.filter .inner{max-width:900px;margin:0 auto;}
+.filter .lbl{font-size:10px;font-weight:800;letter-spacing:1px;color:var(--navy);
+ text-transform:uppercase;margin-bottom:8px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.chip{font-family:inherit;font-size:13px;font-weight:700;color:var(--navy);background:#fff;
+ border:1.5px solid var(--bd);border-radius:22px;padding:9px 15px;min-height:42px;cursor:pointer;
+ display:inline-flex;align-items:center;gap:8px;line-height:1;}
+.chip .n{font-size:11px;font-weight:800;background:var(--bd);color:var(--navy);
+ border-radius:11px;padding:2px 7px;min-width:20px;text-align:center;}
+.chip[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy);}
+.chip[aria-pressed="true"] .n{background:var(--teal);color:var(--navy);}
+.chip:focus-visible,.linkbtn:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+.linkbtn{font-family:inherit;font-size:12px;font-weight:700;color:var(--navy);background:none;
+ border:0;text-decoration:underline;cursor:pointer;padding:8px 4px;min-height:40px;}
+.count{font-size:12px;color:var(--mu);margin-top:9px;}
+.count b{color:var(--navy);}
+
+/* Group heading, so a filtered list still reads as organised sections */
+.grp{display:flex;align-items:center;gap:10px;margin:26px 0 12px;}
+.grp span{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+ color:var(--navy);white-space:nowrap;}
+.grp .rule{flex:1;height:2px;background:var(--teal);opacity:.5;}
+
+/* Charge code, matching the code-chip pattern in the GLP-1 Provider Reference */
+.codewrap{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.code-chip{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:13px;
+ font-weight:600;background:var(--cream);color:var(--navy);border:1px solid var(--bd);
+ border-radius:6px;padding:4px 9px;letter-spacing:.3px;}
 .panel{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:15px 14px;margin-bottom:16px;}
 .grid{display:grid;grid-template-columns:1fr;gap:13px;}
 @media(min-width:640px){.grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}}
@@ -59,7 +101,7 @@ table.d tr:last-child td{border-bottom:0;}
 .box.amber{background:var(--amber);border:1px solid var(--amberbd);}
 .box.red{background:var(--redbg);border:1px solid var(--red);color:#7A1F1F;}
 .copybox{background:var(--gb);border:1px solid var(--bd);border-radius:8px;padding:13px 14px;
- font-family:"Courier New",monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;
+ font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;
  overflow-wrap:anywhere;margin-top:10px;}
 .copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;min-height:40px;
  padding:8px 18px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;}
@@ -77,6 +119,7 @@ table.fld td.b{width:70px;text-align:right;}
 .cbtn.done{background:var(--green);color:#fff;}
 .cc{display:block;font-size:10.5px;color:var(--mu);margin-top:3px;}
 .cc.over{color:var(--red);font-weight:800;}
+.fv.pending{color:var(--mu);font-style:italic;font-weight:600;}
 @media(max-width:520px){table.fld td.k{width:42%;}table.fld td.b{width:58px;}.cbtn{padding:5px 8px;}}
 .empty{border:1.5px dashed var(--bd);border-radius:10px;padding:30px 18px;text-align:center;color:var(--mu);}
 footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size:12px;color:var(--mu);
@@ -84,16 +127,29 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="top">
+<header class="top">
+  <div class="inner">
     <div>
-      <h1>Add-On Selector</h1>
-      <p>Sexual health, hair loss, and skin care. Confirms what is actually available for this patient's
-         state and routes to the correct pharmacy.</p>
+      <div class="eyebrow">KORB Health Medical Texas PA</div>
+      <h1>Optimization Products</h1>
+      <p>Sexual health, hair loss, skin care and anti-aging. The patient hub presents these as
+         &ldquo;Optimize Your Weight Loss&rdquo;. Confirms what is available for this patient's state
+         and routes to the correct pharmacy.</p>
     </div>
     <div class="tag">PROVIDER USE ONLY</div>
   </div>
+</header>
+
+<div class="filter">
+  <div class="inner">
+    <div class="lbl">Show which add-ons</div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by add-on category"></div>
+    <div class="count" id="count"></div>
+  </div>
+</div>
+
+<div class="wrap">
 
   <div class="panel">
     <div class="grid">
@@ -167,11 +223,11 @@ function esc(s){ return String(s).replace(/</g,"&lt;"); }
 var TEBRA_CAP = { ptInstructions:140, reasonForCompounding:30, pharmacyNotes:170 };
 
 function fieldTable(id, o){
-  /* o.drug is the entry to pick in the Tebra Drug Formulation drop-down; o.form is the
-     compound as written. Only o.form was rendered, so the drop-down entry each favorite
-     is built against never reached the provider. Both are shown now. */
+  /* Tebra now accepts a genuine custom compounded drug, so the old SureScripts
+     workaround of hanging the script off a commercial drop-down entry (o.drug,
+     e.g. "Viagra 50 mg tablet") is retired. Drug Formulation carries the real
+     compound. Confirmed with Don 2026-09-11. */
   var rows = [
-    {k:"Tebra drop-down entry", v:o.drug || "—"},
     {k:"Drug Formulation", v:o.form || o.drug},
     {k:"Name",             v:o.label},
     {k:"Select",           v:"Allow Substitution"},
@@ -185,6 +241,15 @@ function fieldTable(id, o){
   rows.push({k:"Pharmacy Instructions", v:o.notes, cap:TEBRA_CAP.pharmacyNotes});
   var h = '<div class="fldwrap"><table class="fld" id="'+id+'">';
   rows.forEach(function(f){
+    /* A field with no value yet is marked as such and gets no Copy button.
+       Printing String(null) here would put the word "null" on a provider's
+       clipboard and from there into a prescription. */
+    if(f.v === null || f.v === undefined || f.v === ""){
+      h += '<tr><td class="k">'+f.k+'</td><td class="v"><span class="fv pending">'
+         + 'Not yet defined — build this field from the Add-On Clinical Reference'
+         + '</span></td><td class="b"></td></tr>';
+      return;
+    }
     var v=String(f.v), cap=f.cap||0, over=cap && v.length>cap;
     h += '<tr><td class="k">'+f.k+'</td><td class="v"><span class="fv">'+esc(v)+'</span>';
     if(cap) h += '<span class="cc'+(over?' over':'')+'">'+v.length+' / '+cap+' characters'
@@ -196,11 +261,19 @@ function fieldTable(id, o){
 function copyField(btn){
   doCopy(btn.parentNode.parentNode.querySelector(".fv").innerText, btn, "Copy");
 }
+/* Charge code gets its own copy button. It used to run together with the price on
+   one line, so billing had to select it by hand. */
+function copyCode(btn,id){
+  doCopy(document.getElementById(id).innerText, btn, "Copy code");
+}
 function copyAll(btn, id){
   var rows=document.getElementById(id).querySelectorAll("tr"), out=[];
   for(var i=0;i<rows.length;i++){
     var k=rows[i].querySelector("td.k"), v=rows[i].querySelector(".fv");
-    if(k&&v) out.push(k.innerText+": "+v.innerText);
+    /* A field still awaiting a value copies as an explicit blank to fill in,
+       not as its placeholder sentence. */
+    if(!k||!v) continue;
+    out.push(k.innerText+": "+(v.classList.contains("pending") ? "[TO BE COMPLETED]" : v.innerText));
   }
   doCopy(out.join("\n"), btn, "Copy all fields");
 }
@@ -212,6 +285,27 @@ function doCopy(t,btn,restore){
   } else fb(t,ok);
 }
 
+/* Four groups the provider filters by. The card categories are finer than this
+   (hair loss splits oral and topical), so GROUP_OF maps card category to group.
+   Category names match the patient hub, which lists an "Anti-Aging Guide" under
+   "Optimize Your Weight Loss", and match the Add-On Clinical Reference. */
+var GROUPS = [
+  {key:"sexual",    label:"Sexual Health"},
+  {key:"hair",      label:"Hair Loss"},
+  {key:"skin",      label:"Skin Care"},
+  {key:"antiaging", label:"Anti-Aging"}
+];
+var GROUP_OF = {
+  "Sexual Health":"sexual",
+  "Hair Loss — oral":"hair",
+  "Hair Loss — topical":"hair",
+  "Skin Care":"skin",
+  "Anti-Aging":"antiaging"
+};
+/* Start closed. The provider enters the patient details first, then opens only the
+   category they are actually discussing, rather than unticking a full list. */
+var active = {sexual:false, hair:false, skin:false, antiaging:false};
+
 /* Follow-up cadence per add-on category, from the Add-On Clinical Reference availability
    matrix. The tool previously carried none of this except the NAD+ 28-day note. */
 var FOLLOWUP = {
@@ -222,158 +316,52 @@ var FOLLOWUP = {
   "Anti-Aging":"NAD+ every 28 days. Metformin every 90 days."
 };
 
+/* BEGIN GENERATED ADDONS — build-embed.js, do not edit by hand */
+/* source: korb-addons-data.js  fingerprint: 2264270e41df */
+var ADDONS = [{"key":"farmakeio_nad","pharmacy":"farmakeio","sex":"any","cat":"Anti-Aging","name":"NAD+","price":"$179","code":"AGENAV2001","form":"NAD+ 200 mg/mL, 5 mL vial (1000 mg) SQ injection","dose":"Start 50 mg SQ twice weekly. Increase to 100 mg twice weekly if needed.","supply":"28 days","t":{"form":"NAD+ 200mg/mL 5mL vial","label":"FARMAKEIO – NAD+ Injection – 28-Day Supply","sig":"Injectable 50 mg subcutaneously twice a week, discard unused medication 28 days after first puncture","qty":"1","unit":"vial","days":"28","reason":"No FDA-approved NAD+","notes":"NAD+ 200mg/ml 5 ML vial (1000mg vial), bill to office/ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."},"warnAmber":"28-day supply, not 90. The vial outlasts 28 days at either dose — patient discards the remainder. Follow-up every 28 days.","note":"Do not combine with isotretinoin (Accutane). Counsel on nausea, fatigue, headache, indigestion."},{"key":"premier_nad","pharmacy":"premier","sex":"any","cat":"Anti-Aging","name":"NAD+","price":"$179","code":"AGENAV2001","form":"NAD+ 200 mg/mL, 5 mL vial (1000 mg) SQ injection","dose":"Start 50 mg SQ twice weekly. Increase to 100 mg twice weekly if needed.","supply":"28 days","t":{"form":"NAD+ 200mg/mL 5mL vial","label":"PREMIER – NAD+ Injection – 28-Day Supply","sig":"Injectable 50 mg subcutaneously twice a week, discard unused medication 28 days after first puncture","qty":"1","unit":"vial","days":"28","reason":"No FDA-approved NAD+","notes":"NAD+ 200mg/ml 5 ML vial (1000mg vial), bill to office/ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."},"warnAmber":"28-day supply, not 90. The vial outlasts 28 days at either dose — patient discards the remainder. Follow-up every 28 days.","note":"Do not combine with isotretinoin (Accutane). Counsel on nausea, fatigue, headache, indigestion."},{"key":"farmakeio_spironolactone_50_mg_f","pharmacy":"farmakeio","sex":"f","cat":"Hair Loss — oral","name":"Spironolactone 50 mg","price":"$99","code":"AGEHairPLreg","form":"Spironolactone 50 mg tablet","dose":"50 mg daily. Increase to 100 mg at the 90-day follow-up if needed.","supply":"90 tablets, 90 days","t":{"form":"Spironolactone 50mg tablet","label":"FARMAKEIO – Spironolactone 50 mg – 90-Day Supply","sig":"Take one tablet daily for hair loss","qty":"90","unit":"tablet","days":"90","reason":"","notes":"Bill to office/Ship to patient"},"note":"3 to 6 months before visible results. Side effects: dizziness, low energy, raised potassium, breast enlargement and tenderness. Also used for acne, hirsutism, PCOS."},{"key":"farmakeio_topical_spray_f","pharmacy":"farmakeio","sex":"f","cat":"Hair Loss — topical","name":"Topical spray","price":"$149","code":"AGEHairFOreg","form":"Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% — 30 mL spray, 120 sprays","dose":"Apply 1 to 2 sprays to dry hair once daily, leave on at least 4 hours or overnight","supply":"60 days at 2/day, up to 120 at 1/day","t":{"form":"Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% topical spray","label":"FARMAKEIO – Minoxidil 2% Topical Spray – 60-Day Supply","sig":"Apply 1-2 sprays topically once daily to dry hair, leave on for at least 4 hours or overnight","qty":"1","unit":"bottle","days":"60","reason":"Multi-active combination","notes":"Compound Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01%, Top Spray, qty 30ml (120 Sprays), Bill to office/Ship to patient, no equivalent commercial option"},"warnAmber":"Days field is 60, not 90. This product does not last 90 days at two applications daily."},{"key":"farmakeio_finasteride_1_mg","pharmacy":"farmakeio","sex":"m","cat":"Hair Loss — oral","name":"Finasteride 1 mg","price":"$99","code":"AGEHairPLreg","form":"Finasteride 1 mg tablet","dose":"One tablet daily","supply":"90 tablets, 90 days","t":{"form":"Finasteride 1mg tablet","label":"FARMAKEIO – Finasteride 1 mg – 90-Day Supply","sig":"Take one tablet daily for hair loss","qty":"90","unit":"tablet","days":"90","reason":"","notes":"Bill to office/Ship to patient"},"warn":"Never prescribe finasteride to women. Teratogenic.","note":"3 to 6 months before visible results. Side effects: reduced libido, mood changes, gynecomastia, orthostatic hypotension."},{"key":"farmakeio_topical_spray","pharmacy":"farmakeio","sex":"m","cat":"Hair Loss — topical","name":"Topical spray","price":"$149","code":"AGEHairFOreg","form":"Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% — 30 mL spray, 120 sprays","dose":"Apply 1 to 2 sprays to dry hair once daily, leave on at least 4 hours or overnight","supply":"60 days at 2/day, up to 120 at 1/day","t":{"form":"Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% topical spray","label":"FARMAKEIO – Minoxidil 6% Topical Spray – 60-Day Supply","sig":"Apply 1-2 sprays topically once daily to dry hair, leave on for at least 4 hours or overnight","qty":"1","unit":"bottle","days":"60","reason":"Multi-active combination","notes":"Compound Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025%, Top Spray, qty 30ml (120 Sprays), Bill to office/Ship to patient, no equivalent commercial option"},"warnAmber":"Days field is 60, not 90. This product does not last 90 days at two applications daily."},{"key":"premier_spironolactone_50_mg_f","pharmacy":"premier","sex":"f","cat":"Hair Loss — oral","name":"Spironolactone 50 mg","price":"$99","code":"AGEHairPLreg","form":"Spironolactone 50 mg tablet","dose":"50 mg daily. Increase to 100 mg at the 90-day follow-up if needed.","supply":"90 tablets, 90 days","t":{"form":"Spironolactone 50mg tablet","label":"PREMIER – Spironolactone 50 mg – 90-Day Supply","sig":"Take one tablet daily for hair loss","qty":"90","unit":"tablet","days":"90","reason":"","notes":"Bill to office/Ship to patient"},"note":"3 to 6 months before visible results. Side effects: dizziness, low energy, raised potassium, breast enlargement and tenderness. Also used for acne, hirsutism, PCOS."},{"key":"premier_topical_foam_f","pharmacy":"premier","sex":"f","cat":"Hair Loss — topical","name":"Topical foam","price":"$149","code":"AGEHairFOreg","form":"Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% — 60 mL foam","dose":"Apply 1 to 2 pumps to dry hair once daily","supply":"42 days at 2/day, up to 85 at 1/day","t":{"form":"Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% topical foam","label":"PREMIER – Minoxidil 2% Topical Foam – 42-Day Supply","sig":"Apply 1-2 pumps topically to dry hair once daily","qty":"1","unit":"bottle","days":"42","reason":"Multi-active combination","notes":"Compound Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01%, Topical Foam, 60ml bottle, Bill to office/Ship to patient, no equivalent commercial option"},"warnAmber":"Days field is 42, not 90. This product does not last 90 days at two applications daily."},{"key":"premier_finasteride_1_mg","pharmacy":"premier","sex":"m","cat":"Hair Loss — oral","name":"Finasteride 1 mg","price":"$99","code":"AGEHairPLreg","form":"Finasteride 1 mg tablet","dose":"One tablet daily","supply":"90 tablets, 90 days","t":{"form":"Finasteride 1mg tablet","label":"PREMIER – Finasteride 1 mg – 90-Day Supply","sig":"Take one tablet daily for hair loss","qty":"90","unit":"tablet","days":"90","reason":"","notes":"Bill to office/Ship to patient"},"warn":"Never prescribe finasteride to women. Teratogenic.","note":"3 to 6 months before visible results. Side effects: reduced libido, mood changes, gynecomastia, orthostatic hypotension."},{"key":"premier_topical_foam","pharmacy":"premier","sex":"m","cat":"Hair Loss — topical","name":"Topical foam","price":"$149","code":"AGEHairFOreg","form":"Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% — 60 mL foam","dose":"Apply 1 to 2 pumps to dry hair once daily","supply":"42 days at 2/day, up to 85 at 1/day","t":{"form":"Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% topical foam","label":"PREMIER – Minoxidil 6% Topical Foam – 42-Day Supply","sig":"Apply 1-2 pumps topically to dry hair once daily","qty":"1","unit":"bottle","days":"42","reason":"Multi-active combination","notes":"Compound Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025%, Topical Foam, 60ml bottle, Bill to office/Ship to patient, no equivalent commercial option"},"warnAmber":"Days field is 42, not 90. This product does not last 90 days at two applications daily."},{"key":"farmakeio_korb_electric_f","pharmacy":"farmakeio","sex":"f","cat":"Sexual Health","name":"KORB Electric","price":"$99","code":"INTELEC001","form":"Arginine HCl 6% / Sildenafil 2% / DHEA 1% topical","dose":"Apply 1–2 clicks to the clitoris 30 min before sexual activity","supply":"One bottle, approx. 20 encounters","t":{"form":"Arginine HCl/Sildenafil/DHEA 6/2/1% topical","label":"FARMAKEIO – KORB Electric Topical – 90-Day Supply","sig":"KORB ELECTRIC Apply 1-2 clicks topically to the clitoris 30 minutes before a sexual encounter","qty":"1","unit":"bottle","days":"90","reason":"Female arousal topical","notes":"KORB ELECTRIC compound Arginine Hydrochloride 6%, Sildenafil 2%, DHEA 1% TOPICAL, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"},"nitrate":true},{"key":"farmakeio_perform","pharmacy":"farmakeio","sex":"m","cat":"Sexual Health","name":"PERFORM","price":"$99","code":"INTRISE001","form":"Sildenafil 88 mg / Tadalafil 22 mg rapid ODT","dose":"One ODT 30 min before sex. Up to 36 hours.","supply":"20 ODTs","t":{"form":"Sildenafil/Tadalafil 88/22mg rapid ODT","label":"FARMAKEIO – PERFORM Rapid ODT – 90-Day Supply","sig":"PERFORM Rapid ODT: Take one ODT 30 minutes before sex as needed for sex/erection","qty":"20","unit":"tablet","days":"90","reason":"ED combination therapy","notes":"PERFORM Rapid ODT compound Sildenafil 88 mg, Tadalafil 22 mg/ODT Tablet, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"},"nitrate":true,"warnAmber":"The Add-On Clinical Reference gives no price or charge code for PERFORM. $99 / INTRISE001 is carried over from KORB Rise here and has not been confirmed. Check with Nick before quoting.","note":"No L-Arginine in this formulation, so headache may be more noticeable than with KORB Rise. Advise emergency care for an erection lasting more than 4 hours."},{"key":"premier_korb_electric_f","pharmacy":"premier","sex":"f","cat":"Sexual Health","name":"KORB Electric","price":"$99","code":"INTELEC001","form":"Sildenafil 1.5% / Theophylline 3% / L-Arginine 6% topical","dose":"Apply 1–2 clicks to the clitoris 30 min before sexual activity","supply":"One bottle, approx. 20 encounters","t":{"form":"Sildenafil/Theophylline/L-Arginine 1.5/3/6% topical","label":"PREMIER – KORB Electric Topical – 90-Day Supply","sig":"KORB ELECTRIC Apply 1-2 clicks topically to the clitoris 30 minutes before a sexual encounter","qty":"1","unit":"bottle","days":"90","reason":"Female arousal topical","notes":"KORB ELECTRIC compound Sildenafil 1.5%, Theophylline 3%, L-Arginine 6% TOPICAL, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"},"nitrate":true},{"key":"premier_korb_rise","pharmacy":"premier","sex":"m","cat":"Sexual Health","name":"KORB Rise","price":"$99","code":"INTRISE001","form":"Sildenafil 50 mg / Tadalafil 10 mg / L-Arginine 90 mg / Oxytocin 0.04 mg troche","dose":"½ to 1 troche 30 min before sex, increase by ½ as needed. Up to 36 hours.","supply":"20 troches, approx. 20–40 encounters","t":{"form":"Sildenafil/Tadalafil/L-Arginine/Oxytocin 50/10/90/0.04mg troche","label":"PREMIER – KORB Rise Troche – 90-Day Supply","sig":"KORB RISE Take ½ - 1 troche as needed for sex/erection","qty":"20","unit":"troche","days":"90","reason":"ED combination therapy","notes":"KORB RISE compound Sildenafil 50mg/Tadalafil 10mg/L-Arginine 90mg/Oxytocin 0.04mg troches. Bill to office, ship to patient. No FDA-approved equivalent."},"nitrate":true,"note":"Sildenafil and tadalafil increase blood flow. L-Arginine reduces headache, the most common side effect. Oxytocin was added to the formulation in September 2026. Side effects: headache, nasal congestion, blurred vision, nausea, upset stomach, prolonged erection. Advise emergency care for an erection lasting more than 4 hours."},{"key":"premier_tretinoin_cream","pharmacy":"premier","sex":"any","cat":"Skin Care","name":"Tretinoin cream","price":"$49","code":"AGESkinCRToE","form":"0.025%, 0.05%, or 0.1% — 20 g tube","dose":"Apply a pea-sized amount once daily","supply":"approx. 80 days","t":{"form":"Tretinoin 0.025% topical cream","label":"PREMIER – Tretinoin Cream 0.025% – 80-Day Supply","sig":"Apply a pea-sized amount daily as needed","qty":"1","unit":"tube","days":"80","reason":"Strength not commercial","notes":"20 gm Tube, Bill to office/Ship to patient"},"note":"For acne, oily skin, scarring, spots. Causes sun sensitivity — counsel on sun protection."},{"key":"premier_estriol_cream_0_3","pharmacy":"premier","sex":"any","cat":"Skin Care","name":"Estriol cream 0.3%","price":"$49","code":"AGESkinCRToE","form":"Estriol 0.3% — 30 mL","dose":"Apply 1 click (0.25 mL) once daily","supply":"120 days","t":{"form":"Estriol 0.3% topical cream","label":"PREMIER – Estriol Cream 0.3% – 120-Day Supply","sig":"Apply (1 click/0.25 ml/0.25 g, containing estriol 0.075%) to the affected external area once daily as directed","qty":"1","unit":"bottle","days":"120","reason":"Compounded strength","notes":"Compounded Estriol Cream 0.3%, QTY: 30ml, Bill to office/Ship to patient, no FDA-approved or commercially available equivalent"},"warnAmber":"Contains a hormone. Can cause breast tenderness or bleeding. Consider carefully for a patient already on hormone therapy."},{"key":"belmar_pt141_nasal","pharmacy":"belmar","sex":"any","cat":"Sexual Health","name":"PT-141 nasal spray","price":"$119 add-on / $149 standalone","code":"WMN141add","form":"Bremelanotide 5 mg/mL, 15 mL bottle","dose":"One spray in each nostril 1 to 2 hours before activity","supply":"28-day supply","t":{"form":"Bremelanotide 5mg/mL nasal spray 15mL","label":"BELMAR – PT-141 Nasal Spray – 28-Day Supply","sig":null,"qty":null,"unit":null,"days":"28","reason":"","notes":""},"warnAmber":"Tebra favorite fields are not yet defined for this product. Build the prescription from the Add-On Clinical Reference.","note":"Acts on the nervous system to increase desire and arousal, independent of hormone levels. Side effects: nausea, dizziness, fatigue, cough, skin darkening. Raise skin darkening before starting, not after - it is a known effect of the mechanism and patients who are not warned tend to stop. Does not follow the 90-day cadence; do not schedule refills alongside quarterly visits."},{"key":"premier_pt141_inj","pharmacy":"premier","sex":"any","cat":"Sexual Health","name":"PT-141 injection","price":"$119 add-on / $149 standalone","code":"WMN141add","form":"Bremelanotide 10 mg/mL, 5 mL vial","dose":"Inject 1 to 2 mg subcutaneously about 2 hours before anticipated activity","supply":"28-day supply","t":{"form":"Bremelanotide 10mg/mL 5mL vial","label":"PREMIER – PT-141 Injection – 28-Day Supply","sig":null,"qty":null,"unit":null,"days":"28","reason":"","notes":""},"warnAmber":"Tebra favorite fields are not yet defined for this product. Build the prescription from the Add-On Clinical Reference.","note":"Acts on the nervous system to increase desire and arousal, independent of hormone levels. Side effects: nausea, dizziness, fatigue, cough, skin darkening. Raise skin darkening before starting. Does not follow the 90-day cadence."},{"key":"belmar_nad_nasal","pharmacy":"belmar","sex":"any","cat":"Anti-Aging","name":"NAD+ nasal spray","price":"$179","code":"AGENAV2001","form":"NAD+ 300 mg/mL, 15 mL bottle","dose":"Start 1 spray per nostril once daily. Increase to 2 sprays per nostril once daily.","supply":"28 days","t":{"form":"NAD+ 300mg/mL nasal spray 15mL","label":"BELMAR – NAD+ Nasal Spray – 28-Day Supply","sig":null,"qty":null,"unit":null,"days":"28","reason":"","notes":""},"warnAmber":"Tebra favorite fields are not yet defined for this product. Build the prescription from the Add-On Clinical Reference.","note":"28-day supply, driven by beyond-use dating on a compounded product. Follow-up every 28 days, not on the 90-day cadence."},{"key":"premier_combo_cream","pharmacy":"premier","sex":"any","cat":"Skin Care","name":"Combo cream","price":"$99","code":"AGESkinCRCmb","form":"Estriol 0.3% / GHK-Cu 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5% — 30 mL","dose":"Apply 1 click (0.25 mL) once daily","supply":"120 days","t":{"form":"Estriol/GHK-Cu/HA/Niacinamide cream","label":"PREMIER – Estriol Combo Cream – 120-Day Supply","sig":"Apply (1 click/0.25 ml/0.25 g) to the affected area once daily as directed","qty":"1","unit":"bottle","days":"120","reason":"Multi-active combination","notes":"Compound: Estriol 0.3% / GHK-CU 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5%, QTY: 30ml, Bill office/Ship patient, no FDA-approved or commercially equivalent"},"warnAmber":"Contains estriol, a hormone. Same consideration as above."},{"key":"belmar_nad_fastsl","pharmacy":"belmar","sex":"any","cat":"Anti-Aging","name":"NAD+ FastSL sublingual","price":"$179","code":"AGENAV2001","form":"NAD+ 100 mg sublingual tablet","dose":"Start half a tablet under the tongue each morning, Monday to Friday, off at weekends. Increase to one tablet.","supply":"28 days","t":{"form":"NAD+ 100mg sublingual tablet","label":"BELMAR – NAD+ FastSL Sublingual – 28-Day Supply","sig":null,"qty":null,"unit":null,"days":"28","reason":"","notes":""},"warnAmber":"Tebra favorite fields are not yet defined for this product. Build the prescription from the Add-On Clinical Reference.","note":"28-day supply. Follow-up every 28 days, not on the 90-day cadence."},{"key":"farmakeio_metformin_er_500_mg","pharmacy":"farmakeio","sex":"any","cat":"Anti-Aging","name":"Metformin ER 500 mg","price":"$99","code":"AGEMETF009","form":"Metformin ER 500 mg tablet","dose":"One tablet daily","supply":"90 tablets, 90 days","t":{"form":"Metformin ER 500 mg tablet","label":"FARMAKEIO – Metformin ER 500 mg – 90-Day Supply","sig":"TAKE ONE TAB PO QD","qty":"90","unit":"tablet","days":"90","reason":"","notes":"Bill to KORB / ship to patient"},"warn":"Do not prescribe with eGFR under 30. Do not initiate between 30 and 45. Also screen for acute or unstable heart failure or any state causing tissue hypoxia, severe hepatic impairment, heavy or binge alcohol use, and metabolic acidosis of any cause. Boxed warning for lactic acidosis. Hold before and after iodinated contrast imaging or surgery.","warnAmber":"Blunts training adaptations. In the MASTERS trial (randomized, double-blind, placebo-controlled, 94 adults 65+, 14 weeks of progressive resistance training) metformin 1,700 mg/day produced smaller gains than placebo in lean body mass (p=.003), thigh muscle mass (p<.001) and thigh muscle area (p=.005). A companion trial found blunted mitochondrial adaptations to aerobic training. Those doses are well above KORB's 500 mg ER, so the size of the effect here is unknown, but raise it with any patient whose goal is strength or performance, including gym-partner referrals.","note":"Patient will not feel noticeably different. Set that expectation. Side effects: nausea, upset stomach, headache, fatigue, mild hypoglycaemia symptoms.","monitor":["Baseline: eGFR, hepatic function, and a vitamin B12 level. A longevity indication has no endpoint, so treat this as long-term therapy from day one.","eGFR: annually at 60 or above, every 3 to 6 months at 45 to 60, every 3 months at 30 to 45 with a 50% dose reduction (FDA).","Vitamin B12: ADA Standards of Care 2026 recommendation 3.10 (grade B) is periodic assessment on long-term metformin, especially with anemia or peripheral neuropathy. Annual is reasonable past 4 years of therapy or with independent risk factors. Deficiency is below 148 pmol/L, borderline below 200; methylmalonic acid or holotranscobalamin resolve an equivocal level.","KORB doses 500 mg ER daily, below the 1,500 mg/day threshold where B12 risk rises most sharply, but duration is the other driver and a longevity course is indefinite."]},{"key":"premier_metformin_er_500_mg","pharmacy":"premier","sex":"any","cat":"Anti-Aging","name":"Metformin ER 500 mg","price":"$99","code":"AGEMETF009","form":"Metformin ER 500 mg tablet","dose":"One tablet daily","supply":"90 tablets, 90 days","t":{"form":"Metformin ER 500 mg tablet","label":"PREMIER – Metformin ER 500 mg – 90-Day Supply","sig":"TAKE ONE TAB PO QD","qty":"90","unit":"tablet","days":"90","reason":"","notes":"Bill to KORB / ship to patient"},"warn":"Do not prescribe with eGFR under 30. Do not initiate between 30 and 45. Also screen for acute or unstable heart failure or any state causing tissue hypoxia, severe hepatic impairment, heavy or binge alcohol use, and metabolic acidosis of any cause. Boxed warning for lactic acidosis. Hold before and after iodinated contrast imaging or surgery.","warnAmber":"Blunts training adaptations. In the MASTERS trial (randomized, double-blind, placebo-controlled, 94 adults 65+, 14 weeks of progressive resistance training) metformin 1,700 mg/day produced smaller gains than placebo in lean body mass (p=.003), thigh muscle mass (p<.001) and thigh muscle area (p=.005). A companion trial found blunted mitochondrial adaptations to aerobic training. Those doses are well above KORB's 500 mg ER, so the size of the effect here is unknown, but raise it with any patient whose goal is strength or performance, including gym-partner referrals.","note":"Patient will not feel noticeably different. Set that expectation. Side effects: nausea, upset stomach, headache, fatigue, mild hypoglycaemia symptoms.","monitor":["Baseline: eGFR, hepatic function, and a vitamin B12 level. A longevity indication has no endpoint, so treat this as long-term therapy from day one.","eGFR: annually at 60 or above, every 3 to 6 months at 45 to 60, every 3 months at 30 to 45 with a 50% dose reduction (FDA).","Vitamin B12: ADA Standards of Care 2026 recommendation 3.10 (grade B) is periodic assessment on long-term metformin, especially with anemia or peripheral neuropathy. Annual is reasonable past 4 years of therapy or with independent risk factors. Deficiency is below 148 pmol/L, borderline below 200; methylmalonic acid or holotranscobalamin resolve an equivocal level.","KORB doses 500 mg ER daily, below the 1,500 mg/day threshold where B12 risk rises most sharply, but duration is the other driver and a longevity course is indefinite."]}];
+/* END GENERATED ADDONS */
+
+/* The catalogue used to be built here in code, branching on pharmacy and sex
+   at every product. That is how this tool drifted away from the rest of the
+   set. It is now a filter over the generated ADDONS array above, which comes
+   from korb-addons-data.js. Add or change a product there, not here. */
 function products(ph, sex){
-  var male = (sex==="m"), P = (ph==="Premier");
-  var list = [];
-
-  // ---- sexual health ----
-  if(male){
-    list.push(P ? {
-      cat:"Sexual Health", name:"KORB Rise", price:"$99", code:"INTRISE001",
-      form:"Sildenafil 50 mg / Tadalafil 10 mg / L-Arginine 90 mg / Oxytocin 0.04 mg troche",
-      dose:"½ to 1 troche 30 min before sex, increase by ½ as needed. Up to 36 hours.",
-      supply:"20 troches, approx. 20–40 encounters", nitrate:true,
-      note:"Sildenafil and tadalafil increase blood flow. L-Arginine reduces headache, the most common side "
-          +"effect. Oxytocin was added to the formulation in September 2026. Side effects: headache, nasal "
-          +"congestion, blurred vision, nausea, upset stomach, prolonged erection. Advise emergency care for "
-          +"an erection lasting more than 4 hours.",
-      t:{drug:"Viagra 50 mg tablet (from drop-down)", form:"Sildenafil/Tadalafil/L-Arginine/Oxytocin 50/10/90/0.04mg troche", reason:"ED combination therapy", unit:"troche", label:"KORB Rise Troches (Premier Pharmacy)",
-         sig:"KORB RISE Take ½ - 1 troche as needed for sex/erection", qty:"20", days:"90",
-         notes:"KORB RISE compound Sildenafil 50mg/Tadalafil 10mg/L-Arginine 90mg/Oxytocin 0.04mg troches. Bill to office, ship to patient. No FDA-approved equivalent."}
-    } : {
-      cat:"Sexual Health", name:"PERFORM", price:"$99", code:"INTRISE001",
-      form:"Sildenafil 88 mg / Tadalafil 22 mg rapid ODT",
-      dose:"One ODT 30 min before sex. Up to 36 hours.",
-      supply:"20 ODTs", nitrate:true,
-      warnAmber:"The Add-On Clinical Reference gives no price or charge code for PERFORM. $99 / INTRISE001 is "
-          +"carried over from KORB Rise here and has not been confirmed. Check with Nick before quoting.",
-      note:"No L-Arginine in this formulation, so headache may be more noticeable than with KORB Rise. "
-          +"Advise emergency care for an erection lasting more than 4 hours.",
-      t:{drug:"Viagra 50 mg tablet (from drop-down)", form:"Sildenafil/Tadalafil 88/22mg rapid ODT", reason:"ED combination therapy", unit:"tablet", label:"PERFORM Rapid ODT (Farmakeio)",
-         sig:"PERFORM Rapid ODT: Take one ODT 30 minutes before sex as needed for sex/erection", qty:"20", days:"90",
-         notes:"PERFORM Rapid ODT compound Sildenafil 88 mg, Tadalafil 22 mg/ODT Tablet, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"}
-    });
-  } else {
-    list.push({
-      cat:"Sexual Health", name:"KORB Electric", price:"$99", code:"INTELEC001",
-      form: P ? "Sildenafil 1.5% / Theophylline 3% / L-Arginine 6% topical"
-              : "Arginine HCl 6% / Sildenafil 2% / DHEA 1% topical",
-      dose:"Apply 1–2 clicks to the clitoris 30 min before sexual activity",
-      supply:"One bottle, approx. 20 encounters", nitrate:true,
-      t:{drug:"vaginal lubricant inserts (from drop-down)",
-         form:P?"Sildenafil/Theophylline/L-Arginine 1.5/3/6% topical":"Arginine HCl/Sildenafil/DHEA 6/2/1% topical", reason:"Female arousal topical", unit:"bottle", label:"KORB Electric ("+(P?"Premier Pharmacy":"Farmakeio")+")",
-         sig:"KORB ELECTRIC Apply 1-2 clicks topically to the clitoris 30 minutes before a sexual encounter",
-         qty:"1", days:"90",
-         notes:"KORB ELECTRIC compound "+(P?"Sildenafil 1.5%, Theophylline 3%, L-Arginine 6% TOPICAL":"Arginine Hydrochloride 6%, Sildenafil 2%, DHEA 1% TOPICAL")+", Bill to office/ship to patient, no FDA-approved or commercially available equivalent"}
-    });
-  }
-
-  // ---- hair loss: oral ----
-  list.push(male ? {
-    cat:"Hair Loss — oral", name:"Finasteride 1 mg", price:"$99", code:"AGEHairPLreg",
-    form:"Finasteride 1 mg tablet", dose:"One tablet daily", supply:"90 tablets, 90 days",
-    warn:"Never prescribe finasteride to women. Teratogenic.",
-    note:"3 to 6 months before visible results. Side effects: reduced libido, mood changes, gynecomastia, orthostatic hypotension.",
-    t:{drug:"finasteride 1mg (from drop-down)", form:"Finasteride 1mg tablet", reason:"", unit:"tablet", label:"Finasteride 1mg (Men Hair Loss)",
-       sig:"Take one tablet daily for hair loss", qty:"90", days:"90",
-       notes:"Bill to office/Ship to patient"}
-  } : {
-    cat:"Hair Loss — oral", name:"Spironolactone 50 mg", price:"$99", code:"AGEHairPLreg",
-    form:"Spironolactone 50 mg tablet",
-    dose:"50 mg daily. Increase to 100 mg at the 90-day follow-up if needed.",
-    supply:"90 tablets, 90 days",
-    note:"3 to 6 months before visible results. Side effects: dizziness, low energy, raised potassium, breast enlargement and tenderness. Also used for acne, hirsutism, PCOS.",
-    t:{drug:"Spironolactone 50mg tablet (from drop-down)", form:"Spironolactone 50mg tablet", reason:"", unit:"tablet", label:"Spironolactone 50mg tablet (Women's Hair Loss)",
-       sig:"Take one tablet daily for hair loss", qty:"90", days:"90",
-       notes:"Bill to office/Ship to patient"}
+  var pharmacy = (ph==="Premier") ? "premier" : (ph==="Belmar") ? "belmar" : "farmakeio";
+  return ADDONS.filter(function(p){
+    if(p.pharmacy !== pharmacy) return false;
+    return p.sex === "any" || p.sex === sex;
   });
-
-  // ---- hair loss: topical ----
-  var actives = male ? "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025%"
-                     : "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01%";
-  list.push({
-    cat:"Hair Loss — topical", name: P ? "Topical foam" : "Topical spray", price:"$149", code:"AGEHairFOreg",
-    form: actives + (P ? " — 60 mL foam" : " — 30 mL spray, 120 sprays"),
-    dose:"Apply 1 to 2 "+(P?"pumps":"sprays")+" to dry hair once daily"
-        +(P?"":", leave on at least 4 hours or overnight"),
-    supply: P ? "42 days at 2/day, up to 85 at 1/day" : "60 days at 2/day, up to 120 at 1/day",
-    warnAmber:"Days field is "+(P?"42":"60")+", not 90. This product does not last 90 days at two applications daily.",
-    t:{drug: male ? (P?"minoxidiL 5% topical solution (from drop-down)":"Hair Regrowth Treatment 5 % topical solution (from drop-down)")
-                  : (P?"MinoxidiL 2% topical solution (from drop-down)":"Hair Regrowth Treatment 2 % topical solution (from drop-down)"),
-       form:actives+(P?" topical foam":" topical spray"), reason:"Multi-active combination", unit:P?"bottle":"bottle", label:(P?"":"FKO ")+(male?"Minoxidil 6%":"Minoxidil 2%")+" topical "+(P?"foam":"solution")+" ("+(male?"MEN":"Women's")+" Hair Loss)",
-       sig: P ? "Apply 1-2 pumps topically to dry hair once daily"
-              : "Apply 1-2 sprays topically once daily to dry hair, leave on for at least 4 hours or overnight",
-       qty:"1", days: P?"42":"60",
-       notes:"Compound "+actives+", "+(P?"Topical Foam, 60ml bottle":"Top Spray, qty 30ml (120 Sprays)")+", Bill to office/Ship to patient, no equivalent commercial option"}
-  });
-
-  // ---- anti-aging: NAD+ (all three pharmacies) + Metformin (Premier/FKO) ----
-  list.push({
-    cat:"Anti-Aging", name:"NAD+", price:"$179", code:"AGENAV2001",
-    form: P ? "NAD+ 200 mg/mL, 5 mL vial (1000 mg) SQ injection"
-            : "NAD+ 200 mg/mL, 5 mL vial (1000 mg) SQ injection",
-    dose:"Start 50 mg SQ twice weekly. Increase to 100 mg twice weekly if needed.",
-    supply:"28 days", 
-    warnAmber:"28-day supply, not 90. The vial outlasts 28 days at either dose \u2014 patient discards the remainder. Follow-up every 28 days.",
-    note:"Do not combine with isotretinoin (Accutane). Counsel on nausea, fatigue, headache, indigestion.",
-    t:{drug:"Nicotinamide (with chromium) 500 mcg-750 mg tablet (from drop-down)",
-       form:"NAD+ 200mg/mL 5mL vial", reason:"No FDA-approved NAD+", unit:"vial",
-       label:"NAD+ 50mg", qty:"1", days:"28",
-       sig:"Injectable 50 mg subcutaneously twice a week, discard unused medication 28 days after first puncture",
-       notes:"NAD+ 200mg/ml 5 ML vial (1000mg vial), bill to office/ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."}
-  });
-  list.push({
-    cat:"Anti-Aging", name:"Metformin ER 500 mg", price:"$99", code:"AGEMETF009",
-    form:"Metformin ER 500 mg tablet", dose:"One tablet daily", supply:"90 tablets, 90 days",
-    warn:"Do not prescribe with eGFR under 30. Do not initiate between 30 and 45. Also screen for acute or unstable heart failure or any state causing tissue hypoxia, severe hepatic impairment, heavy or binge alcohol use, and metabolic acidosis of any cause. Boxed warning for lactic acidosis. Hold before and after iodinated contrast imaging or surgery.",
-    monitor:[
-      "Baseline: eGFR, hepatic function, and a vitamin B12 level. A longevity indication has no endpoint, so treat this as long-term therapy from day one.",
-      "eGFR: annually at 60 or above, every 3 to 6 months at 45 to 60, every 3 months at 30 to 45 with a 50% dose reduction (FDA).",
-      "Vitamin B12: ADA Standards of Care 2026 recommendation 3.10 (grade B) is periodic assessment on long-term metformin, especially with anemia or peripheral neuropathy. Annual is reasonable past 4 years of therapy or with independent risk factors. Deficiency is below 148 pmol/L, borderline below 200; methylmalonic acid or holotranscobalamin resolve an equivocal level.",
-      "KORB doses 500 mg ER daily, below the 1,500 mg/day threshold where B12 risk rises most sharply, but duration is the other driver and a longevity course is indefinite."
-    ],
-    warnAmber:"Blunts training adaptations. In the MASTERS trial (randomized, double-blind, placebo-controlled, 94 adults 65+, 14 weeks of progressive resistance training) metformin 1,700 mg/day produced smaller gains than placebo in lean body mass (p=.003), thigh muscle mass (p<.001) and thigh muscle area (p=.005). A companion trial found blunted mitochondrial adaptations to aerobic training. Those doses are well above KORB's 500 mg ER, so the size of the effect here is unknown, but raise it with any patient whose goal is strength or performance, including gym-partner referrals.",
-    note:"Patient will not feel noticeably different. Set that expectation. Side effects: nausea, upset stomach, headache, fatigue, mild hypoglycaemia symptoms.",
-    t:{drug:"metFORMIN ER 500 mg tablet, extended release 24 hr (from drop-down)",
-       form:"Metformin ER 500 mg tablet", unit:"tablet",
-       label:"Metformin ER 500 mg", qty:"90", days:"90",
-       sig:"TAKE ONE TAB PO QD", notes:"Bill to KORB / ship to patient"}
-  });
-
-  // ---- skin care: Premier only ----
-  if(P){
-    list.push({
-      cat:"Skin Care", name:"Tretinoin cream", price:"$49", code:"AGESkinCRToE",
-      form:"0.025%, 0.05%, or 0.1% — 20 g tube",
-      dose:"Apply a pea-sized amount once daily", supply:"approx. 80 days",
-      note:"For acne, oily skin, scarring, spots. Causes sun sensitivity — counsel on sun protection.",
-      t:{drug:"tretinoin 0.025 % topical cream (from drop-down)", form:"Tretinoin 0.025% topical cream", reason:"Strength not commercial", unit:"tube", label:"Tretinoin Cream 0.025%",
-         sig:"Apply a pea-sized amount daily as needed", qty:"1", days:"80",
-         notes:"20 gm Tube, Bill to office/Ship to patient"}
-    });
-    list.push({
-      cat:"Skin Care", name:"Estriol cream 0.3%", price:"$49", code:"AGESkinCRToE",
-      form:"Estriol 0.3% — 30 mL", dose:"Apply 1 click (0.25 mL) once daily", supply:"120 days",
-      warnAmber:"Contains a hormone. Can cause breast tenderness or bleeding. Consider carefully for a patient already on hormone therapy.",
-      t:{drug:"estradioL 0.75 mg/0.75 gram (0.1%) transdermal gel packet (from drop-down)",
-         form:"Estriol 0.3% topical cream", reason:"Compounded strength", unit:"bottle", label:"Estriol Cream 0.3%",
-         sig:"Apply (1 click/0.25 ml/0.25 g, containing estriol 0.075%) to the affected external area once daily as directed",
-         qty:"1", days:"120",
-         notes:"Compounded Estriol Cream 0.3%, QTY: 30ml, Bill to office/Ship to patient, no FDA-approved or commercially available equivalent"}
-    });
-    list.push({
-      cat:"Skin Care", name:"Combo cream", price:"$99", code:"AGESkinCRCmb",
-      form:"Estriol 0.3% / GHK-Cu 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5% — 30 mL",
-      dose:"Apply 1 click (0.25 mL) once daily", supply:"120 days",
-      warnAmber:"Contains estriol, a hormone. Same consideration as above.",
-      t:{drug:"estradioL 0.25 mg/0.25 gram (0.1 %) transdermal gel packet (from drop-down)",
-         form:"Estriol/GHK-Cu/HA/Niacinamide cream", reason:"Multi-active combination", unit:"bottle", label:"Estriol Combo Cream",
-         sig:"Apply (1 click/0.25 ml/0.25 g) to the affected area once daily as directed", qty:"1", days:"120",
-         notes:"Compound: Estriol 0.3% / GHK-CU 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5%, QTY: 30ml, Bill office/Ship patient, no FDA-approved or commercially equivalent"}
-    });
-  }
-  return list;
 }
+
+/* Chips carry a live count per group so the provider can see what a filter will
+   hide before tapping it, and what is hidden after. */
+function paintChips(all, shownCount){
+  var counts = {sexual:0, hair:0, skin:0, antiaging:0};
+  (all||[]).forEach(function(p){ var g=GROUP_OF[p.cat]; if(g) counts[g]++; });
+  var box=document.getElementById("chips");
+  box.innerHTML = GROUPS.map(function(g){
+    return '<button type="button" class="chip" data-g="'+g.key+'" aria-pressed="'+(active[g.key]?"true":"false")+'">'
+         + esc(g.label) + '<span class="n">' + counts[g.key] + '</span></button>';
+  }).join("")
+  + '<button type="button" class="linkbtn" data-act="all">All</button>'
+  + '<button type="button" class="linkbtn" data-act="none">Clear</button>';
+
+  var total=(all||[]).length;
+  var hidden=total-shownCount;
+  document.getElementById("count").innerHTML = total
+    ? 'Showing <b>'+shownCount+'</b> of <b>'+total+'</b> products'
+      + (hidden ? ' &middot; '+hidden+' hidden by the filter above' : '')
+    : 'Select state, program and sex below to list products.';
+}
+
+document.getElementById("chips").addEventListener("click", function(e){
+  var b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.act==="all")  GROUPS.forEach(function(g){ active[g.key]=true; });
+  else if(b.dataset.act==="none") GROUPS.forEach(function(g){ active[g.key]=false; });
+  else if(b.dataset.g) active[b.dataset.g] = !active[b.dataset.g];
+  else return;
+  render();
+});
 
 function render(){
   var st=document.getElementById("st").value,
@@ -383,34 +371,30 @@ function render(){
       out=document.getElementById("out");
 
   if(!st||!prog||!sex){
+    paintChips([], 0);
     out.innerHTML='<div class="empty">Select state, program, and sex to see available add-ons.</div>'; return;
   }
 
   var inP=PREMIER.indexOf(st)>-1, inF=FKO.indexOf(st)>-1;
 
   if(!inP && !inF){
-    /* PT-141 and the Belmar NAD+ forms are the exceptions: Belmar ships to all 50 states
-       and DC, so this is not a no-add-on state. Previously this branch told the provider
-       nothing could be filled here, which is wrong for those products. */
-    out.innerHTML='<div class="route block"><div class="k">Compounded add-ons unavailable</div>'+
-      '<div class="v">'+stName(st)+'</div><div class="s">Neither Premier nor FarmaKeio ships to '+STATE_NAME[st]+
-      ', so no sexual health troche or topical, hair loss product or skin care cream can be filled here.</div></div>'+
+    /* Belmar ships to all 50 states and DC, so this is not a no-add-on state.
+       It carries PT-141 and the two NAD+ forms and nothing else. Those three
+       now render as real cards with Tebra fields rather than as a note telling
+       the provider to go and build the prescription from the reference. */
+    var bel = products("Belmar", sex);
+    out.innerHTML='<div class="route block"><div class="k">Route to</div>'+
+      '<div class="v">Belmar Pharmacy</div><div class="s">Neither Premier nor FarmaKeio ships to '+
+      STATE_NAME[st]+'. Belmar ships to all 50 states and DC and is the only pharmacy that will ship '+
+      'into California.</div></div>'+
       '<div class="box red"><b>Do not offer KORB Rise, PERFORM, KORB Electric, hair loss or skin care to this '+
       'patient.</b> This is a sourcing limitation with no workaround. Raising it and then withdrawing it is '+
       'worse than not raising it.</div>'+
-      '<div class="box amber"><b>Two add-ons are available here, both from Belmar.</b> Belmar ships to all 50 '+
-      'states and DC and is the only pharmacy that will ship anything into California. Pricing has been '+
-      'vetted for these two and no others:'+
-      '<ul style="margin:8px 0 0 18px;">'+
-      '<li><b>PT-141</b> — nasal spray 5 mg/mL, 15 mL bottle, one spray in each nostril 1 to 2 hours before '+
-      'activity. 28-day supply. $119 as an add-on (WMN141add) or $149 standalone (WMN141reg).</li>'+
-      '<li><b>NAD+</b> — Belmar nasal spray or FastSL sublingual. 28-day supply, $179 (AGENAV2001).</li>'+
-      '</ul>'+
-      'This tool does not yet carry Tebra favorite fields for either, so build the prescription from the '+
-      'Add-On Clinical Reference.</div>'+
-      '<div class="box teal"><b>Why nothing else.</b> Belmar\'s add-on pricing does not fit KORB\'s patient '+
-      'pricing once shipping is added, so the rest would be dispensed at a loss. This is a cost decision, '+
-      'not a licensure one, and it is under review.</div>';
+      '<div class="box teal"><b>Why only these three.</b> Belmar\'s pricing on the rest of the catalogue does '+
+      'not fit KORB\'s patient pricing once shipping is added, so those would be dispensed at a loss. This is '+
+      'a cost decision, not a licensure one, and it is under review.</div>'+
+      '<div class="sec">Available for '+prog+' · '+stName(st)+'</div>'+
+      cardsFor(bel, prog);
     return;
   }
 
@@ -430,23 +414,51 @@ function render(){
        (inP?' unless you route them back to Premier.':' at all.')+'</div>';
   }
 
-  h+='<div class="box amber"><b>PT-141 is not in this tool.</b> The Add-On Clinical Reference lists it as a '+
-     'sexual health add-on for both sexes across all programs (Premier injection, Belmar nasal spray, 28-day '+
-     'supply, $119 add-on / WMN141add or $149 standalone / WMN141reg). It does not follow the 90-day cadence '+
-     'and is not scheduled alongside quarterly refills. Build it from the reference until it is added here.</div>';
-
   h+='<div class="sec">Available for '+prog+' · '+stName(st)+'</div>';
 
+  h += cardsFor(products(ph, sex), prog);
+  out.innerHTML=h;
+}
+
+/* Card rendering for a list of products. Split out of render() so the California
+   branch, which routes to Belmar, shows the same cards rather than a paragraph
+   telling the provider to go and build the prescription from the reference. */
+function cardsFor(all, prog){
+  var h = '';
   var onHormoneTherapy = (prog==="Women's Health");
 
-  products(ph, sex).forEach(function(p,i){
+  /* Order sections to match the chip order, so the filter row and the page below
+     read the same way round. */
+  var order = {}; GROUPS.forEach(function(g,i){ order[g.key]=i; });
+  var shown = all.filter(function(p){ return active[GROUP_OF[p.cat]] !== false; })
+                 .sort(function(a,b){ return order[GROUP_OF[a.cat]] - order[GROUP_OF[b.cat]]; });
+  paintChips(all, shown.length);
+
+  if(!shown.length){
+    return '<div class="empty"><b>Choose a category above.</b><br>'
+     + all.length+' product'+(all.length===1?'':'s')+' available for this patient. '
+     + 'Pick one or more categories to see them.</div>';
+  }
+
+  var lastGroup = null;
+  shown.forEach(function(p,i){
+    var g = GROUP_OF[p.cat];
+    if(g !== lastGroup){
+      var label = (GROUPS.filter(function(x){return x.key===g;})[0]||{}).label || p.cat;
+      h+='<div class="grp"><span>'+esc(label)+'</span><div class="rule"></div></div>';
+      lastGroup = g;
+    }
     h+='<div class="card"><div class="chdr"><strong>'+esc(p.name)+'</strong>'+
        '<span class="pill yes">'+p.cat+'</span></div><div class="cbody">';
     h+='<table class="d">'+
        '<tr><td class="l">Formulation</td><td>'+esc(p.form)+'</td></tr>'+
        '<tr><td class="l">Dosing</td><td>'+esc(p.dose)+'</td></tr>'+
        '<tr><td class="l">Supply</td><td>'+esc(p.supply)+'</td></tr>'+
-       '<tr><td class="l">Price / code</td><td>'+p.price+' &middot; '+p.code+'</td></tr>'+
+       '<tr><td class="l">Price</td><td><b>'+esc(p.price)+'</b></td></tr>'+
+       '<tr><td class="l">Charge code</td><td><span class="codewrap">'+
+         '<span class="code-chip" id="cc'+i+'">'+esc(p.code)+'</span>'+
+         '<button type="button" class="cbtn" onclick="copyCode(this,\'cc'+i+'\')">Copy code</button>'+
+       '</span></td></tr>'+
        (FOLLOWUP[p.cat]?'<tr><td class="l">Follow-up</td><td>'+esc(FOLLOWUP[p.cat])+'</td></tr>':'')+
        '</table>';
     if(p.warn)      h+='<div class="box red"><b>'+esc(p.warn)+'</b></div>';
@@ -478,12 +490,15 @@ function render(){
      'For any sexual health product, document that nitrate use was asked about and excluded. For hair loss and '+
      'skin care, document counselling on the 3 to 6 month timeline and on sun sensitivity.</div>';
 
-  out.innerHTML=h;
+  return h;
 }
 
 function fb(t,cb){ var a=document.createElement("textarea"); a.value=t;
   a.style.position="fixed"; a.style.opacity="0"; document.body.appendChild(a); a.select();
   try{document.execCommand("copy");cb();}catch(e){} document.body.removeChild(a); }
+
+/* Paint the filter on load so the categories are visible before anything is chosen. */
+paintChips([], 0);
 </script>
 </body>
 </html>
