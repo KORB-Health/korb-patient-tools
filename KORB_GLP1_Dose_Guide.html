@@ -120,13 +120,11 @@ const DATA = {
       {mg:"10",units:100,ml:"1",v4:"4 ml x 1 vial",v8:"4 ml x 2 vials"},
       {mg:"12.5",units:125,ml:"1.25",v4:"1 ml x 1 vial & 4 ml x 1 vial",v8:"4 ml x 2 vials & 1 ml x 2 vials"},
       {mg:"15",units:150,ml:"1.5",v4:"1 ml x 2 vials & 4 ml x 1 vial",v8:"4 ml x 3 vials"}]},
-    greenwich:{label:"Greenwich Pharmacy",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"Concentration is customized per dose so every injection is 0.5 mL (50 units)",doses:[
-      {mg:"2.5",units:50,ml:"0.5",conc:"5 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"},
-      {mg:"5",units:50,ml:"0.5",conc:"10 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"},
-      {mg:"7.5",units:50,ml:"0.5",conc:"15 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"},
-      {mg:"10",units:50,ml:"0.5",conc:"20 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"},
-      {mg:"12.5",units:50,ml:"0.5",conc:"25 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"},
-      {mg:"15",units:50,ml:"0.5",conc:"30 mg/500 mcg/ml",v4:"2 ml vial",v8:"2 ml x 2 vials"}]}
+    /* Greenwich tirzepatide removed 2026-09-11. Greenwich GLP-1 is retired in
+       every state and all tirzepatide moves to Belmar. This table is hand-maintained
+       rather than read from korb-glp1-data.js, so retiring the product there did not
+       reach it — it kept offering a full Greenwich dose ladder. If another pharmacy
+       changes, remember this file does not update itself. */
   }
 };
 function singleSyringe(fillUnits,colorHex,widthScale){

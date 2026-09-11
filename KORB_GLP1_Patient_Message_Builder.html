@@ -369,9 +369,16 @@
   var S = { state:'', pharm:'', prod:'', weeks:4, doses:{} };
 
   /* Injectable compounded products only. */
+  /* Retired products are excluded here rather than further down, because
+     PHARM_KEYS is derived from this list and PHARM_KEYS is what the no-state
+     fallback offers. Without this, a retired product's pharmacy stayed in the
+     dropdown until a state was picked — Greenwich showed as "restricted" on
+     first load, which reads as usable-with-care rather than closed.
+     Added 2026-09-11 with the Greenwich GLP-1 retirement. */
   function injectables(){
     return Object.keys(D.products).map(function(k){ return D.products[k]; })
       .filter(function(p){
+        if (p.retired || p.status === 'retired') return false;
         return p.compounded && p.doses && p.doses.length &&
                p.doses[0].units !== undefined && p.doses[0].supply4;
       });
