@@ -169,7 +169,10 @@ const DOCS = [
   { id: 'premier_tirz',     file: 'KORB_GLP1_Premier_Tirzepatide_Reference',       title: 'Premier — Tirzepatide',               products: ['premier_tirz', 'premier_oral_tirz'] },
   { id: 'farmakeio_sema',   file: 'KORB_GLP1_Farmakeio_Semaglutide_Reference',     title: 'Farmakeio — Semaglutide',             products: ['farmakeio_sema', 'farmakeio_oral_sema'] },
   { id: 'farmakeio_tirz',   file: 'KORB_GLP1_Farmakeio_Tirzepatide_Reference',     title: 'Farmakeio — Tirzepatide',             products: ['farmakeio_tirz'] },
-  { id: 'greenwich_tirz',   file: 'KORB_GLP1_Greenwich_Tirzepatide_Reference',     title: 'Greenwich — Tirzepatide',             products: ['greenwich_tirz'] },
+  /* greenwich_tirz removed 2026-09-11. Greenwich GLP-1 is retired in every state
+     and all tirzepatide moves to Belmar, so a provider reference for it would be a
+     document describing a route nobody may use. The product record stays in
+     korb-glp1-data.js so a pre-retirement order can still be read. */
   { id: 'zepbound',         file: 'KORB_GLP1_Brand_Zepbound_Reference',            title: 'Zepbound — brand tirzepatide',        products: ['zepbound'],  brand: true },
   { id: 'wegovy',           file: 'KORB_GLP1_Brand_Wegovy_Reference',              title: 'Wegovy — brand semaglutide',          products: ['wegovy_pen', 'wegovy_pill'], brand: true },
   { id: 'foundayo',         file: 'KORB_GLP1_Brand_Foundayo_Reference',            title: 'Foundayo — brand orforglipron',       products: ['foundayo'],  brand: true }
@@ -285,6 +288,12 @@ function sectionCallouts(doc, ph) {
   }
   if (ph.status === 'legacy-continuity') {
     h += `<div class="callout warn"><h3>Legacy continuity only</h3><p>${esc(ph.statusNote || 'No new starts.')}</p></div>`;
+  }
+  /* Retired from the GLP-1 line entirely. Distinct from legacy continuity: there
+     is no continuation route left, so the callout must not read as a softer
+     version of "no new starts". Greenwich, 2026-09-11. */
+  if (ph.status === 'glp1-retired' || (ph.glp1Retired && ph.glp1Retired.retired)) {
+    h += `<div class="callout warn"><h3>Retired — do not prescribe in any state</h3><p>${esc(ph.statusNote || 'Retired.')}</p></div>`;
   }
   return h;
 }

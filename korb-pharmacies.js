@@ -15,13 +15,24 @@
    default and are overridable. Ships-to is licensure and is not. Do not collapse
    the two. Confirmed with Don Stevenson 2026-09-10.
 
-   VERSION: 1.0   CREATED: 2026-09-11
+   2026-09-11 — GREENWICH CHANGE. Two separate things happened on the same day
+   and they should not be collapsed into one:
+
+     1. Greenwich stopped shipping to AR, CA, IN, NH and WA. That is licensure,
+        it is not overridable, and because Premier cannot ship to any of those
+        five either, Functional Health & Longevity is now closed in all five.
+        The FH&L state lists live in korb-dosing-data.js.
+     2. Greenwich GLP-1 is retired outright, in every state. Not California
+        only. All tirzepatide moves to Belmar. Greenwich is a peptide pharmacy
+        now and nothing else.
+
+   VERSION: 1.1   CREATED: 2026-09-11   UPDATED: 2026-09-11
    OWNER: Director of Clinical Operations
 */
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.0",
+    version: "1.1",
     created: "2026-09-11",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
@@ -385,16 +396,21 @@ var KORB_PHARMACIES = {
     "color": "#2E7D32",
     "type": "compounding",
     "visibility": "provider",
-    "status": "legacy-continuity",
-    "statusNote": "NOT USED FOR GLP-1 except to continue an existing tirzepatide patient who does not want to switch. Greenwich is now primarily a Functional Health peptide pharmacy. Do not route a new GLP-1 patient here and do not offer it as a GLP-1 option.",
-    "overrideOnlyFor": "An established Greenwich tirzepatide patient continuing therapy.",
+    "status": "peptides-only",
+    "statusNote": "NOT USED FOR GLP-1 AT ALL as of 2026-09-11. Greenwich tirzepatide is retired in every state, not only California — all tirzepatide moves to Belmar. Greenwich is a Functional Health & Longevity peptide pharmacy only. Do not route any GLP-1 patient here, new or established, and do not offer it as a GLP-1 option anywhere.",
+    "glp1Retired": {
+      "retired": true,
+      "retiredOn": "2026-09-11",
+      "movesTo": "belmar",
+      "decidedBy": "Don Stevenson",
+      "reason": "Greenwich stopped shipping to California, which removed the last reason to keep a second tirzepatide route open. Rather than carve California out, the whole Greenwich GLP-1 line is retired and every tirzepatide patient moves to Belmar.",
+      "opsAction": "Every established Greenwich tirzepatide patient is moved to Belmar at their next fill, California first. Do not place another Greenwich GLP-1 order."
+    },
     "preferredStates": [],
     "shipsTo": [
       "AL",
       "AK",
       "AZ",
-      "AR",
-      "CA",
       "CO",
       "CT",
       "DE",
@@ -404,7 +420,6 @@ var KORB_PHARMACIES = {
       "HI",
       "ID",
       "IL",
-      "IN",
       "IA",
       "KS",
       "KY",
@@ -419,7 +434,6 @@ var KORB_PHARMACIES = {
       "MT",
       "NE",
       "NV",
-      "NH",
       "NJ",
       "NM",
       "NY",
@@ -437,13 +451,18 @@ var KORB_PHARMACIES = {
       "UT",
       "VT",
       "VA",
-      "WA",
       "WV",
       "WI",
       "WY"
     ],
-    "hardExcludes": [],
-    "shipsToNote": "Ships to all 50 states and DC, but see the status note — shipping reach is not the limiting factor, program policy is.",
+    "hardExcludes": [
+      "AR",
+      "CA",
+      "IN",
+      "NH",
+      "WA"
+    ],
+    "shipsToNote": "Ships to 45 states and DC as of 2026-09-11. Greenwich stopped shipping to Arkansas, California, Indiana, New Hampshire and Washington. Premier's licensed footprint excludes all five as well, so those states have no peptide source and Functional Health & Longevity is closed there. Confirmed with Don Stevenson 2026-09-11.",
     "address": "Greenwich Rx, 9733 FM 2920 Rd, Suite 100, Tomball, TX 77375",
     "orderVia": "Tebra Compound",
     "orderViaNote": "Moved from MDToolbox to Tebra Compound. MDToolbox is being turned off at the end of August 2026.",
@@ -456,9 +475,10 @@ var KORB_PHARMACIES = {
       "Will NOT accept a do-not-fill date.",
       "B-12 only. No other added formulations.",
       "Patient is automatically shipped a 10-pack of 50-unit insulin syringes.",
-      "SYRINGE NOTE — every Greenwich GLP-1 dose is exactly 50 units in a 50-unit syringe. That is deliberate and has been their practice for all GLP-1s since before KORB started using them. Do NOT add the 100-UNIT SYRINGE callout used for Functional Health peptides; the FH&L syringe rule does not apply here.",
       "Ordering 4 mL on the prescription ships two 2 mL vials.",
-      "Dose is set by concentration, not volume. Every dose injects 50 units."
+      "Dose is set by concentration, not volume.",
+      "HISTORICAL — GLP-1 only, and GLP-1 at Greenwich ended 2026-09-11: every Greenwich GLP-1 dose was exactly 50 units in a 50-unit syringe, and the 100-UNIT SYRINGE callout used for Functional Health peptides was deliberately kept off those sigs. Kept for anyone reading an order placed before the retirement. It says nothing about peptide sigs, which follow the FH&L syringe rule.",
+      "AR, CA, IN, NH and WA: do not send anything here, peptide or otherwise. Greenwich stopped shipping to these five states on 2026-09-11."
     ]
   },
   "lillydirect": {
@@ -595,7 +615,7 @@ var KORB_PHARMACIES = {
       ],
       "pharmacy": "belmar",
       "basis": "sole California pharmacy — semaglutide and tirzepatide",
-      "note": "Farmakeio cannot ship to CA at all. Greenwich is continuation only."
+      "note": "Belmar is the only California option. Farmakeio cannot ship to CA at all, Premier cannot either, and Greenwich stopped shipping to CA on 2026-09-11. Every California GLP-1 goes to Belmar, including tirzepatide patients moving off Greenwich."
     },
     {
       "states": [

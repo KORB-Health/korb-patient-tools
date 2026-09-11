@@ -321,7 +321,7 @@
       <div class="cg"><label style="visibility:hidden;">Reset</label><button class="reset-btn" onclick="resetFilters()">&#8635; Reset</button></div>
     </div>
     <div class="override-row" id="ovr">
-      <label><input type="checkbox" id="ovrChk"> Patient prefers Greenwich Pharmacy (override — Greenwich ships to all 50 states &amp; DC)</label>
+      <label><input type="checkbox" id="ovrChk"> Patient prefers Greenwich Pharmacy (override — Greenwich ships to 45 states &amp; DC; not AR, CA, IN, NH or WA)</label>
     </div>
     <div class="override-row" id="ghkRow" style="display:none;">
       <label><input type="checkbox" id="ghkChk"> Add GHK-Cu (optional add-on — Weeks 5–8 of this cycle)</label>
@@ -1452,7 +1452,7 @@ function renderLabs(){
 
   html += '<div class="sec csec-hdr" style="background:var(--navy);color:#fff;font-size:15px;font-weight:700;padding:10px 14px;border-radius:8px;margin-top:20px;margin-bottom:0;" onclick="togSec(\'labsStates\')">Premier Pharmacy — State Shipping Reference<span class="tog" id="tog-labsStates" style="color:#fff;">&#9658; expand</span></div>';
   html += '<div class="csec-body collapsed" id="body-labsStates" style="padding-top:12px;">';
-  html += '<div style="font-size:12px;color:var(--mu);margin-bottom:8px;">Premier is the default pharmacy where available. Use Greenwich for all other states (ships to all 50 states + DC). States where KORB does not offer Functional Health &amp; Longevity are not listed here, whatever the pharmacy can ship.</div>';
+  html += '<div style="font-size:12px;color:var(--mu);margin-bottom:8px;">Premier is the default pharmacy where available. Use Greenwich for all other states — but as of 11 Sep 2026 Greenwich ships to 45 states + DC, not all 50. It will not ship to Arkansas, California, Indiana, New Hampshire or Washington, and Premier cannot ship to any of those five either, so Functional Health &amp; Longevity is closed in all five. States where KORB does not offer Functional Health &amp; Longevity are not listed here, whatever the pharmacy can ship.</div>';
   html += '<div class="state-grid">';
   // Filter out any state FH&L is not offered in. A provider scanning this grid
   // reads a checkmark as "you can send it there" — showing a blocked state here
@@ -1466,6 +1466,15 @@ function renderLabs(){
     html += 'No peptide or Functional Health &amp; Longevity product may be shipped to '
          + UNAVAILABLE_STATES_NO_SHIP.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', ')
          + '. These states are excluded from the offering, not pending launch. Confirm with Ops before any exception.';
+    html += '</div>';
+  }
+  if(UNAVAILABLE_STATES_NO_PHARMACY.length){
+    html += '<div style="margin-top:12px;padding:10px 14px;background:#FFF4E5;border:2px solid #B45309;border-radius:8px;font-size:12px;color:#7A3E00;">';
+    html += '<strong style="display:block;color:#B45309;margin-bottom:4px;">&#9888; No pharmacy can fill — '
+         + UNAVAILABLE_STATES_NO_PHARMACY.join(', ') + '</strong>';
+    html += 'Greenwich stopped shipping to '
+         + UNAVAILABLE_STATES_NO_PHARMACY.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', ')
+         + ' on 11 Sep 2026, and Premier is not licensed in any of them. There is no peptide source left, so Functional Health &amp; Longevity is closed in these states: no visit, no prescription, no shipment. This is a supply limit, not a compliance exclusion — it reopens if a pharmacy footprint changes.';
     html += '</div>';
   }
   html += '</div>'; // end body-labsStates
@@ -1546,19 +1555,30 @@ var visitType = 'routine';
 
 // ─── UNAVAILABLE STATES ─────────────────────────────────────────────────────
 // States where the Functional Health & Longevity program is NOT offered.
-// Three reasons, three messages:
+// Four reasons, four messages:
 //   - no-ship exclusions (AL/MS/SC): excluded from the offering outright. No
 //     peptide or FH&L product ships there. Not a sequencing question.
+//   - no pharmacy (AR/CA/IN/NH/WA): a supply limit, not a policy one. Greenwich
+//     stopped shipping to these five and Premier is not licensed in any of
+//     them, so nothing can be filled there at all.
 //   - lab workflow (NY/NJ/RI): state-specific legislation and a different lab
 //     workflow the team is still working through.
 //   - everything else: provider coverage / operational bandwidth as KORB scales.
-// All three lists live in korb-dosing-data.js. Update them there, not here.
+// All four lists live in korb-dosing-data.js. Update them there, not here.
 //
 // 2026-08-10: ME, NH, UT and WI removed — FH&L is now offered in these states.
 // Note on pharmacy routing: ME, UT and WI are in the PREMIER set, so those
 // patients auto-route to Premier. NH is NOT in the PREMIER set, so NH patients
-// auto-route to Greenwich (which ships to all 50 states + DC). Greenwich unit
-// counts differ from Premier — the Rx reference handles this automatically.
+// auto-route to Greenwich. Greenwich unit counts differ from Premier — the Rx
+// reference handles this automatically.
+//
+// 2026-09-11: NH is blocked again, along with AR, CA, IN and WA. Greenwich
+// stopped shipping to all five. Greenwich is the only peptide source outside
+// the PREMIER set and Premier's licensed footprint excludes all five, so these
+// states have no pharmacy at all. Greenwich no longer ships to "all 50 states
+// + DC" — it is 45 states + DC, and any text in this tool still saying
+// otherwise is wrong. Separately, Greenwich GLP-1 is retired everywhere; that
+// does not affect this tool, which is peptides only. Source: Don Stevenson.
 //
 // 2026-08-24: MS added and flagged no-ship alongside AL and SC, which were
 // already blocked but were showing the generic bandwidth message. MS was also
@@ -1566,19 +1586,24 @@ var visitType = 'routine';
 // shippable state anywhere in this tool.
 var UNAVAILABLE_STATES = KORB_DOSING.states.unavailable;
 var UNAVAILABLE_STATES_NO_SHIP = KORB_DOSING.states.unavailableNoShip || [];
+var UNAVAILABLE_STATES_NO_PHARMACY = KORB_DOSING.states.unavailableNoPharmacy || [];
 var UNAVAILABLE_STATES_LAB_WORKFLOW = KORB_DOSING.states.unavailableLabWorkflow;
 function stateBlockedHeading(st){
-  return (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1)
-    ? 'Do Not Ship — State Excluded'
-    : 'State Not Yet Available';
+  if (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1) return 'Do Not Ship — State Excluded';
+  if (UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1) return 'No Pharmacy — Cannot Be Filled';
+  return 'State Not Yet Available';
 }
 function stateBlockedClass(st){
-  return (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1) ? ' state-noship' : '';
+  return (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1 ||
+          UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1) ? ' state-noship' : '';
 }
 function stateBlockedMessage(st){
   var name = STATES[st] || st;
   if (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1) {
     return name+' is excluded from the Functional Health &amp; Longevity offering. Peptides and all other Functional Health &amp; Longevity products may NOT be shipped to '+name+'. Do not start a visit, do not prescribe, and do not send an order to either pharmacy. This is not a launch-sequencing item and will not clear on its own — route any question to Ops or Compliance.';
+  }
+  if (UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1) {
+    return name+' cannot be filled by any pharmacy KORB uses. Greenwich stopped shipping to '+name+' on 11 September 2026, and Premier is not licensed there, so there is no peptide source at all. Do not start a visit, do not prescribe, and do not send an order. This is a supply limit rather than a compliance exclusion — it can reopen if a pharmacy footprint changes, so check with Ops before telling a patient it is permanent.';
   }
   if (UNAVAILABLE_STATES_LAB_WORKFLOW.indexOf(st) !== -1) {
     return 'KORB is not yet launching the Functional Health & Longevity program in '+name+' during Phase 1. The team is still working through a different lab workflow required by '+name+'-specific legislation. Do not proceed with a visit or prescription until this is confirmed with Ops.';

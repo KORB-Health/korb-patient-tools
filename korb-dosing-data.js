@@ -1127,7 +1127,9 @@ var KORB_DOSING = {
 
   // ── STATE ROUTING AND AVAILABILITY ────────────────────────────────────────
   // premierRouting: states that default to Premier. Everything else goes to
-  // Greenwich, which ships to all 50 states plus DC.
+  // Greenwich, which is the only other peptide source. Greenwich no longer
+  // ships to AR, CA, IN, NH or WA, and Premier does not ship to any of those
+  // five either, so those states now have no peptide source at all.
   // unavailable: FH&L is not offered in these states. This is the list the
   //   provider tool blocks on - if a state is here, no visit, no prescription,
   //   no shipment.
@@ -1136,6 +1138,10 @@ var KORB_DOSING = {
   //   from the offering, and no peptide or other Functional Health & Longevity
   //   product may be shipped there. Treated as a permanent exclusion until
   //   Compliance says otherwise, not a Phase 1 sequencing item.
+  // unavailableNoPharmacy: also a subset of unavailable, and also a hard stop,
+  //   but for a supply reason rather than a policy one. No pharmacy KORB uses
+  //   can ship a peptide into these states. If a pharmacy footprint changes,
+  //   this list changes with it - it is not a compliance exclusion.
   // unavailableLabWorkflow: a distinct reason - lab workflow and state-specific
   //   legislation, not provider coverage.
   //
@@ -1144,10 +1150,20 @@ var KORB_DOSING = {
   // also flagged no-ship, so the tool states the real reason rather than the
   // generic "provider coverage and operational bandwidth" line. Source: notice
   // to Don, 2026-08-24, that MS, AL and SC are out of the FH&L offering.
+  //
+  // 2026-09-11: AR, CA, IN, NH and WA added to unavailable and to the new
+  // unavailableNoPharmacy list. Greenwich stopped shipping to these five
+  // states. Greenwich is the peptide pharmacy for everything outside the
+  // Premier routing set, and Premier's licensed footprint excludes all five,
+  // so there is no pharmacy left that can fill a peptide there. No visit, no
+  // prescription, no shipment until a pharmacy can serve them again. None of
+  // the five was in premierRouting, so that list is unchanged. Source: Don
+  // Stevenson, 2026-09-11.
   states: {
     premierRouting: ['AZ','CO','CT','DC','DE','FL','GA','IL','KS','KY','LA','MD','ME','MI','MO','MT','NC','ND','NE','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SD','TN','TX','UT','VA','VT','WI','WV','WY'],
-    unavailable: ['AL','AK','DC','GA','HI','MA','MN','MS','NJ','NY','RI','SC','WV'],
+    unavailable: ['AL','AK','AR','CA','DC','GA','HI','IN','MA','MN','MS','NH','NJ','NY','RI','SC','WA','WV'],
     unavailableNoShip: ['AL','MS','SC'],
+    unavailableNoPharmacy: ['AR','CA','IN','NH','WA'],
     unavailableLabWorkflow: ['NY','NJ','RI']
   },
 

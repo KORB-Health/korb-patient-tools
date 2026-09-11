@@ -78,10 +78,10 @@ const NAMES = {
   tirzepatide: 'Tirzepatide',
   orforglipron: 'Orforglipron'
 };
-const DOCCOUNT = { semaglutide: 5, tirzepatide: 4, orforglipron: 1 };
+const DOCCOUNT = { semaglutide: 5, tirzepatide: 3, orforglipron: 1 };  // tirzepatide 4 -> 3: the Greenwich document was retired 2026-09-11
 const SCOPE = {
   semaglutide: 'Belmar, Premier, Premier glycine, Farmakeio, Wegovy',
-  tirzepatide: 'Belmar, Premier, Farmakeio, Greenwich, Zepbound',
+  tirzepatide: 'Belmar, Premier, Farmakeio, Zepbound',
   orforglipron: 'Foundayo'
 };
 

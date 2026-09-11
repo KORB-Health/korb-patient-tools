@@ -393,10 +393,17 @@ function buildPharmacies(){
   sel.value = S.pharmacy;
 }
 
+/* Retired products never reach a selector. The record stays in the data file so
+   an order placed before the retirement can still be read, but it is not a route
+   anyone can prescribe on. Added 2026-09-11 with the Greenwich GLP-1 retirement —
+   greenwich_tirz was Greenwich's only GLP-1 product, so Greenwich disappears from
+   the pharmacy list here as a consequence, which is the intent. */
+function isRetiredProduct(p){ return !!(p && (p.retired || p.status === 'retired')); }
+
 function matchingProducts(){
   if (!S.pharmacy || !S.drug) return [];
   return K.listProducts({ pharmacy:S.pharmacy }).filter(function(p){
-    return selectorDrug(p) === S.drug;
+    return selectorDrug(p) === S.drug && !isRetiredProduct(p);
   });
 }
 
