@@ -296,12 +296,26 @@ TARGETS.forEach(function (t) {
 });
 
 console.log('');
+
+/* A checker that finds nothing and reports success is worse than no checker:
+   it is a green light earned by not looking. If a target's file is missing or
+   its block cannot be found, that is a failure, not a skip — most likely the
+   files are not where this script expects them. */
+if (skipped) {
+  console.log(skipped + ' of ' + TARGETS.length + ' target(s) could not be checked.');
+  console.log('Nothing was verified for those. Expected layout, from the repo root:');
+  console.log('  korb-glp1-data.js, korb-addons-data.js, korb-pharmacies.js, build-embed.js');
+  console.log('  Provider_Reference/<the tool HTML files>');
+  console.log('Resolved repo root as: ' + ROOT);
+  process.exit(1);
+}
+
 if (CHECK_ONLY) {
   if (drifted) {
     console.log(drifted + ' file(s) have drifted from their data file. Run: node build-embed.js');
     process.exit(1);
   }
-  console.log('All embedded data matches its source.');
+  console.log('All ' + TARGETS.length + ' embedded blobs match their source.');
 } else {
-  console.log(changed + ' file(s) updated, ' + skipped + ' skipped.');
+  console.log(changed + ' file(s) updated, ' + (TARGETS.length - changed) + ' already current.');
 }
