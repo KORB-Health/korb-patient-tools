@@ -47,9 +47,9 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.15',
+    version: '2.16',
     created: '2026-08-06',
-    lastUpdated: '2026-09-06',
+    lastUpdated: '2026-09-11',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -67,6 +67,24 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-11 (v2.16): GREENWICH GLP-1 RETIRED, EVERY STATE. Greenwich told KORB ' +
+      'it can no longer ship to California. California was the trigger, but the ' +
+      'decision Don made is wider than California: rather than carve one state out of ' +
+      'a pharmacy that was already continuation-only, the whole Greenwich GLP-1 line ' +
+      'is retired. greenwich_tirz is status "retired" and is no longer a prescribable ' +
+      'option anywhere, for a new start or an established patient. All tirzepatide ' +
+      'moves to Belmar, California first. The pharmacy record stays in the file and ' +
+      'the product record stays with its sigs and charge codes, because an order ' +
+      'placed before today still has to be readable - neither is a live route. ' +
+      'Greenwich is removed from the three 8-week standard charge-code pharmacy lists ' +
+      'for the same reason: the codes are unchanged, Greenwich simply cannot be on a ' +
+      'new order. SEPARATELY, and do not collapse the two: Greenwich also stopped ' +
+      'shipping to AR, CA, IN, NH and WA outright. That is a peptide and Functional ' +
+      'Health & Longevity question, not a GLP-1 one, and it closes FH&L in all five ' +
+      'states because Premier cannot ship to any of them either. The FH&L state lists ' +
+      'live in korb-dosing-data.js and were updated in the same pass. Source: Don ' +
+      'Stevenson, 2026-09-11.',
+
       '2026-09-06 (v2.15): BRAND TYPEFACE. The KORB guidelines specify Montserrat ' +
       'ExtraBold for headlines and Montserrat Regular for body copy. The documents ' +
       'were set in Archivo and Source Serif and the provider tool in Arial, so none ' +
@@ -934,7 +952,11 @@ var KORB_GLP1 = {
         pharmacy: 'premier', basis: 'preferred pharmacy' },
       { states: ['CA'],                   pharmacy: 'belmar',
         basis: 'sole California pharmacy \u2014 semaglutide and tirzepatide',
-        note: 'Farmakeio cannot ship to CA at all. Greenwich is continuation only.' },
+        note: 'Belmar is the only California option, and as of 2026-09-11 this applies ' +
+              'to established patients too, not just new starts. Farmakeio cannot ship ' +
+              'to CA at all, Premier cannot either, and Greenwich stopped shipping to ' +
+              'CA and no longer fills GLP-1 in any state. Every California tirzepatide ' +
+              'patient still on Greenwich moves to Belmar.' },
       { states: ['*'],                    pharmacy: 'farmakeio', basis: 'all other new patients' }
     ],
 
@@ -1166,24 +1188,40 @@ var KORB_GLP1 = {
       color: '#2E7D32',
       type: 'compounding',
       visibility: 'provider',
-      status: 'legacy-continuity',
-      statusNote: 'NOT USED FOR GLP-1 except to continue an existing tirzepatide ' +
-                  'patient who does not want to switch. Greenwich is now primarily a ' +
-                  'Functional Health peptide pharmacy. Do not route a new GLP-1 patient ' +
-                  'here and do not offer it as a GLP-1 option.',
-      overrideOnlyFor: 'An established Greenwich tirzepatide patient continuing therapy.',
+      status: 'glp1-retired',
+      statusNote: 'NOT A GLP-1 PHARMACY as of 2026-09-11. Greenwich tirzepatide is ' +
+                  'retired in every state, not California only, and there is no ' +
+                  'continuation route. All tirzepatide moves to Belmar. Greenwich ' +
+                  'remains a Functional Health & Longevity peptide pharmacy and nothing ' +
+                  'else. Do not route any GLP-1 patient here, new or established, and do ' +
+                  'not offer it as a GLP-1 option in any state.',
+      glp1Retired: {
+        retired: true,
+        retiredOn: '2026-09-11',
+        movesTo: 'belmar',
+        decidedBy: 'Don Stevenson',
+        reason: 'Greenwich stopped shipping to California, which removed the last ' +
+                'reason to keep a second tirzepatide route open. Rather than carve ' +
+                'California out, the whole Greenwich GLP-1 line is retired and every ' +
+                'tirzepatide patient moves to Belmar.',
+        opsAction: 'Move every established Greenwich tirzepatide patient to Belmar at ' +
+                   'their next fill, California first. Place no further Greenwich GLP-1 ' +
+                   'orders.'
+      },
       preferredStates: [],
       shipsTo: [
-        'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
-        'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
-        'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH',
+        'AL', 'AK', 'AZ', 'CO', 'CT', 'DE', 'DC', 'FL',
+        'GA', 'HI', 'ID', 'IL', 'IA', 'KS', 'KY', 'LA', 'ME',
+        'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV',
         'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI',
-        'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI',
+        'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WV', 'WI',
         'WY'
       ],
-      hardExcludes: [],
-      shipsToNote: 'Ships to all 50 states and DC, but see the status note \u2014 shipping ' +
-                   'reach is not the limiting factor, program policy is.',
+      hardExcludes: ['AR', 'CA', 'IN', 'NH', 'WA'],
+      shipsToNote: 'Ships to 45 states and DC as of 2026-09-11 \u2014 Greenwich stopped ' +
+                   'shipping to AR, CA, IN, NH and WA. This list now governs peptides ' +
+                   'only. For GLP-1 the ship-to list is irrelevant: Greenwich fills no ' +
+                   'GLP-1 anywhere.',
       address: 'Greenwich Rx, 9733 FM 2920 Rd, Suite 100, Tomball, TX 77375',
       orderVia: 'Tebra Compound',
       orderViaNote: 'Moved from MDToolbox to Tebra Compound. MDToolbox is being turned ' +
@@ -1199,12 +1237,15 @@ var KORB_GLP1 = {
         'Will NOT accept a do-not-fill date.',
         'B-12 only. No other added formulations.',
         'Patient is automatically shipped a 10-pack of 50-unit insulin syringes.',
-        'SYRINGE NOTE \u2014 every Greenwich GLP-1 dose is exactly 50 units in a 50-unit ' +
-        'syringe. That is deliberate and has been their practice for all GLP-1s since ' +
-        'before KORB started using them. Do NOT add the 100-UNIT SYRINGE callout used ' +
-        'for Functional Health peptides; the FH&L syringe rule does not apply here.',
         'Ordering 4 mL on the prescription ships two 2 mL vials.',
-        'Dose is set by concentration, not volume. Every dose injects 50 units.'
+        'Dose is set by concentration, not volume.',
+        'HISTORICAL \u2014 every Greenwich GLP-1 dose was exactly 50 units in a 50-unit ' +
+        'syringe, and the 100-UNIT SYRINGE callout used for Functional Health peptides ' +
+        'was deliberately kept off those sigs. Greenwich GLP-1 ended 2026-09-11; this ' +
+        'is here for anyone reading an order placed before then. It says nothing about ' +
+        'peptide sigs, which do follow the FH&L syringe rule.',
+        'AR, CA, IN, NH and WA \u2014 send nothing here, peptide or otherwise. Greenwich ' +
+        'stopped shipping to these five states on 2026-09-11.'
       ]
     },
 
@@ -3201,10 +3242,16 @@ var KORB_GLP1 = {
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'greenwich',
       drug: 'tirzepatide',
-      label: 'Greenwich \u2014 Tirzepatide / B-12',
+      label: 'Greenwich \u2014 Tirzepatide / B-12 (RETIRED)',
       visibility: 'provider',
-      status: 'legacy-continuity',
-      statusNote: 'Continuation only, for established Greenwich tirzepatide patients who chose not to move to Belmar. Not available for new starts.',
+      status: 'retired',
+      retired: true,
+      retiredOn: '2026-09-11',
+      movesTo: 'belmar_tirz',
+      statusNote: 'RETIRED 2026-09-11 in every state. Do not prescribe, do not continue, ' +
+                  'do not order. All tirzepatide moves to Belmar, California first. This ' +
+                  'record is kept so anyone reading an order placed before 2026-09-11 can ' +
+                  'still see what was dispensed. It is not a live option.',
       route: 'subcutaneous',
       frequency: 'once weekly',
       orderVia: 'Tebra Compound',
@@ -4073,8 +4120,8 @@ var KORB_GLP1 = {
           codes: {
             standard: {
               code: 'FITTirzMT1',
-              pharmacies: ['premier', 'belmar', 'farmakeio', 'greenwich'],
-              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05.'
+              pharmacies: ['premier', 'belmar', 'farmakeio'],
+              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05. Greenwich removed 2026-09-11 with the retirement of Greenwich GLP-1 \u2014 the code itself is unchanged and still applies to a Greenwich order placed before that date.'
             },
             retired: [
               {
@@ -4100,8 +4147,8 @@ var KORB_GLP1 = {
           codes: {
             standard: {
               code: 'FITTirzMT2',
-              pharmacies: ['premier', 'belmar', 'farmakeio', 'greenwich'],
-              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05.'
+              pharmacies: ['premier', 'belmar', 'farmakeio'],
+              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05. Greenwich removed 2026-09-11 with the retirement of Greenwich GLP-1 \u2014 the code itself is unchanged and still applies to a Greenwich order placed before that date.'
             },
             retired: [
               {
@@ -4127,8 +4174,8 @@ var KORB_GLP1 = {
           codes: {
             standard: {
               code: 'FITTirzMT3',
-              pharmacies: ['premier', 'belmar', 'farmakeio', 'greenwich'],
-              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05.'
+              pharmacies: ['premier', 'belmar', 'farmakeio'],
+              note: 'Single fill, full 8-week supply shipped at once. Every pharmacy, including Belmar as of 2026-09-05. Greenwich removed 2026-09-11 with the retirement of Greenwich GLP-1 \u2014 the code itself is unchanged and still applies to a Greenwich order placed before that date.'
             },
             retired: [
               {
@@ -4715,6 +4762,18 @@ var KORB_GLP1 = {
                'not state-routed. Written as a Tebra Standard prescription, not Compound.' };
     }
 
+    /* A pharmacy retired from the GLP-1 line is a block in every state, ahead of
+       any state question. This is deliberately an 'error' and not a 'warning':
+       there is no continuation route to override into. Greenwich, 2026-09-11. */
+    if (ph.status === 'glp1-retired' || (ph.glp1Retired && ph.glp1Retired.retired)) {
+      var moveTo = ph.glp1Retired && ph.glp1Retired.movesTo;
+      var moveName = (moveTo && KORB_GLP1.pharmacies[moveTo]) ? KORB_GLP1.pharmacies[moveTo].name : null;
+      return { status: 'error', message: ph.name + ' no longer fills GLP-1 in any state, ' +
+               'including for established patients' +
+               (ph.glp1Retired && ph.glp1Retired.retiredOn ? ' (retired ' + ph.glp1Retired.retiredOn + ')' : '') +
+               '. ' + (moveName ? 'Move the patient to ' + moveName + '.' : '') };
+    }
+
     // Hard licensing exclusions are the only true blocks.
     var hard = (ph.hardExcludes || []).concat(ph.excludes || []);
     if (hard.indexOf(st) !== -1) {
@@ -4979,13 +5038,19 @@ var KORB_GLP1 = {
     /* Every pharmacy that dispenses a drug must appear on that drug's 8-week code.
        Since the Belmar-specific codes were retired the code is uniform, so this
        list is no longer a selection mechanism - it is a roster, and a roster is
-       exactly the kind of thing that goes stale when a pharmacy is added. */
+       exactly the kind of thing that goes stale when a pharmacy is added.
+
+       Retired products are skipped. A retired product's record stays in the file
+       so a pre-retirement order can still be read, but it is not a route anyone
+       can order on, so it must not hold a pharmacy on the live code roster.
+       Added 2026-09-11 with the Greenwich GLP-1 retirement. */
     (function () {
       function carriers(drug) {
         var out = [];
         for (var ck in KORB_GLP1.products) {
           if (!KORB_GLP1.products.hasOwnProperty(ck)) continue;
           var cp = KORB_GLP1.products[ck];
+          if (cp.retired || cp.status === 'retired') continue;
           if (cp.drug === drug && cp.route === 'subcutaneous' && !cp.brandName &&
               cp.doses && cp.doses[0] && cp.doses[0].supply8 &&
               out.indexOf(cp.pharmacy) === -1) { out.push(cp.pharmacy); }
