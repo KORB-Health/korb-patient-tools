@@ -448,113 +448,36 @@ body.print-summary .wrap>*:not(#cycSummary){display:none!important;}
 </div>
 
 </div>
+<script src="korb-dosing-data.js"></script>
 <script>
 // ── PHARMACY DATA ─────────────────────────────────────────────────────
 // Pharmacy is selected directly by the patient (Premier or Greenwich) — no state lookup.
+//
+// INSTR and AGENTS are DERIVED from korb-dosing-data.js as of 2026-09-12. They
+// used to be typed into this file, and they drifted: Dr. Rose corrected the
+// rest-day language on 2026-08-10 so that the weekday is a recommendation for
+// recall rather than a clinical requirement, and the correction reached the data
+// file, the Patient Treatment Schedule and the provider references but never
+// reached this tool. It went on naming Sunday as the rest day for a month, in
+// 24 places, on the one surface a patient reads while holding a syringe.
+// Deriving them is what stops that happening again. Do not re-type these tables.
 
 // Patient-facing injection instructions per drug per pharmacy
-var INSTR={
-  sermorelin:{
-    premier:'Inject 20 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
-    greenwich:'Inject 7 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
-  },
-  sermorelin300:{
-    premier:'Inject 30 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
-    greenwich:'Inject 10 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
-  },
-  sermorelin400:{
-    premier:'Inject 40 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
-    greenwich:'Inject 13 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
-  },
-  sermorelin500:{
-    premier:'Inject 50 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.',
-    greenwich:'Inject 17 units subcutaneously at bedtime, Monday through Saturday (6 days on, Sunday off), on an empty stomach.'
-  },
-  bpc157:{
-    premier:'Inject 13 units subcutaneously once daily.',
-    greenwich:'Inject 17 units subcutaneously once daily.'
-  },
-  cjcipam:{
-    premier:'Inject 5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
-    greenwich:'Inject 5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
-  },
-  cjcipam150:{
-    premier:'Inject 7.5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
-    greenwich:'Inject 7.5 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
-  },
-  cjcipam200:{
-    premier:'Inject 10 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.',
-    greenwich:'Inject 10 units subcutaneously Monday through Saturday, at bedtime, on an empty stomach.'
-  },
-  ghkcu:{
-    premier:'Inject 20 units subcutaneously three times weekly in the evening.',
-    greenwich:'Inject 20 units subcutaneously three times weekly in the evening.'
-  },
-  tesamorelin1mg:{
-    premier:'Inject 20 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
-    greenwich:'Inject 33 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
-  },
-  tesamorelin15mg:{
-    premier:'Inject 30 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
-    greenwich:'Inject 50 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
-  },
-  tesamorelin2mg:{
-    premier:'Inject 40 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).',
-    greenwich:'Inject 67 units subcutaneously every evening, Monday through Saturday (6 days on, Sunday off).'
-  }
-};
+var INSTR = KORB_DOSING.instructions;
 
-// Medication metadata
-var AGENTS={
-  sermorelin:{label:'Sermorelin',dose:'200 mcg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  sermorelin300:{label:'Sermorelin',dose:'300 mcg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  sermorelin400:{label:'Sermorelin',dose:'400 mcg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  sermorelin500:{label:'Sermorelin',dose:'500 mcg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  bpc157:{label:'BPC-157',dose:'500 mcg',color:'#1D7A35',onWeeks:[1,6],
-    schedule:'Every day (7 days a week)',timing:'Any consistent time · No food restriction',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'daily',pillBg:'#1D7A35'},
-  cjcipam:{label:'CJC-1295 / Ipamorelin',dose:'100 mcg CJC-1295 / 100 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  cjcipam150:{label:'CJC-1295 / Ipamorelin',dose:'150 mcg CJC-1295 / 150 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  cjcipam200:{label:'CJC-1295 / Ipamorelin',dose:'200 mcg CJC-1295 / 200 mcg Ipamorelin',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Bedtime · Empty stomach (2+ hrs after eating)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  ghkcu:{label:'GHK-Cu',dose:'2 mg',color:'#4A148C',onWeeks:[5,8],
-    schedule:'3 times per week (evenings)',timing:'Evening · Choose consistent days (e.g. Mon / Wed / Fri)',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'3×/week',pillBg:'#6A1B9A'},
-  tesamorelin1mg:{label:'Tesamorelin 1 mg',dose:'1 mg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  tesamorelin15mg:{label:'Tesamorelin 1.5 mg',dose:'1.5 mg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'},
-  tesamorelin2mg:{label:'Tesamorelin 2 mg',dose:'2 mg',color:'#21275B',onWeeks:[1,12],
-    schedule:'Monday – Saturday · Sunday off',timing:'Evening',
-    how:'Subcutaneous (SQ) injection — fatty tissue under the skin',
-    pillLabel:'6 on / 1 off',pillBg:'#21275B'}
-};
+// Medication metadata. onWeeks is deliberately NOT flattened here - BPC-157 runs
+// a different span depending on the program, so the week range is resolved per
+// program in onWeek() below rather than being frozen into one value.
+var AGENTS = (function(){
+  var o = {}, S = KORB_DOSING.agents;
+  Object.keys(S).forEach(function(k){
+    var a = S[k];
+    o[k] = { label:a.label, dose:a.dose, color:a.color,
+             schedule:a.schedule, timing:a.timing, how:a.how,
+             pillLabel:a.pillLabel, pillBg:a.pillBg };
+  });
+  return o;
+})();
 
 // Medication education content
 var EDU={
@@ -776,12 +699,30 @@ function setLog(f,dISO,val){
   if(val)LOG[f+'|'+dISO]=val;else delete LOG[f+'|'+dISO];
   if(OK&&!DEMO)lsSet(LS_LOG,LOG);
 }
+/* Active weeks come from the data file, resolved against the program the patient
+   selected. BPC-157 is the reason this needs a context rather than one value:
+
+     Foundation, on its own      Weeks 1-8   (8 on, then 8 off)
+     Gateway or either Peak      Weeks 3-8   (6 weeks, starting 2 weeks after
+                                              the primary peptide)
+
+   Both are correct, for different programs. This tool previously carried a
+   single [1,6] for BPC-157, which was the combination DURATION started at the
+   combination's wrong week: right for neither. A Foundation BPC-157 patient was
+   shown a six-week course against an eight-week prescription, so the last two
+   weeks of injections were missing from their grid. Corrected 2026-09-12,
+   confirmed with Don. The combination case was already right and is unchanged. */
 function onWeek(key,prog,w){
-  if(prog==='foundation'){var a=AGENTS[key];return w>=a.onWeeks[0]&&w<=a.onWeeks[1];}
+  var wk = KORB_DOSING.getActiveWeeks(key, weekContext(key, prog));
+  if(!wk) return false;
+  return w>=wk[0] && w<=wk[1];
+}
+function weekContext(key,prog){
+  if(prog==='foundation') return 'foundation';
   var f=famOf(key);
-  if(f==='bpc157')return w>=3&&w<=8;
-  if(f==='ghkcu')return w>=5&&w<=8;
-  return w>=1&&w<=12;
+  if(f==='bpc157') return 'gatewayPeakBase';
+  if(f==='ghkcu')  return 'optionalAddon';
+  return 'foundation';   // the primary peptide runs Weeks 1-12 in every program
 }
 function weekOf(start,d){
   var diff=Math.floor((d-start)/86400000);

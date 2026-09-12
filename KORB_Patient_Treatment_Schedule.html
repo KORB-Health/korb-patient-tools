@@ -602,15 +602,32 @@ function build(){
   document.getElementById('output').innerHTML=html;
 }
 
+/* Active weeks come from the data file, resolved against the patient's program.
+   BPC-157 is why a context is needed rather than one fixed range:
+
+     Foundation, on its own      Weeks 1-8   (8 on, then 8 off)
+     Gateway or either Peak      Weeks 3-8   (6 weeks, starting 2 weeks after
+                                              the primary peptide)
+
+   Both are correct, for different programs. The ranges used to be typed into
+   this file in two places, which is how the Injection Tracker came to disagree
+   with this tool about the Foundation case. Switched to the shared resolver on
+   2026-09-12; verified behaviour-identical across every agent, program and week
+   that a patient can actually select. */
+function weekContext(key,prog){
+  if(prog==='foundation') return 'foundation';
+  if(key==='bpc157') return 'gatewayPeakBase';
+  if(key==='ghkcu')  return 'optionalAddon';
+  return 'foundation';   // the primary peptide runs Weeks 1-12 in every program
+}
+function activeInWeek(key,prog,w){
+  var wk=KORB_DOSING.getActiveWeeks(key, weekContext(key,prog));
+  if(!wk) return false;
+  return w>=wk[0] && w<=wk[1];
+}
 function getActiveWks(key,prog){
-  if(prog==='foundation'){
-    var a=AGENTS[key];if(!a.onWeeks)return'1–4';
-    return a.onWeeks[0]+'–'+a.onWeeks[1];
-  }
-  if(key.startsWith('sermorelin')||key.startsWith('cjcipam')||key.startsWith('tesamorelin'))return'1–12';
-  if(key==='bpc157')return'3–8';
-  if(key==='ghkcu')return'5–8';
-  return'';
+  var wk=KORB_DOSING.getActiveWeeks(key, weekContext(key,prog));
+  return wk ? (wk[0]+'\u2013'+wk[1]) : '';
 }
 
 function getPillLabel(key,prog){
@@ -649,14 +666,7 @@ function buildWeekTable(start,prog,agentKeys,ghkOn){
     } else {
       agentKeys.forEach(function(key){
         var ag=AGENTS[key];
-        var on=false;
-        if(isFdn){
-          on=w>=ag.onWeeks[0]&&w<=ag.onWeeks[1];
-        } else {
-          if(key.startsWith('sermorelin')||key.startsWith('cjcipam')||key.startsWith('tesamorelin')) on=w>=1&&w<=12;
-          else if(key==='bpc157') on=w>=3&&w<=8;
-          else if(key==='ghkcu') on=w>=5&&w<=8;
-        }
+        var on=activeInWeek(key, prog, w);
         var cell='';
         if(on){
           cell='<span class="pill" style="background:'+ag.pillBg+';color:#fff;min-width:unset;padding:4px 10px;font-size:10px;">'+getPillLabel(key,prog)+'</span>';
