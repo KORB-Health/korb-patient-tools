@@ -1127,9 +1127,11 @@ var KORB_DOSING = {
 
   // ── STATE ROUTING AND AVAILABILITY ────────────────────────────────────────
   // premierRouting: states that default to Premier. Everything else goes to
-  // Greenwich, which is the only other peptide source. Greenwich no longer
-  // ships to AR, CA, IN, NH or WA, and Premier does not ship to any of those
-  // five either, so those states now have no peptide source at all.
+  // Greenwich, which is the only other peptide source. Greenwich dispenses to
+  // only 23 states as of 2026-09-11. Where Premier is not licensed either, the
+  // state has no peptide source at all - see unavailableNoPharmacy and
+  // pausedPharmacy below. Where Greenwich is the ONLY licensed pharmacy, the
+  // state is open but has no fallback - see singleSourceGreenwich.
   // unavailable: FH&L is not offered in these states. This is the list the
   //   provider tool blocks on - if a state is here, no visit, no prescription,
   //   no shipment.
@@ -1151,6 +1153,18 @@ var KORB_DOSING = {
   // generic "provider coverage and operational bandwidth" line. Source: notice
   // to Don, 2026-08-24, that MS, AL and SC are out of the FH&L offering.
   //
+  // pausedPharmacy: the subset of unavailableNoPharmacy that is expected to
+  //   come back. Greenwich has given a 30 to 60 day restore estimate, so these
+  //   states are presented as TEMPORARILY unavailable. A state in this list
+  //   still blocks the same way - no visit, no prescription, no shipment - the
+  //   difference is only what the provider and the patient are told. Never say
+  //   discontinued for a paused state.
+  // singleSourceGreenwich: states Greenwich serves where Premier is not
+  //   licensed. These are OPEN and not blocked. They have no second route, so
+  //   a further Greenwich change closes them immediately. IA and ID are the two
+  //   that are live and taking patients and they carry a provider-facing
+  //   caution; AK, HI and MA are already in unavailable for other reasons.
+  //
   // 2026-09-11: AR, CA, IN, NH and WA added to unavailable and to the new
   // unavailableNoPharmacy list. Greenwich stopped shipping to these five
   // states. Greenwich is the peptide pharmacy for everything outside the
@@ -1159,12 +1173,49 @@ var KORB_DOSING = {
   // prescription, no shipment until a pharmacy can serve them again. None of
   // the five was in premierRouting, so that list is unchanged. Source: Don
   // Stevenson, 2026-09-11.
+  //
+  // 2026-09-12: Greenwich's own customer notice supplied the roster. From
+  // 11:59 pm 11 Sept it dispenses only into the 23 states where it is directly
+  // licensed, having dropped central-fill arrangements with affiliated
+  // pharmacies. Premier covers all but five of the states it left, so the five
+  // recorded on 11 Sept are still the complete list of states this closed:
+  // AR, CA, IN, NH, WA. AL, MN and SC also lost Greenwich but were already out
+  // of the peptide program (AL and SC compliance, MN Phase One), so the prior
+  // reason governs and none of the three is on the restore clock.
+  // unavailable stays at 18 and matches the peptide notice Ops sent 11 Sept.
+  // New pausedPharmacy carries the restore framing for the five. New
+  // singleSourceGreenwich records AK, HI, IA, ID and MA, where Greenwich is the
+  // only licensed peptide pharmacy; it blocks nothing, and IA and ID are open.
+  // Source: Greenwich customer notice 2026-09-11; Don Stevenson, 2026-09-12.
   states: {
     premierRouting: ['AZ','CO','CT','DC','DE','FL','GA','IL','KS','KY','LA','MD','ME','MI','MO','MT','NC','ND','NE','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SD','TN','TX','UT','VA','VT','WI','WV','WY'],
     unavailable: ['AL','AK','AR','CA','DC','GA','HI','IN','MA','MN','MS','NH','NJ','NY','RI','SC','WA','WV'],
     unavailableNoShip: ['AL','MS','SC'],
     unavailableNoPharmacy: ['AR','CA','IN','NH','WA'],
-    unavailableLabWorkflow: ['NY','NJ','RI']
+    unavailableLabWorkflow: ['NY','NJ','RI'],
+    pausedPharmacy: {
+      states: ['AR','CA','IN','NH','WA'],
+      effective: '2026-09-11',
+      effectiveTime: '11:59 pm 11 September 2026',
+      expectedRestore: '30 to 60 days from 11 September 2026',
+      reviewBy: '10 November 2026',
+      reason: 'Greenwich restricted itself to the 23 states where it is directly licensed, having stopped relying on central-fill arrangements with affiliated pharmacies. Premier is not licensed in any of these five, so there is no peptide source while the restriction holds.',
+      providerLine: 'Functional Health and Longevity is temporarily unavailable in this state. Greenwich has applications pending and expects to substantially resume coverage within 30 to 60 days of 11 Sept 2026. Do not tell a patient the program has been discontinued.',
+      /* AL, MN and SC also lost Greenwich, but every one of them was already
+         out of the peptide program before this happened — AL and SC as
+         compliance exclusions, MN from Phase One. The prior reason is the
+         governing one and none of the three is on the restore clock, because
+         Greenwich coming back does not reopen them. */
+      alsoLostGreenwichButAlreadyExcluded: ['AL','MN','SC'],
+      fillCutoff: 'Prescriptions received before 11:59 pm 11 Sept 2026 were filled and shipped by 13 Sept, tracking by 14 Sept. No reshipments approved or shipped after 14 Sept 2026.'
+    },
+    singleSourceGreenwich: {
+      states: ['AK','HI','IA','ID','MA'],
+      liveStates: ['IA','ID'],
+      blocking: false,
+      note: 'Greenwich is the only pharmacy licensed for peptides in these states. Premier cannot cover them, so a further Greenwich change closes them with no fallback. AK, HI and MA are already in unavailable for other reasons; IA and ID are open and taking patients.',
+      providerLine: 'Greenwich is mid-restriction, so confirm the fill before promising a patient a start date.'
+    }
   },
 
   // ── HELPERS ───────────────────────────────────────────────────────────────

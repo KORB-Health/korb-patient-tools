@@ -1,0 +1,65 @@
+KORB — Greenwich 23-state restriction
+Upload instructions, 12 September 2026
+
+Repo: korb-health/korb-patient-tools
+Branch: main
+
+WHAT THIS IS
+Ten changed files. The folder mirrors the repo, so the paths are already
+correct. Drag the CONTENTS of this folder onto the repo root in GitHub
+(not the folder itself) and the two Provider_Reference files will land in
+Provider_Reference automatically.
+
+FILES, AND WHERE EACH BELONGS
+
+Repo root
+  korb-pharmacies.js                    pharmacy + state layer, now v1.3
+  korb-dosing-data.js                   FH&L availability lists
+  fhl-doc-render.js                     FH&L document renderer
+  build-fhl-docs.js                     FH&L build + gate checks
+  KORB_Provider_Clinical_Reference.html provider tool
+
+Provider_Reference/
+  korb-pharmacies.js                    EXACT COPY of the root file
+  KORB_FHL_Foundation_Provider_Reference.pdf
+  KORB_FHL_Gateway_Provider_Reference.pdf
+  KORB_FHL_Peak_Pathway_A_Provider_Reference.pdf
+  KORB_FHL_Peak_Pathway_B_Provider_Reference.pdf
+
+THE ONE THING TO WATCH
+korb-pharmacies.js exists twice, at the root and in Provider_Reference, and
+the two must stay byte-identical. Both copies are in this folder and both are
+already correct. If you ever upload one without the other, the tools and the
+documents will disagree about which states Greenwich serves.
+
+THE FOUR PDFs ARE BUILD OUTPUT
+They were generated from korb-dosing-data.js by build-fhl-docs.js and are
+included so you do not have to run the build. If you later change the data
+file, rerun:  node build-fhl-docs.js
+
+SUGGESTED COMMIT MESSAGE
+
+  Greenwich 23-state restriction: load the real roster, record it as a pause
+
+  Greenwich stopped relying on central-fill arrangements with affiliated
+  pharmacies after Board of Pharmacy guidance, and from 11:59 pm 11 Sept 2026
+  dispenses only into the 23 states where it is directly licensed. shipsTo and
+  hardExcludes are now that roster exactly, replacing the stale 45-state list.
+
+  Premier covers most of what Greenwich dropped. Only five states lost their
+  peptide source: AR, CA, IN, NH, WA. Those are the same five recorded on
+  11 Sept, so nothing new closed. AL, MN and SC also lost Greenwich but were
+  already out of the peptide program, so they are not on the restore clock.
+  AK, HI, IA, ID and MA are Greenwich-only with no Premier backup; IA and ID
+  are open and now carry a provider caution.
+
+  The five paused states read as temporarily unavailable with Greenwich's
+  30-to-60-day restore window. Providers are told not to say discontinued.
+
+  FH&L stays closed in the same 18 states. GLP-1 is untouched: all 50 states
+  and DC are still served by Premier, Belmar and FarmaKeio.
+
+WHAT IS NOT IN HERE
+No GLP-1 data file or GLP-1 tool is changed. No patient-facing document is
+changed. Nothing outside this repo was touched: Tebra favorites, HubSpot, the
+Google Sites embeds and any Ops routing sheet are all unaffected.

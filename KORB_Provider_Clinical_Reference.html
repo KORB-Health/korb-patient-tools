@@ -321,7 +321,7 @@
       <div class="cg"><label style="visibility:hidden;">Reset</label><button class="reset-btn" onclick="resetFilters()">&#8635; Reset</button></div>
     </div>
     <div class="override-row" id="ovr">
-      <label><input type="checkbox" id="ovrChk"> Patient prefers Greenwich Pharmacy (override — Greenwich ships to 45 states &amp; DC; not AR, CA, IN, NH or WA)</label>
+      <label><input type="checkbox" id="ovrChk"> Patient prefers Greenwich Pharmacy (override — Greenwich dispenses to only 23 states as of 11 Sep 2026; confirm the state is open before selecting)</label>
     </div>
     <div class="override-row" id="ghkRow" style="display:none;">
       <label><input type="checkbox" id="ghkChk"> Add GHK-Cu (optional add-on — Weeks 5–8 of this cycle)</label>
@@ -1452,7 +1452,7 @@ function renderLabs(){
 
   html += '<div class="sec csec-hdr" style="background:var(--navy);color:#fff;font-size:15px;font-weight:700;padding:10px 14px;border-radius:8px;margin-top:20px;margin-bottom:0;" onclick="togSec(\'labsStates\')">Premier Pharmacy — State Shipping Reference<span class="tog" id="tog-labsStates" style="color:#fff;">&#9658; expand</span></div>';
   html += '<div class="csec-body collapsed" id="body-labsStates" style="padding-top:12px;">';
-  html += '<div style="font-size:12px;color:var(--mu);margin-bottom:8px;">Premier is the default pharmacy where available. Use Greenwich for all other states — but as of 11 Sep 2026 Greenwich ships to 45 states + DC, not all 50. It will not ship to Arkansas, California, Indiana, New Hampshire or Washington, and Premier cannot ship to any of those five either, so Functional Health &amp; Longevity is closed in all five. States where KORB does not offer Functional Health &amp; Longevity are not listed here, whatever the pharmacy can ship.</div>';
+  html += '<div style="font-size:12px;color:var(--mu);margin-bottom:8px;">Premier is the default pharmacy where available. Use Greenwich for all other states — but as of 11 Sep 2026 Greenwich only dispenses to the 23 states where it is directly licensed. Where Premier is also not licensed there is no peptide source at all, and those states are listed below as paused. States where KORB does not offer Functional Health &amp; Longevity are not listed here, whatever the pharmacy can ship.</div>';
   html += '<div class="state-grid">';
   // Filter out any state FH&L is not offered in. A provider scanning this grid
   // reads a checkmark as "you can send it there" — showing a blocked state here
@@ -1470,11 +1470,30 @@ function renderLabs(){
   }
   if(UNAVAILABLE_STATES_NO_PHARMACY.length){
     html += '<div style="margin-top:12px;padding:10px 14px;background:#FFF4E5;border:2px solid #B45309;border-radius:8px;font-size:12px;color:#7A3E00;">';
-    html += '<strong style="display:block;color:#B45309;margin-bottom:4px;">&#9888; No pharmacy can fill — '
+    html += '<strong style="display:block;color:#B45309;margin-bottom:4px;">&#9888; Paused — no pharmacy can fill — '
          + UNAVAILABLE_STATES_NO_PHARMACY.join(', ') + '</strong>';
-    html += 'Greenwich stopped shipping to '
+    html += 'Greenwich restricted itself on 11 Sep 2026 to the 23 states where it is directly licensed, so it no longer ships to '
          + UNAVAILABLE_STATES_NO_PHARMACY.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', ')
-         + ' on 11 Sep 2026, and Premier is not licensed in any of them. There is no peptide source left, so Functional Health &amp; Longevity is closed in these states: no visit, no prescription, no shipment. This is a supply limit, not a compliance exclusion — it reopens if a pharmacy footprint changes.';
+         + ', and Premier is not licensed in any of them. There is no peptide source while the restriction holds, so Functional Health &amp; Longevity is closed in these states: no visit, no prescription, no shipment.';
+    if(PAUSED && PAUSED.expectedRestore){
+      html += '<br><br><strong>This is a pause, not a withdrawal.</strong> Greenwich expects to restore coverage in '
+           + PAUSED.expectedRestore + '. Tell a patient the program is temporarily unavailable in their state and that coverage is expected back. Do not tell them it has been discontinued. Ops reviews this by '
+           + (PAUSED.reviewBy || 'the restore date') + '.';
+    }
+    if(PAUSED && (PAUSED.alsoLostGreenwichButAlreadyExcluded||[]).length){
+      html += '<br><br>' + PAUSED.alsoLostGreenwichButAlreadyExcluded.join(', ')
+           + ' also lost Greenwich, but each was already out of the peptide program before this change and stays closed regardless of the restore.';
+    }
+    html += '</div>';
+  }
+  if(SINGLE_SOURCE_LIVE.length){
+    html += '<div style="margin-top:12px;padding:10px 14px;background:#E6F7F9;border:2px solid #00B2C3;border-radius:8px;font-size:12px;color:#21275B;">';
+    html += '<strong style="display:block;color:#21275B;margin-bottom:4px;">Single-source states — '
+         + SINGLE_SOURCE_LIVE.join(', ') + '</strong>';
+    html += 'These states are open and taking patients. Greenwich is the only pharmacy licensed to fill a peptide in '
+         + SINGLE_SOURCE_LIVE.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', ')
+         + ' and Premier cannot cover them, so there is no fallback if Greenwich restricts again. '
+         + (SINGLE_SOURCE.providerLine || '');
     html += '</div>';
   }
   html += '</div>'; // end body-labsStates
@@ -1576,9 +1595,19 @@ var visitType = 'routine';
 // stopped shipping to all five. Greenwich is the only peptide source outside
 // the PREMIER set and Premier's licensed footprint excludes all five, so these
 // states have no pharmacy at all. Greenwich no longer ships to "all 50 states
-// + DC" — it is 45 states + DC, and any text in this tool still saying
-// otherwise is wrong. Separately, Greenwich GLP-1 is retired everywhere; that
-// does not affect this tool, which is peptides only. Source: Don Stevenson.
+// + DC", and any text in this tool still saying otherwise is wrong. Separately,
+// Greenwich GLP-1 is retired everywhere; that does not affect this tool, which
+// is peptides only. Source: Don Stevenson.
+//
+// 2026-09-12: the restriction is bigger than five states — Greenwich is
+// restricted to 23. MN joins AR, CA, IN, NH and WA as no-pharmacy. AL and SC
+// also lost Greenwich but stay under the compliance exclusion, which is
+// permanent and outranks a supply pause, so they are not on the restore clock.
+// All six no-pharmacy states are presented as PAUSED: Greenwich expects to
+// restore coverage in 30 to 60 days, so providers say temporarily unavailable,
+// never discontinued. IA and ID are open but single-source — Greenwich is the
+// only pharmacy licensed there and there is no fallback. The "45 states + DC"
+// figure above is superseded. Source: Don Stevenson, 2026-09-12.
 //
 // 2026-08-24: MS added and flagged no-ship alongside AL and SC, which were
 // already blocked but were showing the generic bandwidth message. MS was also
@@ -1588,6 +1617,16 @@ var UNAVAILABLE_STATES = KORB_DOSING.states.unavailable;
 var UNAVAILABLE_STATES_NO_SHIP = KORB_DOSING.states.unavailableNoShip || [];
 var UNAVAILABLE_STATES_NO_PHARMACY = KORB_DOSING.states.unavailableNoPharmacy || [];
 var UNAVAILABLE_STATES_LAB_WORKFLOW = KORB_DOSING.states.unavailableLabWorkflow;
+/* The pause is a presentation fact, not a routing one. A paused state blocks
+   exactly like any other no-pharmacy state — the difference is only what the
+   provider is told to say to the patient. */
+var PAUSED = KORB_DOSING.states.pausedPharmacy || null;
+var SINGLE_SOURCE = KORB_DOSING.states.singleSourceGreenwich || null;
+/* Single-source states are OPEN. Filter against unavailable so a state that
+   later closes for another reason cannot show up here as bookable. */
+var SINGLE_SOURCE_LIVE = SINGLE_SOURCE
+  ? (SINGLE_SOURCE.liveStates || []).filter(function(s){ return UNAVAILABLE_STATES.indexOf(s) === -1; })
+  : [];
 function stateBlockedHeading(st){
   if (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1) return 'Do Not Ship — State Excluded';
   if (UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1) return 'No Pharmacy — Cannot Be Filled';
@@ -1603,7 +1642,11 @@ function stateBlockedMessage(st){
     return name+' is excluded from the Functional Health &amp; Longevity offering. Peptides and all other Functional Health &amp; Longevity products may NOT be shipped to '+name+'. Do not start a visit, do not prescribe, and do not send an order to either pharmacy. This is not a launch-sequencing item and will not clear on its own — route any question to Ops or Compliance.';
   }
   if (UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1) {
-    return name+' cannot be filled by any pharmacy KORB uses. Greenwich stopped shipping to '+name+' on 11 September 2026, and Premier is not licensed there, so there is no peptide source at all. Do not start a visit, do not prescribe, and do not send an order. This is a supply limit rather than a compliance exclusion — it can reopen if a pharmacy footprint changes, so check with Ops before telling a patient it is permanent.';
+    var msg = name+' cannot be filled by any pharmacy KORB uses. Greenwich restricted itself on 11 September 2026 to the 23 states where it is directly licensed and no longer ships to '+name+', and Premier is not licensed there, so there is no peptide source while the restriction holds. Do not start a visit, do not prescribe, and do not send an order.';
+    if (PAUSED && PAUSED.expectedRestore) {
+      msg += ' This is a pause, not a withdrawal. Greenwich expects to restore coverage in '+PAUSED.expectedRestore+'. Tell the patient the program is temporarily unavailable in '+name+' and that coverage is expected back — do not tell them it has been discontinued.';
+    }
+    return msg;
   }
   if (UNAVAILABLE_STATES_LAB_WORKFLOW.indexOf(st) !== -1) {
     return 'KORB is not yet launching the Functional Health & Longevity program in '+name+' during Phase 1. The team is still working through a different lab workflow required by '+name+'-specific legislation. Do not proceed with a visit or prescription until this is confirmed with Ops.';

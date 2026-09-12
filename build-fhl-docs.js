@@ -182,6 +182,20 @@ async function main() {
       gate.push(s + ' is in premierRouting and also flagged no-pharmacy, which cannot both be true');
     }
   });
+  /* A paused state must also be a blocked state, or the document tells a
+     provider to wait while the tool lets them prescribe. And a single-source
+     state is open by definition, so it must not appear in a blocking list. */
+  ((S.pausedPharmacy && S.pausedPharmacy.states) || []).forEach(s => {
+    if ((S.unavailableNoPharmacy || []).indexOf(s) === -1) gate.push(s + ' is flagged paused but is not in states.unavailableNoPharmacy');
+  });
+  ((S.pausedPharmacy && S.pausedPharmacy.alsoLostGreenwichButAlreadyExcluded) || []).forEach(s => {
+    if ((S.unavailable || []).indexOf(s) === -1) gate.push(s + ' is recorded as already-excluded but is not in states.unavailable');
+    if ((S.unavailableNoPharmacy || []).indexOf(s) !== -1) gate.push(s + ' is recorded as already-excluded but is also flagged no-pharmacy, which puts it on the restore clock');
+  });
+  ((S.singleSourceGreenwich && S.singleSourceGreenwich.liveStates) || []).forEach(s => {
+    if ((S.unavailable || []).indexOf(s) !== -1) gate.push(s + ' is listed as a live single-source state but is also in states.unavailable');
+  });
+
   if (gate.length) {
     console.error('REFUSING TO BUILD — the state lists disagree with each other:');
     gate.forEach(g => console.error('  - ' + g));

@@ -327,11 +327,34 @@ function sectionStates() {
   ]) + '</table>';
 
   if (noPharm.length) {
-    h += '<div class="callout warn"><h3>No pharmacy can fill — ' + esc(stateList(noPharm)) + '</h3>' +
-         '<p>Greenwich stopped shipping to these states on 11 September 2026, and Premier is not licensed in any of them, ' +
-         'so there is no peptide source at all. No visit, no prescription, no shipment. This is a supply limit rather than a ' +
-         'compliance exclusion, so it can reopen if a pharmacy footprint changes — check with Operations before telling a ' +
-         'patient it is permanent.</p></div>';
+    const paused = S.pausedPharmacy || null;
+    h += '<div class="callout warn"><h3>Paused — no pharmacy can fill — ' + esc(stateList(noPharm)) + '</h3>' +
+         '<p>Greenwich stopped relying on central-fill arrangements on 11 September 2026 and now dispenses only into ' +
+         'the 23 states where it is directly licensed. Premier is not licensed in any of these, ' +
+         'so there is no peptide source while the restriction holds. No visit, no prescription, no shipment.</p>';
+    if (paused && paused.expectedRestore) {
+      h += '<p><strong>This is a pause, not a withdrawal.</strong> Greenwich expects to restore coverage in ' +
+           esc(paused.expectedRestore) + '. Tell a patient the program is temporarily unavailable in their state and that ' +
+           'coverage is expected back. Do not tell them it has been discontinued. Operations reviews this by ' +
+           esc(paused.reviewBy || 'the restore date') + '.</p>';
+    }
+    if (paused && (paused.alsoLostGreenwichButAlreadyExcluded || []).length) {
+      h += '<p>' + esc(stateList(paused.alsoLostGreenwichButAlreadyExcluded)) + ' also lost Greenwich, but each was already ' +
+           'out of the peptide program before this change and stays closed regardless of the restore. They are not listed ' +
+           'here.</p>';
+    }
+    h += '</div>';
+  }
+
+  /* Open states with no second pharmacy. Not a block — a caution. A provider
+     reading this is allowed to prescribe; they just cannot promise a date. */
+  const single = S.singleSourceGreenwich || null;
+  const singleLive = single ? (single.liveStates || []).filter(function (s) { return unavailable.indexOf(s) === -1; }) : [];
+  if (singleLive.length) {
+    h += '<div class="callout"><h3>Single-source states — ' + esc(stateList(singleLive)) + '</h3>' +
+         '<p>These states are open and taking patients. Greenwich is the only pharmacy licensed to fill a peptide there and ' +
+         'Premier cannot cover them, so there is no fallback if Greenwich restricts again. ' +
+         esc(single.providerLine || '') + '</p></div>';
   }
   if (noShip.length) {
     h += '<div class="callout warn"><h3>Excluded from the offering — ' + esc(stateList(noShip)) + '</h3>' +
