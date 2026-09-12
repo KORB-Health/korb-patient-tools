@@ -26,14 +26,50 @@
         only. All tirzepatide moves to Belmar. Greenwich is a peptide pharmacy
         now and nothing else.
 
-   VERSION: 1.1   CREATED: 2026-09-11   UPDATED: 2026-09-11
+   2026-09-12 — GREENWICH ROSTER LOADED FROM THE PHARMACY'S OWN NOTICE.
+   Greenwich's customer letter of 11 Sept 2026 (Kelli Gay, Director of
+   Strategic Account Support) is the source. Greenwich stopped relying on
+   central-fill arrangements with affiliated pharmacies after Board of
+   Pharmacy guidance in Texas and other states, so from 11:59 pm on 11 Sept
+   it dispenses ONLY into the 23 states where it is itself licensed:
+
+     AK AZ CO FL HI IA ID KS MA MD ME MO MT NE NY OH OR PA RI TX UT WI WY
+
+   shipsTo and hardExcludes below are now that list exactly. Applications are
+   pending in the uncovered states and Greenwich expects to substantially
+   resume within 30 to 60 days.
+
+   WHAT THIS ACTUALLY COSTS KORB. Premier fills peptides across its own
+   38-state footprint, so most of what Greenwich dropped is covered:
+
+     1. NEWLY WITHOUT A PEPTIDE PHARMACY — AR, CA, IN, NH, WA. Five states,
+        not eight. Premier is not licensed in any of them either. These are
+        the only states this change closed, and the only ones on the restore
+        clock. Recorded as a PAUSE: documents say temporarily unavailable
+        with the restore window, never discontinued.
+     2. ALSO LOST GREENWICH BUT ALREADY CLOSED — AL, MN, SC. Every one was
+        out of the peptide program before this happened (AL and SC as
+        compliance exclusions, MN from Phase One). The prior reason governs,
+        and none of the three reopens when Greenwich comes back, so none is
+        on the restore clock. Named for the record only.
+     3. SINGLE-SOURCE GREENWICH — AK, HI, IA, ID, MA. Greenwich ships here
+        and Premier cannot, so there is no backup. IA and ID are the two
+        that are open and taking patients and carry a provider-facing
+        caution. AK, HI and MA are already closed for other reasons.
+
+   The FH&L closed list is unchanged at 18 states and matches the peptide
+   program notice Ops sent on 11 Sept. GLP-1 is untouched: all 50 states and
+   DC are still served by Premier, Belmar and FarmaKeio.
+
+   VERSION: 1.3   CREATED: 2026-09-11   UPDATED: 2026-09-12
    OWNER: Director of Clinical Operations
 */
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.1",
+    version: "1.3",
     created: "2026-09-11",
+    updated: "2026-09-12",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only."
@@ -408,61 +444,78 @@ var KORB_PHARMACIES = {
     },
     "preferredStates": [],
     "shipsTo": [
-      "AL",
       "AK",
       "AZ",
       "CO",
-      "CT",
-      "DE",
-      "DC",
       "FL",
-      "GA",
       "HI",
-      "ID",
-      "IL",
       "IA",
+      "ID",
       "KS",
-      "KY",
-      "LA",
-      "ME",
-      "MD",
       "MA",
-      "MI",
-      "MN",
-      "MS",
+      "MD",
+      "ME",
       "MO",
       "MT",
       "NE",
-      "NV",
-      "NJ",
-      "NM",
       "NY",
-      "NC",
-      "ND",
       "OH",
-      "OK",
       "OR",
       "PA",
       "RI",
-      "SC",
-      "SD",
-      "TN",
       "TX",
       "UT",
-      "VT",
-      "VA",
-      "WV",
       "WI",
       "WY"
     ],
     "hardExcludes": [
+      "AL",
       "AR",
       "CA",
+      "CT",
+      "DC",
+      "DE",
+      "GA",
+      "IL",
       "IN",
+      "KY",
+      "LA",
+      "MI",
+      "MN",
+      "MS",
+      "NC",
+      "ND",
       "NH",
-      "WA"
+      "NJ",
+      "NM",
+      "NV",
+      "OK",
+      "SC",
+      "SD",
+      "TN",
+      "VA",
+      "VT",
+      "WA",
+      "WV"
     ],
-    "shipsToNote": "Ships to 45 states and DC as of 2026-09-11. Greenwich stopped shipping to Arkansas, California, Indiana, New Hampshire and Washington. Premier's licensed footprint excludes all five as well, so those states have no peptide source and Functional Health & Longevity is closed there. Confirmed with Don Stevenson 2026-09-11.",
+    "shipsToNote": "Restricted to 23 states effective 2026-09-11. Eight states lost their peptide source because Premier's licensed footprint does not cover them either: AL, AR, CA, IN, MN, NH, SC and WA. This is a pause, not a withdrawal — Greenwich expects to restore coverage in 30 to 60 days from 2026-09-11. AL and SC are separately and permanently excluded for compliance, so they do not come back with the restore. Five states are served by Greenwich alone with no Premier backup: AK, HI, IA, ID and MA. Confirmed with Don Stevenson 2026-09-12.",
+    "singleSourceNoBackup": [
+      "AK",
+      "HI",
+      "IA",
+      "ID",
+      "MA"
+    ],
+    "pause": {
+      "status": "active",
+      "effective": "11:59 pm 2026-09-11",
+      "expectedRestore": "30 to 60 days from 11 September 2026",
+      "states": ["AR", "CA", "IN", "NH", "WA"],
+      "alsoLostButAlreadyExcluded": ["AL", "MN", "SC"],
+      "patientImpact": "Affected patients have already been handled as of 2026-09-12.",
+      "language": "Temporarily unavailable, coverage expected to return. Do not tell a patient the program is discontinued in their state.",
+      "reviewBy": "10 November 2026"
+    },
     "address": "Greenwich Rx, 9733 FM 2920 Rd, Suite 100, Tomball, TX 77375",
     "orderVia": "Tebra Compound",
     "orderViaNote": "Moved from MDToolbox to Tebra Compound. MDToolbox is being turned off at the end of August 2026.",
@@ -478,7 +531,9 @@ var KORB_PHARMACIES = {
       "Ordering 4 mL on the prescription ships two 2 mL vials.",
       "Dose is set by concentration, not volume.",
       "HISTORICAL — GLP-1 only, and GLP-1 at Greenwich ended 2026-09-11: every Greenwich GLP-1 dose was exactly 50 units in a 50-unit syringe, and the 100-UNIT SYRINGE callout used for Functional Health peptides was deliberately kept off those sigs. Kept for anyone reading an order placed before the retirement. It says nothing about peptide sigs, which follow the FH&L syringe rule.",
-      "AR, CA, IN, NH and WA: do not send anything here, peptide or otherwise. Greenwich stopped shipping to these five states on 2026-09-11."
+      "Greenwich dispenses to 23 states only as of 11:59 pm 11 Sept 2026. Of what it dropped, AR, CA, IN, NH and WA are the states Premier cannot cover, so those five have no peptide pharmacy at all. Treat as a pause with an expected 30 to 60 day restore, not a discontinuation. AL, MN and SC also lost Greenwich but were already out of the peptide program and stay closed regardless of the restore.",
+      "Prescriptions received before 11:59 pm 11 Sept 2026 were filled and shipped by 13 Sept with tracking by 14 Sept. No reshipments approved or shipped after 14 Sept 2026.",
+      "AK, HI, IA, ID and MA are served by Greenwich alone. Premier is not licensed in any of them, so there is no second route if Greenwich changes again. IA and ID are the two that are live and taking patients."
     ]
   },
   "lillydirect": {
