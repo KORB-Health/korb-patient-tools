@@ -100,7 +100,10 @@ function kvTable(pairs) {
 /* Callout tones map onto the shared stylesheet's existing classes so these
    documents look like the FH&L set rather than like a second system. */
 function callout(c) {
-  var cls = c.tone === 'stop' ? 'callout stop' : (c.tone === 'warn' ? 'callout warn' : 'callout');
+  /* The shared stylesheet has no .callout.stop. Its red-bordered block is
+     .gate, and a hard contraindication rendered as an ordinary teal callout
+     reads as a tip, which is the opposite of the intent. */
+  var cls = c.tone === 'stop' ? 'gate' : (c.tone === 'warn' ? 'callout warn' : 'callout');
   return '<div class="' + cls + '">' +
     (c.heading ? '<h3>' + esc2(c.heading) + '</h3>' : '') +
     '<p>' + esc2(c.body) + '</p></div>';
@@ -141,7 +144,7 @@ function sectionPharmacyTable(sec) {
   var order = (D.document.pharmacyOrder || Object.keys(used)).filter(function (k) { return used[k]; });
 
   var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
-  h += '<table><thead><tr><th>Pharmacy</th><th>Footprint</th><th>Sources</th></tr></thead><tbody>' +
+  h += '<table class="grid"><thead><tr><th>Pharmacy</th><th>Footprint</th><th>Sources</th></tr></thead><tbody>' +
        pharmacyRows(order) + '</tbody></table>';
   h += '<p class="fine">Footprints are read from korb-pharmacies.js v' +
        esc2(PH && PH.meta ? PH.meta.version : '?') +
@@ -170,7 +173,7 @@ function sectionMatrix(sec) {
   }).join('');
 
   return '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body) +
-    '<table><thead><tr><th>Add-on</th><th>Men</th><th>Women</th><th>Follow-up</th></tr></thead><tbody>' +
+    '<table class="grid"><thead><tr><th>Add-on</th><th>Men</th><th>Women</th><th>Follow-up</th></tr></thead><tbody>' +
     rows + '</tbody></table>' +
     '<div class="callout"><p>' + esc2(D.rules.ageNote) + '</p></div>' +
     decider(sec.decider);
@@ -215,7 +218,7 @@ function productSummary(list) {
       '<td>' + esc2(p.price) + (p.chargeCode ? '<br><span class="fine">' + esc2(p.chargeCode) + '</span>'
                                              : '<br><span class="fine">no code on record</span>') + '</td></tr>';
   }).join('');
-  return '<table><thead><tr><th>Product</th><th>Pharmacy</th><th>Who</th><th>Dosing</th>' +
+  return '<table class="grid"><thead><tr><th>Product</th><th>Pharmacy</th><th>Who</th><th>Dosing</th>' +
          '<th>Supply</th><th>Price</th></tr></thead><tbody>' + rows + '</tbody></table>';
 }
 
@@ -223,15 +226,48 @@ function productSummary(list) {
    changes the decision. Deliberately does NOT repeat dosing, supply, price or
    code — those are one table up, and a fact printed twice is a fact that can
    disagree with itself. */
-function productBlock(p) {
-  var h = '<div class="rxblock"><h3>' + esc2(p.name) + ' — ' + esc2(pharmName(p.pharmacy)) + '</h3>';
-  h += '<p class="fine">' + esc2(p.formulation) + '</p>';
-  h += tebraRows(p.tebra);
+/* Same product from two pharmacies is two records but ONE clinical entity.
+   Rendering each record whole printed the contraindication, the counselling
+   and the monitoring twice, word for word, which reads as an error and buries
+   the one thing that actually differs: the Tebra fields. Clinical content is
+   printed once per product; only the fields repeat per pharmacy. */
+function clinicalSignature(p) {
+  return JSON.stringify([p.warn || '', p.warnAmber || '', p.note || '', p.monitor || []]);
+}
 
-  if (p.warn) h += '<div class="callout stop"><p>' + esc2(p.warn) + '</p></div>';
-  if (p.warnAmber) h += '<div class="callout warn"><p>' + esc2(p.warnAmber) + '</p></div>';
-  if (p.note) h += '<p>' + esc2(p.note) + '</p>';
-  if (p.monitor && p.monitor.length) h += '<h4>Monitoring</h4>' + bullets(p.monitor);
+function productBlock(group) {
+  var lead = group[0];
+  var h = '<div class="rxblock"><h3>' + esc2(lead.name) + '</h3>';
+
+  /* Formulations can differ by pharmacy even when the clinical picture does
+     not — the two KORB Electric compounds are a different set of actives. */
+  var forms = {};
+  group.forEach(function (p) { (forms[p.formulation] = forms[p.formulation] || []).push(pharmName(p.pharmacy)); });
+  Object.keys(forms).forEach(function (f) {
+    h += '<p class="fine">' + esc2(f) +
+         (Object.keys(forms).length > 1 ? ' — ' + esc2(forms[f].join(', ')) : '') + '</p>';
+  });
+
+  var shared = group.every(function (p) { return clinicalSignature(p) === clinicalSignature(lead); });
+
+  if (shared) {
+    if (lead.warn) h += '<div class="gate"><p>' + esc2(lead.warn) + '</p></div>';
+    if (lead.warnAmber) h += '<div class="callout warn"><p>' + esc2(lead.warnAmber) + '</p></div>';
+    if (lead.note) h += '<p>' + esc2(lead.note) + '</p>';
+    if (lead.monitor && lead.monitor.length) h += '<h4>Monitoring</h4>' + bullets(lead.monitor);
+  }
+
+  group.forEach(function (p) {
+    h += '<h4>' + esc2(pharmName(p.pharmacy)) + '</h4>';
+    h += tebraRows(p.tebra);
+    if (!shared) {
+      if (p.warn) h += '<div class="gate"><p>' + esc2(p.warn) + '</p></div>';
+      if (p.warnAmber) h += '<div class="callout warn"><p>' + esc2(p.warnAmber) + '</p></div>';
+      if (p.note) h += '<p>' + esc2(p.note) + '</p>';
+      if (p.monitor && p.monitor.length) h += '<h4>Monitoring</h4>' + bullets(p.monitor);
+    }
+  });
+
   h += '</div>';
   return h;
 }
@@ -239,19 +275,23 @@ function productBlock(p) {
 function sectionProducts(sec) {
   var inGroup = (D.products || []).filter(function (p) { return p.group === sec.group; });
 
-  /* Same product from two pharmacies is two records but one clinical entity.
-     Sorting by name keeps the pair adjacent so a provider reads them together
-     rather than hunting for the second one. */
   inGroup.sort(function (a, b) {
     if (a.name === b.name) return a.pharmacy < b.pharmacy ? -1 : 1;
     return a.name < b.name ? -1 : 1;
+  });
+
+  /* Collapse to one block per clinical entity, keeping the order above. */
+  var order = [], byName = {};
+  inGroup.forEach(function (p) {
+    if (!byName[p.name]) { byName[p.name] = []; order.push(p.name); }
+    byName[p.name].push(p);
   });
 
   var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
   h += productSummary(inGroup);
   (sec.callouts || []).forEach(function (c) { h += callout(c); });
   h += '<h3 class="rxlead">Prescribing detail</h3>';
-  h += inGroup.map(productBlock).join('');
+  h += order.map(function (n) { return productBlock(byName[n]); }).join('');
 
   var pending = inGroup.filter(function (p) { return p.needsSignoff; }).length;
   if (pending) {

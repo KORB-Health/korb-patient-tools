@@ -181,7 +181,7 @@ function sectionCycle(doc) {
             '<p>GHK-Cu is billed once, separately from the program.</p></div>';
   }
 
-  return '<h2>The 16-week cycle</h2><table><thead><tr><th>Agent</th><th>Role</th><th>Active weeks</th><th>Timing</th></tr></thead><tbody>' +
+  return '<h2>The 16-week cycle</h2><table class="grid"><thead><tr><th>Agent</th><th>Role</th><th>Active weeks</th><th>Timing</th></tr></thead><tbody>' +
          rows + '</tbody></table>' + notes;
 }
 
@@ -233,7 +233,7 @@ function sectionLadder(doc) {
     }
 
     return '<h2>Dose ladder — ' + esc(famLabel) + '</h2>' + note +
-           '<table><thead>' + head + '</thead><tbody>' + body + '</tbody></table>' +
+           '<table class="grid"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>' +
            '<div class="callout"><p>The milligram dose is what is prescribed. The unit count is what the patient draws, and it differs by pharmacy.</p></div>';
   }).join('');
 }
@@ -249,7 +249,7 @@ function sectionDirections(doc) {
     });
   });
   return '<h2>Directions given to the patient</h2>' +
-         '<table><thead><tr><th>Agent</th><th>Pharmacy</th><th>Direction</th></tr></thead><tbody>' +
+         '<table class="grid"><thead><tr><th>Agent</th><th>Pharmacy</th><th>Direction</th></tr></thead><tbody>' +
          rows.join('') + '</tbody></table>' +
          '<div class="callout"><h3>The rest day is not a fixed weekday</h3>' +
          '<p>The protocol is 6 days on, 1 day off. The specific weekday is a recommendation for ease of patient recall, not a clinical requirement. ' +
@@ -293,7 +293,7 @@ function sectionSyringes() {
     return '<tr><td>' + esc(pharmName(k)) + '</td><td>' + esc(cfg.standardUnits + '-unit (' + (cfg.standardUnits / 100) + ' mL)') +
            '</td><td>' + esc(when) + '</td></tr>';
   }).join('');
-  return '<h2>Syringes</h2><table><thead><tr><th>Pharmacy</th><th>Standard syringe</th><th>When a 100-unit syringe is required instead</th></tr></thead><tbody>' +
+  return '<h2>Syringes</h2><table class="grid"><thead><tr><th>Pharmacy</th><th>Standard syringe</th><th>When a 100-unit syringe is required instead</th></tr></thead><tbody>' +
          rows + '</tbody></table>';
 }
 
@@ -440,7 +440,7 @@ function sectionLabs() {
   return '<h3>Lab protocol</h3>' +
     '<p class="fine">Baseline before medication start, then every 16 weeks. Order in Tebra via the Quest integration with a ' +
     'future collection date set 12 weeks out. No STAT designation is used.</p>' +
-    '<table><thead><tr><th>Test</th><th>Code</th><th>Test</th><th>Code</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<table class="grid"><thead><tr><th>Test</th><th>Code</th><th>Test</th><th>Code</th></tr></thead><tbody>' + rows + '</tbody></table>' +
     '<p class="fine"><strong>Add for men aged 45 and over:</strong> ' + esc(K.labs.men45Plus.name) +
     ' — code ' + esc(K.labs.men45Plus.code) + '. ' + esc(K.labs.men45Plus.note) + '</p>' +
     '<div class="callout"><p>Copper RBC, Zinc RBC and Ceruloplasmin are part of the standard panel for every patient, ' +
@@ -474,7 +474,7 @@ function sectionPricing(doc) {
 
   return '<h2>Pricing and charge codes</h2>' +
     '<p class="fine">Provider and internal only. Never quote a price to a patient from this document without confirming with Operations.</p>' +
-    '<table><thead><tr><th>Item</th><th>Website</th><th>Partner</th><th>Charge code</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<table class="grid"><thead><tr><th>Item</th><th>Website</th><th>Partner</th><th>Charge code</th></tr></thead><tbody>' + rows + '</tbody></table>' +
     '<div class="callout"><p>Monthly figures are the recurring payment. Full 16-week cycle: ' + money(p.website.total) +
     ' website, ' + money(p.partner.total) + ' partner. Charge codes are shown website first, partner second.</p></div>';
 }
