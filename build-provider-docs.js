@@ -123,6 +123,39 @@ function printableHtml(doc) {
 <body>${R.renderBody(K, d)}</body></html>`;
 }
 
+/* Playwright is resolved rather than hardcoded to one machine's global path.
+   The hardcoded path worked only on the machine this builder was written on. */
+function loadChromium() {
+  const tries = ['playwright', 'playwright-core',
+                 '/home/claude/.npm-global/lib/node_modules/playwright'];
+  for (const t of tries) {
+    try { return require(t).chromium; } catch (e) { /* next */ }
+  }
+  console.error('Playwright not found. Install it with:  npm i -D playwright');
+  console.error('Then:  npx playwright install chromium');
+  process.exit(1);
+}
+
+/* The @font-face rules, lifted out of the shared stylesheet so the PDF header
+   and footer can carry them too.
+
+   Chromium renders headerTemplate and footerTemplate in a SEPARATE document
+   that does not inherit the page stylesheet. Naming Montserrat there is not
+   enough: on a machine with Montserrat installed the header quietly uses the
+   system copy and the typeface guard passes, and on a machine without it the
+   header falls back to the system sans and the guard fails with LiberationSans
+   or similar. That made this build pass or fail on a property of the machine
+   rather than of the document. Inlining the faces fixes it everywhere.
+   Added 2026-09-12 alongside build-fhl-docs.js, which had the same problem. */
+function fontFaceBlock() {
+  const faces = R.CSS.match(/@font-face\{[^}]*\}/g) || [];
+  if (!faces.length) {
+    console.error('WARNING: no @font-face rules found in the stylesheet. ' +
+                  'The PDF header and footer will fall back to a system typeface.');
+  }
+  return faces.join('\n');
+}
+
 async function main() {
   const only = process.argv[2];
   const list = only ? R.DOCS.filter(d => d.id === only) : R.DOCS;
@@ -136,8 +169,9 @@ async function main() {
   }
 
   fs.mkdirSync(OUT, { recursive: true });
-  const { chromium } = require('/home/claude/.npm-global/lib/node_modules/playwright');
+  const chromium = loadChromium();
   const browser = await chromium.launch();
+  const FONTS = fontFaceBlock();
 
   for (const doc of list) {
     fs.writeFileSync(path.join(OUT, doc.file + '.html'), shell(doc));
@@ -156,7 +190,7 @@ async function main() {
          page torn out of either set is recognisably from the same library.
          The logo is a data URI because Chromium's header template has no
          document base URL and silently drops a file:// or relative image. */
-      headerTemplate: `<div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
+      headerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:5px;border-bottom:1.5px solid #00B2C3;">
           <img src="${R.LOGO_URI}" style="height:26px;width:auto;">
           <div style="text-align:right;font-size:7.5pt;color:#21275B;line-height:1.3;">
@@ -164,7 +198,7 @@ async function main() {
             <div style="font-weight:bold;">KORB Health Group</div>
           </div>
         </div></div>`,
-      footerTemplate: `<div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
+      footerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
         <div style="border-top:1.5px solid #00B2C3;padding-top:5px;display:flex;justify-content:space-between;font-size:7pt;color:#4A4F6B;">
           <span>For KORB provider use only. Not for patient distribution.</span>
           <span>Page <span class="pageNumber"></span></span>
