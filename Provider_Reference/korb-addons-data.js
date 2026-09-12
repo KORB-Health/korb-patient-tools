@@ -5,7 +5,7 @@
    program: sexual health, hair loss, skin care and anti-aging.
 
    WHY THIS FILE EXISTS
-     These products were hardcoded inside KORB_AddOn_Selector.html. GLP-1 and the
+     These products were hardcoded inside KORB_Optimization_Products.html. GLP-1 and the
      peptide programs each had a data file; add-ons did not. That is why add-on
      facts drifted from the Add-On Clinical Reference and why the tool could not
      be reused anywhere else. Extracted 2026-09-11.
@@ -39,7 +39,7 @@ var KORB_ADDONS = {
     version: "1.0",
     created: "2026-09-11",
     owner: "Director of Clinical Operations",
-    sourceOfTruth: "Add-On Clinical Reference + KORB_AddOn_Selector.html as at 2026-09-11",
+    sourceOfTruth: "Add-On Clinical Reference + KORB_Optimization_Products.html as at 2026-09-11",
     pharmacyLayer: "korb-pharmacies.js",
     signoff: { clinical: "Dr. Rose", compliance: "VP Finance/Compliance for pricing and charge codes" }
   },

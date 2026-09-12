@@ -126,7 +126,7 @@ const TARGETS = [
     }
   },
   {
-    html: 'Provider_Reference/KORB_AddOn_Selector.html',
+    html: 'Provider_Reference/KORB_Optimization_Products.html',
     varName: 'ADDONS',
     source: 'korb-addons-data.js',
     /* The selector used to build its catalogue procedurally inside the page,
