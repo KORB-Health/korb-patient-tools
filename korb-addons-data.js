@@ -30,14 +30,23 @@
 
    Pharmacy routing, ship-to and preferred states live in korb-pharmacies.js.
 
-   VERSION: 1.0   CREATED: 2026-09-11
+   THE DOCUMENT LIVES HERE TOO
+     As of v1.1 this file also carries the Add-On Clinical Reference narrative
+     under `document`. The reference PDF was built on 2026-09-10 by a ReportLab
+     script that was never committed and no longer exists, which is the third
+     time a KORB document set has been orphaned by an uncommitted generator.
+     The document now renders from this file through clinical-doc-render.js and
+     build-clinical-docs.js, both in the repo, so it can always be rebuilt.
+
+   VERSION: 1.1   CREATED: 2026-09-11   UPDATED: 2026-09-12
    OWNER: Director of Clinical Operations
 */
 
 var KORB_ADDONS = {
   meta: {
-    version: "1.0",
+    version: "1.1",
     created: "2026-09-11",
+    updated: "2026-09-12",
     owner: "Director of Clinical Operations",
     sourceOfTruth: "Add-On Clinical Reference + KORB_Optimization_Products.html as at 2026-09-11",
     pharmacyLayer: "korb-pharmacies.js",
@@ -792,6 +801,165 @@ var KORB_ADDONS = {
     "monitor": null
   }
 ],
+
+  /* ── THE DOCUMENT ─────────────────────────────────────────────────────────
+     Narrative for the Add-On Clinical Reference. Everything a provider reads
+     that is NOT a product field lives here, so the document and the tool are
+     one artifact rather than two that drift.
+
+     Three rules govern what may be written below.
+
+     1. NO STATE OR PHARMACY FACT IS RESTATED HERE. Ship-to lists, excluded
+        states and pharmacy footprints are read from korb-pharmacies.js at
+        render time. The 2026-09-10 review found this document publishing
+        FarmaKeio's PREFERRED list as its SHIP-TO list, wrongly excluding AZ,
+        FL, NV and TX. That class of error is now structurally impossible.
+     2. NO PRODUCT FIELD IS RESTATED HERE. Prices, codes, sigs, days and
+        quantities come from products[] above.
+     3. NO OPEN ITEMS SECTION. The Clinical Document Style Standard forbids
+        it: an unresolved question either names a decider inline or stays out.
+        The former Open Items are folded into the sections they belong to,
+        under `decider`. ────────────────────────────────────────────────── */
+  document: {
+    id: "addons",
+    file: "KORB_AddOn_Clinical_Reference",
+    title: "Add-On Clinical Reference",
+    subtitle: "Provider Source of Truth",
+    kicker: "Sexual Health · Hair Loss · Skin Care · Anti-Aging",
+    /* KORB Health Group LLC is the MSO and does not practise medicine. This is
+       clinical protocol, so it carries the PA that holds licensure, matching
+       the TRT Provider Tool. Review finding ST-3, 2026-09-10. */
+    entity: "KORB Health Medical Texas PA",
+    version: "2.0",
+    effective: "2026-09-12",
+    supersedes: "The Add-On Clinical Reference generated 2026-09-10, and before it the individual Get Intimate Now, Hair Loss and Skin Care documents dated 11/26/2025.",
+    intro: "This is the single source of truth for all KORB add-on products. Add-ons attach to any of the four main programs. The program references link here rather than repeating this content, so a product is never described in two places.",
+    /* Review item 4, 2026-09-10: distinguish an inherited decision from one the
+       current clinical director has reviewed. */
+    inheritedDecisions: "Dr. Scott owned protocol decisions historically and Dr. Rose owns them on the program re-evaluation. Anything in this document carried forward from the prior protocols is Dr. Scott's until Dr. Rose has reviewed it, and is marked where it applies.",
+
+    /* Order the pharmacy table prints in. Which pharmacies actually appear is
+       derived from products[], so a pharmacy that stops sourcing add-ons drops
+       out on its own. Footprints are NOT listed here — the renderer reads them
+       from korb-pharmacies.js. */
+    pharmacyOrder: ["premier", "farmakeio", "belmar"],
+    /* What each one sources FOR ADD-ONS. This is the only pharmacy fact the
+       document owns, because it is an add-on fact rather than a pharmacy fact.
+       Derived from products[]; keep in step if a product moves. */
+    pharmacySources: {
+      premier:   "KORB Rise, KORB Electric, PT-141 injection, all hair loss, all skin care, NAD+ injection, metformin",
+      farmakeio: "PERFORM, KORB Electric, hair loss, NAD+ injection, metformin. No skin care.",
+      belmar:    "California only in practice: PT-141 nasal spray, NAD+ nasal spray, NAD+ FastSL sublingual."
+    },
+
+    sections: [
+      {
+        id: "how",
+        heading: "How add-ons work",
+        body: [
+          "Add-ons are not standalone programs. They attach to whichever program the patient is already enrolled in: Weight Loss and Metabolic Health, Men's Health, Women's Health, or Functional Health and Longevity. A patient in any of those four can be offered any appropriate add-on.",
+          "Two products are sex-specific and must not be crossed. Finasteride is for men only. Spironolactone is the women's oral agent. The topical formulations also differ by sex and are not interchangeable. Use the Add-On Selector to confirm before prescribing."
+        ],
+        render: "matrix"
+      },
+      {
+        id: "routing",
+        heading: "Pharmacy and state availability",
+        body: [
+          "Every add-on is sourced from Premier or FarmaKeio, except in California. Neither ships to California.",
+          "California is not a blanket exclusion. Belmar ships to all 50 states and DC, and supplies PT-141 and the NAD+ forms there. Those two have vetted pricing. Everything else Belmar could source is priced above what KORB charges patients once shipping is added, so it would dispense at a loss. That is a cost decision, not a licensure one, and it is under review.",
+          "Confirm the patient's state before offering an add-on, so you are not withdrawing something you have already raised."
+        ],
+        render: "pharmacyTable",
+        decider: {
+          question: "Pharmacy sourcing is under review. Belmar pricing is what limits California to two products.",
+          owner: "Director of Clinical Operations, with VP Finance on pricing"
+        }
+      },
+      {
+        id: "sexual",
+        heading: "Sexual health",
+        group: "sexual",
+        render: "productDetail",
+        callouts: [
+          { tone: "stop", heading: "Absolute contraindication: nitrates", body: "Patients taking nitrates for chest pain must not receive KORB Rise, PERFORM or KORB Electric. The combination can cause a life-threatening drop in blood pressure. Ask directly at every visit rather than relying on the medication list." },
+          { tone: "warn", heading: "PT-141 is off the 90-day cadence", body: "The labelled beyond-use date is 45 days, but the 28-day-after-first-puncture rule governs, so it is dispensed as a 28-day supply. Do not schedule refills alongside quarterly visits. The patient contacts KORB when they need more." },
+          { tone: "info", heading: "Raise skin darkening before starting, not after", body: "It is a known effect of the PT-141 mechanism rather than a reaction, and patients who are not warned tend to stop." }
+        ],
+        decider: {
+          question: "PERFORM has no price or charge code in this document. The Selector quotes $99 and INTRISE001, carried over from KORB Rise, and that assignment is not sourced. Confirm before quoting.",
+          owner: "Nick, VP Finance"
+        }
+      },
+      {
+        id: "hair",
+        heading: "Hair loss",
+        group: "hair",
+        body: [
+          "Men and women, 18 and older. Oral and topical are priced separately. All oral products are $99 on AGEHairPLreg for 90 days. All topical foams and sprays are $149 on AGEHairFOreg, with the days supply varying by product and by how often the patient uses it."
+        ],
+        render: "productDetail",
+        callouts: [
+          { tone: "stop", heading: "Never prescribe finasteride to a woman", body: "It is teratogenic and contraindicated in women who are or may become pregnant. Women use spironolactone as the oral agent." },
+          { tone: "warn", heading: "Do not label topicals as a 90-day supply", body: "Neither product lasts 90 days at twice-daily use, and the FarmaKeio spray exceeds 90 days at once-daily use. Enter the conservative figure in the Days field so the patient is never left short, and tell them the realistic range. Premier foam, 60 mL, one pump is 0.7 mL: 85 days at once daily, 42 at twice daily, Days field 42. FarmaKeio spray, 30 mL and 120 sprays: 120 days at once daily, 60 at twice daily, Days field 60." },
+          { tone: "info", heading: "Counsel on timeline up front", body: "Both oral agents take 3 to 6 months to show results. Patients who are not told this discontinue early and conclude the product failed. Spironolactone is also used for acne, hirsutism and PCOS, which may be relevant for Women's Health patients." }
+        ]
+      },
+      {
+        id: "skin",
+        heading: "Skin care",
+        group: "skin",
+        body: [
+          "Topical treatment for acne, oily skin, dry skin, wrinkles, loss of elasticity and discolouration. Available to men and women. Most patients add this to an existing program. Tretinoin is for acne, oily skin, scarring and spots; estriol is for dry skin, wrinkles, spots and elasticity. All creams are applied once daily.",
+          "Skin care is Premier only and cannot be routed to FarmaKeio. Patients in FarmaKeio-only states cannot receive it."
+        ],
+        render: "productDetail",
+        callouts: [
+          { tone: "warn", heading: "The days figures are the conservative ones, and they are not 90", body: "Tretinoin runs about 80 days on a 20 g tube at a pea-sized amount. Estriol 0.3% and the combo cream both run 120 days on 30 mL at one click, 0.25 mL, once daily. Enter those figures, not 90. Earlier versions of this document carried a 90-day sig line that contradicted its own supply table; the supply table was right." },
+          { tone: "info", heading: "Estriol contains a hormone", body: "It can cause breast tenderness or bleeding. Consider carefully before adding it for a patient already on hormone therapy in Women's Health, and counsel accordingly. General side effects across skin care: dry skin and flaking, sun sensitivity, redness, itching. Counsel on sun protection." }
+        ],
+        decider: {
+          question: "The tretinoin days figure assumes a pea-sized amount of roughly 0.25 g. It is an estimate rather than a measured value and is worth confirming with Premier.",
+          owner: "Director of Clinical Operations"
+        }
+      },
+      {
+        id: "antiaging",
+        heading: "Anti-aging: NAD+ and metformin",
+        group: "antiaging",
+        body: [
+          "Longevity-focused add-on, available to patients in any program. NAD+ and metformin are prescribed independently of each other; a patient may receive either or both. No laboratory testing is required to start either product, though metformin has monitoring requirements once started.",
+          "NAD+ is a naturally occurring coenzyme involved in metabolism, DNA repair and immune function, and levels decline with age. Injection is the fastest route, usually into the lower abdomen, and may also be given in the arm, buttock or thigh."
+        ],
+        render: "productDetail",
+        callouts: [
+          { tone: "warn", heading: "Every NAD+ form is a 28-day supply", body: "That is driven by beyond-use dating on a compounded product. The injection vial holds 1000 mg, which outlasts 28 days at either dose, so the patient discards the remainder. Say so on the prescription. NAD+ follow-up is every 28 days, not on the 90-day cadence." },
+          { tone: "stop", heading: "Metformin is not contraindication-free", body: "It carries a boxed warning for lactic acidosis. Do not prescribe with eGFR below 30 mL/min/1.73m², and do not initiate between 30 and 45. Also screen for acute or unstable heart failure or any state causing tissue hypoxia, severe hepatic impairment, heavy or binge alcohol use, and metabolic acidosis of any cause. Hold before and after iodinated contrast imaging or surgery. Renal function must be known before starting. Metformin is cleared and in use; the screening criteria here come from standard prescribing guidance because the source protocol listed none." },
+          { tone: "info", heading: "Metformin rationale, stated with its limits", body: "On the WHO List of Essential Medicines. The evidence cited for lower rates of dementia and some cancers, reduced cardiovascular risk, reduced inflammation and reduced diabetes risk is largely observational for an off-label longevity indication. Patients will not feel noticeably different; set that expectation up front." }
+        ],
+        decider: {
+          question: "Do not combine NAD+ with isotretinoin. This restriction is carried forward from the source protocol without independent verification and is not a widely documented interaction.",
+          owner: "Dr. Rose",
+          inherited: true
+        }
+      },
+      {
+        id: "documentation",
+        heading: "Documentation",
+        render: "bullets",
+        bullets: [
+          "Record the add-on in the patient's chart and add it to the CC section so it carries forward.",
+          "Document that nitrate use was asked about and excluded before prescribing any sexual health product.",
+          "For hair loss and skin care, document the counselling on the 3 to 6 month timeline and on sun sensitivity.",
+          "Add-ons bill separately from the base program. Confirm the charge code against the product record rather than from memory."
+        ],
+        decider: {
+          question: "korbhealth.com lists KORB Rise as sildenafil and tadalafil only, omitting oxytocin, and shows hair loss starting at $99 without noting that topicals are $149. Skin care is not listed publicly as a Men's Health add-on although it is available to men on request.",
+          owner: "Marketing, with the Director of Clinical Operations on the clinical wording"
+        }
+      }
+    ]
+  },
 
   /* ---- helpers ---- */
 
