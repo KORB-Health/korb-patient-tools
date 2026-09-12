@@ -150,6 +150,37 @@ ${R.CSS}
       '<span class="tools"><a href="${doc.file}.pdf">PDF version</a>' +
       '<a href="#" onclick="window.print();return false;">Print</a></span>';
     document.body.insertBefore(bar, document.body.firstChild);
+
+    /* Copy to clipboard for the Tebra fields. Delegated rather than bound per
+       button, so a rebuild that adds products needs no change here. The
+       fallback matters: clipboard.writeText is unavailable on a page served
+       over plain http or opened from file://, which is how a provider opening
+       this from a shared drive will see it. */
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('.copybtn') : null;
+      if (!btn) return;
+      var host = btn.parentNode;
+      var text = host.getAttribute('data-copy') || '';
+      function done() {
+        var prev = btn.textContent;
+        btn.textContent = 'copied';
+        btn.className = 'copybtn ok';
+        setTimeout(function () { btn.textContent = prev; btn.className = 'copybtn'; }, 1400);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { legacy(); });
+      } else { legacy(); }
+      function legacy() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:absolute;left:-9999px;';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (err) { /* leave the button alone */ }
+        document.body.removeChild(ta);
+      }
+    });
   })();
 </script>
 </body></html>`;

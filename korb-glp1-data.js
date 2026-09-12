@@ -241,7 +241,7 @@ var KORB_GLP1 = {
       'item appears on the three semaglutide documents and none of the others.',
 
       '2026-09-05 (v2.8): BELMAR TRIMMED TO MATCH THE OTHER PHARMACIES. Belmar was ' +
-      'carrying ten pharmacy notes where Premier and Farmakeio carry four, plus a ' +
+      'carrying ten pharmacy notes where Premier and FarmaKeio carry four, plus a ' +
       'rendered vial-plan panel no other pharmacy had. None of the extra weight was ' +
       'clinical - it was accumulated working notes. Don asked for it cleaned up and ' +
       'made consistent, and this is that pass. REMOVED FROM THE SIGS: the ' +
@@ -272,7 +272,7 @@ var KORB_GLP1 = {
       '2026-09-05 (v2.7): DISCARD INSTRUCTION MADE PROGRAM-WIDE, PLUS TIRZEPATIDE ' +
       'INDICATIONS. Three answers from Don landed together. (1) The vial-discard ' +
       'instruction now reads "Discard after 4 doses or 28 days." and sits on all 88 ' +
-      'compounded injectable sigs across Premier, Premier glycine, Belmar, Farmakeio ' +
+      'compounded injectable sigs across Premier, Premier glycine, Belmar, FarmaKeio ' +
       'and Greenwich, both programs - not just the three oversize semaglutide doses ' +
       'it was added to on the first pass. Don asked for consistency, and the wording ' +
       'is harmless where a vial empties before four doses and protective where it ' +
@@ -290,7 +290,7 @@ var KORB_GLP1 = {
       '(3) The two-code oral semaglutide arrangement was confirmed CORRECT, not a ' +
       'defect. Belmar makes one tablet strength at twice the concentration, so a ' +
       '0.5 mg patient takes half a tablet and needs 45 for 90 days; Premier and ' +
-      'Farmakeio stock a dot per strength and dispense 90 either way. The 90 and 180 ' +
+      'FarmaKeio stock a dot per strength and dispense 90 either way. The 90 and 180 ' +
       'in the code names are price tiers, not tablet counts. Reasoning is now written ' +
       'into the pricing block with an explicit do-not-fix note, because it reads as ' +
       'an inconsistency to anyone auditing it and the quantities are right.',
@@ -341,9 +341,9 @@ var KORB_GLP1 = {
 
       '2026-09-05 (v2.4): BILLING SHAPE VERIFIED AND NOW ENFORCED. Audited every ' +
       'injectable compounded dose against its charge code, both programs. Result: ' +
-      'all 20 semaglutide doses across Premier, Premier glycine, Belmar and Farmakeio ' +
+      'all 20 semaglutide doses across Premier, Premier glycine, Belmar and FarmaKeio ' +
       'resolve to the single 8-week code FITSemaMNT at $349, and all 24 tirzepatide ' +
-      'doses across Premier, Belmar, Farmakeio and Greenwich resolve to their tier ' +
+      'doses across Premier, Belmar, FarmaKeio and Greenwich resolve to their tier ' +
       'code - FITTirzMT1 $599, FITTirzMT2 $649, FITTirzMT3 $799. Pharmacy no longer ' +
       'affects code selection anywhere on the program; that ended when the ' +
       'Belmar-specific codes were retired in v2.0. All eight injectable products ' +
@@ -475,7 +475,7 @@ var KORB_GLP1 = {
       '2026-08-12 (v1.4): Premier Pharmacy becomes the preferred and default pharmacy ' +
       'for AZ, MO, IL, FL, NJ, MD, OH and NY on the GLP-1 program. AZ and FL were ' +
       'already Premier; the six that moved are MO, IL, NJ, MD, OH and NY, all of which ' +
-      'previously fell through to Farmakeio on the catch-all rule. Verified before the ' +
+      'previously fell through to FarmaKeio on the catch-all rule. Verified before the ' +
       'change that Premier ships to all six and hard-excludes none of them. Three fields ' +
       'updated together so the tool and the documents cannot disagree: states.routing, ' +
       'premier.preferredStates, and farmakeio.preferredStates. Established patients are ' +
@@ -518,7 +518,7 @@ var KORB_GLP1 = {
       'corporate $199, 8-week $349. A closed legacy cohort exists at a different ' +
       '8-week rate; details held by Operations and deliberately not stored here.',
 
-      '2026-08-06: Indiana routed to Premier provisionally. Farmakeio ships ' +
+      '2026-08-06: Indiana routed to Premier provisionally. FarmaKeio ships ' +
       'everywhere except California and Indiana, which leaves Premier as the only ' +
       'option for an Indiana patient. Premier does not list IN in its documented ' +
       'ship-to. Marked unconfirmed pending verification with Premier.',
@@ -602,9 +602,9 @@ var KORB_GLP1 = {
       'workaround is gone \u2014 every pharmacy now uses a real Tebra Compound drug ' +
       'formulation. QUANTITY IS NOW TOTAL MILLILITRES, not a vial count, matching how ' +
       'Tebra calculates the dose. Oral formulations split by strength: Premier and ' +
-      'Farmakeio each have a 0.5 mg and a 1 mg entry that were previously collapsed ' +
+      'FarmaKeio each have a 0.5 mg and a 1 mg entry that were previously collapsed ' +
       'into one. Naming settled: Premier orals are Dots (KORB marketing term, though ' +
-      'Premier compounds them as troches), Farmakeio is RDT, Belmar is FastSL. Seven ' +
+      'Premier compounds them as troches), FarmaKeio is RDT, Belmar is FastSL. Seven ' +
       '8-week quantities corrected where the entered figure was the 4-week value; the ' +
       'row notes and the drug math both confirmed the doubled figure.',
 
@@ -635,7 +635,7 @@ var KORB_GLP1 = {
       'all 50 plus DC. Premier\u2019s shipping list confirmed as a hard licensed ' +
       'footprint \u2014 13 jurisdictions it does not serve are now hard exclusions. ' +
       'Belmar widened to all 50 plus DC but flagged as discouraged outside California ' +
-      'on price. Farmakeio set to 49 states plus DC with California the single hard ' +
+      'on price. FarmaKeio set to 49 states plus DC with California the single hard ' +
       'exclusion, and Lifefile removed. Greenwich moved off MDToolbox, preferred states ' +
       'cleared, and restricted to continuing tirzepatide patients only. Every ' +
       'compounding pharmacy now orders via Tebra Compound and bills identically. ' +
@@ -647,12 +647,12 @@ var KORB_GLP1 = {
 
       '2026-08-06 (CONFIRMATION ROUND — supersedes the entry above): Seven open items ' +
       'closed on direct confirmation. Indiana goes to FARMAKEIO, not Premier — the ' +
-      'provisional Premier routing has been reversed and removed. Farmakeio ships to ' +
+      'provisional Premier routing has been reversed and removed. FarmaKeio ships to ' +
       'all states and DC with California as the only exclusion. Premier glycine 8-week ' +
       'confirmed as a single full-supply fill. Belmar refill trigger confirmed at ' +
-      'week 3. Farmakeio top semaglutide dose corrected from 2.4 to 2.5 mg on the ' +
+      'week 3. FarmaKeio top semaglutide dose corrected from 2.4 to 2.5 mg on the ' +
       'label. Greenwich 8-week corrected to Days 56 with two vials. Oral charge codes ' +
-      'confirmed for Premier and Belmar only and stripped from Farmakeio oral. ' +
+      'confirmed for Premier and Belmar only and stripped from FarmaKeio oral. ' +
       'Two items remain open, neither blocking.'
     ]
   },
@@ -776,7 +776,7 @@ var KORB_GLP1 = {
     },
     /* Oral products do not follow the injectable 4-week / 8-week rhythm. */
     oral: {
-      appliesTo: 'All oral products \u2014 compounded (Premier dots, Belmar FastSL, Farmakeio) and brand (Foundayo, Wegovy tablet).',
+      appliesTo: 'All oral products \u2014 compounded (Premier dots, Belmar FastSL, FarmaKeio) and brand (Foundayo, Wegovy tablet).',
       followUpOptions: ['30 days', '60 days'],
       decisionOwner: 'Provider',
       rule: 'The provider sets a 30-day or 60-day follow-up to keep the patient on track, rather than using the 4-week / 8-week injectable cadence.',
@@ -899,7 +899,7 @@ var KORB_GLP1 = {
   preparation: {
     compounded: {
       key: 'compounded',
-      appliesTo: 'Compounded products from Premier, Belmar, Farmakeio and Greenwich.',
+      appliesTo: 'Compounded products from Premier, Belmar, FarmaKeio and Greenwich.',
       heading: 'Compounded preparation',
       note: 'KORB dispenses a COMPOUNDED preparation, not the FDA-approved branded ' +
             'product. The molecule is approved; this specific formulation is not, and ' +
@@ -947,14 +947,14 @@ var KORB_GLP1 = {
     // A default can be overridden; whether a given pharmacy can actually serve
     // the state is a separate question answered by hardExcludes.
     routing: [
-      /* 2026-08-12: MO, IL, NJ, MD, OH and NY moved here from the Farmakeio catch-all.
+      /* 2026-08-12: MO, IL, NJ, MD, OH and NY moved here from the FarmaKeio catch-all.
          AZ and FL were already Premier. Premier ships to all six and excludes none. */
       { states: ['TX', 'NV', 'AZ', 'FL', 'IL', 'MD', 'MO', 'NJ', 'NY', 'OH'],
         pharmacy: 'premier', basis: 'preferred pharmacy' },
       { states: ['CA'],                   pharmacy: 'belmar',
         basis: 'sole California pharmacy \u2014 semaglutide and tirzepatide',
         note: 'Belmar is the only California option, and as of 2026-09-11 this applies ' +
-              'to established patients too, not just new starts. Farmakeio cannot ship ' +
+              'to established patients too, not just new starts. FarmaKeio cannot ship ' +
               'to CA at all, Premier cannot either, and Greenwich stopped shipping to ' +
               'CA and no longer fills GLP-1 in any state. Every California tirzepatide ' +
               'patient still on Greenwich moves to Belmar.' },
@@ -1001,7 +1001,7 @@ var KORB_GLP1 = {
       footprintIsSettled:
         'SETTLED \u2014 do not soften this back to a preference. Two different things were ' +
         'being confused: the ROUTING DEFAULT for a state is overridable (a provider may ' +
-        'choose Premier where Farmakeio is default, or vice versa), but Premier\u2019s ' +
+        'choose Premier where FarmaKeio is default, or vice versa), but Premier\u2019s ' +
         'LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.',
       address: 'Premier Pharmacy, 2425 Babcock Rd, Ste 108A, San Antonio, TX 78229',
       orderVia: 'Tebra Compound',
@@ -1152,7 +1152,7 @@ var KORB_GLP1 = {
 
     farmakeio: {
       key: 'farmakeio',
-      name: 'Farmakeio Pharmacy',
+      name: 'FarmaKeio Pharmacy',
       abbrev: 'FKO',
       color: '#EF6C00',
       type: 'compounding',
@@ -1167,10 +1167,10 @@ var KORB_GLP1 = {
         'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'
       ],
       hardExcludes: ['CA'],
-      shipsToNote: 'Ships to 49 states plus DC. California is the single state Farmakeio ' +
+      shipsToNote: 'Ships to 49 states plus DC. California is the single state FarmaKeio ' +
                    'will not ship to, and that cannot be overridden. Preferred everywhere ' +
                    'except CA, TX, FL, AZ and NV.',
-      address: 'Farmakeio Pharmacy, 1736 N Greenville Ave, Richardson, TX 75081',
+      address: 'FarmaKeio Pharmacy, 1736 N Greenville Ave, Richardson, TX 75081',
       orderVia: 'Tebra Compound',
       billing: 'Bill to KORB Health Group, ship to patient',
       notes: [
@@ -2914,7 +2914,7 @@ var KORB_GLP1 = {
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'semaglutide',
-      label: 'Farmakeio \u2014 Semaglutide / B-6 Home Kit',
+      label: 'FarmaKeio \u2014 Semaglutide / B-6 Home Kit',
       visibility: 'provider',
       route: 'subcutaneous',
       frequency: 'once weekly',
@@ -3065,7 +3065,7 @@ var KORB_GLP1 = {
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'tirzepatide',
-      label: 'Farmakeio \u2014 Tirzepatide / B-6 Home Kit',
+      label: 'FarmaKeio \u2014 Tirzepatide / B-6 Home Kit',
       visibility: 'provider',
       route: 'subcutaneous',
       frequency: 'once weekly',
@@ -3583,12 +3583,12 @@ var KORB_GLP1 = {
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'semaglutide',
-      label: 'Farmakeio \u2014 Oral Semaglutide',
+      label: 'FarmaKeio \u2014 Oral Semaglutide',
       visibility: 'provider',
       route: 'sublingual',
       frequency: 'once daily',
       orderVia: 'Tebra Compound',
-      presentationNote: 'The Farmakeio pricing section calls these Oral Dots; the Tebra favorites section calls them Oral RDT. Same product, 90-day supply.',
+      presentationNote: 'The FarmaKeio pricing section calls these Oral Dots; the Tebra favorites section calls them Oral RDT. Same product, 90-day supply.',
       doses: [
         {
           dose: '0.5 mg', mg: 0.5,
@@ -4053,7 +4053,7 @@ var KORB_GLP1 = {
 
   /* ── PRICING & CHARGE CODES — PROVIDER ONLY ──────────────────────────────
      Never render in a patient-facing tool or document. Tirzepatide PRICING is
-     uniform across Premier, Belmar, Farmakeio and Greenwich and is keyed by dose
+     uniform across Premier, Belmar, FarmaKeio and Greenwich and is keyed by dose
      tier, not by pharmacy. The 8-week CHARGE CODE was pharmacy-dependent until
      2026-09-05, because Belmar split the fill and needed its own code per tier to
      tell Ops to place the second 4-week order. Belmar no longer splits the fill.
@@ -4284,11 +4284,11 @@ var KORB_GLP1 = {
 
          Premier    0.5 mg -> Oral Dot #90,  qty 90   FITSemOrl90
                     1 mg   -> Oral Dot #90,  qty 90   FITSemOrl180
-         Farmakeio  same shape as Premier
+         FarmaKeio  same shape as Premier
          Belmar     0.5 mg -> FastSL #45,    qty 45   FITSemOrl90
                     1 mg   -> FastSL #90,    qty 90   FITSemOrl180
 
-       Premier and Farmakeio stock a dot at each strength, so a patient takes one
+       Premier and FarmaKeio stock a dot at each strength, so a patient takes one
        dot daily either way and receives 90 for a 90-day supply. Belmar makes ONE
        strength, the 1 mg tablet, which is twice as strong - so a 0.5 mg patient
        takes half a tablet and needs only 45 for the same 90 days, and a 1 mg
@@ -4299,7 +4299,7 @@ var KORB_GLP1 = {
        way on purpose rather than issue a code per pharmacy per strength, which
        would be four more codes to reconcile for no billing benefit.
 
-       DO NOT "fix" Premier or Farmakeio to #180 to make the names line up. The
+       DO NOT "fix" Premier or FarmaKeio to #180 to make the names line up. The
        quantities are correct as they stand and changing them would under- or
        over-supply the patient. */
     oral: {

@@ -182,16 +182,36 @@ function sectionMatrix(sec) {
 /* ── PRODUCT DETAIL ───────────────────────────────────────────────────────
    One block per product, with the Tebra fields printed literally because a
    provider copies them character for character. */
-function tebraRows(t) {
+/* A value a provider retypes is a value they can mistype, and these are the
+   fields that go into Tebra character for character. Every one is wrapped so
+   the live HTML can offer a copy button; print hides the buttons. */
+function copyCell(v) {
+  var s = String(v == null ? '' : v);
+  return '<span class="cp" data-copy="' + esc2(s) + '">' + esc2(s) +
+         '<button class="copybtn" type="button" aria-label="Copy">copy</button></span>';
+}
+
+function tebraRows(p) {
+  var t = p.tebra;
   if (!t) return '';
   return kvTable([
-    t.name ? ['Tebra favorite', esc2(t.name)] : null,
-    t.sig ? ['Sig', esc2(t.sig)] : null,
-    (t.quantity != null) ? ['Quantity', esc2(t.quantity) + (t.unit ? ' ' + esc2(t.unit) : '')] : null,
+    /* SURESCRIPTS CHANGE. Tebra used to need a commercial drop-down entry to
+       hang a prescription off, so these records carried things like "Viagra
+       50 mg tablet (from drop-down)". Tebra now takes a genuine custom
+       compounded drug, and drugFormulation is that string. It is the field a
+       provider types first and the one the old document never printed. */
+    p.drugFormulation ? ['Tebra drug — custom compound', copyCell(p.drugFormulation)] : null,
+    t.name ? ['Favorite name', copyCell(t.name)] : null,
+    t.sig ? ['Sig', copyCell(t.sig)] : null,
+    (t.quantity != null) ? ['Quantity', copyCell(t.quantity) + (t.unit ? ' ' + esc2(t.unit) : '')] : null,
     (t.refill != null) ? ['Refill', esc2(t.refill)] : null,
     (t.days != null) ? ['Days supply', esc2(t.days)] : null,
-    t.reasonForCompounding ? ['Reason for compounding', esc2(t.reasonForCompounding)] : null,
-    t.pharmacyNotes ? ['Pharmacy notes', esc2(t.pharmacyNotes)] : null
+    t.reasonForCompounding ? ['Reason for compounding', copyCell(t.reasonForCompounding)] : null,
+    t.pharmacyNotes ? ['Pharmacy notes', copyCell(t.pharmacyNotes)] : null,
+    /* Kept visible but marked, so anyone holding an order placed before the
+       change can still reconcile what it was written against. */
+    p.retiredDropdownEntry ? ['Retired drop-down entry', '<span class="fine">' + esc2(p.retiredDropdownEntry) +
+      ' — no longer used. Superseded by the custom compound above.</span>'] : null
   ]);
 }
 
@@ -259,7 +279,7 @@ function productBlock(group) {
 
   group.forEach(function (p) {
     h += '<h4>' + esc2(pharmName(p.pharmacy)) + '</h4>';
-    h += tebraRows(p.tebra);
+    h += tebraRows(p);
     if (!shared) {
       if (p.warn) h += '<div class="gate"><p>' + esc2(p.warn) + '</p></div>';
       if (p.warnAmber) h += '<div class="callout warn"><p>' + esc2(p.warnAmber) + '</p></div>';
@@ -328,6 +348,15 @@ function renderBody(data, pharmacies, doc) {
      one that will not fit. Rows still stay whole, and the heading still stays
      with what follows it, so nothing lands orphaned. */
   h += '<style>.rxblock{break-inside:auto;}' +
+       /* Copy buttons are a screen affordance. They must not appear in the
+          PDF, where they would print as stray words inside a table cell. */
+       '.copybtn{display:none;}' +
+       '@media screen{.cp{display:inline-flex;align-items:baseline;gap:6px;}' +
+       '.copybtn{display:inline-block;font-family:inherit;font-size:10px;font-weight:700;' +
+       'letter-spacing:.04em;text-transform:uppercase;color:#0F5F69;background:#E8F6F8;' +
+       'border:1px solid #B9E2E8;border-radius:4px;padding:1px 6px;cursor:pointer;}' +
+       '.copybtn:hover{background:#D3EDF1;}' +
+       '.copybtn.ok{background:#1B6349;border-color:#1B6349;color:#fff;}}' +
        '.rxblock h3{break-after:avoid;}' +
        '.rxblock h3+.fine{break-after:avoid;}' +
        'h3.rxlead{margin-top:16pt;break-after:avoid;}' +

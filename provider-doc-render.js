@@ -167,8 +167,8 @@ const DOCS = [
   { id: 'premier_sema',     file: 'KORB_GLP1_Premier_Semaglutide_Reference',       title: 'Premier — Semaglutide',               products: ['premier_sema', 'premier_oral_sema'] },
   { id: 'premier_glycine',  file: 'KORB_GLP1_Premier_Semaglutide_Glycine_Reference', title: 'Premier — Semaglutide with Glycine', products: ['premier_sema_glycine'] },
   { id: 'premier_tirz',     file: 'KORB_GLP1_Premier_Tirzepatide_Reference',       title: 'Premier — Tirzepatide',               products: ['premier_tirz', 'premier_oral_tirz'] },
-  { id: 'farmakeio_sema',   file: 'KORB_GLP1_Farmakeio_Semaglutide_Reference',     title: 'Farmakeio — Semaglutide',             products: ['farmakeio_sema', 'farmakeio_oral_sema'] },
-  { id: 'farmakeio_tirz',   file: 'KORB_GLP1_Farmakeio_Tirzepatide_Reference',     title: 'Farmakeio — Tirzepatide',             products: ['farmakeio_tirz'] },
+  { id: 'farmakeio_sema',   file: 'KORB_GLP1_Farmakeio_Semaglutide_Reference',     title: 'FarmaKeio — Semaglutide',             products: ['farmakeio_sema', 'farmakeio_oral_sema'] },
+  { id: 'farmakeio_tirz',   file: 'KORB_GLP1_Farmakeio_Tirzepatide_Reference',     title: 'FarmaKeio — Tirzepatide',             products: ['farmakeio_tirz'] },
   /* greenwich_tirz removed 2026-09-11. Greenwich GLP-1 is retired in every state
      and all tirzepatide moves to Belmar, so a provider reference for it would be a
      document describing a route nobody may use. The product record stays in

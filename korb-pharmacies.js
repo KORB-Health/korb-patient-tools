@@ -167,7 +167,7 @@ var KORB_PHARMACIES = {
       "WA"
     ],
     "shipsToNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09.",
-    "footprintIsSettled": "SETTLED — do not soften this back to a preference. Two different things were being confused: the ROUTING DEFAULT for a state is overridable (a provider may choose Premier where Farmakeio is default, or vice versa), but Premier’s LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.",
+    "footprintIsSettled": "SETTLED — do not soften this back to a preference. Two different things were being confused: the ROUTING DEFAULT for a state is overridable (a provider may choose Premier where FarmaKeio is default, or vice versa), but Premier’s LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.",
     "address": "Premier Pharmacy, 2425 Babcock Rd, Ste 108A, San Antonio, TX 78229",
     "orderVia": "Tebra Compound",
     "billing": "Bill to KORB Health Group, ship to patient",
@@ -311,7 +311,7 @@ var KORB_PHARMACIES = {
   },
   "farmakeio": {
     "key": "farmakeio",
-    "name": "Farmakeio Pharmacy",
+    "name": "FarmaKeio Pharmacy",
     "abbrev": "FKO",
     "color": "#EF6C00",
     "type": "compounding",
@@ -414,8 +414,8 @@ var KORB_PHARMACIES = {
     "hardExcludes": [
       "CA"
     ],
-    "shipsToNote": "Ships to 49 states plus DC. California is the single state Farmakeio will not ship to, and that cannot be overridden. Preferred everywhere except CA, TX, FL, AZ and NV.",
-    "address": "Farmakeio Pharmacy, 1736 N Greenville Ave, Richardson, TX 75081",
+    "shipsToNote": "Ships to 49 states plus DC. California is the single state FarmaKeio will not ship to, and that cannot be overridden. Preferred everywhere except CA, TX, FL, AZ and NV.",
+    "address": "FarmaKeio Pharmacy, 1736 N Greenville Ave, Richardson, TX 75081",
     "orderVia": "Tebra Compound",
     "billing": "Bill to KORB Health Group, ship to patient",
     "notes": [
@@ -670,7 +670,7 @@ var KORB_PHARMACIES = {
       ],
       "pharmacy": "belmar",
       "basis": "sole California pharmacy — semaglutide and tirzepatide",
-      "note": "Belmar is the only California option. Farmakeio cannot ship to CA at all, Premier cannot either, and Greenwich stopped shipping to CA on 2026-09-11. Every California GLP-1 goes to Belmar, including tirzepatide patients moving off Greenwich."
+      "note": "Belmar is the only California option. FarmaKeio cannot ship to CA at all, Premier cannot either, and Greenwich stopped shipping to CA on 2026-09-11. Every California GLP-1 goes to Belmar, including tirzepatide patients moving off Greenwich."
     },
     {
       "states": [
