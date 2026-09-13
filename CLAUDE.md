@@ -46,8 +46,16 @@ and PDFs, nothing else.
 
 Five duplicate `.js` files were removed from `Provider_Reference/` on 2026-09-13
 (`korb-glp1-data.js`, `korb-addons-data.js`, `korb-pharmacies.js`,
-`build-addon-signoff.js`, `build-embed.js`). Do not put them back. Four were
-byte-identical copies; the fifth had diverged and was silently broken — see below.
+`build-addon-signoff.js`, `build-embed.js`). Do not put them back.
+
+**Two** of the five had diverged by the time they were deleted, not one. This
+paragraph said "four were byte-identical, the fifth had diverged", which was true
+when it was written and had stopped being true by the deletion. `build-embed.js` was
+the known-broken copy. `korb-addons-data.js` drifted during the patch series: the
+root file went to v1.1 and the copy stayed at v1.0, so a folder of duplicates
+acquired a second stale file in the two days it was left in place. Nothing was lost
+in the deletion — the root file is a superset of the copy, and the only lines unique
+to the copy were its own version stamp.
 
 ---
 
@@ -377,12 +385,16 @@ women's testosterone. Do not re-report those; they are already on the list.
    resolve. Both edits survive: `meta.version` reads `'2.17'` and `overrideReasons`
    says "added agent". All 14 documents rebuilt, HTML and PDF. The `source/` folder
    was not used.
-1. **Then** delete the five duplicate `.js` from `Provider_Reference/`.
+1. ~~Delete the five duplicate `.js` from `Provider_Reference/`.~~ **DONE
+   2026-09-13.** The ordering constraint was satisfied: patches first, then the
+   deletion. `Provider_Reference/` now holds HTML and PDFs only, which is what the
+   Layout rule says it should. Verified after deleting, not assumed — all ten GLP-1
+   monographs were loaded in Chromium and still render from `../../korb-glp1-data.js`
+   with 15 to 37 tables each and no JS errors, and `build-embed.js --check` still
+   exits 0. The render check was itself negative-tested by hiding the root data file:
+   10 FAILED, then 10 ok once restored.
 
-   **Order is not optional.** Two of the patch's twelve files are
-   `Provider_Reference/korb-glp1-data.js` and `Provider_Reference/korb-pharmacies.js`
-   — duplicates on the deletion list. Delete them first and `git am` fails trying to
-   patch files that no longer exist. Patch, then delete, in that order.
+**NEXT →**
 1b. **Switch the clinical references to the medical PA.** Headers currently read
    "KORB Health Group" (the MSO). KORB Health Group LLC is the management services
    organization and is NOT a clinical provider; KORB Health Medical Texas PA holds
@@ -401,6 +413,14 @@ women's testosterone. Do not re-report those; they are already on the list.
 7. Reconcile `KORB_AddOn_Selector.html` / `KORB_Optimization_Products.html`.
 8. Fix the stale comment in `build-provider-docs.js` — says "eleven documents",
    the list holds ten (Greenwich tirzepatide retired 2026-09-11).
+9. **`build-signoff-sheet.js` cannot run on either machine.** Line 306 writes to
+   `/mnt/user-data/outputs/monograph-signoff.html`, a Cowork sandbox path, so it
+   exits with ENOENT. Third instance of a sandbox path committed as if it were a
+   real one, after `loadChromium()` in both document builders. Found 2026-09-13
+   while checking the generators after the `Provider_Reference/` deletion; it
+   predates that work and is unrelated to it. Should write next to the other
+   generated documents. Worth grepping for `/mnt/` and `/home/claude` before
+   trusting any script in here that has not been run on this machine.
 
 ---
 
