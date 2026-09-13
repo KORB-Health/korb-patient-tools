@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KORB — GLP-1 Pharmacy Routing by State</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--gold:#FBB040;
+      --muted:#5A6070;--line:#DCD9C4;--ok:#00727C;--err:#B3261E;}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+     background:var(--cream);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:18px 16px 28px}
+.banner{background:#FFF6E6;border-left:5px solid var(--gold);border-radius:6px;
+        padding:12px 16px;margin-bottom:20px;font-size:13px;line-height:1.55}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;
+         color:var(--muted);margin:0 0 6px}
+h2{font-size:21px;font-weight:800;margin:0 0 8px;letter-spacing:-.01em}
+.rule{height:3px;width:56px;background:var(--teal);border-radius:2px;margin:0 0 14px}
+.sub{font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 18px;max-width:72ch}
+
+.picker{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;
+        margin-bottom:18px;box-shadow:0 1px 3px rgba(33,39,91,.07)}
+.picker label{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;
+              text-transform:uppercase;color:var(--navy);margin-bottom:7px}
+.picker select{width:100%;max-width:420px;padding:12px 13px;border:1.5px solid var(--line);
+               border-radius:9px;font-family:inherit;font-size:16px;color:var(--navy);background:#fff}
+.picker select:focus{outline:3px solid var(--teal);outline-offset:2px;border-color:var(--teal)}
+
+.result{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(33,39,91,.07);margin-bottom:18px}
+.result .hd{background:var(--navy);color:#fff;padding:11px 18px;font-size:13px;
+            font-weight:800;letter-spacing:.04em;display:flex;justify-content:space-between;
+            align-items:center;flex-wrap:wrap;gap:8px;
+            -webkit-print-color-adjust:exact;print-color-adjust:exact}
+.result .bd{padding:18px}
+.headline{font-size:26px;font-weight:800;color:var(--navy);line-height:1.2;margin:0 0 4px}
+.why{font-size:13.5px;color:var(--muted);margin:0 0 16px}
+.rowset{border-top:1px solid var(--line)}
+.r{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);
+   font-size:13.5px;align-items:flex-start}
+.r:last-child{border-bottom:none}
+.r .k{flex:0 0 130px;font-weight:700;color:var(--navy)}
+.r .v{flex:1;color:var(--muted)}
+.pill{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.07em;
+      text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-right:6px;
+      -webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pill.def{background:var(--teal);color:var(--navy)}
+.pill.alt{background:#EEF0F7;color:var(--navy)}
+.pill.no{background:#FDECEA;color:var(--err)}
+.callout{border-radius:8px;padding:11px 14px;font-size:13px;line-height:1.6;margin-top:14px}
+.callout.warn{background:#FFF6E6;border-left:4px solid var(--gold);color:#5D4200}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff}
+th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-size:11px;
+   font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+   -webkit-print-color-adjust:exact;print-color-adjust:exact}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+td.ph{font-weight:700;white-space:nowrap}
+td.st{color:var(--muted);line-height:1.8}
+.tablewrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;
+           box-shadow:0 1px 3px rgba(33,39,91,.07)}
+.foot{margin-top:20px;font-size:11.5px;color:var(--muted);line-height:1.7}
+@media(max-width:520px){.r{flex-direction:column;gap:3px}.r .k{flex:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="banner"><strong>Internal. Provider and operations use only.</strong>
+  GLP-1 pharmacy routing only. Functional Health, Men's Health and Women's Health route
+  differently and are not covered here.</div>
+
+  <p class="eyebrow">GLP-1 / Weight Loss</p>
+  <h2>Pharmacy Routing by State</h2>
+  <div class="rule"></div>
+  <p class="sub">Pick the patient's state. This reads the shared GLP-1 data file at page
+  load, so it reflects any routing change the moment that file is updated.</p>
+
+  <div id="err"></div>
+
+  <div class="picker">
+    <label for="st">Patient state</label>
+    <select id="st"><option value="">— select a state —</option></select>
+  </div>
+
+  <div id="out"></div>
+
+  <p class="eyebrow" style="margin-top:26px">Full list</p>
+  <h2>Every State at a Glance</h2>
+  <div class="rule"></div>
+  <div class="tablewrap"><table id="all"></table></div>
+
+  <p class="foot" id="foot"></p>
+
+</div>
+
+<script src="korb-glp1-data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var D = (typeof KORB_GLP1 !== 'undefined') ? KORB_GLP1 : null;
+
+  if(!D || !D.pharmacies || typeof D.pharmacyOptionsForState !== 'function'){
+    document.getElementById('err').innerHTML =
+      '<div class="callout warn"><strong>Routing data did not load.</strong> '
+      + 'This page needs korb-glp1-data.js in the same folder. Do not use it until that is fixed '
+      + '— an empty page is not the same as "no restriction".</div>';
+    return;
+  }
+
+  /* Compounding GLP-1 pharmacies only, selected positively rather than by exclusion, so
+     a channel added later cannot leak in. Brand routes (LillyDirect, NovoCare, retail) are
+     manufacturer-direct or retail and are not state-routed. A pharmacy retired from GLP-1
+     drops out on its own, which is how Greenwich disappeared on 2026-09-11. */
+  var KEYS = Object.keys(D.pharmacies).filter(function(k){
+    var p = D.pharmacies[k];
+    return p.type === 'compounding' && p.status !== 'glp1-retired';
+  });
+
+  var NAME={AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',
+    CO:'Colorado',CT:'Connecticut',DE:'Delaware',DC:'District of Columbia',FL:'Florida',
+    GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',
+    KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',
+    MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',
+    NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',
+    ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',
+    RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',
+    UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',
+    WI:'Wisconsin',WY:'Wyoming'};
+
+  var STATES = (D.states.korbActive || []).slice().sort();
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function optsFor(st){
+    return D.pharmacyOptionsForState(st).filter(function(o){ return KEYS.indexOf(o.key) !== -1; });
+  }
+
+  /* ---- picker ---- */
+  var sel = document.getElementById('st');
+  STATES.forEach(function(c){
+    var o = document.createElement('option');
+    o.value = c; o.textContent = c + ' — ' + (NAME[c] || c);
+    sel.appendChild(o);
+  });
+
+  function render(){
+    var st = sel.value, host = document.getElementById('out');
+    if(!st){ host.innerHTML = ''; return; }
+
+    var opts = optsFor(st);
+    var def  = opts.filter(function(o){ return o.status === 'ok'; })[0];
+    var alt  = opts.filter(function(o){ return o.selectable !== false && (!def || o.key !== def.key); });
+    var no   = opts.filter(function(o){ return o.selectable === false; });
+    var route = (typeof D.states.routeTo === 'function') ? D.states.routeTo(st) : null;
+
+    var h = '<div class="result"><div class="hd"><span>' + esc(NAME[st] || st)
+          + '</span><span>' + esc(st) + '</span></div><div class="bd">';
+
+    if(def){
+      h += '<p class="headline">' + esc(def.name) + '</p>'
+         + '<p class="why">Send here unless there is a specific reason not to'
+         + (route && route.basis ? ' &middot; ' + esc(route.basis) : '') + '.</p>';
+    } else {
+      h += '<p class="headline" style="color:var(--err)">No default pharmacy</p>'
+         + '<p class="why">Nothing is configured as the default for this state. Ask before prescribing.</p>';
+    }
+
+    h += '<div class="rowset">';
+    h += '<div class="r"><span class="k">Send to</span><span class="v">'
+       + (def ? '<span class="pill def">default</span>' + esc(def.name) : '&mdash;') + '</span></div>';
+
+    h += '<div class="r"><span class="k">Also allowed</span><span class="v">'
+       + (alt.length
+           ? alt.map(function(o){
+               return '<span class="pill alt">' + (o.status === 'warning' ? 'exception' : 'backup')
+                    + '</span>' + esc(o.name);
+             }).join('<br>')
+           : '<em>Nothing else. This state has a single source.</em>')
+       + '</span></div>';
+
+    if(no.length){
+      h += '<div class="r"><span class="k">Cannot ship</span><span class="v">'
+         + no.map(function(o){ return '<span class="pill no">blocked</span>' + esc(o.name); }).join('<br>')
+         + '<br><span style="font-size:12.5px">Licensing limit. Not overridable.</span></span></div>';
+    }
+    h += '</div>';
+
+    if(!alt.length){
+      h += '<div class="callout warn"><strong>Single source.</strong> '
+         + esc(def ? def.name : 'One pharmacy') + ' is the only option for this state. '
+         + 'If they cannot fill, there is no second route — escalate rather than substituting.</div>';
+    }
+
+    var warn = opts.filter(function(o){ return o.status === 'warning' && o.selectable !== false; });
+    warn.forEach(function(o){
+      h += '<div class="callout warn"><strong>' + esc(o.name) + '</strong> '
+         + esc(o.message || '') + '</div>';
+    });
+
+    h += '</div></div>';
+    host.innerHTML = h;
+  }
+  sel.addEventListener('change', render);
+
+  /* ---- full table, grouped by pharmacy ---- */
+  var group = {};
+  STATES.forEach(function(st){
+    var d = optsFor(st).filter(function(o){ return o.status === 'ok'; })[0];
+    var k = d ? d.key : 'none';
+    (group[k] = group[k] || []).push(st);
+  });
+
+  var order = Object.keys(group).sort(function(a,b){ return group[b].length - group[a].length; });
+  var rows = '<tr><th>Default pharmacy</th><th>States</th><th>Count</th></tr>';
+  order.forEach(function(k){
+    var nm = D.pharmacies[k] ? D.pharmacies[k].name : 'Not configured';
+    rows += '<tr><td class="ph">' + esc(nm) + '</td><td class="st">'
+          + group[k].join(', ') + '</td><td class="ph">' + group[k].length + '</td></tr>';
+  });
+  document.getElementById('all').innerHTML = rows;
+
+  document.getElementById('foot').textContent =
+    'Reads korb-glp1-data.js v' + (D.meta && D.meta.version || '?')
+    + ', last updated ' + (D.meta && D.meta.lastUpdated || '?')
+    + '. Covers ' + STATES.length + ' states and DC. '
+    + 'Compounded GLP-1 only; brand products through LillyDirect and NovoCare are not state-routed. '
+    + 'No patient information is entered or stored on this page.';
+
+  /* ---- self check ---- */
+  window.KORB_ROUTING_SELFCHECK = function(){
+    var problems = [];
+    if(STATES.length !== 51) problems.push('state list is ' + STATES.length + ', expected 51');
+    STATES.forEach(function(st){
+      if(!NAME[st]) problems.push(st + ': no display name');
+      var o = optsFor(st);
+      var d = o.filter(function(x){ return x.status === 'ok'; });
+      if(d.length !== 1) problems.push(st + ': ' + d.length + ' defaults, expected 1');
+      if(!o.filter(function(x){ return x.selectable !== false; }).length)
+        problems.push(st + ': no selectable pharmacy');
+      o.forEach(function(x){
+        var p = D.pharmacies[x.key];
+        var excluded = (p.hardExcludes || []).indexOf(st) !== -1;
+        if(excluded && x.selectable !== false) problems.push(st + ': ' + x.key + ' excluded but offered');
+        if(x.status === 'ok' && (p.shipsTo || []).indexOf(st) === -1)
+          problems.push(st + ': ' + x.key + ' is default but does not ship here');
+      });
+    });
+    KEYS.forEach(function(k){
+      var p = D.pharmacies[k];
+      if(p.type !== 'compounding') problems.push(k + ': not a compounding pharmacy but in scope');
+      if(p.status === 'glp1-retired') problems.push(k + ': retired from GLP-1 but in scope');
+    });
+    return { states: STATES.length, pharmacies: KEYS, problems: problems };
+  };
+})();
+</script>
+</body>
+</html>
