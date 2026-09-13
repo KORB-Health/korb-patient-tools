@@ -121,6 +121,30 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
   var STATES = (D.states.korbActive || []).slice().sort();
 
+  /* Order for the "Also allowed" column, most preferred first. This is a KORB operational
+     preference, not something the data file encodes: Belmar sits last everywhere because of
+     cost, and is only the default in California where it is the sole licensed route. An
+     exception-status pharmacy always sinks below a clean backup regardless of this list.
+     If a compounding pharmacy is ever added without being placed here, the self-check fails
+     rather than letting it sort into an arbitrary position. */
+  var PREFER = ['premier', 'farmakeio', 'belmar'];
+  function prefRank(k){
+    var i = PREFER.indexOf(k);
+    return i === -1 ? PREFER.length : i;
+  }
+  /* One comparator, used by both the renderer and the self-check. Do not inline a copy of
+     this anywhere — a duplicated comparator makes the assertion vacuous, which is exactly
+     what a negative test caught on 2026-09-13. */
+  function altOrder(a, b){
+    var ea = (a.status === 'warning') ? 1 : 0, eb = (b.status === 'warning') ? 1 : 0;
+    return (ea - eb) || (prefRank(a.key) - prefRank(b.key));
+  }
+  function altsFor(st, def){
+    return optsFor(st)
+      .filter(function(o){ return o.selectable !== false && (!def || o.key !== def.key); })
+      .sort(altOrder);
+  }
+
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function optsFor(st){
     return D.pharmacyOptionsForState(st).filter(function(o){ return KEYS.indexOf(o.key) !== -1; });
@@ -165,7 +189,7 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
     var opts = optsFor(st);
     var def  = defaultFor(st);
-    var alt  = opts.filter(function(o){ return o.selectable !== false && (!def || o.key !== def.key); });
+    var alt  = altsFor(st, def);   /* clean backups first, exceptions last, then PREFER */
     var no   = opts.filter(function(o){ return o.selectable === false; });
     var route = (typeof D.states.routeTo === 'function') ? D.states.routeTo(st) : null;
 
@@ -189,11 +213,13 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
     h += '<div class="col"><div class="k">Send to</div><div class="v">'
        + (def ? esc(def.name) : '<em>&mdash;</em>') + '</div></div>';
 
-    h += '<div class="col"><div class="k">Also allowed</div><div class="v">'
+    /* Listed in order of preference, so the tag says which rung each one is on. */
+    h += '<div class="col"><div class="k">Also allowed &mdash; in order</div><div class="v">'
        + (alt.length
-           ? alt.map(function(o){
-               return esc(o.name) + (o.status === 'warning'
-                 ? ' <span class="note" style="display:inline">(exception)</span>' : '');
+           ? alt.map(function(o, i){
+               var tag = (o.status === 'warning') ? 'exception' : (i === 0 ? 'backup' : 'then');
+               return esc(o.name)
+                    + ' <span class="note" style="display:inline">(' + tag + ')</span>';
              }).join('<br>')
            : '<em>None. Single source.</em>')
        + '</div></div>';
@@ -213,11 +239,20 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
     /* The data file's warning text runs several sentences. The column already flags the
        pharmacy as an exception, so only the first sentence earns space here. */
-    opts.filter(function(o){ return o.status === 'warning' && o.selectable !== false; })
-        .forEach(function(o){
+    var warned = opts.filter(function(o){ return o.status === 'warning' && o.selectable !== false; });
+    warned.forEach(function(o){
       var m = String(o.message || '').trim();
       var first = m.split(/(?<=\.)\s+/)[0] || m;
-      h += '<div class="callout"><strong>' + esc(o.name) + '</strong> ' + esc(first) + '</div>';
+      h += '<div class="callout"><strong>' + esc(o.name) + '</strong> ' + esc(first);
+      /* Verbatim from the data file's pharmacySelection.overrideReasons so this stays in
+         step with it. Answers "when is the exception actually justified" at the point of
+         decision, which is the only place it matters. */
+      var rs = (D.pharmacySelection && D.pharmacySelection.overrideReasons) || [];
+      if(rs.length){
+        h += '<br><span class="note" style="display:inline;color:inherit;opacity:.85">'
+           + 'Override is reasonable when: ' + rs.map(esc).join(' &middot; ') + '.</span>';
+      }
+      h += '</div>';
     });
 
     h += '</div></div>';
@@ -254,6 +289,19 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
       var p = D.pharmacies[k];
       if(p.type !== 'compounding') problems.push(k + ': not a compounding pharmacy but in scope');
       if(p.status === 'glp1-retired') problems.push(k + ': retired from GLP-1 but in scope');
+      if(PREFER.indexOf(k) === -1)
+        problems.push(k + ': in scope but missing from PREFER, so it sorts last by accident');
+    });
+    /* Belmar must never outrank a clean backup outside California. Assert the rendered
+       order rather than trusting the sort, so a future data change cannot quietly undo it. */
+    STATES.forEach(function(st){
+      if(st === 'CA') return;
+      var a = altsFor(st, defaultFor(st)).map(function(o){ return o.key; });
+      var bi = a.indexOf('belmar');
+      if(bi !== -1 && bi !== a.length - 1)
+        problems.push(st + ': belmar is listed at position ' + (bi + 1) + ' of ' + a.length + ', expected last');
+      if(a.indexOf('farmakeio') > bi && bi !== -1)
+        problems.push(st + ': farmakeio is listed below belmar');
     });
     /* the idle line must account for every state, or it is quietly lying about coverage */
     var counted = order.reduce(function(a,k){ return a + group[k].length; }, 0);
