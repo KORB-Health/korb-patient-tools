@@ -93,6 +93,40 @@ file under two names. Reconcile or delete one.
 
 ---
 
+## Second machine setup
+
+Work happens on a desktop and a laptop. Clone as a **sibling** of the licensing
+repo, never inside it: `korb-licensing` lives at `C:\korb` and is itself a git
+repo, so a clone nested in it confuses both. This repo goes at
+`C:\korb-patient-tools`.
+
+    node --version                     # check FIRST. v24.19.0 on the desktop as of
+                                       # 2026-09-13. Node 18 is the floor.
+    git clone https://github.com/KORB-Health/korb-patient-tools.git
+    cd korb-patient-tools
+    npm install                        # playwright, pinned to 1.63.0
+    npx playwright install chromium    # ~310 MB, into AppData, NOT the repo
+
+`npm install` alone is **not enough.** It fetches the Playwright package; the
+browser is a separate download, and `npx playwright install chromium` is what gets
+it. Skip that second command and `require('playwright')` succeeds while
+`chromium.launch()` fails at build time.
+
+**Without Chromium the generators skip the PDFs and carry on.** That is deliberate:
+the HTML renders live from the data file and never needed a browser, so gating it on
+Playwright meant a machine without Chromium produced nothing at all, not even the
+HTML that was already correct. The cost is that a build can look successful, exit 0,
+and leave every PDF untouched. Both builders print a WARNING naming the directory
+whose PDFs are now stale. Read it. **Exit 0 from these scripts means "the HTML is
+current", not "the documents are current".**
+
+The Chromium version is part of the output. Text shaping changes move page breaks in
+a printed clinical document, so `playwright` is pinned to an exact version in
+`package.json` with no caret and `package-lock.json` is committed. Bump it as a
+reviewed decision, and rebuild all 14 documents in the same commit.
+
+---
+
 ## Generators
 
 Run all of them **from the repo root**.
@@ -111,6 +145,14 @@ for a document name in the build script will find nothing.
 
 **Never hand-edit a generated document.** Edit the data file and rebuild. A
 hand-edit is overwritten by the next build.
+
+**A leftover PDF is not absent, it is wrong — and it is the copy a provider
+prints.** A missing document is obvious to whoever goes looking for it. A stale one
+is not: it carries a build date, it looks authoritative, and it answers confidently
+with last month's data. Whenever a build skips the PDF half, every PDF in that
+folder now disagrees with the HTML beside it, and the PDF is the half that gets
+printed, emailed and pinned to an audit. Treat a skipped PDF phase as an open defect
+until the rebuild runs, not as a tidy-up that can wait.
 
 There is no generator for Men's Health or Women's Health. Those tools are hand-built
 and have no data file at all.
@@ -135,8 +177,29 @@ source" with exit 0. Deleted 2026-09-13. The root copy treats a skip as a failur
 and exits 1. Its own comment says why: *"A checker that finds nothing and reports
 success is worse than no checker: it is a green light earned by not looking."*
 
-Both failures are the same shape: **something reported fine because it never
-looked.** Assume that shape is present until a negative test proves otherwise.
+**`build-embed.js --check` reported drift without checking anything.** It read its
+target with `fs.readFileSync(path, 'utf8')`, which keeps the CRLFs every Windows
+checkout has under `core.autocrlf=true`, then compared that against a freshly built
+block assembled with `
+` only. The two could never be equal, so `--check` reported
+DRIFT on both targets no matter what the data said, and running the writer "fixed"
+it by rewriting the file with LF rather than by changing any data. Found and fixed
+2026-09-13 by normalising the target to LF before the comparison.
+
+All three are the same shape. The first two **reported fine without looking**; the
+third **reported broken without looking**. Which answer fell out is not the point,
+and it is not the useful lesson: in all three the check's output did not depend on
+the thing it claimed to check. A checker that cries wolf gets ignored exactly as
+fast as one that never barks, and either way you are left with no check at all.
+
+Assume that shape is present until a negative test proves otherwise — and a real
+negative test has **both halves**. Break the thing it guards and confirm it fails,
+then leave the thing it guards alone and confirm it passes. Normalising both sides
+of a comparison, for instance, very easily produces a check that always passes. The
+CRLF fix was verified that way, with both targets forced to CRLF on disk: a clean
+tree reported all-match and exit 0, and a single FarmaKeio label reverted in
+`korb-glp1-data.js` reported DRIFT on exactly the file that changed and left the
+other alone.
 
 ---
 
@@ -306,8 +369,14 @@ women's testosterone. Do not re-report those; they are already on the list.
 
 ## Open work, in order
 
-0. **Apply `KORB_clinical-generators_source_2026-09-13.zip` FIRST.** See above,
-   including both traps.
+0. ~~Apply `KORB_clinical-generators_source_2026-09-13.zip`.~~ **DONE 2026-09-13.**
+   Applied with `git am --3way` as `cc63aad`, `21936c0`, `f59052b`, pushed to `main`.
+   The predicted `korb-glp1-data.js` conflict **did not happen.** The patch touches
+   only FarmaKeio spellings in that file — 29 of them — and never `meta.version` or
+   `pharmacySelection.overrideReasons`, so there was no real overlap with v2.17 to
+   resolve. Both edits survive: `meta.version` reads `'2.17'` and `overrideReasons`
+   says "added agent". All 14 documents rebuilt, HTML and PDF. The `source/` folder
+   was not used.
 1. **Then** delete the five duplicate `.js` from `Provider_Reference/`.
 
    **Order is not optional.** Two of the patch's twelve files are
