@@ -47,9 +47,9 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.16',
+    version: '2.17',
     created: '2026-08-06',
-    lastUpdated: '2026-09-11',
+    lastUpdated: '2026-09-13',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -67,6 +67,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-13 (v2.17): WORDING ONLY, NO ROUTING OR DOSING CHANGE. pharmacySelection.overrideReasons described L-carnitine as an "added vitamin". L-carnitine is an amino acid derivative, not a vitamin. Changed to "added agent" in the reason string and in the explanatory comment above it. Flagged because the GLP-1 Pharmacy Routing tool renders that string verbatim to providers, so the error was on screen rather than buried in the file. Nothing else in this file was touched: pharmacy routing, state lists, sigs, doses and pricing are byte-identical to v2.16.',
       '2026-09-11 (v2.16): GREENWICH GLP-1 RETIRED, EVERY STATE. Greenwich told KORB ' +
       'it can no longer ship to California. California was the trigger, but the ' +
       'decision Don made is wider than California: rather than carve one state out of ' +
@@ -4716,7 +4717,7 @@ var KORB_GLP1 = {
      State routing gives the default. It is a default, not a lock. Providers
      override it routinely and for good reasons: a patient already established
      at another pharmacy, a patient who has moved, a preference for a particular
-     added vitamin, or the provider's own preference.
+     added agent, or the provider's own preference.
 
      The tool should therefore pre-select from state and let the provider change
      it, but warn when the combination will not actually work. Call
@@ -4727,7 +4728,7 @@ var KORB_GLP1 = {
     overrideReasons: [
       'Patient is already established with another pharmacy and does not want to switch',
       'Patient has moved between states',
-      'Patient prefers a formulation with a different added vitamin (B-12, B-6, L-carnitine)',
+      'Patient prefers a formulation with a different added agent (B-12, B-6, L-carnitine)',
       'Provider preference'
     ],
     brandProgramsNote: 'LillyDirect and NovoCare are manufacturer programs and are not ' +
