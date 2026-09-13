@@ -232,6 +232,44 @@
   .outcome p:last-child{margin-bottom:0}
   .crisis{font-size:.85rem;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:12px;margin-top:16px}
 
+  .noteout{margin-top:8px;display:flex;flex-direction:column;gap:18px}
+  .noteout-head h2{font-family:Archivo,sans-serif;font-size:1.25rem;font-weight:600;margin:0 0 6px}
+  .noteout-head p{margin:0;color:var(--ink-2);font-size:.9rem;max-width:72ch}
+  .ncard{border:1px solid var(--rule);border-radius:4px;background:var(--surface);overflow:hidden}
+  .ncard-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:11px 14px;
+    background:var(--surface-2);border-bottom:1px solid var(--rule)}
+  .ncard-head h3{font-family:Archivo,sans-serif;font-size:.92rem;font-weight:700;margin:0;
+    letter-spacing:.02em;color:var(--ink)}
+  .ntag{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.08em;
+    text-transform:uppercase;padding:4px 8px;border-radius:2px}
+  .t-paste{background:var(--ok-bg);color:var(--ok)}
+  .t-tebra{background:var(--rev-bg);color:var(--rev)}
+  .t-prov{background:#EDEFF7;color:var(--navy)}
+  .t-gap{background:var(--no-bg);color:var(--no)}
+  .ncard-head .sp{flex:1}
+  .copybtn{font:inherit;font-size:.8rem;font-weight:600;background:var(--navy);color:#fff;
+    border:0;border-radius:3px;padding:7px 14px;cursor:pointer}
+  .copybtn:hover{background:var(--navy-deep)}
+  .copybtn.done{background:var(--ok)}
+  .ncard pre{margin:0;padding:14px;font-family:"IBM Plex Mono",monospace;font-size:.79rem;
+    line-height:1.6;white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+  .ncard .nnote{margin:0;padding:0 14px 13px;font-size:.81rem;color:var(--ink-2)}
+
+  .compare{margin-top:40px;border-top:1px solid var(--rule);padding-top:28px}
+  .compare h2{font-family:Archivo,sans-serif;font-size:1.1rem;font-weight:600;margin:0 0 4px}
+  .compare>p{margin:0 0 20px;color:var(--ink-2);font-size:.88rem;max-width:64ch}
+  .flows{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+  .flow{border:1px solid var(--rule);border-radius:4px;padding:18px;background:var(--surface)}
+  .flow.now{border-top:3px solid var(--rule-strong)}
+  .flow.next{border-top:3px solid var(--teal)}
+  .flow h4{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.13em;
+    text-transform:uppercase;margin:0 0 12px;color:var(--ink-3)}
+  .flow ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:5px}
+  .flow li{font-size:.85rem;color:var(--ink-2)}
+  .flow li b{color:var(--ink);font-weight:600}
+  .tally{margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);
+    font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--ink)}
+
   footer.note{margin-top:34px;font-size:.8rem;color:var(--ink-3);max-width:72ch;
     border-top:1px solid var(--rule);padding-top:18px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -243,15 +281,16 @@
 
   <div class="proto">
     <b>Prototype</b>
-    <span>End to end flow. Not connected to the website, the scheduler or Tebra. Nothing is stored or sent.</span>
+    <span id="protoText">End to end flow. Not connected to the website, the scheduler or Tebra. Nothing is stored or sent.</span>
     <span class="spacer"></span>
     <div class="vtoggle" role="group" aria-label="View">
       <button type="button" id="vPatient" aria-pressed="true">Patient view</button>
       <button type="button" id="vStaff" aria-pressed="false">Staff view</button>
+      <button type="button" id="vNote" aria-pressed="false">Provider note</button>
     </div>
   </div>
 
-  <header class="masthead">
+  <header class="masthead" id="masthead">
     <p class="eyebrow">KORB Health · Appointment Scheduler</p>
     <h1>Intake before booking</h1>
     <p class="lede">The existing scheduler flow with screening built into it. The first four steps are the same for everyone. After the program choice, the questions change: each program brings its own health section, and each add-on brings a short set of its own. Only the weight loss section is built so far. Patient view is what a patient sees. Staff view adds the screening panel, which is internal, never shown to a patient, and driven by the program selected.</p>
@@ -810,7 +849,7 @@
               <label class="opt"><input type="radio" name="expect" id="ex-yes" value="ok"><span>I understand and I want to continue</span></label>
               <label class="opt review"><input type="radio" name="expect" id="ex-brand" value="review"><span>I was expecting brand-name medication. I would like to talk about it</span></label>
             </div>
-            <p class="helper">We would rather tell you now than at your visit. Brand-name options do exist in some situations. They are decided case by case with your provider, they are not available to every patient, and they are not available in every state, so nothing is promised here.</p>
+            <p class="helper hidden" id="brandNote">Brand-name options do exist in some situations. They are decided case by case with your provider, they are not available to every patient, and they are not available in every state, so nothing is promised here. Your provider will go through it with you at your visit.</p>
           </fieldset>
         </fieldset>
 
@@ -998,7 +1037,44 @@
 
   </div>
 
-  <footer class="note">
+  <section class="noteout hidden" id="noteout">
+    <div class="noteout-head">
+      <h2>What lands in the chart</h2>
+      <p>The intake is delivered into Tebra as a PDF in the patient's documents. This is the provider summary page of that PDF: the ten KORB note sections, in order, each as its own labelled block so a provider can select one and copy it into the matching Tebra field. On this screen the Copy buttons do it for you. In the real PDF the provider selects the block and copies it, which works in any PDF reader as long as the file is generated as text.</p>
+    </div>
+    <div id="noteCards"></div>
+  </section>
+
+  <section class="compare" id="compare">
+    <h2>What changes</h2>
+    <p>Same clinical questions either way. The difference is when they get answered and what the provider opens.</p>
+    <div class="flows">
+      <div class="flow now">
+        <h4>Today</h4>
+        <ol>
+          <li>Patient books from the website, often with no intake</li>
+          <li>Provider opens a blank chart</li>
+          <li>A flat PDF prints <b>every answer option</b> with an X by the chosen one</li>
+          <li>Provider reads it question by question</li>
+          <li>Note rebuilt by hand through Text Blaze</li>
+        </ol>
+        <p class="tally">Nothing is copyable · the visit pays for the typing</p>
+      </div>
+      <div class="flow next">
+        <h4>With intake screening</h4>
+        <ol>
+          <li>Non-candidates learn before they hold a slot</li>
+          <li>Demographics and history arrive first</li>
+          <li>PDF prints <b>only the answers</b>, in note-section blocks</li>
+          <li>Provider copies a block into each Tebra field</li>
+          <li>Provider writes the assessment and the plan</li>
+        </ol>
+        <p class="tally">Ten blocks · the visit pays for the thinking</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="note" id="footnote">
     Prototype for internal review, KORB Health Medical Texas PA and KORB Health Group LLC. Steps 1 through 4 and 7 through 9 mirror the current KORB appointment scheduler. Step 5 is the proposed weight loss screening and step 6 is the proposed add-on safety questions. Those two are the new parts. Each of the other three programs would bring its own step 5; the step 6 add-on questions stay the same whichever program is chosen. Clinical content follows the KORB GLP-1 contraindication set and the QUALIFIES / QUALIFIES WITH REVIEW / DOES NOT QUALIFY verdict from the GLP-1 note build sheet. Not a live form, not connected to any system, and not a clinical protocol.
   </footer>
 
@@ -1257,6 +1333,7 @@
     $('medsWrap').classList.toggle('hidden', val('hasmeds')!=='yes');
     $('algWrap').classList.toggle('hidden', val('hasallergy')!=='yes');
     $('goalOtherWrap').classList.toggle('hidden', !$('g-other').checked);
+    $('brandNote').classList.toggle('hidden', val('expect')!=='review');
     $('sigWrap').classList.toggle('hidden', val('consent')!=='yes');
 
     renderPanel();
@@ -1510,8 +1587,10 @@
     });
     $('errbar').classList.remove('hidden');
     var first = typeof probs[0].el==='string' ? $(probs[0].el) : probs[0].el;
-    if(first){ first.scrollIntoView({behavior:'smooth',block:'center'});
-      if(first.focus && first.tagName!=='DIV') try{first.focus({preventScroll:true})}catch(e){} }
+    if(first){
+      try{ if(first.scrollIntoView) first.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
+      try{ if(first.focus && first.tagName!=='DIV') first.focus({preventScroll:true}); }catch(e){}
+    }
     return false;
   }
 
@@ -1629,13 +1708,205 @@
   form.addEventListener('change',function(){ render(); if(healthPage(cur)&&!isWL()) show(nextIdx(cur,1)); });
   form.addEventListener('input',render);
 
+
+  // ---------- provider note output ----------
+  function txt(id){ return $(id).value.trim(); }
+  function today(){
+    var d=new Date();
+    return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear();
+  }
+  function listChecked(sel){
+    return [].slice.call(document.querySelectorAll(sel)).filter(function(c){return c.checked});
+  }
+  function labelOf(box){ return box.parentNode.textContent.trim(); }
+  function rowsOut(id,fmt){
+    var out=[];
+    [].slice.call($(id).children).forEach(function(r){
+      var a=r.querySelector('.lf0').value.trim();
+      if(!a) return;
+      var b=r.querySelector('.lf1'), c=r.querySelector('.lf2');
+      out.push(fmt(a, b?b.value.trim():'', c?c.value.trim():''));
+    });
+    return out;
+  }
+  function dxCode(b){
+    if(b===null) return 'BMI not provided, code pending';
+    if(b>=40) return 'E66.813 - Obesity, class 3';
+    if(b>=35) return 'E66.812 - Obesity, class 2';
+    if(b>=30) return 'E66.811 - Obesity, class 1';
+    if(b>=25) return 'E66.3 - Overweight';
+    return 'Below treatment threshold';
+  }
+  function comorbLines(){
+    return listChecked('.comorb').map(function(c){
+      var d=document.querySelector('.subq[data-for="'+c.id+'"]');
+      var sel=d?d.querySelector('.cstatus'):null;
+      return '  - '+c.getAttribute('data-name')+(sel&&sel.value?' - '+sel.value:'');
+    });
+  }
+  function relLines(scope){
+    return listChecked(scope+' .rel').map(function(c){
+      var sel=document.querySelector('.rstatus[data-box="'+c.id+'"]');
+      return '  - '+c.getAttribute('data-f')+(sel&&sel.value?' - '+sel.value:'');
+    });
+  }
+  function absLines(){
+    return listChecked('.abs').map(function(c){
+      var who=null;
+      if(c.id==='ab-mtc') who=checked('.who-mtc');
+      if(c.id==='ab-men2') who=checked('.who-men2');
+      var t='  - '+c.getAttribute('data-f');
+      if(who&&who.length) t+=' ('+who.join(', ')+')';
+      if(c.id==='ab-allergy'&&txt('rxnDetail')) t+=' - '+txt('rxnDetail');
+      return t;
+    });
+  }
+
+  function noteSections(){
+    var r=evaluate(), b=r.bmi;
+    var st=$('state').value||'[state]';
+    var verdict = r.minor ? 'DOES NOT QUALIFY - under 18'
+      : r.na ? 'NOT SCREENED - program is not weight loss'
+      : r.stops.length ? 'DOES NOT QUALIFY'
+      : r.revs.length ? 'QUALIFIES WITH REVIEW' : 'QUALIFIES';
+
+    var goals=listChecked('.goal').map(function(c){return labelOf(c)});
+    if($('g-other').checked && txt('goalOther')) goals.push(txt('goalOther'));
+
+    var priorMap={now:'currently taking',past:'previously taken, not current',never:'never taken'};
+    var prior=val('prior')?priorMap[val('prior')]:'not answered';
+    if(val('prior')!=='never' && txt('priordose')) prior+=' ('+txt('priordose')+')';
+
+    var meds=rowsOut('medRows',function(a,b2,c){return '  - '+a+(b2?' '+b2:'')+(c?', '+c:'')});
+    var glp=listChecked('#p6 .rel').map(function(c){
+      var extra='';
+      if(c.id==='med-glp'){ var sel=$('med-glp-s').value, d=txt('med-glp-d');
+        extra=(sel?' - '+sel:'')+(d?' ('+d+')':''); }
+      return '  - '+c.getAttribute('data-f')+extra;
+    });
+    var alg=rowsOut('algRows',function(a,b2){return '  - '+a+(b2?' - '+b2:'')});
+    var addons=listChecked('.addon').map(function(c){return c.value});
+
+    var pregLine = val('sex')==='m' ? 'not applicable'
+      : (val('preg')==='no' ? 'not pregnant, not breastfeeding, not planning conception'
+        : (val('preg') ? labelOf(form.querySelector('input[name="preg"]:checked')) : 'not answered'));
+
+    var S=[];
+
+    S.push({t:'CC', tag:'paste', cls:'t-paste',
+      body:'GLP-1 new patient consultation. Video. Patient completed the KORB Weight Loss and Metabolic intake on '+today()+'.'});
+
+    S.push({t:'VITALS', tag:'enter in Tebra', cls:'t-tebra',
+      body:'Height: '+(txt('ft')?txt('ft')+' ft '+(txt('inch')||'0')+' in':'[not given]')+
+           '\nWeight: '+(txt('wt')?txt('wt')+' lb':'[not given]')+
+           '\nBMI: '+(b===null?'[not calculable]':b)+
+           '\nSource: patient reported on intake, '+today(),
+      note:'Structured field. Type these into the Tebra vitals row rather than pasting. Vitals deliberately do not carry forward on a SALT, which is the guardrail that keeps a stale weight out of a follow-up note.'});
+
+    S.push({t:'SUBJECTIVE - BASELINE HISTORY', tag:'paste', cls:'t-paste',
+      body:'Baseline history established at the initial consultation, updated when the patient reports a change.\n\n'+
+        'Patient is a '+(age()!==null?age()+'-year-old ':'')+(val('sex')==='m'?'male':val('sex')==='f'?'female':'[sex not given]')+
+        ' presenting for medical weight management.\n'+
+        'Stated goals: '+(goals.length?goals.join('; '):'not stated')+'\n'+
+        'Prior GLP-1 exposure: '+prior+'\n'+
+        (val('prior')==='now'?'Continuation request. Proof of current prescription: '+
+          ({yes:'patient will send via portal',review:'not available'}[val('proof')]||'not answered')+'\n':'')+
+        'Weight-related conditions reported:\n'+(comorbLines().length?comorbLines().join('\n'):'  - none reported')+
+        '\nInterested in add-on services: '+(addons.length?addons.join(', '):'none')});
+
+    S.push({t:'ROS', tag:'not collected', cls:'t-gap',
+      body:'[The intake does not collect a review of systems.]',
+      note:'This is the new-consult ROS gap already recorded in the note system master. The fix named there is one checkbox question on the intake, around ten symptoms plus none of these. Until that is added, the provider fills ROS at the visit rather than pasting a pre-typed all-negative block.'});
+
+    S.push({t:'OBJECTIVE - EXAM', tag:'paste', cls:'t-paste',
+      body:'Synchronous audio-video telehealth. Patient physically located in '+st+' at the time of service; provider holds active licensure in this state. Identity verified. Telehealth informed consent obtained and documented '+
+        (val('consent')==='yes'?'on '+today()+'.':'[consent not recorded].')+
+        '\n\nExam limited to what is observable by video: alert, well-appearing, no acute distress, normal affect and speech. No physical examination performed.'});
+
+    S.push({t:'ASSESSMENT', tag:'paste', cls:'t-paste',
+      body:dxCode(b)+'\n\n'+
+        'SCREENING RESULT ON INTAKE: '+verdict+'\n\n'+
+        'Absolute contraindications screened. '+(absLines().length?'Patient reports:\n'+absLines().join('\n')
+          :'Patient denies personal or family history of medullary thyroid carcinoma or MEN2, and denies prior serious reaction to a GLP-1.')+'\n'+
+        'Pregnancy status: '+pregLine+'\n'+
+        'Relative contraindications:\n'+(relLines('#p5').length?relLines('#p5').join('\n'):'  - none reported')+'\n'+
+        'Items flagged for review on intake:\n'+(r.revs.length?r.revs.map(function(x){return '  - '+x}).join('\n'):'  - none'),
+      note:'The screening result line is generated from what the patient answered. The clinical impression underneath it is the provider to write.'});
+
+    S.push({t:'PLAN', tag:'provider writes', cls:'t-prov',
+      body:'[Provider writes the plan. Medication, dose, pharmacy, follow-up interval, counselling and education sent.]',
+      note:'Deliberately empty. The intake cannot know the decision, and a generated plan is exactly the template text a chart review is built to catch.'});
+
+    S.push({t:'RUNNING TREATMENT SUMMARY', tag:'paste', cls:'t-paste',
+      body:today()+' [GLP-1]: New patient consultation. '+(txt('wt')?txt('wt')+' lb':'weight not given')+
+        (b!==null?', BMI '+b:'')+'. Intake screening: '+verdict+'. [Provider adds the decision made today.]',
+      note:'Append to the top of the existing summary, never overwrite. Every line carries its own date, which is what makes this section safe to carry forward.'});
+
+    S.push({t:'MEDICATIONS', tag:'enter in Tebra', cls:'t-tebra',
+      body:((glp.length?glp.join('\n')+'\n':'')+(meds.length?meds.join('\n'):(glp.length?'':'  - none reported')))+
+        (diabetic()?'\n\nDiabetes managed by: '+(txt('dmProv')||'[not given]')+(txt('dmPhone')?' - '+txt('dmPhone'):'')+
+          '\nThat provider aware of GLP-1 request: '+({yes:'yes',review:'no or unsure'}[val('dmAware')]||'not answered')+
+          '\nKORB does not treat diabetes. Diabetes care remains with the provider above.':''),
+      note:'Structured field in Tebra. Enter these rather than pasting.'});
+
+    S.push({t:'ALLERGIES', tag:'enter in Tebra', cls:'t-tebra',
+      body:alg.length?alg.join('\n'):'  - no known medication allergies reported',
+      note:'Structured field in Tebra.'});
+
+    return S;
+  }
+
+  function renderNote(){
+    var host=$('noteCards'); host.innerHTML='';
+    noteSections().forEach(function(sec){
+      var card=document.createElement('div'); card.className='ncard';
+      var head=document.createElement('div'); head.className='ncard-head';
+      var h=document.createElement('h3'); h.textContent=sec.t;
+      var tag=document.createElement('span'); tag.className='ntag '+sec.cls; tag.textContent=sec.tag;
+      var sp=document.createElement('span'); sp.className='sp';
+      head.appendChild(h); head.appendChild(tag); head.appendChild(sp);
+      if(sec.cls==='t-paste'||sec.cls==='t-tebra'){
+        var btn=document.createElement('button');
+        btn.type='button'; btn.className='copybtn'; btn.textContent='Copy';
+        btn.addEventListener('click',function(){
+          var t=sec.body;
+          function done(){ btn.textContent='Copied'; btn.classList.add('done');
+            setTimeout(function(){btn.textContent='Copy'; btn.classList.remove('done')},1400); }
+          function fallback(){
+            var ta=document.createElement('textarea'); ta.value=t;
+            ta.style.position='fixed'; ta.style.opacity='0';
+            document.body.appendChild(ta); ta.select();
+            try{ document.execCommand('copy'); done(); }catch(e){}
+            document.body.removeChild(ta);
+          }
+          if(navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(t).then(done, fallback);
+          } else fallback();
+        });
+        head.appendChild(btn);
+      }
+      var pre=document.createElement('pre'); pre.textContent=sec.body;
+      card.appendChild(head); card.appendChild(pre);
+      if(sec.note){ var n=document.createElement('p'); n.className='nnote'; n.textContent=sec.note; card.appendChild(n); }
+      host.appendChild(card);
+    });
+  }
+
   // view toggle
-  function setView(isStaff){
-    staff=isStaff;
-    $('vPatient').setAttribute('aria-pressed', String(!isStaff));
-    $('vStaff').setAttribute('aria-pressed', String(isStaff));
-    $('panel').classList.toggle('hidden', !isStaff);
-    $('cols').classList.toggle('solo', !isStaff);
+  function setView(mode){
+    staff = (mode==='staff');
+    $('vPatient').setAttribute('aria-pressed', String(mode==='patient'));
+    $('vStaff').setAttribute('aria-pressed', String(mode==='staff'));
+    $('vNote').setAttribute('aria-pressed', String(mode==='note'));
+    $('panel').classList.toggle('hidden', mode!=='staff');
+    $('cols').classList.toggle('solo', mode!=='staff');
+    $('cols').classList.toggle('hidden', mode==='note');
+    $('noteout').classList.toggle('hidden', mode!=='note');
+    // everything below is internal framing, so it stays out of the patient view
+    $('masthead').classList.toggle('hidden', mode==='patient');
+    $('compare').classList.toggle('hidden', mode!=='staff');
+    $('footnote').classList.toggle('hidden', mode==='patient');
+    if(mode==='note') renderNote();
   }
   function toggleHelp(btnId,panelId,openText,shutText){
     $(btnId).addEventListener('click',function(){
@@ -1646,9 +1917,10 @@
   toggleHelp('progHelpBtn','progHelp','Not sure which one? Help me decide','Hide the descriptions');
   toggleHelp('addonHelpBtn','addonHelp','What are these? Show me','Hide the descriptions');
 
-  $('vPatient').addEventListener('click',function(){setView(false)});
-  $('vStaff').addEventListener('click',function(){setView(true)});
+  $('vPatient').addEventListener('click',function(){setView('patient')});
+  $('vStaff').addEventListener('click',function(){setView('staff')});
+  $('vNote').addEventListener('click',function(){setView('note')});
 
-  setView(false); render(); show(0);
+  setView('patient'); render(); show(0);
 })();
 </script>
