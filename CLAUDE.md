@@ -23,6 +23,58 @@ It has already broken once. See "Known failure" below.
 
 ---
 
+## RELEASE STATUS — read before sending anyone a link
+
+**Nothing in this repo distinguishes a document that is live from one that is
+written, linked, and deliberately not released.** Every file is committed, every
+file is served by Pages, and every file looks equally finished. A document being
+complete is not the same as it being released, and the repo cannot tell you which
+is which. This list can. Keep it current — it is the only record.
+
+This matters most for the Men's and Women's Health work coming next: those
+documents will exist, and render, and look exactly as published as the live ones,
+while not being released to anybody.
+
+**LIVE to patients** — the Functional Health & Longevity patient set, and nothing
+else:
+
+| | |
+|---|---|
+| Start Here | `Patient_Education/KORB_Start_Here_Guide.pdf` |
+| Welcome Letter | `KORB_Welcome_Letter.pdf` (repo root) |
+| Schedule Your Lab Appointment | `KORB_Schedule_Your_Lab_Appointment.pdf` (repo root) |
+| Injection & Storage Safety | `Patient_Education/KORB_Injection_Storage_Safety_Guide.pdf` |
+| When to Contact KORB or the ER | `Patient_Education/KORB_When_to_Contact_KORB_or_ER.pdf` |
+| Four program overviews | Foundation, Gateway, Longevity, Peak |
+| Five peptide handouts | BPC-157, CJC-1295/Ipamorelin, GHK-Cu, Sermorelin, Tesamorelin |
+
+**NOT released to patients.** All GLP-1 and weight loss, all add-ons, Men's Health,
+Women's Health, and `KORB_Patient_Hub.html`. In `Patient_Education/` that covers the
+Semaglutide, Tirzepatide, Testosterone, Hormone Therapy, Anti-Aging, Hair Loss,
+Sexual Health and Skin Care handouts, and the Weight Loss, Men's Health and Women's
+Health program overviews. They sit in the same folder as the live set, under the
+same naming convention, and look identical.
+
+**Published to the provider team.** The Functional Health tools and the GLP-1 tools.
+
+**NOT published to the team.** Men's Health, Women's Health, and everything
+patient-facing.
+
+**Out for provider feedback** — not yet either way.
+`Provider_Reference/KORB_BMI_Protein_Calculator.html` and its `_standalone` twin.
+
+**Retired, pending deletion.** `KORB_Injection_Tracker.html`, in the repo root.
+Never released, superseded, still present. Note that it is still listed as a live
+`korb-dosing-data.js` consumer under "How each page gets its data" — it will keep
+rebuilding and keep looking current until it is actually deleted.
+
+Two live patient documents, the Welcome Letter and Schedule Your Lab Appointment,
+sit in the repo root rather than in `Patient_Education/` with the rest of the live
+set. Worth reconciling, but not by moving them casually — they are live, so their
+URLs are in circulation.
+
+---
+
 ## Layout, and the one rule about it
 
 ```
@@ -421,6 +473,15 @@ women's testosterone. Do not re-report those; they are already on the list.
    predates that work and is unrelated to it. Should write next to the other
    generated documents. Worth grepping for `/mnt/` and `/home/claude` before
    trusting any script in here that has not been run on this machine.
+10. **Add-On Clinical Reference — generator works, output needs review before it
+   is committed.** `build-clinical-docs.js` (new in patch 1) rebuilds the Add-On
+   Clinical Reference from `korb-addons-data.js`, and it runs clean. The generated
+   HTML and PDF are deliberately **not** committed yet:
+   `Provider_Reference/KORB_AddOn_Clinical_Reference.pdf` is a document currently in
+   use, and committing the generated pair replaces it. Needs Don's content review first, **the
+   prescribing blocks especially** — patch 3 put the custom compound at the top of
+   every one of them and marked the retired Tebra drop-down entry as superseded, so
+   what a provider reads first has changed. Generate, read it, then commit.
 
 ---
 
