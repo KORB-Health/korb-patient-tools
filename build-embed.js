@@ -261,7 +261,15 @@ TARGETS.forEach(function (t) {
   const data = t.project(mod);
   const fresh = block(t.varName, data, t.source);
 
-  let html = fs.readFileSync(htmlPath, 'utf8');
+  /* Normalised to LF before anything compares it. The generated block below is
+     assembled with '\n' only, so on a CRLF checkout - which is what
+     core.autocrlf=true gives every Windows clone of this repo - `current ===
+     fresh` could never match, and --check reported DRIFT on both targets no
+     matter what the data actually said. A checker that cries wolf erodes trust
+     in itself as fast as one that never looks, and this repo has now produced
+     both kinds. Git stores these files with LF regardless, so writing LF back
+     is what the repository already holds. */
+  let html = fs.readFileSync(htmlPath, 'utf8').replace(/\r\n/g, '\n');
   const begin = beginMarker(t.varName);
   const end = endMarker(t.varName);
   const i = html.indexOf(begin);
