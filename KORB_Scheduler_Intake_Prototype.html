@@ -1,0 +1,1654 @@
+<title>KORB Appointment Scheduler</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --navy:#21275B; --navy-deep:#171B40; --teal:#00B2C3; --teal-ink:#00808D;
+    --orange:#FBB040; --alert:#B3261E;
+    --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#F7F9FB;
+    --ink:#21275B; --ink-2:#4A5170; --ink-3:#8790A8;
+    --rule:#E2E7EE; --rule-strong:#C7CEDA; --focus:#00B2C3;
+    --ok:#0F7A55; --ok-bg:#E6F4EE;
+    --rev:#8A5A00; --rev-bg:#FFF6E6;
+    --no:#B3261E; --no-bg:#FCEBEA;
+    --shadow:0 1px 2px rgba(33,39,91,.05), 0 10px 28px -18px rgba(33,39,91,.28);
+    --dateicon:0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+    font-size:clamp(.9rem,.86rem + .2vw,.97rem);line-height:1.55;-webkit-font-smoothing:antialiased}
+    .brandbar{background:#fff;border-bottom:1px solid var(--rule);padding:14px 24px;
+    display:flex;align-items:center;gap:14px}
+  .brandbar img{height:30px;width:auto;display:block}
+  .brandbar span{font-family:Archivo,sans-serif;font-weight:600;font-size:.92rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+  .wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:24px 64px}
+
+  /* proto bar + view toggle */
+  .proto{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;
+    border:1px dashed var(--rule-strong);background:var(--surface-2);border-radius:3px;
+    padding:10px 14px;margin-bottom:24px;font-size:.82rem;color:var(--ink-2)}
+  .proto b{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--ink)}
+  .proto .spacer{flex:1;min-width:10px}
+  .vtoggle{display:flex;border:1px solid var(--rule-strong);border-radius:3px;overflow:hidden;flex:none}
+  .vtoggle button{font:inherit;font-size:.78rem;font-weight:600;background:var(--surface);border:0;
+    color:var(--ink-2);padding:7px 13px;cursor:pointer}
+  .vtoggle button[aria-pressed="true"]{background:var(--navy);color:#fff}
+  .vtoggle button:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+
+  .masthead{margin-bottom:22px}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--teal-ink);margin:0 0 8px}
+      h1{font-family:Archivo,sans-serif;font-weight:700;font-size:clamp(1.5rem,1.2rem + 1.4vw,2rem);
+    letter-spacing:-.02em;line-height:1.1;text-wrap:balance;margin:0 0 10px}
+  .lede{margin:0;max-width:66ch;color:var(--ink-2);font-size:.95rem}
+
+  .cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:26px;align-items:start}
+  .cols.solo{grid-template-columns:minmax(0,1fr)}
+  @media (max-width:900px){.cols{grid-template-columns:1fr}}
+
+  .sheet{background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+    box-shadow:var(--shadow);overflow:hidden}
+  .sheet-head{background:var(--teal);color:#FFFFFF;padding:16px 22px}
+  .sheet-head h2{font-family:Archivo,sans-serif;font-size:1.1rem;font-weight:700;margin:0;
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+  .sheet-head .stepno{font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;
+    letter-spacing:.06em;white-space:nowrap}
+  .sheet-head p{margin:6px 0 0;font-size:.8rem;color:#E4FAFD}
+  .sheet-head p::before{content:"\1F512  "}
+
+  .rail{display:flex;gap:0;border-bottom:1px solid var(--rule);background:var(--surface-2);overflow-x:auto}
+  .rail span{flex:none;padding:9px 13px;font-family:"IBM Plex Mono",monospace;font-size:.66rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+    border-bottom:2px solid transparent;white-space:nowrap}
+  .rail span.on{color:var(--ink);border-bottom-color:var(--teal);background:var(--surface)}
+  .rail span.done{color:var(--teal-ink)}
+  .rail span.skip{opacity:.4;text-decoration:line-through}
+  .rail span.go{cursor:pointer}
+  .rail span.go:hover{background:var(--surface);color:var(--ink)}
+  .rail span.go:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+  .rail span.locked{opacity:.45;cursor:default}
+    
+  .sheet-body{padding:24px}
+  fieldset{border:0;margin:0;padding:0}
+  .page{display:flex;flex-direction:column;gap:22px}
+  .page.hidden,.hidden{display:none!important}
+  .notice{border:1px solid var(--rule-strong);border-left:3px solid var(--orange);
+    background:var(--rev-bg);border-radius:3px;padding:14px 16px;display:flex;
+    flex-direction:column;gap:12px}
+  .notice p{margin:0;font-size:.87rem;color:var(--ink)}
+  .notice p b{color:var(--ink)}
+  .subq{border-left:2px solid var(--teal);padding-left:14px;margin-left:4px;
+    display:flex;flex-direction:column;gap:8px}
+  .subq .qtext{font-size:.9rem}
+  .helpbtn{font:inherit;font-size:.84rem;font-weight:600;background:none;
+    border:1px solid var(--teal-ink);border-radius:3px;color:var(--teal-ink);
+    padding:8px 14px;cursor:pointer;align-self:flex-start}
+  .helpbtn:hover{background:color-mix(in srgb,var(--teal) 10%,transparent)}
+      .helppanel{border:1px solid var(--rule-strong);background:var(--surface-2);border-radius:3px;
+    padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+  .helppanel dt{font-family:Archivo,sans-serif;font-weight:600;font-size:.92rem;color:var(--ink)}
+  .helppanel dd{margin:4px 0 0;font-size:.86rem;color:var(--ink-2)}
+  .helppanel .warn{color:var(--no);font-weight:500}
+  .confirmline{border-left:3px solid var(--teal);background:var(--surface-2);border-radius:3px;
+    padding:12px 14px;font-size:.87rem;color:var(--ink)}
+  .confirmline.warnline{border-left-color:var(--orange);background:var(--rev-bg)}
+
+  .pagetitle{font-family:Archivo,sans-serif;font-size:1.3rem;font-weight:600;margin:0;letter-spacing:-.01em}
+  .pagesub{margin:-14px 0 0;color:var(--ink-2);font-size:.9rem}
+
+  .q{display:flex;flex-direction:column;gap:9px}
+  .q legend,.q .qtext{font-weight:600;font-size:.95rem;padding:0;margin:0;color:var(--ink)}
+  .helper{font-size:.82rem;color:var(--ink-2);margin:0}
+  .opts{display:flex;flex-direction:column;gap:7px}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:7px}
+  .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+  @media (max-width:520px){.row3{grid-template-columns:1fr}}
+
+  label.opt{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border:1px solid var(--rule);
+    border-radius:3px;cursor:pointer;background:var(--surface);transition:border-color .13s,background .13s}
+  label.opt:hover{border-color:var(--rule-strong);background:var(--surface-2)}
+  label.opt input{margin:3px 0 0;accent-color:var(--teal-ink);flex:none}
+  label.opt:has(input:checked){border-color:var(--teal-ink);
+    background:color-mix(in srgb,var(--teal) 8%,var(--surface))}
+  label.opt.stop:has(input:checked){border-color:var(--no);background:var(--no-bg)}
+  label.opt.review:has(input:checked){border-color:var(--rev);background:var(--rev-bg)}
+  label.opt input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+  input[type=text],input[type=number],input[type=email],input[type=tel],input[type=date],select,textarea{
+    font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--rule-strong);
+    border-radius:3px;padding:10px 11px;width:100%}
+  textarea{min-height:70px;resize:vertical}
+  input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--focus);
+    outline-offset:1px;border-color:var(--teal-ink)}
+  input[type="date"]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.8;
+    filter:invert(var(--dateicon))}
+  .fieldlab{font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:5px;display:block}
+  .req{color:var(--alert)}
+
+  /* repeating rows */
+  .rowlist{display:flex;flex-direction:column;gap:8px}
+  .lrow{display:grid;gap:8px;align-items:center}
+  .lrow.med{grid-template-columns:minmax(0,2.1fr) minmax(0,1fr) minmax(0,1.3fr) auto}
+  .lrow.alg{grid-template-columns:minmax(0,1.3fr) minmax(0,2.1fr) auto}
+  @media (max-width:430px){.lrow.med,.lrow.alg{grid-template-columns:1fr}}
+  .lrow button.del{font:inherit;font-size:.82rem;line-height:1;background:none;border:1px solid var(--rule);
+    border-radius:3px;color:var(--ink-3);padding:10px 10px;cursor:pointer}
+  .lrow button.del:hover{border-color:var(--no);color:var(--no)}
+
+  .bmi{border:1px solid var(--rule);border-left:3px solid var(--teal);background:var(--surface-2);
+    border-radius:3px;padding:12px 14px;font-family:"IBM Plex Mono",monospace;font-size:.85rem;
+    font-variant-numeric:tabular-nums}
+  .bmi b{font-size:1.1rem}
+  .gate{border:1px solid var(--rule-strong);border-left:3px solid var(--alert);background:var(--surface-2);
+    border-radius:3px;padding:16px 18px;display:flex;flex-direction:column;gap:18px}
+
+  /* consent */
+  .consentbox{border:1px solid var(--rule-strong);border-radius:3px;background:var(--surface-2);
+    padding:16px 18px;max-height:230px;overflow-y:auto;font-size:.85rem;color:var(--ink-2)}
+  .consentbox h4{font-family:Archivo,sans-serif;font-size:.9rem;color:var(--ink);margin:16px 0 4px}
+  .consentbox h4:first-child{margin-top:0}
+  .consentbox p{margin:0 0 8px}
+  .yesno{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  .yesno label{flex:none;min-width:150px;text-align:center;justify-content:center}
+  .sigpad{border:1px solid var(--rule-strong);border-radius:3px;background:var(--surface);
+    height:110px;display:flex;align-items:center;justify-content:center;cursor:crosshair;position:relative}
+  .sigpad canvas{width:100%;height:100%;display:block;touch-action:none}
+  .sigpad .ph{position:absolute;color:var(--ink-3);font-size:.85rem;pointer-events:none}
+
+  /* scheduler */
+  .sched{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+  @media (max-width:640px){.sched{grid-template-columns:1fr}}
+  .cal{border:1px solid var(--rule);border-radius:4px;padding:14px}
+  .cal h4,.slots h4{font-family:Archivo,sans-serif;font-size:.95rem;margin:0 0 12px}
+  .caldays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+  .caldays .dow{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--ink-3);padding:4px 0}
+  .caldays button{font:inherit;font-size:.84rem;background:none;border:1px solid transparent;
+    border-radius:3px;padding:7px 0;color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums}
+  .caldays button:hover:not(:disabled){border-color:var(--rule-strong)}
+  .caldays button[aria-pressed="true"]{background:var(--teal);color:#fff;font-weight:600}
+  .caldays button:disabled{color:var(--ink-3);opacity:.35;cursor:default}
+  .slots{border:1px solid var(--rule);border-radius:4px;padding:14px}
+  .slotgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:7px}
+  .slotgrid button{font:inherit;font-size:.85rem;background:var(--surface);border:1px solid var(--rule-strong);
+    border-radius:3px;padding:9px 0;cursor:pointer;color:var(--ink);font-variant-numeric:tabular-nums}
+  .slotgrid button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .tzline{margin:0 0 10px;font-size:.84rem;color:var(--alert);font-weight:500}
+
+  .invalid{border-color:var(--no)!important}
+  .gflag{border:1px solid var(--no);border-radius:3px;padding:9px;background:var(--no-bg)}
+  .errbar{border:1px solid var(--no);background:var(--no-bg);border-radius:3px;padding:13px 15px;
+    margin-top:20px;display:flex;flex-direction:column;gap:7px}
+  .errbar b{font-family:Archivo,sans-serif;font-size:.88rem;color:var(--no)}
+  .errbar ul{margin:0;padding-left:1.15em;font-size:.85rem;color:var(--ink-2)}
+  .errbar li{margin:2px 0}
+
+  .nav{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-top:1px solid var(--rule);
+    margin-top:24px;padding-top:20px}
+  button.go{font-family:Archivo,sans-serif;font-weight:600;font-size:.92rem;color:#fff;
+    background:var(--navy);border:0;border-radius:3px;padding:11px 24px;cursor:pointer}
+  button.go:hover{background:var(--navy-deep)}
+  button.back{font:inherit;font-size:.85rem;background:none;border:1px solid var(--rule-strong);
+    border-radius:3px;color:var(--ink-2);padding:10px 18px;cursor:pointer}
+  button.link{font:inherit;font-size:.85rem;background:none;border:0;color:var(--ink-3);
+    text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px}
+  button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+  /* staff panel */
+  .panel{position:sticky;top:18px;background:var(--surface);border:1px solid var(--rule);
+    border-radius:4px;box-shadow:var(--shadow);overflow:hidden}
+  @media (max-width:900px){.panel{position:static}}
+  .panel-head{padding:13px 17px;border-bottom:1px solid var(--rule);background:var(--navy);color:#F3F2EA}
+  .panel-head h3{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;
+    text-transform:uppercase;margin:0}
+  .panel-head p{margin:5px 0 0;font-size:.78rem;color:#B9BDD8}
+  .panel-body{padding:17px;display:flex;flex-direction:column;gap:15px}
+  .verdict{display:inline-flex;align-items:center;gap:8px;font-family:Archivo,sans-serif;font-weight:700;
+    font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;padding:7px 12px;border-radius:2px;
+    align-self:flex-start}
+  .verdict .dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+  .v-none{color:var(--ink-3);background:var(--surface-2)}
+  .v-ok{color:var(--ok);background:var(--ok-bg)}
+  .v-rev{color:var(--rev);background:var(--rev-bg)}
+  .v-no{color:var(--no);background:var(--no-bg)}
+  .why{margin:0;font-size:.86rem;color:var(--ink-2)}
+  ul.flags{margin:0;padding:0;list-style:none}
+  ul.flags li{padding:8px 0;border-top:1px solid var(--rule);font-size:.82rem;display:flex;gap:9px}
+  ul.flags li .mk{font-family:"IBM Plex Mono",monospace;font-size:.66rem;font-weight:600;
+    letter-spacing:.06em;flex:none;padding-top:2px}
+  li.f-no .mk{color:var(--no)} li.f-rev .mk{color:var(--rev)}
+  dl.facts{margin:0;display:flex;flex-direction:column}
+  dl.facts>div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;
+    border-top:1px solid var(--rule)}
+  dl.facts dt{font-size:.79rem;color:var(--ink-3)}
+  dl.facts dd{margin:0;font-family:"IBM Plex Mono",monospace;font-size:.79rem;font-weight:500;
+    text-align:right;font-variant-numeric:tabular-nums}
+
+  .outcome{border:1px solid var(--rule);border-radius:4px;padding:24px;background:var(--surface-2)}
+  .outcome h3{font-family:Archivo,sans-serif;font-size:1.2rem;margin:0 0 12px}
+  .outcome p{margin:0 0 12px;max-width:62ch}
+  .outcome p:last-child{margin-bottom:0}
+  .crisis{font-size:.85rem;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:12px;margin-top:16px}
+
+  footer.note{margin-top:34px;font-size:.8rem;color:var(--ink-3);max-width:72ch;
+    border-top:1px solid var(--rule);padding-top:18px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="brandbar"><img src="data:image/png;base64,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" alt="KORB Health"><span>Appointment Scheduler</span></div>
+
+<div class="wrap">
+
+  <div class="proto">
+    <b>Prototype</b>
+    <span>End to end flow. Not connected to the website, the scheduler or Tebra. Nothing is stored or sent.</span>
+    <span class="spacer"></span>
+    <div class="vtoggle" role="group" aria-label="View">
+      <button type="button" id="vPatient" aria-pressed="true">Patient view</button>
+      <button type="button" id="vStaff" aria-pressed="false">Staff view</button>
+    </div>
+  </div>
+
+  <header class="masthead">
+    <p class="eyebrow">KORB Health · Appointment Scheduler</p>
+    <h1>Intake before booking</h1>
+    <p class="lede">The existing scheduler flow with screening built into it. The first four steps are the same for everyone. After the program choice, the questions change: each program brings its own health section, and each add-on brings a short set of its own. Only the weight loss section is built so far. Patient view is what a patient sees. Staff view adds the screening panel, which is internal, never shown to a patient, and driven by the program selected.</p>
+  </header>
+
+  <div class="cols" id="cols">
+
+    <form class="sheet" id="form" novalidate>
+      <div class="sheet-head">
+        <h2><span>Schedule Your Appointment</span><span class="stepno" id="stepno">Step 1 of 8</span></h2>
+        <p>Secure and HIPAA compliant</p>
+      </div>
+
+      <div class="rail" id="rail">
+        <span data-st="1">1 · Your details</span>
+        <span data-st="2">2 · State</span>
+        <span data-st="3">3 · Program</span>
+        <span data-st="4">4 · Add-ons</span>
+        <span data-st="5">5 · Health</span>
+        <span data-st="6">6 · Add-ons</span>
+        <span data-st="7">7 · Consent</span>
+        <span data-st="8">8 · Schedule</span>
+        <span data-st="9">9 · Confirm</span>
+      </div>
+
+      <div class="sheet-body">
+
+        <!-- 0 · DEMOGRAPHICS -->
+        <fieldset class="page" id="p0">
+          <h3 class="pagetitle">Your details</h3>
+          <p class="pagesub">Basic information so we know who we are seeing and how to reach you, and so your provider can start your chart before you meet rather than spending your visit typing it in.</p>
+
+          <div class="row2">
+            <div><label class="fieldlab" for="fname">First name <span class="req">*</span></label><input type="text" id="fname" autocomplete="given-name"></div>
+            <div><label class="fieldlab" for="lname">Last name <span class="req">*</span></label><input type="text" id="lname" autocomplete="family-name"></div>
+          </div>
+          <div class="row2">
+            <div><label class="fieldlab" for="dob">Date of birth <span class="req">*</span></label><input type="date" id="dob"></div>
+            <div><label class="fieldlab" for="email">Email <span class="req">*</span></label><input type="email" id="email" placeholder="you@example.com"></div>
+          </div>
+
+          <div class="notice hidden" id="minorNotice">
+            <p><b>KORB Health treats adults only.</b> Based on the date of birth entered, we are not able to schedule an appointment or prescribe any of our programs.</p>
+            <p>Please call us at <b>(888) 959-7299</b> so we can talk it through and point you toward somewhere that can help.</p>
+          </div>
+
+          <div>
+            <label class="fieldlab" for="phone">Mobile <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="(555) 123-4567">
+            <p class="helper" style="margin-top:6px">By giving us your number you agree to receive appointment-related text messages from KORB Health Group. Message and data rates may apply. You may opt out at any time.</p>
+            <label class="opt" style="margin-top:8px"><input type="checkbox" id="otp" checked><span>I agree to receive a one-time password message at this number</span></label>
+          </div>
+
+          <fieldset class="q">
+            <legend>Gender assigned at birth <span class="req">*</span></legend>
+            <div class="opts grid2">
+              <label class="opt"><input type="radio" name="sex" id="sex-f" value="f"><span>Female</span></label>
+              <label class="opt"><input type="radio" name="sex" id="sex-m" value="m"><span>Male</span></label>
+            </div>
+            <p class="helper">This decides which safety questions you are asked later.</p>
+          </fieldset>
+
+          <div class="q">
+            <span class="fieldlab">Shipping address <span class="req">*</span></span>
+            <p class="helper" style="margin:-4px 0 4px"><b>This is where your medication will be shipped.</b> It has to be an address that can receive a FedEx or UPS delivery. We cannot ship to a PO box, a hotel, or a mail drop, and your medication cannot be left somewhere it will sit in the heat.</p>
+            <input type="text" id="addr1" placeholder="Street address" autocomplete="address-line1">
+            <div class="row2" style="margin-top:8px">
+              <input type="text" id="city" placeholder="City" autocomplete="address-level2">
+              <select id="addrState" autocomplete="address-level1">
+                <option value="">State</option>
+                <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+                <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+                <option>District of Columbia</option><option>Florida</option><option>Georgia</option><option>Hawaii</option>
+                <option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option>
+                <option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option>
+                <option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option>
+                <option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option>
+                <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option>
+                <option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option>
+                <option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+                <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option>
+                <option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option>
+                <option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+              </select>
+              <input type="text" id="zip" placeholder="ZIP" autocomplete="postal-code">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 1 · STATE -->
+        <fieldset class="page hidden" id="p1">
+          <h3 class="pagetitle">Where will you be for your visit?</h3>
+          <p class="pagesub">This is not your home state. It is the state you will be physically sitting in on the day of your appointment.</p>
+          <div class="confirmline">
+            <b>Why we ask it this way.</b> We have to pair you with a provider licensed in the state you are physically in at the time of your visit, not the state you live in. It goes in your chart.
+          </div>
+          <div>
+            <label class="fieldlab" for="state">State you will be in on the day of your visit <span class="req">*</span></label>
+            <select id="state">
+              <option value="">Select your state</option>
+              <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+              <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+              <option>District of Columbia</option><option>Florida</option><option>Georgia</option><option>Hawaii</option>
+              <option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option>
+              <option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option>
+              <option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option>
+              <option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option>
+              <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option>
+              <option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option>
+              <option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+              <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option>
+              <option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option>
+              <option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+            </select>
+            <p class="helper" style="margin-top:6px">This helps us match you with a provider licensed where you will be.</p>
+          </div>
+        </fieldset>
+
+        <!-- 2 · PROGRAM -->
+        <fieldset class="page hidden" id="p2">
+          <h3 class="pagetitle">What brings you to KORB Health today?</h3>
+          <p class="pagesub">Which program would you like to discuss at your first visit? <span class="req">*</span></p>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="prog" id="pg-wl" value="wl"><span><b>Weight Loss and Metabolic Program</b></span></label>
+            <label class="opt" id="lbl-mh"><input type="radio" name="prog" id="pg-mh" value="mh"><span><b>Men's Health Program</b></span></label>
+            <label class="opt" id="lbl-wh"><input type="radio" name="prog" id="pg-wh" value="wh"><span><b>Women's Health Program</b></span></label>
+            <label class="opt"><input type="radio" name="prog" id="pg-fhl" value="fhl"><span><b>Functional Health and Longevity Program</b></span></label>
+          </div>
+          <div class="confirmline hidden" id="progConfirm"></div>
+
+          <button type="button" class="helpbtn" id="progHelpBtn">Not sure which one? Help me decide</button>
+          <dl class="helppanel hidden" id="progHelp">
+            <div>
+              <dt>Weight Loss and Metabolic Program</dt>
+              <dd><b>This is the GLP-1 program.</b> Semaglutide and tirzepatide, by injection or by mouth, for medical weight loss, along with the metabolic problems that travel with weight such as blood sugar, blood pressure and cholesterol. If you came here for a weight loss injection or pill, this is the one.</dd>
+            </div>
+            <div>
+              <dt>Men's Health Program</dt>
+              <dd>Testosterone therapy and men's hormone care, including symptoms like low energy, low libido and poor recovery. Requires labs and a live video visit.</dd>
+            </div>
+            <div>
+              <dt>Women's Health Program</dt>
+              <dd>Hormone therapy and women's health care, including perimenopause and menopause symptoms, and related hormone concerns.</dd>
+            </div>
+            <div>
+              <dt>Functional Health and Longevity Program</dt>
+              <dd>Peptide therapy and lab-driven care aimed at energy, recovery, sleep, body composition and healthy aging. <span class="warn">This program does not include GLP-1 weight loss medication.</span> If weight loss is what you are here for, choose the Weight Loss and Metabolic Program instead.</dd>
+            </div>
+          </dl>
+
+          <p class="helper" id="progLocked" style="display:none">One program is greyed out based on the answer you gave earlier, because its questions would not apply to you. We do offer it. If it is the one you need, call us at (888) 959-7299 and we will sort it out.</p>
+          <p class="helper">Pick one. A first visit is not long enough to cover two programs properly, and the one you choose here decides which health questions you are asked.</p>
+        </fieldset>
+
+        <!-- 3 · ADD-ONS -->
+        <fieldset class="page hidden" id="p3">
+          <h3 class="pagetitle">Additional programs</h3>
+          <p class="pagesub">Anything else you would like your provider to know you are interested in? These are add-ons to your main program.</p>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" class="addon" id="ad1" value="Sexual Health"><span>Sexual Health</span></label>
+            <label class="opt"><input type="checkbox" class="addon" id="ad2" value="Hair Loss"><span>Hair Loss</span></label>
+            <label class="opt"><input type="checkbox" class="addon" id="ad3" value="Skincare"><span>Skincare</span></label>
+            <label class="opt"><input type="checkbox" class="addon" id="ad4" value="Anti-Aging"><span>Anti-Aging</span></label>
+            <label class="opt"><input type="checkbox" id="ad-none"><span><b>None for now</b></span></label>
+          </div>
+
+          <button type="button" class="helpbtn" id="addonHelpBtn">What are these? Show me</button>
+          <dl class="helppanel hidden" id="addonHelp">
+            <div>
+              <dt>Sexual Health</dt>
+              <dd>Treatment for erectile dysfunction, low libido and related concerns, for men and for women.</dd>
+            </div>
+            <div>
+              <dt>Hair Loss</dt>
+              <dd>Prescription treatment for thinning hair and pattern hair loss, oral or topical.</dd>
+            </div>
+            <div>
+              <dt>Skincare</dt>
+              <dd>Prescription skin treatment, including acne, melasma and prescription-strength anti-aging topicals.</dd>
+            </div>
+            <div>
+              <dt>Anti-Aging</dt>
+              <dd>Longevity-focused add-ons such as NAD+ and supporting peptides, layered on top of your main program.</dd>
+            </div>
+          </dl>
+
+          <p class="helper">We may not get to an add-on at your first visit, but noting it here means your provider can plan for it. <b>Each add-on adds a few safety questions of its own, so the more you pick, the longer this questionnaire gets.</b></p>
+        </fieldset>
+
+        <!-- 4 · HEALTH: BASICS -->
+        <fieldset class="page hidden" id="p4">
+          <h3 class="pagetitle">Height and weight</h3>
+          <p class="pagesub">Part 1 of 4.</p>
+          <div class="row3">
+            <div><label class="fieldlab" for="ft">Height (feet)</label><input type="number" id="ft" min="3" max="7" placeholder="5"></div>
+            <div><label class="fieldlab" for="inch">Inches</label><input type="number" id="inch" min="0" max="11" placeholder="7"></div>
+            <div><label class="fieldlab" for="wt">Weight (lbs)</label><input type="number" id="wt" min="80" max="700" placeholder="210"></div>
+          </div>
+          <div class="bmi" id="bmiBox">Enter your height and weight and we will work out your BMI.</div>
+
+          <fieldset class="q">
+            <legend>Has a provider ever told you that you have any of these?</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="comorb" id="co1" data-name="High blood pressure"><span>High blood pressure</span></label>
+              <div class="subq hidden" data-for="co1">
+                <label class="qtext" for="co1s">How is your blood pressure managed right now?</label>
+                <select id="co1s" class="cstatus" data-name="High blood pressure">
+                  <option value="">Select one</option>
+                  <option>Treated with medication</option>
+                  <option>Treated with lifestyle changes only</option>
+                  <option data-untreated="1">Not treated</option>
+                  <option>Resolved, I no longer have it</option>
+                </select>
+              </div>
+
+              <label class="opt"><input type="checkbox" class="comorb" id="co2" data-name="Type 2 diabetes or prediabetes"><span>Type 2 diabetes or prediabetes</span></label>
+              <div class="subq hidden" data-for="co2">
+                <label class="qtext" for="co2s">How is it managed right now?</label>
+                <select id="co2s" class="cstatus" data-name="Type 2 diabetes or prediabetes">
+                  <option value="">Select one</option>
+                  <option>Treated with medication</option>
+                  <option>Treated with lifestyle changes only</option>
+                  <option data-untreated="1">Not treated</option>
+                  <option>Resolved, I no longer have it</option>
+                </select>
+              </div>
+
+              <label class="opt"><input type="checkbox" class="comorb" id="co3" data-name="High cholesterol"><span>High cholesterol</span></label>
+              <div class="subq hidden" data-for="co3">
+                <label class="qtext" for="co3s">How is it managed right now?</label>
+                <select id="co3s" class="cstatus" data-name="High cholesterol">
+                  <option value="">Select one</option>
+                  <option>Treated with medication</option>
+                  <option>Treated with lifestyle changes only</option>
+                  <option data-untreated="1">Not treated</option>
+                  <option>Resolved, I no longer have it</option>
+                </select>
+              </div>
+
+              <label class="opt"><input type="checkbox" class="comorb" id="co4" data-name="Sleep apnea"><span>Sleep apnea</span></label>
+              <div class="subq hidden" data-for="co4">
+                <label class="qtext" for="co4s">How is it managed right now?</label>
+                <select id="co4s" class="cstatus" data-name="Sleep apnea">
+                  <option value="">Select one</option>
+                  <option>Treated with CPAP or an oral device</option>
+                  <option>Treated another way</option>
+                  <option data-untreated="1">Diagnosed but not treated</option>
+                  <option>Resolved, I no longer have it</option>
+                </select>
+              </div>
+
+              <label class="opt"><input type="checkbox" class="comorb" id="co5" data-name="Fatty liver disease"><span>Fatty liver disease</span></label>
+              <div class="subq hidden" data-for="co5">
+                <label class="qtext" for="co5s">Is anyone following it?</label>
+                <select id="co5s" class="cstatus" data-name="Fatty liver disease">
+                  <option value="">Select one</option>
+                  <option>Yes, a provider follows it</option>
+                  <option data-untreated="1">No, nobody is following it</option>
+                  <option>Resolved, I no longer have it</option>
+                </select>
+              </div>
+
+              <label class="opt"><input type="checkbox" class="comorb" id="co6" data-name="Heart disease"><span>Heart disease</span></label>
+              <div class="subq hidden" data-for="co6">
+                <label class="qtext" for="co6s">How is it managed right now?</label>
+                <select id="co6s" class="cstatus" data-name="Heart disease">
+                  <option value="">Select one</option>
+                  <option>Treated and stable</option>
+                  <option data-untreated="1">Treated but not stable</option>
+                  <option data-untreated="1">Not treated</option>
+                </select>
+              </div>
+
+              <label class="opt"><input type="checkbox" id="co-none"><span><b>None of these apply</b></span></label>
+            </div>
+            <p class="helper">Any one of these lowers the BMI needed to start treatment. Telling us how it is being managed saves your provider asking at the visit.</p>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Have you taken a GLP-1 medication before?</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="prior" id="pr-now" value="now"><span>I am taking one right now</span></label>
+              <label class="opt"><input type="radio" name="prior" id="pr-past" value="past"><span>I have taken one in the past but not now</span></label>
+              <label class="opt"><input type="radio" name="prior" id="pr-never" value="never"><span>No, I have never taken one</span></label>
+            </div>
+            <p class="helper">These include semaglutide, tirzepatide, Ozempic, Wegovy, oral Wegovy, Mounjaro, Zepbound, Rybelsus and Foundayo.</p>
+          </fieldset>
+
+          <div class="q hidden" id="q-priordose">
+            <label class="fieldlab" for="priordose">Which medication and what dose, as best you remember?</label>
+            <input type="text" id="priordose" placeholder="e.g. semaglutide 0.5 mg weekly, last dose about 3 weeks ago">
+          </div>
+
+          <div class="notice hidden" id="proofBlock">
+            <p><b>If you want to continue at the dose you are on now, we need proof of your current prescription before your visit.</b></p>
+            <p>It has to show the medication name, the strength, how much you inject or take, and the date. Any one of these works: the prescription itself, a pharmacy label, a written order, a note or letter from the prescribing office. A clear photo is fine.</p>
+            <p>Send it through the patient portal ahead of your visit so it is in your chart when your provider opens it. <b>Without it we cannot verify your dose, which means either a delay or starting again at the lowest dose.</b></p>
+            <fieldset class="q">
+              <legend style="font-size:.9rem">Will you be able to send that before your visit?</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="proof" id="prf-yes" value="yes"><span>Yes, I can send it</span></label>
+                <label class="opt review"><input type="radio" name="proof" id="prf-no" value="review"><span>No, I do not have it</span></label>
+                <label class="opt review"><input type="radio" name="proof" id="prf-start" value="review"><span>I would rather just start at the lowest dose</span></label>
+              </div>
+            </fieldset>
+          </div>
+        </fieldset>
+
+        <!-- 5 · HEALTH: SAFETY -->
+        <fieldset class="page hidden" id="p5">
+          <h3 class="pagetitle">Safety screen</h3>
+          <p class="pagesub">Part 2 of 4. Please answer honestly. If one of these applies it does not mean we cannot help you, it means we need to talk first.</p>
+
+          <div class="gate">
+            <fieldset class="q" id="q-preg">
+              <legend>Which of these applies to you?</legend>
+              <div class="opts">
+                <label class="opt stop"><input type="radio" name="preg" id="pg-preg" value="stop"><span>I am pregnant, or I think I might be</span></label>
+                <label class="opt stop"><input type="radio" name="preg" id="pg-ttc" value="stop"><span>I am trying to become pregnant, or plan to within 3 months</span></label>
+                <label class="opt stop"><input type="radio" name="preg" id="pg-bf" value="stop"><span>I am currently breastfeeding</span></label>
+                <label class="opt"><input type="radio" name="preg" id="pg-no" value="no"><span><b>None of these apply</b></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="q">
+              <legend>Have you, or a parent, brother, sister or child, ever been diagnosed with any of these?</legend>
+              <div class="opts">
+                <label class="opt stop"><input type="checkbox" class="abs" id="ab-mtc" data-f="Medullary thyroid cancer, self or family"><span>Medullary thyroid cancer</span></label>
+                <label class="opt stop"><input type="checkbox" class="abs" id="ab-men2" data-f="MEN2, self or family"><span>Multiple endocrine neoplasia type 2 (MEN2)</span></label>
+                <label class="opt stop"><input type="checkbox" class="abs" id="ab-allergy" data-f="Prior serious reaction to a GLP-1"><span>A serious allergic reaction to any GLP-1 medication</span></label>
+                <label class="opt"><input type="checkbox" id="ab-none"><span><b>None of these apply</b></span></label>
+              </div>
+              <p class="helper">This carries a boxed warning on every medication in this class, which is why we ask about family as well as you.</p>
+
+              <div class="subq hidden" id="whoMtc">
+                <span class="qtext">Who was diagnosed with medullary thyroid cancer? Check all that apply.</span>
+                <div class="opts grid2">
+                  <label class="opt"><input type="checkbox" class="who-mtc" value="Myself"><span>Myself</span></label>
+                  <label class="opt"><input type="checkbox" class="who-mtc" value="Mother"><span>Mother</span></label>
+                  <label class="opt"><input type="checkbox" class="who-mtc" value="Father"><span>Father</span></label>
+                  <label class="opt"><input type="checkbox" class="who-mtc" value="Brother"><span>Brother</span></label>
+                  <label class="opt"><input type="checkbox" class="who-mtc" value="Sister"><span>Sister</span></label>
+                  <label class="opt"><input type="checkbox" class="who-mtc" value="Child"><span>Child</span></label>
+                </div>
+              </div>
+
+              <div class="subq hidden" id="whoMen2">
+                <span class="qtext">Who was diagnosed with MEN2? Check all that apply.</span>
+                <div class="opts grid2">
+                  <label class="opt"><input type="checkbox" class="who-men2" value="Myself"><span>Myself</span></label>
+                  <label class="opt"><input type="checkbox" class="who-men2" value="Mother"><span>Mother</span></label>
+                  <label class="opt"><input type="checkbox" class="who-men2" value="Father"><span>Father</span></label>
+                  <label class="opt"><input type="checkbox" class="who-men2" value="Brother"><span>Brother</span></label>
+                  <label class="opt"><input type="checkbox" class="who-men2" value="Sister"><span>Sister</span></label>
+                  <label class="opt"><input type="checkbox" class="who-men2" value="Child"><span>Child</span></label>
+                </div>
+              </div>
+
+              <div class="subq hidden" id="whoRxn">
+                <span class="qtext">Which medication, and what happened?</span>
+                <input type="text" id="rxnDetail" placeholder="e.g. semaglutide, swelling and hives within a day">
+              </div>
+            </fieldset>
+
+            <fieldset class="q">
+              <legend>Have you ever had any of these?</legend>
+              <div class="opts">
+                <label class="opt review"><input type="checkbox" class="rel" id="rel-panc" data-f="Pancreatitis"><span>Pancreatitis</span></label>
+                <div class="subq hidden" data-for="rel-panc">
+                  <label class="qtext" for="rel-panc-s">When was the most recent episode?</label>
+                  <select id="rel-panc-s" class="rstatus" data-box="rel-panc">
+                    <option value="">Select one</option>
+                    <option data-hot="1">I have it now, or within the past year</option>
+                    <option>1 to 5 years ago</option>
+                    <option>More than 5 years ago</option>
+                  </select>
+                </div>
+
+                <label class="opt review"><input type="checkbox" class="rel" id="rel-gb" data-f="Gallbladder disease"><span>Gallbladder disease or gallstones</span></label>
+                <div class="subq hidden" data-for="rel-gb">
+                  <label class="qtext" for="rel-gb-s">Where does that stand now?</label>
+                  <select id="rel-gb-s" class="rstatus" data-box="rel-gb">
+                    <option value="">Select one</option>
+                    <option>My gallbladder was removed</option>
+                    <option data-hot="1">I still have symptoms or stones</option>
+                    <option>Resolved, no symptoms now</option>
+                  </select>
+                </div>
+
+                <label class="opt review"><input type="checkbox" class="rel" id="rel-gp" data-f="Gastroparesis or severe GI"><span>Gastroparesis, or ongoing severe nausea and vomiting</span></label>
+                <div class="subq hidden" data-for="rel-gp">
+                  <label class="qtext" for="rel-gp-s">Is that happening now?</label>
+                  <select id="rel-gp-s" class="rstatus" data-box="rel-gp">
+                    <option value="">Select one</option>
+                    <option data-hot="1">Yes, it is a current problem</option>
+                    <option>It was in the past, not now</option>
+                  </select>
+                </div>
+
+                <label class="opt review"><input type="checkbox" class="rel" id="rel-t1" data-f="Type 1 diabetes"><span>Type 1 diabetes</span></label>
+                <div class="subq hidden" data-for="rel-t1">
+                  <label class="qtext" for="rel-t1-s">How is your blood sugar running?</label>
+                  <select id="rel-t1-s" class="rstatus" data-box="rel-t1">
+                    <option value="">Select one</option>
+                    <option>Well controlled</option>
+                    <option data-hot="1">Not well controlled</option>
+                    <option data-hot="1">I am not sure</option>
+                  </select>
+                </div>
+
+                <label class="opt review"><input type="checkbox" class="rel" id="rel-kid" data-f="Severe kidney disease"><span>Severe kidney disease, or dialysis</span></label>
+                <div class="subq hidden" data-for="rel-kid">
+                  <label class="qtext" for="rel-kid-s">Are you on dialysis?</label>
+                  <select id="rel-kid-s" class="rstatus" data-box="rel-kid">
+                    <option value="">Select one</option>
+                    <option data-hot="1">Yes, I am on dialysis</option>
+                    <option>No, but a kidney specialist follows me</option>
+                    <option data-hot="1">No, and nobody is following it</option>
+                  </select>
+                </div>
+
+                <label class="opt review"><input type="checkbox" class="rel" id="rel-eye" data-f="Diabetic eye disease"><span>Diabetic eye disease or retinopathy</span></label>
+                <div class="subq hidden" data-for="rel-eye">
+                  <label class="qtext" for="rel-eye-s">Is an eye doctor following it?</label>
+                  <select id="rel-eye-s" class="rstatus" data-box="rel-eye">
+                    <option value="">Select one</option>
+                    <option>Yes, I am seen regularly</option>
+                    <option data-hot="1">No, not currently</option>
+                  </select>
+                </div>
+
+                <label class="opt review"><input type="checkbox" class="rel" id="rel-ed" data-f="Eating disorder"><span>An eating disorder, now or at any time in the past</span></label>
+                <div class="subq hidden" data-for="rel-ed">
+                  <label class="qtext" for="rel-ed-s">Where does that stand today?</label>
+                  <select id="rel-ed-s" class="rstatus" data-box="rel-ed">
+                    <option value="">Select one</option>
+                    <option data-stop="1">I am being treated for it right now</option>
+                    <option data-stop="1">I have it now and I am not being treated</option>
+                    <option data-hot="1">In remission, and someone is monitoring me</option>
+                    <option>Resolved, it is no longer an issue</option>
+                  </select>
+                </div>
+
+                <label class="opt"><input type="checkbox" id="rel-none"><span><b>None of these apply</b></span></label>
+              </div>
+              <p class="helper">Almost none of these rules you out. Each one means your provider goes through it with you first.</p>
+            </fieldset>
+          </div>
+        </fieldset>
+
+        <!-- 6 · HEALTH: MEDS -->
+        <fieldset class="page hidden" id="p6">
+          <h3 class="pagetitle">Medications and allergies</h3>
+          <p class="pagesub">Part 3 of 4.</p>
+
+          <fieldset class="q">
+            <legend>Do you take any of these?</legend>
+            <div class="opts">
+              <label class="opt review"><input type="checkbox" class="rel" id="med-ins" data-f="On insulin"><span>Insulin</span></label>
+              <label class="opt review"><input type="checkbox" class="rel" id="med-sulf" data-f="On a sulfonylurea"><span>Glipizide, glyburide or glimepiride</span></label>
+              <label class="opt review"><input type="checkbox" class="rel" id="med-glp" data-f="Other weight loss medication"><span>Any other medication you take for weight loss, by mouth or by injection, that we have not already asked about</span></label>
+              <div class="subq hidden" data-for="med-glp">
+                <label class="qtext" for="med-glp-s">Which one?</label>
+                <select id="med-glp-s" class="rstatus" data-box="med-glp">
+                  <option value="">Select one</option>
+                  <option>Phentermine (Adipex, Lomaira)</option>
+                  <option>Phentermine with topiramate (Qsymia)</option>
+                  <option>Naltrexone with bupropion (Contrave)</option>
+                  <option>Orlistat (Alli, Xenical)</option>
+                  <option>Metformin taken for weight</option>
+                  <option data-hot="1">A research peptide such as retatrutide or cagrilintide</option>
+                  <option data-hot="1">Something I buy online or from a source that is not a pharmacy</option>
+                  <option>A compounded product from another provider</option>
+                  <option>Something else</option>
+                </select>
+                <label class="qtext" for="med-glp-d" style="margin-top:4px">Name and dose, as best you remember</label>
+                <input type="text" id="med-glp-d" placeholder="e.g. phentermine 37.5 mg each morning">
+              </div>
+              <label class="opt"><input type="checkbox" id="med-none"><span><b>None of these apply</b></span></label>
+            </div>
+            <p class="helper">Insulin and this group of diabetes pills can cause low blood sugar with a GLP-1, so the dose usually has to be adjusted.</p>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Do you take any other prescription medications?</legend>
+            <div class="opts grid2">
+              <label class="opt"><input type="radio" name="hasmeds" id="hm-no" value="no"><span>No</span></label>
+              <label class="opt"><input type="radio" name="hasmeds" id="hm-yes" value="yes"><span>Yes</span></label>
+            </div>
+          </fieldset>
+
+          <div class="q hidden" id="medsWrap">
+            <span class="fieldlab">Add them one at a time. A new line appears as you fill each one in.</span>
+            <div class="rowlist" id="medRows"></div>
+          </div>
+
+          <fieldset class="q">
+            <legend>Do you have any medication allergies?</legend>
+            <div class="opts grid2">
+              <label class="opt"><input type="radio" name="hasallergy" id="ha-no" value="no"><span>No</span></label>
+              <label class="opt"><input type="radio" name="hasallergy" id="ha-yes" value="yes"><span>Yes</span></label>
+            </div>
+          </fieldset>
+
+          <div class="q hidden" id="algWrap">
+            <span class="fieldlab">Add them one at a time. A new line appears as you fill each one in.</span>
+            <div class="rowlist" id="algRows"></div>
+          </div>
+
+          <div class="notice hidden" id="dmBlock">
+            <p><b>KORB Health does not treat diabetes.</b> Your diabetes care stays with the provider who looks after it now. We do not adjust diabetes medication, we do not draw or order labs for it, and we do not see you in person.</p>
+            <p>We treat weight. If we prescribe a GLP-1, it can change your blood sugar, so the provider managing your diabetes needs to know and needs to keep monitoring you.</p>
+            <div class="row2">
+              <div><label class="fieldlab" for="dmProv">Who manages your diabetes?</label><input type="text" id="dmProv" placeholder="Provider or clinic name"></div>
+              <div><label class="fieldlab" for="dmPhone">Their phone number</label><input type="tel" id="dmPhone" placeholder="(555) 123-4567"></div>
+            </div>
+            <fieldset class="q">
+              <legend style="font-size:.9rem">Does that provider know you are asking us about GLP-1 treatment?</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="dmAware" id="dm-yes" value="yes"><span>Yes, they know</span></label>
+                <label class="opt review"><input type="radio" name="dmAware" id="dm-no" value="review"><span>No, not yet</span></label>
+                <label class="opt review"><input type="radio" name="dmAware" id="dm-unsure" value="review"><span>I am not sure</span></label>
+              </div>
+              <p class="helper">In some cases we will ask for that in writing before starting. Your provider will tell you if that applies to you.</p>
+            </fieldset>
+          </div>
+        </fieldset>
+
+        <!-- 7 · HEALTH: GOALS AND EXPECTATIONS -->
+        <fieldset class="page hidden" id="p7">
+          <h3 class="pagetitle">What you are hoping for</h3>
+          <p class="pagesub">Part 4 of 4.</p>
+
+          <fieldset class="q">
+            <legend>What are you hoping to get out of this? Check all that apply.</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="goal" id="g1"><span>Lose weight for my health</span></label>
+              <label class="opt"><input type="checkbox" class="goal" id="g2"><span>Get my blood sugar or A1c down</span></label>
+              <label class="opt"><input type="checkbox" class="goal" id="g3"><span>Get my blood pressure or cholesterol down</span></label>
+              <label class="opt"><input type="checkbox" class="goal" id="g4"><span>Have more energy, or move around more easily</span></label>
+              <label class="opt"><input type="checkbox" class="goal" id="g5"><span>Keep off weight I have already lost</span></label>
+              <label class="opt"><input type="checkbox" class="goal" id="g6"><span>Get ready for a surgery or procedure</span></label>
+              <label class="opt"><input type="checkbox" class="goal" id="g7"><span>An event or a date I am working toward</span></label>
+              <label class="opt"><input type="checkbox" id="g-other"><span>Something else</span></label>
+            </div>
+          </fieldset>
+
+          <div class="q hidden" id="goalOtherWrap">
+            <label class="fieldlab" for="goalOther">Tell us in your own words</label>
+            <textarea id="goalOther" placeholder="Whatever matters most to you"></textarea>
+          </div>
+
+          <fieldset class="q">
+            <legend>KORB prescribes compounded semaglutide and tirzepatide, not brand-name Ozempic, Wegovy, Mounjaro or Zepbound, and not auto-injector pens. Compounded medication is prepared by a licensed pharmacy and comes in a vial with syringes.</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="expect" id="ex-yes" value="ok"><span>I understand and I want to continue</span></label>
+              <label class="opt review"><input type="radio" name="expect" id="ex-brand" value="review"><span>I was expecting brand-name medication. I would like to talk about it</span></label>
+            </div>
+            <p class="helper">We would rather tell you now than at your visit. Brand-name options do exist in some situations. They are decided case by case with your provider, they are not available to every patient, and they are not available in every state, so nothing is promised here.</p>
+          </fieldset>
+        </fieldset>
+
+        <!-- 8 · ADD-ON QUESTIONS -->
+        <fieldset class="page hidden" id="p8">
+          <h3 class="pagetitle">A few questions about your add-ons</h3>
+          <p class="pagesub">Short safety questions for each add-on you picked. These are the same whichever main program you chose.</p>
+
+          <div class="gate hidden" id="ao-sex">
+            <p class="sec-label" style="margin:0">Sexual health</p>
+            <fieldset class="q">
+              <legend>Do you take nitroglycerin or any nitrate medication? That includes chest pain sprays and tablets under the tongue, patches, and isosorbide.</legend>
+              <div class="opts grid2">
+                <label class="opt"><input type="radio" name="ao-nitrate" id="nit-no" value="no"><span>No</span></label>
+                <label class="opt stop"><input type="radio" name="ao-nitrate" id="nit-yes" value="stop"><span>Yes</span></label>
+              </div>
+              <p class="helper">These medications cannot be combined with the treatments used for sexual health. It is the one hard rule in this section.</p>
+            </fieldset>
+            <div class="subq hidden" id="nitDetail">
+              <label class="qtext" for="nitWhich">Which one, and who prescribes it?</label>
+              <input type="text" id="nitWhich" placeholder="e.g. nitroglycerin spray as needed, prescribed by my cardiologist">
+            </div>
+            <fieldset class="q">
+              <legend>In the past 6 months, have you had a heart attack, a stroke, heart surgery, or chest pain with activity?</legend>
+              <div class="opts grid2">
+                <label class="opt"><input type="radio" name="ao-cardiac" id="car-no" value="no"><span>No</span></label>
+                <label class="opt review"><input type="radio" name="ao-cardiac" id="car-yes" value="review"><span>Yes</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="q">
+              <legend>Are you taking anything for this already?</legend>
+              <div class="opts grid2">
+                <label class="opt"><input type="radio" name="ao-ed" id="ed-no" value="no"><span>No</span></label>
+                <label class="opt review"><input type="radio" name="ao-ed" id="ed-yes" value="review"><span>Yes</span></label>
+              </div>
+              <p class="helper">Your provider will ask what it is at the visit.</p>
+            </fieldset>
+          </div>
+
+          <div class="gate hidden" id="ao-hair">
+            <p class="sec-label" style="margin:0">Hair loss</p>
+            <fieldset class="q" id="ao-hair-preg">
+              <legend>Are you pregnant, breastfeeding, or planning a pregnancy in the next year?</legend>
+              <div class="opts grid2">
+                <label class="opt"><input type="radio" name="ao-hairpreg" id="hp-no" value="no"><span>No</span></label>
+                <label class="opt stop"><input type="radio" name="ao-hairpreg" id="hp-yes" value="stop"><span>Yes</span></label>
+              </div>
+              <p class="helper">Some hair loss medications are unsafe in pregnancy, which is why we ask before prescribing.</p>
+            </fieldset>
+            <fieldset class="q">
+              <legend>Have you taken finasteride or dutasteride before?</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="ao-fin" id="fin-no" value="no"><span>No</span></label>
+                <label class="opt"><input type="radio" name="ao-fin" id="fin-ok" value="ok"><span>Yes, no problems with it</span></label>
+                <label class="opt review"><input type="radio" name="ao-fin" id="fin-se" value="review"><span>Yes, and I had side effects</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="gate hidden" id="ao-skin">
+            <p class="sec-label" style="margin:0">Skincare</p>
+            <fieldset class="q" id="ao-skin-preg">
+              <legend>Are you pregnant, breastfeeding, or planning a pregnancy in the next year?</legend>
+              <div class="opts grid2">
+                <label class="opt"><input type="radio" name="ao-skinpreg" id="sp-no" value="no"><span>No</span></label>
+                <label class="opt stop"><input type="radio" name="ao-skinpreg" id="sp-yes" value="stop"><span>Yes</span></label>
+              </div>
+              <p class="helper">Prescription retinoids are unsafe in pregnancy.</p>
+            </fieldset>
+            <fieldset class="q">
+              <legend>Have you taken isotretinoin, sometimes called Accutane, in the past 6 months?</legend>
+              <div class="opts grid2">
+                <label class="opt"><input type="radio" name="ao-iso" id="iso-no" value="no"><span>No</span></label>
+                <label class="opt review"><input type="radio" name="ao-iso" id="iso-yes" value="review"><span>Yes</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="gate hidden" id="ao-anti">
+            <p class="sec-label" style="margin:0">Anti-aging</p>
+            <fieldset class="q">
+              <legend>Have you been treated for cancer of any kind in the past 5 years?</legend>
+              <div class="opts grid2">
+                <label class="opt"><input type="radio" name="ao-ca" id="ca-no" value="no"><span>No</span></label>
+                <label class="opt stop"><input type="radio" name="ao-ca" id="ca-yes" value="stop"><span>Yes</span></label>
+              </div>
+              <p class="helper">Several of the therapies in this add-on work on growth pathways, so recent cancer changes the conversation.</p>
+            </fieldset>
+            <fieldset class="q">
+              <legend>Have you used peptide therapy before?</legend>
+              <div class="opts grid2">
+                <label class="opt"><input type="radio" name="ao-pep" id="pep-no" value="no"><span>No</span></label>
+                <label class="opt review"><input type="radio" name="ao-pep" id="pep-yes" value="review"><span>Yes</span></label>
+              </div>
+            </fieldset>
+          </div>
+        </fieldset>
+
+        <!-- 9 · CONSENT -->
+        <fieldset class="page hidden" id="p9">
+          <h3 class="pagetitle" style="text-align:center">Telehealth consent <span class="req">*</span></h3>
+          <div class="consentbox" tabindex="0">
+            <p>You are being offered healthcare services using telehealth technology. This form explains your rights, the risks and benefits of telehealth, and your options. Please read it carefully before signing. If you have any questions, call our office at 888-959-7299.</p>
+            <h4>1. Nature of telehealth</h4>
+            <p>Telehealth involves the use of electronic communications, audio, video or other digital means, to deliver medical care when you and the provider are not in the same physical location. Services may include consultation, diagnosis, treatment, follow-up and patient education.</p>
+            <h4>2. Provider disclosure</h4>
+            <p>You will be told the name, credentials and location of your provider before or at the start of the session. All persons present during the session, including trainees or assistants, will be identified and you have the right to request their exclusion.</p>
+            <h4>3. Patient rights</h4>
+            <p>You may request an in-person appointment instead of telehealth when reasonably available. You may withdraw this consent at any time without affecting your right to future care.</p>
+            <h4>4. Risks and limitations</h4>
+            <p>Telehealth has limits. A provider cannot perform a physical examination. Technology can fail. In rare cases information transmitted may not be sufficient for sound clinical decision making, and your provider may ask you to be seen in person.</p>
+            <h4>5. Emergencies</h4>
+            <p>Telehealth is not for emergencies. If you are having a medical emergency, call 911 or go to your nearest emergency room.</p>
+          </div>
+
+          <div class="yesno">
+            <label class="opt"><input type="radio" name="consent" id="cs-yes" value="yes"><span><b>I consent</b></span></label>
+            <label class="opt"><input type="radio" name="consent" id="cs-no" value="no"><span><b>I do not consent</b></span></label>
+          </div>
+
+          <div class="q hidden" id="sigWrap">
+            <span class="fieldlab">Signature <span class="req">*</span></span>
+            <div class="sigpad" id="sigpad"><canvas id="sigcanvas"></canvas><span class="ph" id="sigph">Sign here</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+              <span class="helper" id="sigstate">Not yet signed</span>
+              <button type="button" class="back" id="sigclear">Clear</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 10 · SCHEDULE -->
+        <fieldset class="page hidden" id="p10">
+          <h3 class="pagetitle">Schedule your appointment</h3>
+          <p class="tzline">You are booking based on Central Time.</p>
+          <div class="sched">
+            <div class="cal">
+              <h4>Select a date</h4>
+              <div class="caldays" id="caldays"></div>
+            </div>
+            <div class="slots">
+              <h4 id="slotTitle">Available times</h4>
+              <div class="slotgrid" id="slotgrid"></div>
+              <p class="helper" id="slotEmpty">Choose a date to see available times.</p>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 11 · CONFIRM -->
+        <fieldset class="page hidden" id="p11">
+          <div class="outcome" id="outcome"></div>
+        </fieldset>
+
+        <div class="errbar hidden" id="errbar">
+          <b>Please finish this step before continuing</b>
+          <ul id="errlist"></ul>
+        </div>
+
+        <div class="nav">
+          <button type="button" class="back hidden" id="back">Back</button>
+          <button type="button" class="go" id="next">Continue</button>
+          <button type="button" class="link" id="startover">Start over</button>
+        </div>
+
+      </div>
+    </form>
+
+    <aside class="panel hidden" id="panel" aria-live="polite">
+      <div class="panel-head">
+        <h3>Screening result · internal</h3>
+        <p>Never shown to the patient.</p>
+      </div>
+      <div class="panel-body">
+        <span class="verdict v-none" id="vchip"><span class="dot"></span><span id="vtext">Not applicable</span></span>
+        <p class="why" id="vwhy">Select the weight loss program to begin screening.</p>
+        <ul class="flags" id="flags"></ul>
+        <dl class="facts">
+          <div><dt>Program</dt><dd id="f-prog">—</dd></div>
+          <div><dt>BMI</dt><dd id="f-bmi">—</dd></div>
+          <div><dt>Meets BMI criteria</dt><dd id="f-crit">—</dd></div>
+          <div><dt>Review items</dt><dd id="f-flagn">—</dd></div>
+          <div><dt>Reaches booking</dt><dd id="f-book">—</dd></div>
+        </dl>
+      </div>
+    </aside>
+
+  </div>
+
+  <footer class="note">
+    Prototype for internal review, KORB Health Medical Texas PA and KORB Health Group LLC. Steps 1 through 4 and 7 through 9 mirror the current KORB appointment scheduler. Step 5 is the proposed weight loss screening and step 6 is the proposed add-on safety questions. Those two are the new parts. Each of the other three programs would bring its own step 5; the step 6 add-on questions stay the same whichever program is chosen. Clinical content follows the KORB GLP-1 contraindication set and the QUALIFIES / QUALIFIES WITH REVIEW / DOES NOT QUALIFY verdict from the GLP-1 note build sheet. Not a live form, not connected to any system, and not a clinical protocol.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var form=$('form');
+
+  // page index -> stage number (1-8)
+  var STAGE=[1,2,3,4,5,5,5,5,6,7,8,9];
+  var LAST=11;
+  var cur=0, staff=false, maxReached=0;
+
+  function val(n){var e=form.querySelector('input[name="'+n+'"]:checked');return e?e.value:null}
+  function num(id){var v=parseFloat($(id).value);return isNaN(v)?null:v}
+  function isWL(){return val('prog')==='wl'}
+  function isMale(){return val('sex')==='m'}
+  function healthPage(i){return i>=4&&i<=7}
+
+  function age(){
+    var v=$('dob').value; if(!v) return null;
+    var d=new Date(v+'T00:00:00'); if(isNaN(d)) return null;
+    var t=new Date(), a=t.getFullYear()-d.getFullYear();
+    var m=t.getMonth()-d.getMonth();
+    if(m<0 || (m===0 && t.getDate()<d.getDate())) a--;
+    if(a<0||a>120) return null;
+    return a;
+  }
+  function isMinor(){ var a=age(); return a!==null && a<18; }
+
+  function checked(sel){
+    return [].slice.call(document.querySelectorAll(sel)).filter(function(c){return c.checked})
+      .map(function(c){return c.value});
+  }
+
+  function diabetic(){
+    return $('co2').checked || $('rel-t1').checked || $('med-ins').checked || $('med-sulf').checked;
+  }
+
+  function bmi(){
+    var ft=num('ft'), inch=num('inch'), wt=num('wt');
+    if(ft===null||wt===null) return null;
+    var h=ft*12+(inch||0);
+    if(h<36||h>96||wt<80||wt>700) return null;
+    return Math.round((703*wt/(h*h))*10)/10;
+  }
+  function comorbs(){
+    return [].slice.call(document.querySelectorAll('.comorb')).filter(function(b){return b.checked}).length;
+  }
+
+  function evaluate(){
+    if(isMinor()) return {na:false, minor:true, bmi:null, meets:null,
+      stops:['Under 18. KORB treats adults only'], revs:[]};
+    if(!isWL()) return {na:true, bmi:null, meets:null, stops:[], revs:[]};
+    var b=bmi(), co=comorbs(), stops=[], revs=[];
+
+    if(diabetic()){
+      revs.push('Diabetes or diabetes medication reported. KORB does not treat diabetes');
+      if(val('dmAware')==='review') revs.push('Treating provider not yet aware of GLP-1 request');
+    }
+
+    if(!isMale() && val('preg')==='stop'){
+      var el=form.querySelector('input[name="preg"]:checked');
+      stops.push('Pregnancy status: '+el.parentNode.textContent.trim().toLowerCase());
+    }
+    [].slice.call(document.querySelectorAll('.abs')).forEach(function(c){
+      if(!c.checked) return;
+      var label=c.getAttribute('data-f'), who=null;
+      if(c.id==='ab-mtc') who=checked('.who-mtc');
+      if(c.id==='ab-men2') who=checked('.who-men2');
+      if(who && who.length) label += ' (' + who.join(', ') + ')';
+      stops.push(label);
+    });
+    [].slice.call(document.querySelectorAll('.rel')).forEach(function(c){
+      if(!c.checked) return;
+      var label=c.getAttribute('data-f'), isStop=!!c.getAttribute('data-stop');
+      var sel=document.querySelector('.rstatus[data-box="'+c.id+'"]');
+      if(sel && sel.value){
+        label += ' — ' + sel.value;
+        var opt=sel.options[sel.selectedIndex];
+        if(opt && opt.getAttribute('data-stop')) isStop=true;
+        else if(opt && opt.getAttribute('data-hot')) label='⚑ '+label;
+      }
+      if(c.id==='med-glp' && $('med-glp-d').value.trim()) label += ' ('+$('med-glp-d').value.trim()+')';
+      if(isStop) stops.push(label);
+      else revs.push(label);
+    });
+
+    // untreated comorbidities
+    [].slice.call(document.querySelectorAll('.cstatus')).forEach(function(sel){
+      var box=document.getElementById(sel.closest('.subq').getAttribute('data-for'));
+      if(!box || !box.checked || !sel.value) return;
+      var opt=sel.options[sel.selectedIndex];
+      if(opt && opt.getAttribute('data-untreated')) revs.push('⚑ '+sel.getAttribute('data-name')+' — '+sel.value);
+    });
+
+    var meets=null;
+    if(b!==null){ meets=(b>=30)||(b>=27&&co>0); if(!meets) stops.push('BMI '+b+' does not meet criteria'); }
+
+    if(val('expect')==='review') revs.push('Expected brand-name medication');
+    if(val('prior')==='now') revs.push('Currently on a GLP-1, continuation request');
+    var st=$('state').value;
+    if(st==='Louisiana'||st==='Maine') revs.push(st+' requires a live visit, no async path');
+    var addons=[].slice.call(document.querySelectorAll('.addon')).filter(function(c){return c.checked});
+    if(addons.length) revs.push('Interested in add-ons: '+addons.map(function(c){return c.value}).join(', '));
+
+    // proof of a current prescription, when continuing an existing dose
+    if(val('prior')==='now'){
+      if(val('proof')==='review') revs.push('⚑ No proof of current prescription. Start at lowest dose or delay');
+      else if(val('proof')==='yes') revs.push('Proof of current prescription to be sent via portal');
+    }
+
+    // add-on safety answers
+    var AO=[
+      ['ad1','ao-nitrate','Sexual health: takes nitrates. Cannot combine',true],
+      ['ad1','ao-cardiac','Sexual health: cardiac event within 6 months',false],
+      ['ad1','ao-ed','Sexual health: already on treatment',false],
+      ['ad2','ao-hairpreg','Hair loss: pregnant, breastfeeding or planning',true],
+      ['ad2','ao-fin','Hair loss: prior finasteride with side effects',false],
+      ['ad3','ao-skinpreg','Skincare: pregnant, breastfeeding or planning',true],
+      ['ad3','ao-iso','Skincare: isotretinoin within 6 months',false],
+      ['ad4','ao-ca','Anti-aging: cancer treatment within 5 years',true],
+      ['ad4','ao-pep','Anti-aging: prior peptide therapy',false]
+    ];
+    AO.forEach(function(r){
+      if(!$(r[0]).checked) return;
+      var v=val(r[1]);
+      if(v==='stop') revs.push('⚑ '+r[2]+' (add-on only, main program unaffected)');
+      else if(v==='review') revs.push(r[2]);
+    });
+
+    return {na:false, bmi:b, meets:meets, stops:stops, revs:revs};
+  }
+
+  var PROGNAME={wl:'Weight Loss and Metabolic',mh:"Men's Health",wh:"Women's Health",fhl:'Functional Health and Longevity'};
+
+  function renderPanel(){
+    var r=evaluate(), chip=$('vchip'), vt=$('vtext'), vw=$('vwhy'), fl=$('flags');
+    $('f-prog').textContent = val('prog') ? PROGNAME[val('prog')] : '—';
+    $('f-bmi').textContent = r.bmi===null?'—':r.bmi;
+    $('f-crit').textContent = r.meets===null?'—':(r.meets?'Yes':'No');
+    $('f-flagn').textContent = r.na?'—':String(r.revs.length);
+
+    fl.innerHTML='';
+    function add(cls,mk,txt){
+      var li=document.createElement('li'); li.className=cls;
+      var s=document.createElement('span'); s.className='mk'; s.textContent=mk;
+      var t=document.createElement('span'); t.textContent=txt;
+      li.appendChild(s); li.appendChild(t); fl.appendChild(li);
+    }
+    r.stops.forEach(function(s){add('f-no','STOP',s)});
+    r.revs.forEach(function(s){add('f-rev','REVIEW',s)});
+
+    if(r.minor){
+      chip.className='verdict v-no'; vt.textContent='Under 18 · hard stop';
+      vw.textContent='KORB treats adults only. The flow stops here for every program, not just weight loss, and no appointment is created. The patient is given the office number.';
+      $('f-book').textContent='No';
+      return;
+    }
+    if(r.na){
+      chip.className='verdict v-none'; vt.textContent='Not applicable';
+      vw.textContent= val('prog') ? 'Weight loss screening does not run for this program. The health questions are skipped entirely.' : 'Select the weight loss program to begin screening.';
+      $('f-book').textContent= val('prog') ? 'Yes' : '—';
+      return;
+    }
+    var answered = r.stops.length||r.revs.length||$('ab-none').checked||$('rel-none').checked
+      ||(!isMale()&&val('preg')!==null);
+    if(r.stops.length){
+      chip.className='verdict v-no'; vt.textContent='Does not qualify';
+      vw.textContent='A contraindication to GLP-1 therapy was reported. The patient is told plainly that they may not be a candidate and that they may leave without a prescription, and is still offered a visit so the provider can explain and offer another program.';
+      $('f-book').textContent='Yes, warned';
+    } else if(!answered){
+      chip.className='verdict v-none'; vt.textContent='Incomplete';
+      vw.textContent='Screening in progress. Complete the safety screen to see the result.';
+      $('f-book').textContent='—';
+    } else if(r.revs.length){
+      chip.className='verdict v-rev'; vt.textContent='Qualifies with review';
+      vw.textContent='Nothing here blocks treatment. The provider sees these flagged at the top of the chart and addresses them at the visit. The patient books normally.';
+      $('f-book').textContent='Yes, flagged';
+    } else {
+      chip.className='verdict v-ok'; vt.textContent='Qualifies';
+      vw.textContent='No contraindications reported and BMI criteria met. Straight through to booking with the history already captured.';
+      $('f-book').textContent='Yes';
+    }
+  }
+
+  function render(){
+    var r=evaluate();
+    var bb=$('bmiBox');
+    if(r.bmi===null) bb.textContent='Enter your height and weight and we will work out your BMI.';
+    else bb.innerHTML='Your BMI is <b>'+r.bmi+'</b>. '+(r.meets?'That is within the range we treat.'
+      :'Treatment generally starts at a BMI of 30, or 27 with a weight-related condition.');
+
+    $('q-priordose').classList.toggle('hidden', !(val('prior')==='now'||val('prior')==='past'));
+
+    var male=isMale();
+    $('q-preg').classList.toggle('hidden', male);
+    if(male){ var p=form.querySelector('input[name="preg"]:checked'); if(p) p.checked=false; }
+
+    $('minorNotice').classList.toggle('hidden', !isMinor());
+
+    // every follow-up block keyed to its checkbox
+    [].slice.call(document.querySelectorAll('.subq[data-for]')).forEach(function(d){
+      var box=document.getElementById(d.getAttribute('data-for'));
+      d.classList.toggle('hidden', !(box && box.checked));
+    });
+
+    // programs that do not apply to this patient
+    var sex=val('sex');
+    var lockMH = sex==='f', lockWH = sex==='m';
+    function lock(lbl,radio,off){
+      lbl.style.opacity = off ? '.42' : '';
+      lbl.style.pointerEvents = off ? 'none' : '';
+      radio.disabled = off;
+      if(off && radio.checked) radio.checked=false;
+    }
+    lock($('lbl-mh'), $('pg-mh'), lockMH);
+    lock($('lbl-wh'), $('pg-wh'), lockWH);
+    $('progLocked').style.display = (lockMH||lockWH) ? '' : 'none';
+
+    // confirm what the chosen program actually is, since FHL and weight loss get mixed up
+    var pc=$('progConfirm'), p=val('prog');
+    if(p==='fhl'){
+      pc.className='confirmline warnline';
+      pc.innerHTML='<b>Just to confirm.</b> Functional Health and Longevity does <b>not</b> include GLP-1 weight loss medication. If you came here for semaglutide or tirzepatide, go back one and choose the Weight Loss and Metabolic Program.';
+    } else if(p==='wl'){
+      pc.className='confirmline';
+      pc.innerHTML='<b>Just to confirm.</b> This is the GLP-1 program, semaglutide or tirzepatide for medical weight loss. The next few screens are health questions about that.';
+    } else if(p){
+      pc.className='confirmline';
+      pc.innerHTML='<b>Just to confirm.</b> This program does not include GLP-1 weight loss medication. If weight loss is what you are here for, go back one and choose the Weight Loss and Metabolic Program.';
+    }
+    pc.classList.toggle('hidden', !p);
+    $('whoMtc').classList.toggle('hidden', !$('ab-mtc').checked);
+    $('whoMen2').classList.toggle('hidden', !$('ab-men2').checked);
+    $('whoRxn').classList.toggle('hidden', !$('ab-allergy').checked);
+    $('dmBlock').classList.toggle('hidden', !diabetic());
+    $('medRows').closest('.q').classList.toggle('hidden', val('hasmeds')!=='yes');
+    $('proofBlock').classList.toggle('hidden', val('prior')!=='now');
+
+    $('ao-sex').classList.toggle('hidden', !$('ad1').checked);
+    $('nitDetail').classList.toggle('hidden', val('ao-nitrate')!=='stop');
+    $('ao-hair').classList.toggle('hidden', !$('ad2').checked);
+    $('ao-skin').classList.toggle('hidden', !$('ad3').checked);
+    $('ao-anti').classList.toggle('hidden', !$('ad4').checked);
+    $('ao-hair-preg').classList.toggle('hidden', male);
+    $('ao-skin-preg').classList.toggle('hidden', male);
+    if(male){
+      ['ao-hairpreg','ao-skinpreg'].forEach(function(n){
+        var c=form.querySelector('input[name="'+n+'"]:checked'); if(c) c.checked=false;
+      });
+    }
+
+    $('medsWrap').classList.toggle('hidden', val('hasmeds')!=='yes');
+    $('algWrap').classList.toggle('hidden', val('hasallergy')!=='yes');
+    $('goalOtherWrap').classList.toggle('hidden', !$('g-other').checked);
+    $('sigWrap').classList.toggle('hidden', val('consent')!=='yes');
+
+    renderPanel();
+  }
+
+  // exclusive "none" boxes
+  function exclusive(sel, noneEl){
+    var boxes=[].slice.call(document.querySelectorAll(sel));
+    boxes.forEach(function(b){b.addEventListener('change',function(){ if(b.checked) noneEl.checked=false; render(); })});
+    noneEl.addEventListener('change',function(){ if(noneEl.checked) boxes.forEach(function(b){b.checked=false}); render(); });
+  }
+  exclusive('.comorb',$('co-none'));
+  exclusive('.abs',$('ab-none'));
+  exclusive('#p5 .rel',$('rel-none'));
+  exclusive('#p6 .rel',$('med-none'));
+  exclusive('.addon',$('ad-none'));
+
+  // repeating rows
+  function makeRow(kind){
+    var r=document.createElement('div'); r.className='lrow '+kind;
+    var f = kind==='med' ? ['Medication name','Dose','How often'] : ['Medication','What happened'];
+    f.forEach(function(ph,i){
+      var inp=document.createElement('input'); inp.type='text'; inp.placeholder=ph;
+      inp.setAttribute('aria-label',ph); inp.className='lf'+i; r.appendChild(inp);
+    });
+    var d=document.createElement('button'); d.type='button'; d.className='del'; d.textContent='×';
+    d.setAttribute('aria-label','Remove this line'); r.appendChild(d);
+    return r;
+  }
+  var listResets=[];
+  function wireList(id,kind){
+    var box=$(id);
+    function tidy(){
+      var last=box.lastElementChild;
+      if(!last || last.querySelector('.lf0').value.trim()) box.appendChild(makeRow(kind));
+      var kids=[].slice.call(box.children);
+      while(kids.length>1){
+        var a=kids[kids.length-1], b=kids[kids.length-2];
+        if(!a.querySelector('.lf0').value.trim() && !b.querySelector('.lf0').value.trim()){ box.removeChild(a); kids.pop(); }
+        else break;
+      }
+      [].slice.call(box.children).forEach(function(r,i,arr){
+        r.querySelector('.del').style.visibility = arr.length===1 ? 'hidden' : 'visible';
+      });
+    }
+    box.addEventListener('input',tidy);
+    box.addEventListener('click',function(e){
+      if(e.target.classList.contains('del')){
+        if(box.children.length>1) box.removeChild(e.target.parentNode);
+        tidy();
+      }
+    });
+    box.appendChild(makeRow(kind)); tidy();
+    listResets.push(function(){ box.innerHTML=''; box.appendChild(makeRow(kind)); tidy(); });
+  }
+  wireList('medRows','med'); wireList('algRows','alg');
+
+  // signature pad
+  (function(){
+    var pad=$('sigpad'), c=$('sigcanvas'), ctx, drawing=false, signed=false;
+    function size(){
+      var r=pad.getBoundingClientRect();
+      c.width=r.width*2; c.height=r.height*2;
+      ctx=c.getContext('2d'); ctx.scale(2,2); ctx.lineWidth=1.8; ctx.lineCap='round';
+      ctx.strokeStyle=getComputedStyle(document.body).color;
+    }
+    function pos(e){
+      var r=c.getBoundingClientRect(), t=e.touches?e.touches[0]:e;
+      return {x:t.clientX-r.left, y:t.clientY-r.top};
+    }
+    function start(e){ if(!ctx) size(); drawing=true; var p=pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); e.preventDefault(); }
+    function move(e){ if(!drawing) return; var p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke();
+      if(!signed){ signed=true; $('sigph').style.display='none'; $('sigstate').textContent='Signature captured'; } e.preventDefault(); }
+    function end(){ drawing=false; }
+    pad.addEventListener('mousedown',start); window.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
+    pad.addEventListener('touchstart',start,{passive:false}); pad.addEventListener('touchmove',move,{passive:false}); pad.addEventListener('touchend',end);
+    $('sigclear').addEventListener('click',function(){ if(ctx) ctx.clearRect(0,0,c.width,c.height);
+      signed=false; $('sigph').style.display=''; $('sigstate').textContent='Not yet signed'; });
+    window.addEventListener('resize',function(){ if(ctx&&!signed) size(); });
+  })();
+
+  // scheduler (booking is declared above, in the validation block)
+  (function(){
+    var grid=$('caldays'), slots=$('slotgrid'), chosen=null;
+    var names=['Su','Mo','Tu','We','Th','Fr','Sa'];
+    var now=new Date(), y=now.getFullYear(), m=now.getMonth();
+    function build(){
+      grid.innerHTML='';
+      names.forEach(function(n){ var d=document.createElement('div'); d.className='dow'; d.textContent=n; grid.appendChild(d); });
+      var first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
+      for(var i=0;i<first;i++) grid.appendChild(document.createElement('div'));
+      for(var d=1;d<=days;d++){
+        var b=document.createElement('button'); b.type='button'; b.textContent=d;
+        var dt=new Date(y,m,d), dow=dt.getDay();
+        var past = dt < new Date(now.getFullYear(),now.getMonth(),now.getDate());
+        if(past || dow===0 || dow===6) b.disabled=true;
+        b.setAttribute('aria-pressed','false');
+        b.addEventListener('click',(function(day,btn){return function(){
+          [].slice.call(grid.querySelectorAll('button')).forEach(function(x){x.setAttribute('aria-pressed','false')});
+          btn.setAttribute('aria-pressed','true'); chosen=day; booking.date=day; booking.time=null; showSlots(day);
+        }})(d,b));
+        grid.appendChild(b);
+      }
+    }
+    function showSlots(day){
+      var label=new Date(y,m,day).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+      $('slotTitle').textContent='Available times · '+label;
+      var times=['9:00 AM','9:30 AM','10:30 AM','11:00 AM','1:00 PM','1:30 PM','2:30 PM','3:00 PM','4:00 PM'];
+      slots.innerHTML=''; $('slotEmpty').classList.add('hidden');
+      times.forEach(function(t){
+        var b=document.createElement('button'); b.type='button'; b.textContent=t; b.setAttribute('aria-pressed','false');
+        b.addEventListener('click',function(){
+          [].slice.call(slots.querySelectorAll('button')).forEach(function(x){x.setAttribute('aria-pressed','false')});
+          b.setAttribute('aria-pressed','true'); booking.time=t;
+        });
+        slots.appendChild(b);
+      });
+    }
+    build();
+  })();
+
+  // ---------- validation ----------
+  var booking={date:null,time:null};
+
+  function clearMarks(){
+    [].slice.call(document.querySelectorAll('.invalid')).forEach(function(e){e.classList.remove('invalid')});
+    [].slice.call(document.querySelectorAll('.gflag')).forEach(function(e){e.classList.remove('gflag')});
+    $('errbar').classList.add('hidden');
+  }
+  function mark(el){
+    if(!el) return;
+    var t=el.tagName;
+    el.classList.add((t==='INPUT'||t==='SELECT'||t==='TEXTAREA') ? 'invalid' : 'gflag');
+  }
+
+  function filled(id){ return $(id).value.trim()!==''; }
+  function groupAnswered(name){ return val(name)!==null; }
+  function anyChecked(sel){ return [].slice.call(document.querySelectorAll(sel)).some(function(c){return c.checked}); }
+  function rowsHaveOne(id){
+    return [].slice.call($(id).children).some(function(r){ return r.querySelector('.lf0').value.trim()!==''; });
+  }
+  function groupBox(anyEl){ return anyEl ? anyEl.closest('.opts') : null; }
+
+  function problems(i){
+    var out=[];
+    function need(ok,msg,el){ if(!ok) out.push({msg:msg, el:el}); }
+
+    if(i===0){
+      need(filled('fname'),'First name','fname');
+      need(filled('lname'),'Last name','lname');
+      need(filled('dob'),'Date of birth','dob');
+      need(!isMinor(),'KORB treats adults only. This date of birth cannot continue','dob');
+      need(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('email').value.trim()),'A valid email address','email');
+      need($('phone').value.replace(/\D/g,'').length>=10,'A mobile number with at least 10 digits','phone');
+      need(groupAnswered('sex'),'Sex assigned at birth',groupBox($('sex-f')));
+      need(filled('addr1'),'Street address','addr1');
+      need(filled('city'),'City','city');
+      need(filled('addrState'),'State for your shipping address','addrState');
+      need(filled('zip'),'ZIP code','zip');
+    }
+    if(i===1) need(filled('state'),'Your state','state');
+    if(i===2) need(groupAnswered('prog'),'Which program you would like to discuss',groupBox($('pg-wl')));
+    if(i===3) need(anyChecked('.addon')||$('ad-none').checked,'Pick an add-on or choose None for now',groupBox($('ad-none')));
+
+    if(i===4){
+      need(filled('ft')&&filled('wt'),'Your height and weight','ft');
+      need(anyChecked('.comorb')||$('co-none').checked,'Answer the conditions question, or choose None of these apply',groupBox($('co-none')));
+      [].slice.call(document.querySelectorAll('.cstatus')).forEach(function(sel){
+        var box=document.getElementById(sel.closest('.subq').getAttribute('data-for'));
+        if(box&&box.checked) need(sel.value!=='','How your '+sel.getAttribute('data-name').toLowerCase()+' is managed',sel.id);
+      });
+      need(groupAnswered('prior'),'Whether you have taken a GLP-1 before',groupBox($('pr-now')));
+      if(val('prior')==='now') need(groupAnswered('proof'),'Whether you can send proof of your current prescription',groupBox($('prf-yes')));
+    }
+
+    if(i===5){
+      if(!isMale()) need(groupAnswered('preg'),'The pregnancy question',groupBox($('pg-preg')));
+      need(anyChecked('.abs')||$('ab-none').checked,'The thyroid cancer and MEN2 question',groupBox($('ab-none')));
+      if($('ab-mtc').checked) need(anyChecked('.who-mtc'),'Who was diagnosed with medullary thyroid cancer',groupBox(document.querySelector('.who-mtc')));
+      if($('ab-men2').checked) need(anyChecked('.who-men2'),'Who was diagnosed with MEN2',groupBox(document.querySelector('.who-men2')));
+      if($('ab-allergy').checked) need(filled('rxnDetail'),'Which medication caused the reaction, and what happened','rxnDetail');
+      need(anyChecked('#p5 .rel')||$('rel-none').checked,'The history question, or None of these apply',groupBox($('rel-none')));
+      [].slice.call(document.querySelectorAll('#p5 .rstatus')).forEach(function(sel){
+        var box=document.getElementById(sel.getAttribute('data-box'));
+        if(box&&box.checked) need(sel.value!=='','A status for '+box.parentNode.textContent.trim().toLowerCase(),sel.id);
+      });
+    }
+
+    if(i===6){
+      need(anyChecked('#p6 .rel')||$('med-none').checked,'The medications question, or None of these apply',groupBox($('med-none')));
+      if($('med-glp').checked) need($('med-glp-s').value!=='','Which other weight loss medication','med-glp-s');
+      need(groupAnswered('hasmeds'),'Whether you take other prescription medications',groupBox($('hm-no')));
+      if(val('hasmeds')==='yes') need(rowsHaveOne('medRows'),'At least one medication, or change the answer to No','medRows');
+      need(groupAnswered('hasallergy'),'Whether you have medication allergies',groupBox($('ha-no')));
+      if(val('hasallergy')==='yes') need(rowsHaveOne('algRows'),'At least one allergy, or change the answer to No','algRows');
+      if(diabetic()){
+        need(filled('dmProv'),'Who manages your diabetes','dmProv');
+        need(groupAnswered('dmAware'),'Whether that provider knows about this',groupBox($('dm-yes')));
+      }
+    }
+
+    if(i===7){
+      need(anyChecked('.goal')||$('g-other').checked,'What you are hoping to get out of this',groupBox($('g-other')));
+      if($('g-other').checked) need(filled('goalOther'),'Tell us what the something else is','goalOther');
+      need(groupAnswered('expect'),'The compounded medication question',groupBox($('ex-yes')));
+    }
+
+    if(i===8){
+      if($('ad1').checked){
+        need(groupAnswered('ao-nitrate'),'The nitrate question under sexual health',groupBox($('nit-no')));
+        need(groupAnswered('ao-cardiac'),'The heart question under sexual health',groupBox($('car-no')));
+        need(groupAnswered('ao-ed'),'Whether you already take something for this',groupBox($('ed-no')));
+      }
+      if($('ad2').checked){
+        if(!isMale()) need(groupAnswered('ao-hairpreg'),'The pregnancy question under hair loss',groupBox($('hp-no')));
+        need(groupAnswered('ao-fin'),'Whether you have taken finasteride or dutasteride',groupBox($('fin-no')));
+      }
+      if($('ad3').checked){
+        if(!isMale()) need(groupAnswered('ao-skinpreg'),'The pregnancy question under skincare',groupBox($('sp-no')));
+        need(groupAnswered('ao-iso'),'The isotretinoin question under skincare',groupBox($('iso-no')));
+      }
+      if($('ad4').checked){
+        need(groupAnswered('ao-ca'),'The cancer question under anti-aging',groupBox($('ca-no')));
+        need(groupAnswered('ao-pep'),'Whether you have used peptide therapy',groupBox($('pep-no')));
+      }
+    }
+
+    if(i===9){
+      need(groupAnswered('consent'),'Consent to telehealth, or decline it',groupBox($('cs-yes')));
+      if(val('consent')==='yes') need($('sigstate').textContent==='Signature captured','Your signature','sigpad');
+      if(val('consent')==='no') out.push({msg:'We cannot provide care by telehealth without consent. Please call (888) 959-7299.',el:groupBox($('cs-yes'))});
+    }
+
+    if(i===10){
+      need(booking.date!==null,'Pick a date','caldays');
+      need(booking.time!==null,'Pick a time','slotgrid');
+    }
+
+    return out;
+  }
+
+  function validate(i){
+    clearMarks();
+    var probs=problems(i);
+    if(!probs.length) return true;
+    var list=$('errlist'); list.innerHTML='';
+    probs.forEach(function(p){
+      var li=document.createElement('li'); li.textContent=p.msg; list.appendChild(li);
+      var el = typeof p.el==='string' ? $(p.el) : p.el;
+      mark(el);
+    });
+    $('errbar').classList.remove('hidden');
+    var first = typeof probs[0].el==='string' ? $(probs[0].el) : probs[0].el;
+    if(first){ first.scrollIntoView({behavior:'smooth',block:'center'});
+      if(first.focus && first.tagName!=='DIV') try{first.focus({preventScroll:true})}catch(e){} }
+    return false;
+  }
+
+  // navigation
+  function anyAddon(){ return [].slice.call(document.querySelectorAll('.addon')).some(function(c){return c.checked}); }
+  function visible(i){
+    if(healthPage(i) && !isWL()) return false;
+    if(i===8 && !anyAddon()) return false;
+    return true;
+  }
+  function nextIdx(from,dir){
+    var i=from+dir;
+    while(i>=0 && i<=LAST && !visible(i)) i+=dir;
+    return Math.max(0,Math.min(LAST,i));
+  }
+
+  function show(i){
+    cur=i; clearMarks();
+    if(i>maxReached) maxReached=i;
+    for(var n=0;n<=LAST;n++) $('p'+n).classList.toggle('hidden', n!==i);
+    var stage=STAGE[i];
+    $('stepno').textContent='Step '+stage+' of 9';
+    [].slice.call($('rail').children).forEach(function(el){
+      var st=parseInt(el.getAttribute('data-st'),10);
+      el.classList.toggle('on', st===stage);
+      el.classList.toggle('done', st<stage);
+      var skipped=(st===5 && !isWL() && val('prog')!==null) || (st===6 && !anyAddon() && $('ad-none').checked);
+      el.classList.toggle('skip', skipped);
+      var target=stageStart(st);
+      var open = !skipped && target!==null && target<=maxReached;
+      el.classList.toggle('go', open);
+      el.classList.toggle('locked', !open && st!==stage);
+      el.setAttribute('role', open?'button':'presentation');
+      if(open) el.setAttribute('tabindex','0'); else el.removeAttribute('tabindex');
+    });
+    $('back').classList.toggle('hidden', i===0);
+    $('next').textContent = i===10 ? 'Confirm appointment' : (i===LAST ? 'Done' : 'Continue');
+    $('next').classList.toggle('hidden', i===LAST);
+    if(i===LAST) outcome();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function outcome(){
+    var r=evaluate(), o=$('outcome');
+    var crisis='<p class="crisis">If you are having a medical emergency, call 911 or go to your nearest emergency room. If you are in emotional distress or thinking about harming yourself, call or text 988 to reach the Suicide and Crisis Lifeline.</p>';
+    if(r.minor){
+      o.innerHTML='<h3>We are not able to schedule this appointment</h3>'+
+        '<p>KORB Health treats adults only, and that applies to every one of our programs.</p>'+
+        '<p>Please call us at <b>(888) 959-7299</b>. We will talk it through and help point you toward somewhere that can.</p>'+crisis;
+    } else if(!r.na && r.stops.length){
+      o.innerHTML='<h3>You may not be a candidate for this medication</h3>'+
+        '<p>Based on what you told us, a GLP-1 medication may not be safe or appropriate for you right now. That is not a judgement about you and it is not the end of the conversation.</p>'+
+        '<p><b>Your visit is booked and we are glad you are coming.</b> Your provider will go through what you told us, explain why, and talk about whether another KORB program is a better fit. Please understand that you may leave that visit without a prescription for this medication.</p>'+
+        '<p>If you would rather talk it through first, call us at <b>(888) 959-7299</b>.</p>'+crisis;
+    } else if(!r.na && r.revs.length){
+      o.innerHTML='<h3>Your visit is booked</h3>'+
+        '<p>Everything you told us goes to your provider before you meet, including a few things they will want to discuss with you. That is a normal part of starting treatment.</p>'+
+        '<p>You will get a confirmation by text and email. Your provider will have read your answers before the visit starts.</p>'+crisis;
+    } else {
+      o.innerHTML='<h3>Your visit is booked</h3>'+
+        '<p>Thanks. Your answers go to your provider before you meet, so your visit can be spent on your plan rather than on paperwork.</p>'+
+        '<p>You will get a confirmation by text and email.</p>'+crisis;
+    }
+  }
+
+  function stageStart(st){
+    for(var i=0;i<=LAST;i++) if(STAGE[i]===st && visible(i)) return i;
+    return null;
+  }
+  function jumpTo(st){
+    var t=stageStart(st);
+    if(t===null || t>maxReached) return;
+    clearMarks();
+    // going back is always allowed. going forward has to pass every step in between,
+    // because an edit can make a step required that was skipped the first time through
+    if(t>cur){
+      for(var i=cur;i<t;i++){
+        if(!visible(i)) continue;
+        if(!validate(i)){ show(i); return; }
+      }
+      clearMarks();
+    }
+    show(t);
+  }
+  $('rail').addEventListener('click',function(e){
+    var el=e.target.closest('span[data-st]');
+    if(el && el.classList.contains('go')) jumpTo(parseInt(el.getAttribute('data-st'),10));
+  });
+  $('rail').addEventListener('keydown',function(e){
+    if(e.key!=='Enter' && e.key!==' ') return;
+    var el=e.target.closest('span[data-st]');
+    if(el && el.classList.contains('go')){ e.preventDefault(); jumpTo(parseInt(el.getAttribute('data-st'),10)); }
+  });
+
+  $('next').addEventListener('click',function(){
+    if(cur>=LAST) return;
+    if(!validate(cur)) return;
+    show(nextIdx(cur,1));
+  });
+  $('back').addEventListener('click',function(){ clearMarks(); if(cur>0) show(nextIdx(cur,-1)); });
+  $('startover').addEventListener('click',function(){
+    // form.reset() is shadowed by any element inside the form, so call it off the prototype
+    HTMLFormElement.prototype.reset.call(form);
+    // re-enable anything the program lock disabled, then clear what reset() cannot
+    [].slice.call(form.querySelectorAll('input,select')).forEach(function(el){ el.disabled=false; });
+    listResets.forEach(function(fn){ fn(); });
+    $('sigclear').click();
+    [].slice.call($('slotgrid').querySelectorAll('button')).forEach(function(b){ b.remove(); });
+    [].slice.call($('caldays').querySelectorAll('button')).forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+    $('slotTitle').textContent='Available times';
+    $('slotEmpty').classList.remove('hidden');
+    booking.date=null; booking.time=null; maxReached=0;
+    render(); show(0);
+  });
+  form.addEventListener('change',function(){ render(); if(healthPage(cur)&&!isWL()) show(nextIdx(cur,1)); });
+  form.addEventListener('input',render);
+
+  // view toggle
+  function setView(isStaff){
+    staff=isStaff;
+    $('vPatient').setAttribute('aria-pressed', String(!isStaff));
+    $('vStaff').setAttribute('aria-pressed', String(isStaff));
+    $('panel').classList.toggle('hidden', !isStaff);
+    $('cols').classList.toggle('solo', !isStaff);
+  }
+  function toggleHelp(btnId,panelId,openText,shutText){
+    $(btnId).addEventListener('click',function(){
+      var open=$(panelId).classList.toggle('hidden');
+      $(btnId).textContent = open ? openText : shutText;
+    });
+  }
+  toggleHelp('progHelpBtn','progHelp','Not sure which one? Help me decide','Hide the descriptions');
+  toggleHelp('addonHelpBtn','addonHelp','What are these? Show me','Hide the descriptions');
+
+  $('vPatient').addEventListener('click',function(){setView(false)});
+  $('vStaff').addEventListener('click',function(){setView(true)});
+
+  setView(false); render(); show(0);
+})();
+</script>
