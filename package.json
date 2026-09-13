@@ -1,0 +1,16 @@
+{
+  "name": "korb-patient-tools",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Provider- and patient-facing clinical tools for KORB Health. The pages are plain static HTML; npm is here only to supply Playwright, which renders the PDF snapshots of the generated provider references.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build:provider": "node build-provider-docs.js",
+    "build:fhl": "node build-fhl-docs.js",
+    "build:embed": "node build-embed.js",
+    "check:embed": "node build-embed.js --check"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}
