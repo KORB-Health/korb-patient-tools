@@ -58,17 +58,27 @@ const K = (function () {
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 /* Playwright is resolved rather than hardcoded to one machine's global path.
-   build-provider-docs.js hardcodes /home/claude/.npm-global/..., which works
-   only on the machine it was written on. */
+   Returns null when it is not installed rather than killing the process: it
+   gates PDF rendering only. The HTML needs no browser, and gating the whole
+   build on Chromium meant a machine without it produced nothing at all - not
+   even the HTML that was already correct. */
 function loadChromium() {
-  const tries = ['playwright', 'playwright-core',
-                 '/home/claude/.npm-global/lib/node_modules/playwright'];
-  for (const t of tries) {
+  for (const t of ['playwright', 'playwright-core']) {
     try { return require(t).chromium; } catch (e) { /* next */ }
   }
-  console.error('Playwright not found. Install it with:  npm i -D playwright');
-  console.error('Then:  npx playwright install chromium');
-  process.exit(1);
+  return null;
+}
+
+/* Said when the PDF phase is skipped. It names the stale output explicitly,
+   because a PDF left over from an earlier build is not merely missing - it is
+   wrong, and it is the artefact a provider prints. */
+function warnPdfsSkipped(outDir, count) {
+  console.warn('');
+  console.warn('WARNING: PDFs were NOT generated. Playwright is not installed.');
+  console.warn('  The ' + count + ' HTML document(s) above were written and are current.');
+  console.warn('  Any .pdf in ' + outDir + ' is left over from an earlier build and is now STALE.');
+  console.warn('  To generate PDFs:  npm install  &&  npx playwright install chromium');
+  console.warn('  Then re-run this script.');
 }
 
 /* The four @font-face rules, lifted out of the shared stylesheet so the PDF
@@ -203,13 +213,29 @@ async function main() {
   }
 
   fs.mkdirSync(OUT, { recursive: true });
+
+  /* HTML first, and unconditionally. It renders live from the data file and
+     needs no browser, so it must not be held hostage to one. */
+  for (const doc of list) {
+    const htmlPath = path.join(OUT, doc.file + '.html');
+    fs.writeFileSync(htmlPath, shell(doc));
+    console.log(`  ${doc.file}  html ${String(fs.statSync(htmlPath).size).padStart(6)}`);
+  }
+
   const chromium = loadChromium();
+  if (!chromium) {
+    warnPdfsSkipped(OUT, list.length);
+    console.log(`
+Built ${list.length} HTML document(s) from korb-dosing-data.js v${K.meta.version} on ${BUILD_DATE}`);
+    console.log('FH&L is closed in ' + (K.states.unavailable || []).length + ' states: ' + (K.states.unavailable || []).join(', '));
+    console.log('HTML renders live from the data file. PDFs were not refreshed.');
+    return;
+  }
+
   const browser = await chromium.launch();
   const FONTS = fontFaceBlock();
 
   for (const doc of list) {
-    fs.writeFileSync(path.join(OUT, doc.file + '.html'), shell(doc));
-
     const page = await browser.newPage();
     const errs = [];
     page.on('pageerror', e => errs.push(e.message));
@@ -235,8 +261,7 @@ async function main() {
     });
     await page.close();
     const pdfBytes = fs.statSync(path.join(OUT, doc.file + '.pdf')).size;
-    const htmlBytes = fs.statSync(path.join(OUT, doc.file + '.html')).size;
-    console.log(`  ${doc.file}  html ${String(htmlBytes).padStart(6)}  pdf ${String(pdfBytes).padStart(7)}${errs.length ? '  ERRORS: ' + errs.join('|') : ''}`);
+    console.log(`  ${doc.file}  pdf ${String(pdfBytes).padStart(7)}${errs.length ? '  ERRORS: ' + errs.join('|') : ''}`);
   }
   await browser.close();
 
