@@ -63,10 +63,9 @@ patient-facing.
 **Out for provider feedback** — not yet either way.
 `Provider_Reference/KORB_BMI_Protein_Calculator.html` and its `_standalone` twin.
 
-**Retired, pending deletion.** `KORB_Injection_Tracker.html`, in the repo root.
-Never released, superseded, still present. Note that it is still listed as a live
-`korb-dosing-data.js` consumer under "How each page gets its data" — it will keep
-rebuilding and keep looking current until it is actually deleted.
+**Retired and deleted.** `KORB_Injection_Tracker.html` was deleted from the repo
+root on 2026-09-13. Never released, superseded, and it had sat in the tree looking
+exactly as finished as the live set. Do not put it back.
 
 Two live patient documents, the Welcome Letter and Schedule Your Lab Appointment,
 sit in the repo root rather than in `Patient_Education/` with the rest of the live
@@ -126,7 +125,6 @@ Three patterns. Know which one you are touching.
 | `KORB_Provider_Clinical_Reference.html` | `korb-dosing-data.js` |
 | `KORB_Functional_Health_Tracker.html` | `korb-dosing-data.js` |
 | `KORB_Patient_Treatment_Schedule.html` | `korb-dosing-data.js` |
-| `KORB_Injection_Tracker.html` | `korb-dosing-data.js` |
 | `Provider_Reference/KORB_FHL_*.html` (4) | `../korb-dosing-data.js` |
 
 **2. Generated-frozen** — data baked in at build time, stamped with a fingerprint.
