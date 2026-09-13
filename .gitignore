@@ -1,0 +1,28 @@
+# This repo is public and GitHub Pages serves it from main, root. Anything
+# ignored here is also anything that will never be published, so keep the list
+# narrow and never add a pattern that could swallow a real document. In
+# particular *.pdf and *.html are PUBLISHED ARTEFACTS and must stay tracked.
+
+# Node tooling. The two document builders need Playwright to render PDFs;
+# nothing npm unpacks belongs in the repo, least of all a browser binary.
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.npm/
+
+# package-lock.json is deliberately NOT ignored. It is what pins the toolchain
+# to the same version on the desktop and the laptop.
+
+# Playwright's own scratch output, if a future test run produces any.
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
+# Editor and OS litter.
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
