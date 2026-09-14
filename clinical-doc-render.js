@@ -113,6 +113,12 @@ function callout(c) {
    either names a decider inline or stays out of the document. This is what
    "inline" looks like. */
 function decider(d) {
+  /* Provider-facing documents carry no open questions. An unresolved item is
+     internal working state: it belongs in the data file and in Don's queue, not
+     in front of a prescriber who needs a clean instruction. Retained as a
+     no-op so `decider` data can stay in korb-addons-data.js unrendered. */
+  return '';
+  /* eslint-disable no-unreachable */
   if (!d) return '';
   return '<div class="callout"><h3>Open, and who decides</h3>' +
     '<p>' + esc2(d.question) + '</p>' +
@@ -146,9 +152,6 @@ function sectionPharmacyTable(sec) {
   var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
   h += '<table class="grid"><thead><tr><th>Pharmacy</th><th>Footprint</th><th>Sources</th></tr></thead><tbody>' +
        pharmacyRows(order) + '</tbody></table>';
-  h += '<p class="fine">Footprints are read from korb-pharmacies.js v' +
-       esc2(PH && PH.meta ? PH.meta.version : '?') +
-       ' at render time. They are not restated in this document, so a pharmacy change reaches this page without an edit.</p>';
   h += '<div class="callout"><h3>Routing rule</h3><p>' + esc2(D.rules.routing) + '</p>' +
        '<p>' + esc2(D.rules.skinCareNote) + '</p></div>';
   return h + decider(sec.decider);
@@ -175,6 +178,9 @@ function sectionMatrix(sec) {
   return '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body) +
     '<table class="grid"><thead><tr><th>Add-on</th><th>Men</th><th>Women</th><th>Follow-up</th></tr></thead><tbody>' +
     rows + '</tbody></table>' +
+    '<p class="fine">Not every formulation is available to every patient. Availability ' +
+    'depends on the state the patient is in, the pharmacy, and what that pharmacy currently ' +
+    'compounds. Confirm in the Add-On provider tool before quoting a product to a patient.</p>' +
     '<div class="callout"><p>' + esc2(D.rules.ageNote) + '</p></div>' +
     decider(sec.decider);
 }
@@ -208,10 +214,11 @@ function tebraRows(p) {
     (t.days != null) ? ['Days supply', esc2(t.days)] : null,
     t.reasonForCompounding ? ['Reason for compounding', copyCell(t.reasonForCompounding)] : null,
     t.pharmacyNotes ? ['Pharmacy notes', copyCell(t.pharmacyNotes)] : null,
-    /* Kept visible but marked, so anyone holding an order placed before the
-       change can still reconcile what it was written against. */
-    p.retiredDropdownEntry ? ['Retired drop-down entry', '<span class="fine">' + esc2(p.retiredDropdownEntry) +
-      ' — no longer used. Superseded by the custom compound above.</span>'] : null
+    /* STANDING RULE: the retired Tebra drop-down entry is never rendered. These
+       blocks are copied and pasted into a prescription; a superseded entry beside
+       the live custom compound is clutter that invites the wrong pick. The field
+       stays in the data file as history. Do not re-add this row. */
+    null
   ]);
 }
 
@@ -234,12 +241,19 @@ function productSummary(list) {
       '<td>' + esc2(pharmName(p.pharmacy)) + '</td>' +
       '<td>' + esc2(sexLabel(p.sex)) + '</td>' +
       '<td>' + esc2(p.dosing) + '</td>' +
-      '<td>' + esc2(p.supply) + '</td>' +
-      '<td>' + esc2(p.price) + (p.chargeCode ? '<br><span class="fine">' + esc2(p.chargeCode) + '</span>'
-                                             : '<br><span class="fine">no code on record</span>') + '</td></tr>';
+      '<td>' + esc2(p.supply) + '</td></tr>';
   }).join('');
+  /* STANDING RULE: no price and no charge code in this document. It is a
+     clinical reference for prescribing, and billing changes on a different
+     clock than clinical content. A price rendered into a PDF is stale the day
+     Nick changes it, and a stale price in a provider document is the failure
+     this architecture exists to prevent. price and chargeCode stay in
+     korb-addons-data.js because build-embed.js feeds the provider tool from
+     them. Do not re-add these columns. */
   return '<table class="grid"><thead><tr><th>Product</th><th>Pharmacy</th><th>Who</th><th>Dosing</th>' +
-         '<th>Supply</th><th>Price</th></tr></thead><tbody>' + rows + '</tbody></table>';
+         '<th>Supply</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+         '<p class="fine">Pricing and charge codes are deliberately not in this document. ' +
+         'They are maintained in the Add-On provider tool, which is the single place they are kept current.</p>';
 }
 
 /* The prescribing block. Formulation, the Tebra fields and anything that
@@ -316,8 +330,7 @@ function sectionProducts(sec) {
   var pending = inGroup.filter(function (p) { return p.needsSignoff; }).length;
   if (pending) {
     h += '<p class="fine">' + pending + ' of ' + inGroup.length +
-         ' formulation strings in this section were promoted from the prior tool rather than re-derived from Tebra, and are awaiting sign-off from ' +
-         esc2(D.meta.signoff.clinical) + '.</p>';
+         ' formulation strings in this section were carried forward from the prior documentation and were approved when those programs launched. They will be reviewed as each program is re-evaluated.</p>';
   }
   return h + decider(sec.decider);
 }
@@ -377,22 +390,21 @@ function renderBody(data, pharmacies, doc) {
   if (dd.supersedes) {
     h += '<p class="fine"><strong>Supersedes.</strong> ' + esc2(dd.supersedes) + '</p>';
   }
-  if (dd.inheritedDecisions) {
-    h += '<div class="callout"><h3>Whose decision is whose</h3><p>' + esc2(dd.inheritedDecisions) + '</p></div>';
-  }
 
   (dd.sections || []).forEach(function (sec) { h += renderSection(sec); });
 
   h += '<div class="foot">' +
     '<div><h4>Questions and escalation</h4><ul>' +
     '<li>Pharmacy or shipping issues — Operations</li>' +
-    '<li>Charge codes and billing — Nick, VP Finance</li>' +
-    '<li>Clinical protocol questions — ' + esc2(D.meta.signoff.clinical) + '</li>' +
-    '<li>Corrections to this document — Clinical Operations</li></ul></div>' +
+    '<li>Charge codes and billing — Clinical Operations</li>' +
+    '<li>Clinical protocol questions — Clinical Operations</li>' +
+    '<li>Corrections to this document — Clinical Operations</li></ul>' +
+    '<p class="fine">Route everything through Clinical Operations. Do not contact the ' +
+    'clinical sign-off physician directly; Clinical Operations escalates when it needs to.</p></div>' +
     '<div><h4>Do not improvise</h4><ul>' +
     '<li>Do not alter quantity, refill or days supply</li>' +
     '<li>Do not paraphrase patient instructions</li>' +
-    '<li>Do not cross a sex-specific product</li>' +
+    '<li>Do not cross a gender-specific product</li>' +
     '<li>Do not quote pricing to a patient without confirming with Operations</li></ul></div>' +
     '</div>';
 

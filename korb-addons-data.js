@@ -38,15 +38,47 @@
      The document now renders from this file through clinical-doc-render.js and
      build-clinical-docs.js, both in the repo, so it can always be rebuilt.
 
-   VERSION: 1.1   CREATED: 2026-09-11   UPDATED: 2026-09-12
+   WHAT CHANGED IN 1.2  (2026-09-14, Don's review of the generated reference)
+     Clinical content DID change. Read this list before trusting a v1.1 copy.
+
+     STANDING RULES, applied to all 23 products and to be applied to every
+     product added after this:
+       - Strength, concentration, quantity and container size belong in
+         drugFormulation, the custom compound name the pharmacy fills from.
+         They are NOT repeated in tebra.pharmacyNotes. Notes carry bill-and-ship
+         plus the compounding reason, nothing else. 12 records cleaned.
+       - The retired Tebra drop-down entry is never rendered. Kept as data.
+       - No price and no charge code in the clinical reference. price and
+         chargeCode stay here because build-embed.js feeds the provider tool
+         from them; the document no longer shows them.
+
+     Clinical changes:
+       - PERFORM dosing corrected to ½ to 1 ODT, matching KORB Rise, and supply
+         restated as 20 ODTs / approx 20-40 encounters. It previously read as a
+         fixed single ODT, which understated the range the supply assumes.
+       - Four records had no sig, quantity, unit or pharmacy notes at all:
+         both PT-141 records and both Belmar NAD+ records. Sigs derived from the
+         existing approved `dosing` line. NAD+ FastSL quantity set to 20 tablets
+         (once daily Monday to Friday over 28 days), per Don 2026-09-14.
+       - Finasteride warning made absolute: not prescribed to women at KORB under
+         any circumstance, rather than qualified by childbearing potential.
+       - "sex-specific" reworded to "gender-specific"; "before sex" reworded to
+         "before intercourse" in PERFORM and KORB Rise.
+
+     STILL OPEN: reasonForCompounding is null on both PT-141 records. The
+     boilerplate used elsewhere ("no FDA-approved or commercially available
+     equivalent") would be FALSE — bremelanotide is FDA-approved as Vyleesi.
+     Do not fill it with the boilerplate. Needs the real rationale.
+
+   VERSION: 1.2   CREATED: 2026-09-11   UPDATED: 2026-09-14
    OWNER: Director of Clinical Operations
 */
 
 var KORB_ADDONS = {
   meta: {
-    version: "1.1",
+    version: "1.2",
     created: "2026-09-11",
-    updated: "2026-09-12",
+    updated: "2026-09-14",
     owner: "Director of Clinical Operations",
     sourceOfTruth: "Add-On Clinical Reference + KORB_Optimization_Products.html as at 2026-09-11",
     pharmacyLayer: "korb-pharmacies.js",
@@ -134,7 +166,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "28",
       "reasonForCompounding": "No FDA-approved NAD+",
-      "pharmacyNotes": "NAD+ 200mg/ml 5 ML vial (1000mg vial), bill to office/ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."
+      "pharmacyNotes": "Bill to office / ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -201,7 +233,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "28",
       "reasonForCompounding": "No FDA-approved NAD+",
-      "pharmacyNotes": "NAD+ 200mg/ml 5 ML vial (1000mg vial), bill to office/ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."
+      "pharmacyNotes": "Bill to office / ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -252,7 +284,7 @@ var KORB_ADDONS = {
     "formulation": "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% — 30 mL spray, 120 sprays",
     "dosing": "Apply 1 to 2 sprays to dry hair once daily, leave on at least 4 hours or overnight",
     "supply": "60 days at 2/day, up to 120 at 1/day",
-    "drugFormulation": "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% topical spray",
+    "drugFormulation": "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% topical spray, 30 mL (120 sprays)",
     "retiredDropdownEntry": "Hair Regrowth Treatment 2 % topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
@@ -263,7 +295,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "60",
       "reasonForCompounding": "Multi-active combination",
-      "pharmacyNotes": "Compound Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01%, Top Spray, qty 30ml (120 Sprays), Bill to office/Ship to patient, no equivalent commercial option"
+      "pharmacyNotes": "Bill to office / ship to patient. No equivalent commercial option."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -314,7 +346,7 @@ var KORB_ADDONS = {
     "formulation": "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% — 30 mL spray, 120 sprays",
     "dosing": "Apply 1 to 2 sprays to dry hair once daily, leave on at least 4 hours or overnight",
     "supply": "60 days at 2/day, up to 120 at 1/day",
-    "drugFormulation": "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% topical spray",
+    "drugFormulation": "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% topical spray, 30 mL (120 sprays)",
     "retiredDropdownEntry": "Hair Regrowth Treatment 5 % topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
@@ -325,7 +357,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "60",
       "reasonForCompounding": "Multi-active combination",
-      "pharmacyNotes": "Compound Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025%, Top Spray, qty 30ml (120 Sprays), Bill to office/Ship to patient, no equivalent commercial option"
+      "pharmacyNotes": "Bill to office / ship to patient. No equivalent commercial option."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -376,7 +408,7 @@ var KORB_ADDONS = {
     "formulation": "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% — 60 mL foam",
     "dosing": "Apply 1 to 2 pumps to dry hair once daily",
     "supply": "42 days at 2/day, up to 85 at 1/day",
-    "drugFormulation": "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% topical foam",
+    "drugFormulation": "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% topical foam, 60 mL bottle",
     "retiredDropdownEntry": "MinoxidiL 2% topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
@@ -387,7 +419,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "42",
       "reasonForCompounding": "Multi-active combination",
-      "pharmacyNotes": "Compound Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01%, Topical Foam, 60ml bottle, Bill to office/Ship to patient, no equivalent commercial option"
+      "pharmacyNotes": "Bill to office / ship to patient. No equivalent commercial option."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -438,7 +470,7 @@ var KORB_ADDONS = {
     "formulation": "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% — 60 mL foam",
     "dosing": "Apply 1 to 2 pumps to dry hair once daily",
     "supply": "42 days at 2/day, up to 85 at 1/day",
-    "drugFormulation": "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% topical foam",
+    "drugFormulation": "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% topical foam, 60 mL bottle",
     "retiredDropdownEntry": "minoxidiL 5% topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
@@ -449,7 +481,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "42",
       "reasonForCompounding": "Multi-active combination",
-      "pharmacyNotes": "Compound Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025%, Topical Foam, 60ml bottle, Bill to office/Ship to patient, no equivalent commercial option"
+      "pharmacyNotes": "Bill to office / ship to patient. No equivalent commercial option."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -480,7 +512,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "90",
       "reasonForCompounding": "Female arousal topical",
-      "pharmacyNotes": "KORB ELECTRIC compound Arginine Hydrochloride 6%, Sildenafil 2%, DHEA 1% TOPICAL, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"
+      "pharmacyNotes": "Bill to office / ship to patient. No FDA-approved or commercially available equivalent."
     },
     "nitrateContraindicated": true,
     "warn": null,
@@ -498,24 +530,24 @@ var KORB_ADDONS = {
     "price": "$99",
     "chargeCode": "INTRISE001",
     "formulation": "Sildenafil 88 mg / Tadalafil 22 mg rapid ODT",
-    "dosing": "One ODT 30 min before sex. Up to 36 hours.",
-    "supply": "20 ODTs",
+    "dosing": "½ to 1 ODT 30 min before intercourse, increase by ½ as needed. Up to 36 hours.",
+    "supply": "20 ODTs, approx. 20–40 encounters",
     "drugFormulation": "Sildenafil/Tadalafil 88/22mg rapid ODT",
     "retiredDropdownEntry": "Viagra 50 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
       "name": "FARMAKEIO – PERFORM Rapid ODT – 90-Day Supply",
-      "sig": "PERFORM Rapid ODT: Take one ODT 30 minutes before sex as needed for sex/erection",
+      "sig": "PERFORM Rapid ODT: Take ½ - 1 ODT 30 minutes before intercourse as needed",
       "quantity": "20",
       "unit": "tablet",
       "refill": "0",
       "days": "90",
       "reasonForCompounding": "ED combination therapy",
-      "pharmacyNotes": "PERFORM Rapid ODT compound Sildenafil 88 mg, Tadalafil 22 mg/ODT Tablet, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"
+      "pharmacyNotes": "Bill to office / ship to patient. No FDA-approved or commercially available equivalent."
     },
     "nitrateContraindicated": true,
     "warn": null,
-    "warnAmber": "The Add-On Clinical Reference gives no price or charge code for PERFORM. $99 / INTRISE001 is carried over from KORB Rise here and has not been confirmed. Check with Nick before quoting.",
+    "warnAmber": null,
     "note": "No L-Arginine in this formulation, so headache may be more noticeable than with KORB Rise. Advise emergency care for an erection lasting more than 4 hours.",
     "monitor": null
   },
@@ -542,7 +574,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "90",
       "reasonForCompounding": "Female arousal topical",
-      "pharmacyNotes": "KORB ELECTRIC compound Sildenafil 1.5%, Theophylline 3%, L-Arginine 6% TOPICAL, Bill to office/ship to patient, no FDA-approved or commercially available equivalent"
+      "pharmacyNotes": "Bill to office / ship to patient. No FDA-approved or commercially available equivalent."
     },
     "nitrateContraindicated": true,
     "warn": null,
@@ -560,20 +592,20 @@ var KORB_ADDONS = {
     "price": "$99",
     "chargeCode": "INTRISE001",
     "formulation": "Sildenafil 50 mg / Tadalafil 10 mg / L-Arginine 90 mg / Oxytocin 0.04 mg troche",
-    "dosing": "½ to 1 troche 30 min before sex, increase by ½ as needed. Up to 36 hours.",
+    "dosing": "½ to 1 troche 30 min before intercourse, increase by ½ as needed. Up to 36 hours.",
     "supply": "20 troches, approx. 20–40 encounters",
     "drugFormulation": "Sildenafil/Tadalafil/L-Arginine/Oxytocin 50/10/90/0.04mg troche",
     "retiredDropdownEntry": "Viagra 50 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
       "name": "PREMIER – KORB Rise Troche – 90-Day Supply",
-      "sig": "KORB RISE Take ½ - 1 troche as needed for sex/erection",
+      "sig": "KORB RISE Take ½ - 1 troche 30 minutes before intercourse as needed",
       "quantity": "20",
       "unit": "troche",
       "refill": "0",
       "days": "90",
       "reasonForCompounding": "ED combination therapy",
-      "pharmacyNotes": "KORB RISE compound Sildenafil 50mg/Tadalafil 10mg/L-Arginine 90mg/Oxytocin 0.04mg troches. Bill to office, ship to patient. No FDA-approved equivalent."
+      "pharmacyNotes": "Bill to office / ship to patient. No FDA-approved equivalent."
     },
     "nitrateContraindicated": true,
     "warn": null,
@@ -593,7 +625,7 @@ var KORB_ADDONS = {
     "formulation": "Estriol 0.3% / GHK-Cu 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5% — 30 mL",
     "dosing": "Apply 1 click (0.25 mL) once daily",
     "supply": "120 days",
-    "drugFormulation": "Estriol/GHK-Cu/HA/Niacinamide cream",
+    "drugFormulation": "Estriol 0.3% / GHK-Cu 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5% cream, 30 mL",
     "retiredDropdownEntry": "estradioL 0.25 mg/0.25 gram (0.1 %) transdermal gel packet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
@@ -604,7 +636,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "120",
       "reasonForCompounding": "Multi-active combination",
-      "pharmacyNotes": "Compound: Estriol 0.3% / GHK-CU 0.3% / Hyaluronic Acid 0.2% / Niacinamide 0.5%, QTY: 30ml, Bill office/Ship patient, no FDA-approved or commercially equivalent"
+      "pharmacyNotes": "Bill to office / ship to patient. No FDA-approved or commercially available equivalent."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -624,7 +656,7 @@ var KORB_ADDONS = {
     "formulation": "Estriol 0.3% — 30 mL",
     "dosing": "Apply 1 click (0.25 mL) once daily",
     "supply": "120 days",
-    "drugFormulation": "Estriol 0.3% topical cream",
+    "drugFormulation": "Estriol 0.3% topical cream, 30 mL",
     "retiredDropdownEntry": "estradioL 0.75 mg/0.75 gram (0.1%) transdermal gel packet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
@@ -635,7 +667,7 @@ var KORB_ADDONS = {
       "refill": "0",
       "days": "120",
       "reasonForCompounding": "Compounded strength",
-      "pharmacyNotes": "Compounded Estriol Cream 0.3%, QTY: 30ml, Bill to office/Ship to patient, no FDA-approved or commercially available equivalent"
+      "pharmacyNotes": "Bill to office / ship to patient. No FDA-approved or commercially available equivalent."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -692,13 +724,13 @@ var KORB_ADDONS = {
     "needsSignoff": true,
     "tebra": {
       "name": "BELMAR – PT-141 Nasal Spray – 28-Day Supply",
-      "sig": null,
-      "quantity": null,
-      "unit": null,
+      "sig": "One spray in each nostril 1 to 2 hours before intercourse as needed",
+      "quantity": "1",
+      "unit": "bottle",
       "refill": "0",
       "days": "28",
       "reasonForCompounding": null,
-      "pharmacyNotes": null
+      "pharmacyNotes": "Bill to office / ship to patient."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -724,13 +756,13 @@ var KORB_ADDONS = {
     "needsSignoff": true,
     "tebra": {
       "name": "PREMIER – PT-141 Injection – 28-Day Supply",
-      "sig": null,
-      "quantity": null,
-      "unit": null,
+      "sig": "Inject 1 to 2 mg subcutaneously about 2 hours before intercourse as needed",
+      "quantity": "1",
+      "unit": "vial",
       "refill": "0",
       "days": "28",
       "reasonForCompounding": null,
-      "pharmacyNotes": null
+      "pharmacyNotes": "Bill to office / ship to patient."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -755,13 +787,13 @@ var KORB_ADDONS = {
     "needsSignoff": true,
     "tebra": {
       "name": "BELMAR – NAD+ Nasal Spray – 28-Day Supply",
-      "sig": null,
-      "quantity": null,
-      "unit": null,
+      "sig": "Start 1 spray in each nostril once daily. May increase to 2 sprays in each nostril once daily.",
+      "quantity": "1",
+      "unit": "bottle",
       "refill": "0",
       "days": "28",
-      "reasonForCompounding": null,
-      "pharmacyNotes": null
+      "reasonForCompounding": "No FDA-approved NAD+",
+      "pharmacyNotes": "Bill to office / ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -786,13 +818,13 @@ var KORB_ADDONS = {
     "needsSignoff": true,
     "tebra": {
       "name": "BELMAR – NAD+ FastSL Sublingual – 28-Day Supply",
-      "sig": null,
-      "quantity": null,
-      "unit": null,
+      "sig": "Dissolve ½ to 1 tablet under the tongue each morning Monday to Friday. No dose at weekends.",
+      "quantity": "20",
+      "unit": "tablet",
       "refill": "0",
       "days": "28",
-      "reasonForCompounding": null,
-      "pharmacyNotes": null
+      "reasonForCompounding": "No FDA-approved NAD+",
+      "pharmacyNotes": "Bill to office / ship to patient. Compounded, no FDA-approved NAD+, individualized dosing."
     },
     "nitrateContraindicated": false,
     "warn": null,
@@ -858,7 +890,7 @@ var KORB_ADDONS = {
         heading: "How add-ons work",
         body: [
           "Add-ons are not standalone programs. They attach to whichever program the patient is already enrolled in: Weight Loss and Metabolic Health, Men's Health, Women's Health, or Functional Health and Longevity. A patient in any of those four can be offered any appropriate add-on.",
-          "Two products are sex-specific and must not be crossed. Finasteride is for men only. Spironolactone is the women's oral agent. The topical formulations also differ by sex and are not interchangeable. Use the Add-On Selector to confirm before prescribing."
+          "Two products are gender-specific and must not be crossed. Finasteride is for men only. Spironolactone is the women's oral agent. The topical formulations also differ by gender and are not interchangeable. Use the Add-On Selector to confirm before prescribing."
         ],
         render: "matrix"
       },
@@ -896,11 +928,11 @@ var KORB_ADDONS = {
         heading: "Hair loss",
         group: "hair",
         body: [
-          "Men and women, 18 and older. Oral and topical are priced separately. All oral products are $99 on AGEHairPLreg for 90 days. All topical foams and sprays are $149 on AGEHairFOreg, with the days supply varying by product and by how often the patient uses it."
+          "Men and women, 18 and older. Oral and topical are billed separately. Days supply varies by product and by how often the patient uses it. Pricing and charge codes are in the Add-On provider tool."
         ],
         render: "productDetail",
         callouts: [
-          { tone: "stop", heading: "Never prescribe finasteride to a woman", body: "It is teratogenic and contraindicated in women who are or may become pregnant. Women use spironolactone as the oral agent." },
+          { tone: "stop", heading: "Never prescribe finasteride to a woman", body: "Finasteride is not prescribed to women at KORB under any circumstance, regardless of childbearing potential. It is teratogenic. Women use spironolactone as the oral agent." },
           { tone: "warn", heading: "Do not label topicals as a 90-day supply", body: "Neither product lasts 90 days at twice-daily use, and the FarmaKeio spray exceeds 90 days at once-daily use. Enter the conservative figure in the Days field so the patient is never left short, and tell them the realistic range. Premier foam, 60 mL, one pump is 0.7 mL: 85 days at once daily, 42 at twice daily, Days field 42. FarmaKeio spray, 30 mL and 120 sprays: 120 days at once daily, 60 at twice daily, Days field 60." },
           { tone: "info", heading: "Counsel on timeline up front", body: "Both oral agents take 3 to 6 months to show results. Patients who are not told this discontinue early and conclude the product failed. Spironolactone is also used for acne, hirsutism and PCOS, which may be relevant for Women's Health patients." }
         ]
