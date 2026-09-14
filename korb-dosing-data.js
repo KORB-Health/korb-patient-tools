@@ -89,13 +89,14 @@ var TESA_MONITOR = [
 var KORB_DOSING = {
 
   meta: {
-    version: '2.8',
+    version: '2.9',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-09-14 (v2.9): CLINICAL CONTENT CHANGED - GREENWICH BPC-157 FAVORITE NAME CORRECTED. The Greenwich entry was named "0.6 MG", which is 600 mcg. The dose is 500 mcg and always was: agents.bpc157.dose already read "500 mcg" and Premier already named it "500 mcg", so the Greenwich favorite name was the only place stating 600. Confirmed by Don 2026-09-14: BPC-157 is 500 mcg only. Two strings changed, the label and the Name field. Nothing else in the Greenwich record encoded 600 - Patient Instructions is the standard Greenwich "as directed by provider" line and quantity 10 ml is the vial size, both unchanged, as is the Drug Formulation string "KBH   BPC-157 3mg/mL" with its three spaces. This closes the last disagreement found by the cross-pharmacy dose audit: all twelve agents now state the same dose in both pharmacy names.',
       '2026-09-14 (v2.8): CLINICAL CONTENT CHANGED - GREENWICH SERMORELIN FAVORITE NAMES CORRECTED. The four Greenwich sermorelin entries named the dose as 3x its real value in milligrams: 200 mcg was written "0.6 mg", 300 mcg "0.9 mg", 400 mcg "1.2 mg" and 500 mcg "1.5 mg". That is the Greenwich concentration ratio, 3 mg/mL against Premier 1 mg/mL, applied to the dose. Concentration changes the VOLUME injected, not the dose: 300 mcg is 300 mcg from either vial. Corrected to match Premier and to match CJC-1295/Ipamorelin, which already uses one dose wording across both pharmacies. Eight strings changed - the label and the Name field on each of the four strengths. Confirmed by Don 2026-09-14. Nothing else was touched: the Greenwich Drug Formulation strings, which must match the Greenwich system exactly, are byte-identical, as are quantity, unit, refill, days supply and all instructions. STILL OPEN: BPC-157 reads "500 mcg" at Premier and "0.6 MG" at Greenwich, which is neither the same number nor the same 3x pattern. Not changed here - it needs Don.',
     '2026-09-06 (v2.7): THE FOUNDATION TITRATION IS NOW REACHABLE. v2.6 added ' +
     'programs.foundation.primaryDoseOptions - sermorelin 200/300/400, CJC ' +
@@ -505,10 +506,10 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – BPC-157 0.6 MG SQ Inj',
+      label: 'GREENWICH – BPC-157 500 mcg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   BPC-157 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – BPC-157 0.6 MG SQ Inj', copy: true },
+        { field: 'Name', val: 'GREENWICH – BPC-157 500 mcg SQ Inj', copy: true },
         { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
         { field: 'Quantity', val: '10', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
