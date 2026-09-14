@@ -495,6 +495,22 @@ women's testosterone. Do not re-report those; they are already on the list.
    records. The boilerplate used elsewhere ("no FDA-approved or commercially
    available equivalent") would be FALSE, because bremelanotide is FDA-approved as
    Vyleesi. Do not fill it with the boilerplate. Needs the real rationale from Don.
+11. **Scheduler intake — Men's Health and Women's Health question sets.**
+   `KORB_Scheduler_Intake_AllPrograms.html` now carries Weight Loss and Functional
+   Health & Longevity. The other two programs select at step 3 and then bring no
+   questions. Build them the way FH&L was built: read the approved Tebra
+   questionnaire first, restate it as conditional logic, change nothing clinical.
+   **`KORB_Scheduler_Intake_Prototype.html` stays frozen** until Lindsay has
+   reviewed it. She has that exact URL. New work goes in AllPrograms.
+   Two things in AllPrograms need Don before it goes to anyone: the telemedicine
+   and peptide **consent text is draft** and marked as draft in the file, and the
+   FH&L decline copy is new wording about the $99.
+   House idiom, learned the hard way on 2026-09-14: questions are tappable `.opt`
+   cards carrying a radio or a checkbox, and a `<select>` appears only as a
+   follow-up inside a revealed `.subq`. A first build asked everything as a bare
+   dropdown, passed every logic test, and looked nothing like the rest of the form
+   because it was never rendered. Open the pages in Chromium and look before
+   reporting done.
 
 ---
 
