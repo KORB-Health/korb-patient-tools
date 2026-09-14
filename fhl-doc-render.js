@@ -589,9 +589,12 @@ function sectionLabs() {
     return '<tr><td>' + esc(l.name) + '</td><td class="code">' + esc(l.code) + '</td>' +
            '<td>' + esc(l.name) + '</td><td class="code">' + esc(l.code) + '</td></tr>';
   }).join('') +
-    '<tr class="addrow"><td class="na">—</td><td class="na"></td>' +
-    '<td><strong>' + esc(psa.name) + '</strong></td>' +
-    '<td class="code"><strong>' + esc(psa.code) + '</strong></td></tr>';
+    /* The extra row exists only on the right. The two cells on the left are
+       left genuinely empty rather than filled with a dash: a dash reads as a
+       value, and there is no test there to name. */
+    '<tr class="addrow"><td class="na"></td><td class="na"></td>' +
+    '<td class="addcell">' + esc(psa.name) + '</td>' +
+    '<td class="code addcell">' + esc(psa.code) + '</td></tr>';
 
   return '<div class="labsec"><h3>Lab protocol</h3>' +
     '<p class="fine">Baseline before medication start, then every 16 weeks. Order in Tebra via the Quest integration with a ' +

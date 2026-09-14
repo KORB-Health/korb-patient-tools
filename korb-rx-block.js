@@ -335,12 +335,25 @@
       /* Lab panel: two complete orders side by side, kept on one page. */
       '.labsec,.pricesec{break-inside:avoid;page-break-inside:avoid;}' +
       /* One table, two column groups. Flex was tried and abandoned: unbreakable
-         flex children paginate onto separate pages. A table does not. */
-      '.labtbl th.grp-a{background:#21275B;color:#fff;text-align:center;}' +
-      '.labtbl th.grp-b{background:#0F5F69;color:#fff;text-align:center;}' +
-      '.labtbl td.na{color:#AAB0C0;}' +
-      /* The row that is the whole reason for two columns. */
-      '.grid tr.addrow td{background:#FFF4E0;box-shadow:inset 3px 0 0 #FBB040;}' +
+         flex children paginate onto separate pages. A table does not.
+
+         Both group headers are navy. They were navy and teal, which implied the
+         two orders differ in kind when they differ by exactly one row. The two
+         groups are separated by a rule instead, which says "these are two
+         columns" without saying "these are two different things". */
+      '.labtbl th.grp-a,.labtbl th.grp-b{background:#21275B;color:#fff;' +
+        'text-align:center;letter-spacing:.03em;}' +
+      /* The divider between the two orders, carried down every row. */
+      '.labtbl th.grp-b,.labtbl thead tr+tr th:nth-child(3),' +
+        '.labtbl tbody td:nth-child(3){border-left:2px solid #B9C0D4;}' +
+      /* The extra row. The accent belongs to the two cells that carry the extra
+         test and to nothing else - applying it to the whole row put a gold bar
+         against the two empty cells on the left, which read as a stray mark on
+         a column that has no extra test at all. */
+      '.labtbl tr.addrow td.addcell{background:#FFF8EC;font-weight:700;' +
+        'color:#21275B;box-shadow:inset 0 2px 0 #FBB040;}' +
+      '.labtbl tr.addrow td.na{background:#FBFBFD;}' +
+      '.labtbl tbody tr:last-child td{border-bottom:0;}' +
       '.grid td.code{font-variant-numeric:tabular-nums;white-space:nowrap;}' +
       '.pricetbl td.amt{font-weight:700;white-space:nowrap;}' +
       '.pricetbl td.amt .per{font-weight:400;font-size:10px;color:#5A6079;}' +
