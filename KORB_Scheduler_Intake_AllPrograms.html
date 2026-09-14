@@ -1029,736 +1029,599 @@
 
         <!-- ============================================================
              12-17 · FUNCTIONAL HEALTH AND LONGEVITY
-             Every question below is from the Tebra New Consultation Peptide
-             Questionnaire dated 29 June 2026, confirmed final by Don Stevenson
-             on 14 September 2026. Nothing clinical has been added.
 
-             Verdict wiring:
-               select.fq  + option[data-v=stop|rev]   single-select questions
-               input.fabs + data-f                    Part B, absolute, stops
-               input.frel + data-f                    Part C and other review flags
+             Same idiom as the weight loss pages, deliberately. Every question is
+             a tappable .opt card carrying a radio or a checkbox. A <select> only
+             ever appears as a follow-up inside a revealed .subq, never as the
+             question itself. .opt.stop marks an absolute, .opt.review a relative.
+
+             Questions are from the Tebra New Consultation Peptide Questionnaire
+             dated 29 June 2026, confirmed final by Don on 14 September 2026.
+             Nothing clinical has been added.
+
+             Wiring: input.fabs stops, input.frel flags, select.fstatus[data-box]
+             is a follow-up that can escalate its parent via option[data-stop].
+             .subq[data-for] reveals are handled by the generic code in render().
              ============================================================ -->
 
         <fieldset class="page hidden" id="p12">
           <h3 class="pagetitle">Height and weight</h3>
-          <p class="pagesub">Part 1 of 6. For your chart. There is no weight requirement for this program and no BMI is calculated.</p>
-          <div class="gate">
-            <fieldset class="q">
-              <legend>Your height <span class="req">*</span></legend>
-              <div class="opts grid2">
-                <label class="fieldlab">Feet<input type="number" id="fh-ft" min="3" max="8" placeholder="5"></label>
-                <label class="fieldlab">Inches<input type="number" id="fh-in" min="0" max="11" placeholder="10"></label>
-              </div>
-            </fieldset>
-            <fieldset class="q">
-              <legend>Your current weight <span class="req">*</span></legend>
-              <label class="fieldlab">Pounds<input type="number" id="fh-wt" min="50" max="800" placeholder="180"></label>
-            </fieldset>
+          <p class="pagesub">Part 1 of 6. For your chart. There is no weight requirement for this program.</p>
+
+          <div class="row3">
+            <div><label class="fieldlab" for="fh-ft">Height (feet)</label><input type="number" id="fh-ft" min="3" max="7" placeholder="5"></div>
+            <div><label class="fieldlab" for="fh-in">Inches</label><input type="number" id="fh-in" min="0" max="11" placeholder="10"></div>
+            <div><label class="fieldlab" for="fh-wt">Weight (lbs)</label><input type="number" id="fh-wt" min="80" max="700" placeholder="180"></div>
           </div>
+          <p class="helper">No BMI is calculated for this program, and there is no weight threshold. This is for your chart.</p>
         </fieldset>
 
         <fieldset class="page hidden" id="p13">
           <h3 class="pagetitle">What brings you here</h3>
-          <p class="pagesub">Part 2 of 6. Your goals and your current routine. Your provider starts one peptide based on your main goal, so these answers decide a great deal.</p>
-          <div class="gate">
+          <p class="pagesub">Part 2 of 6. Your provider starts one peptide chosen from your main goal, so these answers shape your plan.</p>
 
-            <fieldset class="q">
-              <legend>What are your primary reasons for seeking peptide therapy today? <span class="req">*</span></legend>
-              <div class="opts">
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-rec"><span>Recovery from injury, surgery, or chronic pain</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-soft"><span>Soft tissue, tendon, or joint support</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-fat"><span>Body composition, reducing body fat or visceral fat</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-lean"><span>Lean muscle preservation or body recomposition</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-energy"><span>Energy, vitality, or performance optimization</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-aging"><span>Healthy aging, longevity, cellular wellness</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-immune"><span>Immune wellness support</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-sleep"><span>Sleep quality and recovery</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-gh"><span>Hormonal optimization or growth hormone axis support</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-metab"><span>General metabolic health</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal" id="fr-combo"><span>A combination of the above</span></label>
-                <label class="opt"><input type="checkbox" class="fgoal frel" id="fr-unsure" data-f="Primary goal not yet decided, wants to discuss"><span><b>I am not sure, I would like to discuss it with the provider</b></span></label>
-              </div>
-              <p class="helper">Pick everything that applies. Your provider starts with one agent chosen from your main goal, so this is the question that shapes your plan.</p>
-            </fieldset>
+          <fieldset class="q">
+            <legend>What are you hoping peptide therapy will do for you? Check all that apply. <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-rec"><span>Recover from an injury, surgery, or chronic pain</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-soft"><span>Support soft tissue, tendons, or joints</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-fat"><span>Reduce body fat, particularly around the middle</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-lean"><span>Hold on to muscle, or change my body composition</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-energy"><span>Have more energy, or perform better</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-aging"><span>Healthy aging and longevity</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-immune"><span>Support my immune system</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-sleep"><span>Sleep better and recover better</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-gh"><span>Hormone or growth hormone support</span></label>
+              <label class="opt"><input type="checkbox" class="fgoal" id="fr-metab"><span>General metabolic health</span></label>
+              <label class="opt review"><input type="checkbox" class="fgoal frel" id="fr-unsure" data-f="Primary goal not yet decided, wants to discuss"><span>I am not sure yet. I would like to talk it through</span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>How long have you been dealing with your primary concern? <span class="req">*</span></legend>
-              <select class="fq" id="fq-dur" data-f="Duration of primary concern">
-                <option value="">Select one</option>
-                <option value="lt1">Less than 1 month</option>
-                <option value="1to3">1 to 3 months</option>
-                <option value="3to6">3 to 6 months</option>
-                <option value="6to12">6 to 12 months</option>
-                <option value="gt12">More than 1 year</option>
-                <option value="ongoing">This is a long-term or ongoing goal, not a new problem</option>
-              </select>
-            </fieldset>
+          <fieldset class="q">
+            <legend>How long has this been going on? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fdur" id="fd-1" value="Less than 1 month"><span>Less than 1 month</span></label>
+              <label class="opt"><input type="radio" name="fdur" id="fd-2" value="1 to 3 months"><span>1 to 3 months</span></label>
+              <label class="opt"><input type="radio" name="fdur" id="fd-3" value="3 to 6 months"><span>3 to 6 months</span></label>
+              <label class="opt"><input type="radio" name="fdur" id="fd-4" value="6 to 12 months"><span>6 to 12 months</span></label>
+              <label class="opt"><input type="radio" name="fdur" id="fd-5" value="More than a year"><span>More than a year</span></label>
+              <label class="opt"><input type="radio" name="fdur" id="fd-6" value="Long-term goal, not a new problem"><span>This is a long-term goal, not a new problem</span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>What have you already tried for this concern? <span class="req">*</span></legend>
-              <div class="opts">
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-none"><span>Nothing yet, this is my first step</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-diet"><span>Diet and nutrition changes</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-ex"><span>Exercise or a structured training program</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-pt"><span>Physical therapy or rehabilitation</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-chiro"><span>Chiropractic or massage therapy</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-otc"><span>Over-the-counter supplements or vitamins</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-rx"><span>Prescription medications</span></label>
-                <label class="opt"><input type="checkbox" class="ftried frel" id="ft-pep" data-f="Prior peptide therapy"><span>Prior peptide therapy</span></label>
-                <label class="opt"><input type="checkbox" class="ftried frel" id="ft-cpep" data-f="Compounded peptides obtained from another source"><span>Compounded peptides from another source</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-hrt"><span>Prior hormone therapy, such as testosterone or HRT</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-glp"><span>A GLP-1 medication, such as Ozempic, Wegovy, semaglutide or tirzepatide</span></label>
-                <label class="opt"><input type="checkbox" class="ftried" id="ft-other"><span>Something else, I will describe it at my visit</span></label>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>What have you already tried? Check all that apply. <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-none"><span>Nothing yet. This is my first step</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-diet"><span>Diet and nutrition changes</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-ex"><span>Exercise or a training program</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-pt"><span>Physical therapy or rehab</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-chiro"><span>Chiropractic or massage</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-otc"><span>Supplements or vitamins from a shop</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-rx"><span>Prescription medication</span></label>
+              <label class="opt review"><input type="checkbox" class="ftried frel" id="ft-pep" data-f="Prior peptide therapy"><span>Peptide therapy before</span></label>
+              <label class="opt review"><input type="checkbox" class="ftried frel" id="ft-cpep" data-f="Compounded peptides obtained from another source"><span>Compounded peptides from somewhere other than KORB</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-hrt"><span>Hormone therapy, such as testosterone or HRT</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-glp"><span>A GLP-1, such as Ozempic, Wegovy or Mounjaro</span></label>
+              <label class="opt"><input type="checkbox" class="ftried" id="ft-other"><span>Something else, I will describe it at my visit</span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>How much is this concern affecting your daily life or performance? <span class="req">*</span></legend>
-              <select class="fq" id="fq-impact" data-f="Impact on daily life">
-                <option value="">Select one</option>
-                <option value="none">Not at all, I function normally and this is a minor concern</option>
-                <option value="mild">Mildly, I notice it but it does not limit me</option>
-                <option value="mod">Moderately, it affects me regularly but I manage</option>
-                <option value="sig">Significantly, it limits my daily activity or performance</option>
-                <option value="sev">Severely, it is a major daily limitation</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>How many grams of protein do you eat per day on average? <span class="req">*</span></legend>
-              <select class="fq" id="fq-protein" data-f="Daily protein">
-                <option value="">Select one</option>
-                <option value="lt50">Less than 50g</option>
-                <option value="50to100">50 to 100g</option>
-                <option value="100to150">100 to 150g</option>
-                <option value="150to200">150 to 200g</option>
-                <option value="gt200">More than 200g</option>
-                <option value="untracked">I do not track my protein intake</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>How would you rate your overall nutrition quality? <span class="req">*</span></legend>
-              <select class="fq" id="fq-nutrition" data-f="Nutrition quality">
-                <option value="">Select one</option>
-                <option value="poor">Poor, mostly processed foods and irregular meals</option>
-                <option value="fair">Fair, some healthy choices but inconsistent</option>
-                <option value="mostly">Mostly healthy, balanced most days</option>
-                <option value="very">Very healthy, whole foods and consistent habits</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Do you do resistance training, meaning weight or strength training? <span class="req">*</span></legend>
-              <select class="fq" id="fq-resist" data-f="Resistance training">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>How many days per week do you exercise, any type? <span class="req">*</span></legend>
-              <select class="fq" id="fq-exdays" data-f="Exercise days per week">
-                <option value="">Select one</option>
-                <option value="0">0 days, sedentary</option>
-                <option value="1to2">1 to 2 days per week</option>
-                <option value="3to4">3 to 4 days per week</option>
-                <option value="5to6">5 to 6 days per week</option>
-                <option value="daily">Every day</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>How would you describe your overall physical activity level? <span class="req">*</span></legend>
-              <select class="fq" id="fq-activity" data-f="Activity level">
-                <option value="">Select one</option>
-                <option value="sed">Sedentary, mostly seated with minimal movement</option>
-                <option value="light">Lightly active, daily movement but little structured exercise</option>
-                <option value="mod">Moderately active, structured exercise 3 to 4 times a week</option>
-                <option value="very">Very active, vigorous exercise most days or a physically demanding job</option>
-                <option value="athlete">Athlete, competitive or structured training program</option>
-              </select>
-              <p class="helper hidden" id="athleteHint">You told us you train competitively. There is a question later about drug testing that matters for you, because these therapies are prohibited in tested sport.</p>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>How many hours of sleep do you get on average per night? <span class="req">*</span></legend>
-              <select class="fq" id="fq-sleephrs" data-f="Sleep hours">
-                <option value="">Select one</option>
-                <option value="lt5">Less than 5 hours</option>
-                <option value="5to6">5 to 6 hours</option>
-                <option value="6to7">6 to 7 hours</option>
-                <option value="7to8">7 to 8 hours</option>
-                <option value="gt8">More than 8 hours</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>How would you rate your sleep quality? <span class="req">*</span></legend>
-              <select class="fq" id="fq-sleepq" data-f="Sleep quality">
-                <option value="">Select one</option>
-                <option value="poor">Poor, frequently disrupted and unrefreshing</option>
-                <option value="fair">Fair, occasionally poor and not consistent</option>
-                <option value="good">Good, usually restful</option>
-                <option value="exc">Excellent, consistently restful and restorative</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>How would you rate your day-to-day stress level? <span class="req">*</span></legend>
-              <select class="fq" id="fq-stress" data-f="Stress level">
-                <option value="">Select one</option>
-                <option value="low">Low, I feel generally calm and in control</option>
-                <option value="mild">Mild, occasional stress but I manage well</option>
-                <option value="mod">Moderate, stress is present and noticeable most days</option>
-                <option value="high">High, stress frequently affects my mood, sleep or function</option>
-                <option value="vhigh">Very high, I feel overwhelmed most or all of the time</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>How often do you drink alcohol? <span class="req">*</span></legend>
-              <select class="fq" id="fq-alcohol" data-f="Alcohol">
-                <option value="">Select one</option>
-                <option value="never">Never</option>
-                <option value="rare">Rarely, a few times per month</option>
-                <option value="light">Light, 1 to 3 drinks per week</option>
-                <option value="mod">Moderate, 4 to 7 drinks per week</option>
-                <option value="heavy">Heavy, more than 7 drinks per week</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Do you currently use tobacco products? <span class="req">*</span></legend>
-              <select class="fq" id="fq-tobacco" data-f="Tobacco">
-                <option value="">Select one</option>
-                <option value="never">Never used</option>
-                <option value="former">Former user, I quit</option>
-                <option value="occ">Currently, occasionally</option>
-                <option value="daily">Currently, daily</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Are you currently working with a coach, personal trainer, physical therapist or dietitian? <span class="req">*</span></legend>
-              <select class="fq" id="fq-coach" data-f="Working with a coach or therapist">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </fieldset>
-
-          </div>
+          <fieldset class="q">
+            <legend>How much is this affecting your day to day? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fimpact" id="fi-1" value="Not at all"><span>Not at all. It is a minor thing</span></label>
+              <label class="opt"><input type="radio" name="fimpact" id="fi-2" value="Mildly"><span>Mildly. I notice it but it does not limit me</span></label>
+              <label class="opt"><input type="radio" name="fimpact" id="fi-3" value="Moderately"><span>Moderately. It affects me regularly but I manage</span></label>
+              <label class="opt"><input type="radio" name="fimpact" id="fi-4" value="Significantly"><span>Significantly. It limits what I can do</span></label>
+              <label class="opt"><input type="radio" name="fimpact" id="fi-5" value="Severely"><span>Severely. It is a major daily limitation</span></label>
+            </div>
+          </fieldset>
         </fieldset>
 
         <fieldset class="page hidden" id="p14">
-          <h3 class="pagetitle">Your medical history</h3>
-          <p class="pagesub">Part 3 of 6. Please answer honestly. Most of these do not stop you joining the program, they tell your provider what to talk to you about.</p>
+          <h3 class="pagetitle">Your routine</h3>
+          <p class="pagesub">Part 3 of 6. These therapies support nutrition, training and sleep rather than replacing them, so your provider needs to know where you are starting from.</p>
+
+          <fieldset class="q">
+            <legend>Roughly how much protein do you eat a day? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fprot" id="fp-1" value="Less than 50g"><span>Less than 50g</span></label>
+              <label class="opt"><input type="radio" name="fprot" id="fp-2" value="50 to 100g"><span>50 to 100g</span></label>
+              <label class="opt"><input type="radio" name="fprot" id="fp-3" value="100 to 150g"><span>100 to 150g</span></label>
+              <label class="opt"><input type="radio" name="fprot" id="fp-4" value="150 to 200g"><span>150 to 200g</span></label>
+              <label class="opt"><input type="radio" name="fprot" id="fp-5" value="More than 200g"><span>More than 200g</span></label>
+              <label class="opt"><input type="radio" name="fprot" id="fp-6" value="Does not track protein"><span>I do not track it</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>How would you describe the way you eat overall? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fnutr" id="fn-1" value="Poor"><span>Mostly processed food, meals at odd times</span></label>
+              <label class="opt"><input type="radio" name="fnutr" id="fn-2" value="Fair"><span>Some good choices, but inconsistent</span></label>
+              <label class="opt"><input type="radio" name="fnutr" id="fn-3" value="Mostly healthy"><span>Balanced most days</span></label>
+              <label class="opt"><input type="radio" name="fnutr" id="fn-4" value="Very healthy"><span>Whole foods, consistent habits</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Do you do any resistance training, meaning weights or strength work? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fresist" id="fres-y" value="Yes"><span>Yes</span></label>
+              <label class="opt"><input type="radio" name="fresist" id="fres-n" value="No"><span>No</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>How many days a week do you exercise, of any kind? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fexd" id="fe-0" value="0 days"><span>None</span></label>
+              <label class="opt"><input type="radio" name="fexd" id="fe-1" value="1 to 2 days"><span>1 to 2 days</span></label>
+              <label class="opt"><input type="radio" name="fexd" id="fe-2" value="3 to 4 days"><span>3 to 4 days</span></label>
+              <label class="opt"><input type="radio" name="fexd" id="fe-3" value="5 to 6 days"><span>5 to 6 days</span></label>
+              <label class="opt"><input type="radio" name="fexd" id="fe-4" value="Every day"><span>Every day</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Which of these sounds most like you? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fact" id="fac-1" value="Sedentary"><span>Mostly seated, not much movement</span></label>
+              <label class="opt"><input type="radio" name="fact" id="fac-2" value="Lightly active"><span>On my feet daily, but little structured exercise</span></label>
+              <label class="opt"><input type="radio" name="fact" id="fac-3" value="Moderately active"><span>Structured exercise three or four times a week</span></label>
+              <label class="opt"><input type="radio" name="fact" id="fac-4" value="Very active"><span>Hard exercise most days, or a physical job</span></label>
+              <label class="opt"><input type="radio" name="fact" id="fac-5" value="Athlete"><span>I train or compete as an athlete</span></label>
+            </div>
+            <p class="helper hidden" id="athleteHint">We will ask about drug testing in the next section. It matters, because these therapies are banned in tested sport.</p>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>How much sleep do you usually get? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fslh" id="fsh-1" value="Less than 5 hours"><span>Less than 5 hours</span></label>
+              <label class="opt"><input type="radio" name="fslh" id="fsh-2" value="5 to 6 hours"><span>5 to 6 hours</span></label>
+              <label class="opt"><input type="radio" name="fslh" id="fsh-3" value="6 to 7 hours"><span>6 to 7 hours</span></label>
+              <label class="opt"><input type="radio" name="fslh" id="fsh-4" value="7 to 8 hours"><span>7 to 8 hours</span></label>
+              <label class="opt"><input type="radio" name="fslh" id="fsh-5" value="More than 8 hours"><span>More than 8 hours</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>How well do you sleep? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fslq" id="fsq-1" value="Poor"><span>Badly. Broken, and I wake up tired</span></label>
+              <label class="opt"><input type="radio" name="fslq" id="fsq-2" value="Fair"><span>Up and down</span></label>
+              <label class="opt"><input type="radio" name="fslq" id="fsq-3" value="Good"><span>Usually restful</span></label>
+              <label class="opt"><input type="radio" name="fslq" id="fsq-4" value="Excellent"><span>Consistently good</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>How would you rate your stress at the moment? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fstr" id="fst-1" value="Low"><span>Low. Generally calm</span></label>
+              <label class="opt"><input type="radio" name="fstr" id="fst-2" value="Mild"><span>Mild. Occasional, and I manage it</span></label>
+              <label class="opt"><input type="radio" name="fstr" id="fst-3" value="Moderate"><span>Noticeable most days</span></label>
+              <label class="opt"><input type="radio" name="fstr" id="fst-4" value="High"><span>High. It affects my mood or sleep</span></label>
+              <label class="opt"><input type="radio" name="fstr" id="fst-5" value="Very high"><span>I feel overwhelmed most of the time</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>How often do you drink alcohol? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="falc" id="fal-1" value="Never"><span>Never</span></label>
+              <label class="opt"><input type="radio" name="falc" id="fal-2" value="Rarely"><span>A few times a month</span></label>
+              <label class="opt"><input type="radio" name="falc" id="fal-3" value="Light, 1 to 3 per week"><span>1 to 3 drinks a week</span></label>
+              <label class="opt"><input type="radio" name="falc" id="fal-4" value="Moderate, 4 to 7 per week"><span>4 to 7 drinks a week</span></label>
+              <label class="opt"><input type="radio" name="falc" id="fal-5" value="Heavy, more than 7 per week"><span>More than 7 drinks a week</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Do you use tobacco? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="ftob" id="fto-1" value="Never used"><span>Never have</span></label>
+              <label class="opt"><input type="radio" name="ftob" id="fto-2" value="Former user"><span>I used to, and I quit</span></label>
+              <label class="opt"><input type="radio" name="ftob" id="fto-3" value="Current, occasional"><span>Occasionally</span></label>
+              <label class="opt"><input type="radio" name="ftob" id="fto-4" value="Current, daily"><span>Daily</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Are you working with a coach, trainer, physio or dietitian? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fcoach" id="fco-y" value="Yes"><span>Yes</span></label>
+              <label class="opt"><input type="radio" name="fcoach" id="fco-n" value="No"><span>No</span></label>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="page hidden" id="p15">
+          <h3 class="pagetitle">Safety screen</h3>
+          <p class="pagesub">Part 4 of 6. Please answer honestly. Most of these do not mean we cannot help you, they mean we need to talk first.</p>
           <div class="gate">
 
             <fieldset class="q">
-              <legend>Please select all medical conditions you have been diagnosed with by a healthcare provider <span class="req">*</span></legend>
+              <legend>Have you been diagnosed with any of these? Check all that apply.</legend>
               <div class="opts">
                 <label class="opt"><input type="checkbox" class="fpa" id="fa-mi"><span>Heart attack or stroke</span></label>
                 <label class="opt"><input type="checkbox" class="fpa" id="fa-htn"><span>High blood pressure</span></label>
                 <label class="opt"><input type="checkbox" class="fpa" id="fa-chol"><span>High cholesterol</span></label>
-                <label class="opt"><input type="checkbox" class="fpa" id="fa-auto"><span>Autoimmune disease</span></label>
+                <label class="opt"><input type="checkbox" class="fpa" id="fa-auto"><span>An autoimmune disease</span></label>
                 <label class="opt"><input type="checkbox" class="fpa" id="fa-ckd"><span>Chronic kidney disease</span></label>
                 <label class="opt"><input type="checkbox" class="fpa" id="fa-mood"><span>Depression or anxiety</span></label>
-                <label class="opt"><input type="checkbox" class="fpa" id="fa-pain"><span>Chronic pain condition</span></label>
-                <label class="opt"><input type="checkbox" class="fpa" id="fa-bleed"><span>Bleeding disorder, or I take a blood thinner</span></label>
-                <label class="opt"><input type="checkbox" class="fpa frel" id="fa-mass" data-f="Unexplained mass, lesion or systemic symptoms"><span>An unexplained lump, lesion, or symptoms affecting your whole body</span></label>
-                <label class="opt"><input type="checkbox" class="fpa frel" id="fa-infect" data-f="Active infection, open wound or abscess"><span>An active infection, open wound, or abscess</span></label>
-                <label class="opt"><input type="checkbox" class="fpa frel" id="fa-immuno" data-f="Currently taking immunosuppressant medication"><span>I currently take immunosuppressant medication</span></label>
-                <label class="opt"><input type="checkbox" id="fa-none"><span><b>None of the above</b></span></label>
+                <label class="opt"><input type="checkbox" class="fpa" id="fa-pain"><span>A chronic pain condition</span></label>
+                <label class="opt"><input type="checkbox" class="fpa" id="fa-bleed"><span>A bleeding disorder, or I take a blood thinner</span></label>
+                <label class="opt review"><input type="checkbox" class="fpa frel" id="fa-mass" data-f="Unexplained mass, lesion or systemic symptoms"><span>An unexplained lump or lesion, or symptoms across my whole body</span></label>
+                <label class="opt review"><input type="checkbox" class="fpa frel" id="fa-infect" data-f="Active infection, open wound or abscess"><span>An active infection, open wound, or abscess</span></label>
+                <label class="opt review"><input type="checkbox" class="fpa frel" id="fa-immuno" data-f="Currently taking immunosuppressant medication"><span>I take medication that suppresses my immune system</span></label>
+                <label class="opt"><input type="checkbox" id="fa-none"><span><b>None of these apply</b></span></label>
               </div>
             </fieldset>
 
-            <p class="pagesub" style="margin-top:4px"><b>The next few questions are asked one at a time.</b> Please answer each one.</p>
-
             <fieldset class="q">
-              <legend>Do you currently have cancer, or are you currently in cancer treatment? <span class="req">*</span></legend>
-              <select class="fq" id="fq-ca-active" data-f="Active malignancy or currently in cancer treatment">
-                <option value="">Select one</option>
-                <option value="yes" data-v="stop">Yes</option>
-                <option value="no">No</option>
-              </select>
+              <legend>Have you ever been diagnosed with, or treated for, any of these?</legend>
+              <div class="opts">
+                <label class="opt stop"><input type="checkbox" class="fabs" id="fb-ca" data-f="Active malignancy or currently in cancer treatment"><span>Cancer that I have now, or that I am being treated for</span></label>
+
+                <label class="opt stop"><input type="checkbox" class="fabs" id="fb-cahx" data-f="Cancer history"><span>Cancer in the past, treatment finished</span></label>
+                <div class="subq hidden" data-for="fb-cahx">
+                  <label class="qtext" for="fb-cahx-s">Roughly when did your treatment finish?</label>
+                  <select id="fb-cahx-s" class="fstatus" data-box="fb-cahx">
+                    <option value="">Select one</option>
+                    <option data-stop="1">Less than 5 years ago</option>
+                    <option data-clear="1">5 or more years ago</option>
+                    <option data-stop="1">I am not sure</option>
+                  </select>
+                </div>
+
+                <label class="opt stop"><input type="checkbox" class="fabs" id="fb-pit" data-f="Pituitary tumour, hypopituitarism or HPA axis disruption"><span>A pituitary tumour, an underactive pituitary, or another pituitary problem</span></label>
+                <label class="opt stop"><input type="checkbox" class="fabs" id="fb-retino" data-f="Active proliferative retinopathy or advanced diabetic eye disease"><span>Proliferative retinopathy, or advanced diabetic eye disease</span></label>
+                <label class="opt stop"><input type="checkbox" class="fabs" id="fb-wilson" data-f="Wilson's disease or copper metabolism disorder"><span>Wilson's disease, or another problem with how my body handles copper</span></label>
+                <label class="opt stop"><input type="checkbox" class="fabs" id="fb-anaph" data-f="Prior anaphylaxis requiring emergency treatment"><span>Anaphylaxis, a severe allergic reaction that needed emergency treatment</span></label>
+
+                <label class="opt stop"><input type="checkbox" class="fabs" id="fb-osa" data-f="Sleep apnea"><span>Sleep apnea</span></label>
+                <div class="subq hidden" data-for="fb-osa">
+                  <label class="qtext" for="fb-osa-s">Is it being treated?</label>
+                  <select id="fb-osa-s" class="fstatus" data-box="fb-osa">
+                    <option value="">Select one</option>
+                    <option data-clear="1">Yes, I use CPAP or another treatment regularly</option>
+                    <option data-stop="1">I was given treatment but I do not use it</option>
+                    <option data-stop="1">No, it is not being treated</option>
+                  </select>
+                </div>
+
+                <label class="opt"><input type="checkbox" id="fb-none"><span><b>None of these apply</b></span></label>
+              </div>
+              <p class="helper">Sleep apnea that is treated is a different situation from sleep apnea that is not, which is why we ask twice.</p>
             </fieldset>
 
-            <fieldset class="q">
-              <legend>Have you ever been treated for cancer in the past? <span class="req">*</span></legend>
-              <select class="fq" id="fq-ca-hx" data-f="Cancer history">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-              <div class="subq hidden" id="caWhen">
-                <span class="qtext">Roughly when did your treatment finish?</span>
-                <select class="fq" id="fq-ca-when" data-f="Cancer treatment completed">
-                  <option value="">Select one</option>
-                  <option value="lt5" data-v="stop">Less than 5 years ago</option>
-                  <option value="gt5">5 or more years ago</option>
-                  <option value="unsure" data-v="rev">I am not sure</option>
-                </select>
+            <fieldset class="q hidden" id="q-fpreg">
+              <legend>Which of these applies to you?</legend>
+              <div class="opts">
+                <label class="opt stop"><input type="radio" name="fpreg" id="fpg-p" value="stop"><span>I am pregnant, or I think I might be</span></label>
+                <label class="opt stop"><input type="radio" name="fpreg" id="fpg-t" value="stop"><span>I am trying to become pregnant, or plan to within 3 months</span></label>
+                <label class="opt stop"><input type="radio" name="fpreg" id="fpg-b" value="stop"><span>I am currently breastfeeding</span></label>
+                <label class="opt"><input type="radio" name="fpreg" id="fpg-n" value="no"><span><b>None of these apply</b></span></label>
               </div>
             </fieldset>
 
-            <fieldset class="q hidden" id="fPregWrap">
-              <legend>Which of these applies to you? <span class="req">*</span></legend>
-              <select class="fq" id="fq-preg" data-f="Pregnancy status">
-                <option value="">Select one</option>
-                <option value="preg" data-v="stop">I am pregnant, or I think I might be</option>
-                <option value="ttc" data-v="stop">I am trying to become pregnant, or plan to within 3 months</option>
-                <option value="bf" data-v="stop">I am currently breastfeeding</option>
-                <option value="no">None of these apply</option>
-              </select>
-            </fieldset>
-
             <fieldset class="q">
-              <legend>Have you ever taken a peptide medication before? <span class="req">*</span></legend>
-              <select class="fq" id="fq-pep-before" data-f="Prior peptide exposure">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No, this would be my first</option>
-              </select>
-              <div class="subq hidden" id="pepRxn">
-                <span class="qtext">Did you ever have a serious reaction to a peptide, or to an ingredient in one?</span>
-                <select class="fq" id="fq-pep-rxn" data-f="Prior serious reaction to a peptide or formulation component">
+              <legend>Have you taken a peptide medication before?</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="fpepb" id="fpb-y" value="yes"><span>Yes</span></label>
+                <label class="opt"><input type="radio" name="fpepb" id="fpb-n" value="no"><span>No, this would be my first</span></label>
+              </div>
+              <div class="subq hidden" id="fPepRxn">
+                <label class="qtext" for="fpr-s">Did you ever have a serious reaction to one, or to an ingredient in one?</label>
+                <select id="fpr-s" class="fstatus" data-box="fpb-y" data-f="Prior serious reaction to a peptide or formulation component">
                   <option value="">Select one</option>
-                  <option value="yes" data-v="stop">Yes</option>
-                  <option value="no">No</option>
+                  <option data-clear="1">No</option>
+                  <option data-stop="1">Yes</option>
                 </select>
-                <div class="subq hidden" id="pepRxnWhat">
-                  <span class="qtext">Which one, and what happened?</span>
-                  <input type="text" id="fq-pep-rxn-what" placeholder="e.g. BPC-157, hives and swelling the same evening">
+                <div class="subq hidden" id="fPepRxnWhat">
+                  <label class="qtext" for="fpr-what">Which one, and what happened?</label>
+                  <input type="text" id="fpr-what" placeholder="e.g. BPC-157, hives and swelling the same evening">
                 </div>
               </div>
-              <p class="helper">If you have never taken one, we skip the next question rather than record a guess.</p>
+              <p class="helper">If you have never taken one we skip the next question rather than record a guess.</p>
             </fieldset>
 
             <fieldset class="q">
-              <legend>Have you ever had anaphylaxis, meaning a severe allergic reaction that needed emergency treatment? <span class="req">*</span></legend>
-              <select class="fq" id="fq-anaph" data-f="Prior anaphylaxis requiring emergency treatment">
-                <option value="">Select one</option>
-                <option value="yes" data-v="stop">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Have you been diagnosed with a pituitary tumour, hypopituitarism, or another disorder of the pituitary or hypothalamus? <span class="req">*</span></legend>
-              <select class="fq" id="fq-pituitary" data-f="Pituitary tumour, hypopituitarism or HPA axis disruption">
-                <option value="">Select one</option>
-                <option value="yes" data-v="stop">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure" data-v="rev">I am not sure</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Do you have active proliferative retinopathy, or advanced diabetic eye disease? <span class="req">*</span></legend>
-              <select class="fq" id="fq-retino" data-f="Active proliferative retinopathy or advanced diabetic eye disease">
-                <option value="">Select one</option>
-                <option value="yes" data-v="stop">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure" data-v="rev">I am not sure</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Have you been diagnosed with sleep apnea? <span class="req">*</span></legend>
-              <select class="fq" id="fq-osa" data-f="Sleep apnea">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-              <div class="subq hidden" id="osaTx">
-                <span class="qtext">Are you currently using treatment for it, such as CPAP?</span>
-                <select class="fq" id="fq-osa-tx" data-f="Sleep apnea treatment status">
-                  <option value="">Select one</option>
-                  <option value="yes">Yes, I use treatment regularly</option>
-                  <option value="partial" data-v="stop">I was prescribed treatment but I do not use it</option>
-                  <option value="no" data-v="stop">No, it is not being treated</option>
-                </select>
-              </div>
-              <p class="helper">We ask in two parts because sleep apnea that is being treated is a different situation from sleep apnea that is not.</p>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Have you been diagnosed with Wilson's disease, or another disorder of how your body handles copper? <span class="req">*</span></legend>
-              <select class="fq" id="fq-wilson" data-f="Wilson's disease or copper metabolism disorder">
-                <option value="">Select one</option>
-                <option value="yes" data-v="stop">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </fieldset>
-
-            <p class="pagesub" style="margin-top:4px">A few more. These do not stop you joining the program. They are things your provider will want to talk through with you.</p>
-
-            <fieldset class="q">
-              <legend>Have you been told you have diabetes, prediabetes, or insulin resistance? <span class="req">*</span></legend>
-              <select class="fq" id="fq-dm" data-f="Diabetes, prediabetes or insulin resistance">
-                <option value="">Select one</option>
-                <option value="yes" data-v="rev">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure" data-v="rev">I am not sure</option>
-              </select>
-              <div class="subq hidden" id="dmA1c">
-                <span class="qtext">If you happen to know your most recent HbA1c, what was it? Leave this blank if you do not know. We are ordering the test anyway.</span>
-                <input type="text" id="fq-dm-a1c" placeholder="e.g. 5.9">
-              </div>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Do you have a thyroid condition? <span class="req">*</span></legend>
-              <select class="fq" id="fq-thyroid" data-f="Thyroid condition">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-              <div class="subq hidden" id="thyTx">
-                <span class="qtext">Are you currently being treated for it?</span>
-                <select class="fq" id="fq-thyroid-tx" data-f="Thyroid treatment status">
-                  <option value="">Select one</option>
-                  <option value="yes" data-v="rev">Yes, I take medication for it</option>
-                  <option value="no" data-v="rev">No, it is not being treated</option>
-                </select>
-              </div>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Do you have chronic liver disease, or reduced liver function? <span class="req">*</span></legend>
-              <select class="fq" id="fq-liver" data-f="Chronic liver disease or hepatic impairment">
-                <option value="">Select one</option>
-                <option value="yes" data-v="rev">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure" data-v="rev">I am not sure</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Are you a competitive athlete who is subject to drug testing, for example under WADA or USADA rules? <span class="req">*</span></legend>
-              <select class="fq" id="fq-wada" data-f="Competitive athlete subject to drug testing">
-                <option value="">Select one</option>
-                <option value="comp" data-v="rev">Yes, and I compete in tested competition</option>
-                <option value="train" data-v="rev">Yes, but I am only tested in training, not in competition</option>
-                <option value="untested" data-v="rev">I compete, but I am not drug tested</option>
-                <option value="no">No, I am not a tested athlete</option>
-              </select>
-              <div class="subq hidden" id="wadaAck">
-                <p class="helper" style="margin-bottom:8px"><b>This is important and it is not a disqualification.</b> Every peptide on this programme is prohibited in tested sport. If you are tested during competition you could test positive. Your provider will discuss this with you, and you would need to accept that risk in writing before starting.</p>
-                <label class="opt"><input type="checkbox" class="frel" id="fq-wada-ack" data-f="Tested athlete, acknowledged prohibited-substance risk"><span>I understand, and I would like to discuss this with my provider</span></label>
-              </div>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Are you currently taking high-dose copper or zinc supplements? <span class="req">*</span></legend>
-              <select class="fq" id="fq-cuzn" data-f="High-dose copper or zinc supplementation">
-                <option value="">Select one</option>
-                <option value="yes" data-v="rev">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure" data-v="rev">I am not sure</option>
-              </select>
-              <p class="helper">Copper and zinc are on your baseline lab panel, and supplements move those results.</p>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Is there anything else about your medical history we should know that was not covered above?</legend>
-              <input type="text" id="fq-other-hx" placeholder="Type None if there is nothing to add">
-            </fieldset>
-
-            <p class="pagesub" style="margin-top:4px">Last part of this section. These help your provider confirm your routine cancer screening is up to date.</p>
-
-            <fieldset class="q hidden" id="fPsaWrap">
-              <legend>Have you had a PSA blood test, for the prostate, within the last 12 months? <span class="req">*</span></legend>
-              <select class="fq" id="fq-psa" data-f="PSA screening">
-                <option value="">Select one</option>
-                <option value="lt12">Yes, within the last 12 months</option>
-                <option value="gt12">Yes, more than 12 months ago</option>
-                <option value="never">No, I have never had one</option>
-                <option value="na">Not applicable</option>
-              </select>
-              <div class="subq hidden" id="psaWhen">
-                <span class="qtext">Roughly when was your last PSA test?</span>
-                <input type="text" id="fq-psa-when" placeholder="e.g. March 2026">
-              </div>
-            </fieldset>
-
-            <fieldset class="q hidden" id="fMamWrap">
-              <legend>Have you had a mammogram within the last 12 months? <span class="req">*</span></legend>
-              <select class="fq" id="fq-mam" data-f="Mammogram screening">
-                <option value="">Select one</option>
-                <option value="lt12">Yes, within the last 12 months</option>
-                <option value="gt12">Yes, more than 12 months ago</option>
-                <option value="never">No, I have never had one</option>
-                <option value="na">Not applicable</option>
-              </select>
-              <div class="subq hidden" id="mamWhen">
-                <span class="qtext">Roughly when was your last mammogram?</span>
-                <input type="text" id="fq-mam-when" placeholder="e.g. March 2026">
-              </div>
-            </fieldset>
-
-            <fieldset class="q hidden" id="fColWrap">
-              <legend>Have you had a colonoscopy? <span class="req">*</span></legend>
-              <select class="fq" id="fq-colon" data-f="Colonoscopy screening">
-                <option value="">Select one</option>
-                <option value="lt5">Yes, within the last 5 years</option>
-                <option value="gt5">Yes, more than 5 years ago</option>
-                <option value="never">No, I have never had one</option>
-                <option value="na">Not applicable, or I have declined it</option>
-              </select>
-              <div class="subq hidden" id="colWhen">
-                <span class="qtext">Roughly when was your last colonoscopy?</span>
-                <input type="text" id="fq-colon-when" placeholder="e.g. 2022">
-              </div>
-              <p class="helper">Asked because routine colon screening starts at 45.</p>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Have you had a DEXA scan, for bone density or body composition? <span class="req">*</span></legend>
-              <select class="fq" id="fq-dexa" data-f="DEXA scan">
-                <option value="">Select one</option>
-                <option value="lt12">Yes, within the last 12 months</option>
-                <option value="gt12">Yes, more than 12 months ago</option>
-                <option value="never">No, I have never had one</option>
-                <option value="na">Not applicable</option>
-              </select>
-              <div class="subq hidden" id="dexaWhen">
-                <span class="qtext">Roughly when, and where was it done?</span>
-                <input type="text" id="fq-dexa-when" placeholder="e.g. January 2026, at my gym">
-              </div>
-            </fieldset>
-
-            <fieldset class="q">
-              <legend>Do you have a recent InBody or body composition scan result available? <span class="req">*</span></legend>
-              <select class="fq" id="fq-inbody" data-f="InBody or body composition scan">
-                <option value="">Select one</option>
-                <option value="yes">Yes, I have a recent result I can share</option>
-                <option value="no">No, I have not had one</option>
-                <option value="unsure">I am not sure</option>
-              </select>
-              <p class="helper hidden" id="inbodyNote">Please bring your InBody printout to your visit, or ask your gym or provider for a copy. Your care team will scan it into your chart.</p>
-            </fieldset>
-
-          </div>
-        </fieldset>
-
-        <fieldset class="page hidden" id="p15">
-          <h3 class="pagetitle">Surgery and family history</h3>
-          <p class="pagesub">Part 4 of 6. Two questions.</p>
-          <div class="gate">
-
-            <fieldset class="q">
-              <legend>Have you had any major surgeries? <span class="req">*</span></legend>
+              <legend>Do any of these apply? These do not stop you joining. They are things your provider will want to discuss.</legend>
               <div class="opts">
-                <label class="opt"><input type="checkbox" class="fsurg" id="fs-none"><span><b>No major surgeries</b></span></label>
+                <label class="opt review"><input type="checkbox" class="frel" id="fc-dm" data-f="Diabetes, prediabetes or insulin resistance"><span>Diabetes, prediabetes, or insulin resistance</span></label>
+                <div class="subq hidden" data-for="fc-dm">
+                  <label class="qtext" for="fc-dm-a1c">If you happen to know your last HbA1c, what was it? Leave it blank if you do not. We are ordering the test anyway.</label>
+                  <input type="text" id="fc-dm-a1c" placeholder="e.g. 5.9">
+                </div>
+
+                <label class="opt review"><input type="checkbox" class="frel" id="fc-thy" data-f="Thyroid condition"><span>A thyroid condition</span></label>
+                <div class="subq hidden" data-for="fc-thy">
+                  <label class="qtext" for="fc-thy-s">Is it being treated?</label>
+                  <select id="fc-thy-s" class="fstatus" data-box="fc-thy">
+                    <option value="">Select one</option>
+                    <option>Yes, I take medication for it</option>
+                    <option data-hot="1">No, it is not being treated</option>
+                  </select>
+                </div>
+
+                <label class="opt review"><input type="checkbox" class="frel" id="fc-liver" data-f="Chronic liver disease or hepatic impairment"><span>Chronic liver disease, or reduced liver function</span></label>
+                <label class="opt review"><input type="checkbox" class="frel" id="fc-cuzn" data-f="High-dose copper or zinc supplementation"><span>I take high-dose copper or zinc supplements</span></label>
+
+                <label class="opt review"><input type="checkbox" class="frel" id="fc-wada" data-f="Competitive athlete subject to drug testing"><span>I am a competitive athlete who can be drug tested</span></label>
+                <div class="subq hidden" data-for="fc-wada">
+                  <label class="qtext" for="fc-wada-s">Which is closest?</label>
+                  <select id="fc-wada-s" class="fstatus" data-box="fc-wada">
+                    <option value="">Select one</option>
+                    <option data-hot="1">I compete in tested competition</option>
+                    <option>I am tested in training, not in competition</option>
+                    <option>I compete but I am not tested</option>
+                  </select>
+                  <p class="helper"><b>This is important, and it is not a disqualification.</b> Every peptide in this program is banned in tested sport, so you could test positive. Your provider will talk it through with you, and you would need to accept that risk before starting.</p>
+                </div>
+
+                <label class="opt"><input type="checkbox" id="fc-none"><span><b>None of these apply</b></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="q">
+              <legend>Have you had any major surgery? Check all that apply.</legend>
+              <div class="opts">
+                <label class="opt"><input type="checkbox" class="fsurg" id="fs-none"><span><b>No major surgery</b></span></label>
                 <label class="opt"><input type="checkbox" class="fsurg" id="fs-joint"><span>Joint surgery, such as knee, shoulder or hip</span></label>
-                <label class="opt"><input type="checkbox" class="fsurg frel" id="fs-cancer" data-f="Cancer-related surgery"><span>Cancer-related surgery</span></label>
-                <label class="opt"><input type="checkbox" class="fsurg frel" id="fs-recent" data-f="Major surgery within the past 3 months"><span>A major surgery within the past 3 months</span></label>
+                <label class="opt review"><input type="checkbox" class="fsurg frel" id="fs-cancer" data-f="Cancer-related surgery"><span>Surgery related to cancer</span></label>
+                <label class="opt review"><input type="checkbox" class="fsurg frel" id="fs-recent" data-f="Major surgery within the past 3 months"><span>Major surgery in the past 3 months</span></label>
                 <label class="opt"><input type="checkbox" class="fsurg" id="fs-other"><span>Something else, I will describe it at my visit</span></label>
               </div>
             </fieldset>
 
             <fieldset class="q">
-              <legend>Do any biological family members, meaning a parent, brother, sister or child, have any of the following? <span class="req">*</span></legend>
+              <legend>Does anyone in your biological family, meaning a parent, brother, sister or child, have any of these?</legend>
               <div class="opts">
                 <label class="opt"><input type="checkbox" class="ffam" id="ff-ca"><span>Cancer, any type</span></label>
-                <label class="opt"><input type="checkbox" class="ffam frel" id="ff-thy" data-f="Family history of thyroid cancer, including medullary thyroid carcinoma"><span>Thyroid cancer, including medullary thyroid carcinoma</span></label>
+                <label class="opt review"><input type="checkbox" class="ffam frel" id="ff-thy" data-f="Family history of thyroid cancer"><span>Thyroid cancer</span></label>
                 <label class="opt"><input type="checkbox" class="ffam" id="ff-dm"><span>Type 2 diabetes</span></label>
-                <label class="opt"><input type="checkbox" class="ffam" id="ff-cv"><span>Heart disease, or a heart attack before age 60</span></label>
-                <label class="opt"><input type="checkbox" class="ffam frel" id="ff-pit" data-f="Family history of pituitary or adrenal disorder"><span>Pituitary or adrenal gland disorders</span></label>
-                <label class="opt"><input type="checkbox" class="ffam" id="ff-auto"><span>Autoimmune disease</span></label>
-                <label class="opt"><input type="checkbox" id="ff-none"><span><b>None of the above</b></span></label>
+                <label class="opt"><input type="checkbox" class="ffam" id="ff-cv"><span>Heart disease, or a heart attack before 60</span></label>
+                <label class="opt review"><input type="checkbox" class="ffam frel" id="ff-pit" data-f="Family history of pituitary or adrenal disorder"><span>Pituitary or adrenal gland problems</span></label>
+                <label class="opt"><input type="checkbox" class="ffam" id="ff-auto"><span>An autoimmune disease</span></label>
+                <label class="opt"><input type="checkbox" id="ff-none"><span><b>None of these apply</b></span></label>
               </div>
             </fieldset>
+
+            <div class="q">
+              <label class="fieldlab" for="fq-other-hx">Anything else about your health we should know that we have not asked about?</label>
+              <input type="text" id="fq-other-hx" placeholder="Type None if there is nothing to add">
+            </div>
 
           </div>
         </fieldset>
 
         <fieldset class="page hidden" id="p16">
-          <h3 class="pagetitle">Medications, supplements and allergies</h3>
-          <p class="pagesub">Part 5 of 6. If you answer no to a question, we will not ask you to list anything.</p>
-          <div class="gate">
+          <h3 class="pagetitle">Medications and allergies</h3>
+          <p class="pagesub">Part 5 of 6. If you answer no, we will not ask you to list anything.</p>
 
-            <fieldset class="q">
-              <legend>Are you currently taking any prescription medications? <span class="req">*</span></legend>
-              <select class="fq" id="fq-rx" data-f="Prescription medications">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-              <div class="subq hidden" id="rxRows">
-                <span class="qtext">Please list them. Medication, dose, and how often.</span>
-                <div id="fRxList"></div>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Do you take any prescription medications? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="frx" id="frx-y" value="yes"><span>Yes</span></label>
+              <label class="opt"><input type="radio" name="frx" id="frx-n" value="no"><span>No</span></label>
+            </div>
+            <div class="subq hidden" id="fRxRows">
+              <span class="qtext">Please list them. A new line appears as you go.</span>
+              <div id="fRxList"></div>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Are you currently taking any vitamins, supplements, or over-the-counter products? <span class="req">*</span></legend>
-              <select class="fq" id="fq-supp" data-f="Vitamins, supplements or OTC products">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-              <div class="subq hidden" id="suppRows">
-                <span class="qtext">Please list them. Name, dose, and how long you have been taking it.</span>
-                <div id="fSuppList"></div>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Do you take any vitamins, supplements, or anything from a shop? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fsupp" id="fsu-y" value="yes"><span>Yes</span></label>
+              <label class="opt"><input type="radio" name="fsupp" id="fsu-n" value="no"><span>No</span></label>
+            </div>
+            <div class="subq hidden" id="fSuppRows">
+              <span class="qtext">Please list them.</span>
+              <div id="fSuppList"></div>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Are you currently using any peptides, growth hormone, or hormone therapy such as testosterone or HRT? <span class="req">*</span></legend>
-              <select class="fq" id="fq-curpep" data-f="Current peptide, growth hormone or hormone therapy">
-                <option value="">Select one</option>
-                <option value="yes" data-v="rev">Yes</option>
-                <option value="no">No</option>
-              </select>
-              <div class="subq hidden" id="curpepRows">
-                <span class="qtext">Please list them. Name, dose, and how long you have been using it.</span>
-                <div id="fPepList"></div>
-              </div>
-              <p class="helper">This matters more than it looks. Anything already acting on the growth hormone axis changes your baseline results, and this programme starts one agent at a time.</p>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Are you currently using any peptides, growth hormone, or hormone therapy such as testosterone or HRT? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt review"><input type="radio" name="fcurpep" id="fcp-y" value="review"><span>Yes</span></label>
+              <label class="opt"><input type="radio" name="fcurpep" id="fcp-n" value="no"><span>No</span></label>
+            </div>
+            <div class="subq hidden" id="fPepRows">
+              <span class="qtext">Please list them.</span>
+              <div id="fPepList"></div>
+            </div>
+            <p class="helper">This matters more than it looks. Anything already acting on the growth hormone axis changes your baseline results, and this program starts one agent at a time.</p>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Are you currently taking any copper or zinc supplements, including as part of a multivitamin? <span class="req">*</span></legend>
-              <select class="fq" id="fq-cuzn2" data-f="Copper or zinc supplementation, including multivitamin">
-                <option value="">Select one</option>
-                <option value="yes" data-v="rev">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure" data-v="rev">I am not sure</option>
-              </select>
-              <div class="subq hidden" id="cuznRows">
-                <span class="qtext">Please list them. Name, dose, and how long you have been taking it.</span>
-                <input type="text" id="fq-cuzn-list" placeholder="e.g. Centrum daily multivitamin, about 2 years">
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Do you take copper or zinc, including as part of a multivitamin? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt review"><input type="radio" name="fcuzn" id="fcz-y" value="review"><span>Yes</span></label>
+              <label class="opt"><input type="radio" name="fcuzn" id="fcz-n" value="no"><span>No</span></label>
+              <label class="opt review"><input type="radio" name="fcuzn" id="fcz-u" value="review"><span>I am not sure</span></label>
+            </div>
+            <div class="subq hidden" id="fCuznRows">
+              <label class="qtext" for="fcz-list">Which one, if you know?</label>
+              <input type="text" id="fcz-list" placeholder="e.g. Centrum daily multivitamin">
+            </div>
+            <p class="helper">Copper and zinc are on your baseline lab panel, and supplements move those results.</p>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Do you have any known medication allergies? <span class="req">*</span></legend>
-              <select class="fq" id="fq-allergy" data-f="Medication allergies">
-                <option value="">Select one</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-              <div class="subq hidden" id="allergyRows">
-                <span class="qtext">Please list them. The medication, and what happened.</span>
-                <div id="fAllergyList"></div>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Do you have any medication allergies? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="falg" id="fag-y" value="yes"><span>Yes</span></label>
+              <label class="opt"><input type="radio" name="falg" id="fag-n" value="no"><span>No</span></label>
+            </div>
+            <div class="subq hidden" id="fAlgRows">
+              <span class="qtext">Please list them, and what happened.</span>
+              <div id="fAllergyList"></div>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Do you have any known allergies to preservatives, dyes, or inactive ingredients in medications? <span class="req">*</span></legend>
-              <select class="fq" id="fq-excip" data-f="Allergy to preservatives, dyes or inactive ingredients">
-                <option value="">Select one</option>
-                <option value="yes" data-v="rev">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure" data-v="rev">I am not sure</option>
-              </select>
-              <div class="subq hidden" id="excipWhat">
-                <span class="qtext">Which ones, if you know?</span>
-                <input type="text" id="fq-excip-what" placeholder="e.g. benzyl alcohol">
-              </div>
-              <p class="helper">Worth asking for compounded medicines, because the inactive ingredients differ between pharmacies.</p>
-            </fieldset>
-
-          </div>
+          <fieldset class="q">
+            <legend>Are you allergic to any preservatives, dyes, or inactive ingredients in medicines? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt review"><input type="radio" name="fexc" id="fex-y" value="review"><span>Yes</span></label>
+              <label class="opt"><input type="radio" name="fexc" id="fex-n" value="no"><span>No</span></label>
+              <label class="opt review"><input type="radio" name="fexc" id="fex-u" value="review"><span>I am not sure</span></label>
+            </div>
+            <div class="subq hidden" id="fExcWhat">
+              <label class="qtext" for="fex-what">Which ones, if you know?</label>
+              <input type="text" id="fex-what" placeholder="e.g. benzyl alcohol">
+            </div>
+            <p class="helper">Worth asking for compounded medicines, because the inactive ingredients differ between pharmacies.</p>
+          </fieldset>
         </fieldset>
 
         <fieldset class="page hidden" id="p17">
-          <h3 class="pagetitle">How you are feeling right now</h3>
-          <p class="pagesub">Part 6 of 6. Tick only what you are experiencing at the moment. None of these affects whether you can book. They give your provider your starting point.</p>
-          <div class="gate">
+          <h3 class="pagetitle">How you are feeling, and your screening</h3>
+          <p class="pagesub">Part 6 of 6. Tick only what you have now. None of this affects whether you can book. It gives your provider your starting point.</p>
 
-            <fieldset class="q">
-              <legend>Hormonal and body composition <span class="req">*</span></legend>
-              <div class="opts">
-                <label class="opt"><input type="checkbox" class="fros" data-g="Hormonal" id="ro-h1"><span>Midsection fat gain despite diet and exercise</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Hormonal" id="ro-h2"><span>Muscle mass or strength loss despite training</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Hormonal" id="ro-h3"><span>Decreased libido or sex drive</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Hormonal" id="ro-h4"><span>Mood changes, irritability, or low motivation</span></label>
-                <label class="opt"><input type="checkbox" id="ro-h-none"><span><b>None of the above</b></span></label>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Hormones and body composition</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="fros" data-g="Hormonal" id="ro-h1"><span>Putting on fat around the middle despite diet and exercise</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Hormonal" id="ro-h2"><span>Losing muscle or strength despite training</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Hormonal" id="ro-h3"><span>Lower sex drive</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Hormonal" id="ro-h4"><span>Mood changes, irritability, or low motivation</span></label>
+              <label class="opt"><input type="checkbox" id="ro-h-none"><span><b>None of these</b></span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Recovery and musculoskeletal <span class="req">*</span></legend>
-              <div class="opts">
-                <label class="opt"><input type="checkbox" class="fros" data-g="Recovery" id="ro-r1"><span>Joint pain, stiffness, or limited range of motion</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Recovery" id="ro-r2"><span>A current soft tissue, tendon, or ligament concern</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Recovery" id="ro-r3"><span>Slower than expected recovery from exercise or activity</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Recovery" id="ro-r4"><span>Chronic pain limiting activity or exercise</span></label>
-                <label class="opt"><input type="checkbox" id="ro-r-none"><span><b>None of the above</b></span></label>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Recovery, joints and muscles</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="fros" data-g="Recovery" id="ro-r1"><span>Joint pain, stiffness, or not moving as freely</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Recovery" id="ro-r2"><span>A soft tissue, tendon, or ligament problem right now</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Recovery" id="ro-r3"><span>Taking longer to recover from exercise than I used to</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Recovery" id="ro-r4"><span>Pain that limits what I can do</span></label>
+              <label class="opt"><input type="checkbox" id="ro-r-none"><span><b>None of these</b></span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Metabolic and cardiovascular <span class="req">*</span></legend>
-              <div class="opts">
-                <label class="opt"><input type="checkbox" class="fros" data-g="Metabolic" id="ro-m1"><span>Elevated blood sugar or A1c reported</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Metabolic" id="ro-m2"><span>Increased thirst or frequent urination</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Metabolic" id="ro-m3"><span>Swelling or fluid retention in legs, ankles, or hands</span></label>
-                <label class="opt"><input type="checkbox" class="fros frel" data-g="Metabolic" id="ro-m4" data-f="Currently reporting chest pain"><span>Chest pain</span></label>
-                <label class="opt"><input type="checkbox" class="fros frel" data-g="Metabolic" id="ro-m5" data-f="Currently reporting shortness of breath"><span>Shortness of breath</span></label>
-                <label class="opt"><input type="checkbox" id="ro-m-none"><span><b>None of the above</b></span></label>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Heart and metabolism</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="fros" data-g="Metabolic" id="ro-m1"><span>Blood sugar or A1c has been reported as high</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Metabolic" id="ro-m2"><span>Thirsty more than usual, or passing water more often</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Metabolic" id="ro-m3"><span>Swelling in my legs, ankles, or hands</span></label>
+              <label class="opt review"><input type="checkbox" class="fros frel" data-g="Metabolic" id="ro-m4" data-f="Currently reporting chest pain"><span>Chest pain</span></label>
+              <label class="opt review"><input type="checkbox" class="fros frel" data-g="Metabolic" id="ro-m5" data-f="Currently reporting shortness of breath"><span>Shortness of breath</span></label>
+              <label class="opt"><input type="checkbox" id="ro-m-none"><span><b>None of these</b></span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Skin and tissue <span class="req">*</span></legend>
-              <div class="opts">
-                <label class="opt"><input type="checkbox" class="fros" data-g="Skin" id="ro-s1"><span>Poor wound healing or slow skin recovery</span></label>
-                <label class="opt"><input type="checkbox" class="fros frel" data-g="Skin" id="ro-s2" data-f="Significant skin changes, new lesions or growths"><span>Significant skin changes, new lesions, or growths</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Skin" id="ro-s3"><span>Rashes or hives</span></label>
-                <label class="opt"><input type="checkbox" id="ro-s-none"><span><b>None of the above</b></span></label>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Skin</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="fros" data-g="Skin" id="ro-s1"><span>Wounds or skin taking a long time to heal</span></label>
+              <label class="opt review"><input type="checkbox" class="fros frel" data-g="Skin" id="ro-s2" data-f="Significant skin changes, new lesions or growths"><span>Noticeable skin changes, new marks or growths</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Skin" id="ro-s3"><span>Rashes or hives</span></label>
+              <label class="opt"><input type="checkbox" id="ro-s-none"><span><b>None of these</b></span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Sleep <span class="req">*</span></legend>
-              <div class="opts">
-                <label class="opt"><input type="checkbox" class="fros" data-g="Sleep" id="ro-z1"><span>Difficulty falling or staying asleep</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="Sleep" id="ro-z2"><span>Waking unrefreshed despite enough hours of sleep</span></label>
-                <label class="opt"><input type="checkbox" id="ro-z-none"><span><b>None of the above</b></span></label>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Sleep</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="fros" data-g="Sleep" id="ro-z1"><span>Trouble falling asleep or staying asleep</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="Sleep" id="ro-z2"><span>Waking up tired even after enough hours</span></label>
+              <label class="opt"><input type="checkbox" id="ro-z-none"><span><b>None of these</b></span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>Digestive <span class="req">*</span></legend>
-              <div class="opts grid2">
-                <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g1"><span>Bloating</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g2"><span>Belching</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g3"><span>Feeling full very quickly</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g4"><span>Heartburn</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g5"><span>Nausea</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g6"><span>Vomiting</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g7"><span>Constipation</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g8"><span>Diarrhea</span></label>
-                <label class="opt"><input type="checkbox" class="fros frel" data-g="GI" id="ro-g9" data-f="Currently reporting rectal bleeding"><span>Rectal bleeding</span></label>
-                <label class="opt"><input type="checkbox" id="ro-g-none"><span><b>None of the above</b></span></label>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>Digestion</legend>
+            <div class="opts grid2">
+              <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g1"><span>Bloating</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g2"><span>Belching</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g3"><span>Feeling full very quickly</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g4"><span>Heartburn</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g5"><span>Nausea</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g6"><span>Vomiting</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g7"><span>Constipation</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="GI" id="ro-g8"><span>Diarrhea</span></label>
+              <label class="opt review"><input type="checkbox" class="fros frel" data-g="GI" id="ro-g9" data-f="Currently reporting rectal bleeding"><span>Bleeding from the back passage</span></label>
+              <label class="opt"><input type="checkbox" id="ro-g-none"><span><b>None of these</b></span></label>
+            </div>
+          </fieldset>
 
-            <fieldset class="q">
-              <legend>General <span class="req">*</span></legend>
-              <div class="opts grid2">
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n1"><span>Fatigue</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n2"><span>Headaches</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n3"><span>Easy bruising</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n4"><span>Feeling the cold or the heat more than you used to</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n5"><span>Depression</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n6"><span>Anxiety</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n7"><span>Mood swings</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n8"><span>Weight loss or weight gain</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n9"><span>Loss of appetite</span></label>
-                <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n10"><span>Getting up at night to pass urine</span></label>
-                <label class="opt"><input type="checkbox" id="ro-n-none"><span><b>None of the above</b></span></label>
-              </div>
-            </fieldset>
+          <fieldset class="q">
+            <legend>General</legend>
+            <div class="opts grid2">
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n1"><span>Tiredness</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n2"><span>Headaches</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n3"><span>Bruising easily</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n4"><span>Feeling the cold or the heat more than I used to</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n5"><span>Low mood</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n6"><span>Anxiety</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n7"><span>Mood swings</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n8"><span>Weight going up or down</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n9"><span>Not feeling like eating</span></label>
+              <label class="opt"><input type="checkbox" class="fros" data-g="General" id="ro-n10"><span>Getting up at night to pass water</span></label>
+              <label class="opt"><input type="checkbox" id="ro-n-none"><span><b>None of these</b></span></label>
+            </div>
+          </fieldset>
 
-          </div>
+          <p class="pagesub" style="margin-top:6px">Last few. These help your provider check your routine screening is up to date.</p>
+
+          <fieldset class="q hidden" id="q-fpsa">
+            <legend>Have you had a PSA blood test, for the prostate?</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fpsa" id="fps-1" value="Within the last 12 months"><span>Yes, in the last 12 months</span></label>
+              <label class="opt"><input type="radio" name="fpsa" id="fps-2" value="More than 12 months ago"><span>Yes, longer ago than that</span></label>
+              <label class="opt"><input type="radio" name="fpsa" id="fps-3" value="Never"><span>No, never</span></label>
+              <label class="opt"><input type="radio" name="fpsa" id="fps-4" value="Not applicable"><span>Not applicable</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q hidden" id="q-fmam">
+            <legend>Have you had a mammogram?</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fmam" id="fmm-1" value="Within the last 12 months"><span>Yes, in the last 12 months</span></label>
+              <label class="opt"><input type="radio" name="fmam" id="fmm-2" value="More than 12 months ago"><span>Yes, longer ago than that</span></label>
+              <label class="opt"><input type="radio" name="fmam" id="fmm-3" value="Never"><span>No, never</span></label>
+              <label class="opt"><input type="radio" name="fmam" id="fmm-4" value="Not applicable"><span>Not applicable</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q hidden" id="q-fcol">
+            <legend>Have you had a colonoscopy?</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fcol" id="fcl-1" value="Within the last 5 years"><span>Yes, in the last 5 years</span></label>
+              <label class="opt"><input type="radio" name="fcol" id="fcl-2" value="More than 5 years ago"><span>Yes, longer ago than that</span></label>
+              <label class="opt"><input type="radio" name="fcol" id="fcl-3" value="Never"><span>No, never</span></label>
+              <label class="opt"><input type="radio" name="fcol" id="fcl-4" value="Not applicable or declined"><span>Not applicable, or I have declined it</span></label>
+            </div>
+            <p class="helper">Asked because routine bowel screening starts at 45.</p>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Have you had a DEXA scan, for bone density or body composition?</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fdexa" id="fdx-1" value="Within the last 12 months"><span>Yes, in the last 12 months</span></label>
+              <label class="opt"><input type="radio" name="fdexa" id="fdx-2" value="More than 12 months ago"><span>Yes, longer ago than that</span></label>
+              <label class="opt"><input type="radio" name="fdexa" id="fdx-3" value="Never"><span>No, never</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Do you have a recent InBody or body composition result you could share?</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="finbody" id="fib-1" value="Yes"><span>Yes, I have one I can bring</span></label>
+              <label class="opt"><input type="radio" name="finbody" id="fib-2" value="No"><span>No</span></label>
+              <label class="opt"><input type="radio" name="finbody" id="fib-3" value="Not sure"><span>I am not sure</span></label>
+            </div>
+            <p class="helper hidden" id="inbodyNote">Please bring the printout to your visit, or ask your gym for a copy. Your care team will scan it into your chart.</p>
+          </fieldset>
         </fieldset>
 
         <div class="errbar hidden" id="errbar">
@@ -1900,38 +1763,66 @@
   /* Functional Health and Longevity.
 
      Don's ruling, 14 September 2026: DOES NOT QUALIFY is Part B only, every one
-     of the nine absolute contraindications including pregnancy and breastfeeding.
-     Everything in Part C is discussed, never blocked, because nobody is
-     prescribed anything at the baseline visit. The labs decide, at the next
-     visit, and the form cannot pre-empt that.
+     of the nine absolutes, pregnancy and breastfeeding included. Everything in
+     Part C is discussed and none of it blocks. Nobody is prescribed anything at
+     an FH&L baseline visit, so the labs decide at the next one and the form
+     cannot pre-empt that.
 
-     Sources of a stop or a flag:
-       select.fq with a chosen option carrying data-v="stop" or "rev"
-       input.fabs checked  (reserved; no checkbox is a stop in this build)
-       input.frel checked
-     Nothing here reads a checkbox list for a stop on purpose: Part B is asked
-     one question at a time so a patient cannot see which box ended the form. */
+     Reads the same shapes the weight loss screen does:
+       input.fabs checked                  an absolute
+       select.fstatus[data-box=<id>]       its follow-up. option[data-clear]
+                                           takes the absolute back down to a
+                                           flag, which is how "cancer, but more
+                                           than 5 years ago" and "sleep apnea,
+                                           treated" stop being stops.
+       input.frel checked                  a flag. option[data-hot] marks it.
+       radio value="stop" / "review"       single-answer questions */
   function evaluateFHL(){
     var stops=[], revs=[];
-    [].slice.call(document.querySelectorAll('#p13 .fq, #p14 .fq, #p15 .fq, #p16 .fq')).forEach(function(sel){
-      var box=sel.closest('.q, .subq');
-      if(box && box.classList.contains('hidden')) return;
-      var opt=sel.options[sel.selectedIndex];
-      if(!opt || !opt.value) return;
-      var v=opt.getAttribute('data-v');
-      if(!v) return;
-      var label=(sel.getAttribute('data-f')||sel.id)+' \u2014 '+opt.textContent.trim();
-      (v==='stop'?stops:revs).push(label);
-    });
+
     [].slice.call(document.querySelectorAll('.fabs')).forEach(function(c){
-      if(c.checked) stops.push(c.getAttribute('data-f')||c.id);
+      if(!c.checked) return;
+      var label=c.getAttribute('data-f')||c.id;
+      var sel=document.querySelector('.fstatus[data-box="'+c.id+'"]');
+      if(sel){
+        if(!sel.value){ revs.push(label+' \u2014 detail not yet given'); return; }
+        var opt=sel.options[sel.selectedIndex];
+        label += ' \u2014 ' + sel.value;
+        if(opt && opt.getAttribute('data-clear')){ revs.push(label); return; }
+      }
+      stops.push(label);
     });
+
     [].slice.call(document.querySelectorAll('.frel')).forEach(function(c){
       if(!c.checked) return;
-      var box=c.closest('.subq');
-      if(box && box.classList.contains('hidden')) return;
-      revs.push(c.getAttribute('data-f')||c.id);
+      var label=c.getAttribute('data-f')||c.id;
+      var sel=document.querySelector('.fstatus[data-box="'+c.id+'"]');
+      if(sel && sel.value){
+        var opt=sel.options[sel.selectedIndex];
+        label += ' \u2014 ' + sel.value;
+        if(opt && opt.getAttribute('data-hot')) label='\u2691 '+label;
+      }
+      revs.push(label);
     });
+
+    if(!isMale() && val('fpreg')==='stop'){
+      var el=form.querySelector('input[name="fpreg"]:checked');
+      stops.push('Pregnancy status: '+el.parentNode.textContent.trim().toLowerCase());
+    }
+
+    var pr=$('fpr-s'), wrap=$('fPepRxn');
+    if(pr && pr.value && wrap && !wrap.classList.contains('hidden')){
+      var po=pr.options[pr.selectedIndex];
+      if(po && po.getAttribute('data-stop'))
+        stops.push('Prior serious reaction to a peptide or formulation component');
+    }
+
+    [['fcurpep','Currently using peptides, growth hormone or hormone therapy'],
+     ['fcuzn','Copper or zinc supplementation, including multivitamin'],
+     ['fexc','Allergy to preservatives, dyes or inactive ingredients']].forEach(function(p){
+      if(val(p[0])==='review') revs.push(p[1]);
+    });
+
     return {na:false, minor:false, bmi:null, meets:null, stops:stops, revs:revs};
   }
 
@@ -2075,82 +1966,61 @@
 
   /* Functional Health and Longevity conditional logic.
 
-     Every reveal here is one-way: a block that hides also clears what was
-     answered inside it, so a patient who changes their mind cannot leave a
-     stale answer behind driving a verdict they can no longer see. */
+     Most reveals are handled by the generic .subq[data-for] code in render(),
+     the same as the weight loss pages. Only the ones keyed to a radio, to sex,
+     or to age need code here.
+
+     Every hide also clears what was answered inside, so a patient who changes
+     their mind cannot leave a stale answer behind driving a verdict they can no
+     longer see or correct. */
   function renderFHL(){
-    if(!$('p14')) return;
+    if(!$('p15')) return;
     function show(id, on){
       var el=$(id); if(!el) return;
+      var was=!el.classList.contains('hidden');
       el.classList.toggle('hidden', !on);
-      if(!on){
+      if(was && !on){
         [].slice.call(el.querySelectorAll('select')).forEach(function(x){x.selectedIndex=0});
         [].slice.call(el.querySelectorAll('input[type=text],input[type=number]')).forEach(function(x){x.value=''});
-        [].slice.call(el.querySelectorAll('input[type=checkbox]')).forEach(function(x){x.checked=false});
+        [].slice.call(el.querySelectorAll('input[type=checkbox],input[type=radio]')).forEach(function(x){x.checked=false});
       }
     }
-    function sv(id){var e=$(id);return e?e.value:''}
+    var male=isMale(), female=val('sex')==='f', yrs=age();
 
-    var male=isMale(), female=val('sex')==='f';
+    show('q-fpreg', !male && val('sex')!==null);
+    show('q-fpsa', male);
+    show('q-fmam', female);
+    show('q-fcol', yrs!==null && yrs>=45);   // the paper form labels this 45+ and shows it to everyone
 
-    // Part B pregnancy block, same rule as the weight loss flow
-    show('fPregWrap', !male && val('sex')!==null);
+    show('fPepRxn', val('fpepb')==='yes');
+    var pr=$('fpr-s');
+    show('fPepRxnWhat', val('fpepb')==='yes' && pr && /yes/i.test(pr.value));
 
-    // cancer history, then how long ago
-    show('caWhen', sv('fq-ca-hx')==='yes');
+    show('fRxRows',   val('frx')==='yes');
+    show('fSuppRows', val('fsupp')==='yes');
+    show('fPepRows',  val('fcurpep')==='review');
+    show('fCuznRows', val('fcuzn')==='review');
+    show('fAlgRows',  val('falg')==='yes');
+    show('fExcWhat',  val('fexc')==='review');
 
-    // peptide exposure gates the reaction question, which gates the detail
-    show('pepRxn', sv('fq-pep-before')==='yes');
-    show('pepRxnWhat', sv('fq-pep-before')==='yes' && sv('fq-pep-rxn')==='yes');
-
-    // sleep apnea and thyroid are two-part: diagnosis, then treatment status
-    show('osaTx', sv('fq-osa')==='yes');
-    show('thyTx', sv('fq-thyroid')==='yes');
-
-    // optional HbA1c only if they report a diagnosis
-    show('dmA1c', sv('fq-dm')==='yes');
-
-    // tested athletes get the acknowledgement, not a block
-    var wada=sv('fq-wada');
-    show('wadaAck', wada==='comp'||wada==='train'||wada==='untested');
-
-    // nudge on the activity page if they call themselves an athlete
     var ah=$('athleteHint');
-    if(ah) ah.classList.toggle('hidden', sv('fq-activity')!=='athlete');
-
-    // screening, by sex at birth and by age
-    show('fPsaWrap', male);
-    show('fMamWrap', female);
-    /* age() already exists on this form and drives the under-18 stop.
-       The paper form labels colonoscopy 45+ and then shows it to everyone. */
-    var yrs=age();
-    show('fColWrap', yrs!==null && yrs>=45);
-    show('psaWhen', sv('fq-psa')==='lt12'||sv('fq-psa')==='gt12');
-    show('mamWhen', sv('fq-mam')==='lt12'||sv('fq-mam')==='gt12');
-    show('colWhen', sv('fq-colon')==='lt5'||sv('fq-colon')==='gt5');
-    show('dexaWhen', sv('fq-dexa')==='lt12'||sv('fq-dexa')==='gt12');
+    if(ah) ah.classList.toggle('hidden', val('fact')!=='Athlete');
     var ib=$('inbodyNote');
-    if(ib) ib.classList.toggle('hidden', sv('fq-inbody')!=='yes');
+    if(ib) ib.classList.toggle('hidden', val('finbody')!=='Yes');
 
-    // medication and supplement lists appear only on yes
-    show('rxRows', sv('fq-rx')==='yes');
-    show('suppRows', sv('fq-supp')==='yes');
-    show('curpepRows', sv('fq-curpep')==='yes');
-    show('cuznRows', sv('fq-cuzn2')==='yes'||sv('fq-cuzn2')==='unsure');
-    show('allergyRows', sv('fq-allergy')==='yes');
-    show('excipWhat', sv('fq-excip')==='yes');
-
-    // "none of the above" is exclusive in each multi-select group
-    [['fa-none','.fpa'],['ff-none','.ffam'],
+    // "none of these" is exclusive within its own group
+    [['fa-none','.fpa'],['fb-none','.fabs'],['fc-none','#p15 .frel'],
+     ['fs-none','.fsurg'],['ff-none','.ffam'],
      ['ro-h-none','.fros[data-g=Hormonal]'],['ro-r-none','.fros[data-g=Recovery]'],
      ['ro-m-none','.fros[data-g=Metabolic]'],['ro-s-none','.fros[data-g=Skin]'],
      ['ro-z-none','.fros[data-g=Sleep]'],['ro-g-none','.fros[data-g=GI]'],
-     ['ro-n-none','.fros[data-g=General]']].forEach(function(pair){
-      var none=$(pair[0]); if(!none||!none.checked) return;
-      [].slice.call(document.querySelectorAll(pair[1])).forEach(function(c){c.checked=false});
+     ['ro-n-none','.fros[data-g=General]']].forEach(function(p){
+      var none=$(p[0]); if(!none||!none.checked) return;
+      [].slice.call(document.querySelectorAll(p[1])).forEach(function(c){
+        if(c!==none && c.checked){ c.checked=false; }
+      });
     });
   }
-
 
   function render(){
     var r=evaluate();
@@ -2695,8 +2565,8 @@
     var verdict = r.minor ? 'DOES NOT QUALIFY - under 18'
       : r.stops.length ? 'DOES NOT QUALIFY'
       : r.revs.length ? 'QUALIFIES WITH REVIEW' : 'QUALIFIES';
-    function sv(id){var e=$(id);return e&&e.value?e.options[e.selectedIndex].textContent.trim():'not answered'}
-    function raw(id){var e=$(id);return e?e.value.trim():''}
+    function raw(id){var e=$(id);return e?String(e.value||'').trim():''}
+    function pick(name, fallback){ return val(name) || (fallback||'not answered'); }
     function group(sel){
       var out=[].slice.call(document.querySelectorAll(sel)).filter(function(c){return c.checked})
         .map(function(c){return c.parentNode.textContent.trim()});
@@ -2708,10 +2578,10 @@
       body:'Functional Health and Longevity new patient consultation. Video. Patient completed the KORB peptide intake on '+today()+'.'});
 
     S.push({t:'SCREENING RESULT', tag:'paste', cls:'t-paste',
-      body:'SCREENING RESULT: '+verdict+'\n'+
-           'FLAGGED FOR REVIEW: '+(r.revs.length?r.revs.join('; '):'none')+'\n'+
-           (r.stops.length?'ABSOLUTE CONTRAINDICATION REPORTED: '+r.stops.join('; ')+'\n':'')+
-           'No prescription at this visit. Baseline labs $99, ordered today. Program decision at the follow-up once results are reviewed.'});
+      body:'SCREENING RESULT: '+verdict+
+           '\nFLAGGED FOR REVIEW: '+(r.revs.length?r.revs.join('; '):'none')+
+           (r.stops.length?'\nABSOLUTE CONTRAINDICATION REPORTED: '+r.stops.join('; '):'')+
+           '\nNo prescription at this visit. Baseline labs $99, ordered today. Program decision at the follow-up once results are reviewed.'});
 
     S.push({t:'VITALS', tag:'enter in Tebra', cls:'t-tebra',
       body:'Height: '+(raw('fh-ft')?raw('fh-ft')+' ft '+(raw('fh-in')||'0')+' in':'[not given]')+
@@ -2720,84 +2590,68 @@
 
     S.push({t:'HPI', tag:'paste', cls:'t-paste',
       body:'Goals: '+group('.fgoal')+
-           '\nDuration: '+sv('fq-dur')+
+           '\nDuration: '+pick('fdur')+
            '\nAlready tried: '+group('.ftried')+
-           '\nImpact on daily life: '+sv('fq-impact')});
+           '\nImpact on daily life: '+pick('fimpact')});
 
     S.push({t:'LIFESTYLE FOUNDATION', tag:'paste', cls:'t-paste',
-      body:'Protein: '+sv('fq-protein')+
-           '\nNutrition quality: '+sv('fq-nutrition')+
-           '\nResistance training: '+sv('fq-resist')+
-           '\nExercise days per week: '+sv('fq-exdays')+
-           '\nActivity level: '+sv('fq-activity')+
-           '\nSleep: '+sv('fq-sleephrs')+', quality '+sv('fq-sleepq')+
-           '\nStress: '+sv('fq-stress')+
-           '\nAlcohol: '+sv('fq-alcohol')+
-           '\nTobacco: '+sv('fq-tobacco')+
-           '\nWorking with a coach or therapist: '+sv('fq-coach')+
+      body:'Protein: '+pick('fprot')+
+           '\nNutrition: '+pick('fnutr')+
+           '\nResistance training: '+pick('fresist')+
+           '\nExercise days per week: '+pick('fexd')+
+           '\nActivity level: '+pick('fact')+
+           '\nSleep: '+pick('fslh')+', quality '+pick('fslq')+
+           '\nStress: '+pick('fstr')+
+           '\nAlcohol: '+pick('falc')+
+           '\nTobacco: '+pick('ftob')+
+           '\nWorking with a coach or therapist: '+pick('fcoach')+
            '\n\nLifestyle foundation documented at intake, per program requirement.'});
 
     S.push({t:'ELIGIBILITY AND SAFETY SCREEN', tag:'paste', cls:'t-paste',
-      body:'ABSOLUTE (Part B)\n'+
-           '  Active malignancy or in treatment: '+sv('fq-ca-active')+
-           '\n  Prior cancer: '+sv('fq-ca-hx')+(raw('fq-ca-when')?', treatment completed '+sv('fq-ca-when'):'')+
-           '\n  Pregnancy, conception, breastfeeding: '+(isMale()?'not applicable':sv('fq-preg'))+
-           '\n  Prior peptide exposure: '+sv('fq-pep-before')+
-           '\n  Prior serious reaction to a peptide: '+(($('fq-pep-before')||{}).value==='yes'?sv('fq-pep-rxn'):'not applicable, peptide naive')+
-           (raw('fq-pep-rxn-what')?' - '+raw('fq-pep-rxn-what'):'')+
-           '\n  Prior anaphylaxis: '+sv('fq-anaph')+
-           '\n  Pituitary / HPA axis: '+sv('fq-pituitary')+
-           '\n  Proliferative retinopathy: '+sv('fq-retino')+
-           '\n  Sleep apnea: '+sv('fq-osa')+(($('fq-osa')||{}).value==='yes'?', treatment '+sv('fq-osa-tx'):'')+
-           '\n  Wilson disease or copper disorder: '+sv('fq-wilson')+
-           '\n\nRELATIVE (Part C)\n'+
-           '  Diabetes, prediabetes, insulin resistance: '+sv('fq-dm')+(raw('fq-dm-a1c')?', patient-reported HbA1c '+raw('fq-dm-a1c'):'')+
-           '\n  Thyroid: '+sv('fq-thyroid')+(($('fq-thyroid')||{}).value==='yes'?', treatment '+sv('fq-thyroid-tx'):'')+
-           '\n  Chronic liver disease: '+sv('fq-liver')+
-           '\n  Drug-tested athlete: '+sv('fq-wada')+
-           (($('fq-wada-ack')||{}).checked?' - risk acknowledged at intake, counsel and document':'')+
-           '\n  High-dose copper or zinc: '+sv('fq-cuzn')+
-           '\n\nOther history volunteered: '+(raw('fq-other-hx')||'none')});
-
-    S.push({t:'PMH / PSH / FH', tag:'paste', cls:'t-paste',
-      body:'Past medical history: '+group('.fpa')+
+      body:'ABSOLUTE (Part B): '+(r.stops.length?r.stops.join('; '):'all denied')+
+           '\nRELATIVE (Part C) and other flags: '+(r.revs.length?r.revs.join('; '):'all denied')+
+           '\nPregnancy, conception, breastfeeding: '+(isMale()?'not applicable':
+             (val('fpreg')==='no'?'denied':(val('fpreg')?'REPORTED':'not answered')))+
+           '\nPrior peptide exposure: '+pick('fpepb')+
+           '\nPast medical history: '+group('.fpa')+
            '\nSurgical history: '+group('.fsurg')+
-           '\nFamily history: '+group('.ffam')});
+           '\nFamily history: '+group('.ffam')+
+           '\nOther history volunteered: '+(raw('fq-other-hx')||'none')});
 
     S.push({t:'PREVENTIVE SCREENING', tag:'paste', cls:'t-paste',
-      body:(isMale()?'PSA: '+sv('fq-psa')+(raw('fq-psa-when')?' ('+raw('fq-psa-when')+')':''):'PSA: not applicable')+
-           '\n'+(val('sex')==='f'?'Mammogram: '+sv('fq-mam')+(raw('fq-mam-when')?' ('+raw('fq-mam-when')+')':''):'Mammogram: not applicable')+
-           '\nColonoscopy: '+((age()!==null&&age()>=45)?sv('fq-colon')+(raw('fq-colon-when')?' ('+raw('fq-colon-when')+')':''):'not asked, under 45')+
-           '\nDEXA: '+sv('fq-dexa')+(raw('fq-dexa-when')?' ('+raw('fq-dexa-when')+')':'')+
-           '\nInBody: '+sv('fq-inbody')});
+      body:'PSA: '+(isMale()?pick('fpsa'):'not applicable')+
+           '\nMammogram: '+(val('sex')==='f'?pick('fmam'):'not applicable')+
+           '\nColonoscopy: '+((age()!==null&&age()>=45)?pick('fcol'):'not asked, under 45')+
+           '\nDEXA: '+pick('fdexa')+
+           '\nInBody: '+pick('finbody')});
 
     S.push({t:'MEDICATIONS, SUPPLEMENTS, ALLERGIES', tag:'paste', cls:'t-paste',
-      body:'Prescription medications: '+sv('fq-rx')+
+      body:'Prescription medications: '+pick('frx')+
            '\n'+(rowsOut('fRxList',function(a,b,c){return '  - '+a+(b?' '+b:'')+(c?', '+c:'')}).join('\n')||'  none reported')+
-           '\nSupplements and OTC: '+sv('fq-supp')+
+           '\nSupplements and OTC: '+pick('fsupp')+
            '\n'+(rowsOut('fSuppList',function(a,b,c){return '  - '+a+(b?' '+b:'')+(c?', '+c:'')}).join('\n')||'  none reported')+
-           '\nCurrent peptides, GH or hormone therapy: '+sv('fq-curpep')+
+           '\nCurrent peptides, GH or hormone therapy: '+(val('fcurpep')==='review'?'YES':pick('fcurpep'))+
            '\n'+(rowsOut('fPepList',function(a,b,c){return '  - '+a+(b?' '+b:'')+(c?', '+c:'')}).join('\n')||'  none reported')+
-           '\nCopper or zinc, including multivitamin: '+sv('fq-cuzn2')+(raw('fq-cuzn-list')?' - '+raw('fq-cuzn-list'):'')+
-           '\nMedication allergies: '+sv('fq-allergy')+
+           '\nCopper or zinc: '+(val('fcuzn')==='review'?'YES':pick('fcuzn'))+(raw('fcz-list')?' - '+raw('fcz-list'):'')+
+           '\nMedication allergies: '+pick('falg')+
            '\n'+(rowsOut('fAllergyList',function(a,b){return '  - '+a+(b?' - '+b:'')}).join('\n')||'  none reported')+
-           '\nExcipient allergies: '+sv('fq-excip')+(raw('fq-excip-what')?' - '+raw('fq-excip-what'):'')});
+           '\nExcipient allergies: '+(val('fexc')==='review'?'YES':pick('fexc'))+(raw('fex-what')?' - '+raw('fex-what'):'')});
 
     S.push({t:'ROS', tag:'paste', cls:'t-paste',
       body:'Hormonal / body composition: '+group('.fros[data-g=Hormonal]')+
            '\nRecovery / musculoskeletal: '+group('.fros[data-g=Recovery]')+
            '\nMetabolic / cardiovascular: '+group('.fros[data-g=Metabolic]')+
-           '\nSkin / tissue: '+group('.fros[data-g=Skin]')+
+           '\nSkin: '+group('.fros[data-g=Skin]')+
            '\nSleep: '+group('.fros[data-g=Sleep]')+
            '\nGastrointestinal: '+group('.fros[data-g=GI]')+
            '\nGeneral: '+group('.fros[data-g=General]')+
            '\n\nPatient-reported at intake. Confirm at the visit.'});
 
     S.push({t:'PLAN', tag:'paste', cls:'t-paste',
-      body:'1. Baseline labs ordered today. KORB Standard Longevity panel, or KORB Men 45 Longevity if male and 45 or older. $99, billed to the patient.\n'+
+      body:'1. Baseline labs ordered today. KORB Standard Longevity, or KORB Men 45 Longevity if male and 45 or older. $99, billed to the patient.\n'+
            '2. No prescription issued at this visit.\n'+
-           '3. Ops schedules the 45-minute lab review once results are in. IGF-1 is required and is never waived. Zinc and copper are required before scheduling only if GHK-Cu is being considered.\n'+
-           '4. Program and agent selected at that visit, one agent at initiation.\n'+
+           '3. Ops schedules the 45-minute lab review once results are in. IGF-1 required and never waived. Zinc and copper required before scheduling only if GHK-Cu is being considered.\n'+
+           '4. Program and agent selected at that visit. One agent at initiation.\n'+
            '5. Investigational status counseling documented. No outcome guarantees.'});
 
     return S;
