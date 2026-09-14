@@ -89,13 +89,14 @@ var TESA_MONITOR = [
 var KORB_DOSING = {
 
   meta: {
-    version: '2.7',
+    version: '2.8',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-09-14 (v2.8): CLINICAL CONTENT CHANGED - GREENWICH SERMORELIN FAVORITE NAMES CORRECTED. The four Greenwich sermorelin entries named the dose as 3x its real value in milligrams: 200 mcg was written "0.6 mg", 300 mcg "0.9 mg", 400 mcg "1.2 mg" and 500 mcg "1.5 mg". That is the Greenwich concentration ratio, 3 mg/mL against Premier 1 mg/mL, applied to the dose. Concentration changes the VOLUME injected, not the dose: 300 mcg is 300 mcg from either vial. Corrected to match Premier and to match CJC-1295/Ipamorelin, which already uses one dose wording across both pharmacies. Eight strings changed - the label and the Name field on each of the four strengths. Confirmed by Don 2026-09-14. Nothing else was touched: the Greenwich Drug Formulation strings, which must match the Greenwich system exactly, are byte-identical, as are quantity, unit, refill, days supply and all instructions. STILL OPEN: BPC-157 reads "500 mcg" at Premier and "0.6 MG" at Greenwich, which is neither the same number nor the same 3x pattern. Not changed here - it needs Don.',
     '2026-09-06 (v2.7): THE FOUNDATION TITRATION IS NOW REACHABLE. v2.6 added ' +
     'programs.foundation.primaryDoseOptions - sermorelin 200/300/400, CJC ' +
     '100/150/200 - with prescribing records, sig text and schedules behind all ' +
@@ -352,10 +353,10 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Sermorelin 0.6 mg SQ Injection',
+      label: 'GREENWICH – Sermorelin 200 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Sermorelin 0.6 mg SQ Injection', copy: true },
+        { field: 'Name', val: 'GREENWICH – Sermorelin 200 mcg SQ Injection', copy: true },
         { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
@@ -390,10 +391,10 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Sermorelin 0.9 mg SQ Injection',
+      label: 'GREENWICH – Sermorelin 300 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Sermorelin 0.9 mg SQ Injection', copy: true },
+        { field: 'Name', val: 'GREENWICH – Sermorelin 300 mcg SQ Injection', copy: true },
         { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
@@ -428,10 +429,10 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Sermorelin 1.2 mg SQ Injection',
+      label: 'GREENWICH – Sermorelin 400 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Sermorelin 1.2 mg SQ Injection', copy: true },
+        { field: 'Name', val: 'GREENWICH – Sermorelin 400 mcg SQ Injection', copy: true },
         { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
@@ -466,10 +467,10 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Sermorelin 1.5 mg SQ Injection',
+      label: 'GREENWICH – Sermorelin 500 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Sermorelin 1.5 mg SQ Injection', copy: true },
+        { field: 'Name', val: 'GREENWICH – Sermorelin 500 mcg SQ Injection', copy: true },
         { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
