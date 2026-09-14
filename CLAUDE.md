@@ -82,6 +82,7 @@ URLs are in circulation.
   korb-dosing-data.js              FH&L peptide clinical data   (SOURCE OF TRUTH)
   korb-addons-data.js              add-on formulations          (SOURCE OF TRUTH)
   korb-pharmacies.js               shared pharmacy/state layer  (NOT YET WIRED — see Open work)
+  korb-rx-block.js                 THE Tebra prescribing block, shared by all four
   provider-doc-render.js           render module, GLP-1 monographs
   fhl-doc-render.js                render module, FH&L references
   build-*.js                       generators (see below)
@@ -218,6 +219,36 @@ reviewed decision, and rebuild all 14 documents in the same commit.
 
 ---
 
+## The Tebra prescribing block lives in ONE file
+
+`korb-rx-block.js`, added 2026-09-14. It owns the field order, the field tints,
+the pharmacy accent colours, the copy button and the clipboard handler. Before
+it, the same block existed four times in four shapes and a provider saw a
+different thing depending on which document they opened.
+
+Only the four FH&L references are wired to it so far. The GLP-1 monographs, the
+Add-On reference and `KORB_Provider_Clinical_Reference.html` still render their
+own. Finishing that is open work.
+
+Three rules in it that were each learned by getting them wrong:
+
+- **The field order is Tebra's entry order.** Not alphabetical, not a layout
+  choice. A provider reads down the page and fills down the form.
+- **One complete block per strength.** Factoring the shared fields out of
+  Sermorelin 200/300/400 was tried on 2026-09-14 and reverted the same day: it
+  saved pages and broke the block for the one thing it exists for. The
+  repetition to collapse is counselling and monitoring, not prescribing.
+- **Screen and print lay out differently.** Stacked full width on screen, where
+  copying is the job; side by side in print, where a page turn is the expensive
+  move. `body` is capped at 8.5in on screen, so a 3440px monitor renders the
+  same width as a 1366px laptop - screen real estate never solves this.
+
+`white-space: pre-wrap` on the value cell is not cosmetic. Greenwich stores
+formulations with runs of spaces (`KBH   Sermorelin 3mg/mL`) and HTML collapses
+them, so the page showed a string that did not match what Greenwich requires.
+
+---
+
 ## Generators
 
 Run all of them **from the repo root**.
@@ -229,6 +260,7 @@ Run all of them **from the repo root**.
 | `build-embed.js` | `korb-glp1-data.js`, `korb-addons-data.js` | embedded blocks in the two frozen tools |
 | `build-signoff-sheet.js` | `korb-glp1-data.js` | monograph clinical sign-off sheet |
 | `build-addon-signoff.js` | `korb-addons-data.js` | add-on sign-off sheet |
+| `build-intake-spec.py` | `KORB_Scheduler_Intake_Prototype.html` | `KORB_Scheduler_Intake_Logic_Spec.xlsx` (vendor spec) |
 
 The list of GLP-1 documents is **not** in `build-provider-docs.js`. It is `DOCS` in
 `provider-doc-render.js` (~line 164). Same for FH&L in `fhl-doc-render.js`. Looking
@@ -527,6 +559,15 @@ women's testosterone. Do not re-report those; they are already on the list.
 7. Reconcile `KORB_AddOn_Selector.html` / `KORB_Optimization_Products.html`.
 8. Fix the stale comment in `build-provider-docs.js` — says "eleven documents",
    the list holds ten (Greenwich tirzepatide retired 2026-09-11).
+9b. **Wire the cross-pharmacy dose audit into the builders.** It compares the
+   dose stated in each pharmacy's favorite name, normalised to mcg, across every
+   agent. Run once by hand on 2026-09-14 it found two real errors in the field
+   that becomes the prescription: Greenwich sermorelin named at 3x the dose in mg
+   (v2.8) and BPC-157 at 600 mcg where the dose is 500 (v2.9). It now reports
+   zero. **It exists only as shell history.** Both were found by Don reading the
+   document, not by the repo, and until this runs inside `build-fhl-docs.js` and
+   `build-provider-docs.js` the next one waits for a human too. It has never been
+   run against `korb-glp1-data.js` at all.
 9. **`build-signoff-sheet.js` cannot run on either machine.** Line 306 writes to
    `/mnt/user-data/outputs/monograph-signoff.html`, a Cowork sandbox path, so it
    exits with ENOENT. Third instance of a sandbox path committed as if it were a
@@ -550,6 +591,18 @@ women's testosterone. Do not re-report those; they are already on the list.
    records. The boilerplate used elsewhere ("no FDA-approved or commercially
    available equivalent") would be FALSE, because bremelanotide is FDA-approved as
    Vyleesi. Do not fill it with the boilerplate. Needs the real rationale from Don.
+10b. **Scheduler intake: a hidden block must never be required.** Fixed
+   2026-09-14 in both scheduler builds. The diabetes co-ordination block was
+   gated on `diabetic()`, which is deliberately wide - Type 2 or prediabetes,
+   Type 1 in history, insulin, sulfonylurea. A patient who ticked Type 2 earlier
+   and then answered "None of these apply" was shown the block and could not
+   continue without naming a diabetes provider they did not have.
+   `diabetic()` was NOT narrowed: it drives the provider review flag, and
+   narrowing it would have silently dropped a Type 2 patient on metformin from
+   that flag. A new `dmAsk()` - insulin or sulfonylurea only - drives the block,
+   its validation and the note paragraph. **Keep display and requirement on the
+   same condition**, and when a predicate has several consumers, add a narrow one
+   rather than narrowing the shared one.
 11. **Scheduler intake — Men's Health and Women's Health question sets.**
    `KORB_Scheduler_Intake_AllPrograms.html` now carries Weight Loss and Functional
    Health & Longevity. The other two programs select at step 3 and then bring no
