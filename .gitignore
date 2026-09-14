@@ -26,3 +26,8 @@ blob-report/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Python bytecode. build-intake-spec.py is imported by its own negative test,
+# which leaves a __pycache__ behind; it reached one commit before this line existed.
+__pycache__/
+*.pyc
