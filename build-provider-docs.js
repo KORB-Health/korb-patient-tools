@@ -221,7 +221,7 @@ Built ${list.length} HTML document(s) from korb-glp1-data.js v${K.meta.version} 
           <img src="${R.LOGO_URI}" style="height:26px;width:auto;">
           <div style="text-align:right;font-size:7.5pt;color:#21275B;line-height:1.3;">
             <div style="font-weight:bold;">${R.esc('GLP-1 Provider Reference · ' + doc.title)}</div>
-            <div style="font-weight:bold;">KORB Health Group</div>
+            <div style="font-weight:bold;">KORB Health Medical Texas PA</div>
           </div>
         </div></div>`,
       footerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">

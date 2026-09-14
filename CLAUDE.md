@@ -444,21 +444,43 @@ women's testosterone. Do not re-report those; they are already on the list.
    exits 0. The render check was itself negative-tested by hiding the root data file:
    10 FAILED, then 10 ok once restored.
 
+1b. ~~Switch the clinical references to the medical PA.~~ **DONE 2026-09-14.** All
+   15 clinical documents now carry KORB Health Medical Texas PA in the byline and in
+   the PDF running header. The Add-On Clinical Reference was corrected in `a56f812`;
+   the other 14 followed.
+
+   **It was four lines, not the two this item used to claim.** The two bylines were
+   `provider-doc-render.js:598` and `fhl-doc-render.js:490`, but the PDF running
+   header is a SEPARATE string living in the builders, at
+   `build-provider-docs.js:224` and `build-fhl-docs.js:253`. Fixing only the
+   documented two would have left every printed page of all 14 PDFs headed by the
+   MSO while the HTML said the PA — the same HTML/PDF split as the FarmaKeio
+   spelling, in a place where it is a compliance statement rather than a typo.
+   **When an entity or attribution string changes, grep the builders as well as the
+   render modules.** The live page and the print header do not share it.
+
+   The disclaimer paragraphs at `provider-doc-render.js:625` and
+   `fhl-doc-render.js:516` still say KORB Health Group LLC, correctly — that
+   sentence is the MSO making a statement about itself.
+
+   Verified in the rendered output, not in the source. All 14 PDFs were re-extracted
+   with pdftotext: every one carries the PA, and every remaining "KORB Health Group"
+   is either "Bill to KORB Health Group and ship to the patient" or the LLC
+   disclaimer. Negative-tested against the committed pre-fix PDF, which reports 0
+   PA occurrences and a Group running header, versus 19 and a PA header after.
+
+   The warning below still stands and is why this was done as four lines rather than
+   a find-and-replace: do NOT mass-replace "KORB Health Group" across the data files.
+   All 100 occurrences in `korb-glp1-data.js` are pharmacy instruction text where the
+   MSO genuinely is the contracting entity. Replacing those would send the wrong
+   entity to three pharmacies.
+
+   Left alone deliberately: `build-provider-docs.js:104` and `build-fhl-docs.js:143`
+   carry `alt="KORB Health Group"` on the logo image in the on-screen masthead. That
+   is alt text describing the brand lockup, not an attribution line, and it is hidden
+   in print. Change it only if the brand mark itself changes.
+
 **NEXT →**
-1b. **Switch the clinical references to the medical PA.** PARTLY DONE. KORB Health
-   Group LLC is the management services organization and is NOT a clinical provider;
-   KORB Health Medical Texas PA holds licensure and prescribing authority, so a
-   clinical document must carry the PA. The Add-On Clinical Reference was corrected
-   in `a56f812` and now carries the PA 22 times and the MSO once, in the disclaimer.
-   **Still outstanding for the other 14 documents, and it is two lines:**
-   `provider-doc-render.js:598` and `fhl-doc-render.js:490`, both bylines. The
-   disclaimer paragraphs at `provider-doc-render.js:625` and `fhl-doc-render.js:516`
-   are already correct — leave them.
-   Do NOT mass-replace "KORB Health Group" across the data files. 131 occurrences
-   look like one find-and-replace and are not. All 100 in `korb-glp1-data.js` are
-   inside pharmacy instruction text ("bill KORB Health Group and ship to the
-   patient"), where the MSO genuinely is the contracting entity. Replacing those
-   would send the wrong entity to three pharmacies.
 2. **Reshape `korb-pharmacies.js`** to program-keyed, add the cross-file self-check.
 3. **Wire GLP-1 onto it.** Do GLP-1 first: best self-check coverage, and there is a
    verified 51-state routing baseline to diff against, so a mistake shows up

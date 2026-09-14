@@ -487,7 +487,7 @@ function renderBody(data, doc) {
   <h1>${esc(doc.title)}</h1>
   <p class="sub">Functional Health &amp; Longevity · Provider Reference</p>
 </div>
-<p class="byline">KORB Health Group · korb-dosing-data.js v${esc(K.meta.version)} · ${esc(doc.stamp || 'live — reflects the data file as of this page load')}</p>
+<p class="byline">KORB Health Medical Texas PA · korb-dosing-data.js v${esc(K.meta.version)} · ${esc(doc.stamp || 'live — reflects the data file as of this page load')}</p>
 
 <div class="lede">Everything needed to prescribe the ${esc(K.programs[doc.program].label)}, complete on its own. The provider tool covers the same ground; this document exists so it is not required. Values are copied literally into the Tebra Compound section.</div>
 

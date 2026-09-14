@@ -595,7 +595,7 @@ function renderBody(data, doc) {
   <h1>${esc(doc.title)}</h1>
   <p class="sub">Weight Loss &amp; Metabolic Health · Provider Reference</p>
 </div>
-<p class="byline">KORB Health Group · korb-glp1-data.js v${esc(K.meta.version)} · ${esc(doc.stamp || 'live — reflects the data file as of this page load')}</p>
+<p class="byline">KORB Health Medical Texas PA · korb-glp1-data.js v${esc(K.meta.version)} · ${esc(doc.stamp || 'live — reflects the data file as of this page load')}</p>
 
 <div class="lede">Everything needed to prescribe ${esc(doc.title.replace(/ — /, ' '))}, complete on its own. Values are copied literally into Tebra — do not paraphrase, and do not adjust quantity, refill or days supply.</div>
 
