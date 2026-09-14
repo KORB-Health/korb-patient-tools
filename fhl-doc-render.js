@@ -384,46 +384,33 @@ function sectionRx(doc) {
           'Greenwich requires “as directed by provider” in Patient Instructions because KORB does not follow their ' +
           'protocols — the full direction still goes to the patient through their treatment schedule.</p>';
 
-  /* Strengths of one medication are grouped, so the shared Tebra fields print
-     once instead of once per strength. Sermorelin 200/300/400/500 differ only
-     in the favorite Name at Greenwich; printed separately that is the same nine
-     values three extra times. Grouped on agents[].label, which is the same
-     string across strengths of a medication ("Sermorelin", "CJC-1295 /
-     Ipamorelin") and correctly differs for Tesamorelin, whose quantity really
-     does change with the dose. */
-  const groups = [];
-  const byLabel = {};
+  /* ONE COMPLETE BLOCK PER STRENGTH. Deliberately not grouped, and not to be
+     "tidied" later: a provider works from this block to enter a real
+     prescription, so every strength has to show its own whole entry with every
+     field present. Factoring the shared fields out was tried on 2026-09-14 and
+     reverted the same day - it saved pages and made the block unusable for the
+     thing it exists for, because the entry a provider is transcribing was then
+     split across a shared table and a per-strength table.
+
+     The repetition a reader notices in this document is real, but it is in
+     counselling and monitoring at the foot of the page, not here. That is where
+     it has been collapsed. See sectionClinical(). */
   agentKeys(doc).forEach(function (r) {
     const rec = K.prescribing[r.key];
     if (!rec) return;
     const a = K.agents[r.key] || {};
-    const gk = a.label || rec.name || r.key;
-    if (!byLabel[gk]) { byLabel[gk] = { label: gk, storage: rec.storage, rows: [] }; groups.push(byLabel[gk]); }
-    byLabel[gk].rows.push({ key: r.key, dose: a.dose || rec.name || r.key, rec: rec });
-  });
-
-  groups.forEach(function (g) {
-    h += '<div class="rxblock"><h3>' + esc(g.label) + '</h3>';
-    /* Rendered through the shared Tebra block, so these four references show a
-       provider the same labelled, tinted, copyable entry the Provider Clinical
-       Reference has always shown. They previously rendered this same data - it
-       was already stored field by field in Tebra order - as a bare
-       "Field | Value" table with no tints and nothing to copy. */
+    h += '<div class="rxblock"><h3>' + esc((rec.name || a.label) + ' — ' + (a.dose || '')) + '</h3>';
     keys.forEach(function (pk) {
-      const entries = g.rows.map(function (row) {
-        const e = row.rec[pk];
-        if (!e || !e.fields) return null;
-        return { key: row.key, dose: row.dose, label: e.label, fields: RXB.fieldsFrom(e) };
-      }).filter(Boolean);
-      if (!entries.length) return;
-      h += RXB.groupBlock({
+      const e = rec[pk];
+      if (!e || !e.fields) return;
+      h += RXB.block({
         pharmacy: pharmName(pk),
-        label: g.label,
-        entries: entries,
+        label: e.label,
+        fields: RXB.fieldsFrom(e),
         accent: RXB.accentFor(pk)
       });
     });
-    if (g.storage) h += '<p class="fine rxb-after"><strong>Storage:</strong> ' + esc(g.storage) + '</p>';
+    if (rec.storage) h += '<p class="fine rxb-after"><strong>Storage:</strong> ' + esc(rec.storage) + '</p>';
     h += '</div>';
   });
   return h;
@@ -434,25 +421,116 @@ function sectionRx(doc) {
    counseling points. */
 const COUNSEL_KEY = { sermorelin: 'serm', cjcipam: 'cjc', tesamorelin: 'tesa' };
 
+/* A heading for a set of strengths that share one piece of clinical advice.
+   Identical labels collapse to themselves. Labels that differ only by dose -
+   "Tesamorelin 1 mg", "Tesamorelin 1.5 mg", "Tesamorelin 2 mg" - collapse to
+   their common prefix, "Tesamorelin". Anything with no useful common prefix
+   falls back to listing them, which is ugly but never wrong: a heading is the
+   one thing here that can safely be verbose. */
+function commonLabel(labels) {
+  const uniq = labels.filter(function (v, i) { return labels.indexOf(v) === i; });
+  if (uniq.length === 1) return uniq[0];
+
+  let pre = uniq[0];
+  uniq.forEach(function (s) {
+    let i = 0;
+    while (i < pre.length && i < s.length && pre[i] === s[i]) i++;
+    pre = pre.slice(0, i);
+  });
+  pre = pre.replace(/[\s–—\-/,]+$/, '').trim();
+  return pre.length >= 3 ? pre : uniq.join(' / ');
+}
+
 function sectionClinical(doc) {
   const prog = K.programs[doc.program];
   const fams = doc.program === 'foundation' ? (prog.agentChoices || []) : [prog.primaryFamily];
   let h = '<h2>Counseling and monitoring</h2>';
 
+  /* Counselling and monitoring are properties of the MEDICATION, not of the
+     strength, and not of which of the two sources happened to supply them.
+
+     Two things used to make this section repeat itself. Per strength, so
+     "Sermorelin 300mcg — monitoring" landed on one page and "Sermorelin 400mcg
+     — monitoring" on the next carrying the same twelve bullets, reading as
+     though the doses are monitored differently. And per source, because the
+     family text in K.counselingText and the copy on the prescribing record were
+     both emitted, so a medication could appear twice over.
+
+     Both sources are collected here and then collapsed on the CONTENT of the
+     two lists. Content, not a name and not a label: Tesamorelin's labels differ
+     per strength while its counselling is identical, so label-grouping would
+     have missed it, and conversely an agent whose advice genuinely differs by
+     strength keeps its own heading automatically, because its content differs.
+     Nothing is merged that is not byte-identical.
+
+     Verified before writing this: for sermorelin, CJC and tesamorelin the
+     family text and the record copy are identical wherever both exist. The one
+     asymmetry is CJC monitoring, which is empty at family level and twelve
+     bullets on the record - so taking the longer of the two loses nothing and
+     the earlier code simply printed nothing there. */
+  const clinical = [];
+
+  function same(a, b) { return JSON.stringify(a || null) === JSON.stringify(b || null); }
+  function has(x) { return !!(x && x.length); }
+
+  /* Merged per medication, then per content. A medication gets one entry; a
+     source contributes whichever of the two lists it actually has. CJC-1295 /
+     Ipamorelin is the case that forces this: the family text carries counselling
+     and no monitoring, the prescribing record carries both, and keying on the
+     pair alone produced two entries and printed the counselling twice.
+
+     A second source offering DIFFERENT non-empty content for a list does not
+     overwrite and does not merge - it becomes its own entry, so a real clinical
+     difference can never be swallowed by this tidy-up. */
+  function offer(labelIn, counseling, monitor) {
+    if (!has(counseling) && !has(monitor)) return;
+
+    for (let i = 0; i < clinical.length; i++) {
+      const e = clinical[i];
+      /* Two ways to be the same medication. Same label catches CJC, whose two
+         sources agree on the label and differ in which list they carry. Same
+         content catches Tesamorelin, whose label carries the dose - "Tesamorelin
+         1 mg" against "Tesamorelin 1.5 mg" - while the advice is byte-identical.
+         Neither test alone is enough; the earlier passes each used one and each
+         left the other medication printing itself several times over. */
+      const sameLabel = e.labels.indexOf(labelIn) !== -1;
+      const sameBody = (has(counseling) && same(e.counseling, counseling)) ||
+                       (has(monitor) && same(e.monitor, monitor));
+      if (!sameLabel && !sameBody) continue;
+      const cOk = !has(counseling) || !has(e.counseling) || same(e.counseling, counseling);
+      const mOk = !has(monitor) || !has(e.monitor) || same(e.monitor, monitor);
+      if (!cOk || !mOk) continue;
+      if (has(counseling) && !has(e.counseling)) e.counseling = counseling;
+      if (has(monitor) && !has(e.monitor)) e.monitor = monitor;
+      if (e.labels.indexOf(labelIn) === -1) e.labels.push(labelIn);
+      return;
+    }
+    clinical.push({ counseling: counseling, monitor: monitor, labels: [labelIn] });
+  }
+
   fams.forEach(function (fam) {
     const ck = COUNSEL_KEY[fam];
-    const label = (K.foundationAgents[fam] || {}).label || fam;
-    if (ck && K.counselingText[ck]) h += '<h3>' + esc(label) + ' — counseling points</h3>' + bullets(K.counselingText[ck]);
-    if (ck && K.monitoringText[ck]) h += '<h3>' + esc(label) + ' — monitoring</h3>' + bullets(K.monitoringText[ck]);
+    if (!ck) return;
+    /* foundationAgents has no entry for every family, and falling through to
+       the raw key printed a lowercase "tesamorelin" as a heading. */
+    const label = (K.foundationAgents[fam] || {}).label ||
+                  fam.charAt(0).toUpperCase() + fam.slice(1);
+    offer(label, K.counselingText[ck], K.monitoringText[ck]);
   });
 
   /* Agents carrying their own counseling on the prescribing record — GHK-Cu is
-     the one, and it is copper-containing, so its points are not optional. */
+     one, and it is copper-containing, so its points are not optional. */
   agentKeys(doc).forEach(function (r) {
     const rec = K.prescribing[r.key];
-    if (!rec || (!rec.counseling && !rec.monitor)) return;
-    if (rec.counseling) h += '<h3>' + esc(rec.name) + ' — counseling points</h3>' + bullets(rec.counseling);
-    if (rec.monitor) h += '<h3>' + esc(rec.name) + ' — monitoring</h3>' + bullets(rec.monitor);
+    if (!rec) return;
+    const a = K.agents[r.key] || {};
+    offer(a.label || rec.name, rec.counseling, rec.monitor);
+  });
+
+  clinical.forEach(function (g) {
+    const label = commonLabel(g.labels);
+    if (has(g.counseling)) h += '<h3>' + esc(label) + ' — counseling points</h3>' + bullets(g.counseling);
+    if (has(g.monitor)) h += '<h3>' + esc(label) + ' — monitoring</h3>' + bullets(g.monitor);
   });
 
   h += sectionLabs();
