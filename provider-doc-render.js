@@ -16,16 +16,20 @@
    and silently reintroduces the drift.
    ============================================================================ */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory();
-  else root.KORB_DOCS = factory();
-}(typeof self !== 'undefined' ? self : this, function () {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./korb-rx-block.js'));
+  else root.KORB_DOCS = factory(root.KORB_RX_BLOCK);
+}(typeof self !== 'undefined' ? self : this, function (RXB) {
 
 /* The data file, bound by renderBody()/mount() before any section runs.
    Section functions read it as K, which is how they were written when this
    renderer lived inside the builder. */
 var K = null;
 
-const CSS = `  @page { size: Letter; margin: 0.95in 0.6in 0.75in; }
+/* The shared Tebra block styles come first so a document-level rule can still
+   override them. Every renderer in this repo reads its prescribing block from
+   korb-rx-block.js, so its CSS travels with them rather than being restated. */
+const CSS = RXB.CSS + `
+  @page { size: Letter; margin: 0.95in 0.6in 0.75in; }
   /* --------------------------------------------------------------------
      KORB house style, matched to the Functional Health & Longevity provider
      references so the whole provider library reads as one set: navy filled
@@ -634,5 +638,8 @@ function mount(docId, data) {
   document.body.innerHTML = renderBody(K, doc);
 }
 
-return { DOCS: DOCS, esc: esc, renderBody: renderBody, mount: mount, CSS: CSS, LOGO_URI: LOGO_URI };
+/* RXB is re-exported so fhl-doc-render.js reaches the shared Tebra block
+   through this module, the way it already reaches esc and CSS. That keeps the
+   live FH&L shell to one added script tag instead of two. */
+return { DOCS: DOCS, esc: esc, renderBody: renderBody, mount: mount, CSS: CSS, LOGO_URI: LOGO_URI, RXB: RXB };
 }));

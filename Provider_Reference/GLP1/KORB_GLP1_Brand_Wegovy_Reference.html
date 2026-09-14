@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wegovy — brand semaglutide — GLP-1 Provider Reference</title>
 <style>
+.rxb{margin:0 0 18px;border:1px solid #C9CEDB;border-radius:7px;overflow:hidden;break-inside:avoid;page-break-inside:avoid;}.rxb-hdr{color:#fff;font-weight:700;font-size:12px;letter-spacing:.02em;padding:7px 12px;}.rxb-tbl{width:100%;border-collapse:collapse;font-size:12px;}.rxb-tbl th{width:33%;text-align:left;font-weight:700;color:#21275B;background:#F7F8FB;border-top:1px solid #E3E6EF;padding:6px 12px;vertical-align:top;}.rxb-tbl td{border-top:1px solid #E3E6EF;padding:6px 12px;vertical-align:top;}.rxb-tbl tr:first-child th,.rxb-tbl tr:first-child td{border-top:0;}.cp{display:block;}.rxb-tbl td.fld-drugformulation{background:#E8EAF6;box-shadow:inset 3px 0 0 #5C6BC0;}.rxb-tbl td.fld-name{background:#E0F2F1;box-shadow:inset 3px 0 0 #00897B;}.rxb-tbl td.fld-quantity{background:#FFF8E1;box-shadow:inset 3px 0 0 #F9A825;}.rxb-tbl td.fld-unit{background:#FFF3E0;box-shadow:inset 3px 0 0 #EF6C00;}.rxb-tbl td.fld-refill{background:#F3E5F5;box-shadow:inset 3px 0 0 #8E24AA;}.rxb-tbl td.fld-dayssupply{background:#FCE4EC;box-shadow:inset 3px 0 0 #D81B60;}.rxb-tbl td.fld-patientinstructions{background:#E3F2FD;box-shadow:inset 3px 0 0 #1976D2;}.rxb-tbl td.fld-reasonforcompounding{background:#E8F5E9;box-shadow:inset 3px 0 0 #388E3C;}.rxb-tbl td.fld-pharmacyinstructions{background:#EFEBE9;box-shadow:inset 3px 0 0 #6D4C41;}@media print{.copybtn{display:none;}}@media screen{.rxb-tbl td{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}.copybtn{float:right;margin-left:10px;font-family:inherit;font-size:10px;font-weight:700;border:1px solid #9AD9E0;background:#E8F7F9;color:#0F5F69;border-radius:4px;padding:1px 7px;cursor:pointer;}.copybtn:hover{background:#D3EDF1;}.copybtn.ok{background:#1B6349;border-color:#1B6349;color:#fff;}}
   @page { size: Letter; margin: 0.95in 0.6in 0.75in; }
   /* --------------------------------------------------------------------
      KORB house style, matched to the Functional Health & Longevity provider
@@ -143,6 +144,7 @@
 <body>
 <p>Loading…</p>
 <script src="../../korb-glp1-data.js"></script>
+<script src="../../korb-rx-block.js"></script>
 <script src="../../provider-doc-render.js"></script>
 <script>
   /* Renders from the data file at page load, so this document is never stale.
@@ -169,6 +171,34 @@
       '<span class="tools"><a href="KORB_GLP1_Brand_Wegovy_Reference.pdf">PDF version</a>' +
       '<a href="#" onclick="window.print();return false;">Print</a></span>';
     document.body.insertBefore(bar, document.body.firstChild);
+
+    /* Clipboard for the Tebra fields. One delegated handler, shared with
+       every other document, so adding a product needs no change here. */
+    document.addEventListener("click", function (e) {
+  var btn = e.target.closest ? e.target.closest(".copybtn") : null;
+  if (!btn) { return; }
+  var host = btn.parentNode;
+  var text = host.getAttribute("data-copy") || "";
+  function done() {
+    var prev = btn.textContent;
+    btn.textContent = "copied";
+    btn.className = "copybtn ok";
+    setTimeout(function () { btn.textContent = prev; btn.className = "copybtn"; }, 1400);
+  }
+  function legacy() {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:absolute;left:-9999px;";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); done(); } catch (err) { /* leave the button */ }
+    document.body.removeChild(ta);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, legacy);
+  } else { legacy(); }
+});
   })();
 </script>
 </body></html>

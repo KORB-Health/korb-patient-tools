@@ -53,6 +53,11 @@ var K = null;
 
 var esc = GLP1DOCS.esc;
 var CSS = GLP1DOCS.CSS;
+
+/* The shared Tebra Compounded Drug Favorite block. Reached through the GLP-1
+   module, which already carries it, so the live shell needs one script tag for
+   korb-rx-block.js rather than wiring it here separately. */
+var RXB = GLP1DOCS.RXB;
 var LOGO_URI = GLP1DOCS.LOGO_URI;
 
 /* ── THE DOCUMENTS ────────────────────────────────────────────────────────
@@ -384,13 +389,20 @@ function sectionRx(doc) {
     if (!rec) return;
     const a = K.agents[r.key] || {};
     h += '<div class="rxblock"><h3>' + esc((rec.name || a.label) + ' — ' + (a.dose || '')) + '</h3>';
+    /* Rendered through the shared Tebra block, so these four references show a
+       provider the same labelled, tinted, copyable entry the Provider Clinical
+       Reference has always shown. They previously rendered this same data - it
+       was already stored field by field in Tebra order - as a bare
+       "Field | Value" table with no tints and nothing to copy. */
     keys.forEach(function (pk) {
       const e = rec[pk];
       if (!e || !e.fields) return;
-      h += '<h4>' + esc(pharmName(pk)) + '</h4><table class="rx"><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>' +
-           e.fields.map(function (f) {
-             return '<tr><th>' + esc(f.field) + '</th><td>' + esc(f.val) + '</td></tr>';
-           }).join('') + '</tbody></table>';
+      h += RXB.block({
+        pharmacy: pharmName(pk),
+        label: e.label,
+        fields: RXB.fieldsFrom(e),
+        accent: RXB.accentFor(pk)
+      });
     });
     if (rec.storage) h += '<p class="fine"><strong>Storage:</strong> ' + esc(rec.storage) + '</p>';
     h += '</div>';

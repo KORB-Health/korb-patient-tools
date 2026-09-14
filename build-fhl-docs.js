@@ -41,11 +41,13 @@
 const fs = require('fs');
 const path = require('path');
 const R = require('./fhl-doc-render.js');
+const RXB = require('./korb-rx-block.js');
 
 const REPO = __dirname;
 const OUT = path.join(REPO, 'Provider_Reference');
 const DATA_REL = '../korb-dosing-data.js';
 const GLP1_REND_REL = '../provider-doc-render.js';
+const RXB_REL = '../korb-rx-block.js';
 const REND_REL = '../fhl-doc-render.js';
 
 const K = (function () {
@@ -124,6 +126,7 @@ ${R.CSS}
 <body>
 <p>Loading…</p>
 <script src="${DATA_REL}"></script>
+<script src="${RXB_REL}"></script>
 <script src="${GLP1_REND_REL}"></script>
 <script src="${REND_REL}"></script>
 <script>
@@ -148,6 +151,10 @@ ${R.CSS}
       '<span class="tools"><a href="${doc.file}.pdf">PDF version</a>' +
       '<a href="#" onclick="window.print();return false;">Print</a></span>';
     document.body.insertBefore(bar, document.body.firstChild);
+
+    /* Clipboard for the Tebra fields. One delegated handler, shared with
+       every other document, so adding a product needs no change here. */
+    ${RXB.COPY_JS}
   })();
 </script>
 </body></html>`;
