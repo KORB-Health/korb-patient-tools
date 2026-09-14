@@ -151,6 +151,39 @@ file under two names. Reconcile or delete one.
 
 ---
 
+## Per-agent or per-program: which document you are allowed to build
+
+**A document about ONE agent is patient-facing. A document for a provider is
+per PROGRAM.** Confirmed by Don 2026-09-14. This is a rule about who a document
+is for, not a filing convention, so it decides what may be built at all.
+
+What that means today, and the repo already matches it:
+
+| | |
+|---|---|
+| Per agent, patient-facing | `Patient_Education/KORB_Patient_Ed_{Sermorelin, BPC157, CJC_Ipamorelin, GHK_Cu, Tesamorelin}.pdf` |
+| Per program, provider-facing | `Provider_Reference/KORB_FHL_{Foundation, Gateway, Peak_Pathway_A, Peak_Pathway_B}_Provider_Reference.html` |
+| Per agent, provider-facing | **none, and none may be added** |
+
+So a provider reference covers every agent its program offers, and an agent
+appears in every program that offers it. BPC-157 is in all four documents,
+GHK-Cu in three, Sermorelin and CJC in two, Tesamorelin only in Peak B. That
+repetition is correct and is not a defect to clean up: a provider prescribing
+Gateway needs Gateway complete on its own page, not a cross-reference to
+Foundation.
+
+**Do not build a per-agent provider reference.** It is tempting - the data is
+keyed by agent, so `DOCS` in `fhl-doc-render.js` would take the rows without
+complaint - and it would put a provider on a page that does not correspond to
+anything they can prescribe. Prescribing happens by program.
+
+The counselling and monitoring collapse in `sectionClinical()` is the sanctioned
+way to deal with the repetition: identical advice prints once per medication
+inside a program document. The prescribing blocks stay one per strength. See
+the comment in `sectionRx()`.
+
+---
+
 ## Second machine setup
 
 Work happens on a desktop and a laptop. Clone as a **sibling** of the licensing
