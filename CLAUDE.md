@@ -445,11 +445,20 @@ women's testosterone. Do not re-report those; they are already on the list.
    10 FAILED, then 10 ok once restored.
 
 **NEXT →**
-1b. **Switch the clinical references to the medical PA.** Headers currently read
-   "KORB Health Group" (the MSO). KORB Health Group LLC is the management services
-   organization and is NOT a clinical provider; KORB Health Medical Texas PA holds
-   licensure and prescribing authority. Clinical documents must carry the PA. Carried
-   over from the other session's task list.
+1b. **Switch the clinical references to the medical PA.** PARTLY DONE. KORB Health
+   Group LLC is the management services organization and is NOT a clinical provider;
+   KORB Health Medical Texas PA holds licensure and prescribing authority, so a
+   clinical document must carry the PA. The Add-On Clinical Reference was corrected
+   in `a56f812` and now carries the PA 22 times and the MSO once, in the disclaimer.
+   **Still outstanding for the other 14 documents, and it is two lines:**
+   `provider-doc-render.js:598` and `fhl-doc-render.js:490`, both bylines. The
+   disclaimer paragraphs at `provider-doc-render.js:625` and `fhl-doc-render.js:516`
+   are already correct — leave them.
+   Do NOT mass-replace "KORB Health Group" across the data files. 131 occurrences
+   look like one find-and-replace and are not. All 100 in `korb-glp1-data.js` are
+   inside pharmacy instruction text ("bill KORB Health Group and ship to the
+   patient"), where the MSO genuinely is the contracting entity. Replacing those
+   would send the wrong entity to three pharmacies.
 2. **Reshape `korb-pharmacies.js`** to program-keyed, add the cross-file self-check.
 3. **Wire GLP-1 onto it.** Do GLP-1 first: best self-check coverage, and there is a
    verified 51-state routing baseline to diff against, so a mistake shows up
@@ -471,15 +480,21 @@ women's testosterone. Do not re-report those; they are already on the list.
    predates that work and is unrelated to it. Should write next to the other
    generated documents. Worth grepping for `/mnt/` and `/home/claude` before
    trusting any script in here that has not been run on this machine.
-10. **Add-On Clinical Reference — generator works, output needs review before it
-   is committed.** `build-clinical-docs.js` (new in patch 1) rebuilds the Add-On
-   Clinical Reference from `korb-addons-data.js`, and it runs clean. The generated
-   HTML and PDF are deliberately **not** committed yet:
-   `Provider_Reference/KORB_AddOn_Clinical_Reference.pdf` is a document currently in
-   use, and committing the generated pair replaces it. Needs Don's content review first, **the
-   prescribing blocks especially** — patch 3 put the custom compound at the top of
-   every one of them and marked the retired Tebra drop-down entry as superseded, so
-   what a provider reads first has changed. Generate, read it, then commit.
+10. ~~Add-On Clinical Reference — generator works, output needs review.~~ **DONE
+   2026-09-14**, `a56f812`. Don reviewed the generated document, which was the gate
+   this item was waiting on, and the reviewed version replaced the in-use PDF.
+   Two standing rules came out of that review and are now comments in
+   `clinical-doc-render.js`: strength/quantity/size live in the custom compound name
+   and are never repeated in pharmacy notes; and no price or charge code appears in
+   a clinical reference (they stay in the data file because `build-embed.js:179`
+   feeds the provider tool from them). Both rules apply to every product added from
+   here, not just the add-ons.
+   Four records — both PT-141 and both Belmar NAD+ — had no sig, quantity, unit or
+   pharmacy notes at all and could not be prescribed from. Now filled.
+   **One thing left open on purpose:** `reasonForCompounding` is null on both PT-141
+   records. The boilerplate used elsewhere ("no FDA-approved or commercially
+   available equivalent") would be FALSE, because bremelanotide is FDA-approved as
+   Vyleesi. Do not fill it with the boilerplate. Needs the real rationale from Don.
 
 ---
 
