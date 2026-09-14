@@ -322,16 +322,31 @@
          nothing else. */
       '.rxb-after{break-before:avoid;page-break-before:avoid;break-inside:avoid;' +
         'page-break-inside:avoid;margin-top:-6px;}' +
-      /* Two pharmacies for one strength, side by side, kept together on a page.
-         The pair is the unit that must not split; each block inside it also
-         stays whole. At Letter with 0.6in margins each column is about 3.5in,
-         which the 33% label column and a wrapped value still fit. */
-      '.rxb-pair{display:flex;gap:12px;align-items:flex-start;' +
-        'break-inside:avoid;page-break-inside:avoid;margin-bottom:16px;}' +
-      '.rxb-pair > .rxb{flex:1 1 0;min-width:0;margin-bottom:0;}' +
-      '.rxb-pair > .rxb .rxb-tbl th{width:42%;}' +
-      '@media (max-width:820px){.rxb-pair{display:block;}' +
-        '.rxb-pair > .rxb{margin-bottom:14px;}}' +
+      /* The two pharmacies for one strength lay out DIFFERENTLY on screen and in
+         print, because the job is different in each.
+
+         ON SCREEN the block is stacked full width. Copying is the task, and the
+         value cell is what a provider reads character by character before it
+         becomes a prescription. Measured at a 1440px window: two-up gives a
+         217px value cell and wraps Patient Instructions to five lines; stacked
+         gives 564px and three. Scrolling is free, squinting is not.
+
+         Screen width does NOT solve this on its own - body is capped at 8.5in so
+         the page matches print, so a 3440px monitor renders the same 376px
+         columns as a 1366px laptop. Nobody was getting the roomy version.
+
+         IN PRINT they sit side by side. There is nothing to click on paper, a
+         page turn is the expensive move, and pairing the two pharmacies for one
+         strength is what stopped Greenwich landing on one page and Premier on
+         the next. It also holds the page count: stacking in print pushes the
+         four references from 56 pages back toward 70. */
+      '.rxb-pair{margin-bottom:16px;}' +
+      '.rxb-pair > .rxb{margin-bottom:14px;}' +
+      '@media print{' +
+        '.rxb-pair{display:flex;gap:12px;align-items:flex-start;' +
+          'break-inside:avoid;page-break-inside:avoid;}' +
+        '.rxb-pair > .rxb{flex:1 1 0;min-width:0;margin-bottom:0;}' +
+        '.rxb-pair > .rxb .rxb-tbl th{width:42%;}}' +
       /* Lab panel: two complete orders side by side, kept on one page. */
       '.labsec,.pricesec{break-inside:avoid;page-break-inside:avoid;}' +
       /* One table, two column groups. Flex was tried and abandoned: unbreakable
