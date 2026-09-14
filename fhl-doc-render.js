@@ -395,22 +395,46 @@ function sectionRx(doc) {
      The repetition a reader notices in this document is real, but it is in
      counselling and monitoring at the foot of the page, not here. That is where
      it has been collapsed. See sectionClinical(). */
+  /* Storage is stated ONCE for the document, above. All twelve agents carry a
+     byte-identical storage string, and repeating it under every block cost a
+     page break each time - a one-line trailer is what was pushing each strength
+     onto its own page. */
+  const storages = {};
+  agentKeys(doc).forEach(function (r) {
+    const rec = K.prescribing[r.key];
+    if (rec && rec.storage) storages[rec.storage] = true;
+  });
+  const storageList = Object.keys(storages);
+  if (storageList.length === 1) {
+    h += '<div class="callout"><p><strong>Storage — all agents in this document:</strong> ' +
+         esc(storageList[0]) + '</p></div>';
+  } else if (storageList.length > 1) {
+    /* Not the case today, but if two agents ever disagree the document must not
+       quietly print one of them as if it covered both. */
+    h += '<div class="gate"><p><strong>Storage differs between agents in this document — read each:</strong></p><ul>' +
+         storageList.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul></div>';
+  }
+
   agentKeys(doc).forEach(function (r) {
     const rec = K.prescribing[r.key];
     if (!rec) return;
     const a = K.agents[r.key] || {};
     h += '<div class="rxblock"><h3>' + esc((rec.name || a.label) + ' — ' + (a.dose || '')) + '</h3>';
-    keys.forEach(function (pk) {
+    /* Both pharmacies for ONE strength, side by side and kept on one page. They
+       are the same prescription routed two ways, so a provider comparing them
+       should not be turning a page to do it. The pair is the unit that must not
+       break; each block inside it stays whole. */
+    const pair = keys.map(function (pk) {
       const e = rec[pk];
-      if (!e || !e.fields) return;
-      h += RXB.block({
+      if (!e || !e.fields) return '';
+      return RXB.block({
         pharmacy: pharmName(pk),
         label: e.label,
         fields: RXB.fieldsFrom(e),
         accent: RXB.accentFor(pk)
       });
-    });
-    if (rec.storage) h += '<p class="fine rxb-after"><strong>Storage:</strong> ' + esc(rec.storage) + '</p>';
+    }).filter(Boolean);
+    h += '<div class="rxb-pair">' + pair.join('') + '</div>';
     h += '</div>';
   });
   return h;

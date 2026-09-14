@@ -322,6 +322,16 @@
          nothing else. */
       '.rxb-after{break-before:avoid;page-break-before:avoid;break-inside:avoid;' +
         'page-break-inside:avoid;margin-top:-6px;}' +
+      /* Two pharmacies for one strength, side by side, kept together on a page.
+         The pair is the unit that must not split; each block inside it also
+         stays whole. At Letter with 0.6in margins each column is about 3.5in,
+         which the 33% label column and a wrapped value still fit. */
+      '.rxb-pair{display:flex;gap:12px;align-items:flex-start;' +
+        'break-inside:avoid;page-break-inside:avoid;margin-bottom:16px;}' +
+      '.rxb-pair > .rxb{flex:1 1 0;min-width:0;margin-bottom:0;}' +
+      '.rxb-pair > .rxb .rxb-tbl th{width:42%;}' +
+      '@media (max-width:820px){.rxb-pair{display:block;}' +
+        '.rxb-pair > .rxb{margin-bottom:14px;}}' +
       '.rxb-vary{border-top:2px solid #C9CEDB;}' +
       '.rxb-vary-hd{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;' +
         'color:#5A6079;background:#F1F3F8;padding:5px 12px;}';
