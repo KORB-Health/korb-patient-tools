@@ -384,27 +384,46 @@ function sectionRx(doc) {
           'Greenwich requires “as directed by provider” in Patient Instructions because KORB does not follow their ' +
           'protocols — the full direction still goes to the patient through their treatment schedule.</p>';
 
+  /* Strengths of one medication are grouped, so the shared Tebra fields print
+     once instead of once per strength. Sermorelin 200/300/400/500 differ only
+     in the favorite Name at Greenwich; printed separately that is the same nine
+     values three extra times. Grouped on agents[].label, which is the same
+     string across strengths of a medication ("Sermorelin", "CJC-1295 /
+     Ipamorelin") and correctly differs for Tesamorelin, whose quantity really
+     does change with the dose. */
+  const groups = [];
+  const byLabel = {};
   agentKeys(doc).forEach(function (r) {
     const rec = K.prescribing[r.key];
     if (!rec) return;
     const a = K.agents[r.key] || {};
-    h += '<div class="rxblock"><h3>' + esc((rec.name || a.label) + ' — ' + (a.dose || '')) + '</h3>';
+    const gk = a.label || rec.name || r.key;
+    if (!byLabel[gk]) { byLabel[gk] = { label: gk, storage: rec.storage, rows: [] }; groups.push(byLabel[gk]); }
+    byLabel[gk].rows.push({ key: r.key, dose: a.dose || rec.name || r.key, rec: rec });
+  });
+
+  groups.forEach(function (g) {
+    h += '<div class="rxblock"><h3>' + esc(g.label) + '</h3>';
     /* Rendered through the shared Tebra block, so these four references show a
        provider the same labelled, tinted, copyable entry the Provider Clinical
        Reference has always shown. They previously rendered this same data - it
        was already stored field by field in Tebra order - as a bare
        "Field | Value" table with no tints and nothing to copy. */
     keys.forEach(function (pk) {
-      const e = rec[pk];
-      if (!e || !e.fields) return;
-      h += RXB.block({
+      const entries = g.rows.map(function (row) {
+        const e = row.rec[pk];
+        if (!e || !e.fields) return null;
+        return { key: row.key, dose: row.dose, label: e.label, fields: RXB.fieldsFrom(e) };
+      }).filter(Boolean);
+      if (!entries.length) return;
+      h += RXB.groupBlock({
         pharmacy: pharmName(pk),
-        label: e.label,
-        fields: RXB.fieldsFrom(e),
+        label: g.label,
+        entries: entries,
         accent: RXB.accentFor(pk)
       });
     });
-    if (rec.storage) h += '<p class="fine"><strong>Storage:</strong> ' + esc(rec.storage) + '</p>';
+    if (g.storage) h += '<p class="fine rxb-after"><strong>Storage:</strong> ' + esc(g.storage) + '</p>';
     h += '</div>';
   });
   return h;

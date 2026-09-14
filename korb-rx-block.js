@@ -176,6 +176,124 @@
     return h;
   }
 
+  /* Several strengths of one medication usually share almost every Tebra field.
+     All four Greenwich sermorelin entries carry the same formulation, quantity,
+     unit, refill, days supply, patient instructions, reason and pharmacy
+     instructions; only the favorite Name changes, because that is what the
+     provider picks out of their Tebra list. Printed as four full blocks, that
+     is the same nine values three extra times.
+
+     groupFields() splits a set of same-medication entries into the fields that
+     are constant across all of them and the fields that actually vary.
+
+     It compares VALUES and never assumes. A field is factored out only when
+     every strength agrees on it, so Tesamorelin - whose quantity really does go
+     30 / 45 / 60 - keeps quantity per strength rather than being flattened onto
+     one wrong number. Collapsing a value that differs would put the wrong
+     volume on a prescription, so the test is equality and nothing looser. */
+  function groupFields(entries) {
+    entries = (entries || []).filter(Boolean);
+    if (!entries.length) { return { constant: [], varying: [], count: 0 }; }
+
+    var lists = entries.map(function (e) { return e.fields || []; });
+    var order = [];
+    lists.forEach(function (l) {
+      l.forEach(function (f) { if (order.indexOf(f.field) === -1) { order.push(f.field); } });
+    });
+
+    var constant = [];
+    var varying = [];
+
+    order.forEach(function (name) {
+      var vals = lists.map(function (l) {
+        var hit = null;
+        l.forEach(function (f) { if (f.field === name) { hit = f; } });
+        return hit;
+      });
+      var present = vals.filter(Boolean);
+      var allHave = present.length === entries.length;
+      var same = allHave && present.every(function (f) {
+        return String(f.val) === String(present[0].val);
+      });
+
+      if (same) {
+        constant.push({ field: name, val: present[0].val, copy: present[0].copy });
+        return;
+      }
+      varying.push({
+        field: name,
+        rows: entries.map(function (e, i) {
+          return {
+            dose: e.dose || e.key || '',
+            val: vals[i] ? vals[i].val : '',
+            copy: vals[i] ? vals[i].copy : false
+          };
+        })
+      });
+    });
+
+    return { constant: constant, varying: varying, count: entries.length };
+  }
+
+  function row(f) {
+    var fc = FIELD_LEGEND[f.field];
+    var cls = fc ? ' class="' + fc.cls + '"' : '';
+    var h = '<tr><th>' + esc(f.field) + '</th>';
+    if (f.copy) {
+      h += '<td' + cls + '><span class="cp" data-copy="' + esc(f.val) + '">' + esc(f.val) +
+           '<button class="copybtn" type="button" aria-label="Copy">Copy</button></span></td></tr>';
+    } else {
+      h += '<td' + cls + '>' + esc(f.val) + '</td></tr>';
+    }
+    return h;
+  }
+
+  /* One medication, one pharmacy, every strength. The shared fields print once
+     and the fields that genuinely differ print as a short per-strength table
+     underneath, which is then the only place a strength-specific value lives. */
+  function groupBlock(opts) {
+    opts = opts || {};
+    var g = groupFields(opts.entries);
+    if (!g.constant.length && !g.varying.length) { return ''; }
+
+    var accent = opts.accent || '#21275B';
+    var head = esc(opts.pharmacy || '');
+    if (opts.label) {
+      head += ' &nbsp;&middot;&nbsp; Compounded Drug Favorite Entry &nbsp;&middot;&nbsp; ' + esc(opts.label);
+    }
+    if (g.count > 1) { head += ' &nbsp;&middot;&nbsp; ' + g.count + ' strengths'; }
+
+    var h = '<div class="rxb">';
+    h += '<div class="rxb-hdr" style="background:' + esc(accent) + ';">' + head + '</div>';
+
+    if (g.constant.length) {
+      h += '<table class="rxb-tbl"><tbody>';
+      g.constant.forEach(function (f) { h += row(f); });
+      h += '</tbody></table>';
+    }
+
+    g.varying.forEach(function (v) {
+      var fc = FIELD_LEGEND[v.field];
+      h += '<div class="rxb-vary">';
+      h += '<div class="rxb-vary-hd">' + esc(v.field) + ' &mdash; one per strength</div>';
+      h += '<table class="rxb-tbl"><tbody>';
+      v.rows.forEach(function (r) {
+        var cls = fc ? ' class="' + fc.cls + '"' : '';
+        h += '<tr><th>' + esc(r.dose) + '</th>';
+        if (r.copy) {
+          h += '<td' + cls + '><span class="cp" data-copy="' + esc(r.val) + '">' + esc(r.val) +
+               '<button class="copybtn" type="button" aria-label="Copy">Copy</button></span></td></tr>';
+        } else {
+          h += '<td' + cls + '>' + esc(r.val) + '</td></tr>';
+        }
+      });
+      h += '</tbody></table></div>';
+    });
+
+    h += '</div>';
+    return h;
+  }
+
   /* The tint goes on the VALUE cell, which is the cell a provider reads and
      copies. Print keeps the tints - they are how the page maps to the Canva
      template - and drops the buttons, which mean nothing on paper. */
@@ -187,9 +305,26 @@
       '.rxb-tbl{width:100%;border-collapse:collapse;font-size:12px;}' +
       '.rxb-tbl th{width:33%;text-align:left;font-weight:700;color:#21275B;background:#F7F8FB;' +
         'border-top:1px solid #E3E6EF;padding:6px 12px;vertical-align:top;}' +
-      '.rxb-tbl td{border-top:1px solid #E3E6EF;padding:6px 12px;vertical-align:top;}' +
+      /* white-space:pre-wrap is not cosmetic. Greenwich stores its formulations
+         with a run of spaces - "KBH   Sermorelin 3mg/mL" carries three - and
+         HTML collapses those to one, so the page showed a provider a string
+         that did NOT match what Greenwich requires while the copy button
+         carried the right one. Greenwich flags a formulation that does not
+         match their own and the prescription may not be filled, so the
+         displayed value has to be the stored value, space for space. */
+      '.rxb-tbl td{border-top:1px solid #E3E6EF;padding:6px 12px;vertical-align:top;' +
+        'white-space:pre-wrap;}' +
       '.rxb-tbl tr:first-child th,.rxb-tbl tr:first-child td{border-top:0;}' +
-      '.cp{display:block;}';
+      '.cp{display:block;}' +
+      /* A one-line trailer such as Storage belongs to the block above it. Left
+         to itself it was landing alone on a fresh page - 12 of 71 pages across
+         the four FH&L references were a single line of storage text and
+         nothing else. */
+      '.rxb-after{break-before:avoid;page-break-before:avoid;break-inside:avoid;' +
+        'page-break-inside:avoid;margin-top:-6px;}' +
+      '.rxb-vary{border-top:2px solid #C9CEDB;}' +
+      '.rxb-vary-hd{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;' +
+        'color:#5A6079;background:#F1F3F8;padding:5px 12px;}';
     Object.keys(FIELD_LEGEND).forEach(function (k) {
       var f = FIELD_LEGEND[k];
       s += '.rxb-tbl td.' + f.cls + '{background:' + f.bg + ';box-shadow:inset 3px 0 0 ' + f.hex + ';}';
@@ -264,6 +399,8 @@
     PHARMACY_ACCENT: PHARMACY_ACCENT,
     accentFor: accentFor,
     fieldsFrom: fieldsFrom,
+    groupFields: groupFields,
+    groupBlock: groupBlock,
     block: block,
     esc: esc,
     CSS: CSS,
