@@ -1748,6 +1748,26 @@
     return $('co2').checked || $('rel-t1').checked || $('med-ins').checked || $('med-sulf').checked;
   }
 
+  /* The diabetes co-ordination box asks WHO MANAGES YOUR DIABETES and then makes
+     those fields required. It is gated separately from diabetic(), and narrowly:
+     only insulin and the sulfonylureas open it.
+
+     Before 2026-09-14 it used diabetic(), which also counts the Type 2 /
+     prediabetes box on the health step and Type 1 in history. A patient who
+     ticked "Type 2 diabetes or prediabetes" earlier and then correctly answered
+     "None of these apply" here was shown the box anyway and could not continue
+     without naming a diabetes provider and phone number. Found by Don with
+     Lindsay and Luis.
+
+     diabetic() itself is UNCHANGED and still wide. It drives the provider review
+     flag, so a Type 2 patient on metformin alone is still surfaced for review -
+     they are simply not stopped and asked to fill in fields nobody asked them
+     about. Narrowing diabetic() itself would have quietly dropped them from that
+     flag too, which is the opposite of what this fix is for. */
+  function dmAsk(){
+    return $('med-ins').checked || $('med-sulf').checked;
+  }
+
   function bmi(){
     var ft=num('ft'), inch=num('inch'), wt=num('wt');
     if(ft===null||wt===null) return null;
@@ -2083,7 +2103,7 @@
     $('whoMtc').classList.toggle('hidden', !$('ab-mtc').checked);
     $('whoMen2').classList.toggle('hidden', !$('ab-men2').checked);
     $('whoRxn').classList.toggle('hidden', !$('ab-allergy').checked);
-    $('dmBlock').classList.toggle('hidden', !diabetic());
+    $('dmBlock').classList.toggle('hidden', !dmAsk());
     $('medRows').closest('.q').classList.toggle('hidden', val('hasmeds')!=='yes');
     $('proofBlock').classList.toggle('hidden', val('prior')!=='now');
 
@@ -2301,7 +2321,7 @@
       if(val('hasmeds')==='yes') need(rowsHaveOne('medRows'),'At least one medication, or change the answer to No','medRows');
       need(groupAnswered('hasallergy'),'Whether you have medication allergies',groupBox($('ha-no')));
       if(val('hasallergy')==='yes') need(rowsHaveOne('algRows'),'At least one allergy, or change the answer to No','algRows');
-      if(diabetic()){
+      if(dmAsk()){
         need(filled('dmProv'),'Who manages your diabetes','dmProv');
         need(groupAnswered('dmAware'),'Whether that provider knows about this',groupBox($('dm-yes')));
       }
@@ -2740,7 +2760,7 @@
 
     S.push({t:'MEDICATIONS', tag:'enter in Tebra', cls:'t-tebra',
       body:((glp.length?glp.join('\n')+'\n':'')+(meds.length?meds.join('\n'):(glp.length?'':'  - none reported')))+
-        (diabetic()?'\n\nDiabetes managed by: '+(txt('dmProv')||'[not given]')+(txt('dmPhone')?' - '+txt('dmPhone'):'')+
+        (dmAsk()?'\n\nDiabetes managed by: '+(txt('dmProv')||'[not given]')+(txt('dmPhone')?' - '+txt('dmPhone'):'')+
           '\nThat provider aware of GLP-1 request: '+({yes:'yes',review:'no or unsure'}[val('dmAware')]||'not answered')+
           '\nKORB does not treat diabetes. Diabetes care remains with the provider above.':''),
       note:'Structured field in Tebra. Enter these rather than pasting.'});
