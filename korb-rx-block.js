@@ -332,6 +332,20 @@
       '.rxb-pair > .rxb .rxb-tbl th{width:42%;}' +
       '@media (max-width:820px){.rxb-pair{display:block;}' +
         '.rxb-pair > .rxb{margin-bottom:14px;}}' +
+      /* Lab panel: two complete orders side by side, kept on one page. */
+      '.labsec,.pricesec{break-inside:avoid;page-break-inside:avoid;}' +
+      /* One table, two column groups. Flex was tried and abandoned: unbreakable
+         flex children paginate onto separate pages. A table does not. */
+      '.labtbl th.grp-a{background:#21275B;color:#fff;text-align:center;}' +
+      '.labtbl th.grp-b{background:#0F5F69;color:#fff;text-align:center;}' +
+      '.labtbl td.na{color:#AAB0C0;}' +
+      /* The row that is the whole reason for two columns. */
+      '.grid tr.addrow td{background:#FFF4E0;box-shadow:inset 3px 0 0 #FBB040;}' +
+      '.grid td.code{font-variant-numeric:tabular-nums;white-space:nowrap;}' +
+      '.pricetbl td.amt{font-weight:700;white-space:nowrap;}' +
+      '.pricetbl td.amt .per{font-weight:400;font-size:10px;color:#5A6079;}' +
+      '.pricetbl tr.grp td{background:#EEF1F7;font-size:11px;}' +
+      
       '.rxb-vary{border-top:2px solid #C9CEDB;}' +
       '.rxb-vary-hd{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;' +
         'color:#5A6079;background:#F1F3F8;padding:5px 12px;}';

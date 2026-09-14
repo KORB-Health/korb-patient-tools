@@ -561,55 +561,106 @@ function sectionClinical(doc) {
   return h;
 }
 
+/* The panel, by who is being ordered for. Two columns, each one a COMPLETE
+   list, because the question a provider is answering is "what do I order for
+   this patient" and the answer has to be readable straight down one column.
+
+   The previous version failed that twice over. It split the thirteen tests
+   across a paired Test|Code|Test|Code grid, which reads as two half-panels
+   rather than one panel, and it put PSA in a footnote underneath, so the one
+   test that actually depends on the patient was the one not in the table. It
+   then carried a callout saying Copper RBC, Zinc RBC and Ceruloplasmin are
+   standard for everyone - which they are, and they were already rows 11 to 13,
+   so the note only made the table look incomplete. The note is gone; the tests
+   were never missing.
+
+   Kept to one page: the section avoids breaking inside. */
 function sectionLabs() {
-  const base = K.labs.base, half = Math.ceil(base.length / 2);
-  const left = base.slice(0, half), right = base.slice(half);
-  let rows = '';
-  for (let i = 0; i < half; i++) {
-    const l = left[i], r = right[i];
-    rows += '<tr><td>' + esc(l.name) + '</td><td>' + esc(l.code) + '</td>' +
-            '<td>' + (r ? esc(r.name) : '') + '</td><td>' + (r ? esc(r.code) : '') + '</td></tr>';
-  }
-  return '<h3>Lab protocol</h3>' +
+  const base = K.labs.base;
+  const psa = K.labs.men45Plus;
+
+  /* ONE table, four columns, rather than two tables side by side in a flex row.
+     Flex and pagination do not cooperate in Chromium: making each column
+     unbreakable pushed the two columns onto separate pages and orphaned the
+     heading on a third, which is worse than the split it was meant to prevent.
+     A single table with a colspan group header paginates predictably, keeps the
+     two orders row-aligned, and fits one page at fourteen rows. */
+  const rows = base.map(function (l) {
+    return '<tr><td>' + esc(l.name) + '</td><td class="code">' + esc(l.code) + '</td>' +
+           '<td>' + esc(l.name) + '</td><td class="code">' + esc(l.code) + '</td></tr>';
+  }).join('') +
+    '<tr class="addrow"><td class="na">—</td><td class="na"></td>' +
+    '<td><strong>' + esc(psa.name) + '</strong></td>' +
+    '<td class="code"><strong>' + esc(psa.code) + '</strong></td></tr>';
+
+  return '<div class="labsec"><h3>Lab protocol</h3>' +
     '<p class="fine">Baseline before medication start, then every 16 weeks. Order in Tebra via the Quest integration with a ' +
-    'future collection date set 12 weeks out. No STAT designation is used.</p>' +
-    '<table class="grid"><thead><tr><th>Test</th><th>Code</th><th>Test</th><th>Code</th></tr></thead><tbody>' + rows + '</tbody></table>' +
-    '<p class="fine"><strong>Add for men aged 45 and over:</strong> ' + esc(K.labs.men45Plus.name) +
-    ' — code ' + esc(K.labs.men45Plus.code) + '. ' + esc(K.labs.men45Plus.note) + '</p>' +
-    '<div class="callout"><p>Copper RBC, Zinc RBC and Ceruloplasmin are part of the standard panel for every patient, ' +
-    'regardless of which agent is prescribed.</p></div>';
+    'future collection date set 12 weeks out. No STAT designation is used. Each side is the complete order — ' +
+    'the only difference is the last row.</p>' +
+    '<table class="grid labtbl"><thead>' +
+      '<tr><th class="grp-a" colspan="2">Women, and men under 45</th>' +
+          '<th class="grp-b" colspan="2">Men 45 and older</th></tr>' +
+      '<tr><th>Test</th><th>Code</th><th>Test</th><th>Code</th></tr>' +
+    '</thead><tbody>' + rows + '</tbody></table></div>';
 }
 
+/* EVERY PRICE SITS NEXT TO ITS OWN CHARGE CODE, on its own row.
+
+   The old table had a Website column, a Partner column, and one Charge code
+   column holding both codes joined by a pipe, with a note underneath saying
+   which order they were in. Two prices and two codes in one row, correctly
+   paired only if you read the legend - and the codes are what gets typed into
+   a charge. Now one row is one price and the code that belongs to it.
+
+   Partner first, because it is the smaller number and that is the order Don
+   reads them in. Monthly is said on the row itself rather than only in a note
+   under the table. */
 function sectionPricing(doc) {
   const p = K.pricing[doc.program], base = K.pricing.baseline, ghk = K.pricing.ghkcu;
   const prog = K.programs[doc.program];
   const money = function (n) { return '$' + Number(n).toFixed(2); };
-  let rows = '<tr><td>' + esc(base.label) + '</td><td>' + money(base.website) + '</td><td>' + money(base.partner) +
-             '</td><td>' + esc(base.code) + '</td></tr>';
+
+  function payRow(label, amount, code, cls) {
+    return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + esc(label) + '</td>' +
+           '<td class="amt">' + money(amount) + '<span class="per"> / month</span></td>' +
+           '<td class="code">' + esc(code) + '</td></tr>';
+  }
+  function oneOffRow(label, amount, code) {
+    return '<tr><td>' + esc(label) + '</td><td class="amt">' + money(amount) +
+           '<span class="per"> one-time</span></td><td class="code">' + esc(code) + '</td></tr>';
+  }
+
+  let rows = oneOffRow(base.label, base.partner, base.code);
 
   if (p.codeByAgent) {
-    /* Foundation prices one way and codes three ways, by agent. Printing one
-       code here would be wrong for two of the three agents. */
+    /* Foundation is one price with three charge codes, one per agent. The price
+       is stated once, above, rather than repeated on three rows saying the same
+       two numbers - what actually differs between the agents is the code. */
+    rows += '<tr class="grp"><td colspan="3">' + esc(p.label) +
+            ' — <strong>' + money(p.partner.payment) + ' / month partner</strong> or <strong>' +
+            money(p.website.payment) + ' / month website</strong>. Charge code depends on the agent:</td></tr>';
     Object.keys(p.codeByAgent).forEach(function (fam) {
       const label = (K.foundationAgents[fam] || {}).label || fam;
-      rows += '<tr><td>' + esc(p.label + ' — ' + label) + '</td><td>' + money(p.website.payment) + ' / mo</td><td>' +
-              money(p.partner.payment) + ' / mo</td><td>' + esc(p.codeByAgent[fam].website + ' | ' + p.codeByAgent[fam].partner) +
-              '</td></tr>';
+      rows += payRow(label + ' — partner', p.partner.payment, p.codeByAgent[fam].partner);
+      rows += payRow(label + ' — website', p.website.payment, p.codeByAgent[fam].website);
     });
   } else {
-    rows += '<tr><td>' + esc(p.label) + '</td><td>' + money(p.website.payment) + ' / mo</td><td>' +
-            money(p.partner.payment) + ' / mo</td><td>' + esc(p.code.website + ' | ' + p.code.partner) + '</td></tr>';
-  }
-  if (prog.optionalAddon === 'ghkcu') {
-    rows += '<tr><td>' + esc(ghk.label) + '</td><td>' + money(ghk.website) + '</td><td>' + money(ghk.partner) +
-            '</td><td>' + esc(ghk.code) + '</td></tr>';
+    rows += payRow(p.label + ' — partner', p.partner.payment, p.code.partner);
+    rows += payRow(p.label + ' — website', p.website.payment, p.code.website);
   }
 
-  return '<h2>Pricing and charge codes</h2>' +
-    '<p class="fine">Provider and internal only. Never quote a price to a patient from this document without confirming with Operations.</p>' +
-    '<table class="grid"><thead><tr><th>Item</th><th>Website</th><th>Partner</th><th>Charge code</th></tr></thead><tbody>' + rows + '</tbody></table>' +
-    '<div class="callout"><p>Monthly figures are the recurring payment. Full 16-week cycle: ' + money(p.website.total) +
-    ' website, ' + money(p.partner.total) + ' partner. Charge codes are shown website first, partner second.</p></div>';
+  if (prog.optionalAddon === 'ghkcu') {
+    rows += oneOffRow(ghk.label, ghk.partner, ghk.code);
+  }
+
+  return '<div class="pricesec"><h2>Pricing and charge codes</h2>' +
+    '<p class="fine">Provider and internal only. Never quote a price to a patient from this document without confirming with ' +
+    'Operations. Every amount below is the recurring <strong>monthly</strong> payment unless the row says one-time, and each ' +
+    'amount carries the charge code that belongs to it.</p>' +
+    '<table class="grid pricetbl"><thead><tr><th>Item</th><th>Amount</th><th>Charge code</th></tr></thead><tbody>' +
+    rows + '</tbody></table>' +
+    '<div class="callout"><p>Monthly payments run across the full 16-week cycle: ' +
+    money(p.partner.total) + ' partner in total, ' + money(p.website.total) + ' website in total.</p></div></div>';
 }
 
 /* ── PAGE ─────────────────────────────────────────────────────────────────── */
