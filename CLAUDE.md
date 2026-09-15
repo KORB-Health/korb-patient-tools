@@ -85,6 +85,7 @@ URLs are in circulation.
   korb-rx-block.js                 THE Tebra prescribing block, shared by all four
   provider-doc-render.js           render module, GLP-1 monographs
   fhl-doc-render.js                render module, FH&L references
+  dose-audit.js                    cross-pharmacy dose gate, run by both builders
   build-*.js                       generators (see below)
   KORB_*.html                      root tools
   Provider_Reference/              provider tool HTML only
@@ -559,15 +560,27 @@ women's testosterone. Do not re-report those; they are already on the list.
 7. Reconcile `KORB_AddOn_Selector.html` / `KORB_Optimization_Products.html`.
 8. Fix the stale comment in `build-provider-docs.js` — says "eleven documents",
    the list holds ten (Greenwich tirzepatide retired 2026-09-11).
-9b. **Wire the cross-pharmacy dose audit into the builders.** It compares the
-   dose stated in each pharmacy's favorite name, normalised to mcg, across every
-   agent. Run once by hand on 2026-09-14 it found two real errors in the field
-   that becomes the prescription: Greenwich sermorelin named at 3x the dose in mg
-   (v2.8) and BPC-157 at 600 mcg where the dose is 500 (v2.9). It now reports
-   zero. **It exists only as shell history.** Both were found by Don reading the
-   document, not by the repo, and until this runs inside `build-fhl-docs.js` and
-   `build-provider-docs.js` the next one waits for a human too. It has never been
-   run against `korb-glp1-data.js` at all.
+9b. ~~Wire the cross-pharmacy dose audit into the builders.~~ **DONE 2026-09-15**,
+   `b265ee7`. Lives in `dose-audit.js` and runs as a gate in both
+   `build-fhl-docs.js` and `build-provider-docs.js`. Both **refuse to build and
+   exit 1**, because a warning printed above a successful build is a warning
+   nobody reads.
+   A dose does not change with the pharmacy, the concentration or the vial size,
+   so every place an entry states its dose must state the same one. Concentration
+   and formulation strings are excluded on purpose — "Sermorelin 3mg/mL",
+   "Semaglutide/B-12 3mg/0.5mg per mL" are properties of the vial and
+   legitimately differ. Including them is what makes a check cry wolf until
+   somebody turns it off.
+   The two files need different checks. `korb-dosing-data.js` has no numeric dose
+   field, so entries are checked for internal agreement. `korb-glp1-data.js`
+   carries a numeric `mg` on every dose, so each stated dose is checked against
+   that number instead — a stronger test, across 74 doses in 16 products that had
+   never been audited at all.
+   Negative-tested against real history rather than a hypothetical: at v2.7 it
+   reports 10 problems and catches both known errors, at v2.8 it reports only the
+   BPC-157 one that was still outstanding, at v2.9 it is silent. The gate itself
+   was tested by planting the v2.7 label back in — the builder exited 1 and named
+   the field.
 9. **`build-signoff-sheet.js` cannot run on either machine.** Line 306 writes to
    `/mnt/user-data/outputs/monograph-signoff.html`, a Cowork sandbox path, so it
    exits with ENOENT. Third instance of a sandbox path committed as if it were a
