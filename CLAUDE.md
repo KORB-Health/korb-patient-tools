@@ -548,7 +548,6 @@ women's testosterone. Do not re-report those; they are already on the list.
    is alt text describing the brand lockup, not an attribution line, and it is hidden
    in print. Change it only if the brand mark itself changes.
 
-**NEXT →**
 2. ~~Reshape `korb-pharmacies.js` to program-keyed, add the cross-file self-check.~~
    **DONE 2026-09-15**, `946a331` and `a9f61fd`.
    A pharmacy carries a **licensure footprint**, one fact that does not vary by
@@ -590,6 +589,7 @@ women's testosterone. Do not re-report those; they are already on the list.
    51 states and `problems: []`.
    `crossCheck()` now reports these lists as DERIVED rather than as agreement,
    because after this change comparing the two files compares a value with itself.
+**NEXT →**
 4. **Wire FH&L onto it** (`korb-dosing-data.js`).
 5. **Retire the hand-built tables.** `KORB_GLP1_Dose_Guide.html` ~~first~~ **DONE
    2026-09-14**, `5c1c5e4`. Its table is built from `korb-glp1-data.js` at load;
@@ -697,9 +697,14 @@ women's testosterone. Do not re-report those; they are already on the list.
    questionnaire first, restate it as conditional logic, change nothing clinical.
    **`KORB_Scheduler_Intake_Prototype.html` stays frozen** until Lindsay has
    reviewed it. She has that exact URL. New work goes in AllPrograms.
-   Two things in AllPrograms need Don before it goes to anyone: the telemedicine
-   and peptide **consent text is draft** and marked as draft in the file, and the
-   FH&L decline copy is new wording about the $99.
+   ~~Two things in AllPrograms need Don: the consent text is draft, and the FH&L
+   decline copy is new wording about the $99.~~ **Consent RESOLVED 2026-09-15** -
+   KORB's approved peptide and telehealth consent text replaced the drafts
+   (`da56c60`, `8015fd3`, `7750590`) and no draft marker remains in the file.
+   **The $99 decline copy is still unread by Don.** It is live wording in the
+   FH&L outcome screens telling a patient that baseline labs are ordered that day,
+   cost $99, and are non-refundable once blood is drawn. New, patient-facing, and
+   about money, so it wants his eye before this build reaches anyone.
    House idiom, learned the hard way on 2026-09-14: questions are tappable `.opt`
    cards carrying a radio or a checkbox, and a `<select>` appears only as a
    follow-up inside a revealed `.subq`. A first build asked everything as a bare
