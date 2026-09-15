@@ -70,13 +70,44 @@
      equivalent") would be FALSE — bremelanotide is FDA-approved as Vyleesi.
      Do not fill it with the boilerplate. Needs the real rationale.
 
-   VERSION: 1.2   CREATED: 2026-09-11   UPDATED: 2026-09-14
+   2026-09-15 (v1.7): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing
+   sign-off register, and rx-signoff.js which reports and computes it. It supersedes
+   needsSignoff below: that boolean is on all 23 products and records only that nobody
+   has reviewed them yet, so the moment it is set false a change the next day is
+   invisible. A record holds a FINGERPRINT of the document as signed, so a later edit
+   shows as STALE by itself. Do not set any needsSignoff to false - sign the document.
+   The boolean stays for now because build-addon-signoff.js reads it.
+
+   VERSION: 1.7   CREATED: 2026-09-11   UPDATED: 2026-09-15
+   (This header line had said 1.2 while meta.version read 1.6. meta is authoritative.)
    OWNER: Director of Clinical Operations
 */
 
 var KORB_ADDONS = {
+  /* ── PRESCRIBING SIGN-OFF ──────────────────────────────────────────────────
+     Records that Don has read the prescribing blocks on a document and approved
+     them, stamped with a fingerprint of what he read.
+
+       node rx-signoff.js                 what is signed, stale and unsigned
+       node rx-signoff.js --sign <key>    prints the record to paste in here
+
+     THIS SUPERSEDES needsSignoff. That boolean is on all 23 products below and
+     it records one thing only: that nobody has reviewed them yet. It cannot
+     record WHAT was reviewed, so the moment someone sets it false, a change the
+     next day is invisible. The boolean is left in place for now because
+     build-addon-signoff.js reads it; it should be retired once these records
+     exist. Do not set any needsSignoff to false - sign the document instead.
+
+     SEPARATE FROM THE MONOGRAPH SIGN-OFF in korb-glp1-data.js, on purpose. That
+     one covers clinical writing, this one covers Tebra fields and charge codes.
+     Merging them would mean a hyphen fix expiring a contraindication sign-off.
+
+     Empty because nothing has been signed yet. The Add-On Clinical Reference is
+     unsigned. */
+  rxSignoff: { records: {} },
+
   meta: {
-    version: "1.6",
+    version: "1.7",
     created: "2026-09-11",
     updated: "2026-09-15",
     /* Sign-off provenance lives HERE, not inside a display string. On

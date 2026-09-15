@@ -88,14 +88,36 @@ var TESA_MONITOR = [
 
 var KORB_DOSING = {
 
+  /* ── PRESCRIBING SIGN-OFF ──────────────────────────────────────────────────
+     Records that Don has read the prescribing blocks on a document and approved
+     them, stamped with a fingerprint of what he read.
+
+       node rx-signoff.js                 what is signed, stale and unsigned
+       node rx-signoff.js --sign <key>    prints the record to paste in here
+
+     SEPARATE FROM THE MONOGRAPH SIGN-OFF, on purpose. The monograph fingerprint
+     in korb-glp1-data.js covers clinical writing: indications, interactions,
+     contraindications, monitoring, the counselling script. This one covers the
+     Tebra fields and charge codes. They are different reviews, and merging them
+     would mean a hyphen fix in a sig expiring a contraindication sign-off -
+     which teaches people to re-sign without re-reading.
+
+     A record holds a FINGERPRINT, not a boolean. A boolean says somebody looked
+     once; a fingerprint says somebody looked at THIS, and goes stale by itself
+     when the content moves afterwards. See rx-signoff.js for the reasoning.
+
+     Empty because nothing has been signed yet. All 4 FH&L documents are unsigned. */
+  rxSignoff: { records: {} },
+
   meta: {
-    version: '2.12',
+    version: '2.13',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-09-15 (v2.13): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing sign-off register, plus rx-signoff.js which reports and computes it. FH&L had no sign-off mechanism of any kind. The monograph fingerprint in korb-glp1-data.js is untouched and stays separate: it covers clinical writing, this covers the Tebra fields and charge codes, and merging them would mean a hyphen fix in a sig expiring a contraindication sign-off. Records hold a fingerprint of the document as signed rather than a boolean, so a change after sign-off shows as STALE instead of being invisible.',
       '2026-09-15 (v2.12): NO CLINICAL CONTENT CHANGE. Open item 4. This file no longer types a pharmacy footprint. states.premierRouting is empty in source and filled at load by hydrate() from korb-pharmacies.js, which is now the only place a pharmacy state list is written - the same wiring korb-glp1-data.js took in v2.21 under open item 3. WHAT DID NOT MOVE, and the distinction is the whole point: unavailable, unavailableNoShip, unavailableNoPharmacy and unavailableLabWorkflow all stay here. Those are program decisions about where KORB offers Functional Health & Longevity, not facts about where a pharmacy is licensed, and only 8 of the 18 closed states are closed for a pharmacy reason at all. MISSISSIPPI is the case that made this worth doing. The typed list held 37 states, the shared footprint holds 38, and the one difference was MS, removed from premierRouting on 2026-08-24 when MS left the FH&L offering. Premier is licensed to ship peptides to MS and always was; a program decision had been written into a pharmacy list. MS is back in the footprint and still blocked through unavailableNoShip. NOTHING A PROVIDER SEES CHANGES, and that was measured rather than assumed: premierRouting minus unavailable is the same 31 states before and after. requireHydrated() throws by name if korb-pharmacies.js was not loaded first, because an empty footprint reads as "Premier ships nowhere" and would silently route every FH&L patient to Greenwich. Negative-tested: loading this file alone leaves hydrated false and makes requireHydrated() throw; build-fhl-docs.js refuses to build and the live pages refuse to render. The script tag was added to the four generated FH&L references, to the three live root tools, and to check-pages.js, which failed on all four generated pages before the rebuild and passes after.',
       '2026-09-14 (v2.9): CLINICAL CONTENT CHANGED - GREENWICH BPC-157 FAVORITE NAME CORRECTED. The Greenwich entry was named "0.6 MG", which is 600 mcg. The dose is 500 mcg and always was: agents.bpc157.dose already read "500 mcg" and Premier already named it "500 mcg", so the Greenwich favorite name was the only place stating 600. Confirmed by Don 2026-09-14: BPC-157 is 500 mcg only. Two strings changed, the label and the Name field. Nothing else in the Greenwich record encoded 600 - Patient Instructions is the standard Greenwich "as directed by provider" line and quantity 10 ml is the vial size, both unchanged, as is the Drug Formulation string "KBH   BPC-157 3mg/mL" with its three spaces. This closes the last disagreement found by the cross-pharmacy dose audit: all twelve agents now state the same dose in both pharmacy names.',
       '2026-09-14 (v2.8): CLINICAL CONTENT CHANGED - GREENWICH SERMORELIN FAVORITE NAMES CORRECTED. The four Greenwich sermorelin entries named the dose as 3x its real value in milligrams: 200 mcg was written "0.6 mg", 300 mcg "0.9 mg", 400 mcg "1.2 mg" and 500 mcg "1.5 mg". That is the Greenwich concentration ratio, 3 mg/mL against Premier 1 mg/mL, applied to the dose. Concentration changes the VOLUME injected, not the dose: 300 mcg is 300 mcg from either vial. Corrected to match Premier and to match CJC-1295/Ipamorelin, which already uses one dose wording across both pharmacies. Eight strings changed - the label and the Name field on each of the four strengths. Confirmed by Don 2026-09-14. Nothing else was touched: the Greenwich Drug Formulation strings, which must match the Greenwich system exactly, are byte-identical, as are quantity, unit, refill, days supply and all instructions. STILL OPEN: BPC-157 reads "500 mcg" at Premier and "0.6 MG" at Greenwich, which is neither the same number nor the same 3x pattern. Not changed here - it needs Don.',

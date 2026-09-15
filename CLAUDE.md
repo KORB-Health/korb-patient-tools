@@ -398,6 +398,48 @@ other alone.
 
 ---
 
+## Prescribing sign-off
+
+Two separate registers, and the separation is the point.
+
+| | Covers | Lives in | Read it with |
+|---|---|---|---|
+| **Monograph sign-off** | Indications, interactions, contraindications, monitoring, ICD-10, counselling script | `monographSignoff` in `korb-glp1-data.js` | `node build-signoff-sheet.js` |
+| **Prescribing sign-off** | Tebra fields and charge codes, per DOCUMENT | `rxSignoff` in all three data files | `node rx-signoff.js` |
+
+```bash
+node rx-signoff.js
+```
+
+**Why two and not one.** A hyphen fix in a sig is not a reason to re-read every
+contraindication. Merge them and every punctuation change expires a clinical
+sign-off, which trains people to re-sign without re-reading.
+
+**Why this exists.** On 2026-09-15, after two days of correcting prescribing
+fields — Greenwich sermorelin names reading 3x the real dose, BPC-157 at 600 mcg
+when the dose is 500, en dashes a Tebra paste can drop — all three GLP-1
+monographs still reported `current` against a 2026-09-06 signature. Correctly:
+the monograph had not changed. Nothing anywhere tracked whether the prescribing
+content had been reviewed. FH&L had no sign-off at all, and
+`korb-addons-data.js` had a `needsSignoff` boolean that records only that nobody
+has looked yet — set it false and the next day's edit is invisible.
+
+**A record holds a fingerprint, not a boolean.** Three states: unsigned, stale,
+current. STALE means somebody signed it and the content moved afterwards.
+
+**Fingerprinted from the document as RENDERED**, by running the real renderer and
+pulling every `div.rxb` out. No hand-written map from document to products — this
+repo has been bitten twice by a list kept in step by hand. Only the blocks are
+taken, so a rebuild on a different day does not invalidate a signature.
+
+To record one: `node rx-signoff.js --sign <key>` prints the record to paste into
+the data file. It does not write it. A sign-off is a clinical attestation and it
+should land as a reviewed diff, not a side effect. There is no `--all`.
+
+**Status as of 2026-09-15: 15 documents, 221 prescribing blocks, none signed.**
+
+---
+
 ## Verification discipline
 
 This repo has real self-checks. Use them, and prove they have teeth.

@@ -46,8 +46,29 @@
 
 var KORB_GLP1 = {
 
+  /* ── PRESCRIBING SIGN-OFF ──────────────────────────────────────────────────
+     Records that Don has read the prescribing blocks on a document and approved
+     them, stamped with a fingerprint of what he read.
+
+       node rx-signoff.js                 what is signed, stale and unsigned
+       node rx-signoff.js --sign <key>    prints the record to paste in here
+
+     SEPARATE FROM THE MONOGRAPH SIGN-OFF, on purpose. The monograph fingerprint
+     in korb-glp1-data.js covers clinical writing: indications, interactions,
+     contraindications, monitoring, the counselling script. This one covers the
+     Tebra fields and charge codes. They are different reviews, and merging them
+     would mean a hyphen fix in a sig expiring a contraindication sign-off -
+     which teaches people to re-sign without re-reading.
+
+     A record holds a FINGERPRINT, not a boolean. A boolean says somebody looked
+     once; a fingerprint says somebody looked at THIS, and goes stale by itself
+     when the content moves afterwards. See rx-signoff.js for the reasoning.
+
+     Empty because nothing has been signed yet. All 10 GLP-1 documents are unsigned. */
+  rxSignoff: { records: {} },
+
   meta: {
-    version: '2.21',
+    version: '2.22',
     created: '2026-08-06',
     lastUpdated: '2026-09-13',
     owner: 'Director of Clinical Operations',
@@ -67,6 +88,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-15 (v2.22): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing sign-off register, plus rx-signoff.js which reports and computes it. Nothing on the 10 GLP-1 documents had ever been signed: the monograph records date from 2026-09-06 and correctly still read current, because the monograph had not changed - but the prescribing blocks corrected over 13-15 September were covered by no record at all. The monograph fingerprint in korb-glp1-data.js is untouched and stays separate: it covers clinical writing, this covers the Tebra fields and charge codes, and merging them would mean a hyphen fix in a sig expiring a contraindication sign-off. Records hold a fingerprint of the document as signed rather than a boolean, so a change after sign-off shows as STALE instead of being invisible.',
       '2026-09-14 (v2.19): SPELLING ONLY, NO CLINICAL OR DOSE CHANGE. "L-Carnatine" corrected to "L-Carnitine" in all 7 Belmar tirzepatide strings: one display `formulation` and six `drugFormulation`. v2.18 left these alone on the reasoning that drugFormulation is the Tebra field a pharmacy matches against, and this repo keeps Greenwich formulation strings byte-identical for exactly that reason. Don confirmed 2026-09-14 that the exact-match constraint is GREENWICH ONLY - Greenwich matches on the compounded name and will flag a difference; Belmar does not. So the caution was right to raise and wrong to keep. No dose, quantity, unit, days supply or instruction changed, and no Greenwich string was touched.',
       '2026-09-14 (v2.18): NO CLINICAL CHANGE TO ANY DOSE. Two facts that lived only inside KORB_GLP1_Dose_Guide.html were moved here so that page can be derived rather than typed, which is open item 5. Added `additive` to the seven compounded injectables - the vitamin or amino acid each product carries, which the guide had been typing in its own table. Added per-dose `conc` to the five belmar_sema doses, because Belmar supplies semaglutide at two concentrations by dose band and this file held only the sentence "two concentrations by dose band" while the guide held the actual numbers. Every mg, unit count and 4- and 8-week vial string is byte-identical to v2.17: verified by rendering all 48 medication/pharmacy/dose combinations of the Dose Guide before and after, 48 of 48 identical apart from the concentration line, which now reads from `formulation` here instead of a separate typed string. NOT CHANGED, deliberately: "L-Carnatine" appears 7 times, once as display `formulation` and six times as `drugFormulation`. The latter is the Tebra field Belmar matches against, and this repo already keeps Greenwich formulation strings byte-identical for that reason, so correcting the spelling needs Belmar to confirm first. Raised with Don 2026-09-14 and ANSWERED in v2.19: Belmar does not require an exact match, that constraint is Greenwich only.',
       '2026-09-13 (v2.17): WORDING ONLY, NO ROUTING OR DOSING CHANGE. pharmacySelection.overrideReasons described L-carnitine as an "added vitamin". L-carnitine is an amino acid derivative, not a vitamin. Changed to "added agent" in the reason string and in the explanatory comment above it. Flagged because the GLP-1 Pharmacy Routing tool renders that string verbatim to providers, so the error was on screen rather than buried in the file. Nothing else in this file was touched: pharmacy routing, state lists, sigs, doses and pricing are byte-identical to v2.16.',
