@@ -2,7 +2,7 @@
 /* ============================================================================
    KORB HEALTH — GLP-1 PROVIDER REFERENCE BUILDER
 
-   Emits, for each of the eleven documents:
+   Emits, for each document in DOCS (provider-doc-render.js, around line 205):
      <name>.html   a LIVE shell that loads korb-glp1-data.js in the browser and
                    renders through provider-doc-render.js. Never goes stale.
      <name>.pdf    a fixed snapshot of the same content, for printing or for
@@ -19,7 +19,8 @@
    provider-doc-render.js. A hand-edit is overwritten by the next build.
 
    WHY THIS FILE EXISTS
-     The eleven documents originally in the repo were generated on 2026-08-09 by
+     The eleven documents originally in the repo - ten now, Greenwich tirzepatide
+     was retired 2026-09-11 - were generated on 2026-08-09 by
      something never committed. When the data changed underneath them they could
      not be rebuilt, so they sat describing a Belmar split fill that no longer
      exists and telling providers to counsel Zepbound patients about a compounded

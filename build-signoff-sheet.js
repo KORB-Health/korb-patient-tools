@@ -11,6 +11,9 @@
    whole fingerprint mechanism theatre.
 
    The fingerprint printed against each molecule is the one that gets recorded.
+
+   USAGE  node build-signoff-sheet.js            -> build/monograph-signoff.html
+          node build-signoff-sheet.js <path>     -> somewhere else
    ============================================================================ */
 
 const fs = require('fs');
@@ -303,7 +306,17 @@ ${MOLECULES.map(molecule).join('')}
 </section>
 </div>`;
 
-const out = path.join('/mnt/user-data/outputs', 'monograph-signoff.html');
+/* Output goes under build/ in the repo, which .gitignore excludes. It used to
+   be hardcoded to /mnt/user-data/outputs, the Cowork sandbox path, so on either
+   real machine this script threw ENOENT and the sheet could not be produced at
+   all - the reviewer could not read what they were signing off. A sign-off
+   sheet is a working document, not a published artefact, and this repo is
+   public, so it is written where it will not be committed.
+   Pass a path to send it somewhere else: node build-signoff-sheet.js <path> */
+const out = process.argv[2]
+  ? path.resolve(process.argv[2])
+  : path.join(__dirname, 'build', 'monograph-signoff.html');
+fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, html);
 console.log('wrote ' + out + '  (' + fs.statSync(out).size + ' bytes)');
 MOLECULES.forEach(d => console.log('  ' + d.padEnd(14) + K.monographFingerprint(d)));

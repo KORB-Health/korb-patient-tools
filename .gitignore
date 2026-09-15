@@ -19,6 +19,11 @@ playwright-report/
 blob-report/
 .playwright/
 
+# Generated review sheets. build-signoff-sheet.js writes here. These are working
+# documents a reviewer reads before recording a sign-off, not published artefacts,
+# and this repo is public. Regenerate rather than commit.
+build/
+
 # Editor and OS litter.
 .vscode/
 .idea/

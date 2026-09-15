@@ -748,8 +748,14 @@ women's testosterone. Do not re-report those; they are already on the list.
    report that exact file and exit 1. Before the scan, `--check` printed "All 2
    embedded blobs match their source" every time — true of the two it looked at, and
    a green light earned by not looking at the third.
-8. Fix the stale comment in `build-provider-docs.js` — says "eleven documents",
-   the list holds ten (Greenwich tirzepatide retired 2026-09-11).
+8. ~~Fix the stale comment in `build-provider-docs.js`.~~ **DONE 2026-09-15.**
+   It said "eleven documents"; the list has held ten since Greenwich tirzepatide was
+   retired on 2026-09-11. It was in four places across two files, not one.
+   Fixed by **removing the count rather than correcting it** — a number written
+   beside a list goes stale the moment the list changes, and this one sent a reader
+   hunting for a document that no longer exists. `DOCS` in `provider-doc-render.js`
+   is the list; count the array. The one surviving "eleven" is history, about the
+   original set generated on 2026-08-09, and now says so.
 9b. ~~Wire the cross-pharmacy dose audit into the builders.~~ **DONE 2026-09-15**,
    `b265ee7`. Lives in `dose-audit.js` and runs as a gate in both
    `build-fhl-docs.js` and `build-provider-docs.js`. Both **refuse to build and
@@ -771,14 +777,16 @@ women's testosterone. Do not re-report those; they are already on the list.
    BPC-157 one that was still outstanding, at v2.9 it is silent. The gate itself
    was tested by planting the v2.7 label back in — the builder exited 1 and named
    the field.
-9. **`build-signoff-sheet.js` cannot run on either machine.** Line 306 writes to
-   `/mnt/user-data/outputs/monograph-signoff.html`, a Cowork sandbox path, so it
-   exits with ENOENT. Third instance of a sandbox path committed as if it were a
-   real one, after `loadChromium()` in both document builders. Found 2026-09-13
-   while checking the generators after the `Provider_Reference/` deletion; it
-   predates that work and is unrelated to it. Should write next to the other
-   generated documents. Worth grepping for `/mnt/` and `/home/claude` before
-   trusting any script in here that has not been run on this machine.
+9. ~~`build-signoff-sheet.js` cannot run on either machine.~~ **DONE 2026-09-15.**
+   It wrote to `/mnt/user-data/outputs/monograph-signoff.html`, a Cowork sandbox
+   path, and exited ENOENT — the third sandbox path committed as if it were a real
+   one, after `loadChromium()` in both document builders. It now writes to
+   `build/monograph-signoff.html`, which `.gitignore` excludes: a sign-off sheet is
+   a working document a reviewer reads, not a published artefact, and this repo is
+   public. Pass a path to send it elsewhere. Verified by running it.
+   `grep -rn "/mnt/\|/home/claude" --include=*.js --include=*.py .` now returns
+   only the comment explaining this. Run that grep before trusting any script here
+   that has not been run on this machine.
 10. ~~Add-On Clinical Reference — generator works, output needs review.~~ **DONE
    2026-09-14**, `a56f812`. Don reviewed the generated document, which was the gate
    this item was waiting on, and the reviewed version replaced the in-use PDF.
@@ -920,6 +928,12 @@ Nick. No PHI is in this repo and none may be added.
   disregard a printed date.
 - Data file changes bump `meta.version` and `meta.lastUpdated` and add a changelog
   entry saying plainly whether clinical content changed.
+- **Do not commit a PDF rebuild that changed nothing.** Running a document builder
+  always rewrites all its PDFs, and with no data change the new file is the same
+  byte length and differs only in the embedded `CreationDate`/`ModDate`/`/ID`.
+  Committing that is megabytes of churn that reads in `git log` as if documents
+  changed. Check before staging:
+  `git diff --stat -- "*.pdf"`, and if only PDFs moved, `git checkout -- <path>`.
 
 ### The $99 baseline lab fee — the whole policy
 
