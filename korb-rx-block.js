@@ -312,7 +312,7 @@
      template - and drops the buttons, which mean nothing on paper. */
   var CSS = (function () {
     var s =
-      '.rxb{margin:0 0 18px;border:1px solid #C9CEDB;border-radius:7px;overflow:hidden;' +
+      '.rxb{margin:0 0 18px;border:1px solid #B9C0D4;border-radius:7px;overflow:hidden;' +
         'break-inside:avoid;page-break-inside:avoid;}' +
       '.rxb-hdr{color:#fff;font-weight:700;font-size:12px;letter-spacing:.02em;padding:7px 12px;}' +
       '.rxb-tbl{width:100%;border-collapse:collapse;font-size:12px;}' +
@@ -321,8 +321,12 @@
          colours side by side and the block read as two columns rather than a
          list of rows. The stripe below colours the WHOLE row, both cells, which
          is what makes it scannable left to right. */
+      /* A VERTICAL RULE divides label from value. The two columns were previously
+         told apart by a fill on the label side, which made every row two-tone
+         and the block read as two columns instead of a list of rows. A single
+         line does the same job without introducing a second colour. */
       '.rxb-tbl th{width:33%;text-align:left;font-weight:700;color:#21275B;' +
-        'padding:6px 12px;vertical-align:top;}' +
+        'padding:6px 12px;vertical-align:top;border-right:1px solid #D7DCE8;}' +
       /* white-space:pre-wrap is not cosmetic. Greenwich stores its formulations
          with a run of spaces - "KBH   Sermorelin 3mg/mL" carries three - and
          HTML collapses those to one, so the page showed a provider a string
@@ -330,8 +334,7 @@
          carried the right one. Greenwich flags a formulation that does not
          match their own and the prescription may not be filled, so the
          displayed value has to be the stored value, space for space. */
-      '.rxb-tbl td{border-top:1px solid #E3E6EF;padding:6px 12px;vertical-align:top;' +
-        'white-space:pre-wrap;}' +
+      '.rxb-tbl td{padding:6px 12px;vertical-align:top;white-space:pre-wrap;}' +
       '.rxb-tbl tr:first-child th,.rxb-tbl tr:first-child td{border-top:0;}' +
       '.cp{display:block;}' +
       /* A one-line trailer such as Storage belongs to the block above it. Left
@@ -418,8 +421,15 @@
        what looked odd, the tinted LABEL COLUMN underneath it was, because it
        made every row two-tone whether it was striped or not. Tint removed,
        striping back, one colour per row. */
-    s += '.rxb-tbl tbody tr:nth-child(odd) th,' +
-         '.rxb-tbl tbody tr:nth-child(odd) td{background:#F4F6FA;}';
+    /* The page behind these blocks is cream, #FBFAF6. The first stripe colour was
+       #F4F6FA, which is a near neighbour of it, so the value column appeared to
+       dissolve into the page and the label column just looked washed out. The
+       block now sits on explicit WHITE, which makes it read as a card against
+       the cream, and the stripe is dark enough to be a stripe rather than a
+       suggestion. */
+    s += '.rxb-tbl th,.rxb-tbl td{background:#FFFFFF;}' +
+         '.rxb-tbl tbody tr:nth-child(odd) th,' +
+         '.rxb-tbl tbody tr:nth-child(odd) td{background:#EDF1F8;}';
     s += '@media print{.copybtn{display:none;}}';
     /* Monospace is a SCREEN-ONLY affordance. It makes a transcribed value easy
        to read character by character, which is what the field is for, but the
