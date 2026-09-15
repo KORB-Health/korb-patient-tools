@@ -81,7 +81,8 @@ URLs are in circulation.
   korb-glp1-data.js                GLP-1 clinical data          (SOURCE OF TRUTH)
   korb-dosing-data.js              FH&L peptide clinical data   (SOURCE OF TRUTH)
   korb-addons-data.js              add-on formulations          (SOURCE OF TRUTH)
-  korb-pharmacies.js               shared pharmacy/state layer  (NOT YET WIRED — see Open work)
+  korb-pharmacies.js               shared pharmacy/state layer, footprint + programs
+  check-pharmacies.js              cross-file pharmacy check (node check-pharmacies.js)
   korb-rx-block.js                 THE Tebra prescribing block, shared by all four
   provider-doc-render.js           render module, GLP-1 monographs
   fhl-doc-render.js                render module, FH&L references
@@ -548,7 +549,29 @@ women's testosterone. Do not re-report those; they are already on the list.
    in print. Change it only if the brand mark itself changes.
 
 **NEXT →**
-2. **Reshape `korb-pharmacies.js`** to program-keyed, add the cross-file self-check.
+2. ~~Reshape `korb-pharmacies.js` to program-keyed, add the cross-file self-check.~~
+   **DONE 2026-09-15**, `946a331` and `a9f61fd`.
+   A pharmacy carries a **licensure footprint**, one fact that does not vary by
+   program, plus a `programs` block:
+   `footprint` / `footprintExcludes` / `programs.<x>.status` (active, retired,
+   not-offered) / `programs.<x>.excludes` for a real per-program narrowing.
+   **Effective coverage is computed, never stored** — `statesFor(pharmacy,
+   program)`. Nothing can drift from the footprint because nothing is copied
+   from it.
+   This is NOT the shape the section above specifies. A full state list per
+   program would write Belmar's 51 states four times inside the one file whose
+   purpose is that a fact appears once. Don chose the footprint model 2026-09-15.
+   All 12 active pharmacy × program lists were verified to reproduce the old flat
+   data exactly before the file was written.
+   **Greenwich's 23 states are a licensure change, not a pause.** It ended its
+   central-fill arrangements with affiliated pharmacies and now dispenses only
+   where it is itself licensed. A first attempt modelled the 23 as a pause
+   narrowing a 46-state footprint, which would have implied the coverage returns
+   on its own when what is pending is a set of licence applications. The 46 was
+   reach through affiliates and was never Greenwich's licence.
+   `crossCheck()` compares this file against the program files that still carry
+   their own copy, which `selfCheck()` structurally cannot do. Run it with
+   `node check-pharmacies.js`; it exits 1 on anything unexpected.
 3. **Wire GLP-1 onto it.** Do GLP-1 first: best self-check coverage, and there is a
    verified 51-state routing baseline to diff against, so a mistake shows up
    immediately. Baseline as of v2.17: FarmaKeio 40 states, Premier 10, Belmar 1 (CA).
