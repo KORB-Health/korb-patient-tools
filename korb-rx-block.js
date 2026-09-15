@@ -380,10 +380,19 @@
       '.rxb-vary{border-top:2px solid #C9CEDB;}' +
       '.rxb-vary-hd{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;' +
         'color:#5A6079;background:#F1F3F8;padding:5px 12px;}';
-    Object.keys(FIELD_LEGEND).forEach(function (k) {
-      var f = FIELD_LEGEND[k];
-      s += '.rxb-tbl td.' + f.cls + '{background:' + f.bg + ';box-shadow:inset 3px 0 0 ' + f.hex + ';}';
-    });
+    /* NO PER-FIELD TINTS. Removed 2026-09-15 on Don's instruction: providers know
+       which Tebra field is which by now, so the colour coding had stopped being a
+       key and become visual clutter - eleven tinted rows and eleven coloured left
+       bars in a block a provider is trying to read one line at a time.
+
+       FIELD_LEGEND is kept because it still documents the Canva Compound Rx
+       template's colour for each field, which is a real mapping someone will want
+       again. It simply no longer paints anything here. Re-enabling it is one
+       loop; the decision not to is deliberate.
+
+       Readability now comes from zebra striping and a single border weight. */
+    s += '.rxb-tbl tbody tr:nth-child(even) td,' +
+         '.rxb-tbl tbody tr:nth-child(even) th{background:#FAFBFD;}';
     s += '@media print{.copybtn{display:none;}}';
     /* Monospace is a SCREEN-ONLY affordance. It makes a transcribed value easy
        to read character by character, which is what the field is for, but the

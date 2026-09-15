@@ -125,7 +125,12 @@ const CSS = RXB.CSS + `
 
   /* Callouts carry meaning in their colour: teal informs, amber warns,
      green confirms, red stops. */
-  .callout{border:1pt solid var(--teal);border-left:3.5pt solid var(--teal);
+  /* UNIFORM BORDER WEIGHT. These three carried a heavy accent on the left only -
+     .callout 3.5pt, .gate 4pt, .attest 3.5pt with no other side at all - so a
+     page of them read as a column of mismatched left bars, and the chart
+     attestation looked like an unclosed box because it literally was one. Don,
+     2026-09-15. One weight per box, all four sides. */
+  .callout{border:1pt solid var(--teal);
            background:var(--info);padding:8pt 11pt;margin:9pt 0;break-inside:avoid;}
   .callout.warn{border-color:var(--orange);border-left-color:var(--orange);background:var(--warnbg);}
   .callout.ok{border-color:var(--ok);border-left-color:var(--ok);background:var(--okbg);}
@@ -133,7 +138,7 @@ const CSS = RXB.CSS + `
   .callout h3{margin:0 0 3pt;font-size:9.2pt;color:var(--navy);}
   .callout p{margin:0 0 4pt;font-size:8.8pt;} .callout p:last-child{margin-bottom:0;}
 
-  .gate{border:1.5pt solid var(--stop);border-left:4pt solid var(--stop);
+  .gate{border:1.5pt solid var(--stop);
         background:var(--stopbg);padding:10pt 13pt;margin:12pt 0;break-inside:avoid;}
   .gate h3{margin:0 0 5pt;color:var(--stop);font-size:10pt;}
   .gate p{margin:0 0 5pt;font-size:8.8pt;} .gate-q{color:var(--ink2);}
@@ -142,7 +147,7 @@ const CSS = RXB.CSS + `
   .fine{font-size:8.2pt;color:var(--ink2);margin:4pt 0;}
   .sublabel{font-family:var(--sans);font-size:8.2pt;color:var(--ink3);font-weight:600;
             text-transform:uppercase;letter-spacing:.07em;margin:7pt 0 2pt;}
-  .attest{background:var(--panel);border-left:3.5pt solid var(--navy);padding:8pt 11pt;font-style:italic;}
+  .attest{background:var(--panel);border:1pt solid var(--navy);padding:8pt 11pt;font-style:italic;}
   code{font-family:var(--sans);font-size:8.4pt;background:var(--panel);
        padding:1pt 3pt;border:0.5pt solid var(--rule);letter-spacing:.012em;}
   .foot{margin-top:22pt;border-top:2pt solid var(--teal);padding-top:9pt;
@@ -442,44 +447,64 @@ function sectionRx(doc) {
       return v === undefined || v === null ? undefined : String(v);
     };
 
-    const constant = [];
-    FIELDS.forEach(([label, get]) => {
-      if (NEVER_CONSTANT.indexOf(label) !== -1) return;
-      const vals = recs.map(x => val(label, get, x));
-      if (vals.some(v => v === undefined)) return;     // absent on this shape
-      const uniq = new Set(vals);
-      if (uniq.size === 1) constant.push([label, [...uniq][0]]);
-    });
-    const constantLabels = constant.map(c => c[0]);
-    if (constant.length) {
-      h += `<div class="rxblock"><h4>Same for every dose</h4><table class="kv rx">${rows(constant)}</table></div>`;
-    }
+    /* ONE COMPLETE BLOCK PER DOSE. Every field, every time.
 
-    /* Short headings. The dispensing list carries the full label ("8-week
-       (56-day) - 4 pens + 1 refill") which belongs in the program table, not
-       repeated over every dose heading. An unmapped key falls back to itself
-       rather than rendering "undefined". */
+       This used to factor the fields that are identical across doses into a
+       "Same for every dose" table and print only what varies underneath, which
+       is efficient and wrong for this document. A provider working from here is
+       transcribing ONE dose into Tebra, and the factored layout split that one
+       entry across two tables in different parts of the page - they had to read
+       Drug Formulation, Unit, Reason and Pharmacy Instructions from a block at
+       the top and Name, Quantity, Refill, Days and Patient Instructions from a
+       block further down, and get the pairing right themselves.
+
+       Don rejected exactly this shape for the FH&L references on 2026-09-14 and
+       rejected it here on 2026-09-15. It predates both: it arrived with the
+       original upload in dc4b48f, so the monographs have always looked like
+       this and were simply never looked at in this format. Do not reintroduce
+       it. Repetition between dose blocks is correct and is the point.
+
+       The repetition that IS worth collapsing is counselling and monitoring,
+       which is a property of the medication rather than the dose. See
+       sectionClinical() in fhl-doc-render.js. */
     const LABEL = { supply4: '4-week', supply8: '8-week', rx: '90-day',
                     rx4: '4-week', rx8: '8-week', rx12: '12-week',
                     rx30: '30-day', rx60: '60-day', rx90: '90-day' };
+
     recs.forEach(x => {
-      const varying = FIELDS
-        .filter(([label]) => constantLabels.indexOf(label) === -1)
+      const fields = FIELDS
         .map(([label, get]) => {
           const v = val(label, get, x);
-          return v === undefined ? null : [label, v];
-        });
-      /* Heading and its fields are ONE unit that never splits. Letting tables
-         flow freely filled the pages but broke a dose block across two of them,
-         so page 4 opened with Quantity and Days Supply and no dose heading -
-         Tebra values with nothing saying which dose they belong to, in the one
-         document whose entire purpose is copying those values correctly. */
-      h += `<div class="rxblock">
-        <h4>${esc(x.d.dose)}${x.d.presentation ? ' · ' + esc(x.d.presentation) : ''} — ${esc(LABEL[x.sk] || x.sk)}</h4>
-        <table class="kv rx">${rows(varying)}</table></div>`;
+          return v === undefined ? null : { field: label, val: v, copy: label !== 'Allow Substitution' };
+        })
+        .filter(Boolean);
+
+      const heading = esc(x.d.dose) +
+        (x.d.presentation ? ' · ' + esc(x.d.presentation) : '') +
+        ' — ' + esc(LABEL[x.sk] || x.sk);
+
+      /* Heading and fields are ONE unit that never splits. Letting the tables
+         flow freely once opened a page with Quantity and Days Supply and no dose
+         heading - Tebra values with nothing saying which dose they belong to, in
+         the one document whose whole purpose is copying those values right. */
+      h += '<div class="rxblock">' + RXB.block({
+        pharmacy: pharmLabel(p),
+        label: heading,
+        fields: fields,
+        accent: RXB.accentFor(p.pharmacy)
+      }) + '</div>';
     });
   });
   return h;
+}
+
+/* The pharmacy name for a block header. The product carries a key; fall back to
+   the product label so a block is never headed by an empty string. */
+function pharmLabel(p) {
+  var k = String(p.pharmacy || '');
+  var named = { premier: 'Premier Pharmacy', greenwich: 'Greenwich Pharmacy',
+                belmar: 'Belmar Pharmacy', farmakeio: 'FarmaKeio Pharmacy' };
+  return named[k.toLowerCase()] || p.pharmacyLabel || p.label || k;
 }
 
 function sectionLadder(doc) {

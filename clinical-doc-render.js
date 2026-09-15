@@ -234,12 +234,23 @@ function tebraRows(p) {
      STANDING RULE: the retired drop-down entry is never rendered. These blocks
      are copied into a prescription and a superseded entry beside the live custom
      compound invites the wrong pick. The field stays in the data as history. */
-  return RXB.block({
-    pharmacy: pharmName(p.pharmacy),
-    label: t.name || p.name,
-    fields: RXB.fieldsFrom(t, { drugFormulation: p.drugFormulation }),
-    accent: RXB.accentFor(p.pharmacy)
-  });
+  /* A product prescribed at several strengths gets ONE COMPLETE BLOCK EACH.
+     Tretinoin cream is 0.025%, 0.05% and 0.1%, and a provider copies one of
+     them, so printing only the first left two strengths with nothing to paste.
+     `tebraAlso` carries the extra records; each is stored in full in the data
+     rather than built here by substituting a percentage, because these strings
+     go onto a prescription. Same rule as the dose blocks in the GLP-1
+     monographs: never factor, never generate, one whole entry per thing a
+     provider might prescribe. */
+  var entries = [t].concat(p.tebraAlso || []);
+  return entries.map(function (e) {
+    return RXB.block({
+      pharmacy: pharmName(p.pharmacy),
+      label: e.name || p.name,
+      fields: RXB.fieldsFrom(e, { drugFormulation: e.drugFormulation || p.drugFormulation }),
+      accent: RXB.accentFor(p.pharmacy)
+    });
+  }).join('');
 }
 
 function pharmName(key) {
@@ -383,13 +394,10 @@ function renderBody(data, pharmacies, doc) {
   h += '<style>.rxblock{break-inside:auto;}' +
        /* Copy buttons are a screen affordance. They must not appear in the
           PDF, where they would print as stray words inside a table cell. */
-       '.copybtn{display:none;}' +
-       '@media screen{.cp{display:inline-flex;align-items:baseline;gap:6px;}' +
-       '.copybtn{display:inline-block;font-family:inherit;font-size:10px;font-weight:700;' +
-       'letter-spacing:.04em;text-transform:uppercase;color:#0F5F69;background:#E8F6F8;' +
-       'border:1px solid #B9E2E8;border-radius:4px;padding:1px 6px;cursor:pointer;}' +
-       '.copybtn:hover{background:#D3EDF1;}' +
-       '.copybtn.ok{background:#1B6349;border-color:#1B6349;color:#fff;}}' +
+       /* No .copybtn rules here. korb-rx-block.js owns them, and this file's
+          copy redeclared the button WITHOUT float:right while loading after it,
+          so every button on this document sat inline against the text instead of
+          on the right margin. One button style, one owner. */
        '.rxblock h3{break-after:avoid;}' +
        '.rxblock h3+.fine{break-after:avoid;}' +
        'h3.rxlead{margin-top:16pt;break-after:avoid;}' +
