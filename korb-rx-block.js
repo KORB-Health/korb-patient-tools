@@ -171,8 +171,16 @@
       head += ' &nbsp;&middot;&nbsp; Compounded Drug Favorite Entry &nbsp;&middot;&nbsp; ' + esc(opts.label);
     }
 
+    /* Optional right-aligned tag: the supply length, usually. Deliberately NOT a
+       new colour - it is a translucent white pill sitting on whatever the
+       pharmacy accent already is, so 4-week and 8-week are told apart at a
+       glance while the pharmacy stays the thing the colour means. Adding a
+       second colour system here would have put the two in competition, and the
+       pharmacy has to win that. */
+    var tag = opts.tag ? '<span class="rxb-tag">' + esc(opts.tag) + '</span>' : '';
+
     var h = '<div class="rxb">';
-    h += '<div class="rxb-hdr" style="background:' + esc(accent) + ';">' + head + '</div>';
+    h += '<div class="rxb-hdr" style="background:' + esc(accent) + ';">' + tag + head + '</div>';
     h += '<table class="rxb-tbl"><tbody>';
     fields.forEach(function (f) {
       var fc = FIELD_LEGEND[f.field];
@@ -315,6 +323,9 @@
       '.rxb{margin:0 0 18px;border:1px solid #B9C0D4;border-radius:7px;overflow:hidden;' +
         'break-inside:avoid;page-break-inside:avoid;}' +
       '.rxb-hdr{color:#fff;font-weight:700;font-size:12px;letter-spacing:.02em;padding:7px 12px;}' +
+      '.rxb-tag{float:right;margin-left:12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;' +
+        'text-transform:uppercase;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);' +
+        'border-radius:3px;padding:1px 8px;}' +
       '.rxb-tbl{width:100%;border-collapse:collapse;font-size:12px;}' +
       /* The label column carries NO background of its own. It used to be tinted
          #F7F8FB against a white value column, so every row was two different

@@ -502,9 +502,12 @@ function sectionRx(doc) {
         })
         .filter(Boolean);
 
+      /* The supply length moves out of the heading and into the right-hand tag,
+         so 4-week and 8-week can be picked out by scanning one column rather
+         than reading to the end of every header string. */
       const heading = esc(x.d.dose) +
-        (x.d.presentation ? ' · ' + esc(x.d.presentation) : '') +
-        ' — ' + esc(LABEL[x.sk] || x.sk);
+        (x.d.presentation ? ' · ' + esc(x.d.presentation) : '');
+      const supplyTag = LABEL[x.sk] || x.sk;
 
       /* Heading and fields are ONE unit that never splits. Letting the tables
          flow freely once opened a page with Quantity and Days Supply and no dose
@@ -513,6 +516,7 @@ function sectionRx(doc) {
       h += '<div class="rxblock">' + RXB.block({
         pharmacy: pharmLabel(p),
         label: heading,
+        tag: supplyTag,
         fields: fields,
         accent: RXB.accentFor(p.pharmacy)
       }) + '</div>';
@@ -651,15 +655,23 @@ function renderBody(data, doc) {
 
 <div class="lede">Everything needed to prescribe ${esc(doc.title.replace(/ — /, ' '))}, complete on its own. Values are copied literally into Tebra — do not paraphrase, and do not adjust quantity, refill or days supply.</div>
 
+<!-- SECTION ORDER. Pricing sits third, straight after the gate and the glance,
+     because that is when a provider needs it: a patient asks what it costs
+     before anything in the clinical reference matters. It used to sit ninth,
+     below the whole Tebra block, so the one question asked in the first minute
+     of a visit was answered on the last screen. Don, 2026-09-15.
+
+     The gate stays first and nothing goes above it - it is the "do not
+     prescribe" screen and it outranks price. -->
 ${sectionGate(doc)}
 ${sectionGlance(doc, ph)}
+${sectionPricing(doc)}
 ${sectionCallouts(doc, ph)}
 ${sectionPreparation(doc)}
 ${sectionLimitations(doc)}
 ${sectionNotes(ph)}
 ${sectionLadder(doc)}
 ${sectionRx(doc)}
-${sectionPricing(doc)}
 ${sectionClinical(doc)}
 
 <div class="foot">
