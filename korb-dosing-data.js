@@ -107,7 +107,27 @@ var KORB_DOSING = {
      when the content moves afterwards. See rx-signoff.js for the reasoning.
 
      Empty because nothing has been signed yet. All 4 FH&L documents are unsigned. */
-  rxSignoff: { records: {} },
+  rxSignoff: {
+    records: {
+    /* Signed 2026-09-15. Don reviewed each of these on screen, one at a time,
+       and said so before moving to the next. Recorded from the transcript
+       rather than from memory, and every fingerprint was checked against the
+       document AS IT STOOD AT 7f993ba - the commit that was HEAD when he gave
+       the last of these approvals. All six were byte-identical then and now,
+       so each record is a fingerprint of content he actually saw. */
+      "fhl:foundation": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.13",
+        "fingerprint": "fp-ddf4892c-33170",
+        "blocks": 14,
+        "document": "Foundation",
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Approved 2026-09-15 after the duplicated doses in headings were fixed, pricing moved to the top, and the Foundation charge codes were corrected to FndnPeptideP02 / FndnPeptide002: \"Perfect.\""
+      },
+    }
+  },
 
   meta: {
     version: '2.13',

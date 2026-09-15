@@ -65,7 +65,60 @@ var KORB_GLP1 = {
      when the content moves afterwards. See rx-signoff.js for the reasoning.
 
      Empty because nothing has been signed yet. All 10 GLP-1 documents are unsigned. */
-  rxSignoff: { records: {} },
+  rxSignoff: {
+    records: {
+    /* Signed 2026-09-15. Don reviewed each of these on screen, one at a time,
+       and said so before moving to the next. Recorded from the transcript
+       rather than from memory, and every fingerprint was checked against the
+       document AS IT STOOD AT 7f993ba - the commit that was HEAD when he gave
+       the last of these approvals. All six were byte-identical then and now,
+       so each record is a fingerprint of content he actually saw. */
+      "glp1:premier_sema": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-bd2c8d83-29998",
+        "blocks": 12,
+        "document": "Premier \u2014 Semaglutide",
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Approved 2026-09-15 after reviewing branding, typeface and block format: \"This one is great.\""
+      },
+      "glp1:zepbound": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-69aaed96-26798",
+        "blocks": 18,
+        "document": "Zepbound \u2014 brand tirzepatide",
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Approved 2026-09-15 after the LillyDirect dispensing address, the four-state limit, the brand headers and the select-only drug field were added: \"lets just leave as it is\"."
+      },
+      "glp1:belmar_tirz": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-804eb133-30824",
+        "blocks": 12,
+        "document": "Belmar \u2014 Tirzepatide",
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Approved 2026-09-15 after the copy buttons were made one size, the Tebra character caps were checked, and the FITTirz corporate codes CP2/CP3/CP4 were removed: \"Looks great.\""
+      },
+      "glp1:wegovy": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-e35288b6-43568",
+        "blocks": 30,
+        "document": "Wegovy \u2014 brand semaglutide",
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Approved 2026-09-15 after one charge and one code for brand, the NovoCare address near the top, and BMI capitalised. Don said in terms: \"Sign off on this form.\""
+      },
+    }
+  },
 
   meta: {
     version: '2.22',

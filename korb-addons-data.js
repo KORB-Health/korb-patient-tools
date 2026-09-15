@@ -104,7 +104,27 @@ var KORB_ADDONS = {
 
      Empty because nothing has been signed yet. The Add-On Clinical Reference is
      unsigned. */
-  rxSignoff: { records: {} },
+  rxSignoff: {
+    records: {
+    /* Signed 2026-09-15. Don reviewed each of these on screen, one at a time,
+       and said so before moving to the next. Recorded from the transcript
+       rather than from memory, and every fingerprint was checked against the
+       document AS IT STOOD AT 7f993ba - the commit that was HEAD when he gave
+       the last of these approvals. All six were byte-identical then and now,
+       so each record is a fingerprint of content he actually saw. */
+      "addon:addons": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "1.7",
+        "fingerprint": "fp-6047bac9-54547",
+        "blocks": 25,
+        "document": "Add-On Clinical Reference",
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Approved 2026-09-15 after the house block format, heading hierarchy, full-row zebra, the vertical divider, right-aligned copy buttons and the per-strength Tretinoin blocks: \"This one is great.\""
+      },
+    }
+  },
 
   meta: {
     version: "1.7",

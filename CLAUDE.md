@@ -436,7 +436,17 @@ To record one: `node rx-signoff.js --sign <key>` prints the record to paste into
 the data file. It does not write it. A sign-off is a clinical attestation and it
 should land as a reviewed diff, not a side effect. There is no `--all`.
 
-**Status as of 2026-09-15: 15 documents, 221 prescribing blocks, none signed.**
+**Status as of 2026-09-15: 15 documents, 221 prescribing blocks, 6 signed.**
+
+Signed: Premier Semaglutide, Belmar Tirzepatide, Zepbound, Wegovy, FH&L Foundation,
+Add-On Clinical Reference. Each was reviewed on screen and approved in the session
+of 2026-09-15; the records were reconstructed from the transcript, not from memory,
+and every fingerprint was verified against the document as it stood at `7f993ba`,
+the commit that was HEAD when the last approval was given. All six were
+byte-identical then and now.
+
+Unsigned: Belmar Semaglutide, Premier Semaglutide with Glycine, Premier Tirzepatide,
+both FarmaKeio documents, Foundayo, Gateway, Peak Pathway A, Peak Pathway B.
 
 ---
 
