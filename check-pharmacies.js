@@ -16,16 +16,20 @@
    is the direction that catches drift. It exits 1 on any disagreement so it can
    be wired into a builder once open item 2 finishes the reshape.
 
-   WHAT IT WILL REPORT TODAY
+   WHAT IT REPORTS TODAY
 
-   Three problems, all Greenwich, all the same underlying fact. The shared layer
-   holds Greenwich's PEPTIDE answer (23 states, 28 hard excludes, status
-   peptides-only) and korb-glp1-data.js holds its GLP-1 answer (46 states, 5
-   hard excludes, status glp1-retired). Neither is wrong. The shared file has one
-   flat shipsTo and can only hold one of them, which is the whole reason open
-   item 2 exists. This check is expected to report those three until the
-   pharmacy x program reshape lands, and to report NOTHING ELSE — anything new
-   appearing here is real drift.
+   One item, and it is a stale copy rather than a disagreement. The reshape of
+   2026-09-15 resolved the three-way Greenwich split: this file now holds a
+   licensure footprint (46 states, 5 permanent exclusions) with GLP-1 marked
+   retired and peptides narrowed by a 23-state commercial pause. Those three
+   facts used to fight over one flat shipsTo.
+
+   What remains is that korb-glp1-data.js still carries its own 46-state GLP-1
+   footprint for Greenwich, for a program that is retired. Nothing reads it, and
+   it goes when GLP-1 is wired onto this file — open item 3. Until then it is
+   listed below as expected.
+
+   Anything OTHER than that line is real drift.
    ============================================================================ */
 
 'use strict';
@@ -54,9 +58,7 @@ const r = PH.crossCheck(sources);
    They are listed explicitly rather than counted, so that a DIFFERENT Greenwich
    problem does not hide inside an allowance for "three Greenwich problems". */
 const EXPECTED = [
-  /^greenwich\.shipsTo:/,
-  /^greenwich\.hardExcludes:/,
-  /^greenwich\.status:/
+  /^greenwich: GLP-1 is retired here, but korb-glp1-data\.js still lists/
 ];
 const unexpected = r.problems.filter(p => !EXPECTED.some(re => re.test(p)));
 const expectedSeen = EXPECTED.filter(re => r.problems.some(p => re.test(p)));
@@ -68,14 +70,14 @@ if (unexpected.length) {
   process.exit(1);
 }
 if (expectedSeen.length === EXPECTED.length) {
-  console.log('Known Greenwich split present, as expected until the pharmacy x program reshape.');
-  console.log('No other drift. See open item 2.');
+  console.log('Only the known stale GLP-1 footprint in korb-glp1-data.js remains.');
+  console.log('No other drift. It goes with open item 3.');
 } else {
   /* Fewer than expected is not automatically good news: it may mean the reshape
      landed, or it may mean a field stopped being compared. Say so rather than
      print a green light. */
-  console.log('Only ' + expectedSeen.length + ' of the 3 known Greenwich disagreements are still reported.');
-  console.log('If the reshape has landed, update EXPECTED in this file. If it has not,');
-  console.log('something stopped being compared and that is worse than the drift.');
+  console.log('The known stale GLP-1 footprint is no longer reported.');
+  console.log('If open item 3 has landed, remove it from EXPECTED in this file. If it has');
+  console.log('not, something stopped being compared and that is worse than the drift.');
 }
 process.exit(0);

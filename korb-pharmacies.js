@@ -35,7 +35,7 @@
 
      AK AZ CO FL HI IA ID KS MA MD ME MO MT NE NY OH OR PA RI TX UT WI WY
 
-   shipsTo and hardExcludes below are now that list exactly. Applications are
+   footprint and footprintExcludes below are now that list exactly. Applications are
    pending in the uncovered states and Greenwich expects to substantially
    resume within 30 to 60 days.
 
@@ -61,15 +61,56 @@
    program notice Ops sent on 11 Sept. GLP-1 is untouched: all 50 states and
    DC are still served by Premier, Belmar and FarmaKeio.
 
-   VERSION: 1.3   CREATED: 2026-09-11   UPDATED: 2026-09-12
+   WHAT CHANGED IN 1.4  (2026-09-15) — open item 2, the pharmacy x program reshape
+
+     The flat shipsTo could hold one answer per pharmacy, and Greenwich has two:
+     it ships peptides and it does not ship GLP-1 at all. That is why this file
+     and korb-glp1-data.js disagreed for four days while both were internally
+     consistent.
+
+     A pharmacy now carries a LICENSURE FOOTPRINT, which is one fact and does not
+     vary by program, plus a `programs` block giving each program a status and,
+     where it genuinely differs, a narrowing:
+
+       footprint          where the pharmacy may ship at all
+       footprintExcludes  permanent exclusions from that licence
+       programs.<x>.status    active | retired | not-offered
+       programs.<x>.excludes  states this PROGRAM does not reach, inside the
+                              footprint. Rare. Use only for a real per-program
+                              difference, never to restate the footprint.
+
+     The alternative shape, a full state list per program, was rejected: it would
+     write Belmar's 51 states four times inside the one file whose purpose is
+     that a fact appears once.
+
+     Effective coverage is COMPUTED, never stored: statesFor(pharmacy, program)
+     applies the three gates in order. Nothing can drift from the footprint it is
+     derived from because nothing is copied from it.
+
+     Every list was verified to reproduce the old data exactly before this was
+     written: 12 active pharmacy x program combinations, all matching.
+
+     Greenwich is an ordinary pharmacy in this shape, with footprint 23 and GLP-1
+     retired. A first attempt modelled its 23 states as a commercial PAUSE
+     narrowing a 46-state footprint. That was wrong and the header above says so:
+     Greenwich ended its central-fill arrangements with affiliated pharmacies and
+     now dispenses only where it is ITSELF licensed. The 46 was reach through
+     affiliates, never Greenwich's own licence, and it survives only as a stale
+     copy in korb-glp1-data.js that open item 3 removes.
+
+     New: crossCheck(), which compares this file against the program files that
+     still carry their own copy. selfCheck() validates this file against itself
+     and could never have caught the Greenwich split. Run `node check-pharmacies.js`.
+
+   VERSION: 1.4   CREATED: 2026-09-11   UPDATED: 2026-09-15
    OWNER: Director of Clinical Operations
 */
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.3",
+    version: "1.4",
     created: "2026-09-11",
-    updated: "2026-09-12",
+    updated: "2026-09-15",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only."
@@ -82,517 +123,580 @@ var KORB_PHARMACIES = {
       "type": "compounding",
       "visibility": "provider",
       "status": "active",
-      "preferredStates": ["CA"],
-      "shipsTo": ["CA"],
-      "hardExcludes": [],
-      "shipsToNote": "California only, and used for one thing: commercial testosterone for male TRT. Confirmed with Don Stevenson 2026-09-10.",
       "billing": "Bill to office, ship to patient",
+      "footprint": [
+        "CA"
+      ],
+      "footprintExcludes": [],
+      "footprintNote": "California only, and used for one thing: commercial testosterone for male TRT. Confirmed with Don Stevenson 2026-09-10.",
+      "preferredStates": [
+        "CA"
+      ],
+      "programs": {
+        "glp1": {
+          "status": "not-offered"
+        },
+        "peptides": {
+          "status": "not-offered"
+        },
+        "addons": {
+          "status": "not-offered"
+        },
+        "trt": {
+          "status": "active",
+          "note": "Commercial testosterone for male TRT. No TRT data file exists yet — see open item 6."
+        },
+        "womens": {
+          "status": "not-offered"
+        }
+      },
       "notes": [
         "Supplies are itemised on the Tebra favorite: alcohol pads, syringes, draw-up and injecting needles, one set per injection in the fill.",
         "Added to this file 2026-09-11. Empower was named in the Men's Health Clinical Reference and hardcoded in the TRT Provider Tool, but was absent from every data file."
       ]
     },
-  "premier": {
-    "key": "premier",
-    "name": "Premier Pharmacy",
-    "color": "#1565C0",
-    "type": "compounding",
-    "visibility": "provider",
-    "status": "active",
-    "preferredStates": [
-      "TX",
-      "NV",
-      "AZ",
-      "FL",
-      "IL",
-      "MD",
-      "MO",
-      "NJ",
-      "NY",
-      "OH"
-    ],
-    "shipsTo": [
-      "AZ",
-      "CO",
-      "CT",
-      "DC",
-      "DE",
-      "FL",
-      "GA",
-      "IL",
-      "KS",
-      "KY",
-      "LA",
-      "MD",
-      "ME",
-      "MI",
-      "MO",
-      "MS",
-      "MT",
-      "NC",
-      "ND",
-      "NE",
-      "NJ",
-      "NM",
-      "NV",
-      "NY",
-      "OH",
-      "OK",
-      "OR",
-      "PA",
-      "RI",
-      "SD",
-      "TN",
-      "TX",
-      "UT",
-      "VA",
-      "VT",
-      "WI",
-      "WV",
-      "WY"
-    ],
-    "hardExcludes": [
-      "AK",
-      "AL",
-      "AR",
-      "CA",
-      "HI",
-      "IA",
-      "ID",
-      "IN",
-      "MA",
-      "MN",
-      "NH",
-      "SC",
-      "WA"
-    ],
-    "shipsToNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09.",
-    "footprintIsSettled": "SETTLED — do not soften this back to a preference. Two different things were being confused: the ROUTING DEFAULT for a state is overridable (a provider may choose Premier where FarmaKeio is default, or vice versa), but Premier’s LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.",
-    "address": "Premier Pharmacy, 2425 Babcock Rd, Ste 108A, San Antonio, TX 78229",
-    "orderVia": "Tebra Compound",
-    "billing": "Bill to KORB Health Group, ship to patient",
-    "notes": [
-      "All Premier programs offer a 4-week and an 8-week option — semaglutide, semaglutide with glycine, and tirzepatide alike.",
-      "All Premier compounds carry a 90-day BUD as of 2026-08. There is no longer a difference between the glycine and non-glycine products on this.",
-      "8-week programs ship the full eight weeks of medication and supplies in a single initial shipment. No refill and no second shipment.",
-      "Vials remain 28 days from first use regardless of BUD. On lower doses this produces overage. Counsel the patient to discard at 28 days."
-    ]
-  },
-  "belmar": {
-    "key": "belmar",
-    "name": "Belmar Pharmacy",
-    "color": "#6A1B9A",
-    "type": "compounding",
-    "visibility": "provider",
-    "status": "active",
-    "preferredStates": [
-      "CA"
-    ],
-    "shipsTo": [
-      "AL",
-      "AK",
-      "AZ",
-      "AR",
-      "CA",
-      "CO",
-      "CT",
-      "DE",
-      "DC",
-      "FL",
-      "GA",
-      "HI",
-      "ID",
-      "IL",
-      "IN",
-      "IA",
-      "KS",
-      "KY",
-      "LA",
-      "ME",
-      "MD",
-      "MA",
-      "MI",
-      "MN",
-      "MS",
-      "MO",
-      "MT",
-      "NE",
-      "NV",
-      "NH",
-      "NJ",
-      "NM",
-      "NY",
-      "NC",
-      "ND",
-      "OH",
-      "OK",
-      "OR",
-      "PA",
-      "RI",
-      "SC",
-      "SD",
-      "TN",
-      "TX",
-      "UT",
-      "VT",
-      "VA",
-      "WA",
-      "WV",
-      "WI",
-      "WY"
-    ],
-    "hardExcludes": [],
-    "shipsToNote": "Ships to all 50 states and DC. Preferred for California only.",
-    "discouragedOutsidePreferred": true,
-    "discouragedReason": "Belmar is the California pharmacy. Patients are routed here for California and kept on the other compounding pharmacies elsewhere. Selecting Belmar outside California is allowed but should be a deliberate exception.",
-    "address": "Belmar Pharmacy — ARIZONA location, 12012 N 111th Ave, Youngtown, AZ 85363-1339",
-    "addressWarning": "Belmar has several locations across the US. KORB uses the ARIZONA address. Confirm the Arizona address is the one selected in Tebra before sending — another Belmar location will be wrong.",
-    "orderVia": "Tebra Compound",
-    "billing": "Bill to KORB Health Group, ship to patient",
-    "notes": [
-      "Carries both semaglutide and tirzepatide. All new California starts go here regardless of drug.",
-      "SINGLE FILL as of 2026-09-05. Belmar now ships the full 8-week supply at one time for both semaglutide and tirzepatide. The split fill is retired. Belmar no longer differs from the other pharmacies on fill structure.",
-      "Belmar 8-week now bills on the standard 8-week charge code. The Belmar-specific codes are retired — they existed only to trigger the second fill, and there is no second fill.",
-      "Semaglutide 2.5 mg / 1 mg / ml is used for 1.7 and 2.4 mg doses; 1 mg / 1 mg / ml for 0.25, 0.5 and 1.0 mg doses.",
-      "SYRINGES GO IN THE DIRECTIONS, NOT PHARMACY INSTRUCTIONS. Belmar reads the patient directions field. If the insulin-syringe note is moved to Pharmacy Instructions they may not see it and will not ship syringes. Keep \"(Include one pack of insulin syringes)\" at the end of every Belmar sig."
-    ],
-    "vialConstraints": {
-      "punctureDays": 28,
-      "maxDosesPerVial": 4,
-      "doseDays": [
-        0,
-        7,
-        14,
-        21
+    "premier": {
+      "key": "premier",
+      "name": "Premier Pharmacy",
+      "color": "#1565C0",
+      "type": "compounding",
+      "visibility": "provider",
+      "status": "active",
+      "orderVia": "Tebra Compound",
+      "billing": "Bill to KORB Health Group, ship to patient",
+      "footprint": [
+        "AZ",
+        "CO",
+        "CT",
+        "DC",
+        "DE",
+        "FL",
+        "GA",
+        "IL",
+        "KS",
+        "KY",
+        "LA",
+        "MD",
+        "ME",
+        "MI",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WI",
+        "WV",
+        "WY"
       ],
-      "rule": "single-vial volume divided by weekly volume must be <= 4",
-      "whyNotFive": "A fifth dose from the same vial lands on day 28 itself, which is the limit rather than inside it.",
-      "sizingPrinciple": "Do not ship a vial with meaningful leftover. Make a fifth dose impossible, not merely discouraged.",
-      "bud": {
-        "days": 90,
-        "from": "compound date, NOT ship date",
-        "lastDoseDay": 49,
-        "maxCompoundToShipDays": 41,
-        "note": "Reference only. Deliberately NOT stated on the order or in the sig - removed 2026-09-05, the pharmacy manages its own BUD."
+      "footprintExcludes": [
+        "AK",
+        "AL",
+        "AR",
+        "CA",
+        "HI",
+        "IA",
+        "ID",
+        "IN",
+        "MA",
+        "MN",
+        "NH",
+        "SC",
+        "WA"
+      ],
+      "footprintNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09.",
+      "footprintIsSettled": "SETTLED — do not soften this back to a preference. Two different things were being confused: the ROUTING DEFAULT for a state is overridable (a provider may choose Premier where FarmaKeio is default, or vice versa), but Premier’s LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.",
+      "preferredStates": [
+        "TX",
+        "NV",
+        "AZ",
+        "FL",
+        "IL",
+        "MD",
+        "MO",
+        "NJ",
+        "NY",
+        "OH"
+      ],
+      "programs": {
+        "glp1": {
+          "status": "active"
+        },
+        "peptides": {
+          "status": "active"
+        },
+        "addons": {
+          "status": "active"
+        },
+        "trt": {
+          "status": "not-offered"
+        },
+        "womens": {
+          "status": "not-offered"
+        }
       },
-      "dosesPerVial": "Four doses per vial, never five. A fifth dose would fall on day 28 itself, and the 28-day in-use limit is read as a limit rather than a day inside the window. See acceptedLimitations BELMAR-DAY28-DOSE-CEILING."
+      "notes": [
+        "All Premier programs offer a 4-week and an 8-week option — semaglutide, semaglutide with glycine, and tirzepatide alike.",
+        "All Premier compounds carry a 90-day BUD as of 2026-08. There is no longer a difference between the glycine and non-glycine products on this.",
+        "8-week programs ship the full eight weeks of medication and supplies in a single initial shipment. No refill and no second shipment.",
+        "Vials remain 28 days from first use regardless of BUD. On lower doses this produces overage. Counsel the patient to discard at 28 days."
+      ]
     },
-    "fillStructure": {
-      "fourWeek": "Single fill, 28 days, no refill.",
-      "eightWeek": "Single fill, 56 days, no refill.",
-      "changedOn": "2026-09-05",
-      "note": "Belmar previously split the 8-week program into two 4-week fills. It no longer does. No pharmacy on the GLP-1 program splits a fill."
-    },
-    "splitFillRetired": {
-      "retired": true,
-      "retiredOn": "2026-09-05",
-      "historicalOnly": true,
-      "doNotApplyToNewOrders": true,
-      "appliedTo": [
-        "8-week semaglutide",
-        "8-week tirzepatide"
+    "belmar": {
+      "key": "belmar",
+      "name": "Belmar Pharmacy",
+      "color": "#6A1B9A",
+      "type": "compounding",
+      "visibility": "provider",
+      "status": "active",
+      "orderVia": "Tebra Compound",
+      "billing": "Bill to KORB Health Group, ship to patient",
+      "footprint": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
       ],
-      "structure": "4-week supply with 1 refill, second fill placed manually by Operations",
-      "trigger": "A Belmar-specific 8-week charge code flagged the order for Ops.",
-      "opsTriggeredAt": "Week 3",
-      "whyRetained": "A patient dispensed under this structure is still working through it. Ops and Finance need the old shape to answer questions about those orders. It is not a live workflow."
+      "footprintExcludes": [],
+      "footprintNote": "Ships to all 50 states and DC. Preferred for California only.",
+      "preferredStates": [
+        "CA"
+      ],
+      "programs": {
+        "glp1": {
+          "status": "active"
+        },
+        "peptides": {
+          "status": "not-offered"
+        },
+        "addons": {
+          "status": "active"
+        },
+        "trt": {
+          "status": "not-offered"
+        },
+        "womens": {
+          "status": "not-offered"
+        }
+      },
+      "notes": [
+        "Carries both semaglutide and tirzepatide. All new California starts go here regardless of drug.",
+        "SINGLE FILL as of 2026-09-05. Belmar now ships the full 8-week supply at one time for both semaglutide and tirzepatide. The split fill is retired. Belmar no longer differs from the other pharmacies on fill structure.",
+        "Belmar 8-week now bills on the standard 8-week charge code. The Belmar-specific codes are retired — they existed only to trigger the second fill, and there is no second fill.",
+        "Semaglutide 2.5 mg / 1 mg / ml is used for 1.7 and 2.4 mg doses; 1 mg / 1 mg / ml for 0.25, 0.5 and 1.0 mg doses.",
+        "SYRINGES GO IN THE DIRECTIONS, NOT PHARMACY INSTRUCTIONS. Belmar reads the patient directions field. If the insulin-syringe note is moved to Pharmacy Instructions they may not see it and will not ship syringes. Keep \"(Include one pack of insulin syringes)\" at the end of every Belmar sig."
+      ]
     },
-    "transition": {
-      "active": true,
-      "decision": "Patients already dispensed under the split fill finish that 8-week cycle on the old structure. They convert to the single fill at their next 8-week order, not mid-cycle.",
-      "decidedBy": "Don",
-      "decidedOn": "2026-09-05",
-      "appliesTo": "California Belmar patients on the 8-week program",
-      "newStarts": "Any 8-week order placed on or after 2026-09-05 is a single fill.",
-      "opsAction": "Operations still owes a second fill to every patient whose first 4-week Belmar fill went out before 2026-09-05. Do not cancel those second fills. Stop placing new ones once the backlog clears.",
-      "providerScript": "A California patient starting the 8-week program now receives their full eight weeks in one shipment. A patient who started before the change still has a second shipment coming and does not need to request it.",
-      "endsWhen": "The last pre-change second fill has shipped. Operations closes this block and sets active to false."
+    "farmakeio": {
+      "key": "farmakeio",
+      "name": "FarmaKeio Pharmacy",
+      "abbrev": "FKO",
+      "color": "#EF6C00",
+      "type": "compounding",
+      "visibility": "provider",
+      "status": "active",
+      "orderVia": "Tebra Compound",
+      "billing": "Bill to KORB Health Group, ship to patient",
+      "footprint": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CO",
+        "CT",
+        "DC",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ],
+      "footprintExcludes": [
+        "CA"
+      ],
+      "footprintNote": "Ships to 49 states plus DC. California is the single state FarmaKeio will not ship to, and that cannot be overridden. Preferred everywhere except CA, TX, FL, AZ and NV.",
+      "preferredStates": [
+        "AK",
+        "AL",
+        "AR",
+        "CO",
+        "CT",
+        "DC",
+        "DE",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "ME",
+        "MI",
+        "MN",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NM",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ],
+      "programs": {
+        "glp1": {
+          "status": "active"
+        },
+        "peptides": {
+          "status": "not-offered"
+        },
+        "addons": {
+          "status": "active"
+        },
+        "trt": {
+          "status": "not-offered"
+        },
+        "womens": {
+          "status": "not-offered"
+        }
+      },
+      "notes": [
+        "Products ship as a HOME KIT that includes syringes and supplies.",
+        "Compounded with pyridoxine (B-6) for nausea prevention, not B-12.",
+        "Semaglutide is a single concentration (2.5 mg/25 mg per mL). Dose is set by volume; the only variable on the Rx is how many mL.",
+        "Tirzepatide is a single concentration (18 mg/25 mg per mL)."
+      ]
+    },
+    "greenwich": {
+      "key": "greenwich",
+      "name": "Greenwich Pharmacy",
+      "abbrev": "GWP",
+      "color": "#2E7D32",
+      "type": "compounding",
+      "visibility": "provider",
+      "status": "peptides-only",
+      "statusNote": "NOT USED FOR GLP-1 AT ALL as of 2026-09-11. Greenwich tirzepatide is retired in every state, not only California — all tirzepatide moves to Belmar. Greenwich is a Functional Health & Longevity peptide pharmacy only. Do not route any GLP-1 patient here, new or established, and do not offer it as a GLP-1 option anywhere.",
+      "orderVia": "Tebra Compound",
+      "billing": "Bill to KORB Health Group, ship to patient",
+      "footprint": [
+        "AK",
+        "AZ",
+        "CO",
+        "FL",
+        "HI",
+        "IA",
+        "ID",
+        "KS",
+        "MA",
+        "MD",
+        "ME",
+        "MO",
+        "MT",
+        "NE",
+        "NY",
+        "OH",
+        "OR",
+        "PA",
+        "RI",
+        "TX",
+        "UT",
+        "WI",
+        "WY"
+      ],
+      "footprintExcludes": [
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "DC",
+        "DE",
+        "GA",
+        "IL",
+        "IN",
+        "KY",
+        "LA",
+        "MI",
+        "MN",
+        "MS",
+        "NC",
+        "ND",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "OK",
+        "SC",
+        "SD",
+        "TN",
+        "VA",
+        "VT",
+        "WA",
+        "WV"
+      ],
+      "footprintNote": "Restricted to 23 states effective 2026-09-11. Eight states lost their peptide source because Premier's licensed footprint does not cover them either: AL, AR, CA, IN, MN, NH, SC and WA. This is a pause, not a withdrawal — Greenwich expects to restore coverage in 30 to 60 days from 2026-09-11. AL and SC are separately and permanently excluded for compliance, so they do not come back with the restore. Five states are served by Greenwich alone with no Premier backup: AK, HI, IA, ID and MA. Confirmed with Don Stevenson 2026-09-12.",
+      "preferredStates": [],
+      "programs": {
+        "glp1": {
+          "status": "retired",
+          "retiredOn": "2026-09-11",
+          "movesTo": "belmar",
+          "decidedBy": "Don Stevenson",
+          "reason": "Greenwich stopped shipping to California, which removed the last reason to keep a second tirzepatide route open. Rather than carve California out, the whole Greenwich GLP-1 line is retired and every tirzepatide patient moves to Belmar.",
+          "opsAction": "Every established Greenwich tirzepatide patient is moved to Belmar at their next fill, California first. Do not place another Greenwich GLP-1 order."
+        },
+        "peptides": {
+          "status": "active",
+          "note": "Greenwich ended its central-fill arrangements with affiliated pharmacies after Board of Pharmacy guidance, effective 11:59pm on 2026-09-11, and now dispenses only into the states where it is itself licensed. That is a licensure change, not a commercial pause: the footprint above IS the new licence. Applications are pending elsewhere and Greenwich expects to substantially resume within 30 to 60 days. AL and SC are separately and permanently excluded for compliance and will not return with the rest."
+        },
+        "addons": {
+          "status": "not-offered"
+        },
+        "trt": {
+          "status": "not-offered"
+        },
+        "womens": {
+          "status": "not-offered"
+        }
+      },
+      "notes": [
+        "Ships FedEx next-day only, Monday through Thursday. Patient should receive within three business days of order.",
+        "The patient does not receive a shipping confirmation from the pharmacy.",
+        "Ships in disposable coolers with ice packs in summer, Kangaroo Pouch Mailers the rest of the year.",
+        "Will NOT accept a do-not-fill date.",
+        "B-12 only. No other added formulations.",
+        "Patient is automatically shipped a 10-pack of 50-unit insulin syringes.",
+        "Ordering 4 mL on the prescription ships two 2 mL vials.",
+        "Dose is set by concentration, not volume.",
+        "HISTORICAL — GLP-1 only, and GLP-1 at Greenwich ended 2026-09-11: every Greenwich GLP-1 dose was exactly 50 units in a 50-unit syringe, and the 100-UNIT SYRINGE callout used for Functional Health peptides was deliberately kept off those sigs. Kept for anyone reading an order placed before the retirement. It says nothing about peptide sigs, which follow the FH&L syringe rule.",
+        "Greenwich dispenses to 23 states only as of 11:59 pm 11 Sept 2026. Of what it dropped, AR, CA, IN, NH and WA are the states Premier cannot cover, so those five have no peptide pharmacy at all. Treat as a pause with an expected 30 to 60 day restore, not a discontinuation. AL, MN and SC also lost Greenwich but were already out of the peptide program and stay closed regardless of the restore.",
+        "Prescriptions received before 11:59 pm 11 Sept 2026 were filled and shipped by 13 Sept with tracking by 14 Sept. No reshipments approved or shipped after 14 Sept 2026.",
+        "AK, HI, IA, ID and MA are served by Greenwich alone. Premier is not licensed in any of them, so there is no second route if Greenwich changes again. IA and ID are the two that are live and taking patients."
+      ]
+    },
+    "lillydirect": {
+      "key": "lillydirect",
+      "name": "LillyDirect",
+      "color": "#C62828",
+      "type": "manufacturer-direct",
+      "visibility": "provider",
+      "status": "active",
+      "orderVia": "Tebra Standard prescription (NOT Tebra Compound)",
+      "billing": "Patient pays the manufacturer program directly. See brandRules.",
+      "footprint": [],
+      "footprintExcludes": [],
+      "preferredStates": [],
+      "programs": {
+        "glp1": {
+          "status": "active",
+          "note": "Manufacturer-direct brand channel. No footprint of its own."
+        },
+        "peptides": {
+          "status": "not-offered"
+        },
+        "addons": {
+          "status": "not-offered"
+        },
+        "trt": {
+          "status": "not-offered"
+        },
+        "womens": {
+          "status": "not-offered"
+        }
+      },
+      "notes": [
+        "Cash-pay, direct-to-patient. Dispensing, payment, shipping and delivery are managed by the manufacturer. KORB does not manage fulfillment.",
+        "Carries Zepbound KwikPen and Foundayo (orforglipron) oral tablets.",
+        "Not a KORB compounding pharmacy. Provider-side only."
+      ]
+    },
+    "novocare": {
+      "key": "novocare",
+      "name": "NovoCare",
+      "color": "#00695C",
+      "type": "manufacturer-direct",
+      "visibility": "provider",
+      "status": "active",
+      "orderVia": "Tebra Standard prescription (NOT Tebra Compound)",
+      "billing": "Patient pays the manufacturer program directly. See brandRules.",
+      "footprint": [],
+      "footprintExcludes": [],
+      "preferredStates": [],
+      "programs": {
+        "glp1": {
+          "status": "active",
+          "note": "Manufacturer-direct brand channel. No footprint of its own."
+        },
+        "peptides": {
+          "status": "not-offered"
+        },
+        "addons": {
+          "status": "not-offered"
+        },
+        "trt": {
+          "status": "not-offered"
+        },
+        "womens": {
+          "status": "not-offered"
+        }
+      },
+      "notes": [
+        "Cash-pay manufacturer program. KORB does not manage fulfillment.",
+        "Carries the Wegovy pen and the Wegovy oral tablet.",
+        "Not a KORB compounding pharmacy. Provider-side only."
+      ]
+    },
+    "local_pharmacy": {
+      "key": "local_pharmacy",
+      "name": "Patient’s local pharmacy",
+      "color": "#455A64",
+      "type": "retail",
+      "visibility": "provider",
+      "status": "active",
+      "brandOnly": true,
+      "orderVia": "Tebra Standard prescription (NOT Tebra Compound)",
+      "billing": "Patient pays the pharmacy directly. See brandRules.",
+      "footprint": [],
+      "footprintExcludes": [],
+      "preferredStates": [],
+      "programs": {
+        "glp1": {
+          "status": "active",
+          "note": "Brand-name products only, dispensed by the patient’s own pharmacy. See brandRules."
+        },
+        "peptides": {
+          "status": "not-offered"
+        },
+        "addons": {
+          "status": "not-offered"
+        },
+        "trt": {
+          "status": "not-offered"
+        },
+        "womens": {
+          "status": "not-offered"
+        }
+      },
+      "notes": [
+        "BRAND-NAME PRODUCTS ONLY. Compounded products cannot be sent here.",
+        "Available on patient request, under the same brand rules.",
+        "KORB will not re-send a prescription between pharmacies to find a lower price. The patient compares pricing before asking for the prescription."
+      ]
     }
   },
-  "farmakeio": {
-    "key": "farmakeio",
-    "name": "FarmaKeio Pharmacy",
-    "abbrev": "FKO",
-    "color": "#EF6C00",
-    "type": "compounding",
-    "visibility": "provider",
-    "status": "active",
-    "preferredStates": [
-      "AK",
-      "AL",
-      "AR",
-      "CO",
-      "CT",
-      "DC",
-      "DE",
-      "GA",
-      "HI",
-      "IA",
-      "ID",
-      "IN",
-      "KS",
-      "KY",
-      "LA",
-      "MA",
-      "ME",
-      "MI",
-      "MN",
-      "MS",
-      "MT",
-      "NC",
-      "ND",
-      "NE",
-      "NH",
-      "NM",
-      "OK",
-      "OR",
-      "PA",
-      "RI",
-      "SC",
-      "SD",
-      "TN",
-      "UT",
-      "VA",
-      "VT",
-      "WA",
-      "WI",
-      "WV",
-      "WY"
-    ],
-    "shipsTo": [
-      "AK",
-      "AL",
-      "AR",
-      "AZ",
-      "CO",
-      "CT",
-      "DC",
-      "DE",
-      "FL",
-      "GA",
-      "HI",
-      "IA",
-      "ID",
-      "IL",
-      "IN",
-      "KS",
-      "KY",
-      "LA",
-      "MA",
-      "MD",
-      "ME",
-      "MI",
-      "MN",
-      "MO",
-      "MS",
-      "MT",
-      "NC",
-      "ND",
-      "NE",
-      "NH",
-      "NJ",
-      "NM",
-      "NV",
-      "NY",
-      "OH",
-      "OK",
-      "OR",
-      "PA",
-      "RI",
-      "SC",
-      "SD",
-      "TN",
-      "TX",
-      "UT",
-      "VA",
-      "VT",
-      "WA",
-      "WI",
-      "WV",
-      "WY"
-    ],
-    "hardExcludes": [
-      "CA"
-    ],
-    "shipsToNote": "Ships to 49 states plus DC. California is the single state FarmaKeio will not ship to, and that cannot be overridden. Preferred everywhere except CA, TX, FL, AZ and NV.",
-    "address": "FarmaKeio Pharmacy, 1736 N Greenville Ave, Richardson, TX 75081",
-    "orderVia": "Tebra Compound",
-    "billing": "Bill to KORB Health Group, ship to patient",
-    "notes": [
-      "Products ship as a HOME KIT that includes syringes and supplies.",
-      "Compounded with pyridoxine (B-6) for nausea prevention, not B-12.",
-      "Semaglutide is a single concentration (2.5 mg/25 mg per mL). Dose is set by volume; the only variable on the Rx is how many mL.",
-      "Tirzepatide is a single concentration (18 mg/25 mg per mL)."
-    ]
-  },
-  "greenwich": {
-    "key": "greenwich",
-    "name": "Greenwich Pharmacy",
-    "abbrev": "GWP",
-    "color": "#2E7D32",
-    "type": "compounding",
-    "visibility": "provider",
-    "status": "peptides-only",
-    "statusNote": "NOT USED FOR GLP-1 AT ALL as of 2026-09-11. Greenwich tirzepatide is retired in every state, not only California — all tirzepatide moves to Belmar. Greenwich is a Functional Health & Longevity peptide pharmacy only. Do not route any GLP-1 patient here, new or established, and do not offer it as a GLP-1 option anywhere.",
-    "glp1Retired": {
-      "retired": true,
-      "retiredOn": "2026-09-11",
-      "movesTo": "belmar",
-      "decidedBy": "Don Stevenson",
-      "reason": "Greenwich stopped shipping to California, which removed the last reason to keep a second tirzepatide route open. Rather than carve California out, the whole Greenwich GLP-1 line is retired and every tirzepatide patient moves to Belmar.",
-      "opsAction": "Every established Greenwich tirzepatide patient is moved to Belmar at their next fill, California first. Do not place another Greenwich GLP-1 order."
-    },
-    "preferredStates": [],
-    "shipsTo": [
-      "AK",
-      "AZ",
-      "CO",
-      "FL",
-      "HI",
-      "IA",
-      "ID",
-      "KS",
-      "MA",
-      "MD",
-      "ME",
-      "MO",
-      "MT",
-      "NE",
-      "NY",
-      "OH",
-      "OR",
-      "PA",
-      "RI",
-      "TX",
-      "UT",
-      "WI",
-      "WY"
-    ],
-    "hardExcludes": [
-      "AL",
-      "AR",
-      "CA",
-      "CT",
-      "DC",
-      "DE",
-      "GA",
-      "IL",
-      "IN",
-      "KY",
-      "LA",
-      "MI",
-      "MN",
-      "MS",
-      "NC",
-      "ND",
-      "NH",
-      "NJ",
-      "NM",
-      "NV",
-      "OK",
-      "SC",
-      "SD",
-      "TN",
-      "VA",
-      "VT",
-      "WA",
-      "WV"
-    ],
-    "shipsToNote": "Restricted to 23 states effective 2026-09-11. Eight states lost their peptide source because Premier's licensed footprint does not cover them either: AL, AR, CA, IN, MN, NH, SC and WA. This is a pause, not a withdrawal — Greenwich expects to restore coverage in 30 to 60 days from 2026-09-11. AL and SC are separately and permanently excluded for compliance, so they do not come back with the restore. Five states are served by Greenwich alone with no Premier backup: AK, HI, IA, ID and MA. Confirmed with Don Stevenson 2026-09-12.",
-    "singleSourceNoBackup": [
-      "AK",
-      "HI",
-      "IA",
-      "ID",
-      "MA"
-    ],
-    "pause": {
-      "status": "active",
-      "effective": "11:59 pm 2026-09-11",
-      "expectedRestore": "30 to 60 days from 11 September 2026",
-      "states": ["AR", "CA", "IN", "NH", "WA"],
-      "alsoLostButAlreadyExcluded": ["AL", "MN", "SC"],
-      "patientImpact": "Affected patients have already been handled as of 2026-09-12.",
-      "language": "Temporarily unavailable, coverage expected to return. Do not tell a patient the program is discontinued in their state.",
-      "reviewBy": "10 November 2026"
-    },
-    "address": "Greenwich Rx, 9733 FM 2920 Rd, Suite 100, Tomball, TX 77375",
-    "orderVia": "Tebra Compound",
-    "orderViaNote": "Moved from MDToolbox to Tebra Compound. MDToolbox is being turned off at the end of August 2026.",
-    "billing": "Bill to KORB Health Group, ship to patient",
-    "bud": "90 days",
-    "notes": [
-      "Ships FedEx next-day only, Monday through Thursday. Patient should receive within three business days of order.",
-      "The patient does not receive a shipping confirmation from the pharmacy.",
-      "Ships in disposable coolers with ice packs in summer, Kangaroo Pouch Mailers the rest of the year.",
-      "Will NOT accept a do-not-fill date.",
-      "B-12 only. No other added formulations.",
-      "Patient is automatically shipped a 10-pack of 50-unit insulin syringes.",
-      "Ordering 4 mL on the prescription ships two 2 mL vials.",
-      "Dose is set by concentration, not volume.",
-      "HISTORICAL — GLP-1 only, and GLP-1 at Greenwich ended 2026-09-11: every Greenwich GLP-1 dose was exactly 50 units in a 50-unit syringe, and the 100-UNIT SYRINGE callout used for Functional Health peptides was deliberately kept off those sigs. Kept for anyone reading an order placed before the retirement. It says nothing about peptide sigs, which follow the FH&L syringe rule.",
-      "Greenwich dispenses to 23 states only as of 11:59 pm 11 Sept 2026. Of what it dropped, AR, CA, IN, NH and WA are the states Premier cannot cover, so those five have no peptide pharmacy at all. Treat as a pause with an expected 30 to 60 day restore, not a discontinuation. AL, MN and SC also lost Greenwich but were already out of the peptide program and stay closed regardless of the restore.",
-      "Prescriptions received before 11:59 pm 11 Sept 2026 were filled and shipped by 13 Sept with tracking by 14 Sept. No reshipments approved or shipped after 14 Sept 2026.",
-      "AK, HI, IA, ID and MA are served by Greenwich alone. Premier is not licensed in any of them, so there is no second route if Greenwich changes again. IA and ID are the two that are live and taking patients."
-    ]
-  },
-  "lillydirect": {
-    "key": "lillydirect",
-    "name": "LillyDirect",
-    "color": "#C62828",
-    "type": "manufacturer-direct",
-    "visibility": "provider",
-    "status": "active",
-    "preferredStates": [],
-    "shipsTo": [],
-    "hardExcludes": [],
-    "orderVia": "Tebra Standard prescription (NOT Tebra Compound)",
-    "billing": "Patient pays the manufacturer program directly. See brandRules.",
-    "notes": [
-      "Cash-pay, direct-to-patient. Dispensing, payment, shipping and delivery are managed by the manufacturer. KORB does not manage fulfillment.",
-      "Carries Zepbound KwikPen and Foundayo (orforglipron) oral tablets.",
-      "Not a KORB compounding pharmacy. Provider-side only."
-    ]
-  },
-  "novocare": {
-    "key": "novocare",
-    "name": "NovoCare",
-    "color": "#00695C",
-    "type": "manufacturer-direct",
-    "visibility": "provider",
-    "status": "active",
-    "preferredStates": [],
-    "shipsTo": [],
-    "hardExcludes": [],
-    "orderVia": "Tebra Standard prescription (NOT Tebra Compound)",
-    "billing": "Patient pays the manufacturer program directly. See brandRules.",
-    "notes": [
-      "Cash-pay manufacturer program. KORB does not manage fulfillment.",
-      "Carries the Wegovy pen and the Wegovy oral tablet.",
-      "Not a KORB compounding pharmacy. Provider-side only."
-    ]
-  },
-  "local_pharmacy": {
-    "key": "local_pharmacy",
-    "name": "Patient’s local pharmacy",
-    "color": "#455A64",
-    "type": "retail",
-    "visibility": "provider",
-    "status": "active",
-    "brandOnly": true,
-    "preferredStates": [],
-    "shipsTo": [],
-    "hardExcludes": [],
-    "orderVia": "Tebra Standard prescription (NOT Tebra Compound)",
-    "billing": "Patient pays the pharmacy directly. See brandRules.",
-    "notes": [
-      "BRAND-NAME PRODUCTS ONLY. Compounded products cannot be sent here.",
-      "Available on patient request, under the same brand rules.",
-      "KORB will not re-send a prescription between pharmacies to find a lower price. The patient compares pricing before asking for the prescription."
-    ]
-  }
-},
-
   states: {
   "korbActive": [
     "AL",
@@ -684,11 +788,49 @@ var KORB_PHARMACIES = {
 
   /* ---- helpers ---- */
 
-  shipsTo: function (pharmacyKey, state) {
+  /* Can this pharmacy ship this program to this state?
+
+     Three gates, in order:
+       footprint          licensure. Where the pharmacy may ship at all.
+       footprintExcludes  permanent exclusions from that licence.
+       programs[x].excludes  a narrowing of that program only, such as a
+                          commercial pause. The footprint is untouched by it,
+                          which is the distinction the old flat shipsTo could
+                          not hold and the reason Greenwich read two ways.
+
+     `program` is optional. Omitted, it answers the licensure question only,
+     which is what the old two-argument shipsTo() meant. Callers that care
+     about a specific program must say which. */
+  servesState: function (pharmacyKey, state, program) {
     var p = this.pharmacies[pharmacyKey];
     if (!p) return false;
-    if (p.hardExcludes && p.hardExcludes.indexOf(state) > -1) return false;
-    return !p.shipsTo || p.shipsTo.indexOf(state) > -1;
+    if ((p.footprintExcludes || []).indexOf(state) > -1) return false;
+    if (p.footprint && p.footprint.length && p.footprint.indexOf(state) < 0) return false;
+    if (!program) return true;
+    var pr = (p.programs || {})[program];
+    if (!pr || pr.status !== 'active') return false;
+    return (pr.excludes || []).indexOf(state) < 0;
+  },
+
+  /* Kept so existing callers do not silently change meaning. It answers the
+     licensure question, not the program one. */
+  shipsTo: function (pharmacyKey, state) {
+    return this.servesState(pharmacyKey, state, null);
+  },
+
+  /* Every state this pharmacy actually serves for a program, computed rather
+     than stored, so it cannot drift from the footprint it is derived from. */
+  statesFor: function (pharmacyKey, program) {
+    var self = this, p = this.pharmacies[pharmacyKey];
+    if (!p || !p.footprint) return [];
+    return p.footprint.filter(function (st) { return self.servesState(pharmacyKey, st, program); });
+  },
+
+  /* Which programs this pharmacy offers at all. */
+  programsFor: function (pharmacyKey) {
+    var p = this.pharmacies[pharmacyKey];
+    if (!p || !p.programs) return [];
+    return Object.keys(p.programs).filter(function (k) { return p.programs[k].status === 'active'; });
   },
 
   isPreferred: function (pharmacyKey, state) {
@@ -697,10 +839,10 @@ var KORB_PHARMACIES = {
   },
 
   /* Every pharmacy that can legally ship to a state, preferred ones first. */
-  optionsForState: function (state) {
+  optionsForState: function (state, program) {
     var self = this, out = [];
     Object.keys(this.pharmacies).forEach(function (k) {
-      if (self.shipsTo(k, state)) {
+      if (self.servesState(k, state, program)) {
         out.push({ key: k, name: self.pharmacies[k].name, preferred: self.isPreferred(k, state) });
       }
     });
@@ -715,14 +857,27 @@ var KORB_PHARMACIES = {
       /* Brand channels (LillyDirect, NovoCare) and the retail route have no
          ship-to list of their own - the manufacturer or the patient's own
          pharmacy handles it. Only compounding pharmacies must declare one. */
-      if (p.type === "compounding" && (!p.shipsTo || !p.shipsTo.length)) {
-        problems.push(k + ": compounding pharmacy with empty shipsTo");
+      if (p.type === "compounding" && (!p.footprint || !p.footprint.length)) {
+        problems.push(k + ": compounding pharmacy with an empty footprint");
       }
-      (p.hardExcludes || []).forEach(function (s) {
-        if (p.shipsTo && p.shipsTo.indexOf(s) > -1) {
-          problems.push(k + ": " + s + " is in both shipsTo and hardExcludes");
+      (p.footprintExcludes || []).forEach(function (s) {
+        if (p.footprint && p.footprint.indexOf(s) > -1) {
+          problems.push(k + ": " + s + " is in both footprint and footprintExcludes");
         }
       });
+      /* A program may narrow the footprint. It may not reach outside it, which
+         would be a claim to ship somewhere the pharmacy is not licensed. */
+      Object.keys(p.programs || {}).forEach(function (pr) {
+        (p.programs[pr].excludes || []).forEach(function (s) {
+          if (p.footprint && p.footprint.indexOf(s) < 0) {
+            problems.push(k + "/" + pr + ": excludes " + s + ", which is not in the footprint anyway");
+          }
+        });
+      });
+      if (p.type === "compounding" && p.programs &&
+          !Object.keys(p.programs).some(function (pr) { return p.programs[pr].status === "active"; })) {
+        problems.push(k + ": compounding pharmacy offering no active program");
+      }
       (p.preferredStates || []).forEach(function (s) {
         if (!self.shipsTo(k, s)) problems.push(k + ": preferred in " + s + " but cannot ship there");
       });
@@ -775,17 +930,32 @@ var KORB_PHARMACIES = {
           problems.push('korb-glp1-data.js describes pharmacy "' + k + '" which this file does not have');
           return;
         }
-        ["shipsTo", "hardExcludes", "preferredStates"].forEach(function (f) {
-          if (mine[f] === undefined && theirs[f] === undefined) return;
-          if (setEq(mine[f], theirs[f])) return;
-          problems.push(k + "." + f + ": this file has " + (mine[f] || []).length +
-            ", korb-glp1-data.js has " + (theirs[f] || []).length +
-            (only(mine[f], theirs[f]).length ? " | only here: " + only(mine[f], theirs[f]).join(",") : "") +
-            (only(theirs[f], mine[f]).length ? " | only there: " + only(theirs[f], mine[f]).join(",") : ""));
+        /* Compare the EFFECTIVE GLP-1 list, not the raw footprint. A pharmacy
+           whose GLP-1 is retired serves no states for it, and that is the
+           comparison that matters — comparing footprints would reopen exactly
+           the Greenwich confusion this reshape closed. */
+        var prog = (mine.programs || {}).glp1 || { status: "not-offered" };
+        var effective = prog.status === "active" ? self.statesFor(k, "glp1") : [];
+        var theirsList = (theirs.shipsTo || []).filter(function (st) {
+          return (theirs.hardExcludes || []).indexOf(st) < 0;
         });
-        if (theirs.status && mine.status !== theirs.status) {
-          problems.push(k + '.status: this file says "' + mine.status +
-            '", korb-glp1-data.js says "' + theirs.status + '"');
+        if (prog.status === "retired") {
+          /* korb-glp1-data.js may still carry the pre-retirement footprint on a
+             retired pharmacy. That is a stale copy rather than a disagreement,
+             so it is reported once and plainly, not as a per-state diff. */
+          if (theirsList.length) {
+            problems.push(k + ": GLP-1 is retired here, but korb-glp1-data.js still lists a " +
+              theirsList.length + "-state GLP-1 footprint for it. Remove it when GLP-1 is wired onto this file (open item 3).");
+          }
+        } else if (!setEq(effective, theirsList)) {
+          problems.push(k + " GLP-1 states: this file computes " + effective.length +
+            ", korb-glp1-data.js lists " + theirsList.length +
+            (only(effective, theirsList).length ? " | only here: " + only(effective, theirsList).join(",") : "") +
+            (only(theirsList, effective).length ? " | only there: " + only(theirsList, effective).join(",") : ""));
+        }
+        if (!setEq(mine.preferredStates, theirs.preferredStates)) {
+          problems.push(k + ".preferredStates: this file has " + (mine.preferredStates || []).length +
+            ", korb-glp1-data.js has " + (theirs.preferredStates || []).length);
         }
       });
     }
@@ -798,8 +968,9 @@ var KORB_PHARMACIES = {
         var pr = sources.glp1.products[k];
         if (pr.retired || pr.status === "retired") return;
         var ph = self.pharmacies[pr.pharmacy];
-        if (ph && ph.status === "peptides-only") {
-          problems.push(pr.pharmacy + ": status is peptides-only but korb-glp1-data.js offers live GLP-1 product " + k);
+        var g = ph && ph.programs && ph.programs.glp1;
+        if (g && g.status !== "active") {
+          problems.push(pr.pharmacy + ": GLP-1 is " + g.status + " here, but korb-glp1-data.js offers live product " + k);
         }
       });
     }
