@@ -316,8 +316,13 @@
         'break-inside:avoid;page-break-inside:avoid;}' +
       '.rxb-hdr{color:#fff;font-weight:700;font-size:12px;letter-spacing:.02em;padding:7px 12px;}' +
       '.rxb-tbl{width:100%;border-collapse:collapse;font-size:12px;}' +
-      '.rxb-tbl th{width:33%;text-align:left;font-weight:700;color:#21275B;background:#F7F8FB;' +
-        'border-top:1px solid #E3E6EF;padding:6px 12px;vertical-align:top;}' +
+      /* The label column carries NO background of its own. It used to be tinted
+         #F7F8FB against a white value column, so every row was two different
+         colours side by side and the block read as two columns rather than a
+         list of rows. The stripe below colours the WHOLE row, both cells, which
+         is what makes it scannable left to right. */
+      '.rxb-tbl th{width:33%;text-align:left;font-weight:700;color:#21275B;' +
+        'padding:6px 12px;vertical-align:top;}' +
       /* white-space:pre-wrap is not cosmetic. Greenwich stores its formulations
          with a run of spaces - "KBH   Sermorelin 3mg/mL" carries three - and
          HTML collapses those to one, so the page showed a provider a string
@@ -404,11 +409,17 @@
        loop; the decision not to is deliberate.
 
        Readability now comes from zebra striping and a single border weight. */
-    /* Row DIVIDERS, not zebra striping. Striping an odd number of rows made the
-       block look like two halves in two shades rather than one table; the label
-       column already carries a tint, so a second alternating one was competing
-       with it. A rule between rows separates them without colouring anything. */
-    s += '.rxb-tbl tbody tr + tr th,.rxb-tbl tbody tr + tr td{border-top:1px solid #E3E6EF;}';
+    /* ZEBRA ACROSS THE WHOLE ROW. Both cells of a striped row take the same
+       tint, so the eye tracks left to right along one value rather than down two
+       differently coloured columns.
+
+       An earlier pass removed striping entirely and used a rule between rows
+       instead. That was the wrong half of the problem: the striping was never
+       what looked odd, the tinted LABEL COLUMN underneath it was, because it
+       made every row two-tone whether it was striped or not. Tint removed,
+       striping back, one colour per row. */
+    s += '.rxb-tbl tbody tr:nth-child(odd) th,' +
+         '.rxb-tbl tbody tr:nth-child(odd) td{background:#F4F6FA;}';
     s += '@media print{.copybtn{display:none;}}';
     /* Monospace is a SCREEN-ONLY affordance. It makes a transcribed value easy
        to read character by character, which is what the field is for, but the
