@@ -952,29 +952,21 @@
         <fieldset class="page hidden" id="p9">
           <h3 class="pagetitle" style="text-align:center" id="consentTitle">Telehealth consent <span class="req">*</span></h3>
 
-          <!-- FH&L only. Shown in addition to the telehealth consent below, never
-               instead of it. DRAFT LANGUAGE: Don 14 Sep 2026 gave the substance,
-               not the wording, and said it will be reworded for this program.
-               Do not treat any paragraph in this block as approved text. -->
-          <div class="consentbox hidden" id="fhlConsent" tabindex="0">
-            <p><b>Functional Health and Longevity, peptide consultation.</b> This section is in addition to the telehealth consent below, not instead of it.</p>
-            <h4>1. What these therapies are</h4>
-            <p>The peptide therapies used in this program are compounded or prescribed off-label and are considered investigational. They are adjunctive, which means they support nutrition, training, sleep and recovery rather than replacing them. No outcome is guaranteed, and the strength of the evidence differs from one agent to another. Your provider will tell you what is known about whichever agent is being considered for you.</p>
-            <h4>2. Baseline labs, and what the $99 does and does not buy</h4>
-            <p>Baseline labs are required before any peptide is prescribed. They cost <b>$99</b>, they are ordered at your first visit, and they are billed to you separately from any program fee.</p>
-            <p>Three things follow from that, and they matter:</p>
-            <p>Paying for labs is <b>not a commitment</b> to start any treatment. You can stop at any point.</p>
-            <p>Paying for labs is <b>not a guarantee</b> that this program is right for you. That is decided after your results are reviewed.</p>
-            <p>Once the blood has been drawn the <b>$99 is not refundable</b>, including if your results mean the program is not appropriate for you. If you change your mind before the draw, ask us to cancel the order and the fee can be refunded.</p>
-            <h4>3. Nothing is prescribed at your first visit</h4>
-            <p>No prescription is issued at the baseline visit. Your results come back over roughly one to two weeks. We then book you a visit to go through them, and only at that visit do you and your provider decide whether to start, and on what.</p>
-            <h4>4. Ongoing cost</h4>
-            <p>If you decide to go ahead after your labs have been reviewed, you become responsible for the program fees from that point. Your provider will go through what those are before you commit to anything.</p>
-            <h4>5. One agent at a time</h4>
-            <p>This program starts one peptide at a time and adds others only on a set schedule once the first has been tolerated. We will not start several at once, whatever you may have read elsewhere.</p>
-            <h4>6. Drug-tested athletes</h4>
-            <p>Every agent in this program is prohibited in tested sport. If you compete under WADA, USADA or similar rules, you could test positive. Your provider will discuss this with you and you would need to accept that risk before starting.</p>
-          </div>
+          <!-- FH&L / peptide consent.
+
+               DELIBERATELY EMPTY. A draft was written here on 2026-09-14 and
+               removed on 2026-09-15: KORB already has a peptide consent that has
+               been through the attorney, been reworked and approved, and is part
+               of the Functional Health & Longevity intake questionnaire. Drafting
+               a second one was a mistake, and leaving unapproved consent language
+               in a form that collects a signature is worse than leaving a gap.
+
+               TO FINISH: drop the approved text in here, unchanged. Do not
+               paraphrase it and do not merge it with the telehealth consent
+               below - the approved wording is the approved wording.
+
+               Until then this page shows the telehealth consent only, and an
+               FH&L patient is NOT being asked for peptide consent. -->
 
           <div class="consentbox" tabindex="0">
             <p>You are being offered healthcare services using telehealth technology. This form explains your rights, the risks and benefits of telehealth, and your options. Please read it carefully before signing. If you have any questions, call our office at 888-959-7299.</p>
@@ -2064,7 +2056,11 @@
 
     renderFHL();
 
-    // FH&L carries a second consent block and a different heading
+    /* FH&L carries a second consent block and a different heading. The block is
+       absent right now on purpose - see the comment where it used to be - so
+       this does nothing and the page shows the telehealth consent alone. When
+       the approved peptide consent is dropped in with id="fhlConsent", this
+       starts working with no further change. */
     var fc=$('fhlConsent');
     if(fc){
       fc.classList.toggle('hidden', !isFHL());
