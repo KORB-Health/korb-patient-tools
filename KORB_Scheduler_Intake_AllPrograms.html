@@ -1711,6 +1711,11 @@
   /* STAGE maps a page to its rail stage. 0-3 shared, 4-7 weight loss health,
      8 add-on questions, 9 consent, 10 schedule, 11 outcome, 12-17 FH&L health. */
   var STAGE=[1,2,3,4,5,5,5,5,6,7,8,9,5,5,5,5,5,5];
+  /* LAST is the outcome page's id, which is also the last entry in ORDER. It is
+     an id, not a position: the FH&L pages are 12 to 17 in the DOM and sit in the
+     MIDDLE of the flow, so any test of the form `cur >= LAST` is wrong and was
+     the reason the whole FH&L branch was a dead end until 2026-09-15. Compare
+     for equality, or ask ORDER. */
   var LAST=11;
   /* ORDER is the flow, not the id order. FH&L pages live at 12-17 in the DOM so
      the weight loss indices never moved, but they are walked between the health
@@ -2269,9 +2274,36 @@
   }
   function groupBox(anyEl){ return anyEl ? anyEl.closest('.opts') : null; }
 
+  /* 10b, enforced rather than remembered.
+
+     A field the patient cannot see must never block them. That was the diabetes
+     bug on 2026-09-14: the block was gated on the wide diabetic() but its
+     validation was not, so a patient who ticked Type 2 and then answered "None
+     of these apply" was held on a block they could not see and could not fill.
+
+     Rather than trust every future rule to re-check its own visibility, need()
+     now reads the condition off the display. A requirement whose field is
+     inside a hidden container is dropped. Display and requirement cannot drift
+     apart if one is derived from the other.
+
+     The page's own .hidden is ignored, because every page except the current
+     one is hidden and validating page i while standing on it must still work. */
+  function onScreen(el){
+    var nd = (typeof el === 'string') ? $(el) : el;
+    if(!nd) return true;
+    while(nd && nd !== document.body){
+      if(nd.classList){
+        if(nd.classList.contains('page')) return true;
+        if(nd.classList.contains('hidden')) return false;
+      }
+      nd = nd.parentNode;
+    }
+    return true;
+  }
+
   function problems(i){
     var out=[];
-    function need(ok,msg,el){ if(!ok) out.push({msg:msg, el:el}); }
+    function need(ok,msg,el){ if(!ok && onScreen(el)) out.push({msg:msg, el:el}); }
 
     if(i===0){
       need(filled('fname'),'First name','fname');
@@ -2357,6 +2389,97 @@
       need(groupAnswered('consent'),'Consent to telehealth, or decline it',groupBox($('cs-yes')));
       if(val('consent')==='yes') need($('sigstate').textContent==='Signature captured','Your signature','sigpad');
       if(val('consent')==='no') out.push({msg:'We cannot provide care by telehealth without consent. Please call (888) 959-7299.',el:groupBox($('cs-yes'))});
+    }
+
+    /* ---- Functional Health and Longevity, pages 12 to 17 ----------------
+       These carried 22 required marks and no rules at all until 2026-09-15,
+       so an FH&L patient could click Continue through every page having
+       answered nothing and still reach the scheduler. Every follow-up below is
+       guarded by the same condition that reveals it; onScreen() is the
+       backstop, not the plan. */
+
+    if(i===12){
+      need(filled('fh-ft'),'Your height in feet','fh-ft');
+      need(filled('fh-in'),'Your height in inches','fh-in');
+      need(filled('fh-wt'),'Your current weight','fh-wt');
+    }
+
+    if(i===13){
+      need(anyChecked('.fgoal'),'What you are hoping peptide therapy will do',groupBox($('fr-rec')));
+      need(groupAnswered('fdur'),'How long this has been going on',groupBox($('fd-1')));
+      need(anyChecked('.ftried'),'What you have already tried',groupBox($('ft-none')));
+      need(groupAnswered('fimpact'),'How much this affects your day to day',groupBox($('fi-1')));
+    }
+
+    if(i===14){
+      [['fprot','fp-1','Your protein intake'],
+       ['fnutr','fn-1','How you would describe the way you eat'],
+       ['fresist','fres-y','Whether you do resistance training'],
+       ['fexd','fe-0','How many days a week you exercise'],
+       ['fact','fac-1','Which activity level sounds most like you'],
+       ['fslh','fsh-1','How much sleep you usually get'],
+       ['fslq','fsq-1','How well you sleep'],
+       ['fstr','fst-1','Your stress level'],
+       ['falc','fal-1','How often you drink alcohol'],
+       ['ftob','fto-1','Whether you use tobacco'],
+       ['fcoach','fco-y','Whether you work with a coach or therapist']
+      ].forEach(function(q){ need(groupAnswered(q[0]),q[2],groupBox($(q[1]))); });
+    }
+
+    if(i===15){
+      need(anyChecked('.fpa')||$('fa-none').checked,'The medical history question, or None of these apply',groupBox($('fa-none')));
+      need(anyChecked('.fabs')||$('fb-none').checked,'The diagnosis question, or None of these apply',groupBox($('fb-none')));
+
+      /* A follow-up select is required only when its own box is ticked. Same
+         shape as the weight loss .rstatus loop above. */
+      [].slice.call(document.querySelectorAll('#p15 .fstatus')).forEach(function(sel){
+        var box=document.getElementById(sel.getAttribute('data-box'));
+        if(box&&box.checked) need(sel.value!=='','A follow-up answer for '+box.parentNode.textContent.trim().toLowerCase(),sel.id);
+      });
+
+      if(!isMale()) need(groupAnswered('fpreg'),'The pregnancy question',groupBox($('fpg-p')));
+
+      need(groupAnswered('fpepb'),'Whether you have taken a peptide before',groupBox($('fpb-y')));
+      if(val('fpepb')==='yes') need($('fpr-s').value!=='','Whether you ever reacted to a peptide','fpr-s');
+      if(val('fpepb')==='yes' && /yes/i.test($('fpr-s').value)) need(filled('fpr-what'),'Which peptide, and what happened','fpr-what');
+
+      need(anyChecked('#p15 .frel')||$('fc-none').checked,'The review question, or None of these apply',groupBox($('fc-none')));
+      need(anyChecked('.fsurg'),'The surgery question',groupBox($('fs-none')));
+      need(anyChecked('.ffam')||$('ff-none').checked,'The family history question, or None of these apply',groupBox($('ff-none')));
+    }
+
+    if(i===16){
+      need(groupAnswered('frx'),'Whether you take prescription medications',groupBox($('frx-y')));
+      if(val('frx')==='yes') need(rowsHaveOne('fRxList'),'At least one medication, or change the answer to No','fRxList');
+      need(groupAnswered('fsupp'),'Whether you take supplements',groupBox($('fsu-y')));
+      if(val('fsupp')==='yes') need(rowsHaveOne('fSuppList'),'At least one supplement, or change the answer to No','fSuppList');
+      need(groupAnswered('fcurpep'),'Whether you currently use peptides or hormone therapy',groupBox($('fcp-y')));
+      if(val('fcurpep')==='review') need(rowsHaveOne('fPepList'),'At least one, or change the answer to No','fPepList');
+      need(groupAnswered('fcuzn'),'Whether you take copper or zinc',groupBox($('fcz-y')));
+      need(groupAnswered('falg'),'Whether you have medication allergies',groupBox($('fag-y')));
+      if(val('falg')==='yes') need(rowsHaveOne('fAllergyList'),'At least one allergy, or change the answer to No','fAllergyList');
+      need(groupAnswered('fexc'),'The preservatives and dyes question',groupBox($('fex-y')));
+    }
+
+    if(i===17){
+      [['Hormonal','ro-h-none','The hormones and body composition list'],
+       ['Recovery','ro-r-none','The recovery and joints list'],
+       ['Metabolic','ro-m-none','The heart and metabolism list'],
+       ['Skin','ro-s-none','The skin list'],
+       ['Sleep','ro-z-none','The sleep list'],
+       ['GI','ro-g-none','The digestion list'],
+       ['General','ro-n-none','The general list']
+      ].forEach(function(g){
+        need(anyChecked('.fros[data-g='+g[0]+']')||$(g[1]).checked, g[2]+', or None of these',groupBox($(g[1])));
+      });
+      /* Sex and age gated. onScreen() drops these when their block is hidden,
+         so no isMale() or age() test is repeated here and the two cannot
+         disagree. */
+      need(groupAnswered('fpsa'),'The PSA question',groupBox($('fps-1')));
+      need(groupAnswered('fmam'),'The mammogram question',groupBox($('fmm-1')));
+      need(groupAnswered('fcol'),'The colonoscopy question',groupBox($('fcl-1')));
+      need(groupAnswered('fdexa'),'The DEXA question',groupBox($('fdx-1')));
+      need(groupAnswered('finbody'),'The InBody question',groupBox($('fib-1')));
     }
 
     if(i===10){
@@ -2497,7 +2620,11 @@
   });
 
   $('next').addEventListener('click',function(){
-    if(cur>=LAST) return;
+    /* Was `cur >= LAST`. LAST is the outcome page's id, 11, and the FH&L pages
+       are 12 to 17, so that test made Continue a no-op on every one of them:
+       the button rendered, said Continue, and did nothing. Equality is what was
+       meant - do nothing once you are standing on the outcome. */
+    if(cur===LAST) return;
     if(!validate(cur)) return;
     show(nextIdx(cur,1));
   });
