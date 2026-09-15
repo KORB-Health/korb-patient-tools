@@ -86,6 +86,7 @@ URLs are in circulation.
   provider-doc-render.js           render module, GLP-1 monographs
   fhl-doc-render.js                render module, FH&L references
   dose-audit.js                    cross-pharmacy dose gate, run by both builders
+  test-scheduler.js                scheduler flow + validation test (node test-scheduler.js)
   build-*.js                       generators (see below)
   KORB_*.html                      root tools
   Provider_Reference/              provider tool HTML only
@@ -604,18 +605,29 @@ women's testosterone. Do not re-report those; they are already on the list.
    records. The boilerplate used elsewhere ("no FDA-approved or commercially
    available equivalent") would be FALSE, because bremelanotide is FDA-approved as
    Vyleesi. Do not fill it with the boilerplate. Needs the real rationale from Don.
-10b. **Scheduler intake: a hidden block must never be required.** Fixed
-   2026-09-14 in both scheduler builds. The diabetes co-ordination block was
-   gated on `diabetic()`, which is deliberately wide - Type 2 or prediabetes,
-   Type 1 in history, insulin, sulfonylurea. A patient who ticked Type 2 earlier
-   and then answered "None of these apply" was shown the block and could not
-   continue without naming a diabetes provider they did not have.
-   `diabetic()` was NOT narrowed: it drives the provider review flag, and
-   narrowing it would have silently dropped a Type 2 patient on metformin from
-   that flag. A new `dmAsk()` - insulin or sulfonylurea only - drives the block,
-   its validation and the note paragraph. **Keep display and requirement on the
-   same condition**, and when a predicate has several consumers, add a narrow one
-   rather than narrowing the shared one.
+10b. ~~Scheduler intake: a hidden block must never be required.~~ **DONE, and now
+   structural.** The diabetes instance was fixed 2026-09-14: the block was gated
+   on the wide `diabetic()` and its validation was not, so a patient who ticked
+   Type 2 and then answered "None of these apply" was held on a block they could
+   not see. `diabetic()` was NOT narrowed — it drives the provider review flag,
+   and narrowing it would have silently dropped a Type 2 patient on metformin
+   from that flag. A narrow `dmAsk()` was added beside it. **When a predicate has
+   several consumers, add a narrow one rather than narrowing the shared one.**
+   As of 2026-09-15 the rule is enforced instead of remembered: `need()` asks
+   `onScreen()` and drops any requirement whose field is inside a hidden
+   container. The sex- and age-gated screening questions depend on this — there
+   is no second `isMale()` or `age()` test in the validation, so there is nothing
+   for the display logic to disagree with.
+   Two defects found while closing it, both from the FH&L build on 2026-09-14:
+   **Continue did nothing on all six FH&L pages.** The handler tested
+   `cur >= LAST`. LAST is 11, the outcome page's id, and the FH&L pages are 12 to
+   17 while sitting in the MIDDLE of the flow. The branch was a dead end.
+   **LAST is an id, not a position. Never compare it with >= or <=.**
+   **Nothing validated the FH&L pages.** Rules stopped at page 10 while those six
+   pages carried 22 required marks, so every asterisk on them was a lie.
+   Covered now by `test-scheduler.js`, 22 checks, which drives the real flow
+   rather than the verdict engine. The tests written alongside the original FH&L
+   build passed 19 of 19 and never clicked Continue once.
 11. **Scheduler intake — Men's Health and Women's Health question sets.**
    `KORB_Scheduler_Intake_AllPrograms.html` now carries Weight Loss and Functional
    Health & Longevity. The other two programs select at step 3 and then bring no
