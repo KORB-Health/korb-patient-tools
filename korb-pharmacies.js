@@ -589,6 +589,16 @@ var KORB_PHARMACIES = {
     },
     "lillydirect": {
       "key": "lillydirect",
+      /* DISPENSING ADDRESS. Supplied by Don 2026-09-15 from the brand
+         prescribing document. A provider writing a brand prescription has to
+         pick the right pharmacy in Tebra, and until now no address or phone
+         existed anywhere in the repo - the 2026-08-09 changelog said they had
+         been loaded and they had not. Stored here because a pharmacy fact
+         belongs in the pharmacy layer and nowhere else. */
+      "dispensingName": "LillyDirect Self Pay Pharmacy Solutions",
+      "address1": "4343 Equity Dr",
+      "cityStateZip": "Columbus, OH, 432283842",
+      "phone": "(833) 432-4322",
       "name": "LillyDirect",
       "color": "#C62828",
       "type": "manufacturer-direct",
@@ -625,6 +635,16 @@ var KORB_PHARMACIES = {
     },
     "novocare": {
       "key": "novocare",
+      /* DISPENSING ADDRESS. Supplied by Don 2026-09-15 from the brand
+         prescribing document. A provider writing a brand prescription has to
+         pick the right pharmacy in Tebra, and until now no address or phone
+         existed anywhere in the repo - the 2026-08-09 changelog said they had
+         been loaded and they had not. Stored here because a pharmacy fact
+         belongs in the pharmacy layer and nowhere else. */
+      "dispensingName": "NovoCare Pharmacy",
+      "address1": "2400 Sand Lake Road, Suite 200B",
+      "cityStateZip": "Orlando, FL, 32809",
+      "phone": "(833) 949-5527",
       "name": "NovoCare",
       "color": "#00695C",
       "type": "manufacturer-direct",

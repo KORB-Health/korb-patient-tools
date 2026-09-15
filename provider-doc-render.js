@@ -575,14 +575,32 @@ function sectionBrandRules(doc) {
        '<p><strong>' + esc(R.availableStates.join(' · ')) + '</strong></p>' +
        '<p>' + esc(R.availableStatesNote || '') + '</p></div>';
 
+  /* The dispensing pharmacy. Read from the shared pharmacy layer, which is the
+     only place a pharmacy fact lives. */
+  const PH = (typeof KORB_PHARMACIES !== 'undefined' && KORB_PHARMACIES.pharmacies)
+    ? KORB_PHARMACIES.pharmacies[p.pharmacy] : null;
+
   h += '<table class="kv">' + rows([
-    R.orderVia ? ['Order via', esc(R.orderVia)] : null,
-    ['Dispensed by', esc(pharmLabel(p))],
-    R.billing ? ['Billing', esc(R.billing)] : null,
+    R.orderVia ? ['Order via', R.orderVia] : null,
+    ['Dispensed by', PH && PH.dispensingName ? PH.dispensingName : pharmLabel(p)],
+    R.billing ? ['Billing', R.billing] : null,
     R.noPriorAuth ? ['Prior authorisation', 'KORB does not complete insurance prior authorisations'] : null,
     R.noCoupons ? ['Coupons and savings cards', 'Not handled by KORB'] : null,
     R.localPharmacyAllowed ? ['Local pharmacy', 'A brand prescription can be sent to the patient’s local pharmacy on request'] : null
   ].filter(Boolean)) + '</table>';
+
+  /* The full address as its own panel rather than a table cell. rows() escapes
+     every cell it is given - correctly, it takes plain text - so multi-line HTML
+     pushed through it renders its own <br> tags as visible characters. Seen on
+     the page before this was committed. */
+  if (PH && PH.address1) {
+    h += '<div class="callout"><h3>Dispensing pharmacy</h3><p>' +
+         esc(PH.dispensingName || PH.name) + '<br>' +
+         esc(PH.address1) + '<br>' +
+         esc(PH.cityStateZip || '') +
+         (PH.phone ? '<br>' + esc(PH.phone) : '') +
+         '</p></div>';
+  }
 
   if (R.patientResponsibility) h += '<div class="callout warn"><p>' + esc(R.patientResponsibility) + '</p></div>';
   if (R.noPharmacyShopping) h += '<p class="fine">' + esc(R.noPharmacyShopping) + '</p>';
