@@ -77,11 +77,24 @@
      which is where providers first learned the association. Unknown keys fall
      back to navy rather than throwing - a new pharmacy should render plainly,
      not break the page. */
+  /* THE PHARMACY COLOUR RULE. Don, 2026-09-15. These are fixed and they are the
+     same in every document, every tool and every HTML page:
+
+         FarmaKeio  GREEN
+         Premier    BLUE
+         Belmar     PURPLE
+
+     Greenwich moved to teal in the same pass. It used to hold the green, which
+     is why FarmaKeio was teal; the two are swapped rather than re-picked, so all
+     four stay distinct and only one of them changes meaning.
+
+     A pharmacy is recognised by its colour before its name is read, so do not
+     re-theme one to suit a page. Add a new pharmacy here, once. */
   var PHARMACY_ACCENT = {
+    farmakeio: '#2E7D32',
     premier:   '#1565C0',
-    greenwich: '#2E7D32',
     belmar:    '#6A1B9A',
-    farmakeio: '#00838F'
+    greenwich: '#00838F'
   };
 
   function accentFor(key) {
@@ -391,8 +404,11 @@
        loop; the decision not to is deliberate.
 
        Readability now comes from zebra striping and a single border weight. */
-    s += '.rxb-tbl tbody tr:nth-child(even) td,' +
-         '.rxb-tbl tbody tr:nth-child(even) th{background:#FAFBFD;}';
+    /* Row DIVIDERS, not zebra striping. Striping an odd number of rows made the
+       block look like two halves in two shades rather than one table; the label
+       column already carries a tint, so a second alternating one was competing
+       with it. A rule between rows separates them without colouring anything. */
+    s += '.rxb-tbl tbody tr + tr th,.rxb-tbl tbody tr + tr td{border-top:1px solid #E3E6EF;}';
     s += '@media print{.copybtn{display:none;}}';
     /* Monospace is a SCREEN-ONLY affordance. It makes a transcribed value easy
        to read character by character, which is what the field is for, but the

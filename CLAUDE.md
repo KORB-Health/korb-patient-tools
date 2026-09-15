@@ -776,6 +776,25 @@ Nick. No PHI is in this repo and none may be added.
 - No PHI in this repo, ever. No patient names, dates tied to a person, or MRNs.
 - Brand: Navy `#21275B`, Teal `#00B2C3`, Cream `#ECE9D1`, Gold `#FBB040`.
   Montserrat, with a real fallback stack.
+- **Pharmacy colours are fixed and identical in every document, tool and page.**
+  Don, 2026-09-15. A provider recognises a pharmacy by its colour before reading
+  the name, so a page must never re-theme one to suit itself.
+
+  | Pharmacy | Colour | Hex |
+  |---|---|---|
+  | FarmaKeio | green | `#2E7D32` |
+  | Premier | blue | `#1565C0` |
+  | Belmar | purple | `#6A1B9A` |
+  | Greenwich | teal | `#00838F` |
+
+  They live in `PHARMACY_ACCENT` in `korb-rx-block.js` and nowhere else. Add a
+  new pharmacy there once. Greenwich and FarmaKeio were swapped in that pass -
+  Greenwich used to hold the green - so all four stay distinct and only one
+  changed meaning.
+- **No per-field colour coding in a prescribing block.** Removed 2026-09-15.
+  Providers know which Tebra field is which, so eleven tinted rows were clutter
+  rather than a key. `FIELD_LEGEND` still records the Canva template's colour per
+  field but paints nothing. Rows are separated by a rule, not by striping.
 - Tebra caps: portal message 1000 characters, `ptInstructions` 140,
   `pharmacyNotes` 170.
 - Vial discard language follows USP <797>: a multi-dose container is 28 days from
