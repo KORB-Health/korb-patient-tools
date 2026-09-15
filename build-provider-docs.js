@@ -42,14 +42,26 @@ const AUDIT = require('./dose-audit.js');
 
 const REPO = __dirname;
 const OUT = path.join(REPO, 'Provider_Reference', 'GLP1');
+const PH_REL   = '../../korb-pharmacies.js';   // MUST load before the data file
 const DATA_REL = '../../korb-glp1-data.js';
 const RXB_REL = '../../korb-rx-block.js';
 const REND_REL = '../../provider-doc-render.js';
 
 const K = (function () {
-  const src = fs.readFileSync(path.join(REPO, 'korb-glp1-data.js'), 'utf8');
+  /* korb-pharmacies.js first, into the same scope. Since open item 3 the GLP-1
+     file takes its pharmacy footprints from it at load. Without this every
+     footprint comes back empty, and a document would state that a pharmacy
+     ships nowhere while the build still exits 0 — the exact silent-success
+     shape the Known failure section warns about. */
   const sandbox = {};
+  const phSrc = fs.readFileSync(path.join(REPO, 'korb-pharmacies.js'), 'utf8');
+  new Function('exports', 'module', phSrc + '\n;this.KORB_PHARMACIES = KORB_PHARMACIES;').call(sandbox, {}, {});
+  global.KORB_PHARMACIES = sandbox.KORB_PHARMACIES;
+
+  const src = fs.readFileSync(path.join(REPO, 'korb-glp1-data.js'), 'utf8');
   new Function('exports', 'module', src + '\n;this.KORB_GLP1 = KORB_GLP1;').call(sandbox, {}, {});
+  if (!sandbox.KORB_GLP1.hydrated) throw new Error(
+    'korb-glp1-data.js did not hydrate from korb-pharmacies.js. Check the load order above.');
   return sandbox.KORB_GLP1;
 })();
 
@@ -85,6 +97,7 @@ ${R.CSS}
 </head>
 <body>
 <p>Loading…</p>
+<script src="${PH_REL}"></script>
 <script src="${DATA_REL}"></script>
 <script src="${RXB_REL}"></script>
 <script src="${REND_REL}"></script>

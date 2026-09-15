@@ -227,6 +227,9 @@
 
 </div>
 
+<!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
+     pharmacy footprints from it at load, and throws on routing without it. -->
+<script src="korb-pharmacies.js"></script>
 <script src="korb-glp1-data.js"></script>
 <script>
 /* ============================================================

@@ -982,20 +982,16 @@ var KORB_GLP1 = {
       type: 'compounding',
       visibility: 'provider',
       status: 'active',
-      preferredStates: ['TX', 'NV', 'AZ', 'FL', 'IL', 'MD', 'MO', 'NJ', 'NY', 'OH'],
-      shipsTo: [
-        'AZ', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'IL', 'KS', 'KY',
-        'LA', 'MD', 'ME', 'MI', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE',
-        'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SD',
-        'TN', 'TX', 'UT', 'VA', 'VT', 'WI', 'WV', 'WY'
-      ],
+      /* FILLED BY hydrate() FROM korb-pharmacies.js. */
+      preferredStates: [],
+      /* FILLED BY hydrate() FROM korb-pharmacies.js. Editing this does nothing. */
+      shipsTo: [],
       // Premier's list IS its licensed footprint. Anything not on it is a hard
       // exclusion, not a preference. The routing default can be overridden;
       // the shipping footprint cannot.
-      hardExcludes: [
-        'AK', 'AL', 'AR', 'CA', 'HI', 'IA', 'ID', 'IN', 'MA', 'MN',
-        'NH', 'SC', 'WA'
-      ],
+      /* FILLED BY hydrate(). Everything outside the GLP-1 footprint, whether that
+         is a licensure exclusion or the program being retired. */
+      hardExcludes: [],
       shipsToNote: 'Licensed shipping list. Premier cannot ship anywhere outside it, ' +
                    'including California. Confirmed 2026-08-09.',
       footprintIsSettled:
@@ -1025,15 +1021,12 @@ var KORB_GLP1 = {
       type: 'compounding',
       visibility: 'provider',
       status: 'active',
-      preferredStates: ['CA'],
-      shipsTo: [
-        'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
-        'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
-        'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH',
-        'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI',
-        'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI',
-        'WY'
-      ],
+      /* FILLED BY hydrate() FROM korb-pharmacies.js. */
+      preferredStates: [],
+      /* FILLED BY hydrate() FROM korb-pharmacies.js. Editing this does nothing. */
+      shipsTo: [],
+      /* FILLED BY hydrate(). Everything outside the GLP-1 footprint, whether that
+         is a licensure exclusion or the program being retired. */
       hardExcludes: [],
       shipsToNote: 'Ships to all 50 states and DC. Preferred for California only.',
       discouragedOutsidePreferred: true,
@@ -1158,15 +1151,13 @@ var KORB_GLP1 = {
       type: 'compounding',
       visibility: 'provider',
       status: 'active',
-      preferredStates: ['AK', 'AL', 'AR', 'CO', 'CT', 'DC', 'DE', 'GA', 'HI', 'IA', 'ID', 'IN', 'KS', 'KY', 'LA', 'MA', 'ME', 'MI', 'MN', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NM', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
-      shipsTo: [
-        'AK', 'AL', 'AR', 'AZ', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
-        'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD',
-        'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH',
-        'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
-        'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'
-      ],
-      hardExcludes: ['CA'],
+      /* FILLED BY hydrate() FROM korb-pharmacies.js. */
+      preferredStates: [],
+      /* FILLED BY hydrate() FROM korb-pharmacies.js. Editing this does nothing. */
+      shipsTo: [],
+      /* FILLED BY hydrate(). Everything outside the GLP-1 footprint, whether that
+         is a licensure exclusion or the program being retired. */
+      hardExcludes: [],
       shipsToNote: 'Ships to 49 states plus DC. California is the single state FarmaKeio ' +
                    'will not ship to, and that cannot be overridden. Preferred everywhere ' +
                    'except CA, TX, FL, AZ and NV.',
@@ -1209,16 +1200,13 @@ var KORB_GLP1 = {
                    'their next fill, California first. Place no further Greenwich GLP-1 ' +
                    'orders.'
       },
+      /* FILLED BY hydrate() FROM korb-pharmacies.js. */
       preferredStates: [],
-      shipsTo: [
-        'AL', 'AK', 'AZ', 'CO', 'CT', 'DE', 'DC', 'FL',
-        'GA', 'HI', 'ID', 'IL', 'IA', 'KS', 'KY', 'LA', 'ME',
-        'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV',
-        'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI',
-        'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WV', 'WI',
-        'WY'
-      ],
-      hardExcludes: ['AR', 'CA', 'IN', 'NH', 'WA'],
+      /* FILLED BY hydrate() FROM korb-pharmacies.js. Editing this does nothing. */
+      shipsTo: [],
+      /* FILLED BY hydrate(). Everything outside the GLP-1 footprint, whether that
+         is a licensure exclusion or the program being retired. */
+      hardExcludes: [],
       shipsToNote: 'Ships to 45 states and DC as of 2026-09-11 \u2014 Greenwich stopped ' +
                    'shipping to AR, CA, IN, NH and WA. This list now governs peptides ' +
                    'only. For GLP-1 the ship-to list is irrelevant: Greenwich fills no ' +
@@ -4747,7 +4735,62 @@ var KORB_GLP1 = {
      absent from a pharmacy's list is a warning, not a block: the lists are
      preferences and Operations can verify a one-off. Blocking a valid choice
      is worse than asking the provider to confirm. */
+
+  /* ==========================================================================
+     SHARED PHARMACY LAYER — open item 3, wired 2026-09-15
+
+     shipsTo, hardExcludes and preferredStates on the four compounding
+     pharmacies above are NOT typed here any more. They are empty in the source
+     and filled by hydrate() from korb-pharmacies.js, which is the single place
+     a pharmacy footprint is written.
+
+     Consumers are unchanged: ph.shipsTo still reads as an array of states after
+     load. What changed is that editing it here would do nothing, which is the
+     point — korb-pharmacies.js was drifting from this file for four days
+     precisely because both could be edited and neither knew about the other.
+
+     GLP-1 keeps its own routing POLICY: preferredStates ordering,
+     discouragedOutsidePreferred, shipsToUnconfirmed, the retirement message.
+     Those are program decisions, not pharmacy facts, and they stay.
+
+     LOAD ORDER. korb-pharmacies.js must be loaded before this file. When it is
+     missing, routing throws with a message naming the missing script rather
+     than answering from empty lists — a pharmacy that "hard-excludes nowhere
+     and ships nowhere" would route every patient to the wrong place silently,
+     which is the failure this repo keeps re-learning to make loud.
+     ========================================================================== */
+  hydrated: false,
+
+  hydrate: function (PH) {
+    if (!PH || !PH.pharmacies) throw new Error(
+      'korb-glp1-data.js: korb-pharmacies.js must be loaded first.');
+    var self = this;
+    Object.keys(this.pharmacies).forEach(function (k) {
+      var shared = PH.pharmacies[k];
+      var mine = self.pharmacies[k];
+      if (!shared) return;                       // brand channels have no footprint
+      if (mine.type !== 'compounding') return;
+      mine.shipsTo = PH.statesFor(k, 'glp1');
+      /* Everything the pharmacy cannot reach for GLP-1, whether that is a
+         licensure exclusion or the program being retired. Computed, so a
+         retirement automatically empties shipsTo and fills hardExcludes
+         without either list being retyped. */
+      var allStates = (PH.states && PH.states.korbActive) || self.states.korbActive;
+      mine.hardExcludes = allStates.filter(function (st) { return mine.shipsTo.indexOf(st) < 0; });
+      if (shared.preferredStates) mine.preferredStates = shared.preferredStates.slice();
+    });
+    this.hydrated = true;
+    return this;
+  },
+
+  requireHydrated: function () {
+    if (!this.hydrated) throw new Error(
+      'korb-glp1-data.js: pharmacy routing was asked for before korb-pharmacies.js ' +
+      'was loaded. Add <script src="korb-pharmacies.js"></script> BEFORE this file.');
+  },
+
   checkPharmacyForState: function (pharmacyKey, stateCode) {
+    KORB_GLP1.requireHydrated();
     var ph = KORB_GLP1.pharmacies[pharmacyKey];
     var st = String(stateCode || '').toUpperCase();
     if (!ph) return { status: 'error', message: 'Unknown pharmacy.' };
@@ -4812,6 +4855,7 @@ var KORB_GLP1 = {
   // Every pharmacy with its compatibility verdict for a state. Feeds the picker
   // directly so unusable options can be disabled or greyed rather than hidden.
   pharmacyOptionsForState: function (stateCode) {
+    KORB_GLP1.requireHydrated();
     var out = [];
     for (var k in KORB_GLP1.pharmacies) {
       if (!KORB_GLP1.pharmacies.hasOwnProperty(k)) continue;
@@ -5301,3 +5345,8 @@ var KORB_GLP1 = {
 };
 
 if (typeof module !== 'undefined' && module.exports) { module.exports = KORB_GLP1; }
+
+/* Auto-wire when korb-pharmacies.js is already on the page. Kept at the very
+   end so the object is complete first. A page that loads them the other way
+   round still works: the first routing call throws with instructions. */
+if (typeof KORB_PHARMACIES !== 'undefined') { KORB_GLP1.hydrate(KORB_PHARMACIES); }

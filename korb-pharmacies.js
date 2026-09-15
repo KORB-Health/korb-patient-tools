@@ -907,7 +907,7 @@ var KORB_PHARMACIES = {
      repo keeps re-learning.
      -------------------------------------------------------------------------- */
   crossCheck: function (sources) {
-    var problems = [], checked = [], self = this;
+    var problems = [], checked = [], self = this, derived = false;
     sources = sources || {};
 
     function setEq(a, b) {
@@ -930,6 +930,11 @@ var KORB_PHARMACIES = {
           problems.push('korb-glp1-data.js describes pharmacy "' + k + '" which this file does not have');
           return;
         }
+        /* Since open item 3, korb-glp1-data.js takes these lists FROM this file
+           at load. Comparing them then proves nothing: it compares a value with
+           itself and reports agreement it did not earn. Say so instead. */
+        if (sources.glp1.hydrated) { derived = true; return; }
+
         /* Compare the EFFECTIVE GLP-1 list, not the raw footprint. A pharmacy
            whose GLP-1 is retired serves no states for it, and that is the
            comparison that matters — comparing footprints would reopen exactly
@@ -1002,8 +1007,13 @@ var KORB_PHARMACIES = {
       console.log("KORB_PHARMACIES.crossCheck: " + checked.length + " file(s) agree" +
         (checked.length ? " (" + checked.join(", ") + ")" : ""));
     }
+    if (derived) {
+      console.log("  korb-glp1-data.js takes its footprints from this file at load, so there");
+      console.log("  is nothing left to disagree. Its state lists were NOT independently");
+      console.log("  verified here because there is no longer a second copy to verify against.");
+    }
     if (absent.length) console.warn("  NOT CHECKED, not passed in: " + absent.join(", "));
-    return { problems: problems, checked: checked, notChecked: absent };
+    return { problems: problems, checked: checked, notChecked: absent, derived: derived };
   }
 };
 

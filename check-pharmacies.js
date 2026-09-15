@@ -45,6 +45,10 @@ function load(file, globalName) {
 }
 
 const PH = load('korb-pharmacies.js', 'KORB_PHARMACIES');
+/* Into the global scope, and before korb-glp1-data.js, exactly as a page loads
+   them. Without this the GLP-1 file never hydrates and every footprint reads as
+   empty, which looks like catastrophic drift and is only a broken loader. */
+global.KORB_PHARMACIES = PH;
 const sources = {
   glp1: load('korb-glp1-data.js', 'KORB_GLP1'),
   dosing: load('korb-dosing-data.js', 'KORB_DOSING')
@@ -57,9 +61,10 @@ const r = PH.crossCheck(sources);
 /* The three Greenwich disagreements are known and expected until the reshape.
    They are listed explicitly rather than counted, so that a DIFFERENT Greenwich
    problem does not hide inside an allowance for "three Greenwich problems". */
-const EXPECTED = [
-  /^greenwich: GLP-1 is retired here, but korb-glp1-data\.js still lists/
-];
+/* Empty since open item 3 landed on 2026-09-15. korb-glp1-data.js no longer
+   types its own footprints, so there is nothing left for it to disagree about.
+   Anything appearing here now is real. */
+const EXPECTED = [];
 const unexpected = r.problems.filter(p => !EXPECTED.some(re => re.test(p)));
 const expectedSeen = EXPECTED.filter(re => r.problems.some(p => re.test(p)));
 
