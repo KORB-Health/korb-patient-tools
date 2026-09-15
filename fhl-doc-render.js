@@ -419,7 +419,19 @@ function sectionRx(doc) {
     const rec = K.prescribing[r.key];
     if (!rec) return;
     const a = K.agents[r.key] || {};
-    h += '<div class="rxblock"><h3 class="prodhead">' + esc((rec.name || a.label) + ' - ' + (a.dose || '')) + '</h3>';
+    /* The heading appends the dose ONLY when the name does not already carry one.
+       Appending unconditionally produced "Sermorelin 300mcg - 300 mcg" and, worse,
+       "CJC-1295 / Ipamorelin 100mcg/100mcg - 100 mcg CJC-1295 / 100 mcg
+       Ipamorelin" - a combination product reading as though it had four strengths.
+
+       The test is a strength TOKEN, digits followed by mcg or mg, not merely a
+       digit: "BPC-157" contains 157 and carries no strength, so it still gets its
+       500 mcg appended, while "Tesamorelin 1mg" does not. Don, 2026-09-15. */
+    const carriesStrength = /\d+\s*(mcg|mg)(?![a-z])/i.test(String(rec.name || ''));
+    const headingText = carriesStrength
+      ? (rec.name || a.label)
+      : ((rec.name || a.label) + (a.dose ? ' - ' + a.dose : ''));
+    h += '<div class="rxblock"><h3 class="prodhead">' + esc(headingText) + '</h3>';
     /* Both pharmacies for ONE strength, side by side and kept on one page. They
        are the same prescription routed two ways, so a provider comparing them
        should not be turning a page to do it. The pair is the unit that must not
@@ -689,6 +701,11 @@ function renderBody(data, doc) {
 <div class="lede">Everything needed to prescribe the ${esc(K.programs[doc.program].label)}, complete on its own. The provider tool covers the same ground; this document exists so it is not required. Values are copied literally into the Tebra Compound section.</div>
 
 ${sectionGlance(doc)}
+<!-- Pricing sits second, as it does on the GLP-1 monographs. A patient asks what
+     it costs in the first minute of a visit; it used to be the LAST section,
+     below the whole prescribing block and the clinical reference. Don,
+     2026-09-15. -->
+${sectionPricing(doc)}
 ${sectionCycle(doc)}
 ${sectionLadder(doc)}
 ${sectionDirections(doc)}
@@ -696,7 +713,6 @@ ${sectionSyringes()}
 ${sectionStates()}
 ${sectionRx(doc)}
 ${sectionClinical(doc)}
-${sectionPricing(doc)}
 
 <div class="foot">
   <div><h4>Questions and escalation</h4><ul>
