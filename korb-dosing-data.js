@@ -89,7 +89,7 @@ var TESA_MONITOR = [
 var KORB_DOSING = {
 
   meta: {
-    version: '2.9',
+    version: '2.10',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
@@ -339,11 +339,11 @@ var KORB_DOSING = {
   sermorelin: {
     name: 'Sermorelin',
     premier: {
-      label: 'PREMIER – Sermorelin 200 mcg SQ Injection',
+      label: 'PREMIER - Sermorelin 200 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'Sermorelin 1 mg/ml inj', copy: true },
-        { field: 'Name', val: 'PREMIER – Sermorelin 200 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - Sermorelin 200 mcg SQ Injection', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '18', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -354,11 +354,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Sermorelin 200 mcg SQ Injection',
+      label: 'GREENWICH - Sermorelin 200 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Sermorelin 200 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - Sermorelin 200 mcg SQ Injection', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -377,11 +377,11 @@ var KORB_DOSING = {
   sermorelin300: {
     name: 'Sermorelin 300mcg',
     premier: {
-      label: 'PREMIER – Sermorelin 300 mcg SQ Injection',
+      label: 'PREMIER - Sermorelin 300 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'Sermorelin 1 mg/ml inj', copy: true },
-        { field: 'Name', val: 'PREMIER – Sermorelin 300 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - Sermorelin 300 mcg SQ Injection', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '27', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -392,11 +392,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Sermorelin 300 mcg SQ Injection',
+      label: 'GREENWICH - Sermorelin 300 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Sermorelin 300 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - Sermorelin 300 mcg SQ Injection', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -415,11 +415,11 @@ var KORB_DOSING = {
   sermorelin400: {
     name: 'Sermorelin 400mcg',
     premier: {
-      label: 'PREMIER – Sermorelin 400 mcg SQ Injection',
+      label: 'PREMIER - Sermorelin 400 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'Sermorelin 1 mg/ml inj', copy: true },
-        { field: 'Name', val: 'PREMIER – Sermorelin 400 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - Sermorelin 400 mcg SQ Injection', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '36', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -430,11 +430,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Sermorelin 400 mcg SQ Injection',
+      label: 'GREENWICH - Sermorelin 400 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Sermorelin 400 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - Sermorelin 400 mcg SQ Injection', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -453,11 +453,11 @@ var KORB_DOSING = {
   sermorelin500: {
     name: 'Sermorelin 500mcg',
     premier: {
-      label: 'PREMIER – Sermorelin 500 mcg SQ Injection',
+      label: 'PREMIER - Sermorelin 500 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'Sermorelin 1 mg/ml inj', copy: true },
-        { field: 'Name', val: 'PREMIER – Sermorelin 500 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - Sermorelin 500 mcg SQ Injection', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '36', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -468,11 +468,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Sermorelin 500 mcg SQ Injection',
+      label: 'GREENWICH - Sermorelin 500 mcg SQ Injection',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Sermorelin 500 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - Sermorelin 500 mcg SQ Injection', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -491,11 +491,11 @@ var KORB_DOSING = {
   bpc157: {
     name: 'BPC-157',
     premier: {
-      label: 'PREMIER – BPC-157 500 mcg SQ Inj Daily',
+      label: 'PREMIER - BPC-157 500 mcg SQ Inj Daily',
       fields: [
         { field: 'Drug Formulation', val: 'BPC-157, 4mg/ml inj', copy: true },
-        { field: 'Name', val: 'PREMIER – BPC-157 500mcg SQ Inj Daily', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - BPC-157 500mcg SQ Inj Daily', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '12', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -506,11 +506,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – BPC-157 500 mcg SQ Inj',
+      label: 'GREENWICH - BPC-157 500 mcg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH   BPC-157 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – BPC-157 500 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - BPC-157 500 mcg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '10', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -545,11 +545,11 @@ var KORB_DOSING = {
   cjcipam: {
     name: 'CJC-1295 / Ipamorelin 100mcg/100mcg',
     premier: {
-      label: 'PREMIER – CJC/Ipam 100 mcg/100 mcg SQ Inj',
+      label: 'PREMIER - CJC/Ipam 100 mcg/100 mcg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'CJC-1295 / Ipamorelin 2 mg/2 mg per 1mL inj', copy: true },
-        { field: 'Name', val: 'PREMIER – CJC/Ipam 100 mcg/100 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - CJC/Ipam 100 mcg/100 mcg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '9', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -560,11 +560,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – CJC/Ipam 100 mcg/100 mcg SQ Inj',
+      label: 'GREENWICH - CJC/Ipam 100 mcg/100 mcg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH CJC/Ipamorelin 2mg/2mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – CJC/Ipam 100 mcg/100 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - CJC/Ipam 100 mcg/100 mcg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -583,11 +583,11 @@ var KORB_DOSING = {
   cjcipam150: {
     name: 'CJC-1295 / Ipamorelin 150mcg/150mcg',
     premier: {
-      label: 'PREMIER – CJC/Ipam 150 mcg/150 mcg SQ Inj',
+      label: 'PREMIER - CJC/Ipam 150 mcg/150 mcg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'CJC-1295 / Ipamorelin 2 mg/2 mg per 1mL inj', copy: true },
-        { field: 'Name', val: 'PREMIER – CJC/Ipam 150 mcg/150 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - CJC/Ipam 150 mcg/150 mcg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '9', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -598,11 +598,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – CJC/Ipam 150 mcg/150 mcg SQ Inj',
+      label: 'GREENWICH - CJC/Ipam 150 mcg/150 mcg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH CJC/Ipamorelin 2mg/2mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – CJC/Ipam 150 mcg/150 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - CJC/Ipam 150 mcg/150 mcg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -621,11 +621,11 @@ var KORB_DOSING = {
   cjcipam200: {
     name: 'CJC-1295 / Ipamorelin 200mcg/200mcg',
     premier: {
-      label: 'PREMIER – CJC/Ipam 200 mcg/200 mcg SQ Inj',
+      label: 'PREMIER - CJC/Ipam 200 mcg/200 mcg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'CJC-1295 / Ipamorelin 2 mg/2 mg per 1mL inj', copy: true },
-        { field: 'Name', val: 'PREMIER – CJC/Ipam 200 mcg/200 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - CJC/Ipam 200 mcg/200 mcg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '9', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -636,11 +636,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – CJC/Ipam 200 mcg/200 mcg SQ Inj',
+      label: 'GREENWICH - CJC/Ipam 200 mcg/200 mcg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH CJC/Ipamorelin 2mg/2mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – CJC/Ipam 200 mcg/200 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - CJC/Ipam 200 mcg/200 mcg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '15', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -659,11 +659,11 @@ var KORB_DOSING = {
   ghkcu: {
     name: 'GHK-Cu',
     premier: {
-      label: 'PREMIER – GHK-Cu 2 mg SQ Inj',
+      label: 'PREMIER - GHK-Cu 2 mg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'GHK-Cu 10 mg/ml inj', copy: true },
-        { field: 'Name', val: 'PREMIER – GHK-Cu 2 mg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - GHK-Cu 2 mg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '6', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -674,11 +674,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – GHK-Cu 2mg SQ Inj',
+      label: 'GREENWICH - GHK-Cu 2mg SQ Inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH GHK-Cu 10mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – GHK-Cu 2mg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - GHK-Cu 2mg SQ Inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '5', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -709,11 +709,11 @@ var KORB_DOSING = {
   tesamorelin1mg: {
     name: 'Tesamorelin 1mg',
     premier: {
-      label: 'PREMIER – Tesamorelin SQ 1 mg inj',
+      label: 'PREMIER - Tesamorelin SQ 1 mg inj',
       fields: [
         { field: 'Drug Formulation', val: 'Tesamorelin inj 5 mg/ml', copy: true },
-        { field: 'Name', val: 'PREMIER – Tesamorelin SQ 1 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - Tesamorelin SQ 1 mg inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '18', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -724,11 +724,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Tesamorelin SQ 1 mg inj',
+      label: 'GREENWICH - Tesamorelin SQ 1 mg inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH Tesamorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Tesamorelin SQ 1 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - Tesamorelin SQ 1 mg inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '30', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -747,11 +747,11 @@ var KORB_DOSING = {
   tesamorelin15mg: {
     name: 'Tesamorelin 1.5mg',
     premier: {
-      label: 'PREMIER – Tesamorelin SQ 1.5 mg inj',
+      label: 'PREMIER - Tesamorelin SQ 1.5 mg inj',
       fields: [
         { field: 'Drug Formulation', val: 'Tesamorelin inj 5 mg/ml', copy: true },
-        { field: 'Name', val: 'PREMIER – Tesamorelin SQ 1.5 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - Tesamorelin SQ 1.5 mg inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '27', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -762,11 +762,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Tesamorelin SQ 1.5 mg inj',
+      label: 'GREENWICH - Tesamorelin SQ 1.5 mg inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH Tesamorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Tesamorelin SQ 1.5 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - Tesamorelin SQ 1.5 mg inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '45', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -785,11 +785,11 @@ var KORB_DOSING = {
   tesamorelin2mg: {
     name: 'Tesamorelin 2mg',
     premier: {
-      label: 'PREMIER – Tesamorelin SQ 2 mg inj',
+      label: 'PREMIER - Tesamorelin SQ 2 mg inj',
       fields: [
         { field: 'Drug Formulation', val: 'Tesamorelin inj 5 mg/ml', copy: true },
-        { field: 'Name', val: 'PREMIER – Tesamorelin SQ 2 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'PREMIER - Tesamorelin SQ 2 mg inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '36', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
@@ -800,11 +800,11 @@ var KORB_DOSING = {
       ]
     },
     greenwich: {
-      label: 'GREENWICH – Tesamorelin SQ 2 mg inj',
+      label: 'GREENWICH - Tesamorelin SQ 2 mg inj',
       fields: [
         { field: 'Drug Formulation', val: 'KBH Tesamorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH – Tesamorelin SQ 2 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes — select Allow Substitution', copy: false },
+        { field: 'Name', val: 'GREENWICH - Tesamorelin SQ 2 mg inj', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: '60', copy: true },
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },

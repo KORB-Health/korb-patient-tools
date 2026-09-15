@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.19',
+    version: '2.20',
     created: '2026-08-06',
     lastUpdated: '2026-09-13',
     owner: 'Director of Clinical Operations',
@@ -1837,7 +1837,7 @@ var KORB_GLP1 = {
           vials4: '0.6 ml', vials8: '0.6 ml x 2',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Semaglutide 0.3 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Semaglutide 0.3 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 0.6,
             unit: 'ml',
@@ -1848,7 +1848,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Semaglutide 0.3 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Semaglutide 0.3 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 1.2,
             unit: 'ml',
@@ -1864,7 +1864,7 @@ var KORB_GLP1 = {
           vials4: '1 ml', vials8: '1 ml x 2',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Semaglutide 0.6 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Semaglutide 0.6 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
@@ -1875,7 +1875,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Semaglutide 0.6 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Semaglutide 0.6 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -1891,7 +1891,7 @@ var KORB_GLP1 = {
           vials4: '0.6 ml x 1 & 1 ml x 1', vials8: '0.6 ml x 2 & 1 ml x 2',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Semaglutide 1.2 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Semaglutide 1.2 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1.6,
             unit: 'ml',
@@ -1902,7 +1902,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Semaglutide 1.2 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Semaglutide 1.2 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 3.2,
             unit: 'ml',
@@ -1918,7 +1918,7 @@ var KORB_GLP1 = {
           vials4: '2.4 ml', vials8: '2.4 ml x 2',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Semaglutide 1.8 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Semaglutide 1.8 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2.4,
             unit: 'ml',
@@ -1929,7 +1929,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Semaglutide 1.8 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Semaglutide 1.8 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4.8,
             unit: 'ml',
@@ -1945,7 +1945,7 @@ var KORB_GLP1 = {
           vials4: '3.6 ml', vials8: '3.6 ml x 2',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Semaglutide 2.7 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Semaglutide 2.7 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 3.6,
             unit: 'ml',
@@ -1956,7 +1956,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Semaglutide 2.7 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Semaglutide 2.7 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 7.2,
             unit: 'ml',
@@ -1994,24 +1994,24 @@ var KORB_GLP1 = {
           vials4: '1 ml vial', vials8: '1 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 0.3 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 0.3 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'GLYCINE - INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 0.3 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 0.3 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'Maintenance - GLYCINE - INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2021,24 +2021,24 @@ var KORB_GLP1 = {
           vials4: '1 ml vial', vials8: '1 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 0.6 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 0.6 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'GLYCINE - INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 0.6 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 0.6 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'Maintenance - GLYCINE - INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2048,24 +2048,24 @@ var KORB_GLP1 = {
           vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 1.2 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 1.2 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'GLYCINE - INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 1.2 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 1.2 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'Maintenance - GLYCINE - INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2075,24 +2075,24 @@ var KORB_GLP1 = {
           vials4: '1 ml x 3 vials', vials8: '1 ml x 5 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 1.8 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 1.8 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 3,
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'GLYCINE - INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 1.8 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 1.8 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 5,
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'Maintenance - GLYCINE - INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2102,24 +2102,24 @@ var KORB_GLP1 = {
           vials4: '1 ml x 4 vials', vials8: '1 ml x 8 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 2.7 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 2.7 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
             refill: 0,
             days: 28,
-            ptInstructions: 'GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'GLYCINE - INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Glycine Semaglutide 2.7 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Glycine Semaglutide 2.7 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 8,
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'Maintenance \u2013 GLYCINE \u2013 INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            ptInstructions: 'Maintenance - GLYCINE - INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2147,7 +2147,7 @@ var KORB_GLP1 = {
           vials4: '0.6 ml', vials8: '0.6 ml x 2',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Tirzepatide 2 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Tirzepatide 2 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 0.6,
             unit: 'ml',
@@ -2158,7 +2158,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Tirzepatide 2 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Tirzepatide 2 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 1.2,
             unit: 'ml',
@@ -2174,7 +2174,7 @@ var KORB_GLP1 = {
           vials4: '1 ml', vials8: '1 ml x 2',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Tirzepatide 4 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Tirzepatide 4 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
@@ -2185,7 +2185,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Tirzepatide 4 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Tirzepatide 4 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -2201,7 +2201,7 @@ var KORB_GLP1 = {
           vials4: '0.6 ml & 1 ml', vials8: '0.6 ml x 2 & 1 ml x 2',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Tirzepatide 6.5 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Tirzepatide 6.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1.6,
             unit: 'ml',
@@ -2212,7 +2212,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Tirzepatide 6.5 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Tirzepatide 6.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 3.2,
             unit: 'ml',
@@ -2228,7 +2228,7 @@ var KORB_GLP1 = {
           vials4: '2 ml', vials8: '2 ml x 2',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Tirzepatide 8.5 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Tirzepatide 8.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -2239,7 +2239,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Tirzepatide 8.5 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Tirzepatide 8.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -2255,7 +2255,7 @@ var KORB_GLP1 = {
           vials4: '1 ml & 2 ml', vials8: '2 ml x 3',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Tirzepatide 13.5 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Tirzepatide 13.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 3,
             unit: 'ml',
@@ -2266,7 +2266,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Tirzepatide 13.5 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Tirzepatide 13.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 6,
             unit: 'ml',
@@ -2282,7 +2282,7 @@ var KORB_GLP1 = {
           vials4: '3.6 ml', vials8: '3.6 ml x 2',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
-            name: 'PREMIER \u2013 Tirzepatide 16 mg \u2013 4-Week Supply',
+            name: 'PREMIER - Tirzepatide 16 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 3.6,
             unit: 'ml',
@@ -2293,7 +2293,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           },
           supply8: {
-            name: 'PREMIER \u2013 Tirzepatide 16 mg \u2013 8-Week Supply',
+            name: 'PREMIER - Tirzepatide 16 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 7.2,
             unit: 'ml',
@@ -2331,7 +2331,7 @@ var KORB_GLP1 = {
           vials4: '1 ml x 1 vial', vials8: '1 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Semaglutide 0.25 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Semaglutide 0.25 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
@@ -2351,7 +2351,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Semaglutide 0.25 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Semaglutide 0.25 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -2381,7 +2381,7 @@ var KORB_GLP1 = {
           vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Semaglutide 0.5 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Semaglutide 0.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -2401,7 +2401,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Semaglutide 0.5 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Semaglutide 0.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -2431,7 +2431,7 @@ var KORB_GLP1 = {
           vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Semaglutide 1.0 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Semaglutide 1.0 mg - 4-Week Supply',
             flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 5,
@@ -2452,7 +2452,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Semaglutide 1.0 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Semaglutide 1.0 mg - 8-Week Supply',
             flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 10,
@@ -2483,7 +2483,7 @@ var KORB_GLP1 = {
           vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 2.5mg/1mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Semaglutide 1.7 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Semaglutide 1.7 mg - 4-Week Supply',
             flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 5,
@@ -2504,7 +2504,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Semaglutide 1.7 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Semaglutide 1.7 mg - 8-Week Supply',
             flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 10,
@@ -2538,7 +2538,7 @@ var KORB_GLP1 = {
           vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 2.5mg/1mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Semaglutide 2.4 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Semaglutide 2.4 mg - 4-Week Supply',
             flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 5,
@@ -2559,7 +2559,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Semaglutide 2.4 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Semaglutide 2.4 mg - 8-Week Supply',
             flag: 'BELMAR-SEMA-VIAL-OVERSIZE',
             allowSubstitution: true,
             quantity: 10,
@@ -2613,7 +2613,7 @@ var KORB_GLP1 = {
           vials4: '1 ml x 1 vial', vials8: '1 ml x 2 vials',
           drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Tirzepatide 2.5 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Tirzepatide 2.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
@@ -2633,7 +2633,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Tirzepatide 2.5 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Tirzepatide 2.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -2662,7 +2662,7 @@ var KORB_GLP1 = {
           vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
           drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Tirzepatide 5 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Tirzepatide 5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -2682,7 +2682,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Tirzepatide 5 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Tirzepatide 5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -2711,7 +2711,7 @@ var KORB_GLP1 = {
           vials4: '1 ml x 3 vials', vials8: '1 ml x 6 vials',
           drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Tirzepatide 7.5 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Tirzepatide 7.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 3,
             unit: 'ml',
@@ -2731,7 +2731,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Tirzepatide 7.5 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Tirzepatide 7.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 6,
             unit: 'ml',
@@ -2763,7 +2763,7 @@ var KORB_GLP1 = {
           vials4: '4 ml x 1 vial', vials8: '4 ml x 2 vials',
           drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Tirzepatide 10 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Tirzepatide 10 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -2783,7 +2783,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Tirzepatide 10 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Tirzepatide 10 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 8,
             unit: 'ml',
@@ -2812,7 +2812,7 @@ var KORB_GLP1 = {
           vials4: '1 ml x 1 vial & 4 ml x 1 vial', vials8: '4 ml x 2 vials & 1 ml x 2 vials',
           drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Tirzepatide 12.5 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Tirzepatide 12.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 5,
             unit: 'ml',
@@ -2832,7 +2832,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Tirzepatide 12.5 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Tirzepatide 12.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 10,
             unit: 'ml',
@@ -2864,7 +2864,7 @@ var KORB_GLP1 = {
           vials4: '1 ml x 2 vials & 4 ml x 1 vial', vials8: '4 ml x 3 vials',
           drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
-            name: 'BELMAR \u2013 Tirzepatide 15 mg \u2013 4-Week Supply',
+            name: 'BELMAR - Tirzepatide 15 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 6,
             unit: 'ml',
@@ -2884,7 +2884,7 @@ var KORB_GLP1 = {
             },
           },
           supply8: {
-            name: 'BELMAR \u2013 Tirzepatide 15 mg \u2013 8-Week Supply',
+            name: 'BELMAR - Tirzepatide 15 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 12,
             unit: 'ml',
@@ -2935,7 +2935,7 @@ var KORB_GLP1 = {
           vials4: '1 ml', vials8: '1 ml x 2',
           drugFormulation: 'Semaglutide/B-6 2.5mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Semaglutide 0.25 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 0.25 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
@@ -2946,7 +2946,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Semaglutide 0.25 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 0.25 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -2962,7 +2962,7 @@ var KORB_GLP1 = {
           vials4: '1 ml', vials8: '1 ml x 2',
           drugFormulation: 'Semaglutide/B-6 2.5mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Semaglutide 0.5 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 0.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
@@ -2973,7 +2973,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Semaglutide 0.5 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 0.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -2989,7 +2989,7 @@ var KORB_GLP1 = {
           vials4: '2 ml', vials8: '2 ml x 2',
           drugFormulation: 'Semaglutide/B-6 2.5mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Semaglutide 1.0 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 1.0 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3000,7 +3000,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Semaglutide 1.0 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 1.0 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3016,7 +3016,7 @@ var KORB_GLP1 = {
           vials4: '3 ml', vials8: '3 ml x 2',
           drugFormulation: 'Semaglutide/B-6 2.5mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Semaglutide 1.7 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 1.7 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 3,
             unit: 'ml',
@@ -3027,7 +3027,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Semaglutide 1.7 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 1.7 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 6,
             unit: 'ml',
@@ -3043,7 +3043,7 @@ var KORB_GLP1 = {
           vials4: '4 ml', vials8: '4 ml x 2',
           drugFormulation: 'Semaglutide/B-6 2.5mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Semaglutide 2.5 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 2.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3054,7 +3054,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Semaglutide 2.5 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Semaglutide 2.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 8,
             unit: 'ml',
@@ -3089,7 +3089,7 @@ var KORB_GLP1 = {
           vials4: '1 ml', vials8: '1 ml x 2',
           drugFormulation: 'Tirzepatide/B-6 18mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 2.5 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 2.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
@@ -3100,7 +3100,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 2.5 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 2.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3116,7 +3116,7 @@ var KORB_GLP1 = {
           vials4: '1 ml', vials8: '1 ml x 2',
           drugFormulation: 'Tirzepatide/B-6 18mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 4.5 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 4.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 1,
             unit: 'ml',
@@ -3127,7 +3127,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 4.5 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 4.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3143,7 +3143,7 @@ var KORB_GLP1 = {
           vials4: '2 ml', vials8: '2 ml x 2',
           drugFormulation: 'Tirzepatide/B-6 18mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 7.5 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 7.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3154,7 +3154,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 7.5 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 7.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3170,7 +3170,7 @@ var KORB_GLP1 = {
           vials4: '2 ml', vials8: '2 ml x 2',
           drugFormulation: 'Tirzepatide/B-6 18mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 9 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 9 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3181,7 +3181,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 9 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 9 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3197,7 +3197,7 @@ var KORB_GLP1 = {
           vials4: '3 ml', vials8: '3 ml x 2',
           drugFormulation: 'Tirzepatide/B-6 18mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 13.5 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 13.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 3,
             unit: 'ml',
@@ -3208,7 +3208,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 13.5 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 13.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 6,
             unit: 'ml',
@@ -3224,7 +3224,7 @@ var KORB_GLP1 = {
           vials4: '4 ml', vials8: '4 ml x 2',
           drugFormulation: 'Tirzepatide/B-6 18mg/25mg per mL Home Kit',
           supply4: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 15 mg \u2013 4-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 15 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3235,7 +3235,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
           },
           supply8: {
-            name: 'FARMAKEIO \u2013 Tirzepatide 15 mg \u2013 8-Week Supply',
+            name: 'FARMAKEIO - Tirzepatide 15 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 8,
             unit: 'ml',
@@ -3276,7 +3276,7 @@ var KORB_GLP1 = {
           vials4: '2 ml vial', vials8: '2 ml x 2 vials',
           drugFormulation: 'KBH    Tirzepatide + B12 Injection 5mg/0.5mg/mL',
           supply4: {
-            name: 'GREENWICH \u2013 Tirzepatide 2.5 mg \u2013 4-Week Supply',
+            name: 'GREENWICH - Tirzepatide 2.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3287,7 +3287,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
           supply8: {
-            name: 'GREENWICH \u2013 Tirzepatide 2.5 mg \u2013 8-Week Supply',
+            name: 'GREENWICH - Tirzepatide 2.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3304,7 +3304,7 @@ var KORB_GLP1 = {
           vials4: '2 ml vial', vials8: '2 ml x 2 vials',
           drugFormulation: 'KBH    Tirzepatide + B12 Injection 10mg/0.5mg/mL',
           supply4: {
-            name: 'GREENWICH \u2013 Tirzepatide 5 mg \u2013 4-Week Supply',
+            name: 'GREENWICH - Tirzepatide 5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3315,7 +3315,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
           supply8: {
-            name: 'GREENWICH \u2013 Tirzepatide 5 mg \u2013 8-Week Supply',
+            name: 'GREENWICH - Tirzepatide 5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3332,7 +3332,7 @@ var KORB_GLP1 = {
           vials4: '2 ml vial', vials8: '2 ml x 2 vials',
           drugFormulation: 'KBH    Tirzepatide + B12 Injection 15mg/0.5mg/mL',
           supply4: {
-            name: 'GREENWICH \u2013 Tirzepatide 7.5 mg \u2013 4-Week Supply',
+            name: 'GREENWICH - Tirzepatide 7.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3343,7 +3343,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
           supply8: {
-            name: 'GREENWICH \u2013 Tirzepatide 7.5 mg \u2013 8-Week Supply',
+            name: 'GREENWICH - Tirzepatide 7.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3360,7 +3360,7 @@ var KORB_GLP1 = {
           vials4: '2 ml vial', vials8: '2 ml x 2 vials',
           drugFormulation: 'KBH    Tirzepatide + B12 Injection 20mg/0.5mg/mL',
           supply4: {
-            name: 'GREENWICH \u2013 Tirzepatide 10 mg \u2013 4-Week Supply',
+            name: 'GREENWICH - Tirzepatide 10 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3371,7 +3371,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
           supply8: {
-            name: 'GREENWICH \u2013 Tirzepatide 10 mg \u2013 8-Week Supply',
+            name: 'GREENWICH - Tirzepatide 10 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3388,7 +3388,7 @@ var KORB_GLP1 = {
           vials4: '2 ml vial', vials8: '2 ml x 2 vials',
           drugFormulation: 'KBH    Tirzepatide + B12 Injection 25mg/0.5mg/mL',
           supply4: {
-            name: 'GREENWICH \u2013 Tirzepatide 12.5 mg \u2013 4-Week Supply',
+            name: 'GREENWICH - Tirzepatide 12.5 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3399,7 +3399,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
           supply8: {
-            name: 'GREENWICH \u2013 Tirzepatide 12.5 mg \u2013 8-Week Supply',
+            name: 'GREENWICH - Tirzepatide 12.5 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3416,7 +3416,7 @@ var KORB_GLP1 = {
           vials4: '2 ml vial', vials8: '2 ml x 2 vials',
           drugFormulation: 'KBH    Tirzepatide + B12 Injection 30mg/0.5mg/mL',
           supply4: {
-            name: 'GREENWICH \u2013 Tirzepatide 15 mg \u2013 4-Week Supply',
+            name: 'GREENWICH - Tirzepatide 15 mg - 4-Week Supply',
             allowSubstitution: true,
             quantity: 2,
             unit: 'ml',
@@ -3427,7 +3427,7 @@ var KORB_GLP1 = {
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
           },
           supply8: {
-            name: 'GREENWICH \u2013 Tirzepatide 15 mg \u2013 8-Week Supply',
+            name: 'GREENWICH - Tirzepatide 15 mg - 8-Week Supply',
             allowSubstitution: true,
             quantity: 4,
             unit: 'ml',
@@ -3459,7 +3459,7 @@ var KORB_GLP1 = {
           chargeCode: 'FITSemOrl90',
           drugFormulation: 'Semaglutide Oral Dot 0.5mg',
           rx: {
-            name: 'PREMIER \u2013 Oral Semaglutide 0.5 mg \u2013 90 Day Supply',
+            name: 'PREMIER - Oral Semaglutide 0.5 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -3467,7 +3467,7 @@ var KORB_GLP1 = {
             days: 90,
             ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx \u2014 no FDA-approved or commercially available equivalent.'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
           }
         },
         {
@@ -3476,7 +3476,7 @@ var KORB_GLP1 = {
           chargeCode: 'FITSemOrl180',
           drugFormulation: 'Semaglutide Oral Dot 1mg',
           rx: {
-            name: 'PREMIER \u2013 Oral Semaglutide 1 mg \u2013 90 Day Supply',
+            name: 'PREMIER - Oral Semaglutide 1 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -3484,7 +3484,7 @@ var KORB_GLP1 = {
             days: 90,
             ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx \u2014 no FDA-approved or commercially available equivalent.'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
           }
         }
       ]
@@ -3510,7 +3510,7 @@ var KORB_GLP1 = {
           chargeCode: 'FITTirOrl90',
           drugFormulation: 'Tirzepatide Oral Dot 3mg',
           rx: {
-            name: 'PREMIER \u2013 Oral Tirzepatide 3 mg \u2013 90 Day Supply',
+            name: 'PREMIER - Oral Tirzepatide 3 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -3518,7 +3518,7 @@ var KORB_GLP1 = {
             days: 90,
             ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx \u2014 no FDA-approved or commercially available equivalent.'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
           }
         },
         {
@@ -3527,7 +3527,7 @@ var KORB_GLP1 = {
           chargeCode: 'FITTirOrl180',
           drugFormulation: 'Tirzepatide Oral Dot 3mg',
           rx: {
-            name: 'PREMIER \u2013 Oral Tirzepatide 6 mg \u2013 90 Day Supply',
+            name: 'PREMIER - Oral Tirzepatide 6 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 180,
             unit: 'each',
@@ -3535,7 +3535,7 @@ var KORB_GLP1 = {
             days: 90,
             ptInstructions: 'DISSOLVE 2 DOTS UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx \u2014 no FDA-approved or commercially available equivalent.'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
           }
         }
       ]
@@ -3558,7 +3558,7 @@ var KORB_GLP1 = {
           chargeCode: 'FITSemOrl90',
           drugFormulation: 'Semaglutide FastSL 1mg',
           rx: {
-            name: 'BELMAR \u2013 Oral Semaglutide 0.5 mg \u2013 90 Day Supply',
+            name: 'BELMAR - Oral Semaglutide 0.5 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 45,
             unit: 'each',
@@ -3566,7 +3566,7 @@ var KORB_GLP1 = {
             days: 90,
             ptInstructions: 'DISSOLVE 1/2 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx \u2014 no FDA-approved or commercially available equivalent.'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
           }
         },
         {
@@ -3575,7 +3575,7 @@ var KORB_GLP1 = {
           chargeCode: 'FITSemOrl180',
           drugFormulation: 'Semaglutide FastSL 1mg',
           rx: {
-            name: 'BELMAR \u2013 Oral Semaglutide 1 mg \u2013 90 Day Supply',
+            name: 'BELMAR - Oral Semaglutide 1 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -3583,7 +3583,7 @@ var KORB_GLP1 = {
             days: 90,
             ptInstructions: 'DISSOLVE 1 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx \u2014 no FDA-approved or commercially available equivalent.'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
           }
         }
       ]
@@ -3607,7 +3607,7 @@ var KORB_GLP1 = {
           chargeCode: 'FITSemOrl90', price: 299,
           drugFormulation: 'Semaglutide Oral RDT 0.5mg',
           rx: {
-            name: 'FARMAKEIO \u2013 Oral Semaglutide 0.5 mg \u2013 90 Day Supply',
+            name: 'FARMAKEIO - Oral Semaglutide 0.5 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -3615,7 +3615,7 @@ var KORB_GLP1 = {
             days: 90,
             ptInstructions: 'DISSOLVE 1 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx \u2014 no FDA-approved or commercially available equivalent.'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
           }
         },
         {
@@ -3624,7 +3624,7 @@ var KORB_GLP1 = {
           chargeCode: 'FITSemOrl180', price: 399,
           drugFormulation: 'Semaglutide Oral RDT 1mg',
           rx: {
-            name: 'FARMAKEIO \u2013 Oral Semaglutide 1 mg \u2013 90 Day Supply',
+            name: 'FARMAKEIO - Oral Semaglutide 1 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -3632,7 +3632,7 @@ var KORB_GLP1 = {
             days: 90,
             ptInstructions: 'DISSOLVE 1 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
             reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx \u2014 no FDA-approved or commercially available equivalent.'
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
           }
         }
       ]
@@ -3685,63 +3685,63 @@ var KORB_GLP1 = {
       doses: [
         { dose: '2.5 mg', mg: 2.5, use: 'Initiation',
           rx4: { drug: 'Zepbound kwikpen 2.5 mg/0.6 ml(10 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 2.5 mg SQ 4-week',
-                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
           rx12: { drug: 'Zepbound kwikpen 2.5 mg/0.6 ml(10 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 2.5 mg SQ 12-week',
-                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 2.5 mg/0.6 ml(10 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 2.5 mg SQ 8-week',
-                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 2.5 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '5 mg', mg: 5, use: 'Titration',
           rx4: { drug: 'Zepbound kwikpen 5 mg/0.6 ml (20 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 5 mg SQ 4-week',
-                 ptInstructions: 'Inject 5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
           rx12: { drug: 'Zepbound kwikpen 5 mg/0.6 ml (20 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 5 mg SQ 12-week',
-                 ptInstructions: 'Inject 5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 5 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 5 mg/0.6 ml (20 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 5 mg SQ 8-week',
-                 ptInstructions: 'Inject 5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 5 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '7.5 mg', mg: 7.5, use: 'Titration',
           rx4: { drug: 'Zepbound kwikpen 7.5 mg/0.6 ml(30 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 7.5 mg SQ 4-week',
-                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
           rx12: { drug: 'Zepbound kwikpen 7.5 mg/0.6 ml(30 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 7.5 mg SQ 12-week',
-                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 7.5 mg/0.6 ml(30 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 7.5 mg SQ 8-week',
-                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 7.5 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '10 mg', mg: 10, use: 'Advanced dose',
           rx4: { drug: 'Zepbound kwikpen 10 mg/0.6 ml (40 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 10 mg SQ 4-week',
-                 ptInstructions: 'Inject 10 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 10 mg subcutaneously once weekly for 4 weeks. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
           rx12: { drug: 'Zepbound kwikpen 10 mg/0.6 ml (40 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 10 mg SQ 12-week',
-                 ptInstructions: 'Inject 10 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 10 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 10 mg/0.6 ml (40 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 10 mg SQ 8-week',
-                 ptInstructions: 'Inject 10 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 10 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '12.5 mg', mg: 12.5, use: 'Advanced dose',
           rx4: { drug: 'Zepbound kwikpen 12.5 mg/0.6 ml (50 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 12.5 mg SQ 4-week',
-                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly for 4 weeks. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
           rx12: { drug: 'Zepbound kwikpen 12.5 mg/0.6 ml (50 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 12.5 mg SQ 12-week',
-                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 12.5 mg/0.6 ml (50 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 12.5 mg SQ 8-week',
-                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 12.5 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } },
         { dose: '15 mg', mg: 15, use: 'Maintenance / maximum dose',
           rx4: { drug: 'Zepbound kwikpen 15 mg/0.6 ml (60 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 15 mg SQ 4-week',
-                 ptInstructions: 'Inject 15 mg subcutaneously once weekly for 4 weeks. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 15 mg subcutaneously once weekly for 4 weeks. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 0, days: 28 },
           rx12: { drug: 'Zepbound kwikpen 15 mg/0.6 ml (60 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 15 mg SQ 12-week',
-                 ptInstructions: 'Inject 15 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 15 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 2, days: 28 },
           rx8: { drug: 'Zepbound kwikpen 15 mg/0.6 ml (60 mg/2.4 ml) subcutaneous pen injector', label: 'Zepbound 15 mg SQ 8-week',
-                 ptInstructions: 'Inject 15 mg subcutaneously once weekly. Multi-dose pen \u2014 discard after 4 doses.',
+                 ptInstructions: 'Inject 15 mg subcutaneously once weekly. Multi-dose pen - discard after 4 doses.',
                  quantity: 1, refill: 1, days: 28 } }
       ],
       prescribingNotes: [

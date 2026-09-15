@@ -76,7 +76,7 @@
 
 var KORB_ADDONS = {
   meta: {
-    version: "1.5",
+    version: "1.6",
     created: "2026-09-11",
     updated: "2026-09-15",
     /* Sign-off provenance lives HERE, not inside a display string. On
@@ -134,7 +134,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "metFORMIN ER 500 mg tablet, extended release 24 hr (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO – Metformin ER 500 mg – 90-Day Supply",
+      "name": "FARMAKEIO - Metformin ER 500 mg - 90-Day Supply",
       "sig": "TAKE ONE TAB PO QD",
       "quantity": "90",
       "unit": "tablet",
@@ -170,7 +170,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Nicotinamide (with chromium) 500 mcg-750 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO – NAD+ Injection – 28-Day Supply",
+      "name": "FARMAKEIO - NAD+ Injection - 28-Day Supply",
       "sig": "Injectable 50 mg subcutaneously twice a week, discard unused medication 28 days after first puncture",
       "quantity": "1",
       "unit": "vial",
@@ -201,7 +201,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "metFORMIN ER 500 mg tablet, extended release 24 hr (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – Metformin ER 500 mg – 90-Day Supply",
+      "name": "PREMIER - Metformin ER 500 mg - 90-Day Supply",
       "sig": "TAKE ONE TAB PO QD",
       "quantity": "90",
       "unit": "tablet",
@@ -237,7 +237,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Nicotinamide (with chromium) 500 mcg-750 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – NAD+ Injection – 28-Day Supply",
+      "name": "PREMIER - NAD+ Injection - 28-Day Supply",
       "sig": "Injectable 50 mg subcutaneously twice a week, discard unused medication 28 days after first puncture",
       "quantity": "1",
       "unit": "vial",
@@ -268,7 +268,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Spironolactone 50mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO – Spironolactone 50 mg – 90-Day Supply",
+      "name": "FARMAKEIO - Spironolactone 50 mg - 90-Day Supply",
       "sig": "Take one tablet daily for hair loss",
       "quantity": "90",
       "unit": "tablet",
@@ -299,7 +299,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Hair Regrowth Treatment 2 % topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO – Minoxidil 2% Topical Spray – 60-Day Supply",
+      "name": "FARMAKEIO - Minoxidil 2% Topical Spray - 60-Day Supply",
       "sig": "Apply 1-2 sprays topically once daily to dry hair, leave on for at least 4 hours or overnight",
       "quantity": "1",
       "unit": "bottle",
@@ -330,7 +330,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "finasteride 1mg (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO – Finasteride 1 mg – 90-Day Supply",
+      "name": "FARMAKEIO - Finasteride 1 mg - 90-Day Supply",
       "sig": "Take one tablet daily for hair loss",
       "quantity": "90",
       "unit": "tablet",
@@ -361,7 +361,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Hair Regrowth Treatment 5 % topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO – Minoxidil 6% Topical Spray – 60-Day Supply",
+      "name": "FARMAKEIO - Minoxidil 6% Topical Spray - 60-Day Supply",
       "sig": "Apply 1-2 sprays topically once daily to dry hair, leave on for at least 4 hours or overnight",
       "quantity": "1",
       "unit": "bottle",
@@ -392,7 +392,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Spironolactone 50mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – Spironolactone 50 mg – 90-Day Supply",
+      "name": "PREMIER - Spironolactone 50 mg - 90-Day Supply",
       "sig": "Take one tablet daily for hair loss",
       "quantity": "90",
       "unit": "tablet",
@@ -423,7 +423,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "MinoxidiL 2% topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – Minoxidil 2% Topical Foam – 42-Day Supply",
+      "name": "PREMIER - Minoxidil 2% Topical Foam - 42-Day Supply",
       "sig": "Apply 1-2 pumps topically to dry hair once daily",
       "quantity": "1",
       "unit": "bottle",
@@ -454,7 +454,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "finasteride 1mg (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – Finasteride 1 mg – 90-Day Supply",
+      "name": "PREMIER - Finasteride 1 mg - 90-Day Supply",
       "sig": "Take one tablet daily for hair loss",
       "quantity": "90",
       "unit": "tablet",
@@ -485,7 +485,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "minoxidiL 5% topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – Minoxidil 6% Topical Foam – 42-Day Supply",
+      "name": "PREMIER - Minoxidil 6% Topical Foam - 42-Day Supply",
       "sig": "Apply 1-2 pumps topically to dry hair once daily",
       "quantity": "1",
       "unit": "bottle",
@@ -516,7 +516,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "vaginal lubricant inserts (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO – KORB Electric Topical – 90-Day Supply",
+      "name": "FARMAKEIO - KORB Electric Topical - 90-Day Supply",
       "sig": "KORB ELECTRIC Apply 1-2 clicks topically to the clitoris 30 minutes before a sexual encounter",
       "quantity": "1",
       "unit": "bottle",
@@ -547,8 +547,8 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Viagra 50 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO – PERFORM Rapid ODT – 90-Day Supply",
-      "sig": "PERFORM Rapid ODT: Take ½ - 1 ODT 30 minutes before intercourse as needed",
+      "name": "FARMAKEIO - PERFORM Rapid ODT - 90-Day Supply",
+      "sig": "PERFORM Rapid ODT: Take 1/2 - 1 ODT 30 minutes before intercourse as needed",
       "quantity": "20",
       "unit": "tablet",
       "refill": "0",
@@ -578,7 +578,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "vaginal lubricant inserts (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – KORB Electric Topical – 90-Day Supply",
+      "name": "PREMIER - KORB Electric Topical - 90-Day Supply",
       "sig": "KORB ELECTRIC Apply 1-2 clicks topically to the clitoris 30 minutes before a sexual encounter",
       "quantity": "1",
       "unit": "bottle",
@@ -609,8 +609,8 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Viagra 50 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – KORB Rise Troche – 90-Day Supply",
-      "sig": "KORB RISE Take ½ - 1 troche 30 minutes before intercourse as needed",
+      "name": "PREMIER - KORB Rise Troche - 90-Day Supply",
+      "sig": "KORB RISE Take 1/2 - 1 troche 30 minutes before intercourse as needed",
       "quantity": "20",
       "unit": "troche",
       "refill": "0",
@@ -640,7 +640,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "estradioL 0.25 mg/0.25 gram (0.1 %) transdermal gel packet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – Estriol Combo Cream – 120-Day Supply",
+      "name": "PREMIER - Estriol Combo Cream - 120-Day Supply",
       "sig": "Apply (1 click/0.25 ml/0.25 g) to the affected area once daily as directed",
       "quantity": "1",
       "unit": "bottle",
@@ -671,7 +671,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "estradioL 0.75 mg/0.75 gram (0.1%) transdermal gel packet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – Estriol Cream 0.3% – 120-Day Supply",
+      "name": "PREMIER - Estriol Cream 0.3% - 120-Day Supply",
       "sig": "Apply (1 click/0.25 ml/0.25 g, containing estriol 0.075%) to the affected external area once daily as directed",
       "quantity": "1",
       "unit": "bottle",
@@ -711,7 +711,7 @@ var KORB_ADDONS = {
     "tebraAlso": [
       {
         "drugFormulation": "Tretinoin 0.05% topical cream, 20 g tube",
-        "name": "PREMIER – Tretinoin Cream 0.05% – 80-Day Supply",
+        "name": "PREMIER - Tretinoin Cream 0.05% - 80-Day Supply",
         "sig": "Apply a pea-sized amount daily as needed",
         "quantity": "1",
         "unit": "tube",
@@ -722,7 +722,7 @@ var KORB_ADDONS = {
       },
       {
         "drugFormulation": "Tretinoin 0.1% topical cream, 20 g tube",
-        "name": "PREMIER – Tretinoin Cream 0.1% – 80-Day Supply",
+        "name": "PREMIER - Tretinoin Cream 0.1% - 80-Day Supply",
         "sig": "Apply a pea-sized amount daily as needed",
         "quantity": "1",
         "unit": "tube",
@@ -735,7 +735,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "tretinoin 0.025 % topical cream (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – Tretinoin Cream 0.025% – 80-Day Supply",
+      "name": "PREMIER - Tretinoin Cream 0.025% - 80-Day Supply",
       "sig": "Apply a pea-sized amount daily as needed",
       "quantity": "1",
       "unit": "tube",
@@ -767,7 +767,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": null,
     "needsSignoff": true,
     "tebra": {
-      "name": "BELMAR – PT-141 Nasal Spray – 28-Day Supply",
+      "name": "BELMAR - PT-141 Nasal Spray - 28-Day Supply",
       "sig": "One spray in each nostril 1 to 2 hours before intercourse as needed",
       "quantity": "1",
       "unit": "bottle",
@@ -799,7 +799,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": null,
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER – PT-141 Injection – 28-Day Supply",
+      "name": "PREMIER - PT-141 Injection - 28-Day Supply",
       "sig": "Inject 1 to 2 mg subcutaneously about 2 hours before intercourse as needed",
       "quantity": "1",
       "unit": "vial",
@@ -830,7 +830,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": null,
     "needsSignoff": true,
     "tebra": {
-      "name": "BELMAR – NAD+ Nasal Spray – 28-Day Supply",
+      "name": "BELMAR - NAD+ Nasal Spray - 28-Day Supply",
       "sig": "Start 1 spray in each nostril once daily. May increase to 2 sprays in each nostril once daily.",
       "quantity": "1",
       "unit": "bottle",
@@ -861,8 +861,8 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": null,
     "needsSignoff": true,
     "tebra": {
-      "name": "BELMAR – NAD+ FastSL Sublingual – 28-Day Supply",
-      "sig": "Dissolve ½ to 1 tablet under the tongue each morning Monday to Friday. No dose at weekends.",
+      "name": "BELMAR - NAD+ FastSL Sublingual - 28-Day Supply",
+      "sig": "Dissolve 1/2 to 1 tablet under the tongue each morning Monday to Friday. No dose at weekends.",
       "quantity": "20",
       "unit": "tablet",
       "refill": "0",
