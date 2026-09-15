@@ -731,6 +731,108 @@ var KORB_PHARMACIES = {
       problems.forEach(function (p) { console.warn("  - " + p); }); }
     else console.log("KORB_PHARMACIES.selfCheck passed.");
     return problems;
+  },
+
+  /* --------------------------------------------------------------------------
+     CROSS-FILE CHECK — open item 2.
+
+     selfCheck() above validates this file against itself, which is exactly how
+     the Greenwich drift went unnoticed for two days: both files were internally
+     consistent and said different things. This one compares the shared layer
+     against the program files that still carry their own copy of the same facts.
+
+     Pass the program data in rather than loading it, so this works unchanged in
+     a browser and in a builder:
+
+       KORB_PHARMACIES.crossCheck({ glp1: KORB_GLP1, dosing: KORB_DOSING })
+
+     Every argument is optional. A file that is not passed is not checked, and
+     the result says so rather than counting as agreement — a check that scores
+     an absent file as a pass is the "green light earned by not looking" this
+     repo keeps re-learning.
+     -------------------------------------------------------------------------- */
+  crossCheck: function (sources) {
+    var problems = [], checked = [], self = this;
+    sources = sources || {};
+
+    function setEq(a, b) {
+      a = a || []; b = b || [];
+      if (a.length !== b.length) return false;
+      for (var i = 0; i < a.length; i++) if (b.indexOf(a[i]) < 0) return false;
+      return true;
+    }
+    function only(a, b) {
+      return (a || []).filter(function (x) { return (b || []).indexOf(x) < 0; }).sort();
+    }
+
+    /* 1. A program file that carries its own pharmacy block must agree with
+          this one, field by field. */
+    if (sources.glp1 && sources.glp1.pharmacies) {
+      checked.push("korb-glp1-data.js");
+      Object.keys(sources.glp1.pharmacies).forEach(function (k) {
+        var mine = self.pharmacies[k], theirs = sources.glp1.pharmacies[k];
+        if (!mine) {
+          problems.push('korb-glp1-data.js describes pharmacy "' + k + '" which this file does not have');
+          return;
+        }
+        ["shipsTo", "hardExcludes", "preferredStates"].forEach(function (f) {
+          if (mine[f] === undefined && theirs[f] === undefined) return;
+          if (setEq(mine[f], theirs[f])) return;
+          problems.push(k + "." + f + ": this file has " + (mine[f] || []).length +
+            ", korb-glp1-data.js has " + (theirs[f] || []).length +
+            (only(mine[f], theirs[f]).length ? " | only here: " + only(mine[f], theirs[f]).join(",") : "") +
+            (only(theirs[f], mine[f]).length ? " | only there: " + only(theirs[f], mine[f]).join(",") : ""));
+        });
+        if (theirs.status && mine.status !== theirs.status) {
+          problems.push(k + '.status: this file says "' + mine.status +
+            '", korb-glp1-data.js says "' + theirs.status + '"');
+        }
+      });
+    }
+
+    /* 2. A pharmacy this file calls peptides-only must not be offering a live
+          GLP-1 product. A record kept for history is marked retired and does
+          not count. */
+    if (sources.glp1 && sources.glp1.products) {
+      Object.keys(sources.glp1.products).forEach(function (k) {
+        var pr = sources.glp1.products[k];
+        if (pr.retired || pr.status === "retired") return;
+        var ph = self.pharmacies[pr.pharmacy];
+        if (ph && ph.status === "peptides-only") {
+          problems.push(pr.pharmacy + ": status is peptides-only but korb-glp1-data.js offers live GLP-1 product " + k);
+        }
+      });
+    }
+
+    /* 3. A pharmacy named by a program file must exist here. This is the
+          direction that catches a new pharmacy added to a program and never
+          added to the shared layer. */
+    if (sources.dosing && sources.dosing.prescribing) {
+      checked.push("korb-dosing-data.js");
+      var seen = {};
+      Object.keys(sources.dosing.prescribing).forEach(function (k) {
+        var e = sources.dosing.prescribing[k];
+        Object.keys(e).forEach(function (sub) {
+          if (e[sub] && e[sub].label) seen[sub] = true;
+        });
+      });
+      Object.keys(seen).forEach(function (k) {
+        if (!self.pharmacies[k]) {
+          problems.push('korb-dosing-data.js prescribes from pharmacy "' + k + '" which this file does not have');
+        }
+      });
+    }
+
+    var absent = ["glp1", "dosing"].filter(function (k) { return !sources[k]; });
+    if (problems.length) {
+      console.warn("KORB_PHARMACIES.crossCheck found " + problems.length + " disagreement(s):");
+      problems.forEach(function (p) { console.warn("  - " + p); });
+    } else {
+      console.log("KORB_PHARMACIES.crossCheck: " + checked.length + " file(s) agree" +
+        (checked.length ? " (" + checked.join(", ") + ")" : ""));
+    }
+    if (absent.length) console.warn("  NOT CHECKED, not passed in: " + absent.join(", "));
+    return { problems: problems, checked: checked, notChecked: absent };
   }
 };
 
