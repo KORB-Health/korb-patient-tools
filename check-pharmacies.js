@@ -75,8 +75,7 @@ if (unexpected.length) {
   process.exit(1);
 }
 if (expectedSeen.length === EXPECTED.length) {
-  console.log('Only the known stale GLP-1 footprint in korb-glp1-data.js remains.');
-  console.log('No other drift. It goes with open item 3.');
+  console.log(r.problems.length ? 'Only known items remain.' : 'No drift.');
 } else {
   /* Fewer than expected is not automatically good news: it may mean the reshape
      landed, or it may mean a field stopped being compared. Say so rather than
