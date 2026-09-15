@@ -657,22 +657,12 @@ function sectionPricing(doc) {
 
   let rows = oneOffRow(base.label, base.partner, base.code);
 
-  if (p.codeByAgent) {
-    /* Foundation is one price with three charge codes, one per agent. The price
-       is stated once, above, rather than repeated on three rows saying the same
-       two numbers - what actually differs between the agents is the code. */
-    rows += '<tr class="grp"><td colspan="3">' + esc(p.label) +
-            ' — <strong>' + money(p.partner.payment) + ' / month partner</strong> or <strong>' +
-            money(p.website.payment) + ' / month website</strong>. Charge code depends on the agent:</td></tr>';
-    Object.keys(p.codeByAgent).forEach(function (fam) {
-      const label = (K.foundationAgents[fam] || {}).label || fam;
-      rows += payRow(label + ' — partner', p.partner.payment, p.codeByAgent[fam].partner);
-      rows += payRow(label + ' — website', p.website.payment, p.codeByAgent[fam].website);
-    });
-  } else {
-    rows += payRow(p.label + ' — partner', p.partner.payment, p.code.partner);
-    rows += payRow(p.label + ' — website', p.website.payment, p.code.website);
-  }
+  /* One price pair per program, one code pair per program. Foundation used to
+     branch here on codeByAgent and print three pairs of rows saying the same two
+     numbers with different codes; it now carries a single pair like Gateway and
+     Peak, so the branch is gone. */
+  rows += payRow(p.label + ' - partner', p.partner.payment, p.code.partner);
+  rows += payRow(p.label + ' - website', p.website.payment, p.code.website);
 
   if (prog.optionalAddon === 'ghkcu') {
     rows += oneOffRow(ghk.label, ghk.partner, ghk.code);

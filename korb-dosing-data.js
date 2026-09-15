@@ -89,7 +89,7 @@ var TESA_MONITOR = [
 var KORB_DOSING = {
 
   meta: {
-    version: '2.10',
+    version: '2.11',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
@@ -1079,12 +1079,18 @@ var KORB_DOSING = {
     foundation: {
       label: 'Foundation Program',
       website: { payment: 249.00, total: 996.00 }, partner: { payment: 199.00, total: 796.00 },
-      // Foundation bills per agent, not one flat program code.
-      codeByAgent: {
-        bpc157:  { website: 'FndnPeptide001', partner: 'FndnPeptideP01' },
-        sermorelin: { website: 'FndnPeptide002', partner: 'FndnPeptideP02' },
-        cjcipam: { website: 'FndnPeptide003', partner: 'FndnPeptideP03' }
-      }
+      /* ONE code pair for the whole Foundation program. Don, 2026-09-15: the
+         charge does not depend on the agent - partner $199 and website $249
+         whichever of BPC-157, Sermorelin or CJC-1295/Ipamorelin is prescribed.
+         The comment that used to sit here said "Foundation bills per agent, not
+         one flat program code", which is the opposite of the truth.
+
+         This held three pairs: 001/P01 for BPC-157, 002/P02 for Sermorelin and
+         003/P03 for CJC. Don did not recognise the BPC or CJC pairs and believes
+         they were a plan never adopted. The Sermorelin pair is the live one and
+         is what survives. Gateway and Peak already carried a single pair each,
+         so Foundation was the outlier. */
+      code: { website: 'FndnPeptide002', partner: 'FndnPeptideP02' }
     },
     gateway: {
       label: 'Gateway Program',
