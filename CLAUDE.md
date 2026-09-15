@@ -120,16 +120,24 @@ Three patterns. Know which one you are touching.
 
 **1. Live** — loads the data file in the browser. Updates on its own.
 
-| Page | Loads |
+**Every page below loads `korb-pharmacies.js` FIRST.** Since open items 3 and 4
+neither program data file types a pharmacy footprint; both fill theirs from the
+shared layer at load. A page that loads the data file without it gets an empty
+footprint, which reads as "this pharmacy ships nowhere". Both files throw by name
+instead of answering, and `node check-pages.js` fails the build. Order is not
+cosmetic — these are plain scripts assigning globals.
+
+| Page | Loads, in this order |
 |---|---|
-| `KORB_GLP1_Provider_Reference.html` | `korb-glp1-data.js` |
-| `KORB_GLP1_Patient_Message_Builder.html` | `korb-glp1-data.js` |
-| `KORB_GLP1_Pharmacy_Routing.html` | `korb-glp1-data.js` |
-| `Provider_Reference/GLP1/*.html` (10) | `../../korb-glp1-data.js` |
-| `KORB_Provider_Clinical_Reference.html` | `korb-dosing-data.js` |
-| `KORB_Functional_Health_Tracker.html` | `korb-dosing-data.js` |
-| `KORB_Patient_Treatment_Schedule.html` | `korb-dosing-data.js` |
-| `Provider_Reference/KORB_FHL_*.html` (4) | `../korb-dosing-data.js` |
+| `KORB_GLP1_Provider_Reference.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
+| `KORB_GLP1_Patient_Message_Builder.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
+| `KORB_GLP1_Pharmacy_Routing.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
+| `KORB_GLP1_Dose_Guide.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
+| `Provider_Reference/GLP1/*.html` (10) | `../../korb-pharmacies.js`, `../../korb-glp1-data.js` |
+| `KORB_Provider_Clinical_Reference.html` | `korb-pharmacies.js`, `korb-dosing-data.js` |
+| `KORB_Functional_Health_Tracker.html` | `korb-pharmacies.js`, `korb-dosing-data.js` |
+| `KORB_Patient_Treatment_Schedule.html` | `korb-pharmacies.js`, `korb-dosing-data.js` |
+| `Provider_Reference/KORB_FHL_*.html` (4) | `../korb-pharmacies.js`, `../korb-dosing-data.js` |
 
 **2. Generated-frozen** — data baked in at build time, stamped with a fingerprint.
 Does NOT update on its own.
@@ -656,8 +664,37 @@ women's testosterone. Do not re-report those; they are already on the list.
    51 states and `problems: []`.
    `crossCheck()` now reports these lists as DERIVED rather than as agreement,
    because after this change comparing the two files compares a value with itself.
+4. ~~Wire FH&L onto it~~ **DONE 2026-09-15**. `korb-dosing-data.js` v2.12.
+   `states.premierRouting` is `[]` in source and filled by `hydrate()` from
+   `korb-pharmacies.js` at load. **korb-pharmacies.js must load BEFORE
+   korb-dosing-data.js**; `requireHydrated()` throws naming the missing script,
+   the builder exits 1, and the live pages refuse to render rather than show a
+   routing table built from an empty footprint.
+
+   **What moved and what did not, because mixing the two is what caused the
+   drift.** Only `premierRouting` moved — "where Premier is licensed to ship
+   peptides" is a pharmacy fact. `unavailable`, `unavailableNoShip`,
+   `unavailableNoPharmacy` and `unavailableLabWorkflow` all STAY in the FH&L
+   file. Those are program decisions about where KORB offers the service, and
+   only 8 of the 18 closed states are closed for a pharmacy reason at all.
+
+   **Mississippi is the case that made it worth doing.** The typed list held 37
+   states, the shared footprint holds 38, and the single difference was MS —
+   removed from `premierRouting` on 2026-08-24 when MS left the FH&L offering.
+   Premier is licensed to ship peptides to MS and always was: a program decision
+   had been written into a pharmacy list. MS is back in the footprint and still
+   blocked through `unavailableNoShip`.
+
+   Verified by measuring, not reasoning. `premierRouting` minus `unavailable` is
+   the same 31 states before and after. All 51 states were driven through the
+   selector on `KORB_Provider_Clinical_Reference.html` against a baseline
+   worktree and the rendered text is identical in **all 51**; MS still shows the
+   Do Not Ship banner. The four generated FH&L references differ from baseline
+   by exactly two words each, both the version stamp. Negative-tested: loading
+   the data file alone leaves `hydrated` false and `requireHydrated()` throws.
+   `check-pages.js` gained the data-file dependency and **failed on all four
+   generated pages** before the rebuild, which is the only reason to believe it.
 **NEXT →**
-4. **Wire FH&L onto it** (`korb-dosing-data.js`).
 5. **Retire the hand-built tables.** `KORB_GLP1_Dose_Guide.html` ~~first~~ **DONE
    2026-09-14**, `5c1c5e4`. Its table is built from `korb-glp1-data.js` at load;
    `korb-pharmacies.js` and `korb-glp1-data.js` must both load before the inline

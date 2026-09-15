@@ -185,6 +185,7 @@
 </head>
 <body>
 <p>Loading…</p>
+<script src="../korb-pharmacies.js"></script>
 <script src="../korb-dosing-data.js"></script>
 <script src="../korb-rx-block.js"></script>
 <script src="../provider-doc-render.js"></script>
@@ -196,8 +197,17 @@
   (function () {
     if (typeof KORB_DOSING === 'undefined' || typeof KORB_FHL_DOCS === 'undefined') {
       document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E">' +
-        'Could not load korb-dosing-data.js, provider-doc-render.js or fhl-doc-render.js. ' +
-        'This document renders from those files and cannot display without them.</p>';
+        'Could not load korb-pharmacies.js, korb-dosing-data.js, provider-doc-render.js ' +
+        'or fhl-doc-render.js. This document renders from those files and cannot ' +
+        'display without them.</p>';
+      return;
+    }
+    /* Loaded but not hydrated means korb-pharmacies.js is missing or came
+       second. Say so rather than print a routing table built from nothing. */
+    if (!KORB_DOSING.hydrated) {
+      document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E">' +
+        'korb-pharmacies.js did not load before korb-dosing-data.js, so pharmacy ' +
+        'routing is unknown. This document will not display incomplete routing.</p>';
       return;
     }
     KORB_FHL_DOCS.mount("foundation", KORB_DOSING);

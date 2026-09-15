@@ -46,15 +46,27 @@ const AUDIT = require('./dose-audit.js');
 
 const REPO = __dirname;
 const OUT = path.join(REPO, 'Provider_Reference');
+const PH_REL   = '../korb-pharmacies.js';   // MUST load before the data file
 const DATA_REL = '../korb-dosing-data.js';
 const GLP1_REND_REL = '../provider-doc-render.js';
 const RXB_REL = '../korb-rx-block.js';
 const REND_REL = '../fhl-doc-render.js';
 
 const K = (function () {
-  const src = fs.readFileSync(path.join(REPO, 'korb-dosing-data.js'), 'utf8');
+  /* korb-pharmacies.js first, into the same scope. Since open item 4 the FH&L
+     file takes premierRouting from it at load. Without this the Premier
+     footprint comes back empty, every FH&L patient routes to Greenwich, and
+     the build still exits 0 - the silent-success shape CLAUDE.md warns about.
+     The hydrated assertion below is what stops that being possible. */
   const sandbox = {};
+  const phSrc = fs.readFileSync(path.join(REPO, 'korb-pharmacies.js'), 'utf8');
+  new Function('exports', 'module', phSrc + '\n;this.KORB_PHARMACIES = KORB_PHARMACIES;').call(sandbox, {}, {});
+  global.KORB_PHARMACIES = sandbox.KORB_PHARMACIES;
+
+  const src = fs.readFileSync(path.join(REPO, 'korb-dosing-data.js'), 'utf8');
   new Function('exports', 'module', src + '\n;this.KORB_DOSING = KORB_DOSING;').call(sandbox, {}, {});
+  if (!sandbox.KORB_DOSING.hydrated) throw new Error(
+    'korb-dosing-data.js did not hydrate from korb-pharmacies.js. Check the load order above.');
   return sandbox.KORB_DOSING;
 })();
 
@@ -126,6 +138,7 @@ ${R.CSS}
 </head>
 <body>
 <p>Loading…</p>
+<script src="${PH_REL}"></script>
 <script src="${DATA_REL}"></script>
 <script src="${RXB_REL}"></script>
 <script src="${GLP1_REND_REL}"></script>
@@ -137,8 +150,17 @@ ${R.CSS}
   (function () {
     if (typeof KORB_DOSING === 'undefined' || typeof KORB_FHL_DOCS === 'undefined') {
       document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E">' +
-        'Could not load korb-dosing-data.js, provider-doc-render.js or fhl-doc-render.js. ' +
-        'This document renders from those files and cannot display without them.</p>';
+        'Could not load korb-pharmacies.js, korb-dosing-data.js, provider-doc-render.js ' +
+        'or fhl-doc-render.js. This document renders from those files and cannot ' +
+        'display without them.</p>';
+      return;
+    }
+    /* Loaded but not hydrated means korb-pharmacies.js is missing or came
+       second. Say so rather than print a routing table built from nothing. */
+    if (!KORB_DOSING.hydrated) {
+      document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E">' +
+        'korb-pharmacies.js did not load before korb-dosing-data.js, so pharmacy ' +
+        'routing is unknown. This document will not display incomplete routing.</p>';
       return;
     }
     KORB_FHL_DOCS.mount(${JSON.stringify(doc.id)}, KORB_DOSING);

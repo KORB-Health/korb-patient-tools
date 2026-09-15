@@ -38,6 +38,14 @@ const { execSync } = require('child_process');
 
 /* module -> the globals-providing files it must be preceded by */
 const NEEDS = {
+  /* Data files. Since open items 3 and 4 both program files take their pharmacy
+     footprints from korb-pharmacies.js at load. A page that loads a data file
+     without it gets empty footprints, which reads as "this pharmacy ships
+     nowhere" and routes every patient to the fallback. */
+  'korb-glp1-data.js': ['korb-pharmacies.js'],
+  'korb-dosing-data.js': ['korb-pharmacies.js'],
+
+  /* Render modules. */
   'provider-doc-render.js': ['korb-rx-block.js'],
   'fhl-doc-render.js': ['korb-rx-block.js', 'provider-doc-render.js'],
   'clinical-doc-render.js': ['korb-rx-block.js', 'provider-doc-render.js'],

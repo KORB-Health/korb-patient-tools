@@ -108,12 +108,16 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.4",
+    version: "1.5",
     created: "2026-09-11",
     updated: "2026-09-15",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
-    note: "Products live in the per-program files. This file holds pharmacies and states only."
+    note: "Products live in the per-program files. This file holds pharmacies and states only.",
+    changelog: [
+      "2026-09-15 (v1.5): korb-dosing-data.js wired on under open item 4, joining korb-glp1-data.js. Its premierRouting now comes from statesFor('premier', 'peptides') at load instead of being typed there. crossCheck reports derived files by name and states plainly that their lists were NOT independently verified, since comparing a value with itself is agreement it did not earn. Also added dispensingName, address1, cityStateZip and phone for lillydirect and novocare, which the brand GLP-1 documents print.",
+      "2026-09-11 (v1.0-1.4): extracted from korb-glp1-data.js; reshaped to pharmacy x program keying; GLP-1 wired on under open item 3."
+    ]
   },
 
   pharmacies: {
@@ -927,8 +931,13 @@ var KORB_PHARMACIES = {
      repo keeps re-learning.
      -------------------------------------------------------------------------- */
   crossCheck: function (sources) {
-    var problems = [], checked = [], self = this, derived = false;
+    var problems = [], checked = [], self = this, derived = [];
     sources = sources || {};
+
+    /* Names a program file whose lists come FROM here, so the report can say
+       plainly that nothing was verified for it rather than counting it as
+       agreement. */
+    function mark(f) { if (derived.indexOf(f) < 0) derived.push(f); }
 
     function setEq(a, b) {
       a = a || []; b = b || [];
@@ -953,7 +962,7 @@ var KORB_PHARMACIES = {
         /* Since open item 3, korb-glp1-data.js takes these lists FROM this file
            at load. Comparing them then proves nothing: it compares a value with
            itself and reports agreement it did not earn. Say so instead. */
-        if (sources.glp1.hydrated) { derived = true; return; }
+        if (sources.glp1.hydrated) { mark('korb-glp1-data.js'); return; }
 
         /* Compare the EFFECTIVE GLP-1 list, not the raw footprint. A pharmacy
            whose GLP-1 is retired serves no states for it, and that is the
@@ -1005,6 +1014,11 @@ var KORB_PHARMACIES = {
           added to the shared layer. */
     if (sources.dosing && sources.dosing.prescribing) {
       checked.push("korb-dosing-data.js");
+      /* Since open item 4 its premierRouting comes from here too. The pharmacy
+         KEYS below are still worth checking - that direction catches a new
+         pharmacy named by the program and never added here - but its state
+         list is not independently verified, and the report must say so. */
+      if (sources.dosing.hydrated) mark('korb-dosing-data.js');
       var seen = {};
       Object.keys(sources.dosing.prescribing).forEach(function (k) {
         var e = sources.dosing.prescribing[k];
@@ -1027,11 +1041,11 @@ var KORB_PHARMACIES = {
       console.log("KORB_PHARMACIES.crossCheck: " + checked.length + " file(s) agree" +
         (checked.length ? " (" + checked.join(", ") + ")" : ""));
     }
-    if (derived) {
-      console.log("  korb-glp1-data.js takes its footprints from this file at load, so there");
-      console.log("  is nothing left to disagree. Its state lists were NOT independently");
-      console.log("  verified here because there is no longer a second copy to verify against.");
-    }
+    derived.forEach(function (f) {
+      console.log("  " + f + " takes its state lists from this file at load, so there is");
+      console.log("  nothing left to disagree. Those lists were NOT independently verified");
+      console.log("  here because there is no longer a second copy to verify against.");
+    });
     if (absent.length) console.warn("  NOT CHECKED, not passed in: " + absent.join(", "));
     return { problems: problems, checked: checked, notChecked: absent, derived: derived };
   }
