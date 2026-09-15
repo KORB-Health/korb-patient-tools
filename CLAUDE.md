@@ -264,6 +264,7 @@ Run all of them **from the repo root**.
 | `build-signoff-sheet.js` | `korb-glp1-data.js` | monograph clinical sign-off sheet |
 | `build-addon-signoff.js` | `korb-addons-data.js` | add-on sign-off sheet |
 | `build-intake-spec.py` | `KORB_Scheduler_Intake_Prototype.html` | `KORB_Scheduler_Intake_Logic_Spec.xlsx` (vendor spec) |
+| `check-pages.js` | every tracked `.html` | nothing - exits 1 if a generated page cannot run |
 
 The list of GLP-1 documents is **not** in `build-provider-docs.js`. It is `DOCS` in
 `provider-doc-render.js` (~line 164). Same for FH&L in `fhl-doc-render.js`. Looking
@@ -338,6 +339,14 @@ This repo has real self-checks. Use them, and prove they have teeth.
   scope `premier / belmar / farmakeio`.
 - `node build-embed.js --check` from the repo root — expect "All 2 embedded blobs
   match their source", exit 0.
+- `node check-pages.js` — expect "every dependency present and in order", exit 0.
+  Every other check in this repo reads DATA. This one asks whether a generated
+  page can run at all. On 2026-09-14 the Add-On Clinical Reference shipped to
+  Pages missing one script tag: it passed the dose audit, the embed check and
+  every parse, and rendered nothing but its own "could not load" guard for a
+  day on a public site. Found by Don clicking the link.
+  **When a render module gains a dependency, add the tag to EVERY builder and
+  extend NEEDS in check-pages.js.** Two of three builders got it that day.
 - `KORB_PHARMACIES.selfCheck()` — currently passes, but only validates itself. It
   cannot see `korb-glp1-data.js`. See Open work.
 

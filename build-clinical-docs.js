@@ -45,6 +45,13 @@ const R = require('./clinical-doc-render.js');
 
 const REPO = __dirname;
 const OUT = path.join(REPO, 'Provider_Reference');
+/* provider-doc-render.js requires the shared Tebra block as a global in the
+   browser, so korb-rx-block.js has to be in the page BEFORE it. Omitting it
+   here on 2026-09-14 left this document dead on Pages: provider-doc-render
+   threw on RXB.CSS, KORB_DOCS never defined, and the page showed its
+   "could not load" guard. The two other builders got the tag; this one did
+   not. Add the tag to EVERY builder when a shared module gains a consumer. */
+const RXB_REL = '../korb-rx-block.js';
 const GLP1_REND_REL = '../provider-doc-render.js';
 const REND_REL = '../clinical-doc-render.js';
 const PHARM_REL = '../korb-pharmacies.js';
@@ -123,6 +130,7 @@ ${R.CSS}
 <body>
 <p>Loading…</p>
 <script src="${PHARM_REL}"></script>
+<script src="${RXB_REL}"></script>
 <script src="../${src.dataFile}"></script>
 <script src="${GLP1_REND_REL}"></script>
 <script src="${REND_REL}"></script>
