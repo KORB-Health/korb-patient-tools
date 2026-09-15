@@ -128,14 +128,21 @@ function decider(d) {
 }
 
 /* ── PHARMACY, READ FROM THE SHARED LAYER ─────────────────────────────────
-   Never typed. `shipsToNote` is the pharmacy's own sentence about its
-   footprint, so a pharmacy change reaches this document with no edit here. */
+   Never typed. `footprintNote` is the pharmacy's own sentence about its
+   licensed footprint, so a pharmacy change reaches this document with no edit
+   here.
+
+   Field names track korb-pharmacies.js. They were shipsToNote/shipsTo until the
+   footprint + programs reshape on 2026-09-15; this line was missed in that
+   commit and the document printed "0 states" for every pharmacy until it was
+   caught the next day. If the shared layer renames a field again, this is the
+   only place outside that file that reads one. */
 function pharmacyRows(keys) {
   return (keys || []).map(function (k) {
     var p = PH && PH.pharmacies ? PH.pharmacies[k] : null;
     if (!p) return '';
     var sources = (D.document.pharmacySources || {})[k] || '';
-    var footprint = p.shipsToNote || ((p.shipsTo || []).length + ' states');
+    var footprint = p.footprintNote || ((p.footprint || []).length + ' states');
     return '<tr><td><strong>' + esc2(p.name) + '</strong></td><td>' + esc2(footprint) +
            '</td><td>' + esc2(sources) + '</td></tr>';
   }).join('');
