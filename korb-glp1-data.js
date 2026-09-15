@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.17',
+    version: '2.18',
     created: '2026-08-06',
     lastUpdated: '2026-09-13',
     owner: 'Director of Clinical Operations',
@@ -67,6 +67,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-14 (v2.18): NO CLINICAL CHANGE TO ANY DOSE. Two facts that lived only inside KORB_GLP1_Dose_Guide.html were moved here so that page can be derived rather than typed, which is open item 5. Added `additive` to the seven compounded injectables - the vitamin or amino acid each product carries, which the guide had been typing in its own table. Added per-dose `conc` to the five belmar_sema doses, because Belmar supplies semaglutide at two concentrations by dose band and this file held only the sentence "two concentrations by dose band" while the guide held the actual numbers. Every mg, unit count and 4- and 8-week vial string is byte-identical to v2.17: verified by rendering all 48 medication/pharmacy/dose combinations of the Dose Guide before and after, 48 of 48 identical apart from the concentration line, which now reads from `formulation` here instead of a separate typed string. NOT CHANGED, deliberately: "L-Carnatine" appears 7 times, once as display `formulation` and six times as `drugFormulation`. The latter is the Tebra field Belmar matches against, and this repo already keeps Greenwich formulation strings byte-identical for that reason, so correcting the spelling needs Belmar to confirm first. Raised with Don 2026-09-14.',
       '2026-09-13 (v2.17): WORDING ONLY, NO ROUTING OR DOSING CHANGE. pharmacySelection.overrideReasons described L-carnitine as an "added vitamin". L-carnitine is an amino acid derivative, not a vitamin. Changed to "added agent" in the reason string and in the explanatory comment above it. Flagged because the GLP-1 Pharmacy Routing tool renders that string verbatim to providers, so the error was on screen rather than buried in the file. Nothing else in this file was touched: pharmacy routing, state lists, sigs, doses and pricing are byte-identical to v2.16.',
       '2026-09-11 (v2.16): GREENWICH GLP-1 RETIRED, EVERY STATE. Greenwich told KORB ' +
       'it can no longer ship to California. California was the trigger, but the ' +
@@ -1817,6 +1818,9 @@ var KORB_GLP1 = {
 
     premier_sema: {
       key: 'premier_sema',
+      /* What this product carries besides the GLP-1. Shown by the Dose Guide,
+         which used to type it in its own table. */
+      additive: 'Cyanocobalamin (Vitamin B-12)',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'premier',
       drug: 'semaglutide',
@@ -1967,6 +1971,9 @@ var KORB_GLP1 = {
 
     premier_sema_glycine: {
       key: 'premier_sema_glycine',
+      /* What this product carries besides the GLP-1. Shown by the Dose Guide,
+         which used to type it in its own table. */
+      additive: 'Cyanocobalamin (Vitamin B-12) + Glycine',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'premier',
       drug: 'semaglutide',
@@ -2121,6 +2128,9 @@ var KORB_GLP1 = {
 
     premier_tirz: {
       key: 'premier_tirz',
+      /* What this product carries besides the GLP-1. Shown by the Dose Guide,
+         which used to type it in its own table. */
+      additive: 'Cyanocobalamin (Vitamin B-12)',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'premier',
       drug: 'tirzepatide',
@@ -2298,6 +2308,9 @@ var KORB_GLP1 = {
 
     belmar_sema: {
       key: 'belmar_sema',
+      /* What this product carries besides the GLP-1. Shown by the Dose Guide,
+         which used to type it in its own table. */
+      additive: 'Cyanocobalamin (Vitamin B-12)',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'belmar',
       drug: 'semaglutide',
@@ -2312,7 +2325,7 @@ var KORB_GLP1 = {
                   '— see needsConfirmation BELMAR-8WK-QTY.',
       doses: [
         {
-          dose: '0.25 mg', mg: 0.25, units: 25,
+          dose: '0.25 mg', mg: 0.25, conc: '1 mg/1 mg/ml', units: 25,
           conc: '1 mg/1 mg/ml',
           vials4: '1 ml x 1 vial', vials8: '1 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
@@ -2362,7 +2375,7 @@ var KORB_GLP1 = {
           }
         },
         {
-          dose: '0.5 mg', mg: 0.5, units: 50,
+          dose: '0.5 mg', mg: 0.5, conc: '1 mg/1 mg/ml', units: 50,
           conc: '1 mg/1 mg/ml',
           vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
@@ -2412,7 +2425,7 @@ var KORB_GLP1 = {
           }
         },
         {
-          dose: '1.0 mg', mg: 1, units: 100,
+          dose: '1.0 mg', mg: 1, conc: '1 mg/1 mg/ml', units: 100,
           conc: '1 mg/1 mg/ml',
           vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 1mg/1mg/ml',
@@ -2464,7 +2477,7 @@ var KORB_GLP1 = {
           }
         },
         {
-          dose: '1.7 mg', mg: 1.7, units: 68,
+          dose: '1.7 mg', mg: 1.7, conc: '2.5 mg/1 mg/ml', units: 68,
           conc: '2.5 mg/1 mg/ml',
           vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 2.5mg/1mg/ml',
@@ -2519,7 +2532,7 @@ var KORB_GLP1 = {
           }
         },
         {
-          dose: '2.4 mg', mg: 2.4, units: 96,
+          dose: '2.4 mg', mg: 2.4, conc: '2.5 mg/1 mg/ml', units: 96,
           conc: '2.5 mg/1 mg/ml',
           vials4: '5 ml x 1 vial', vials8: '5 ml x 2 vials',
           drugFormulation: 'Semaglutide/B-12 2.5mg/1mg/ml',
@@ -2578,6 +2591,9 @@ var KORB_GLP1 = {
 
     belmar_tirz: {
       key: 'belmar_tirz',
+      /* What this product carries besides the GLP-1. Shown by the Dose Guide,
+         which used to type it in its own table. */
+      additive: 'L-Carnitine',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'belmar',
       drug: 'tirzepatide',
@@ -2899,6 +2915,9 @@ var KORB_GLP1 = {
 
     farmakeio_sema: {
       key: 'farmakeio_sema',
+      /* What this product carries besides the GLP-1. Shown by the Dose Guide,
+         which used to type it in its own table. */
+      additive: 'Pyridoxine (Vitamin B-6)',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'semaglutide',
@@ -3050,6 +3069,9 @@ var KORB_GLP1 = {
 
     farmakeio_tirz: {
       key: 'farmakeio_tirz',
+      /* What this product carries besides the GLP-1. Shown by the Dose Guide,
+         which used to type it in its own table. */
+      additive: 'Pyridoxine (Vitamin B-6)',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'tirzepatide',

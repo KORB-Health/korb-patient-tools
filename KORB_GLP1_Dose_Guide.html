@@ -68,65 +68,72 @@ footer{margin-top:30px;font-size:11px;color:var(--mu);text-align:center;line-hei
   <div id="output"><div class="empty"><h2>Select your medication, pharmacy, and dose</h2><p>Your injection volume and syringe fill will appear here.</p></div></div>
   <footer>For KORB patient education only. Do not share or reproduce.<br>Questions? Contact KORB Operations at info@korbhealth.com or +1 (888) 959-7299.</footer>
 </div>
+<!-- Both MUST load before the inline script below: the dose table is built
+     from them at load and this page throws if korb-glp1-data.js is absent. -->
+<script src="korb-pharmacies.js"></script>
+<script src="korb-glp1-data.js"></script>
 <script>
-const DATA = {
-  semaglutide:{
-    premier:{label:"Premier Pharmacy",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"3 mg semaglutide / 0.5 mg B-12 per mL",doses:[
-      {mg:"0.3",units:10,ml:"0.1",v4:"0.6 ml",v8:"0.6 ml x 2"},
-      {mg:"0.6",units:20,ml:"0.2",v4:"1 ml",v8:"1 ml x 2"},
-      {mg:"1.2",units:40,ml:"0.4",v4:"0.6 ml x 1 & 1 ml x 1",v8:"0.6 ml x 2 & 1 ml x 2"},
-      {mg:"1.8",units:60,ml:"0.6",v4:"2.4 ml",v8:"2.4 ml x 2"},
-      {mg:"2.7",units:90,ml:"0.9",v4:"3.6 ml",v8:"3.6 ml x 2"}]},
-    farmakeio:{label:"FarmaKeio Pharmacy",additive:"Pyridoxine (Vitamin B-6)",concentration:"2.5 mg semaglutide / 25 mg B-6 per mL (Home Kit)",doses:[
-      {mg:"0.25",units:10,ml:"0.1",v4:"1 ml",v8:"1 ml x 2"},
-      {mg:"0.5",units:20,ml:"0.2",v4:"1 ml",v8:"1 ml x 2"},
-      {mg:"1.0",units:40,ml:"0.4",v4:"2 ml",v8:"2 ml x 2"},
-      {mg:"1.7",units:68,ml:"0.68",v4:"3 ml",v8:"3 ml x 2"},
-      {mg:"2.5",units:100,ml:"1",v4:"4 ml",v8:"4 ml x 2"}]},
-    belmar:{label:"Belmar Pharmacy",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"1 mg/1 mg per mL (lower doses) or 2.5 mg/1 mg per mL (higher doses)",doses:[
-      {mg:"0.25",units:25,ml:"0.25",conc:"1 mg/1 mg/ml",v4:"1 ml x 1 vial",v8:"1 ml x 2 vials"},
-      {mg:"0.5",units:50,ml:"0.5",conc:"1 mg/1 mg/ml",v4:"1 ml x 2 vials",v8:"1 ml x 4 vials"},
-      {mg:"1.0",units:100,ml:"1",conc:"1 mg/1 mg/ml",v4:"5 ml x 1 vial",v8:"5 ml x 2 vials"},
-      {mg:"1.7",units:68,ml:"0.68",conc:"2.5 mg/1 mg/ml",v4:"5 ml x 1 vial",v8:"5 ml x 2 vials"},
-      {mg:"2.4",units:96,ml:"0.96",conc:"2.5 mg/1 mg/ml",v4:"5 ml x 1 vial",v8:"5 ml x 2 vials"}]}
-  },
-  semaglutide_glycine:{
-    premier:{label:"Premier Pharmacy (with Glycine)",additive:"Cyanocobalamin (Vitamin B-12) + Glycine",concentration:"3 mg semaglutide / 0.5 mg B-12 / 5 mg Glycine per mL",doses:[
-      {mg:"0.3",units:10,ml:"0.1",v4:"1 ml vial",v8:"1 ml x 2 vials"},
-      {mg:"0.6",units:20,ml:"0.2",v4:"1 ml vial",v8:"1 ml x 2 vials"},
-      {mg:"1.2",units:40,ml:"0.4",v4:"1 ml x 2 vials",v8:"1 ml x 4 vials"},
-      {mg:"1.8",units:60,ml:"0.6",v4:"1 ml x 3 vials",v8:"1 ml x 5 vials"},
-      {mg:"2.7",units:90,ml:"0.9",v4:"1 ml x 4 vials",v8:"1 ml x 8 vials"}]}
-  },
-  tirzepatide:{
-    premier:{label:"Premier Pharmacy",additive:"Cyanocobalamin (Vitamin B-12)",concentration:"18 mg tirzepatide / 500 mcg B-12 per mL",doses:[
-      {mg:"2",units:11,ml:"0.11",v4:"0.6 ml",v8:"0.6 ml x 2"},
-      {mg:"4",units:22,ml:"0.22",v4:"1 ml",v8:"1 ml x 2"},
-      {mg:"6.5",units:36,ml:"0.36",v4:"0.6 ml & 1 ml",v8:"0.6 ml x 2 & 1 ml x 2"},
-      {mg:"8.5",units:47,ml:"0.47",v4:"2 ml",v8:"2 ml x 2"},
-      {mg:"13.5",units:75,ml:"0.75",v4:"1 ml & 2 ml",v8:"2 ml x 3"},
-      {mg:"16",units:89,ml:"0.89",v4:"3.6 ml",v8:"3.6 ml x 2"}]},
-    farmakeio:{label:"FarmaKeio Pharmacy",additive:"Pyridoxine (Vitamin B-6)",concentration:"18 mg tirzepatide / 25 mg B-6 per mL (Home Kit)",doses:[
-      {mg:"2.5",units:13,ml:"0.13",v4:"1 ml",v8:"1 ml x 2"},
-      {mg:"4.5",units:25,ml:"0.25",v4:"1 ml",v8:"1 ml x 2"},
-      {mg:"7.5",units:42,ml:"0.42",v4:"2 ml",v8:"2 ml x 2"},
-      {mg:"9",units:50,ml:"0.5",v4:"2 ml",v8:"2 ml x 2"},
-      {mg:"13.5",units:75,ml:"0.75",v4:"3 ml",v8:"3 ml x 2"},
-      {mg:"15",units:83,ml:"0.83",v4:"4 ml",v8:"4 ml x 2"}]},
-    belmar:{label:"Belmar Pharmacy",additive:"L-Carnitine",concentration:"10 mg tirzepatide / 50 mg L-Carnitine per mL",doses:[
-      {mg:"2.5",units:25,ml:"0.25",v4:"1 ml x 1 vial",v8:"1 ml x 2 vials"},
-      {mg:"5",units:50,ml:"0.5",v4:"1 ml x 2 vials",v8:"1 ml x 4 vials"},
-      {mg:"7.5",units:75,ml:"0.75",v4:"1 ml x 3 vials",v8:"1 ml x 6 vials"},
-      {mg:"10",units:100,ml:"1",v4:"4 ml x 1 vial",v8:"4 ml x 2 vials"},
-      {mg:"12.5",units:125,ml:"1.25",v4:"1 ml x 1 vial & 4 ml x 1 vial",v8:"4 ml x 2 vials & 1 ml x 2 vials"},
-      {mg:"15",units:150,ml:"1.5",v4:"1 ml x 2 vials & 4 ml x 1 vial",v8:"4 ml x 3 vials"}]},
-    /* Greenwich tirzepatide removed 2026-09-11. Greenwich GLP-1 is retired in
-       every state and all tirzepatide moves to Belmar. This table is hand-maintained
-       rather than read from korb-glp1-data.js, so retiring the product there did not
-       reach it — it kept offering a full Greenwich dose ladder. If another pharmacy
-       changes, remember this file does not update itself. */
-  }
-};
+/* ── THE DOSE TABLE IS NOT TYPED HERE ──────────────────────────────────────
+   Built from korb-glp1-data.js at load. Open item 5.
+
+   This page is the one the Known failure section in CLAUDE.md is about. Its
+   table used to be hand-maintained, so when Greenwich GLP-1 was retired in the
+   data file on 2026-09-11 this guide carried on offering a full Greenwich dose
+   ladder until somebody noticed by eye. Retiring a product in the data file now
+   removes it from this page on the next load, with no edit here.
+
+   korb-pharmacies.js and korb-glp1-data.js must both load before this script.
+
+   Only the seven COMPOUNDED INJECTABLES appear. Orals and the brand channels
+   (LillyDirect, NovoCare) have no syringe fill to show, which is what this page
+   exists for, so they are deliberately not listed. */
+const DATA = (function () {
+  if (typeof KORB_GLP1 === 'undefined') throw new Error(
+    'KORB_GLP1_Dose_Guide.html: korb-glp1-data.js must load before this page.');
+
+  /* guide grouping -> product key in korb-glp1-data.js */
+  const MAP = {
+    semaglutide:         { premier: 'premier_sema', farmakeio: 'farmakeio_sema', belmar: 'belmar_sema' },
+    semaglutide_glycine: { premier: 'premier_sema_glycine' },
+    tirzepatide:         { premier: 'premier_tirz', farmakeio: 'farmakeio_tirz', belmar: 'belmar_tirz' }
+  };
+
+  const phName = k => (typeof KORB_PHARMACIES !== 'undefined' && KORB_PHARMACIES.pharmacies[k])
+    ? KORB_PHARMACIES.pharmacies[k].name : k;
+
+  const out = {};
+  Object.keys(MAP).forEach(function (group) {
+    Object.keys(MAP[group]).forEach(function (ph) {
+      const prod = KORB_GLP1.products[MAP[group][ph]];
+      if (!prod) return;
+      /* A retired product drops off this page by itself. That is the whole
+         point of the change: it is what did not happen on 2026-09-11. */
+      if (prod.retired || prod.status === 'retired') return;
+      (out[group] = out[group] || {})[ph] = {
+        label: group === 'semaglutide_glycine' ? phName(ph) + ' (with Glycine)' : phName(ph),
+        additive: prod.additive || '',
+        concentration: prod.formulation || '',
+        doses: (prod.doses || []).map(function (d) {
+          const row = {
+            /* The formatted `dose` string, not the number: it carries the
+               trailing zero in "1.0 mg" that a dose ladder reads better with,
+               and that String(d.mg) would silently drop. */
+            mg: (d.dose || '').replace(/\s*mg\s*$/i, '') || String(d.mg),
+            units: d.units,
+            /* Units are hundredths of a millilitre on a U-100 syringe, which is
+               what the fill drawing below is scaled to. Derived, never typed. */
+            ml: String(d.units / 100),
+            v4: d.vials4,
+            v8: d.vials8
+          };
+          if (d.conc) row.conc = d.conc;
+          return row;
+        })
+      };
+    });
+  });
+  return out;
+})();
 function singleSyringe(fillUnits,colorHex,widthScale){
   var bx=58,bw=196*widthScale,by=15,bh=24;
   var clamped=Math.max(0,Math.min(100,fillUnits));
