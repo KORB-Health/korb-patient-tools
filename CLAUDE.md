@@ -155,11 +155,13 @@ These are the liability.
 `KORB_Scheduler_Intake_Prototype.html`,
 `Provider_Reference/KORB_TRT_Provider_Tool.html`,
 `Provider_Reference/KORB_Womens_Health_Provider_Tool.html`,
-`Provider_Reference/KORB_BMI_Protein_Calculator*.html`,
-`Provider_Reference/KORB_AddOn_Selector.html`
+`Provider_Reference/KORB_BMI_Protein_Calculator*.html`
 
-Note: `KORB_AddOn_Selector.html` and `KORB_Optimization_Products.html` are the same
-file under two names. Reconcile or delete one.
+**4. Redirect** — no content at all, and must never gain any.
+
+`Provider_Reference/KORB_AddOn_Selector.html` sends the browser to
+`KORB_Optimization_Products.html`. It was a second hand-uploaded copy of that tool
+until 2026-09-15. See open item 7.
 
 ---
 
@@ -713,9 +715,8 @@ women's testosterone. Do not re-report those; they are already on the list.
    `KORB_Patient_Hub.html`, `KORB_Testosterone_Tracker.html`,
    `KORB_Scheduler_Intake_Prototype.html`, `Provider_Reference/KORB_TRT_Provider_Tool.html`,
    `Provider_Reference/KORB_Womens_Health_Provider_Tool.html`,
-   `Provider_Reference/KORB_BMI_Protein_Calculator*.html`,
-   `Provider_Reference/KORB_AddOn_Selector.html`. The TRT and Women's tools need
-   item 6's data files before they can be wired at all.
+   `Provider_Reference/KORB_BMI_Protein_Calculator*.html`. The TRT and Women's
+   tools need item 6's data files before they can be wired at all.
    ~~`L-Carnatine` is misspelled 7 times and was not fixed.~~ **Corrected
    2026-09-14**, `7ce82af`, data file v2.19. **The exact-match constraint on a
    `drugFormulation` string is GREENWICH ONLY** — Greenwich matches on the
@@ -724,7 +725,29 @@ women's testosterone. Do not re-report those; they are already on the list.
    assuming a string is load-bearing.
 6. **Create `korb-trt-data.js` and `korb-womens-data.js`.** New construction, not
    cleanup. Should not block 2–5.
-7. Reconcile `KORB_AddOn_Selector.html` / `KORB_Optimization_Products.html`.
+7. ~~Reconcile `KORB_AddOn_Selector.html` / `KORB_Optimization_Products.html`.~~
+   **DONE 2026-09-15.** They were not merely "the same file under two names" — they
+   had already diverged. `KORB_Optimization_Products.html` is in `build-embed.js`
+   TARGETS; `KORB_AddOn_Selector.html` was not, and its whole git history is
+   `Add files via upload`, so it arrived through the GitHub web UI and no generator
+   ever knew it existed. Every rebuild refreshed one copy and left the other alone.
+   It was carrying the **pre-2026-09-14 en dashes** in its Tebra fields, which is
+   exactly the character loss the ASCII pass was done to prevent. A provider using
+   that URL was copying superseded strings into Tebra.
+
+   `KORB_Optimization_Products.html` is canonical: it is the generated one, it is
+   the name `korb-addons-data.js` cites, and both files already carried that title.
+   The Selector is now a redirect to it, **kept rather than deleted so an existing
+   intranet link or bookmark does not 404**. Browser-verified: it lands on the
+   destination, which renders with no errors.
+
+   **`build-embed.js` gained an orphan scan**, because TARGETS is a list of files
+   the script maintains and said nothing about files that merely CARRY a generated
+   block. It now scans every tracked page for a `BEGIN GENERATED` marker and exits 1
+   on any that is not a target. Negative-tested: restoring the old duplicate makes it
+   report that exact file and exit 1. Before the scan, `--check` printed "All 2
+   embedded blobs match their source" every time — true of the two it looked at, and
+   a green light earned by not looking at the third.
 8. Fix the stale comment in `build-provider-docs.js` — says "eleven documents",
    the list holds ten (Greenwich tirzepatide retired 2026-09-11).
 9b. ~~Wire the cross-pharmacy dose audit into the builders.~~ **DONE 2026-09-15**,

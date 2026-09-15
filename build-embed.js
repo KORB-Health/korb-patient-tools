@@ -305,6 +305,38 @@ TARGETS.forEach(function (t) {
 
 console.log('');
 
+/* ---- orphan scan -------------------------------------------------------
+   TARGETS is a list of files this script MAINTAINS. It says nothing about
+   files that CARRY a generated block, and that gap is what open item 7 turned
+   out to be: Provider_Reference/KORB_AddOn_Selector.html was a second,
+   hand-uploaded copy of the Optimization Products tool, complete with an
+   embedded ADDONS blob. Every rebuild refreshed the copy in TARGETS and left
+   the other one behind. It had already gone stale, still carrying the en
+   dashes converted to plain ASCII on 2026-09-14, and this script reported
+   "All 2 embedded blobs match their source" every single time - true of the
+   two it looked at, and a green light earned by not looking at the third.
+
+   So: scan every tracked HTML for a generated marker and fail on any file
+   that is not a target. A duplicate can be created by an upload through the
+   GitHub web UI, which is exactly how that one arrived, so this cannot be
+   enforced at the point the file is written. It has to be looked for. */
+const tracked = require('child_process')
+  .execSync('git ls-files "*.html"', { cwd: ROOT, encoding: 'utf8' })
+  .split('\n').map(function (x) { return x.trim(); }).filter(Boolean);
+const targetPaths = TARGETS.map(function (t) { return t.html.split('\\').join('/'); });
+const orphans = tracked.filter(function (f) {
+  if (targetPaths.indexOf(f) !== -1) return false;
+  return fs.readFileSync(path.join(ROOT, f), 'utf8').indexOf('/* BEGIN GENERATED ') !== -1;
+});
+if (orphans.length) {
+  console.error('ORPHANED GENERATED BLOCK - ' + orphans.length + ' file(s) carry an embedded');
+  console.error('blob that this script does not maintain. They will go stale and nothing');
+  console.error('else will say so. Either add the file to TARGETS or stop it holding data.');
+  orphans.forEach(function (f) { console.error('  - ' + f); });
+  process.exit(1);
+}
+console.log('Orphan scan: ' + tracked.length + ' tracked page(s), no unmaintained embedded blocks.');
+
 /* A checker that finds nothing and reports success is worse than no checker:
    it is a green light earned by not looking. If a target's file is missing or
    its block cannot be found, that is a failure, not a skip — most likely the
