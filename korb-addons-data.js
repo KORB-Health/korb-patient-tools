@@ -76,9 +76,20 @@
 
 var KORB_ADDONS = {
   meta: {
-    version: "1.2",
+    version: "1.3",
     created: "2026-09-11",
-    updated: "2026-09-14",
+    updated: "2026-09-15",
+    /* Sign-off provenance lives HERE, not inside a display string. On
+       2026-09-15 "Confirmed with Don Stevenson 2026-09-10." was removed from
+       the end of rules.routing because it was being rendered into the Add-On
+       Clinical Reference, where a provider reading a routing rule does not
+       need to know who signed it off. The routing itself did not change:
+       FarmaKeio when the patient's GLP-1 already comes from FarmaKeio and it
+       stocks the product, otherwise Premier. Don Stevenson confirmed that
+       routing on 2026-09-10 and confirmed on 2026-09-15 that the attribution
+       should not print. Keep attribution in meta, never in a display field. */
+    routingConfirmedBy: "Don Stevenson",
+    routingConfirmedOn: "2026-09-10",
     owner: "Director of Clinical Operations",
     sourceOfTruth: "Add-On Clinical Reference + KORB_Optimization_Products.html as at 2026-09-11",
     pharmacyLayer: "korb-pharmacies.js",
@@ -101,7 +112,7 @@ var KORB_ADDONS = {
     ageNote: "Hair loss products are for patients 18 and older. KORB does not treat patients under 18.",
     skinCarePharmacy: "premier",
     skinCareNote: "Skin care is Premier only. It cannot be routed to FarmaKeio.",
-    routing: "If the patient's GLP-1 already comes from FarmaKeio, take the add-on from FarmaKeio when it stocks the product. Otherwise Premier. Confirmed with Don Stevenson 2026-09-10.",
+    routing: "If the patient's GLP-1 already comes from FarmaKeio, take the add-on from FarmaKeio when it stocks the product. Otherwise Premier.",
     california: "Premier and FarmaKeio do not ship to California. Belmar does, and supplies PT-141 and NAD+ there. Pricing has been vetted for those two and no others; the rest would dispense at a loss once shipping is added.",
     nitrates: "Absolute contraindication for any sexual health product. Ask directly at every visit rather than relying on the medication list."
   },

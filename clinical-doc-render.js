@@ -65,6 +65,10 @@ var esc = GLP1DOCS.esc;
 var CSS = GLP1DOCS.CSS;
 var LOGO_URI = GLP1DOCS.LOGO_URI;
 
+/* The shared Tebra prescribing block, reached through the GLP-1 module which
+   already carries it. */
+var RXB = GLP1DOCS.RXB;
+
 /* Bound by renderBody()/mount() before any section runs. `D` is the program
    data file (KORB_ADDONS and, later, the Men's and Women's equivalents) and
    `PH` is the shared pharmacy layer. */
@@ -207,26 +211,35 @@ function copyCell(v) {
 function tebraRows(p) {
   var t = p.tebra;
   if (!t) return '';
-  return kvTable([
-    /* SURESCRIPTS CHANGE. Tebra used to need a commercial drop-down entry to
-       hang a prescription off, so these records carried things like "Viagra
-       50 mg tablet (from drop-down)". Tebra now takes a genuine custom
-       compounded drug, and drugFormulation is that string. It is the field a
-       provider types first and the one the old document never printed. */
-    p.drugFormulation ? ['Tebra drug — custom compound', copyCell(p.drugFormulation)] : null,
-    t.name ? ['Favorite name', copyCell(t.name)] : null,
-    t.sig ? ['Sig', copyCell(t.sig)] : null,
-    (t.quantity != null) ? ['Quantity', copyCell(t.quantity) + (t.unit ? ' ' + esc2(t.unit) : '')] : null,
-    (t.refill != null) ? ['Refill', esc2(t.refill)] : null,
-    (t.days != null) ? ['Days supply', esc2(t.days)] : null,
-    t.reasonForCompounding ? ['Reason for compounding', copyCell(t.reasonForCompounding)] : null,
-    t.pharmacyNotes ? ['Pharmacy notes', copyCell(t.pharmacyNotes)] : null,
-    /* STANDING RULE: the retired Tebra drop-down entry is never rendered. These
-       blocks are copied and pasted into a prescription; a superseded entry beside
-       the live custom compound is clutter that invites the wrong pick. The field
-       stays in the data file as history. Do not re-add this row. */
-    null
-  ]);
+
+  /* Rendered through korb-rx-block.js, the same module the FH&L references and
+     the GLP-1 monographs use. This document used to draw its own table with its
+     own label set - "Tebra drug - custom compound", "Favorite name", "Sig",
+     "Days supply", "Pharmacy notes" - and its own copy-button markup, so a
+     provider moving between documents met the same Tebra fields under different
+     names in a different layout.
+
+     Two defects went with that, and both are now gone by construction rather
+     than by patching: quantity and unit shared one cell, so the page read
+     "1 [copy] bottle" with the button wedged between the number and the unit,
+     and the buttons sat inline instead of aligned right.
+
+     SURESCRIPTS NOTE, kept from the old implementation. Tebra used to need a
+     commercial drop-down entry to hang a prescription off, so these records
+     carried things like "Viagra 50 mg tablet (from drop-down)". Tebra now takes
+     a genuine custom compounded drug and drugFormulation is that string. It
+     lives on the PRODUCT, not on the tebra record, so it is handed to the block
+     as `extra` to become Drug Formulation.
+
+     STANDING RULE: the retired drop-down entry is never rendered. These blocks
+     are copied into a prescription and a superseded entry beside the live custom
+     compound invites the wrong pick. The field stays in the data as history. */
+  return RXB.block({
+    pharmacy: pharmName(p.pharmacy),
+    label: t.name || p.name,
+    fields: RXB.fieldsFrom(t, { drugFormulation: p.drugFormulation }),
+    accent: RXB.accentFor(p.pharmacy)
+  });
 }
 
 function pharmName(key) {
@@ -299,7 +312,7 @@ function productBlock(group) {
   }
 
   group.forEach(function (p) {
-    h += '<h4>' + esc2(pharmName(p.pharmacy)) + '</h4>';
+    /* Pharmacy name is the block header now, so no separate h4. */
     h += tebraRows(p);
     if (!shared) {
       if (p.warn) h += '<div class="gate"><p>' + esc2(p.warn) + '</p></div>';
