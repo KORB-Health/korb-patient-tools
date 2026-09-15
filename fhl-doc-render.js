@@ -618,6 +618,16 @@ function sectionLabs() {
    Partner first, because it is the smaller number and that is the order Don
    reads them in. Monthly is said on the row itself rather than only in a note
    under the table. */
+/* A charge code is typed into a charge character for character, the same job
+   every Tebra field does, so it carries the same copy button from the same
+   module rather than a second mechanism. Consistent across all documents, per
+   Don 2026-09-15. Lab CODES are left plain: they are ordered by picking the
+   panel in Tebra, not by typing the number. */
+function codeCopy(code) {
+  return '<span class="cp" data-copy="' + esc(code) + '">' + esc(code) +
+         '<button class="copybtn" type="button" aria-label="Copy">Copy</button></span>';
+}
+
 function sectionPricing(doc) {
   const p = K.pricing[doc.program], base = K.pricing.baseline, ghk = K.pricing.ghkcu;
   const prog = K.programs[doc.program];
@@ -626,11 +636,11 @@ function sectionPricing(doc) {
   function payRow(label, amount, code, cls) {
     return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + esc(label) + '</td>' +
            '<td class="amt">' + money(amount) + '<span class="per"> / month</span></td>' +
-           '<td class="code">' + esc(code) + '</td></tr>';
+           '<td class="code">' + codeCopy(code) + '</td></tr>';
   }
   function oneOffRow(label, amount, code) {
     return '<tr><td>' + esc(label) + '</td><td class="amt">' + money(amount) +
-           '<span class="per"> one-time</span></td><td class="code">' + esc(code) + '</td></tr>';
+           '<span class="per"> one-time</span></td><td class="code">' + codeCopy(code) + '</td></tr>';
   }
 
   let rows = oneOffRow(base.label, base.partner, base.code);

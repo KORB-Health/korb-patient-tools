@@ -144,18 +144,22 @@
 
   .meta{font-family:var(--sans);font-size:7.4pt;color:var(--ink3);letter-spacing:.02em;}
   .fine{font-size:8.2pt;color:var(--ink2);margin:4pt 0;}
-  /* A SUB-LABEL OUTRANKS THE LIST IT INTRODUCES. It used to render at 10.9px in
-     grey above 15px bullets - smaller and fainter than its own contents, which
-     is why COMMON, LESS COMMON, PRIMARY, SECONDARY and BMI all disappeared into
-     the text under them. Third instance of the same inversion in two days,
-     after h4-above-h3 and "Prescribing detail" above its products.
+  /* A SUB-LABEL SITS UNDER ITS HEADING, not beside it.
 
-     Now navy, bold, uppercase, tracked, and no smaller than the body text it
-     labels. Still a label rather than a heading - it takes no rank in the
-     h2 / .prodhead / h3 ladder - but it can be found by skimming. */
-  .sublabel{font-family:var(--sans);font-size:8.8pt;color:var(--navy);font-weight:700;
-    text-transform:uppercase;letter-spacing:.07em;margin:9pt 0 3pt;}
-  @media screen{ .sublabel{font-size:13px;margin:14px 0 5px;} }
+     Two passes to get here. It began at 10.9px grey above 15px bullets, smaller
+     and fainter than its own contents, so COMMON and LESS COMMON vanished. The
+     fix overshot: navy, bold and UPPERCASE read as loud as the mixed-case h3
+     "Side effects" above it, so the sub-label and its own section heading looked
+     like peers.
+
+     Uppercase is the part that did it. A word in caps reads heavier than the
+     same word in sentence case at the same size, so the caps were doing what
+     bold and size were supposed to. Sentence case, semibold, a shade lighter
+     than the heading, and clearly smaller than it - findable when skimming,
+     never mistaken for a section. */
+  .sublabel{font-family:var(--sans);font-size:8.4pt;color:#3A4166;font-weight:600;
+    letter-spacing:0;margin:8pt 0 2pt;}
+  @media screen{ .sublabel{font-size:12.5px;margin:13px 0 4px;} }
   .attest{background:var(--panel);border:1pt solid var(--navy);padding:8pt 11pt;font-style:italic;}
   code{font-family:var(--sans);font-size:8.4pt;background:var(--panel);
        padding:1pt 3pt;border:0.5pt solid var(--rule);letter-spacing:.012em;}
