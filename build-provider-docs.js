@@ -38,6 +38,7 @@ const fs = require('fs');
 const path = require('path');
 const R = require('./provider-doc-render.js');
 const RXB = require('./korb-rx-block.js');
+const AUDIT = require('./dose-audit.js');
 
 const REPO = __dirname;
 const OUT = path.join(REPO, 'Provider_Reference', 'GLP1');
@@ -185,6 +186,15 @@ async function main() {
     problems.forEach(p => console.error('  - ' + p));
     process.exit(1);
   }
+
+  /* Cross-pharmacy dose audit. Open item 9b. This file carries a numeric mg on
+     every dose, so the check here is stronger than the peptide one: each dose
+     stated in the dose string, in the favorite name, and in the patient
+     instruction is compared against that number rather than against its
+     siblings. 74 doses across 16 products, and before 2026-09-14 none of them
+     had ever been audited. */
+  if (AUDIT.report('korb-glp1-data.js', AUDIT.auditGlp1(K))) process.exit(1);
+  console.log('Dose audit: all GLP-1 doses match their stated mg.');
 
   fs.mkdirSync(OUT, { recursive: true });
 

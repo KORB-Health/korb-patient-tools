@@ -42,6 +42,7 @@ const fs = require('fs');
 const path = require('path');
 const R = require('./fhl-doc-render.js');
 const RXB = require('./korb-rx-block.js');
+const AUDIT = require('./dose-audit.js');
 
 const REPO = __dirname;
 const OUT = path.join(REPO, 'Provider_Reference');
@@ -183,6 +184,14 @@ async function main() {
     problems.forEach(p => console.error('  - ' + p));
     process.exit(1);
   }
+
+  /* Cross-pharmacy dose audit. Open item 9b: this found two real errors on
+     2026-09-14 in the string that becomes the Tebra favorite, and existed only
+     as shell history, so the next one would have waited for someone to read a
+     finished document again. A dose does not change with the pharmacy, so
+     every place an entry states its dose must state the same one. */
+  if (AUDIT.report('korb-dosing-data.js', AUDIT.auditDosing(K))) process.exit(1);
+  console.log('Dose audit: every peptide dose is stated consistently across pharmacies.');
 
   /* A document that names a state it should not, or omits one it must, is the
      defect this rebuild exists to fix. Assert it before writing anything. */
