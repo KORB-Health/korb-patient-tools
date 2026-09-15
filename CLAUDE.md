@@ -591,8 +591,30 @@ women's testosterone. Do not re-report those; they are already on the list.
    `crossCheck()` now reports these lists as DERIVED rather than as agreement,
    because after this change comparing the two files compares a value with itself.
 4. **Wire FH&L onto it** (`korb-dosing-data.js`).
-5. **Retire the hand-built tables.** `KORB_GLP1_Dose_Guide.html` first — it is the
-   one that already failed.
+5. **Retire the hand-built tables.** `KORB_GLP1_Dose_Guide.html` ~~first~~ **DONE
+   2026-09-14**, `5c1c5e4`. Its table is built from `korb-glp1-data.js` at load;
+   `korb-pharmacies.js` and `korb-glp1-data.js` must both load before the inline
+   script, and it throws if they do not.
+   Proved by the failure it was written for: marking a product retired removes it
+   from the page entirely, dropdown included, with no edit. That is what did not
+   happen when Greenwich was retired on 2026-09-11.
+   Verified against a rendered baseline — all 48 medication/pharmacy/dose
+   combinations captured in Chromium before and after, **48 of 48 identical**
+   apart from the concentration line, which now comes from `formulation` rather
+   than a typed string.
+   Two facts moved into `korb-glp1-data.js` v2.18 to make it derivable:
+   `additive` on the seven compounded injectables, and per-dose `conc` on
+   belmar_sema, which is supplied at two concentrations by dose band.
+   **Still hand-built and still a liability:** `KORB_Lab_Interpretation_Tool.html`,
+   `KORB_Patient_Hub.html`, `KORB_Testosterone_Tracker.html`,
+   `KORB_Scheduler_Intake_Prototype.html`, `Provider_Reference/KORB_TRT_Provider_Tool.html`,
+   `Provider_Reference/KORB_Womens_Health_Provider_Tool.html`,
+   `Provider_Reference/KORB_BMI_Protein_Calculator*.html`,
+   `Provider_Reference/KORB_AddOn_Selector.html`. The TRT and Women's tools need
+   item 6's data files before they can be wired at all.
+   **`L-Carnatine` is misspelled 7 times in `korb-glp1-data.js` and was NOT
+   fixed.** One is display `formulation`; six are `drugFormulation`, the Tebra
+   field Belmar matches against. Confirm with Belmar before touching those six.
 6. **Create `korb-trt-data.js` and `korb-womens-data.js`.** New construction, not
    cleanup. Should not block 2–5.
 7. Reconcile `KORB_AddOn_Selector.html` / `KORB_Optimization_Products.html`.
