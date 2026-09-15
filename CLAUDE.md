@@ -693,18 +693,23 @@ women's testosterone. Do not re-report those; they are already on the list.
 11. **Scheduler intake — Men's Health and Women's Health question sets.**
    `KORB_Scheduler_Intake_AllPrograms.html` now carries Weight Loss and Functional
    Health & Longevity. The other two programs select at step 3 and then bring no
-   questions. Build them the way FH&L was built: read the approved Tebra
-   questionnaire first, restate it as conditional logic, change nothing clinical.
+   questions.
+
+   **There is NO approved Men's or Women's Health questionnaire to work from.**
+   Confirmed by Don 2026-09-15. This item used to say "read the approved Tebra
+   questionnaire first", which was true of FH&L and Weight Loss and is not true
+   here - nothing exists to read. So this is clinical authoring, not
+   transcription: the questions themselves have to be decided before any
+   conditional logic can be written, and that decision is Don's. Do not invent a
+   men's or women's health screen from the other programs' shape; the
+   contraindications are different.
    **`KORB_Scheduler_Intake_Prototype.html` stays frozen** until Lindsay has
    reviewed it. She has that exact URL. New work goes in AllPrograms.
    ~~Two things in AllPrograms need Don: the consent text is draft, and the FH&L
-   decline copy is new wording about the $99.~~ **Consent RESOLVED 2026-09-15** -
-   KORB's approved peptide and telehealth consent text replaced the drafts
-   (`da56c60`, `8015fd3`, `7750590`) and no draft marker remains in the file.
-   **The $99 decline copy is still unread by Don.** It is live wording in the
-   FH&L outcome screens telling a patient that baseline labs are ordered that day,
-   cost $99, and are non-refundable once blood is drawn. New, patient-facing, and
-   about money, so it wants his eye before this build reaches anyone.
+   decline copy is new wording about the $99.~~ **BOTH RESOLVED 2026-09-15.**
+   KORB's approved peptide and telehealth consent replaced the drafts
+   (`da56c60`, `8015fd3`, `7750590`). The $99 copy was confirmed correct by Don
+   on 2026-09-15 and matches the policy recorded under Conventions.
    House idiom, learned the hard way on 2026-09-14: questions are tappable `.opt`
    cards carrying a radio or a checkbox, and a `<select>` appears only as a
    follow-up inside a revealed `.subq`. A first build asked everything as a bare
@@ -769,6 +774,32 @@ Nick. No PHI is in this repo and none may be added.
   disregard a printed date.
 - Data file changes bump `meta.version` and `meta.lastUpdated` and add a changelog
   entry saying plainly whether clinical content changed.
+
+### The $99 baseline lab fee — the whole policy
+
+Don, 2026-09-15. The patient-facing copy in the scheduler is correct and
+deliberately says less than this. Write it down here so ops answers a refund
+request the same way twice.
+
+1. **The first FH&L visit is an evaluation.** Nothing is ordered and nothing is
+   charged before the provider has been through the answers with the patient.
+2. **A patient the provider disqualifies is never charged and never has labs
+   ordered.** They do not get the option to pay for labs they cannot use.
+3. **A patient who qualifies is charged $99 and the labs are ordered at that
+   visit.**
+4. **Once the blood has been drawn the $99 is non-refundable.** Not
+   discretionary - the laboratory has been paid.
+5. **Ordered but NOT yet drawn:** if the order can still be cancelled, a refund
+   is acceptable.
+6. **Case by case beyond that, and deliberately not advertised.** Refunds happen
+   occasionally and must not become routine or appear in patient-facing copy.
+7. **KORB's own error is the exception.** Caused by a provider, by ops or by
+   KORB, it is refunded, and that is not a case-by-case judgement.
+
+**Point 5 and point 6 must never reach patient copy.** The scheduler says
+nothing is charged before the evaluation, then $99 if you go ahead, then
+non-refundable once drawn - and stops. Stating a cancellation window invites
+the request; that is why it is absent rather than forgotten.
 
 ## Two-computer workflow
 
