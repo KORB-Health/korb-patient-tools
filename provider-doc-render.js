@@ -641,6 +641,7 @@ function sectionPricing(doc) {
   const seen = {};
   const tierSeen = {};
   const tierOrder = [];
+  const shownNotes = [];
   doc.products.forEach(key => {
     const p = K.getProduct(key);
     if (!p) return;
@@ -660,9 +661,21 @@ function sectionPricing(doc) {
           tierSeen[tierKey] = [];
           tierOrder.push(tierKey);
         }
-        bill.options.forEach(o => { tierSeen[tierKey].push([bill.programLabel, o]); });
-        const notes = [...new Set(bill.options.map(o => o.priceNote).filter(Boolean))];
-        notes.forEach(n => { h += `<p class="fine">${esc(n)}</p>`; });
+        /* One row per DISTINCT charge. A brand product carries the same visit fee
+           and the same charge code for every supply length and every dose, so
+           collecting per program produced four identical "$79 / FITGLP1001"
+           rows and four copies of the same manufacturer-pricing note. Deduped on
+           price + code + label. Don, 2026-09-15: one charge, one code. */
+        bill.options.forEach(o => {
+          const sigRow = String(o.label || bill.programLabel) + '|' + o.price + '|' + (o.code || o.codeNote || '');
+          if (tierSeen[tierKey].some(r => r.sig === sigRow)) return;
+          tierSeen[tierKey].push({ sig: sigRow, programLabel: bill.programLabel, o: o });
+        });
+        /* No note emitted here. This ran inside the COLLECTION loop, so it printed
+           the same manufacturer-pricing note once per program before any table
+           had been drawn - four copies stacked under the section heading on the
+           Wegovy reference. Notes are emitted once per document in the tier loop
+           below, via shownNotes. */
       });
     });
   });
@@ -670,14 +683,18 @@ function sectionPricing(doc) {
     h += `<h4>${esc(tk)}</h4>`;
     h += `<table class="grid"><thead><tr><th>Supply</th><th>Price</th><th>Charge code</th></tr></thead><tbody>`;
     const notes = [];
-    tierSeen[tk].forEach(([programLabel, o]) => {
+    tierSeen[tk].forEach(({ programLabel, o }) => {
       const label = o.label && o.label !== programLabel ? o.label : programLabel;
       h += `<tr><td>${esc(label)}</td><td>${o.price != null ? '$' + esc(o.price) : 'Varies'}</td>` +
            `<td>${o.code ? codeCopy(o.code) : esc(o.codeNote || 'Operations will provide')}</td></tr>`;
       if (o.priceNote && notes.indexOf(o.priceNote) === -1) notes.push(o.priceNote);
     });
     h += `</tbody></table>`;
-    notes.forEach(n => { h += `<p class="fine">${esc(n)}</p>`; });
+    notes.forEach(n => {
+      if (shownNotes.indexOf(n) !== -1) return;   // once per document, not once per table
+      shownNotes.push(n);
+      h += `<p class="fine">${esc(n)}</p>`;
+    });
   });
 
   h += `<p class="fine"><strong>Includes:</strong> ${esc(K.pricing.includes)}. Never quote pricing to a patient without confirming with Operations.</p>`;
@@ -693,7 +710,14 @@ function block(v) {
   if (Array.isArray(v)) return bullets(v);
   if (typeof v === 'object') {
     return Object.keys(v).map(k => {
-      const label = k.replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase());
+      /* A key becomes a label by splitting camelCase and capitalising the first
+         letter, which turns "bmi" into "Bmi". An acronym is not a word and has
+         no sentence case. Anything listed here keeps its own capitals. */
+      const ACRONYM = { bmi: 'BMI', icd10: 'ICD-10', glp1: 'GLP-1', hba1c: 'HbA1c',
+                        egfr: 'eGFR', psa: 'PSA', mtc: 'MTC', men2: 'MEN2',
+                        gip: 'GIP', igf1: 'IGF-1', nad: 'NAD+', trt: 'TRT' };
+      const label = ACRONYM[k.toLowerCase()] ||
+        k.replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase());
       const inner = v[k];
       if (Array.isArray(inner)) return `<p class="sublabel">${esc(label)}</p>${bullets(inner)}`;
       return `<p><strong>${esc(label)}.</strong> ${esc(inner)}</p>`;
