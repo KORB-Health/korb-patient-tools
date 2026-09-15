@@ -448,6 +448,12 @@ byte-identical then and now.
 Unsigned: Belmar Semaglutide, Premier Semaglutide with Glycine, Premier Tirzepatide,
 both FarmaKeio documents, Foundayo, Gateway, Peak Pathway A, Peak Pathway B.
 
+**PICK UP HERE — start with Foundayo.** It took the same LillyDirect dispensing
+address and brand-header treatment as Zepbound in the same pass on 2026-09-15,
+but Don reviewed Zepbound and not Foundayo, so it is the one most likely to hold
+an unreviewed change rather than merely an unreviewed document. Then work the
+rest of the list. `node rx-signoff.js` is the running total.
+
 ---
 
 ## Verification discipline
