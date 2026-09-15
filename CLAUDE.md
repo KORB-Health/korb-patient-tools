@@ -188,6 +188,64 @@ the comment in `sectionRx()`.
 
 ---
 
+## THE HOUSE STANDARD for a prescribing block and a document's headings
+
+Settled with Don across 2026-09-14 and 2026-09-15, by building it wrong several
+times first. It is the standard for every provider document, existing and new -
+GLP-1 monographs, FH&L references, the Add-On reference, and Men's and Women's
+Health when they are built. Do not re-decide any of it per document.
+
+**The block.** `korb-rx-block.js` renders it and owns every rule below.
+
+- Ten fields in **Tebra entry order**, never alphabetical, never re-ordered to
+  suit a layout.
+- **One complete block per thing a provider prescribes** - per dose, per
+  strength, per pharmacy. Never factor shared fields into a "same for every
+  dose" table. Tried twice, rejected twice: a provider transcribing one entry
+  must read it in one place.
+- **No per-field colour.** Providers know the fields. `FIELD_LEGEND` still
+  records the Canva template's colour per field but paints nothing.
+- **Zebra across the WHOLE row**, both cells one colour. A tint on the label
+  column alone makes every row two-tone and the block reads as two columns.
+- **A vertical rule** separates label from value. That is the column divider -
+  not a fill.
+- **White cell background, explicitly.** The page behind is cream `#FBFAF6`; a
+  block that inherits it dissolves into it.
+- **Copy buttons float right**, screen only, hidden in print. One `.copybtn`
+  rule, in `korb-rx-block.js`. A renderer must never declare its own.
+- **Pharmacy accent** on the block header, from `PHARMACY_ACCENT`. See
+  Conventions.
+
+**Headings.** One ladder, every document:
+
+| rank | what | size |
+|---|---|---|
+| `h2` | section, navy filled bar | 19px |
+| `.prodhead` | product or agent, teal rule under | 19px |
+| `h3` | note, callout, sub-point | 12-13px |
+| `h4` | below a product | 13px |
+
+Sized in the SHARED stylesheet in `provider-doc-render.js`, never in a
+builder's own `@media screen` block - each builder having its own copy is how
+`h4` silently drifted above `h3`.
+
+**A heading must never be outranked by its own contents.** That inversion
+happened twice in one day: `h4` above `h3.prod` in the monographs, and
+"Prescribing detail" at 15px above product headings at 19px on the Add-On
+reference. The second was deleted rather than promoted, because a product name
+followed by a navy "Compounded Drug Favorite Entry" header already says what
+the section said. **If a rung is redundant, remove it rather than resize it.**
+
+**Copy values are plain ASCII.** No en dash, em dash, curly quote or fraction
+glyph in anything a provider pastes into Tebra. `1/2`, not the glyph. Prose
+keeps its typography; only copyable values are constrained.
+
+**Verify by reading the rendered page, not the source.** Every defect in this
+standard was found by reading computed styles and measuring - font sizes,
+background colours, luminance against the page - after the source looked right.
+
+---
+
 ## Second machine setup
 
 Work happens on a desktop and a laptop. Clone as a **sibling** of the licensing

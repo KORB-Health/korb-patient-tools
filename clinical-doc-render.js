@@ -358,7 +358,13 @@ function sectionProducts(sec) {
   var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
   h += productSummary(inGroup);
   (sec.callouts || []).forEach(function (c) { h += callout(c); });
-  h += '<h3 class="rxlead">Prescribing detail</h3>';
+  /* No "Prescribing detail" lead-in. It was an h3 at 15px sitting above product
+     headings at 19px - a parent outranked by its own children, the same shape as
+     the h4-above-h3 inversion fixed earlier the same day. Removed rather than
+     promoted because it said nothing: a product name followed by a navy
+     "Compounded Drug Favorite Entry" header already tells a provider exactly
+     what they are looking at. Don, 2026-09-15: if something is redundant, get
+     rid of it. Deleting a rung beats renaming one. */
   h += order.map(function (n) { return productBlock(byName[n]); }).join('');
 
   var pending = inGroup.filter(function (p) { return p.needsSignoff; }).length;
@@ -403,7 +409,6 @@ function renderBody(data, pharmacies, doc) {
           on the right margin. One button style, one owner. */
        '.rxblock h3{break-after:avoid;}' +
        '.rxblock h3+.fine{break-after:avoid;}' +
-       'h3.rxlead{margin-top:16pt;break-after:avoid;}' +
        '</style>';
   h += '<div class="titleband"><h1>' + esc2(dd.title) + '</h1>' +
        '<p class="sub">' + esc2(dd.subtitle) + ' · ' + esc2(dd.kicker) + '</p></div>';
