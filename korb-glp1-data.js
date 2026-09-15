@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.18',
+    version: '2.19',
     created: '2026-08-06',
     lastUpdated: '2026-09-13',
     owner: 'Director of Clinical Operations',
@@ -67,7 +67,8 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
-      '2026-09-14 (v2.18): NO CLINICAL CHANGE TO ANY DOSE. Two facts that lived only inside KORB_GLP1_Dose_Guide.html were moved here so that page can be derived rather than typed, which is open item 5. Added `additive` to the seven compounded injectables - the vitamin or amino acid each product carries, which the guide had been typing in its own table. Added per-dose `conc` to the five belmar_sema doses, because Belmar supplies semaglutide at two concentrations by dose band and this file held only the sentence "two concentrations by dose band" while the guide held the actual numbers. Every mg, unit count and 4- and 8-week vial string is byte-identical to v2.17: verified by rendering all 48 medication/pharmacy/dose combinations of the Dose Guide before and after, 48 of 48 identical apart from the concentration line, which now reads from `formulation` here instead of a separate typed string. NOT CHANGED, deliberately: "L-Carnatine" appears 7 times, once as display `formulation` and six times as `drugFormulation`. The latter is the Tebra field Belmar matches against, and this repo already keeps Greenwich formulation strings byte-identical for that reason, so correcting the spelling needs Belmar to confirm first. Raised with Don 2026-09-14.',
+      '2026-09-14 (v2.19): SPELLING ONLY, NO CLINICAL OR DOSE CHANGE. "L-Carnatine" corrected to "L-Carnitine" in all 7 Belmar tirzepatide strings: one display `formulation` and six `drugFormulation`. v2.18 left these alone on the reasoning that drugFormulation is the Tebra field a pharmacy matches against, and this repo keeps Greenwich formulation strings byte-identical for exactly that reason. Don confirmed 2026-09-14 that the exact-match constraint is GREENWICH ONLY - Greenwich matches on the compounded name and will flag a difference; Belmar does not. So the caution was right to raise and wrong to keep. No dose, quantity, unit, days supply or instruction changed, and no Greenwich string was touched.',
+      '2026-09-14 (v2.18): NO CLINICAL CHANGE TO ANY DOSE. Two facts that lived only inside KORB_GLP1_Dose_Guide.html were moved here so that page can be derived rather than typed, which is open item 5. Added `additive` to the seven compounded injectables - the vitamin or amino acid each product carries, which the guide had been typing in its own table. Added per-dose `conc` to the five belmar_sema doses, because Belmar supplies semaglutide at two concentrations by dose band and this file held only the sentence "two concentrations by dose band" while the guide held the actual numbers. Every mg, unit count and 4- and 8-week vial string is byte-identical to v2.17: verified by rendering all 48 medication/pharmacy/dose combinations of the Dose Guide before and after, 48 of 48 identical apart from the concentration line, which now reads from `formulation` here instead of a separate typed string. NOT CHANGED, deliberately: "L-Carnatine" appears 7 times, once as display `formulation` and six times as `drugFormulation`. The latter is the Tebra field Belmar matches against, and this repo already keeps Greenwich formulation strings byte-identical for that reason, so correcting the spelling needs Belmar to confirm first. Raised with Don 2026-09-14 and ANSWERED in v2.19: Belmar does not require an exact match, that constraint is Greenwich only.',
       '2026-09-13 (v2.17): WORDING ONLY, NO ROUTING OR DOSING CHANGE. pharmacySelection.overrideReasons described L-carnitine as an "added vitamin". L-carnitine is an amino acid derivative, not a vitamin. Changed to "added agent" in the reason string and in the explanatory comment above it. Flagged because the GLP-1 Pharmacy Routing tool renders that string verbatim to providers, so the error was on screen rather than buried in the file. Nothing else in this file was touched: pharmacy routing, state lists, sigs, doses and pricing are byte-identical to v2.16.',
       '2026-09-11 (v2.16): GREENWICH GLP-1 RETIRED, EVERY STATE. Greenwich told KORB ' +
       'it can no longer ship to California. California was the trigger, but the ' +
@@ -2602,7 +2603,7 @@ var KORB_GLP1 = {
       route: 'subcutaneous',
       frequency: 'once weekly',
       orderVia: 'Tebra Compound',
-      formulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
+      formulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
       supplyNote: '8-week program ships as a single fill, 56 days, no refill ' +
                   '(changed 2026-09-05). Dispensed quantity pending confirmation ' +
                   '— see needsConfirmation BELMAR-8WK-QTY.',
@@ -2610,7 +2611,7 @@ var KORB_GLP1 = {
         {
           dose: '2.5 mg', mg: 2.5, units: 25, priceTier: 'T1A',
           vials4: '1 ml x 1 vial', vials8: '1 ml x 2 vials',
-          drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
+          drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 2.5 mg \u2013 4-Week Supply',
             allowSubstitution: true,
@@ -2659,7 +2660,7 @@ var KORB_GLP1 = {
         {
           dose: '5 mg', mg: 5, units: 50, priceTier: 'T1A',
           vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
-          drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
+          drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 5 mg \u2013 4-Week Supply',
             allowSubstitution: true,
@@ -2708,7 +2709,7 @@ var KORB_GLP1 = {
         {
           dose: '7.5 mg', mg: 7.5, units: 75, priceTier: 'T2A',
           vials4: '1 ml x 3 vials', vials8: '1 ml x 6 vials',
-          drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
+          drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 7.5 mg \u2013 4-Week Supply',
             allowSubstitution: true,
@@ -2760,7 +2761,7 @@ var KORB_GLP1 = {
         {
           dose: '10 mg', mg: 10, units: 100, priceTier: 'T2A',
           vials4: '4 ml x 1 vial', vials8: '4 ml x 2 vials',
-          drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
+          drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 10 mg \u2013 4-Week Supply',
             allowSubstitution: true,
@@ -2809,7 +2810,7 @@ var KORB_GLP1 = {
         {
           dose: '12.5 mg', mg: 12.5, units: 125, priceTier: 'T3A',
           vials4: '1 ml x 1 vial & 4 ml x 1 vial', vials8: '4 ml x 2 vials & 1 ml x 2 vials',
-          drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
+          drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 12.5 mg \u2013 4-Week Supply',
             allowSubstitution: true,
@@ -2861,7 +2862,7 @@ var KORB_GLP1 = {
         {
           dose: '15 mg', mg: 15, units: 150, priceTier: 'T3A',
           vials4: '1 ml x 2 vials & 4 ml x 1 vial', vials8: '4 ml x 3 vials',
-          drugFormulation: 'Tirzepatide/L-Carnatine 10mg/50mg/ml',
+          drugFormulation: 'Tirzepatide/L-Carnitine 10mg/50mg/ml',
           supply4: {
             name: 'BELMAR \u2013 Tirzepatide 15 mg \u2013 4-Week Supply',
             allowSubstitution: true,
