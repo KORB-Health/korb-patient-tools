@@ -572,10 +572,24 @@ women's testosterone. Do not re-report those; they are already on the list.
    `crossCheck()` compares this file against the program files that still carry
    their own copy, which `selfCheck()` structurally cannot do. Run it with
    `node check-pharmacies.js`; it exits 1 on anything unexpected.
-3. **Wire GLP-1 onto it.** Do GLP-1 first: best self-check coverage, and there is a
-   verified 51-state routing baseline to diff against, so a mistake shows up
-   immediately. Baseline as of v2.17: FarmaKeio 40 states, Premier 10, Belmar 1 (CA).
-   California is single-source — Premier and FarmaKeio both hard-blocked.
+3. ~~Wire GLP-1 onto it.~~ **DONE 2026-09-15**, `c577fa3`.
+   `korb-glp1-data.js` no longer TYPES pharmacy footprints. `hydrate()` fills
+   `shipsTo`, `hardExcludes` and `preferredStates` from `korb-pharmacies.js` at
+   load, so every consumer still reads `ph.shipsTo` unchanged while the fact is
+   written once. 245 state entries across 12 lists removed from the GLP-1 file.
+   **korb-pharmacies.js must load BEFORE korb-glp1-data.js.** Routing throws
+   naming the missing script, and the builder exits 1, rather than answering from
+   empty lists — a pharmacy that "ships nowhere and excludes nowhere" would
+   misroute silently.
+   Verified against a captured baseline, not by reasoning: all 51 jurisdictions
+   against all 7 pharmacies, 357 checks comparing status AND the full message
+   string, **zero differences**. Tally unchanged at FarmaKeio 40, Premier 10,
+   Belmar 1 (CA), California still single-source, Greenwich blocked in all 51.
+   Browser-verified too, because script-tag order is what breaks silently:
+   5 pages loaded in Chromium, all hydrate, `KORB_ROUTING_SELFCHECK()` returns
+   51 states and `problems: []`.
+   `crossCheck()` now reports these lists as DERIVED rather than as agreement,
+   because after this change comparing the two files compares a value with itself.
 4. **Wire FH&L onto it** (`korb-dosing-data.js`).
 5. **Retire the hand-built tables.** `KORB_GLP1_Dose_Guide.html` first — it is the
    one that already failed.
