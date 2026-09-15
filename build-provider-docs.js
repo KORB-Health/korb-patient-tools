@@ -82,7 +82,7 @@ ${R.CSS}
 /* Screen presentation. The rules above are shared with the PDF build. */
 @media screen {
   body { max-width: 8.5in; margin: 0 auto; padding: 28px 26px 60px; font-size: 15px; background: #FBFAF6; }
-  h1 { font-size: 30px; } h2 { font-size: 19px; } h3 { font-size: 15px; } h4 { font-size: 14px; }
+  h1 { font-size: 30px; } h2 { font-size: 19px; } h3 { font-size: 15px; } h4 { font-size: 13px; }
   table { font-size: 14px; } .rx td { font-size: 13px; }
   .live { font-family: Montserrat, Helvetica, Arial, sans-serif; font-weight: 600; font-size: 10px; letter-spacing: .06em;
           text-transform: uppercase; color: #1E6B4F; background: #E9F3EE;

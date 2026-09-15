@@ -419,7 +419,7 @@ function sectionRx(doc) {
     const rec = K.prescribing[r.key];
     if (!rec) return;
     const a = K.agents[r.key] || {};
-    h += '<div class="rxblock"><h3>' + esc((rec.name || a.label) + ' — ' + (a.dose || '')) + '</h3>';
+    h += '<div class="rxblock"><h3 class="prodhead">' + esc((rec.name || a.label) + ' - ' + (a.dose || '')) + '</h3>';
     /* Both pharmacies for ONE strength, side by side and kept on one page. They
        are the same prescription routed two ways, so a provider comparing them
        should not be turning a page to do it. The pair is the unit that must not

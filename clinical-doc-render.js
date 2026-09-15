@@ -302,7 +302,10 @@ function clinicalSignature(p) {
 
 function productBlock(group) {
   var lead = group[0];
-  var h = '<div class="rxblock"><h3>' + esc2(lead.name) + '</h3>';
+  /* .prodhead, the shared product rank. Plain h3 put this at the same size as
+     the "Prescribing detail" label above it, so a product name had nothing
+     marking it as the start of a new product. */
+  var h = '<div class="rxblock"><h3 class="prodhead">' + esc2(lead.name) + '</h3>';
 
   /* Formulations can differ by pharmacy even when the clinical picture does
      not — the two KORB Electric compounds are a different set of actives. */

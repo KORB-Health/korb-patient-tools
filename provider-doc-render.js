@@ -92,6 +92,29 @@ const CSS = RXB.CSS + `
   h3{font-family:var(--sans);font-weight:800;font-size:9.8pt;
      margin:13pt 0 5pt;color:var(--navy);break-after:avoid;}
   h3.prod{background:var(--navy);color:#fff;padding:6pt 10pt;margin-top:16pt;font-size:10pt;}
+  /* THE PRODUCT / AGENT HEADING. One rank, one class, every document.
+
+     Before 2026-09-15 this level had no rank of its own. On the Add-On
+     reference a product name was a plain h3 at 15px - the same size as the
+     "Prescribing detail" label above it, and the same tag as three other things
+     rendered at 12 and 13px - so "KORB Rise" sat between two prescribing blocks
+     with nothing marking it as the start of a new product. In the GLP-1
+     monographs it was worse than flat: h4 rendered at 14px against h3.prod at
+     13.3px, so the dose heading outranked the product it belonged to.
+
+     .prodhead is larger than anything under it, carries a teal rule and real
+     space above, and is deliberately NOT a filled bar - a filled bar competes
+     with the h2 section bars and with the navy block headers below it. Size and
+     a rule are enough to say "a new product starts here".
+
+     Sized HERE rather than in a builder's @media screen block. Each builder
+     carried its own copy of those sizes, which is exactly how h4 drifted above
+     h3 without anyone noticing. */
+  .prodhead{font-family:var(--sans);font-weight:800;font-size:12pt;color:var(--navy);
+    margin:20pt 0 7pt;padding-bottom:3pt;border-bottom:1.5pt solid var(--teal);
+    break-after:avoid;page-break-after:avoid;}
+  .prodhead .via{float:right;font-weight:400;font-size:8.6pt;color:var(--ink3);}
+  @media screen{ .prodhead{font-size:19px;margin:30px 0 10px;padding-bottom:5px;} }
   h3.prod .via{float:right;font-weight:400;font-size:8.2pt;opacity:.85;}
   h4{font-family:var(--sans);font-weight:800;font-size:9.2pt;
      margin:11pt 0 4pt;color:var(--navy);break-after:avoid;}
@@ -411,7 +434,7 @@ function sectionRx(doc) {
   doc.products.forEach(key => {
     const p = K.getProduct(key);
     if (!p) return;
-    h += `<h3 class="prod">${esc(p.label)} <span class="via">${esc(p.orderVia || '')}</span></h3>`;
+    h += `<h3 class="prodhead">${esc(p.label)} <span class="via">${esc(p.orderVia || '')}</span></h3>`;
     if (p.exclusiveTo && p.exclusiveNote) {
       h += `<div class="callout"><h3>Only from ${esc(K.pharmacies[p.exclusiveTo].name)} — this product</h3><p>${esc(p.exclusiveNote)}</p></div>`;
     }
