@@ -47,7 +47,7 @@
 var KORB_GLP1 = {
 
   meta: {
-    version: '2.20',
+    version: '2.21',
     created: '2026-08-06',
     lastUpdated: '2026-09-13',
     owner: 'Director of Clinical Operations',
@@ -4123,7 +4123,6 @@ var KORB_GLP1 = {
       T1A: {
         tier: 'T1A',
         appliesTo: 'Low doses — 2 / 2.5 / 4 / 4.5 / 5 mg depending on pharmacy',
-        corpPartner: { price: 349, code: 'FITTirzCP2' },
         fourWeek:    { price: 349, code: 'FITTirz002' },
         eightWeek: {
           price: 599,
@@ -4150,7 +4149,6 @@ var KORB_GLP1 = {
       T2A: {
         tier: 'T2A',
         appliesTo: 'Mid doses — 6.5 / 7.5 / 8.5 / 9 / 10 mg depending on pharmacy',
-        corpPartner: { price: 399, code: 'FITTirzCP3' },
         fourWeek:    { price: 399, code: 'FITTirz003' },
         eightWeek: {
           price: 649,
@@ -4177,7 +4175,6 @@ var KORB_GLP1 = {
       T3A: {
         tier: 'T3A',
         appliesTo: 'High doses — 12.5 / 13.5 / 15 / 16 mg depending on pharmacy',
-        corpPartner: { price: 449, code: 'FITTirzCP4' },
         fourWeek:    { price: 449, code: 'FITTirz004' },
         eightWeek: {
           price: 799,
@@ -4686,10 +4683,12 @@ var KORB_GLP1 = {
                            code: t.eightWeek.codes.standard.code,
                            codeNote: t.eightWeek.codes.standard.note });
       } else {
-        out.options.push({ label: '4-week — corporate partner', price: t.corpPartner.price,
-                           code: t.corpPartner.code,
-                           priceNote: KORB_GLP1.pricing.tirzepatideTiers.corporateNote });
-        out.options.push({ label: '4-week — standard', price: t.fourWeek.price,
+        /* One 4-week price. The corporate-partner option was removed on
+           2026-09-15: KORB no longer runs separate standard and corporate
+           partner pricing, and the two figures were identical at every tier
+           anyway - the data's own note said so and warned not to present it to a
+           partner as a saving. Codes FITTirzCP2/CP3/CP4 are gone with it. */
+        out.options.push({ label: '4-week', price: t.fourWeek.price,
                            code: t.fourWeek.code });
       }
       out.note = 'Dose tier ' + t.tier + ' — ' + t.appliesTo;

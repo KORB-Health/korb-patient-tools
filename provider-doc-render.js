@@ -639,6 +639,8 @@ function codeCopy(code) {
 function sectionPricing(doc) {
   let h = `<h2>Pricing and charge codes</h2>`;
   const seen = {};
+  const tierSeen = {};
+  const tierOrder = [];
   doc.products.forEach(key => {
     const p = K.getProduct(key);
     if (!p) return;
@@ -649,18 +651,35 @@ function sectionPricing(doc) {
         const sig = key + '|' + prog + '|' + (d.priceTier || '');
         if (seen[sig]) return;
         seen[sig] = 1;
-        h += `<h4>${esc(p.label)} — ${esc(bill.programLabel)}${d.priceTier ? ' · tier ' + esc(d.priceTier) : ''}</h4>`;
-        h += `<table class="grid"><thead><tr><th>Program</th><th>Price</th><th>Charge code</th></tr></thead><tbody>`;
-        bill.options.forEach(o => {
-          h += `<tr><td>${esc(o.label)}</td><td>${o.price != null ? '$' + esc(o.price) : 'Varies'}</td>
-            <td>${o.code ? codeCopy(o.code) : esc(o.codeNote || 'Operations will provide')}</td></tr>`;
-        });
-        h += `</tbody></table>`;
+        /* One table per dose tier, with every supply length as a ROW, rather
+           than a separate headed table per program. A provider comparing 4-week
+           against 8-week for the same tier was reading two tables under two
+           headings; they are now adjacent lines. Don, 2026-09-15. */
+        const tierKey = p.label + (d.priceTier ? ' · tier ' + d.priceTier : '');
+        if (!tierSeen[tierKey]) {
+          tierSeen[tierKey] = [];
+          tierOrder.push(tierKey);
+        }
+        bill.options.forEach(o => { tierSeen[tierKey].push([bill.programLabel, o]); });
         const notes = [...new Set(bill.options.map(o => o.priceNote).filter(Boolean))];
         notes.forEach(n => { h += `<p class="fine">${esc(n)}</p>`; });
       });
     });
   });
+  tierOrder.forEach(tk => {
+    h += `<h4>${esc(tk)}</h4>`;
+    h += `<table class="grid"><thead><tr><th>Supply</th><th>Price</th><th>Charge code</th></tr></thead><tbody>`;
+    const notes = [];
+    tierSeen[tk].forEach(([programLabel, o]) => {
+      const label = o.label && o.label !== programLabel ? o.label : programLabel;
+      h += `<tr><td>${esc(label)}</td><td>${o.price != null ? '$' + esc(o.price) : 'Varies'}</td>` +
+           `<td>${o.code ? codeCopy(o.code) : esc(o.codeNote || 'Operations will provide')}</td></tr>`;
+      if (o.priceNote && notes.indexOf(o.priceNote) === -1) notes.push(o.priceNote);
+    });
+    h += `</tbody></table>`;
+    notes.forEach(n => { h += `<p class="fine">${esc(n)}</p>`; });
+  });
+
   h += `<p class="fine"><strong>Includes:</strong> ${esc(K.pricing.includes)}. Never quote pricing to a patient without confirming with Operations.</p>`;
   return h;
 }
