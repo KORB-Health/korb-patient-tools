@@ -168,8 +168,18 @@ const CSS = RXB.CSS + `
 
   .meta{font-family:var(--sans);font-size:7.4pt;color:var(--ink3);letter-spacing:.02em;}
   .fine{font-size:8.2pt;color:var(--ink2);margin:4pt 0;}
-  .sublabel{font-family:var(--sans);font-size:8.2pt;color:var(--ink3);font-weight:600;
-            text-transform:uppercase;letter-spacing:.07em;margin:7pt 0 2pt;}
+  /* A SUB-LABEL OUTRANKS THE LIST IT INTRODUCES. It used to render at 10.9px in
+     grey above 15px bullets - smaller and fainter than its own contents, which
+     is why COMMON, LESS COMMON, PRIMARY, SECONDARY and BMI all disappeared into
+     the text under them. Third instance of the same inversion in two days,
+     after h4-above-h3 and "Prescribing detail" above its products.
+
+     Now navy, bold, uppercase, tracked, and no smaller than the body text it
+     labels. Still a label rather than a heading - it takes no rank in the
+     h2 / .prodhead / h3 ladder - but it can be found by skimming. */
+  .sublabel{font-family:var(--sans);font-size:8.8pt;color:var(--navy);font-weight:700;
+    text-transform:uppercase;letter-spacing:.07em;margin:9pt 0 3pt;}
+  @media screen{ .sublabel{font-size:13px;margin:14px 0 5px;} }
   .attest{background:var(--panel);border:1pt solid var(--navy);padding:8pt 11pt;font-style:italic;}
   code{font-family:var(--sans);font-size:8.4pt;background:var(--panel);
        padding:1pt 3pt;border:0.5pt solid var(--rule);letter-spacing:.012em;}
@@ -495,10 +505,23 @@ function sectionRx(doc) {
                     rx30: '30-day', rx60: '60-day', rx90: '90-day' };
 
     recs.forEach(x => {
+      /* A BRAND product is not compounded. It is chosen from Tebra's medication
+         list, so the drug itself must be SELECTED, never pasted - a pasted brand
+         name produces an entry that will not transmit. The drug rows therefore
+         lose their copy button and gain that instruction. Every other field
+         keeps its button, because a provider may still build a favorite from
+         them. Don, 2026-09-15. */
+      const isBrand = p.compounded === false;
+      const SELECT_ONLY = ['Drug', 'Drug Formulation', 'Name'];
+
       const fields = FIELDS
         .map(([label, get]) => {
           const v = val(label, get, x);
-          return v === undefined ? null : { field: label, val: v, copy: label !== 'Allow Substitution' };
+          if (v === undefined) return null;
+          if (isBrand && SELECT_ONLY.indexOf(label) !== -1) {
+            return { field: label, val: v, copy: false, select: true };
+          }
+          return { field: label, val: v, copy: label !== 'Allow Substitution' };
         })
         .filter(Boolean);
 
@@ -517,6 +540,7 @@ function sectionRx(doc) {
         pharmacy: pharmLabel(p),
         label: heading,
         tag: supplyTag,
+        entryKind: isBrand ? 'standard' : 'compound',
         fields: fields,
         accent: RXB.accentFor(p.pharmacy)
       }) + '</div>';
@@ -532,6 +556,37 @@ function pharmLabel(p) {
   var named = { premier: 'Premier Pharmacy', greenwich: 'Greenwich Pharmacy',
                 belmar: 'Belmar Pharmacy', farmakeio: 'FarmaKeio Pharmacy' };
   return named[k.toLowerCase()] || p.pharmacyLabel || p.label || k;
+}
+
+/* Everything in here is read from K.brandRules, which has been in the data file
+   since 2026-08-09 and was never rendered. A provider reading a brand monograph
+   could not see that the pathway exists in four states only, that it is a Tebra
+   STANDARD prescription rather than a compound, or that KORB does no prior
+   authorisations. Don asked for the state list and the ordering route on
+   2026-09-15; both were already there. */
+function sectionBrandRules(doc) {
+  const p = K.getProduct(doc.products[0]);
+  if (!p || p.compounded !== false) return '';
+  const R = K.brandRules || {};
+  if (!R.availableStates) return '';
+
+  let h = '<h2>Brand pathway — where it is available and how to order</h2>';
+  h += '<div class="gate"><h3>Available in ' + R.availableStates.length + ' states only</h3>' +
+       '<p><strong>' + esc(R.availableStates.join(' · ')) + '</strong></p>' +
+       '<p>' + esc(R.availableStatesNote || '') + '</p></div>';
+
+  h += '<table class="kv">' + rows([
+    R.orderVia ? ['Order via', esc(R.orderVia)] : null,
+    ['Dispensed by', esc(pharmLabel(p))],
+    R.billing ? ['Billing', esc(R.billing)] : null,
+    R.noPriorAuth ? ['Prior authorisation', 'KORB does not complete insurance prior authorisations'] : null,
+    R.noCoupons ? ['Coupons and savings cards', 'Not handled by KORB'] : null,
+    R.localPharmacyAllowed ? ['Local pharmacy', 'A brand prescription can be sent to the patient’s local pharmacy on request'] : null
+  ].filter(Boolean)) + '</table>';
+
+  if (R.patientResponsibility) h += '<div class="callout warn"><p>' + esc(R.patientResponsibility) + '</p></div>';
+  if (R.noPharmacyShopping) h += '<p class="fine">' + esc(R.noPharmacyShopping) + '</p>';
+  return h;
 }
 
 function sectionLadder(doc) {
@@ -665,6 +720,7 @@ function renderBody(data, doc) {
      prescribe" screen and it outranks price. -->
 ${sectionGate(doc)}
 ${sectionGlance(doc, ph)}
+${sectionBrandRules(doc)}
 ${sectionPricing(doc)}
 ${sectionCallouts(doc, ph)}
 ${sectionPreparation(doc)}

@@ -166,9 +166,16 @@
     if (!fields.length) { return ''; }
 
     var accent = opts.accent || '#21275B';
+    /* The kind of Tebra entry this is. A BRAND product is NOT a Compounded Drug
+       Favorite - it is an ordinary Tebra Standard prescription chosen from the
+       medication list - and a header claiming otherwise sends a provider to the
+       wrong screen. Callers pass entryKind:'standard' for brand. */
+    var kindLabel = opts.entryKind === 'standard'
+      ? 'Tebra Standard prescription'
+      : 'Compounded Drug Favorite Entry';
     var head = esc(opts.pharmacy || '');
     if (opts.label) {
-      head += ' &nbsp;&middot;&nbsp; Compounded Drug Favorite Entry &nbsp;&middot;&nbsp; ' + esc(opts.label);
+      head += ' &nbsp;&middot;&nbsp; ' + kindLabel + ' &nbsp;&middot;&nbsp; ' + esc(opts.label);
     }
 
     /* Optional right-aligned tag: the supply length, usually. Deliberately NOT a
@@ -186,7 +193,15 @@
       var fc = FIELD_LEGEND[f.field];
       var cls = fc ? ' class="' + fc.cls + '"' : '';
       h += '<tr><th>' + esc(f.field) + '</th>';
-      if (f.copy) {
+      /* SELECT-ONLY. A brand drug is picked from Tebra's own medication list;
+         pasting the name into that box produces an entry that will not transmit.
+         So the field carries NO copy button and says why, rather than offering a
+         button that would quietly do the wrong thing. */
+      if (f.select) {
+        h += '<td' + cls + '>' + esc(f.val) +
+             '<span class="rxb-select">Select this from the Tebra drop-down. Do not copy and paste.</span>' +
+             '</td></tr>';
+      } else if (f.copy) {
         h += '<td' + cls + '><span class="cp" data-copy="' + esc(f.val) + '">' + esc(f.val) +
              '<button class="copybtn" type="button" aria-label="Copy">Copy</button></span></td></tr>';
       } else {
@@ -278,9 +293,16 @@
     if (!g.constant.length && !g.varying.length) { return ''; }
 
     var accent = opts.accent || '#21275B';
+    /* The kind of Tebra entry this is. A BRAND product is NOT a Compounded Drug
+       Favorite - it is an ordinary Tebra Standard prescription chosen from the
+       medication list - and a header claiming otherwise sends a provider to the
+       wrong screen. Callers pass entryKind:'standard' for brand. */
+    var kindLabel = opts.entryKind === 'standard'
+      ? 'Tebra Standard prescription'
+      : 'Compounded Drug Favorite Entry';
     var head = esc(opts.pharmacy || '');
     if (opts.label) {
-      head += ' &nbsp;&middot;&nbsp; Compounded Drug Favorite Entry &nbsp;&middot;&nbsp; ' + esc(opts.label);
+      head += ' &nbsp;&middot;&nbsp; ' + kindLabel + ' &nbsp;&middot;&nbsp; ' + esc(opts.label);
     }
     if (g.count > 1) { head += ' &nbsp;&middot;&nbsp; ' + g.count + ' strengths'; }
 
@@ -323,6 +345,7 @@
       '.rxb{margin:0 0 18px;border:1px solid #B9C0D4;border-radius:7px;overflow:hidden;' +
         'break-inside:avoid;page-break-inside:avoid;}' +
       '.rxb-hdr{color:#fff;font-weight:700;font-size:12px;letter-spacing:.02em;padding:7px 12px;}' +
+      '.rxb-select{display:block;margin-top:4px;font-size:10.5px;font-weight:700;color:#A15C07;letter-spacing:.01em;text-transform:none;}' +
       '.rxb-tag{float:right;margin-left:12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;' +
         'text-transform:uppercase;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);' +
         'border-radius:3px;padding:1px 8px;}' +
