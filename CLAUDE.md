@@ -612,9 +612,12 @@ women's testosterone. Do not re-report those; they are already on the list.
    `Provider_Reference/KORB_BMI_Protein_Calculator*.html`,
    `Provider_Reference/KORB_AddOn_Selector.html`. The TRT and Women's tools need
    item 6's data files before they can be wired at all.
-   **`L-Carnatine` is misspelled 7 times in `korb-glp1-data.js` and was NOT
-   fixed.** One is display `formulation`; six are `drugFormulation`, the Tebra
-   field Belmar matches against. Confirm with Belmar before touching those six.
+   ~~`L-Carnatine` is misspelled 7 times and was not fixed.~~ **Corrected
+   2026-09-14**, `7ce82af`, data file v2.19. **The exact-match constraint on a
+   `drugFormulation` string is GREENWICH ONLY** — Greenwich matches on the
+   compounded name and will flag a difference, Belmar does not. Worth knowing
+   before the next spelling or formatting question: check which pharmacy before
+   assuming a string is load-bearing.
 6. **Create `korb-trt-data.js` and `korb-womens-data.js`.** New construction, not
    cleanup. Should not block 2–5.
 7. Reconcile `KORB_AddOn_Selector.html` / `KORB_Optimization_Products.html`.
