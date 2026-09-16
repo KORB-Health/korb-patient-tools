@@ -234,8 +234,9 @@ var KORB_WOMENS = {
     openQuestion28Day: 'Belmar Estradiol/Testosterone cream reads 28 days; the ' +
       'Premier equivalent reads 90, as does every other cream. Needs Don.',
     whatCanGoLocal: 'Only commercially available products can go to a local ' +
-      'pharmacy - in this programme, the estradiol patches. Every cream and every ' +
-      'compounded capsule goes to a partner pharmacy, full stop.'
+      'pharmacy. In this programme that is the estradiol patches and COMMERCIAL ' +
+      'progesterone at 100 mg or 200 mg. Every cream, every compounded capsule ' +
+      'and the 300 mg progesterone go to a partner pharmacy, full stop.'
   },
 
   /* -- CLINICAL GATES ---------------------------------------------------------
@@ -537,12 +538,17 @@ var KORB_WOMENS = {
       dosing: 'Start 200 mg nightly, increase to 300 mg if needed. Patients with ' +
               'regular cycles take it 21 days on, 7 days off - 63 capsules per 90 ' +
               'days. Patients without regular cycles take it daily - 90 capsules.',
-      caution: 'PEANUT ALLERGY - do NOT use a commercial progesterone capsule, ' +
-               'generic or brand. A COMPOUNDED capsule from Belmar or Premier is ' +
-               'fine and is the answer here. The allergy rules out the product, ' +
-               'not the hormone.',
-      route: '300 mg exists only as a compounded capsule. On a commercial ' +
-             'prescription a 300 mg dose is one 200 mg plus one 100 mg.'
+      caution: 'PEANUT ALLERGY - do NOT use a COMMERCIAL progesterone capsule, ' +
+               'generic or brand: they are suspended in peanut oil. A COMPOUNDED ' +
+               'capsule from Belmar or Premier is fine and is the answer here. ' +
+               'The allergy rules out the product, not the hormone - which is the ' +
+               'difference between referring her out and treating her.',
+      route: 'COMMERCIAL or COMPOUNDED - the prescription must say which, and ' +
+             'Premier can fill either. Commercial exists at 100 mg and 200 mg ' +
+             'only; there is no commercial 300 mg, so a 300 mg dose is either a ' +
+             'compounded capsule or one 200 mg plus one 100 mg. Belmar is ' +
+             'compounded only. A commercial capsule can go to the patient own ' +
+             'pharmacy; a compounded one cannot.'
     },
     {
       name: 'Testosterone - cream, compounded',
@@ -792,101 +798,148 @@ var KORB_WOMENS = {
       pharmacyNotes: 'Medical Necessity Required, QTY 30 ml, Bill office/ship to patient, Allergies:' },
     /* Progesterone capsule - 12 entries */
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (100 mg Capsule)',
-      drug: 'Progesterone (clear) MCC 100 mg capsule',
+      drug: 'COMPOUNDED Progesterone (clear) MCC 100 mg capsule',
       compounded: true,
-      label: 'Belmar Progesterone MCC 100 mg NO cycles',
+      label: 'Belmar Progesterone COMPOUNDED MCC 100 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
       quantity: '90', unit: 'capsule', refill: '0', days: '90',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule)',
-      drug: 'Progesterone SR 100 mg capsule',
+      drug: 'COMPOUNDED Progesterone SR 100 mg capsule',
       compounded: true,
-      label: 'Progesterone SR 100 mg NO cycles',
+      label: 'Premier Progesterone COMPOUNDED SR 100 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
       quantity: '90', unit: 'capsule', refill: '0', days: '90',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (200 mg Capsule)',
-      drug: 'Progesterone (clear) MCC 200 mg capsule',
+      drug: 'COMPOUNDED Progesterone (clear) MCC 200 mg capsule',
       compounded: true,
-      label: 'Belmar Progesterone MCC 200 mg NO cycles',
+      label: 'Belmar Progesterone COMPOUNDED MCC 200 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
       quantity: '90', unit: 'capsule', refill: '0', days: '90',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule)',
-      drug: 'Progesterone SR 200 mg capsule',
+      drug: 'COMPOUNDED Progesterone SR 200 mg capsule',
       compounded: true,
-      label: 'Progesterone SR 200 mg NO cycles',
+      label: 'Premier Progesterone COMPOUNDED SR 200 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
       quantity: '90', unit: 'capsule', refill: '0', days: '90',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (300 mg Capsule)',
-      drug: 'Progesterone (clear) MCC 300 mg capsule',
+      drug: 'COMPOUNDED Progesterone (clear) MCC 300 mg capsule',
       compounded: true,
-      label: 'Belmar Progesterone MCC 300 mg NO cycles',
+      label: 'Belmar Progesterone COMPOUNDED MCC 300 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
       quantity: '90', unit: 'capsule', refill: '0', days: '90',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (300 mg Capsule)',
-      drug: 'Progesterone SR 300 mg capsule',
+      drug: 'COMPOUNDED Progesterone SR 300 mg capsule',
       compounded: true,
-      label: 'Progesterone SR 300 mg NO cycles',
+      label: 'Premier Progesterone COMPOUNDED SR 300 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
       quantity: '90', unit: 'capsule', refill: '0', days: '90',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (100 mg Capsule)',
-      drug: 'Progesterone (clear) MCC 100 mg capsule',
+      drug: 'COMPOUNDED Progesterone (clear) MCC 100 mg capsule',
       compounded: true,
-      label: 'Belmar Progesterone MCC 100 mg with cycles',
+      label: 'Belmar Progesterone COMPOUNDED MCC 100 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
       quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule)',
-      drug: 'Progesterone SR 100 mg capsule',
+      drug: 'COMPOUNDED Progesterone SR 100 mg capsule',
       compounded: true,
-      label: 'Progesterone SR 100 mg with cycles',
+      label: 'Premier Progesterone COMPOUNDED SR 100 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
       quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (200 mg Capsule)',
-      drug: 'Progesterone (clear) MCC 200 mg capsule',
+      drug: 'COMPOUNDED Progesterone (clear) MCC 200 mg capsule',
       compounded: true,
-      label: 'Belmar Progesterone MCC 200 mg with cycles',
+      label: 'Belmar Progesterone COMPOUNDED MCC 200 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
       quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule)',
-      drug: 'Progesterone SR 200 mg capsule',
+      drug: 'COMPOUNDED Progesterone SR 200 mg capsule',
       compounded: true,
-      label: 'Progesterone SR 200 mg with cycles',
+      label: 'Premier Progesterone COMPOUNDED SR 200 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
       quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (300 mg Capsule)',
-      drug: 'Progesterone (clear) MCC 300 mg capsule',
+      drug: 'COMPOUNDED Progesterone (clear) MCC 300 mg capsule',
       compounded: true,
-      label: 'Belmar Progesterone MCC 300 mg with cycles',
+      label: 'Belmar Progesterone COMPOUNDED MCC 300 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
       quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (300 mg Capsule)',
-      drug: 'Progesterone SR 300 mg capsule',
+      drug: 'COMPOUNDED Progesterone SR 300 mg capsule',
       compounded: true,
-      label: 'Progesterone SR 300 mg with cycles',
+      label: 'Premier Progesterone COMPOUNDED SR 300 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
       quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'Bill to office/ship to patient' },
+    /* COMMERCIAL progesterone - Premier only, and 100 mg and 200 mg only.
+       Don, 2026-09-16: Premier can fill either, and the prescription HAS to
+       say which. There is no commercial 300 mg, which is why the 300 mg
+       entries above are compounded and give 'Strength not commercial' as
+       their reason.
+
+       These are the only progesterone entries that can go to a LOCAL
+       pharmacy, because they are the only ones that are commercial. They
+       are also the ones that carry PEANUT OIL - a patient with a peanut
+       allergy takes the compounded capsule instead, which is the whole
+       point of that caution. */
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule, COMMERCIAL)',
+      drug: 'progesterone micronized 100 mg capsule',
+      compounded: false,
+      label: 'Premier Progesterone COMMERCIAL 100 mg NO cycles',
+      ptInstructions: 'Take 1 cap PO QHS',
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      pharmacyNotes: 'COMMERCIAL product, NOT compounded. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: 'COMMERCIAL product, NOT compounded. Patient pays the pharmacy.' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule, COMMERCIAL)',
+      drug: 'progesterone micronized 200 mg capsule',
+      compounded: false,
+      label: 'Premier Progesterone COMMERCIAL 200 mg NO cycles',
+      ptInstructions: 'Take 1 cap PO QHS',
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      pharmacyNotes: 'COMMERCIAL product, NOT compounded. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: 'COMMERCIAL product, NOT compounded. Patient pays the pharmacy.' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule, COMMERCIAL)',
+      drug: 'progesterone micronized 100 mg capsule',
+      compounded: false,
+      label: 'Premier Progesterone COMMERCIAL 100 mg with cycles',
+      ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
+      quantity: '63', unit: 'capsule', refill: '0', days: '84',
+      pharmacyNotes: 'COMMERCIAL product, NOT compounded. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: 'COMMERCIAL product, NOT compounded. Patient pays the pharmacy.' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule, COMMERCIAL)',
+      drug: 'progesterone micronized 200 mg capsule',
+      compounded: false,
+      label: 'Premier Progesterone COMMERCIAL 200 mg with cycles',
+      ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
+      quantity: '63', unit: 'capsule', refill: '0', days: '84',
+      pharmacyNotes: 'COMMERCIAL product, NOT compounded. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: 'COMMERCIAL product, NOT compounded. Patient pays the pharmacy.' },
     /* Testosterone cream - 2 entries */
     { family: 'testosterone-cream', pharmacy: 'belmar', heading: 'Testosterone (2% Cream)',
       drug: 'Testosterone 2%, 20 mg/ml cream',
