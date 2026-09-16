@@ -873,4 +873,23 @@ women's testosterone. Do not re-report those; they are already on the list.
 
    **Not yet reviewed by Don.** It is new patient-facing clinical writing.
 
-13. **The Women's Health PROVIDER TOOL still has the old model.**
+13. ~~The Women's Health PROVIDER TOOL still has the old model.~~ **DONE
+   2026-09-16.** It loads `korb-pharmacies.js` and `korb-womens-data.js` and
+   reads every clinical value from them - the state lists, the pharmacy
+   offerings, the pricing tiers, the testosterone prescribers and the Tebra
+   entries. `check-pages.js` knows the dependency and was negative-tested by
+   stripping the tag.
+
+   **It surfaces the Tebra entries for the plan on screen.** That is the point of
+   a tool over a reference: pick a state, a uterus answer and two or three
+   hormones and get the blocks that apply, filtered by destination, instead of
+   scrolling forty-one. Driven through five combinations - Texas partner 17,
+   California 5 (Belmar stocks no patch), Alabama 9, Texas local 9 (commercial
+   only), Florida 19 with testosterone blocked.
+
+   Three things it had wrong, found by reading it against the data rather than by
+   clicking through it: progesterone quantities of 67 and 90 per 90 days against
+   the entries' 63 and 84 over 12 weeks; **"Do not use with a peanut allergy"**,
+   the same error corrected on the reference that day - the allergy rules out the
+   commercial capsule, not the hormone; and local pharmacy described as estradiol
+   patch only, when commercial progesterone can go there too.
