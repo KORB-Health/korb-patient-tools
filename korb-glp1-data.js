@@ -73,6 +73,26 @@ var KORB_GLP1 = {
        document AS IT STOOD AT 7f993ba - the commit that was HEAD when he gave
        the last of these approvals. All six were byte-identical then and now,
        so each record is a fingerprint of content he actually saw. */
+    /* Signed 2026-09-15, this session. Don opened the live HTML at the
+       GitHub Pages URL, read it, and approved it. Reviewed at v2.22 against
+       fingerprint fp-f04a5641-27038, which is the document as served.
+
+       The malformed LillyDirect ZIP was raised with him and is NOT covered by
+       this signature: it renders in the Brand pathway section, not in a
+       prescribing block. Tested rather than assumed - correcting cityStateZip
+       in korb-pharmacies.js leaves this fingerprint identical, and the same
+       fingerprint provably moves when a block does change. So fixing the ZIP
+       will not stale this attestation, and this attestation does not bless
+       the ZIP. */
+      "glp1:foundayo": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-f04a5641-27038",
+        "blocks": 18,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "glp1:premier_sema": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
