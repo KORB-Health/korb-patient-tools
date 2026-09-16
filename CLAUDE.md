@@ -881,6 +881,13 @@ women's testosterone. Do not re-report those; they are already on the list.
    write or approve - not something to generate from the existing thresholds and
    present as though it were sourced.
 
+   **A seed already exists.** `korb-womens-data.js` carries `markerMeaning` -
+   Ayumetrix explanations for estradiol, testosterone, DHEA, cortisol, TSH, free
+   T3, free T4 and TPO antibodies, lifted from the November women's document.
+   Start from that rather than from nothing. It also records a real gap:
+   **progesterone is on both panels and the source explains every marker except
+   it.**
+
 12. **Six pages still type their own 51-state name map.** `korb-pharmacies.js`
    now owns `stateNames`, and `KORB_TRT_Provider_Tool.html` reads it. Still
    carrying private copies: `KORB_GLP1_Patient_Message_Builder.html`,

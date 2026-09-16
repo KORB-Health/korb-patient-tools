@@ -440,7 +440,6 @@ function sectionHormoneGuide(sec) {
    the pharmacy note. */
 function sectionWomensTebra(sec) {
   var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
-  h += '<div class="callout warn"><p>' + esc2(D.tebra.placeholderWarning) + '</p></div>';
   var seen = {};
   (D.tebra.entries || []).forEach(function (e) {
     if (!seen[e.family]) {
@@ -448,14 +447,24 @@ function sectionWomensTebra(sec) {
       h += '<h3 class="prodhead">' + esc2(e.heading.replace(/\s*\([^)]*\)\s*$/, '')) + '</h3>';
     }
     var ph = PH.pharmacies[e.pharmacy];
+    /* COMPOUNDED vs COMMERCIAL, and the difference is the whole point.
+       A commercial product - the five estradiol patches - is a Tebra STANDARD
+       prescription and its drug is SELECTED from the drop-down. A compound is a
+       Compounded Drug Favorite and its drug is TYPED, so it gets a copy button
+       like every other compounded product on this site. Rendering all of them
+       the same way, which this did until 2026-09-16, told a provider to go
+       hunting in a drop-down for a compound that is not in it. */
+    var drugField = e.compounded
+      ? { field: 'Drug', val: e.drug, copy: true }
+      : { field: 'Drug', val: e.drug, copy: false, select: true };
     h += '<div class="rxblock">' + RXB.block({
       pharmacy: ph ? ph.name : e.pharmacy,
-      entryKind: 'standard',
+      entryKind: e.compounded ? 'compounded' : 'standard',
       label: e.heading,
       tag: e.days + '-day supply',
       accent: RXB.accentFor(e.pharmacy),
       fields: [
-        { field: 'Drug', val: e.drug, copy: false, select: true },
+        drugField,
         { field: 'Name', val: e.label, copy: true },
         { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: e.quantity, copy: true },
