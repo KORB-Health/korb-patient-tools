@@ -699,7 +699,7 @@ var KORB_DOSING = {
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
-    timing: 'Before bed, on an empty stomach',
+    timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
     counseling: CJC_COUNSEL,
     monitor: SERM_MONITOR
@@ -737,7 +737,7 @@ var KORB_DOSING = {
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
-    timing: 'Before bed, on an empty stomach',
+    timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
     counseling: CJC_COUNSEL,
     monitor: SERM_MONITOR
@@ -775,7 +775,7 @@ var KORB_DOSING = {
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
-    timing: 'Before bed, on an empty stomach',
+    timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
     counseling: CJC_COUNSEL,
     monitor: SERM_MONITOR
@@ -863,7 +863,7 @@ var KORB_DOSING = {
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
-    timing: 'Evening',
+    timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
     counseling: TESA_COUNSEL,
     monitor: TESA_MONITOR
@@ -901,7 +901,7 @@ var KORB_DOSING = {
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
-    timing: 'Evening',
+    timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
     counseling: TESA_COUNSEL,
     monitor: TESA_MONITOR
@@ -939,7 +939,7 @@ var KORB_DOSING = {
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
-    timing: 'Evening',
+    timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
     counseling: TESA_COUNSEL,
     monitor: TESA_MONITOR
@@ -1091,21 +1091,21 @@ var KORB_DOSING = {
     tesamorelin1mg: {
       label: 'Tesamorelin 1 mg', dose: '1 mg', color: '#21275B',
       onWeeksFoundation: [1, 12],
-      schedule: '6 days on, 1 day off', timing: 'Evening',
+      schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
     },
     tesamorelin15mg: {
       label: 'Tesamorelin 1.5 mg', dose: '1.5 mg', color: '#21275B',
       onWeeksFoundation: [1, 12],
-      schedule: '6 days on, 1 day off', timing: 'Evening',
+      schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
     },
     tesamorelin2mg: {
       label: 'Tesamorelin 2 mg', dose: '2 mg', color: '#21275B',
       onWeeksFoundation: [1, 12],
-      schedule: '6 days on, 1 day off', timing: 'Evening',
+      schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
     }
