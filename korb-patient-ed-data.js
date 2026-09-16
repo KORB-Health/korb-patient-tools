@@ -741,6 +741,358 @@ var KORB_PATIENT_ED = {
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
+    },
+
+    semaglutide: {
+      key: 'semaglutide',
+      file: 'KORB_Patient_Ed_Semaglutide',
+      title: 'Semaglutide',
+      source: 'glp1',
+      productKey: 'premier_sema',
+      program: 'Weight Loss & Metabolic Health',
+      howText: 'Subcutaneous (SQ) injection \u2014 fatty tissue under the skin ' +
+               '(abdomen, thigh, or back of the arm)',
+      timingText: 'Same day each week, with or without food',
+
+      what: [
+        'Semaglutide is a GLP-1 (glucagon-like peptide-1) receptor agonist. It mimics a ' +
+        'natural gut hormone that slows digestion, reduces appetite and helps you feel ' +
+        'fuller longer after eating.',
+        'Your semaglutide is prepared for you by a licensed U.S. compounding pharmacy, ' +
+        'which prepares each prescription to your provider\u2019s specifications rather than ' +
+        'mass-producing it. Because the FDA reviews mass-manufactured products rather than ' +
+        'individual prescriptions, compounded preparations are not FDA-approved. The active ' +
+        'ingredient is the same one used in the brand-name medication, which is approved for ' +
+        'weight management, for type 2 diabetes, and for reducing the risk of cardiovascular ' +
+        'death, heart attack and stroke in adults with cardiovascular disease who are ' +
+        'overweight or obese. At KORB your provider prescribes a compounded formulation that ' +
+        'includes a small amount of cyanocobalamin (vitamin B-12) to help with tolerability.'
+      ],
+
+      mayHelp: {
+        lead: 'This medication is one possible support option for patients with goals related to:',
+        items: [
+          'Weight loss, through a gradual, sustained reduction in appetite and food intake',
+          'Increased energy as excess weight decreases',
+          'Better sleep quality, for some patients',
+          'Improved cardiovascular health markers',
+          'Support for blood sugar management, if that applies to you'
+        ],
+        after: 'Response varies from patient to patient. Most patients notice reduced appetite ' +
+               'within the first few weeks, with weight loss building gradually over months. ' +
+               'Semaglutide is a tool that supports weight loss, not a shot that works on its ' +
+               'own. It works best paired with the nutrition and activity habits below, not as ' +
+               'a substitute for them.'
+      },
+
+      nutrition: {
+        lead: 'These habits help your body respond well to Semaglutide and reduce the chance ' +
+              'of digestive side effects. They are general guidance rather than a meal plan. ' +
+              'If you want a plan built around your own needs, a registered dietitian is the ' +
+              'right person to see, and your provider can talk through whether that would help you.',
+        items: [
+          'Prioritize protein at each meal. It helps preserve muscle while you lose weight.',
+          'Eat slowly and stop when you feel satisfied rather than full. Semaglutide slows ' +
+          'digestion, so it takes longer to feel full and it is easy to overeat before your ' +
+          'body catches up.',
+          'Eat smaller, more frequent meals if large meals feel uncomfortable.',
+          'Avoid greasy, fried or very high-fat foods. These commonly worsen nausea.',
+          'Stay well hydrated through the day.',
+          'Limit alcohol, which can worsen nausea and interferes with steady progress.',
+          'Stay physically active as you are able. Movement supports muscle retention and overall results.',
+          'Prioritize consistent sleep. It supports appetite regulation and metabolic health.'
+        ]
+      },
+      timingNotes: [
+        ['Already taking a GLP-1?',
+         'If you are transferring to KORB from another provider and want to continue at your ' +
+         'current dose rather than start at the beginning of the ladder, we need documentation ' +
+         'of the dose you are on: a pharmacy record, a prescription label, or a note from your ' +
+         'prescriber. This is required before we can start you above the usual starting dose, ' +
+         'and it is kept in your chart. Without it your provider will start you at the beginning ' +
+         'dose and titrate up, which protects you from being started higher than your body has ' +
+         'actually tolerated.'],
+        ['Your titration schedule',
+         'Your provider starts you at a low dose and increases it gradually, based on how you ' +
+         'are tolerating the current one. The exact milligram steps and injection volume depend ' +
+         'on which pharmacy fills your prescription, because KORB works with more than one ' +
+         'compounding pharmacy and each uses a slightly different concentration and step ' +
+         'schedule. Your prescription label always reflects your correct dose and volume for ' +
+         'your pharmacy. For a quick reference showing injection volume and syringe markings by ' +
+         'pharmacy and dose, ask your provider about KORB\u2019s GLP-1 Dose & Injection Guide.'],
+        ['Do not increase your own dose',
+         'Even if you feel ready or your symptoms are mild. Increasing too quickly raises the ' +
+         'risk of nausea and other side effects. If a dose is not well tolerated, tell your ' +
+         'provider; they may extend that step before increasing further.'],
+        ['If you miss a dose',
+         'If it has been less than 5 days since your missed dose, inject as soon as you ' +
+         'remember, then resume your normal weekly schedule. If it has been 5 days or more, ' +
+         'skip it and take your next dose on your regular day. Do not double up.']
+      ],
+      travelNote:
+        'TSA asks that you tell the officer at the start of screening that you are carrying ' +
+        'medically necessary liquids, and they may need to be inspected separately. The current ' +
+        'rules are at tsa.gov/travel/travel-tips.',
+      timeline: [
+        ['Starting out', 'First few weeks',
+         'Reduced appetite often begins here. Some patients notice mild nausea while their body adjusts.'],
+        ['Titration', 'Finding your dose',
+         'Your dose increases as tolerated, only under provider direction. How quickly you respond depends on your dose and your body.'],
+        ['Effective dose', 'Continued progress',
+         'Most of the change happens once you reach a dose that works for you.'],
+        ['Ongoing', 'Maintenance',
+         'Most patients remain on a steady dose long-term to sustain results.']
+      ],
+      timelineNote:
+        'Do not compare your response to others. Response is highly individual and depends ' +
+        'on starting weight, metabolism, diet, activity and other factors.',
+      common: [
+        ['Nausea, vomiting or diarrhea',
+         'Common, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
+         'Tell your provider if it is severe or persistent.'],
+        ['Constipation or stomach pain',
+         'May occur. Stay hydrated and tell your provider if it does not improve.'],
+        ['Low appetite',
+         'Expected, and part of how the medication works. Tell your provider if you cannot ' +
+         'eat or drink adequately.'],
+        ['Injection site redness or irritation', 'Some patients notice this. Usually mild. Rotate injection sites.'],
+        ['Headache or dizziness',
+         'May occur early on, often from not eating or drinking enough. Usually mild and short-lived.']
+      ],
+      monitorAndTell: [
+        ['Severe or persistent abdominal pain, especially spreading to your back',
+         'Can indicate pancreatitis. Tell your provider.'],
+        ['Pain in the upper right abdomen, fever, or yellowing of the skin or eyes',
+         'Possible gallbladder problem. Tell your provider.'],
+        ['Unable to keep fluids down for more than 24 hours', 'Tell your provider.']
+      ],
+      contraPhrasing: {
+        'Personal or family history of medullary thyroid carcinoma (MTC)':
+          'A personal or family history of medullary thyroid carcinoma (MTC), a rare thyroid cancer',
+        'Multiple endocrine neoplasia syndrome type 2 (MEN2)':
+          'A personal or family history of multiple endocrine neoplasia syndrome type 2 (MEN2)',
+        'Hypersensitivity to the active drug or any component of the formulation':
+          'A known allergy to Semaglutide or to anything else in the formulation',
+        'Current pregnancy, breastfeeding, or planning pregnancy':
+          'Pregnancy, breastfeeding, or planning a pregnancy',
+        'Active gallbladder disease or history of gallbladder-related surgical complications':
+          'Active gallbladder disease, or a history of complications from gallbladder surgery',
+        'History of pancreatitis (use with caution)':
+          'A history of pancreatitis. This needs discussing with your provider rather than ruling you out automatically',
+        'Severe gastrointestinal disorders such as gastroparesis':
+          'A severe digestive condition such as gastroparesis, where the stomach empties too slowly',
+        'Severe renal impairment (eGFR below 30 mL/min/1.73 m\u00b2)':
+          'Severely reduced kidney function. Your provider will explain where your kidney results sit',
+        'Uncontrolled diabetic retinopathy (primarily relevant in type 2 diabetes)':
+          'Uncontrolled diabetic eye disease (retinopathy), which mainly applies if you have type 2 diabetes'
+      },
+      labs: {
+        lead: 'Routine labs are not required to participate in this program.',
+        items: [
+          'If you are also managing diabetes or pre-diabetes, continue that care, including ' +
+          'any related labs, with the clinician who manages it, whether that is your primary ' +
+          'care provider, an endocrinologist or another specialist, alongside your KORB visits.',
+          'If your KORB provider has an individual clinical reason to order labs for you, they ' +
+          'will explain why and what to expect.'
+        ],
+        after: 'There is no routine draw scheduled for this program.'
+      },
+      safety: [
+        'Use Semaglutide only as prescribed. Do not change your dose, schedule or route without provider direction.',
+        'Do not combine it with another GLP-1 or GIP medication from another source at the same time.',
+        'Semaglutide is not appropriate during pregnancy or breastfeeding, or with a personal or family history of MTC or MEN2.',
+        'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
+      ],
+      emergencyLead:
+        'Stop injecting and seek emergency care immediately if you have trouble ' +
+        'breathing, swelling of the face, lips, tongue or throat, a severe rash or ' +
+        'hives, chest pain, or any symptom that feels severe or unsafe.',
+
+      keyReminders: [
+        'Semaglutide reduces appetite gradually. Most weight loss builds over months, not days.',
+        'Dose increases happen only under provider direction. Never increase on your own.',
+        'Write the open date on your vial and discard 28 days after first use.',
+        'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
+        'Routine labs are not required for this program.',
+        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Patient Portal for medical questions, and emergency care for severe symptoms.'
+      ]
+    },
+
+    tirzepatide: {
+      key: 'tirzepatide',
+      file: 'KORB_Patient_Ed_Tirzepatide',
+      title: 'Tirzepatide',
+      source: 'glp1',
+      productKey: 'premier_tirz',
+      program: 'Weight Loss & Metabolic Health',
+      howText: 'Subcutaneous (SQ) injection \u2014 fatty tissue under the skin ' +
+               '(abdomen, thigh, or back of the arm)',
+      timingText: 'Same day each week, with or without food',
+
+      what: [
+        'Tirzepatide is a dual GIP (glucose-dependent insulinotropic polypeptide) and GLP-1 ' +
+        'receptor agonist. It works through two separate gut hormone pathways rather than ' +
+        'one, which slows digestion and reduces appetite, often more strongly than a ' +
+        'single-pathway medication for some patients.',
+        'Your tirzepatide is prepared for you by a licensed U.S. compounding pharmacy, which ' +
+        'prepares each prescription to your provider\u2019s specifications rather than ' +
+        'mass-producing it. Because the FDA reviews mass-manufactured products rather than ' +
+        'individual prescriptions, compounded preparations are not FDA-approved. The active ' +
+        'ingredient is the same one used in the brand-name medication, which is approved for ' +
+        'weight management and for type 2 diabetes. At KORB your provider prescribes a ' +
+        'compounded formulation that includes a small amount of cyanocobalamin (vitamin B-12) ' +
+        'to help with tolerability.'
+      ],
+
+      mayHelp: {
+        lead: 'This medication is one possible support option for patients with goals related to:',
+        items: [
+          'Weight loss, often more pronounced than single-pathway GLP-1 medications for some patients',
+          'Increased energy as excess weight decreases',
+          'Better sleep quality, for some patients',
+          'Improved cardiovascular health markers',
+          'Support for blood sugar management, if that applies to you'
+        ],
+        after: 'Response varies from patient to patient. Most patients notice reduced appetite ' +
+               'within the first few weeks, with weight loss building gradually over months. ' +
+               'Tirzepatide is a tool that supports weight loss, not a shot that works on its ' +
+               'own. It works best paired with the nutrition and activity habits below, not as ' +
+               'a substitute for them.'
+      },
+
+      nutrition: {
+        lead: 'These habits help your body respond well to Tirzepatide and reduce the chance ' +
+              'of digestive side effects. They are general guidance rather than a meal plan. ' +
+              'If you want a plan built around your own needs, a registered dietitian is the ' +
+              'right person to see, and your provider can talk through whether that would help you.',
+        items: [
+          'Prioritize protein at each meal. It helps preserve muscle while you lose weight.',
+          'Eat slowly and stop when you feel satisfied rather than full. Tirzepatide slows ' +
+          'digestion, so it takes longer to feel full and it is easy to overeat before your ' +
+          'body catches up.',
+          'Eat smaller, more frequent meals if large meals feel uncomfortable.',
+          'Avoid greasy, fried or very high-fat foods. These commonly worsen nausea.',
+          'Stay well hydrated through the day.',
+          'Limit alcohol, which can worsen nausea and interferes with steady progress.',
+          'Stay physically active as you are able. Movement supports muscle retention and overall results.',
+          'Prioritize consistent sleep. It supports appetite regulation and metabolic health.'
+        ]
+      },
+      timingNotes: [
+        ['Already taking a GLP-1?',
+         'If you are transferring to KORB from another provider and want to continue at your ' +
+         'current dose rather than start at the beginning of the ladder, we need documentation ' +
+         'of the dose you are on: a pharmacy record, a prescription label, or a note from your ' +
+         'prescriber. This is required before we can start you above the usual starting dose, ' +
+         'and it is kept in your chart. Without it your provider will start you at the beginning ' +
+         'dose and titrate up, which protects you from being started higher than your body has ' +
+         'actually tolerated.'],
+        ['Your titration schedule',
+         'Your provider starts you at a low dose and increases it gradually, based on how you ' +
+         'are tolerating the current one. The exact milligram steps and injection volume depend ' +
+         'on which pharmacy fills your prescription, because KORB works with more than one ' +
+         'compounding pharmacy and each uses a slightly different concentration and step ' +
+         'schedule. Your prescription label always reflects your correct dose and volume for ' +
+         'your pharmacy. For a quick reference showing injection volume and syringe markings by ' +
+         'pharmacy and dose, ask your provider about KORB\u2019s GLP-1 Dose & Injection Guide.'],
+        ['Do not increase your own dose',
+         'Even if you feel ready or your symptoms are mild. Increasing too quickly raises the ' +
+         'risk of nausea and other side effects. If a dose is not well tolerated, tell your ' +
+         'provider; they may extend that step before increasing further.'],
+        ['If you miss a dose',
+         'If it has been less than 4 days since your missed dose, inject as soon as you ' +
+         'remember, then resume your normal weekly schedule. If it has been 4 days or more, ' +
+         'skip it and take your next dose on your regular day. Do not double up.']
+      ],
+      travelNote:
+        'TSA asks that you tell the officer at the start of screening that you are carrying ' +
+        'medically necessary liquids, and they may need to be inspected separately. The current ' +
+        'rules are at tsa.gov/travel/travel-tips.',
+      timeline: [
+        ['Starting out', 'First few weeks',
+         'Reduced appetite often begins here. Some patients notice mild nausea while their body adjusts.'],
+        ['Titration', 'Finding your dose',
+         'Your dose increases as tolerated, only under provider direction. How quickly you respond depends on your dose and your body.'],
+        ['Effective dose', 'Continued progress',
+         'Most of the change happens once you reach a dose that works for you.'],
+        ['Ongoing', 'Maintenance',
+         'Most patients remain on a steady dose long-term to sustain results.']
+      ],
+      timelineNote:
+        'Do not compare your response to others. Response is highly individual and depends ' +
+        'on starting weight, metabolism, diet, activity and other factors.',
+      common: [
+        ['Nausea, vomiting or diarrhea',
+         'Common, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
+         'Tell your provider if it is severe or persistent.'],
+        ['Constipation or stomach pain',
+         'May occur. Stay hydrated and tell your provider if it does not improve.'],
+        ['Low appetite',
+         'Expected, and part of how the medication works. Tell your provider if you cannot ' +
+         'eat or drink adequately.'],
+        ['Injection site redness or irritation', 'Some patients notice this. Usually mild. Rotate injection sites.'],
+        ['Headache or dizziness',
+         'May occur early on, often from not eating or drinking enough. Usually mild and short-lived.']
+      ],
+      monitorAndTell: [
+        ['Severe or persistent abdominal pain, especially spreading to your back',
+         'Can indicate pancreatitis. Tell your provider.'],
+        ['Pain in the upper right abdomen, fever, or yellowing of the skin or eyes',
+         'Possible gallbladder problem. Tell your provider.'],
+        ['Unable to keep fluids down for more than 24 hours', 'Tell your provider.']
+      ],
+      contraPhrasing: {
+        'Personal or family history of medullary thyroid carcinoma (MTC)':
+          'A personal or family history of medullary thyroid carcinoma (MTC), a rare thyroid cancer',
+        'Multiple endocrine neoplasia syndrome type 2 (MEN2)':
+          'A personal or family history of multiple endocrine neoplasia syndrome type 2 (MEN2)',
+        'Hypersensitivity to the active drug or any component of the formulation':
+          'A known allergy to Tirzepatide or to anything else in the formulation',
+        'Current pregnancy, breastfeeding, or planning pregnancy':
+          'Pregnancy, breastfeeding, or planning a pregnancy',
+        'Active gallbladder disease or history of gallbladder-related surgical complications':
+          'Active gallbladder disease, or a history of complications from gallbladder surgery',
+        'History of pancreatitis (use with caution)':
+          'A history of pancreatitis. This needs discussing with your provider rather than ruling you out automatically',
+        'Severe gastrointestinal disorders such as gastroparesis':
+          'A severe digestive condition such as gastroparesis, where the stomach empties too slowly',
+        'Severe renal impairment (eGFR below 30 mL/min/1.73 m\u00b2)':
+          'Severely reduced kidney function. Your provider will explain where your kidney results sit',
+        'Uncontrolled diabetic retinopathy (primarily relevant in type 2 diabetes)':
+          'Uncontrolled diabetic eye disease (retinopathy), which mainly applies if you have type 2 diabetes'
+      },
+      labs: {
+        lead: 'Routine labs are not required to participate in this program.',
+        items: [
+          'If you are also managing diabetes or pre-diabetes, continue that care, including ' +
+          'any related labs, with the clinician who manages it, whether that is your primary ' +
+          'care provider, an endocrinologist or another specialist, alongside your KORB visits.',
+          'If your KORB provider has an individual clinical reason to order labs for you, they ' +
+          'will explain why and what to expect.'
+        ],
+        after: 'There is no routine draw scheduled for this program.'
+      },
+      safety: [
+        'Use Tirzepatide only as prescribed. Do not change your dose, schedule or route without provider direction.',
+        'Do not combine it with another GLP-1 or GIP medication from another source at the same time.',
+        'Tirzepatide is not appropriate during pregnancy or breastfeeding, or with a personal or family history of MTC or MEN2.',
+        'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
+      ],
+      emergencyLead:
+        'Stop injecting and seek emergency care immediately if you have trouble ' +
+        'breathing, swelling of the face, lips, tongue or throat, a severe rash or ' +
+        'hives, chest pain, or any symptom that feels severe or unsafe.',
+
+      keyReminders: [
+        'Tirzepatide works through two hormone pathways and may support more pronounced weight loss for some patients.',
+        'Dose increases happen only under provider direction. Never increase on your own.',
+        'Write the open date on your vial and discard 28 days after first use.',
+        'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
+        'Routine labs are not required for this program.',
+        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Patient Portal for medical questions, and emergency care for severe symptoms.'
+      ]
     }
 
   }

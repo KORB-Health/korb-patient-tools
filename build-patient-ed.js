@@ -60,6 +60,22 @@ function loadDosing() {
   return D;
 }
 
+/* The GLP-1 handouts read a different file. Loaded separately rather than
+   merged: one file per program is the repo's rule, and a handout should fail
+   loudly if it names the wrong source rather than find a value by accident. */
+function loadGlp1() {
+  const sandbox = {};
+  global.KORB_PHARMACIES = global.KORB_PHARMACIES || null;
+  const src = fs.readFileSync(path.join(ROOT, 'korb-glp1-data.js'), 'utf8');
+  new Function('exports', 'module', src + '\n;this.KORB_GLP1=KORB_GLP1;').call(sandbox, {}, {});
+  const G = sandbox.KORB_GLP1;
+  if (G.hydrate) G.hydrate(global.KORB_PHARMACIES);
+  return G;
+}
+
+/* Which data file a handout reads. */
+function sourceFor(doc, DOSING, GLP1) { return doc.source === 'glp1' ? GLP1 : DOSING; }
+
 function loadChromium() {
   for (const t of ['playwright', 'playwright-core', 'puppeteer']) {
     try { return require(t).chromium || require(t); } catch (e) { /* next */ }
@@ -96,7 +112,7 @@ function masthead(doc, live) {
   return `<div class="mast"><div class="tools">` +
     `<a href="${doc.file}.pdf">PDF version</a><a href="#" onclick="window.print();return false;">Print</a>` +
     `</div><img src="${R.LOGO_URI}" alt="KORB Health"></div>` +
-    (live ? `<div class="live">Live — reflects korb-dosing-data.js as of this page load</div>` : '') +
+    (live ? `<div class="live">Live — reflects ${doc.source === 'glp1' ? 'korb-glp1-data.js' : 'korb-dosing-data.js'} as of this page load</div>` : '') +
     `<div class="titleband"><h1>${R.esc(doc.title)}</h1>` +
     `<p class="sub">Patient Education · ${R.esc(doc.program)}</p></div>` +
     `<p class="byline">KORB Health Medical Texas PA · Patient education · ` +
@@ -124,12 +140,12 @@ ${SCREEN}
      the console of every generated handout. Harmless, because the styling was
      already inlined, and still a broken script on a patient-facing page. -->
 <script src="../korb-pharmacies.js"></script>
-<script src="../korb-dosing-data.js"></script>
+${doc.source === 'glp1' ? '<script src="../korb-glp1-data.js"></script>' : '<script src="../korb-dosing-data.js"></script>'}
 <script src="../korb-patient-ed-data.js"></script>
 <script src="../patient-ed-render.js"></script>
 <script>
   (function () {
-    var D = KORB_DOSING;
+    var D = ${doc.source === 'glp1' ? 'KORB_GLP1' : 'KORB_DOSING'};
     if (D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
     var doc = KORB_PATIENT_ED.docs[${JSON.stringify(doc.key)}];
     var R = KORB_PATIENT_ED_DOCS;
@@ -151,6 +167,7 @@ ${R.renderBody(DATA, DOSING, doc)}
 
 (async function main() {
   const DOSING = loadDosing();
+  const GLP1 = loadGlp1();
   const want = process.argv[2];
   const keys = Object.keys(DATA.docs).filter(k => !want || k === want);
   if (!keys.length) {
@@ -162,7 +179,7 @@ ${R.renderBody(DATA, DOSING, doc)}
 
   /* Fail the build if a handout names an agent the dosing data does not have.
      Better a stopped build than a handout with a blank schedule. */
-  keys.forEach(k => R.agentFacts(DOSING, DATA.docs[k]));
+  keys.forEach(k => R.agentFacts(sourceFor(DATA.docs[k], DOSING, GLP1), DATA.docs[k]));
 
   for (const k of keys) {
     const doc = DATA.docs[k];
@@ -191,7 +208,7 @@ ${R.renderBody(DATA, DOSING, doc)}
     const page = await browser.newPage();
     const errs = [];
     page.on('pageerror', e => errs.push(e.message));
-    await page.setContent(printableHtml(DOSING, doc), { waitUntil: 'load' });
+    await page.setContent(printableHtml(sourceFor(doc, DOSING, GLP1), doc), { waitUntil: 'load' });
     await page.pdf({
       path: path.join(OUT, base + '.pdf'),
       format: 'Letter', printBackground: true,

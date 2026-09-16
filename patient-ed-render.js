@@ -39,7 +39,61 @@
      Throws rather than falling back. A handout that quietly prints nothing
      where the schedule should be is worse than a build that stops: the first
      reaches a patient, the second reaches whoever ran the build. */
+  /* GLP-1 handouts read a DIFFERENT data file. Same principle, different source:
+     korb-glp1-data.js holds route and frequency per product, plus the
+     contraindication list every GLP-1 document shares.
+
+     NOT pulled: the titration progression rule. korb-glp1-data.js marks it
+     doNotPublish:true, with the note "Internal and provider-facing only. Do not
+     put this rule in a patient handout." Checked before reading it rather than
+     discovered afterwards. */
+  function glp1Facts(GLP1, doc) {
+    if (!GLP1 || !GLP1.getProduct) {
+      throw new Error('patient-ed-render: korb-glp1-data.js must be loaded first.');
+    }
+    var p = GLP1.getProduct(doc.productKey);
+    if (!p) {
+      throw new Error('patient-ed-render: no product "' + doc.productKey + '" in ' +
+        'korb-glp1-data.js. Fix the key rather than typing the facts here.');
+    }
+    return {
+      how: doc.howText || 'Subcutaneous (SQ) injection',
+      timing: doc.timingText || '',
+      schedule: p.frequency || '',
+      windows: [],
+      activeWeeks: '',
+      offWeeks: '',
+      additive: p.additive || ''
+    };
+  }
+
+  /* WHICH contraindications exist is one fact, held in korb-glp1-data.js and
+     shared with every provider document. HOW they are said to a patient is a
+     different question: the provider list says "eGFR below 30 mL/min/1.73 m2",
+     which is not patient language.
+
+     So the list is PULLED and each item is reworded through contraPhrasing,
+     keyed by the exact provider string. If a contraindication is added, renamed
+     or removed upstream, its key stops matching and the build STOPS. That is
+     the point. The alternative is a patient handout quietly missing one, which
+     is how the PDF being replaced came to state seven of the nine. */
+  function contraindications(GLP1, doc) {
+    var list = (GLP1.clinical && GLP1.clinical.contraindications) || [];
+    var map = doc.contraPhrasing || {};
+    var out = [];
+    list.forEach(function (c) {
+      if (!Object.prototype.hasOwnProperty.call(map, c)) {
+        throw new Error('patient-ed-render: no patient wording for the contraindication "' +
+          c + '". It is in korb-glp1-data.js clinical.contraindications but not in ' +
+          'contraPhrasing for "' + doc.key + '". Add the wording; do not drop the item.');
+      }
+      if (map[c]) out.push(map[c]);
+    });
+    return out;
+  }
+
   function agentFacts(DOSING, doc) {
+    if (doc.source === 'glp1') { return glp1Facts(DOSING, doc); }
     if (!DOSING || !DOSING.agents) {
       throw new Error('patient-ed-render: korb-dosing-data.js must be loaded first.');
     }
@@ -109,6 +163,11 @@
            ul(doc.mayHelp.items) + '<p>' + esc(doc.mayHelp.after) + '</p>';
     }
 
+    if (doc.nutrition) {
+      h += '<h2>Nutrition and lifestyle that support your results</h2><p>' +
+           esc(doc.nutrition.lead) + '</p>' + ul(doc.nutrition.items);
+    }
+
     /* Route, schedule, timing and weeks - every value read from the dosing
        data, so a change there reaches this handout on the next page load. */
     h += '<h2>How to use it</h2>' +
@@ -132,7 +191,8 @@
     h += '<h2>Storage and handling</h2>' +
          twoCol(S.storage.cards, 'What to do', 'Detail') + paras(S.storage.notes);
 
-    h += '<h2>Traveling with your medication</h2><p>' + esc(S.travel) + '</p>';
+    h += '<h2>Traveling with your medication</h2><p>' + esc(S.travel) + '</p>' +
+         (doc.travelNote ? '<p>' + esc(doc.travelNote) + '</p>' : '');
 
     if (doc.timeline) {
       h += '<h2>What to expect</h2><table class="grid"><thead><tr><th>Timeline</th>' +
@@ -148,6 +208,11 @@
     if (doc.monitorAndTell) h += '<h3>Tell your KORB provider at your next visit</h3>' +
       twoCol(doc.monitorAndTell, 'What you may notice', 'What to do');
     if (doc.emergencyLead) h += '<div class="callout warn"><p>' + esc(doc.emergencyLead) + '</p></div>';
+
+    if (doc.source === 'glp1' && doc.contraPhrasing) {
+      h += '<h2>Who should not use ' + esc(doc.title) + '</h2>' +
+           ul(contraindications(DOSING, doc));
+    }
 
     if (doc.labs) {
       h += '<h2>Lab monitoring</h2><p>' + esc(doc.labs.lead) + '</p>' + ul(doc.labs.items) +
@@ -175,5 +240,6 @@
   var DOCS = ['sermorelin'];
 
   return { DOCS: DOCS, esc: esc, renderBody: renderBody, agentFacts: agentFacts,
+           contraindications: contraindications,
            CSS: CSS, LOGO_URI: LOGO_URI };
 }));
