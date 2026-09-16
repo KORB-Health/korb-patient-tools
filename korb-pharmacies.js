@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.5",
+    version: "1.6",
     created: "2026-09-11",
     updated: "2026-09-15",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-09-16 (v1.6): PROGRAMS CAN NOW NARROW A FOOTPRINT, not just subtract from it. servesState honours an `only` list on a program. Added for TRT: testosterone cypionate is Schedule III and a pharmacy's controlled-substance licensure is far narrower than the states it can ship an ordinary compound to - Premier ships peptides to 38 states and testosterone to Texas. Saying that with `excludes` would mean typing the other 37 and re-typing them whenever the general footprint moves, which is a list kept in step by hand. No program declared `only` before this, and every existing GLP-1 and peptide footprint was captured before the change and compared after: none moved. Also filled in the trt program for premier (TX) and empower (CA), both verified:false - they record what KORB_TRT_Provider_Tool.html has asserted since before this file existed and have NOT been checked against DEA registration or state licences. suppliesKit records that Empower ships the injection kit and Premier does not, which is why the Tebra pharmacy note differs by pharmacy rather than by state.",
       "2026-09-15 (v1.5): korb-dosing-data.js wired on under open item 4, joining korb-glp1-data.js. Its premierRouting now comes from statesFor('premier', 'peptides') at load instead of being typed there. crossCheck reports derived files by name and states plainly that their lists were NOT independently verified, since comparing a value with itself is agreement it did not earn. Also added dispensingName, address1, cityStateZip and phone for lillydirect and novocare, which the brand GLP-1 documents print.",
       "2026-09-11 (v1.0-1.4): extracted from korb-glp1-data.js; reshaped to pharmacy x program keying; GLP-1 wired on under open item 3."
     ]
@@ -148,7 +149,12 @@ var KORB_PHARMACIES = {
         },
         "trt": {
           "status": "active",
-          "note": "Commercial testosterone for male TRT. No TRT data file exists yet — see open item 6."
+          "only": ["CA"],
+          "note": "Commercial testosterone for male TRT. California only, which is also Empower's whole footprint, so `only` is redundant here and stated anyway - it makes the Schedule III scope explicit rather than a side effect of the footprint happening to be one state.",
+          "suppliesKit": true,
+          "suppliesKitNote": "Empower ships the injection kit with the vial - alcohol pads, syringes and both needles, counted to the injections the prescription covers. Premier does not, so the Tebra pharmacy note differs by PHARMACY, not by state.",
+          "sourcedFrom": "KORB_TRT_Provider_Tool.html, 2026-09-16",
+          "verified": false
         },
         "womens": {
           "status": "not-offered"
@@ -248,7 +254,12 @@ var KORB_PHARMACIES = {
           "status": "active"
         },
         "trt": {
-          "status": "not-offered"
+          "status": "active",
+          "only": ["TX"],
+          "note": "Testosterone cypionate 200 mg/mL, commercial generic, for male TRT. TEXAS ONLY - Schedule III, and controlled-substance licensure is narrower than the 38-state general footprint above. Taken from KORB_TRT_Provider_Tool.html, which has routed TX to Premier since before korb-pharmacies.js existed. NOT INDEPENDENTLY VERIFIED against Premier's DEA registration or state licences - it records what the live provider tool asserts. Confirm with Premier before adding a state.",
+          "suppliesKit": false,
+          "sourcedFrom": "KORB_TRT_Provider_Tool.html, 2026-09-16",
+          "verified": false
         },
         "womens": {
           "status": "not-offered"
@@ -833,6 +844,16 @@ var KORB_PHARMACIES = {
     if (!program) return true;
     var pr = (p.programs || {})[program];
     if (!pr || pr.status !== 'active') return false;
+    /* A program may NARROW the footprint, not just subtract from it. Added
+       2026-09-16 for TRT: testosterone cypionate is Schedule III, and a
+       pharmacy's controlled-substance licensure is a separate and much smaller
+       thing than the states it can ship an ordinary compound to. Premier ships
+       peptides to 38 states and testosterone to Texas. Expressing that with
+       `excludes` would mean typing the other 37 and re-typing them every time
+       the general footprint moves, which is a list kept in step by hand - the
+       failure mode this file exists to remove. `only` says the narrow thing
+       directly. No program declared it before TRT, so nothing else changes. */
+    if (pr.only && pr.only.indexOf(state) < 0) return false;
     return (pr.excludes || []).indexOf(state) < 0;
   },
 
