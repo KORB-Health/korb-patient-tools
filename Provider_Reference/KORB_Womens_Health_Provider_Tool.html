@@ -144,28 +144,43 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
   </footer>
 </div>
 
+<!-- Open item 13. This tool held its own copy of the state lists, the
+     pharmacy offerings, the pricing tiers and the testosterone restriction,
+     and by 2026-09-16 it had fallen a long way behind korb-womens-data.js:
+     no 12-week supply, no commercial progesterone, patches counted as
+     patches rather than boxes, and PT-141 still priced here after it moved
+     to sexual health. It reads the data file now.
+     ORDER MATTERS - korb-pharmacies.js must load first or the data file
+     throws by name rather than routing from an empty footprint. -->
+<script src="../korb-pharmacies.js"></script>
+<script src="../korb-womens-data.js"></script>
 <script>
-var STATE_NAME={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",
-CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",
-IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",
-MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",
-NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",
-ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",
-SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",
-WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
-var PREMIER=["AZ","CO","CT","DC","DE","FL","GA","IL","KS","KY","LA","MD","ME","MI","MO","MS","MT","NC","ND",
-"NE","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SD","TN","TX","UT","VA","VT","WI","WV","WY"];
-var ALL=["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME",
-"MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
-"SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+if (typeof KORB_WOMENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E;padding:24px">' +
+      'Could not load korb-pharmacies.js or korb-womens-data.js. This tool reads every ' +
+      'clinical value from those files and will not display without them.</p>';
+  });
+  throw new Error("KORB_Womens_Health_Provider_Tool: data files missing");
+}
+if (!KORB_WOMENS.hydrated) {
+  throw new Error("KORB_Womens_Health_Provider_Tool: korb-womens-data.js did not hydrate " +
+                  "from korb-pharmacies.js. Check the script order above.");
+}
 
-/* Each entry counts as ONE ingredient toward the pricing tier. */
-var HORMONES=[
- {id:"e2",   name:"Estradiol",    note:"patch or cream", compounded:false},
- {id:"prog", name:"Progesterone", note:"capsule",        compounded:false},
- {id:"test", name:"Testosterone", note:"cream, compounded only", compounded:true},
- {id:"estr", name:"Estriol",      note:"only in the oral four-hormone capsule", compounded:true}
-];
+var W  = KORB_WOMENS;
+var PH = KORB_PHARMACIES;
+
+var STATE_NAME = PH.stateNames;
+var ALL        = PH.states.korbActive;
+var PREMIER    = W.states.premierStates;
+
+/* The four billable hormones, from the data file. `compounded` here means
+   "cannot be filled by a local pharmacy", which is what the tool uses it for. */
+var HORMONES = W.hormones.map(function (x) {
+  return { id: x.id, name: x.name, note: x.form, compounded: !!x.compounded };
+});
+
 function codeChip(code, id){
   return '<div class="codewrap"><span class="code-chip" id="'+id+'">'+code+'</span>'
        + '<button type="button" class="cbtn" onclick="copyCode(this,\''+id+'\')">Copy code</button></div>';
@@ -179,24 +194,30 @@ function codeChip(code, id){
    appears only as a switching caution. */
 var PH_OFFERS = {
   Premier: {
-    estradiolCream: ["0.2% (0.5 mg/click)", "0.6% (1.5 mg/click)"],
-    estradiolPatch: true,
-    progesterone: "Both commercial and compounded. State which you want.",
-    testosterone: "Texas only, and restricted to named prescribers.",
+    estradiolCream: W.pharmacyOffers.premier.estradiolCream,
+    estradiolPatch: W.pharmacyOffers.premier.estradiolPatch,
+    progesterone:   W.pharmacyOffers.premier.progesterone,
+    testosterone:   W.pharmacyOffers.premier.testosterone,
     note: null
   },
   Belmar: {
-    estradiolCream: ["0.2% (0.5 mg/click)", "0.4% (1 mg/click)", "0.8% (2 mg/click)"],
-    estradiolPatch: false,
-    progesterone: "Compounded only.",
-    testosterone: "All states except Texas.",
-    note: null   /* the Belmar address warning is rendered with the routing block */
+    estradiolCream: W.pharmacyOffers.belmar.estradiolCream,
+    estradiolPatch: W.pharmacyOffers.belmar.estradiolPatch,
+    progesterone:   W.pharmacyOffers.belmar.progesterone,
+    testosterone:   W.pharmacyOffers.belmar.testosterone,
+    note: null
   }
 };
 
-var TIERS={1:{p:"$220",c:"WMNHlth1"},2:{p:"$250",c:"WMNHlth2"},3:{p:"$299",c:"WMNHlth3"},
-           4:{p:"$299",c:"WMNHlth3"}};   // 4 actives bill at the 3-ingredient tier
-var TEST_STATES={TX:"Don Stevenson", CA:"Larisa or LaTonya"};
+/* Tiers keyed by ingredient count. tierFor() already knows that four bills at
+   the three-hormone tier, so the fourth key is not a special case here. */
+var TIERS = {};
+[1, 2, 3, 4].forEach(function (n) {
+  var t = W.tierFor(n);
+  TIERS[n] = { p: t.price, c: t.code };
+});
+
+var TEST_STATES = W.testosterone.prescribers;
 
 var box=document.getElementById("hormones");
 HORMONES.forEach(function(h){
@@ -209,6 +230,58 @@ ALL.forEach(function(s){var o=document.createElement("option");o.value=s;
   o.textContent=STATE_NAME[s]+" ("+s+")";sel.appendChild(o);});
 ["st","ut","ins"].forEach(function(id){document.getElementById(id).addEventListener("change",render);});
 HORMONES.forEach(function(h){document.getElementById("h_"+h.id).addEventListener("change",render);});
+
+/* Quantity for a progesterone capsule, taken from the entries themselves so
+   the tool and the reference cannot disagree about what is dispensed. */
+function progQty(cycled){
+  var e = W.tebra.entries.filter(function(x){
+    return x.family === 'progesterone' && /with cycles/.test(x.label) === !!cycled;
+  })[0];
+  return e ? e.quantity : '?';
+}
+
+/* THE TEBRA ENTRIES FOR WHAT IS ON SCREEN. This is the reason the tool exists
+   rather than the reference: a provider picks a state, a uterus answer and two
+   or three hormones, and gets the blocks that apply instead of scrolling
+   forty-one of them. Filtered by DESTINATION and by the hormones selected. */
+function entriesFor(dest, picked){
+  var fams = {};
+  picked.forEach(function(x){
+    if (x.id === 'e2')   { fams['estradiol-patch'] = 1; fams['estradiol-cream'] = 1; }
+    if (x.id === 'prog') { fams['progesterone'] = 1; }
+    if (x.id === 'test') { fams['testosterone-cream'] = 1; fams['test-estradiol-cream'] = 1; }
+    if (x.id === 'estr') { fams['four-hormone-capsule'] = 1; }
+  });
+  return W.tebra.entries.filter(function(e){
+    return e.destination === dest && fams[e.family];
+  });
+}
+
+function entryBlock(e){
+  var rows = [
+    ['Drug', e.drug, !e.compounded],
+    ['Name', e.label, false],
+    ['Allow Substitution', 'Yes - select Allow Substitution', false],
+    ['Quantity', e.quantity, false],
+    ['Unit', e.unit, false],
+    ['Refill', e.refill, false],
+    ['Days Supply', e.days, false],
+    ['Patient Instructions', e.ptInstructions, false]
+  ];
+  if (e.reasonForCompounding) rows.push(['Reason for Compounding', e.reasonForCompounding, false]);
+  rows.push(['Pharmacy Instructions', e.pharmacyNotes, false]);
+  var h = '<div class="card"><div class="chdr"><strong>' + esc(e.label) + '</strong>'
+        + '<span>' + esc(e.compounded ? 'Compounded Drug Favorite' : 'Tebra Standard prescription')
+        + ' &middot; ' + esc(e.days) + '-day supply</span></div><div class="cbody">'
+        + '<table class="d">';
+  rows.forEach(function(r){
+    h += '<tr><th>' + esc(r[0]) + '</th><td>' + esc(r[1])
+       + (r[2] ? '<br><em style="color:#A15C07;font-size:11px">Select this from the Tebra drop-down. '
+                 + 'Do not copy and paste.</em>' : '')
+       + '</td></tr>';
+  });
+  return h + '</table></div></div>';
+}
 
 function esc(s){return String(s).replace(/</g,"&lt;");}
 function chosen(){return HORMONES.filter(function(h){return document.getElementById("h_"+h.id).checked;});}
@@ -279,8 +352,12 @@ function render(){
        + 'estradiol <b>patch</b> and progesterone <b>capsules</b> only. Route the rest to '
        + (inP?"Premier":"Belmar")+', or change the plan.</div>';
     }
-    h+='<div class="box amber"><b>Local pharmacy means patch only for estradiol.</b> Do not send a cream. '
-     + 'Insurance tier is $79 (WMNHlthINS).</div>';
+    h+='<div class="box amber"><b>Local pharmacy: estradiol PATCH only, never a cream.</b> '
+     + 'Commercial progesterone at 100 mg or 200 mg can also go there. Everything else - every cream, '
+     + 'every compounded capsule, and the 300 mg progesterone - goes to a partner pharmacy. '
+     + 'The charge is $79 (WMNHlthINS), which covers the visit and the prescription; the patient pays '
+     + 'their own pharmacy for the medication. KORB does not bill insurance and does not complete prior '
+     + 'authorisations or medical necessity letters for these.</div>';
   }
 
   /* pricing tier — counts ingredients.
@@ -290,11 +367,11 @@ function render(){
   if(ins==="local"){
     h+='<div class="tier"><div class="k">Pricing tier — insurance route</div>'
      + '<div class="v">$79</div>'
-     + '<div class="s">90-day supply to the patient\'s local pharmacy</div>'
+     + '<div class="s">12-week supply, filled at the patient\'s own pharmacy</div>'
      + codeChip("WMNHlthINS","tc0")+'</div>'
      + '<div class="box teal"><b>Ingredient tiers do not apply on the insurance route.</b> The $220 / $250 / '
-     + '$299 tiers cover the visit, a 90-day supply and shipping from a partner pharmacy. A patient using '
-     + 'insurance is billed the flat insurance tier instead.</div>';
+     + '$299 tiers cover the visit, a 12-week supply and shipping from a partner pharmacy. A patient '
+     + 'paying at their own pharmacy is billed the flat $79 instead.</div>';
   } else {
     var t=TIERS[n];
     h+='<div class="tier"><div class="k">Pricing tier — ingredients counted</div>'
@@ -375,13 +452,22 @@ function render(){
      + '<div class="box teal"><b>Start at 200 mg nightly, increase to 300 mg if needed.</b> Taken at night, '
      + 'where it supports sleep. 300 mg is only available compounded; the commercial equivalent is one '
      + '200 mg plus one 100 mg capsule.</div>'
-     + '<table class="d"><tr><th>Patient</th><th>Schedule</th><th>Per 90 days</th></tr>'
-     + '<tr><td>Still cycling</td><td>21 on, 7 off</td><td><b>67 capsules</b></td></tr>'
-     + '<tr><td>Postmenopausal</td><td>Daily</td><td><b>90 capsules</b></td></tr></table>'
-     + '<div class="box amber"><b>These counts are one capsule per day.</b> On 300 mg via the commercial '
-     + 'route the patient takes two capsules a night, so the quantity doubles to 134 or 180 per 90 days. '
-     + 'A compounded 300 mg capsule stays at 67 or 90.</div>'
-     + '<div class="box red"><b>Do not use with a peanut allergy.</b></div>'
+     /* Counts read from the Tebra entries rather than typed. They said 67 and
+        90 per 90 days; the entries say 63 and 84 over 12 weeks, and the typed
+        pair had been wrong on both since before the 12-week change. */
+     + '<table class="d"><tr><th>Patient</th><th>Schedule</th><th>Per 12 weeks</th></tr>'
+     + '<tr><td>Still cycling</td><td>21 on, 7 off</td><td><b>' + progQty(true) + ' capsules</b></td></tr>'
+     + '<tr><td>Postmenopausal</td><td>Daily</td><td><b>' + progQty(false) + ' capsules</b></td></tr></table>'
+     + '<div class="box amber"><b>These counts are one capsule per night.</b> A 300 mg dose through the '
+     + 'COMMERCIAL route is two capsules a night - one 200 mg plus one 100 mg - so the quantity doubles. '
+     + 'A compounded 300 mg capsule stays at ' + progQty(true) + ' or ' + progQty(false) + '.</div>'
+     /* The peanut rule said "do not use", which is wrong and was corrected on
+        2026-09-16: the allergy rules out the COMMERCIAL capsule, not the
+        hormone. Getting this wrong means referring a patient out who could
+        simply have the compounded one. */
+     + '<div class="box red"><b>PEANUT ALLERGY: do not use a COMMERCIAL progesterone capsule.</b> '
+     + 'They are suspended in peanut oil. A COMPOUNDED capsule from Belmar or Premier is fine and is '
+     + 'the answer - the allergy rules out the product, not the hormone.</div>'
      + (ph==="Premier"
         ? '<div class="box amber"><b>Premier stocks both commercial and compounded progesterone.</b> State '
           + 'which one you want on the prescription or the pharmacy has to guess.</div>' : '')
@@ -422,6 +508,24 @@ function render(){
   h+='<div class="card"><div class="chdr"><strong>Plan — copy into the note</strong>'
    + '<button class="copybtn" onclick="cp(this,\'wplan\')">Copy plan</button></div>'
    + '<div class="cbody"><div class="copybox" id="wplan">'+esc(plan)+'</div></div></div>';
+
+  /* The blocks for this plan, at the end where a provider has finished deciding
+     and is ready to write. Destination comes from the route already computed
+     above, so the entries shown are the ones that can actually be sent. */
+  var dest = ins==="local" ? "local" : (inP ? "premier" : "belmar");
+  var ent = entriesFor(dest, pick);
+  if (ent.length) {
+    h += '<div class="sec">Tebra entries for this plan</div>'
+       + '<div class="box teal">' + ent.length + ' entr' + (ent.length===1?'y':'ies')
+       + ' for ' + esc(ph) + '. These are the ones that match the hormones selected and '
+       + 'the pharmacy this patient routes to. Strengths differ between pharmacies, so a '
+       + 'block from the other pharmacy will not be right.</div>'
+       + ent.map(entryBlock).join('');
+  }
+
+  h += '<div class="box teal"><b>Looking for PT-141?</b> Still available - it moved out of '
+     + 'Women\'s Health and into SEXUAL HEALTH. See the Add-On Clinical Reference for pricing, '
+     + 'charge codes and the Tebra entries. Belmar fills the nasal spray, Premier the injection.</div>';
 
   out.innerHTML=h;
 }
