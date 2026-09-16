@@ -236,7 +236,12 @@ function sectionGlance(doc) {
   if (doc.program === 'foundation') {
     structure = 'Single agent, provider selects one. No stagger, no optional add-on.';
   } else {
-    const famLabel = (K.agents[K.resolvePrimaryKey(prog.primaryFamily, (prog.primaryDoseOptions || [])[0])] || {}).label || prog.primaryFamily;
+    /* NAME only. The Tesamorelin labels carry a strength, so .label here put
+       "Tesamorelin 1 mg as the primary agent" into the Structure sentence and
+       "Dose ladder - Tesamorelin 1 mg" above a table whose rows then restate
+       1 mg, 1.5 mg and 2 mg. agentParts() already knows how to separate the
+       two; use it rather than reading .label raw. */
+    const famLabel = agentParts(K.resolvePrimaryKey(prog.primaryFamily, (prog.primaryDoseOptions || [])[0])).name || prog.primaryFamily;
     structure = famLabel + ' as the primary agent, plus BPC-157 as part of the base protocol, plus GHK-Cu as an optional add-on.';
   }
 
@@ -287,7 +292,7 @@ function sectionLadder(doc) {
   if (!families.length) return '';
 
   return families.map(function (f) {
-    const famLabel = (K.agents[K.resolvePrimaryKey(f.fam, f.opts[0])] || {}).label || f.fam;
+    const famLabel = agentParts(K.resolvePrimaryKey(f.fam, f.opts[0])).name || f.fam;
     const head = '<tr><th>Dose</th>' + keys.map(function (k) {
       return '<th>' + esc(pharmName(k).replace(' Pharmacy', '')) + ' — units</th>';
     }).join('') + '<th>Active weeks</th><th>Schedule</th></tr>';
@@ -300,7 +305,20 @@ function sectionLadder(doc) {
         const m = t.match(/([0-9.]+)\s*units/i);
         return '<td>' + (m ? esc(m[1] + ' units') : '—') + '</td>';
       }).join('');
-      return '<tr><td>' + esc(a.dose || dv) + '</td>' + cells +
+      /* THE STRENGTH ONLY - the agent is already named in this table's own
+         heading, "Dose ladder - <agent>".
+
+         This cell printed the raw a.dose, so a combination row read
+         "100 mcg CJC-1295 / 100 mcg Ipamorelin" while the same agent read
+         "CJC-1295 / Ipamorelin 100mcg/100mcg" two tables earlier. Don asked on
+         2026-09-15 whether the amount-first form was intentional. It was not -
+         this cell simply bypassed the display logic.
+
+         Both strengths are still shown, because they are two drugs and
+         Greenwich stocks them matched and unmatched. Only the repeated names
+         go, and they go because the heading above already carries them in the
+         same order the strengths are written in. */
+      return '<tr><td>' + esc(agentParts(key).dose || a.dose || dv) + '</td>' + cells +
              '<td>' + esc(weeksLabel(key, 'foundation')) + '</td><td>' + esc(a.schedule || '') + '</td></tr>';
     }).join('');
 
