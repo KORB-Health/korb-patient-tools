@@ -125,10 +125,36 @@ function agentKeys(doc) {
   return out;
 }
 
+/* A DISPLAY TITLE FOR ONE AGENT. label + ' ' + dose is wrong twice over, and
+   both were visible in "At a glance" before 2026-09-15:
+
+     Tesamorelin    label "Tesamorelin 1 mg", dose "1 mg"
+                    -> "Tesamorelin 1 mg 1 mg"
+     CJC/Ipamorelin label "CJC-1295 / Ipamorelin",
+                    dose "100 mcg CJC-1295 / 100 mcg Ipamorelin"
+                    -> "CJC-1295 / Ipamorelin 100 mcg CJC-1295 / 100 mcg Ipamorelin"
+
+   Neither is a typo in the data. The Tesamorelin labels carry their strength
+   where every other agent's does not, and the CJC dose legitimately names both
+   components because they are dosed separately. Concatenating is what breaks.
+
+   Fixed here rather than in korb-dosing-data.js deliberately: `label` and `dose`
+   feed prescribing strings, and this is a heading. A display problem does not
+   justify editing a value a pharmacy matches on. */
 function agentTitle(key) {
   const a = K.agents[key];
   if (!a) return key;
-  return a.label + ' ' + a.dose;
+  const label = String(a.label || ''), dose = String(a.dose || '');
+  if (!dose) return label;
+  /* The label already states the strength. */
+  if (label.indexOf(dose) !== -1) return label;
+  /* The dose repeats the component names - keep only its leading amount. */
+  const firstWord = label.split(/[\s/]+/)[0];
+  if (firstWord && dose.indexOf(firstWord) !== -1) {
+    const lead = dose.match(/^([\d.]+\s*(?:mcg|mg|ug|units?))/i);
+    if (lead) return label + ' ' + lead[1];
+  }
+  return label + ' ' + dose;
 }
 
 function weeksLabel(key, context) {
@@ -146,6 +172,44 @@ function bullets(list) {
   return '<ul>' + list.map(function (b) { return '<li>' + esc(b) + '</li>'; }).join('') + '</ul>';
 }
 function stateList(arr) { return (arr || []).slice().join(', '); }
+
+/* COLLAPSE ONE AGENT'S DOSES ONTO ONE ENTRY.
+   Don, 2026-09-15: the Peak pathways list four Sermorelin strengths, and
+   repeating the word four times pushed the row onto two lines and broke oddly -
+   "Sermorelin 200 mcg . Sermorelin 300 mcg . Sermorelin 400 mcg ." then
+   "Sermorelin 500 mcg . BPC-157 500 mcg . GHK-Cu 2 mg" on the next.
+
+   Now "Sermorelin 200, 300, 400, 500 mcg", one entry per agent. Single-dose
+   agents are untouched, so BPC-157 and GHK-Cu read exactly as before.
+
+   The doses are joined only when they share a unit. Mixing mcg and mg under one
+   trailing unit would state a dose that is a thousand times wrong, which is
+   worth three lines of code to make impossible. */
+function groupAgentNames(names) {
+  const order = [];
+  const byName = {};
+  names.forEach(function (full) {
+    const m = String(full).match(/^(.*?)\s+([\d.]+)\s*(mcg|mg|ug|units?)$/i);
+    if (!m) { order.push(full); byName[full] = null; return; }
+    const name = m[1], dose = m[2], unit = m[3];
+    if (!byName[name]) { byName[name] = { doses: [], units: {}, pairs: [] }; order.push(name); }
+    byName[name].doses.push(dose);
+    byName[name].pairs.push({ dose: dose, unit: unit });
+    byName[name].units[unit.toLowerCase()] = true;
+  });
+  return order.map(function (k) {
+    const g = byName[k];
+    if (!g) return k;
+    const units = Object.keys(g.units);
+    if (units.length !== 1) {
+      /* Mixed units: spell each dose out with ITS OWN unit. An earlier version
+         indexed the unit list by position, which pairs a dose with whichever
+         unit happened to come first - a silent thousand-fold error. */
+      return g.pairs.map(function (d) { return k + ' ' + d.dose + ' ' + d.unit; }).join(' · ');
+    }
+    return k + ' ' + g.doses.join(', ') + ' ' + units[0];
+  }).join(' · ');
+}
 
 /* ── SECTIONS ─────────────────────────────────────────────────────────────── */
 
@@ -166,7 +230,7 @@ function sectionGlance(doc) {
     ['Program', esc(prog.label)],
     ['Structure', esc(structure)],
     ['Cycle length', '16 weeks'],
-    ['Agents in this document', esc(uniqueNames.join(' · '))],
+    ['Agents in this document', esc(groupAgentNames(uniqueNames))],
     ['Pharmacies', esc(pharmKeys().map(pharmName).join(' and ')) + ' — routed by patient state']
   ]) + '</table>';
 }
