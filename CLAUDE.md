@@ -473,6 +473,13 @@ This repo has real self-checks. Use them, and prove they have teeth.
   day on a public site. Found by Don clicking the link.
   **When a render module gains a dependency, add the tag to EVERY builder and
   extend NEEDS in check-pages.js.** Two of three builders got it that day.
+- `node check-tebra-caps.js --gate` from the repo root — every value a provider
+  copies, measured against `tebraLimits`, across all 15 documents. Expect
+  "0 over the cap", exit 0. Measures the RENDERED value, not the source, because
+  `&amp;` is one character on the clipboard. Negative-tested 2026-09-15: a
+  planted overrun reports 178/140.
+  **Headroom is thin.** The longest patient instruction is 139 of 140. Adding a
+  word to a sig is not a free edit; run this after any sig change.
 - `KORB_PHARMACIES.selfCheck()` — currently passes, but only validates itself. It
   cannot see `korb-glp1-data.js`. See Open work.
 
