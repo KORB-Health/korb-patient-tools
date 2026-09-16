@@ -3274,6 +3274,35 @@ var KORB_GLP1 = {
     },
 
     farmakeio_tirz: {
+      /* THE UNIT COUNTS ARE FARMAKEIO'S ROUNDING, NOT OURS, AND 2.5 mg IS
+         DELIBERATELY NOT THE NEAREST UNIT.
+
+         Raised with Don on 2026-09-15 during the prescribing review and
+         confirmed: correct as it stands, use it.
+
+         At 18 mg/ml every other row here rounds to the nearest unit. 2.5 mg
+         does not:
+
+           dose      stated  delivers   needed   nearest
+           2.5 mg     13      2.34 mg    13.89     14      <- rounds DOWN, -6.4%
+           4.5 mg     25      4.50 mg    25.00     25
+           7.5 mg     42      7.56 mg    41.67     42
+           9 mg       50      9.00 mg    50.00     50
+           13.5 mg    75      13.50 mg   75.00     75
+           15 mg      83      14.94 mg   83.33     83
+
+         FarmaKeio asked for the 2.5 / 4.5 / 7.5 ladder, and the awkward
+         arithmetic only appeared when they moved to a single 18 mg/ml
+         concentration - before that the numbers came out clean. KORB and the
+         pharmacy went back and forth on the rounding and settled on this,
+         which is what has been dispensed for roughly a year. Don's words:
+         not as accurate as he would like, and it is what we are using.
+
+         So DO NOT "correct" 13 to 14. It matches the pharmacy's own document,
+         docs/pharmacy/Farmakeio_Tirzepatide_2025-11-26.md in
+         korb-clinical-docs, and changing it here would put the sig out of step
+         with what FarmaKeio actually compounds and labels. If it is ever
+         revisited, it is revisited with the pharmacy first. */
       key: 'farmakeio_tirz',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */
