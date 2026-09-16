@@ -3145,6 +3145,24 @@ var KORB_GLP1 = {
     },
 
     farmakeio_sema: {
+      /* THE TOP DOSE IS 2.5 mg AND THAT IS NOT OVER ANY CEILING.
+
+         Raised with Don on 2026-09-15 because the three compounded pharmacies
+         stop at three different places and 2.4 mg looked like the limit:
+
+           Belmar      0.25  0.5  1.0  1.7  2.4
+           FarmaKeio   0.25  0.5  1.0  1.7  2.5
+           Premier     0.3   0.6  1.2  1.8  2.7
+
+         His answer: 2.4 mg is OLD. The maximum for semaglutide is now 7.2 mg,
+         the branded Wegovy high dose, so every ladder here sits well under it
+         and the differences between pharmacies are their own formulations
+         rather than anyone exceeding a limit. This file already carries 7.2 mg
+         in two dozen places, which is the same answer from the other side.
+
+         So do not "correct" FarmaKeio down to 2.4 to match Belmar, and do not
+         read Premier's 2.7 as an overshoot. Three pharmacies, three ladders,
+         all below the ceiling. */
       key: 'farmakeio_sema',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */

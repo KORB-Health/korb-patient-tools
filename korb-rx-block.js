@@ -477,14 +477,15 @@
         'padding:1px 7px;cursor:pointer;}' +
       '.copybtn:hover{background:#D3EDF1;}' +
       '.copybtn.ok{background:#1B6349;border-color:#1B6349;color:#fff;}' +
-      /* IN THE PRICING TABLES THE BUTTON SITS NEXT TO THE CODE, NOT AT THE EDGE.
-         float:right is right for the prescribing blocks, where every value sits
-         in one wide column and a right-hand rail of buttons reads as a column of
-         its own - Don asked for that on 2026-09-15. It is wrong in the pricing
-         tables, where the cell holds a ten-character code: the button floated
-         away from the value it belongs to, with inches of empty cell between
-         them. Same button, same behaviour, placed beside the thing it copies. */
-      '.pricegrid .copybtn{float:none;margin-left:8px;vertical-align:baseline;}' +
+      /* THE BUTTON IS RIGHT-ALIGNED EVERYWHERE, PRICING TABLES INCLUDED.
+         It was briefly float:none here, earlier on 2026-09-15, because the
+         charge-code column was then so wide that a right-floated button sat
+         inches from its code. That was a symptom of the column widths, and the
+         widths are now fixed - so the override outlived the problem it was for,
+         and left the pricing tables as the only place on the site where a Copy
+         button sat mid-cell. Don, same day: make it consistent with the other
+         documents. A reader scanning a column of buttons finds them all in one
+         place, which is the whole value of a rail. */
       /* The CODE never breaks (set in provider-doc-render.js) but the button
          beside it may drop to the next line. Without this the pair is one
          unbreakable run, so on a narrow window the Tier column - the smallest
