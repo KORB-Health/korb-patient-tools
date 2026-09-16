@@ -317,7 +317,7 @@
 <script>
   (function () {
     var D = KORB_GLP1;
-    if (D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
+    if (D && D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
     var doc = KORB_PATIENT_ED.docs["semaglutide"];
     var R = KORB_PATIENT_ED_DOCS;
     document.getElementById('doc').innerHTML =

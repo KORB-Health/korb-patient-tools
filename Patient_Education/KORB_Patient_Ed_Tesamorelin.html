@@ -317,7 +317,7 @@
 <script>
   (function () {
     var D = KORB_DOSING;
-    if (D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
+    if (D && D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
     var doc = KORB_PATIENT_ED.docs["tesamorelin"];
     var R = KORB_PATIENT_ED_DOCS;
     document.getElementById('doc').innerHTML =

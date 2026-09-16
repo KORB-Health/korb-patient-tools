@@ -112,7 +112,9 @@ function masthead(doc, live) {
   return `<div class="mast"><div class="tools">` +
     `<a href="${doc.file}.pdf">PDF version</a><a href="#" onclick="window.print();return false;">Print</a>` +
     `</div><img src="${R.LOGO_URI}" alt="KORB Health"></div>` +
-    (live ? `<div class="live">Live — reflects ${doc.source === 'glp1' ? 'korb-glp1-data.js' : 'korb-dosing-data.js'} as of this page load</div>` : '') +
+    (live && doc.source !== 'none'
+      ? `<div class="live">Live — reflects ${doc.source === 'glp1' ? 'korb-glp1-data.js' : 'korb-dosing-data.js'} as of this page load</div>`
+      : '') +
     `<div class="titleband"><h1>${R.esc(doc.title)}</h1>` +
     `<p class="sub">Patient Education · ${R.esc(doc.program)}</p></div>` +
     `<p class="byline">KORB Health Medical Texas PA · Patient education · ` +
@@ -140,13 +142,13 @@ ${SCREEN}
      the console of every generated handout. Harmless, because the styling was
      already inlined, and still a broken script on a patient-facing page. -->
 <script src="../korb-pharmacies.js"></script>
-${doc.source === 'glp1' ? '<script src="../korb-glp1-data.js"></script>' : '<script src="../korb-dosing-data.js"></script>'}
+${doc.source === 'none' ? '' : doc.source === 'glp1' ? '<script src="../korb-glp1-data.js"></script>' : '<script src="../korb-dosing-data.js"></script>'}
 <script src="../korb-patient-ed-data.js"></script>
 <script src="../patient-ed-render.js"></script>
 <script>
   (function () {
-    var D = ${doc.source === 'glp1' ? 'KORB_GLP1' : 'KORB_DOSING'};
-    if (D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
+    var D = ${doc.source === 'none' ? 'null' : doc.source === 'glp1' ? 'KORB_GLP1' : 'KORB_DOSING'};
+    if (D && D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
     var doc = KORB_PATIENT_ED.docs[${JSON.stringify(doc.key)}];
     var R = KORB_PATIENT_ED_DOCS;
     document.getElementById('doc').innerHTML =

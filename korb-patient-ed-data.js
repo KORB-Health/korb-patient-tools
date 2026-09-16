@@ -1093,6 +1093,217 @@ var KORB_PATIENT_ED = {
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
+    },
+
+    /* NO DATA FILE. Testosterone is the one handout here that cannot pull, because
+       korb-trt-data.js does not exist - open item 6 in CLAUDE.md. Its route,
+       schedule and storage are stated below rather than read, and source:'none'
+       makes that explicit so the page does not imply it is live when it is not.
+
+       When korb-trt-data.js lands: delete `facts`, set source and a product key,
+       and check whether `storage` can move into it too. Testosterone storage is
+       NOT the shared peptide block - room temperature, 90 days - and inheriting
+       the shared one would tell a patient to refrigerate a medication that must
+       not be refrigerated. */
+    testosterone: {
+      key: 'testosterone',
+      file: 'KORB_Patient_Ed_Testosterone',
+      title: 'Testosterone',
+      source: 'none',
+      program: 'Men\u2019s Health',
+      facts: {
+        how: 'Injection \u2014 subcutaneous or intramuscular, as your provider directs',
+        timing: 'On your scheduled injection day, as stated on your label',
+        schedule: 'As stated on your prescription label'
+      },
+
+      what: [
+        'Testosterone cypionate is a long-acting injectable form of testosterone. It ' +
+        'replaces what your body is no longer producing in adequate amounts, bringing ' +
+        'your levels back into a healthy range.',
+        'It is a thick, oil-based medication, which is why it comes with a specific type ' +
+        'of syringe and two different needles.'
+      ],
+
+      mayHelp: {
+        lead: 'Testosterone replacement therapy may help with:',
+        items: [
+          'Energy and reduced fatigue',
+          'Muscle mass, strength, and recovery from exercise',
+          'Sex drive and sexual function',
+          'Mood, motivation and mental clarity',
+          'Body composition, including reduced body fat'
+        ],
+        after: 'Most men notice changes gradually rather than immediately. Energy and mood ' +
+               'often shift first, within a few weeks. Changes in body composition and ' +
+               'strength typically take three to six months. Your provider will adjust your ' +
+               'dose over time based on your labs and how you feel.'
+      },
+
+      extraSections: [
+        {
+          h: 'How to give your injection',
+          callout: 'Your medication is a thick oil. It comes with a Luer lock syringe and two ' +
+                   'separate needles: a wider one to draw the medication out of the vial, and a ' +
+                   'finer one to inject with. Use both. The oil will not draw properly through ' +
+                   'the fine needle, and drawing with the injecting needle dulls it and makes ' +
+                   'the injection hurt more.',
+          table: {
+            head: ['Step', 'What to do'],
+            rows: [
+              ['1', 'Wash your hands. Set out your syringe, both needles, alcohol swabs and your vial.'],
+              ['2', 'Wipe the top of the vial with an alcohol swab and let it dry.'],
+              ['3', 'Attach the wider needle. Draw up the exact amount on your prescription label.'],
+              ['4', 'Remove that needle and attach the finer needle. Do not draw through the fine needle.'],
+              ['5', 'Clean your injection site with a fresh alcohol swab and let it dry.'],
+              ['6', 'Inject, then dispose of the needles and syringe in a sharps container immediately.']
+            ]
+          },
+          p: [
+            'Where to inject. If you inject under the skin, use the abdomen, upper thigh, or ' +
+            'the fatty area of the buttock. If you inject into the muscle, use the outer thigh, ' +
+            'the gluteal muscle, or the shoulder. Your provider will tell you which route you ' +
+            'are using and show you the technique.',
+            'Rotate every time. Move at least an inch or two from your last injection site. ' +
+            'Injecting into the same spot repeatedly causes soreness, lumps and scar tissue ' +
+            'that make future injections harder.',
+            'Take your time drawing up. The oil moves slowly, and pulling too hard creates air ' +
+            'bubbles. Warming the vial briefly in your hand can help it draw more easily.'
+          ]
+        },
+        {
+          h: 'Reading your syringe',
+          p: [
+            'Your prescription label tells you how many mL to draw. Find that number on the ' +
+            'barrel and pull the plunger back until the FRONT EDGE of the black stopper lines ' +
+            'up with it, not the middle or the back of it.',
+            'The numbered lines are tenths of a mL and the smaller unnumbered lines between ' +
+            'them are hundredths, so 0.42 mL is four numbered lines past zero plus two small ' +
+            'lines. Subcutaneous doses use a 1 mL syringe and intramuscular doses use a 3 mL ' +
+            'syringe; your own dose is on your label.'
+          ],
+          warn: 'If you have drawn past your number, do not inject the extra. Push the plunger ' +
+                'gently back down to the correct line, or push it all the way in and start ' +
+                'again. Injecting more than you were prescribed raises your levels too high and ' +
+                'shows up on your labs.'
+        },
+        {
+          h: 'Your dose',
+          p: ['Your prescription label states your exact dose, your volume and how often to ' +
+              'inject. Your provider selects your starting dose based on your labs and symptoms, ' +
+              'and may adjust it over time.'],
+          warn: 'Never increase your own dose. More testosterone is not better. Levels that run ' +
+                'too high raise your risk of thickened blood, elevated estrogen and ' +
+                'cardiovascular problems, and they do not produce better results. If you feel ' +
+                'your dose is not working, tell your provider so it can be adjusted properly ' +
+                'and rechecked with labs.'
+        },
+        {
+          h: 'Refills and timing',
+          p: ['Testosterone is a controlled medication. Pharmacies are legally limited in how ' +
+              'early they can release a refill, and they count from the date of your LAST FILL, ' +
+              'not from the date you run out or the date of your visit.'],
+          ul: [
+            'Your provider calculates your refill date and sends your prescription a few days ' +
+            'before the pharmacy can release it.',
+            'Asking the pharmacy to fill early will not move the date up.',
+            'If you are traveling or think you may run short, tell us well in advance rather ' +
+            'than at the last minute.'
+          ]
+        }
+      ],
+
+      /* Its own travel text, because the shared one says to refrigerate on
+         arrival. Correct for the peptides, wrong here, and the two sat two
+         inches apart contradicting each other on the first build. */
+      travel:
+        'Keep your medication with you, in your carry-on or personal item rather than ' +
+        'checked baggage, in its original labeled carton. Keep it at room temperature ' +
+        'and out of direct sunlight, and do not let it freeze or get cold enough to ' +
+        'form crystals. Do not refrigerate it at any point, including on arrival. ' +
+        'Medication and syringes are permitted in carry-on luggage, and TSA recommends ' +
+        'keeping the original pharmacy label visible. Because this is a controlled ' +
+        'medication, keep it in the labeled carton so it is clearly identifiable.',
+
+      /* NOT the shared peptide storage block. Room temperature, and 90 days. */
+      storage: {
+        cards: [
+          ['Store at room temperature', '68\u00b0F \u2013 77\u00b0F (20\u00b0C \u2013 25\u00b0C)'],
+          ['Protect from light', 'Keep in the carton, away from direct sunlight'],
+          ['Do not refrigerate or freeze', 'Cold can form crystals in the oil'],
+          ['Keep secured', 'A controlled medication. Store out of reach of others.']
+        ],
+        notes: [
+          'Discard your vial 90 days after you first use it, even if medication is left in it. ' +
+          'Once a vial has been opened and punctured it is no longer considered safe to use ' +
+          'beyond that point. Write the date you first used it on the label.',
+          'Depending on your dose there may still be medication in the vial at 90 days. That is ' +
+          'expected. Discard it when your new supply arrives rather than stretching it further. ' +
+          'Never save leftover medication to use later, and never share it.',
+          'If the oil looks cloudy, has particles, or has changed color, do not use it and ' +
+          'contact the pharmacy or KORB. Small crystals can form if the vial gets cold, and ' +
+          'warming it gently in your hand usually clears them. If they do not clear, do not use it.'
+        ]
+      },
+
+      common: [
+        ['Injection site soreness, redness or a small lump',
+         'Common. Rotate sites and use a fresh needle each time. Tell KORB if it worsens or does not resolve.'],
+        ['Acne or oilier skin', 'Common, especially early on. Tell your provider if it becomes bothersome.'],
+        ['Fluid retention or mild swelling', 'Tell your provider. Your dose may need adjusting.'],
+        ['Mood changes, irritability or trouble sleeping',
+         'Tell your provider. This can indicate your dose is too high.'],
+        ['Breast tenderness or swelling',
+         'Tell your provider. This may mean estrogen is running high, and it is adjustable.'],
+        ['Reduced testicle size, or reduced fertility',
+         'Expected with testosterone therapy. If you are planning to father children, tell your provider before continuing.']
+      ],
+      monitorAndTell: [
+        ['Headaches, flushing, or feeling unusually warm', 'Can suggest thickened blood. Tell your provider.'],
+        ['New or worsening snoring, or pauses in breathing during sleep', 'Tell your provider.'],
+        ['Difficulty urinating or a weak stream', 'Tell your provider.'],
+        ['Any new medical diagnosis, new medication, or planned surgery', 'Tell your provider.']
+      ],
+
+      labs: {
+        lead: 'Timing matters more than most patients expect. Get your blood drawn on a day you ' +
+              'are scheduled to inject, BEFORE you take that dose. This is called a trough level. ' +
+              'If you are drawn right after an injection your level reads artificially high, and ' +
+              'your provider may lower a dose that was actually correct.',
+        items: [
+          'Your panel checks your testosterone level, your red blood cell count, your prostate marker and your hormone balance.',
+          'Labs are ordered about two weeks before your follow-up visit so results are ready when you meet, and you will get a reminder.'
+        ],
+        after: 'Results can take up to a week to come back, which leaves roughly a one-week ' +
+               'window once your reminder arrives. Going early is fine. Waiting until the last ' +
+               'few days risks your results not being ready, which can delay your visit and your refill.'
+      },
+
+      safety: [
+        'Use testosterone only as prescribed. Never change your dose, timing or route without provider direction.',
+        'Use a new syringe and new needles for every injection. Never reuse or share them.',
+        'Draw up with the wider needle and inject with the finer one.',
+        'Do not share this medication with anyone. It is a controlled substance and sharing it is illegal.',
+        'Get your labs drawn at trough, on an injection day before your dose.',
+        'Tell your provider if you are planning to father children.'
+      ],
+
+      emergencyLead:
+        'Seek emergency care immediately for chest pain, trouble breathing, sudden weakness or ' +
+        'numbness on one side, trouble speaking, swelling or pain in one leg, or any symptom ' +
+        'that feels severe or unsafe. Do not wait to hear back from KORB.',
+
+      keyReminders: [
+        'Draw up with the wider needle, then switch to the finer needle to inject.',
+        'Rotate your injection site every single time.',
+        'Get labs drawn on an injection day, before your dose.',
+        'Your refill date is set by your last fill date. Early requests will not move it up.',
+        'Discard your vial 90 days after first use, even if medication is left.',
+        'Never increase your own dose. Higher is not better and carries real risk.',
+        'Store at room temperature, not in the refrigerator.',
+        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Patient Portal for medical questions, and emergency care for severe symptoms.'
+      ]
     }
 
   }

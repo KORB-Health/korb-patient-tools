@@ -94,6 +94,17 @@
 
   function agentFacts(DOSING, doc) {
     if (doc.source === 'glp1') { return glp1Facts(DOSING, doc); }
+    /* NO DATA FILE YET. Testosterone has no korb-trt-data.js - that is open item
+       6 - so its route and schedule are prose here rather than pulled, and this
+       says so plainly instead of letting the page imply it is live. When that
+       file exists, delete doc.facts and give the handout a source and a key.
+       The "Live" badge is suppressed for these in the builder. */
+    if (doc.source === 'none') {
+      if (!doc.facts) throw new Error('patient-ed-render: "' + doc.key + '" has source ' +
+        '"none" and no facts block. Either give it a data source or state the facts.');
+      return { how: doc.facts.how || '', timing: doc.facts.timing || '',
+               schedule: doc.facts.schedule || '', windows: [], activeWeeks: '', offWeeks: '' };
+    }
     if (!DOSING || !DOSING.agents) {
       throw new Error('patient-ed-render: korb-dosing-data.js must be loaded first.');
     }
@@ -184,14 +195,39 @@
          '</table>' +
          (doc.weeksNote ? '<p class="fine">' + esc(doc.weeksNote) + '</p>' : '');
 
+    (doc.extraSections || []).forEach(function (sec) {
+      h += '<h2>' + esc(sec.h) + '</h2>';
+      if (sec.p) h += paras(sec.p);
+      if (sec.table) {
+        h += '<table class="grid"><thead><tr>' +
+             sec.table.head.map(function (x) { return '<th>' + esc(x) + '</th>'; }).join('') +
+             '</tr></thead><tbody>' + sec.table.rows.map(function (r) {
+               return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>';
+             }).join('') + '</tbody></table>';
+      }
+      if (sec.ul) h += ul(sec.ul);
+      if (sec.callout) h += '<div class="callout"><p>' + esc(sec.callout) + '</p></div>';
+      if (sec.warn) h += '<div class="callout warn"><p>' + esc(sec.warn) + '</p></div>';
+    });
+
     (doc.timingNotes || []).forEach(function (n) {
       h += '<h3>' + esc(n[0]) + '</h3><p>' + esc(n[1]) + '</p>';
     });
 
+    /* The shared storage block is the refrigerated, 28-day peptide rule. A
+       handout whose storage genuinely differs states its own: testosterone is
+       room temperature and 90 days, and inheriting the shared block would have
+       told a patient to refrigerate a medication that must not be. */
+    var ST = doc.storage || S.storage;
     h += '<h2>Storage and handling</h2>' +
-         twoCol(S.storage.cards, 'What to do', 'Detail') + paras(S.storage.notes);
+         twoCol(ST.cards, 'What to do', 'Detail') + paras(ST.notes);
 
-    h += '<h2>Traveling with your medication</h2><p>' + esc(S.travel) + '</p>' +
+    /* The shared travel text tells the patient to refrigerate again on arrival,
+       which is right for every refrigerated peptide and WRONG for testosterone,
+       whose own storage block says do not refrigerate. The page contradicted
+       itself on the first build. A handout whose storage differs states its own
+       travel text too - the two belong together. */
+    h += '<h2>Traveling with your medication</h2><p>' + esc(doc.travel || S.travel) + '</p>' +
          (doc.travelNote ? '<p>' + esc(doc.travelNote) + '</p>' : '');
 
     if (doc.timeline) {
