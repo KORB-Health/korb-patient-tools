@@ -166,6 +166,22 @@ body{background:var(--cream);}
 .hrow select{width:100%;min-height:44px;padding:9px 11px;border:1.5px solid var(--teal);
   border-radius:8px;font-size:15px;color:var(--navy);background:#fff;font-family:inherit;}
 .hrow .none{font-size:11.5px;color:var(--red);padding:0 14px 13px;}
+
+/* Top-level rhythm in the output. Every block gets its spacing from one rule
+   rather than from its own margin, so nothing can end up touching, and a navy
+   section bar gets a clear gap above it so the eye can find where a section
+   starts. Don, 2026-09-16: "I couldn't tell where one section started and
+   where one ended." */
+#out > .card{margin-bottom:0;}
+#out > * + *{margin-top:16px;}
+#out > * + .sec{margin-top:32px;}
+#out > .sec{margin-bottom:0;}
+/* The billing table sits inside a card, so it does not need the 520px floor
+   that the full-width reference tables use. */
+.card-body table.ref{min-width:0;}
+.card-body .tablewrap{margin-top:14px;}
+.cardsub{font-size:11px;color:var(--mu);font-weight:700;text-transform:uppercase;
+  letter-spacing:.4px;margin-bottom:10px;}
 </style>
 </head>
 <body>
@@ -428,50 +444,88 @@ function selections(){
   });
 }
 
-/* One prescription, in the house field table with a copy button on every value
-   a provider pastes. The drug on a commercial product is SELECTED in Tebra, so
-   it gets the note and no button - pasting it is the mistake. */
+/* Price and charge code as a table: what the charge is for, the price, and the
+   code with its copy button beside it. Same three columns as the TRT tool's
+   Pricing & Charge Codes block so the two read the same way. The four tiles
+   above give the headline; this is the line a provider actually bills from.
+   Don, 2026-09-16. */
+function billingTable(dest, n, tier){
+  if (!tier) return "";
+  var item = dest === "local"
+    ? W.pricing.insurance.label
+    : n + " hormone" + (n === 1 ? "" : "s") + " \u2014 visit, 12-week supply and shipping";
+  var h = '<div class="tablewrap"><table class="ref">'
+        + '<thead><tr><th>Item</th><th>Price</th><th>Charge code</th></tr></thead><tbody>'
+        + '<tr><td>' + esc(item) + '</td><td><b>' + esc(tier.p) + '</b></td>'
+        + '<td><span class="codewrap"><span class="code-chip" id="tc0">' + esc(tier.c) + '</span>'
+        + '<button type="button" class="cbtn" onclick="copyCode(this,\'tc0\')">Copy code</button>'
+        + '</span></td></tr></tbody></table></div>';
+  /* Four hormones bill at the three-hormone tier. The table shows the tier-3
+     code, which looks like a mistake unless the rule is stated next to it. */
+  if (dest !== "local" && n >= 4) h += '<div class="info-box teal">' + esc(W.pricing.fourRule) + '</div>';
+  return h;
+}
+
+/* One prescription, in the house field table. Field names match the TRT tool -
+   Drug, Name, Select, Quantity, Unit, Refill, Days - because they are the same
+   Tebra fields and calling them different things in two tools is how a provider
+   ends up hunting for a field that is right in front of them.
+
+   A value that is CHOSEN in Tebra gets no copy button: the drug on a name-brand
+   product, and Allow Substitution, which is a checkbox, not a paste. Don,
+   2026-09-16: "we don't have a copy-and-paste button because it's not a
+   copy-and-paste function." */
 function rxCard(e){
+  var CAP = W.tebra.caps || {};
   var rows = [
-    ["Drug", e.drug, !e.compounded],
-    ["Name", e.label, false],
-    ["Allow Substitution", "Yes - select Allow Substitution", false],
-    ["Quantity", e.quantity, false],
-    ["Unit", e.unit, false],
-    ["Refill", e.refill, false],
-    ["Days Supply", e.days, false],
-    ["Patient Instructions", e.ptInstructions, false]
+    { k:"Drug", v:e.drug, select: !e.compounded },
+    { k:"Name", v:e.label },
+    { k:"Select", v:"Allow Substitution", select:true,
+      note:"Tick Allow Substitution in Tebra. There is nothing to paste." },
+    { k:"Quantity", v:e.quantity },
+    { k:"Unit", v:e.unit },
+    { k:"Refill", v:e.refill },
+    { k:"Days", v:e.days },
+    { k:"Patient Instructions", v:e.ptInstructions, cap:CAP.ptInstructions }
   ];
-  if (e.reasonForCompounding) rows.push(["Reason for Compounding", e.reasonForCompounding, false]);
-  rows.push(["Pharmacy Instructions", e.pharmacyNotes, false]);
+  if (e.reasonForCompounding) rows.push({ k:"Reason for Compounding", v:e.reasonForCompounding });
+  rows.push({ k:"Pharmacy Instructions", v:e.pharmacyNotes, cap:CAP.pharmacyNotes });
 
   var id = "fld_" + e.label.replace(/[^A-Za-z0-9]/g, "");
   var h = '<div class="card"><div class="card-hdr"><strong>' + esc(e.label) + '</strong>'
-        + '<span>' + esc(e.compounded ? "Compounded Drug Favorite" : "Tebra Standard prescription")
-        + ' \u00b7 ' + esc(e.days) + '-day supply</span></div><div class="card-body">'
+        + '<button class="copybtn" onclick="copyAll(this,\'' + id + '\')">Copy all fields</button>'
+        + '</div><div class="card-body">'
+        + '<div class="cardsub">' + esc(e.compounded ? "Compounded Drug Favorite" : "Tebra Standard prescription")
+        + ' \u00b7 ' + esc(e.days) + '-day supply</div>'
         + '<div class="fldwrap"><table class="fld" id="' + id + '">';
   rows.forEach(function(r){
-    h += '<tr><td class="k">' + esc(r[0]) + '</td>'
-       + '<td class="v"><span class="fv">' + esc(r[1]) + '</span>'
-       + (r[2] ? '<span class="selnote">Select this from the Tebra drop-down. Do not copy and paste.</span>' : '')
-       + '</td><td class="b">'
-       + (r[2] ? '' : '<button class="cbtn" onclick="copyField(this)">Copy</button>')
-       + '</td></tr>';
+    var v = String(r.v), cap = r.cap || 0, over = cap && v.length > cap;
+    h += '<tr><td class="k">' + esc(r.k) + '</td>'
+       + '<td class="v"><span class="fv">' + esc(v) + '</span>';
+    if (cap){
+      h += '<span class="cc' + (over ? ' over' : '') + '">' + v.length + ' / ' + cap + ' characters'
+         + (over ? ' \u2014 OVER LIMIT, will truncate in Tebra' : '') + '</span>';
+    }
+    if (r.select){
+      h += '<span class="selnote">' + esc(r.note || W.tebra.selectOnlyNote) + '</span>'
+         + '</td><td class="b"></td></tr>';
+    } else {
+      h += '</td><td class="b"><button class="cbtn" onclick="copyField(this)">Copy</button></td></tr>';
+    }
   });
-  return h + '</table></div>'
-       + '<div style="margin-top:12px;text-align:right">'
-       + '<button class="copybtn" onclick="copyAll(this,\'' + id + '\')">Copy all fields</button></div>'
-       + '</div></div>';
+  return h + '</table></div></div></div>';
 }
 
 function copyField(btn){
   doCopy(btn.parentNode.parentNode.querySelector(".fv").innerText, btn, "Copy");
 }
+/* Skips the rows that are selected rather than pasted, so "copy all" cannot put
+   a drop-down value on the clipboard ready to be pasted into the wrong field. */
 function copyAll(btn, id){
   var rows = document.getElementById(id).querySelectorAll("tr"), out = [];
   for (var i = 0; i < rows.length; i++){
     var k = rows[i].querySelector("td.k"), v = rows[i].querySelector(".fv");
-    if (k && v) out.push(k.innerText + ": " + v.innerText);
+    if (k && v && !rows[i].querySelector(".selnote")) out.push(k.innerText + ": " + v.innerText);
   }
   doCopy(out.join("\n"), btn, "Copy all fields");
 }
@@ -497,8 +551,9 @@ function render(){
     ? { p: W.pricing.insurance.price, c: W.pricing.insurance.code }
     : TIERS[n];
 
-  /* ---- summary ---- */
-  var h = '<div class="card"><div class="card-hdr"><strong>' + esc(destName) + '</strong>'
+  /* ---- visit summary --------------------------------------------------- */
+  var h = '<div class="sec">Visit summary</div>'
+    + '<div class="card"><div class="card-hdr"><strong>' + esc(destName) + '</strong>'
     + '<span>' + esc(STATE_NAME[st]) + ' \u00b7 12-week supply</span></div><div class="card-body">'
     + '<div class="stat-grid">'
     + '<div class="stat"><div class="lbl">Hormones</div><div class="val">' + n + '</div></div>'
@@ -506,8 +561,8 @@ function render(){
     + '<div class="stat"><div class="lbl">Charge code</div><div class="val" style="font-size:13px">'
     + esc(tier ? tier.c : "\u2014") + '</div></div>'
     + '<div class="stat"><div class="lbl">Supply</div><div class="val">12 wk</div></div>'
-    + '</div>';
-  if (tier) h += '<div style="margin-top:12px">' + codeChip(tier.c, "tc0") + '</div>';
+    + '</div>'
+    + billingTable(dest, n, tier);
   if (dest !== W.states.routing[st]) {
     h += '<div class="info-box amber"><b>' + esc(STATE_NAME[st]) + ' normally routes to '
        + esc({premier:"Premier",belmar:"Belmar"}[W.states.routing[st]] || "") + '.</b> '
@@ -515,42 +570,43 @@ function render(){
   }
   h += '</div></div>';
 
-  /* ---- the gates ---- */
+  /* ---- the gates, under their own heading so they are not mistaken for part
+          of the summary card above them ------------------------------------ */
+  var g = "";
   var hasE2   = sels.some(function(x){ return x.h.id === "e2" || x.h.id === "estr"; });
   var hasProg = sels.some(function(x){ return x.h.id === "prog"; });
   if (ut === "yes" && hasE2 && !hasProg){
-    h += '<div class="info-box red"><b>Unopposed estrogen in a patient with a uterus.</b> '
+    g += '<div class="info-box red"><b>Unopposed estrogen in a patient with a uterus.</b> '
        + 'Estrogen without progesterone causes endometrial hyperplasia and can lead to cancer. '
        + 'Add progesterone before sending this prescription.</div>';
   }
   if (sels.some(function(x){ return x.h.id === "test"; })){
     if (W.testosterone.states.indexOf(st) > -1){
-      h += '<div class="info-box red"><b>Prescriber restriction.</b> In ' + esc(STATE_NAME[st])
+      g += '<div class="info-box red"><b>Prescriber restriction.</b> In ' + esc(STATE_NAME[st])
          + ', testosterone may only be prescribed by <b>' + esc(W.testosterone.prescribers[st])
          + '</b>. If that is not you, do not send this prescription.</div>';
     } else {
-      h += '<div class="info-box red"><b>Testosterone is not available in ' + esc(STATE_NAME[st])
+      g += '<div class="info-box red"><b>Testosterone is not available in ' + esc(STATE_NAME[st])
          + '.</b> ' + esc(W.testosterone.why) + ' ' + esc(W.testosterone.outsideRule) + '</div>';
     }
   }
   if (sels.some(function(x){ return x.entry && x.entry.compounded; })){
-    h += '<div class="info-box amber"><b>Medical Necessity Statement required.</b> '
+    g += '<div class="info-box amber"><b>Medical Necessity Statement required.</b> '
        + 'At least one item in this plan is compounded. Include the statement with the prescription.</div>';
   }
   if (dest === "belmar"){
-    h += '<div class="info-box amber"><b>' + esc(W.belmarAddress.warning) + '</b> '
+    g += '<div class="info-box amber"><b>' + esc(W.belmarAddress.warning) + '</b> '
        + esc(W.belmarAddress.address) + '. ' + esc(W.belmarAddress.why) + '</div>';
   }
-
-  /* ---- anything still unchosen ---- */
   var missing = sels.filter(function(x){ return !x.entry; });
   if (missing.length){
-    h += '<div class="info-box amber"><b>Product not chosen for '
+    g += '<div class="info-box amber"><b>Product not chosen for '
        + esc(missing.map(function(x){ return x.h.name; }).join(", "))
        + '.</b> Pick the exact product above and the prescription will appear here.</div>';
   }
+  if (g) h += '<div class="sec">Check before you send</div>' + g;
 
-  /* ---- the prescriptions, and only these ---- */
+  /* ---- the prescriptions, and only these -------------------------------- */
   var ready = sels.filter(function(x){ return x.entry; });
   if (ready.length){
     h += '<div class="sec">Prescriptions for this visit</div>'

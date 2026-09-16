@@ -408,7 +408,7 @@ function fieldTable(id, title, fields){
     /* A value chosen from the Tebra drop-down gets no copy button - pasting it
        is the mistake, not the shortcut. Same rule as the brand GLP-1 documents. */
     if(f.select){
-      h += '<span class="selnote">' + KORB_TRT.tebra.selectOnlyNote + '</span>';
+      h += '<span class="selnote">' + (f.selnote || KORB_TRT.tebra.selectOnlyNote) + '</span>';
       h += '</td><td class="b"></td></tr>';
     } else {
       h += '</td><td class="b"><button class="cbtn" onclick="copyField(this)">Copy</button></td></tr>';
@@ -640,7 +640,10 @@ function render(){
   h += fieldTable("trtFav", "Tebra Prescription", [
     {k:"Drug", v:T.product.drug, select:true},
     {k:"Name",             v:favName},
-    {k:"Select",           v:"Allow Substitution"},
+    /* A checkbox in Tebra, not a field to paste into - so no copy button,
+       matching the Women's Health tool. Don, 2026-09-16. */
+    {k:"Select",           v:"Allow Substitution", select:true,
+     selnote:"Tick Allow Substitution in Tebra. There is nothing to paste."},
     {k:"Quantity",         v:T.tebra.quantity},
     {k:"Unit",             v:T.tebra.unit},
     {k:"Refill",           v:T.tebra.refill},
