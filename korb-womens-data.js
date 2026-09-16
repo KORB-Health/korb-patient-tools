@@ -1,8 +1,8 @@
 /* ============================================================================
    KORB HEALTH - WOMEN'S HEALTH / MENOPAUSE CLINICAL DATA    SOURCE OF TRUTH
 
-   Menopausal hormone therapy: estradiol, progesterone, testosterone, estriol,
-   plus PT-141. Every fact a KORB tool or document states about the women's
+   Menopausal hormone therapy: estradiol, progesterone, testosterone and estriol.
+   Every fact a KORB tool or document states about the women's
    health programme is written here once and read from here.
 
    WHERE THIS CAME FROM
@@ -207,29 +207,42 @@ var KORB_WOMENS = {
       { ingredients: 2, price: '$250', code: 'WMNHlth2' },
       { ingredients: 3, price: '$299', code: 'WMNHlth3' }
     ],
-    fourRule: 'Four ingredients bill at the three-ingredient tier, $299 / WMNHlth3. ' +
+    fourRule: 'Four hormones bill at the three-hormone tier, $299 / WMNHlth3. ' +
       'There is no fourth tier.',
     includes: 'Visit, 90-day supply and shipping, from a partner pharmacy.',
-    insurance: { label: 'Insurance - 90-day supply to the patient local pharmacy',
+    insurance: { label: 'Insurance - 90-day supply to the patient own pharmacy',
                  price: '$79', code: 'WMNHlthINS' },
+    /* Put first in the document. It is the cheapest option and, as of
+       2026-09-16, the one most providers are actually using. */
+    insuranceFirst: true,
+    insuranceIntent: 'ONE 90-day supply, sent and billed at the same time. Not ' +
+      'monthly, and not two 60-day fills billed as one quarter.',
+    offCadence: 'If the patient needs to be seen between 90-day supplies, that ' +
+      'visit is charged at $79 (WMNHlthINS) like any other visit. Do not send a ' +
+      'short supply and bill it against the next quarter - that is where charges ' +
+      'get missed, and it is the commonest billing error on this programme.',
+    /* Structured rather than one prose label each, so the document can lay them
+       out in columns and the wording stays consistent with the tier table. */
     withLabs: [
-      { label: 'One medication + Basic Hormones (saliva)', price: '$339', code: 'WMNHlth1Bsc' },
-      { label: 'One medication + Complete Hormones (saliva and blood spot)', price: '$469', code: 'WMNHlth1Cmp' },
-      { label: 'Two medications + Basic Hormones (saliva)', price: '$369', code: 'WMNHlth2Bsc' },
-      { label: 'Two medications + Complete Hormones (saliva and blood spot)', price: '$499', code: 'WMNHlth2Cmp' },
-      { label: 'Three medications + Basic Hormones (saliva)', price: '$418', code: 'WMNHlth3Bsc' },
-      { label: 'Three medications + Complete Hormones (saliva and blood spot)', price: '$548', code: 'WMNHlth3Cmp' }
+      { hormones: 1, labs: 'Basic Hormones (saliva)', price: '$339', code: 'WMNHlth1Bsc' },
+      { hormones: 1, labs: 'Complete Hormones (saliva and blood spot)', price: '$469', code: 'WMNHlth1Cmp' },
+      { hormones: 2, labs: 'Basic Hormones (saliva)', price: '$369', code: 'WMNHlth2Bsc' },
+      { hormones: 2, labs: 'Complete Hormones (saliva and blood spot)', price: '$499', code: 'WMNHlth2Cmp' },
+      { hormones: 3, labs: 'Basic Hormones (saliva)', price: '$418', code: 'WMNHlth3Bsc' },
+      { hormones: 3, labs: 'Complete Hormones (saliva and blood spot)', price: '$548', code: 'WMNHlth3Cmp' }
     ],
     labsAlone: [
       { label: 'Women Basic Hormones (saliva)', price: '$119', code: 'LABHlthBsc' },
       { label: 'Women Health Complete Hormones (saliva and blood spot)', price: '$249', code: 'LABHlthCmp' }
     ],
-    pt141: [
-      { label: 'PT-141 added to another women health product', price: '$119', code: 'WMN141add' },
-      { label: 'PT-141 as a standalone product', price: '$149', code: 'WMN141reg' }
-    ],
-    cadence: 'Prescriptions and dosing are quarterly. PT-141 is the exception and ' +
-             'is a 28-day supply only.'
+    /* PT-141 is NOT here. It was in this programme at launch, in the wrong
+       place, and moved to sexual health - korb-addons-data.js carries it at the
+       same $119 add-on / $149 standalone. Don, 2026-09-16. Recorded so nobody
+       adds it back from the November document, which still lists it. */
+    sexualHealthMovedTo: 'korb-addons-data.js. The peptide that used to be ' +
+      'priced here is there now, at the same add-on and standalone prices.',
+    cadence: 'Prescriptions and dosing are quarterly - one visit, one 90-day ' +
+             'supply.'
   },
 
   /* -- LABS -------------------------------------------------------------------
@@ -265,6 +278,329 @@ var KORB_WOMENS = {
     ]
   },
 
+  /* -- WHO IS A CANDIDATE -----------------------------------------------------
+     Source: the November programme document. Clinical content rather than
+     dosing, so Don's "everything else is out of date" does not reach it. */
+  candidacy: {
+    lead: 'Candidates typically have moderate to severe symptoms affecting quality ' +
+          'of life.',
+    symptoms: ['Hot flashes', 'Night sweats', 'Vaginal dryness or painful intercourse',
+               'Mood disturbance', 'Sleep problems', 'Cognitive complaints - brain fog'],
+    earlyMenopause: 'Women in early menopause are at higher risk of osteoporosis and ' +
+      'heart disease, and usually BENEFIT from hormone therapy until at least the ' +
+      'average age of natural menopause, around 51, unless contraindicated.',
+    window: 'Best outcomes when therapy starts under age 60 AND within 10 years of ' +
+      'the last menstrual period. Lower cardiovascular risk inside that window of ' +
+      'opportunity, which is the single most useful thing to establish at the first ' +
+      'visit.'
+  },
+
+  /* -- WHAT EACH HORMONE IS FOR -----------------------------------------------
+     The part a provider needs before choosing, and the part the first cut of
+     this document was missing entirely. */
+  hormoneGuide: [
+    {
+      name: 'Estradiol - patch or cream',
+      firstLine: 'FIRST-LINE for a patient WITHOUT a uterus, on its own.',
+      does: 'Bioidentical estradiol through the skin for steady levels. Reduces hot ' +
+            'flashes, night sweats and mood swings; supports vaginal health and sleep.',
+      why: 'Transdermal carries a lower clot risk than oral estrogen.',
+      caution: 'Unopposed estrogen in a patient WITH a uterus causes endometrial ' +
+               'hyperplasia and can lead to cancer. Add progesterone.',
+      route: 'Patch goes to Premier or the patient own pharmacy. Cream goes to a ' +
+             'partner pharmacy only - never to a local pharmacy.'
+    },
+    {
+      name: 'Progesterone - capsule',
+      firstLine: 'REQUIRED alongside estrogen for any patient WITH a uterus.',
+      does: 'Protects the endometrium. Also helps perimenopausal hot flashes, night ' +
+            'sweats and mood, and taken at night it supports sleep.',
+      why: 'It is the reason estrogen is safe to give a woman who still has a uterus. ' +
+           'This is not optional and it is not a preference.',
+      dosing: 'Start 200 mg nightly, increase to 300 mg if needed. Patients with ' +
+              'regular cycles take it 21 days on, 7 days off - 63 capsules per 90 ' +
+              'days. Patients without regular cycles take it daily - 90 capsules.',
+      caution: 'DO NOT USE if the patient has a PEANUT ALLERGY.',
+      route: '300 mg exists only as a compounded capsule. On a commercial ' +
+             'prescription a 300 mg dose is one 200 mg plus one 100 mg.'
+    },
+    {
+      name: 'Testosterone - cream, compounded',
+      firstLine: 'Texas and California only. See the testosterone restriction.',
+      does: 'Supports libido, energy, mood, muscle strength and cognition.',
+      dosing: 'Begin at one click daily of 2% cream - 5 mg per click - from a 30 mL ' +
+              'dispenser, then adjust to response and side effects.',
+      route: 'Partner pharmacy only. Never to a local pharmacy.'
+    },
+    {
+      name: 'Testosterone + estradiol cream',
+      does: 'Both hormones in one application. Menopausal symptom relief plus ' +
+            'sexual wellness, energy, mood and muscle tone.',
+      dosing: 'Testosterone 2% (1 click = 5 mg) with estradiol 0.4% (1 click = 1 mg). ' +
+              'One click daily.',
+      billing: 'TWO hormones for pricing, in a single tube.'
+    },
+    {
+      name: 'Progesterone / testosterone / estradiol',
+      does: 'Comprehensive support - vasomotor symptoms, mood, libido and energy.',
+      route: 'Testosterone and estradiol as cream, progesterone as capsules, from a ' +
+             'partner pharmacy. Through a local pharmacy this becomes estradiol ' +
+             'PATCH plus progesterone capsules only - no cream, no testosterone.',
+      billing: 'THREE hormones for pricing.'
+    },
+    {
+      name: 'Four-hormone oral capsule',
+      does: 'Progesterone, testosterone, estriol and estradiol in one daily capsule, ' +
+            'for a patient who would rather not use a topical.',
+      dosing: 'Progesterone 100 mg, testosterone 4 mg, estriol 0.45 mg, estradiol ' +
+              '0.45 mg. One daily, 90-day supply.',
+      caution: 'ORAL combination MAY INCREASE THE RISK OF BLOOD CLOTS. Transdermal ' +
+               'does not carry the same risk, so this is a real trade-off to discuss ' +
+               'rather than a formality.',
+      billing: 'Bills at the three-hormone tier - four hormones, no fourth tier.'
+    }
+  ],
+
+  /* -- THE UTERUS DECISION ----------------------------------------------------
+     Written as a decision rather than prose because it is the first question of
+     the visit and it determines everything after it. */
+  uterusRule: {
+    question: 'Does the patient still have a uterus?',
+    withUterus: 'YES - estrogen must ALWAYS be paired with progesterone. Unopposed ' +
+      'estrogen causes endometrial hyperplasia and can lead to endometrial cancer. ' +
+      'There is no dose of estrogen that is safe on its own here.',
+    withoutUterus: 'NO - estradiol alone is first-line. Progesterone is not required, ' +
+      'because there is no endometrium to protect. Adding it is not harmful but it is ' +
+      'not indicated, and it moves the patient up a pricing tier for no benefit.',
+    cycling: 'A patient with regular cycles takes progesterone 21 days on and 7 off, ' +
+      'which is 63 capsules per 90 days. A post-menopausal patient takes it daily, ' +
+      'which is 90. Getting this wrong means the quantity on the prescription does ' +
+      'not match the regimen.'
+  },
+
+  /* -- SIDE EFFECTS. Source: the November document, section 8. ---------------- */
+  sideEffects: [
+    { hormone: 'Estrogen',
+      effects: 'Headache, nausea, bloating, mood swings, breast swelling and ' +
+        'tenderness, change in vaginal bleeding. Increased risk of blood clots, ' +
+        'breast cancer, and endometrial cancer - the last of which is reduced by ' +
+        'adding progesterone.' },
+    { hormone: 'Progesterone',
+      effects: 'Headache, mood swings, breast tenderness, change in vaginal bleeding.' },
+    { hormone: 'Testosterone',
+      effects: 'Acne, facial and body hair growth, voice deepening, weight gain. ' +
+        'Voice deepening does not reverse - counsel before starting, not after.' }
+  ],
+
+  /* -- TEBRA ENTRIES ----------------------------------------------------------
+     Twenty-eight entries, parsed out of the November programme document rather
+     than retyped: 28 blocks of eight fields is 224 chances to mistype, and a
+     wrong quantity or days supply is a wrong prescription. PT-141 was in that
+     list and is NOT here - it moved to sexual health and lives in
+     korb-addons-data.js, which already carries it at the same $119 add-on /
+     $149 standalone pricing.
+
+     THE DRUG FIELD IS A PLACEHOLDER ON EVERY COMPOUNDED CREAM, and a provider
+     needs to know that before reading one. Tebra has no listing for a 0.2% or
+     0.6% topical estradiol cream, so the entry selects the nearest thing in the
+     drop-down - "estradiol 0.01% (0.1 mg/gram) vaginal cream" - and the REAL
+     compound is specified in the pharmacy note. So the Drug line says 0.01% and
+     vaginal while the patient receives 0.2% to 0.8% applied to the inner thigh
+     or arm. The pharmacy note governs. Read alone, that Drug line is wrong by a
+     factor of twenty to eighty and wrong about the route.
+
+     Every entry selects its drug from the drop-down; none is typed. The
+     compounded ones simply carry their real formulation in the note beneath.
+
+     The strengths agree with pharmacyOffers, which came from the live tool:
+     Belmar 0.2 / 0.4 / 0.8, Premier 0.2 / 0.6. selfCheck asserts that rather
+     than leaving it to the reader. */
+  tebra: {
+    caps: { ptInstructions: 140, pharmacyNotes: 170 },
+    selectOnlyNote: 'Select this from the Tebra drop-down. Do not copy and paste.',
+    placeholderWarning: 'On a compounded cream the Drug line is a PLACEHOLDER. ' +
+      'Tebra has no listing for these strengths, so the entry selects the nearest ' +
+      'drop-down item and the real compound is in the pharmacy note. The Drug line ' +
+      'reads 0.01% vaginal; the patient receives 0.2% to 0.8% topical. Send the ' +
+      'pharmacy note exactly as written.',
+    entries: [
+    /* Estradiol patch - 5 entries */
+    { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.025 mg Patch)',
+      drug: 'estradiol 0.025 mg/24 hr weekly transdermal patch (from drop-down menu)',
+      label: 'Estrogen 0.025 mg Patch',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', refill: '0', days: '90',
+      pharmacyNotes: 'Bill to office/ship to patient' },
+    { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.0375 mg Patch)',
+      drug: 'estradiol 0.0375 mg/24 hr weekly transdermal patch (from drop-down menu)',
+      label: 'Estrogen 0.0375 mg Patch',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', refill: '0', days: '90',
+      pharmacyNotes: 'Bill to office/ship to patient' },
+    { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.05 mg Patch)',
+      drug: 'estradiol 0.05 mg/24 hr weekly transdermal patch (from drop-down menu)',
+      label: 'Estrogen 0.05 mg Patch',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', refill: '0', days: '90',
+      pharmacyNotes: 'Bill to office/ship to patient' },
+    { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.075 mg Patch)',
+      drug: 'estradiol 0.075 mg/24 hr weekly transdermal patch (from drop-down menu)',
+      label: 'Estrogen 0.075 mg Patch',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', refill: '0', days: '90',
+      pharmacyNotes: 'Bill to office/ship to patient' },
+    { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.1 mg Patch)',
+      drug: 'estradiol 0.1 mg/24 hr weekly transdermal patch (from drop-down menu)',
+      label: 'Estrogen 0.1 mg Patch',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', refill: '0', days: '90',
+      pharmacyNotes: 'Bill to office/ship to patient' },
+    /* Estradiol cream - 5 entries */
+    { family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.2% Cream)',
+      drug: 'estradiol 0.01% (0.1 mg/gram) vaginal cream (from drop-down menu)',
+      label: 'Belmar Estradiol Cream 0.2%',
+      ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
+      quantity: '1', refill: '0', days: '90',
+      pharmacyNotes: 'Medical Necessity Required, Compound Estradiol 0.2%, 2 mg/ml [0.25 ml/click], QTY 30 ml, Bill to office/ship to patient, Allergies:' },
+    { family: 'estradiol-cream', pharmacy: 'premier', heading: 'Estrogen (0.2% Cream)',
+      drug: 'estradiol 0.01% (0.1 mg/gram) vaginal cream (from drop-down menu)',
+      label: 'Estradiol Cream 0.2%',
+      ptInstructions: 'Apply (1 click/0.25ml/0.5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
+      quantity: '1', refill: '0', days: '90',
+      pharmacyNotes: 'Compound Estradiol 0.2%, 2 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship to patient compounded to meet patient-specific needs and dose flexibility' },
+    { family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.4% Cream)',
+      drug: 'estradiol 0.01% (0.1 mg/gram) vaginal cream (from drop-down menu)',
+      label: 'Belmar Estradiol Cream 0.4%',
+      ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
+      quantity: '1', refill: '0', days: '90',
+      pharmacyNotes: 'Compound Estradiol 0.4%, 4 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship patient, compounded to meet patient-specific needs and dose flexibility. Allergies:' },
+    { family: 'estradiol-cream', pharmacy: 'premier', heading: 'Estrogen (0.6% Cream)',
+      drug: 'estradiol 0.01% (0.1 mg/gram) vaginal cream (from drop-down menu)',
+      label: 'Estradiol Cream 0.6%',
+      ptInstructions: 'Apply (1 click/0.25 ml/1.5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
+      quantity: '1', refill: '0', days: '90',
+      pharmacyNotes: 'Compound Estradiol 0.6%, 6 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship to patient, compounded to meet patient-specific needs and dose flexibility' },
+    { family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.8% Cream)',
+      drug: 'estradiol 0.01% (0.1 mg/gram) vaginal cream (from drop-down menu)',
+      label: 'Belmar Estradiol Cream 0.8%',
+      ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
+      quantity: '1', refill: '0', days: '90',
+      pharmacyNotes: 'Medical Necessity Required for dose flexibility, Compound Estradiol 0.8%, 8 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship to patient, Allergies:' },
+    /* Progesterone capsule - 12 entries */
+    { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (100 mg Capsule)',
+      drug: 'proGESTerone micronized 100 mg capsule (from drop-down menu)',
+      label: 'Belmar Progesterone MCC 100 mg NO cycles',
+      ptInstructions: 'Take 1 cap PO QHS',
+      quantity: '90', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone (clear) MCC 100 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule)',
+      drug: 'proGESTerone micronized 100 mg capsule (from drop-down menu)',
+      label: 'Progesterone SR 100 mg NO cycles',
+      ptInstructions: 'Take 1 cap PO QHS',
+      quantity: '90', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone SR 100 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+    { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (200 mg Capsule)',
+      drug: 'proGESTerone micronized 200 mg capsule (from drop-down menu)',
+      label: 'Belmar Progesterone MCC 200 mg NO cycles',
+      ptInstructions: 'Take 1 cap PO QHS',
+      quantity: '90', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone (clear) MCC 200 mg, Bill office/ship to patient, compounded to meet patient-specific dose and excipient needs. Allergies:' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule)',
+      drug: 'proGESTerone micronized 200 mg capsule (from drop-down menu)',
+      label: 'Progesterone SR 200 mg NO cycles',
+      ptInstructions: 'Take 1 cap PO QHS',
+      quantity: '90', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone SR 200 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+    { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (300 mg Capsule)',
+      drug: 'proGESTerone micronized 200 mg capsule (from drop-down menu)',
+      label: 'Belmar Progesterone MCC 300 mg NO cycles',
+      ptInstructions: 'Take 1 cap PO QHS',
+      quantity: '90', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone (clear) MCC 300 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (300 mg Capsule)',
+      drug: 'proGESTerone micronized 200 mg capsule (from drop-down menu)',
+      label: 'Progesterone SR 300 mg NO cycles',
+      ptInstructions: 'Take 1 cap PO QHS',
+      quantity: '90', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone SR 300 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+    { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (100 mg Capsule)',
+      drug: 'proGESTerone micronized 100 mg capsule (from drop-down menu)',
+      label: 'Belmar Progesterone MCC 100 mg with cycles',
+      ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
+      quantity: '63', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone (clear) MCC 100 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule)',
+      drug: 'proGESTerone micronized 100 mg capsule (from drop-down menu)',
+      label: 'Progesterone SR 100 mg with cycles',
+      ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
+      quantity: '63', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone SR 100 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+    { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (200 mg Capsule)',
+      drug: 'proGESTerone micronized 200 mg capsule (from drop-down menu)',
+      label: 'Belmar Progesterone MCC 200 mg with cycles',
+      ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
+      quantity: '63', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone (clear) MCC 200 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule)',
+      drug: 'proGESTerone micronized 200 mg capsule (from drop-down menu)',
+      label: 'Progesterone SR 200 mg with cycles',
+      ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
+      quantity: '63', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone SR 200 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+    { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (300 mg Capsule)',
+      drug: 'proGESTerone micronized 200 mg capsule (from drop-down menu)',
+      label: 'Belmar Progesterone MCC 300 mg with cycles',
+      ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
+      quantity: '63', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone (clear) MCC 300 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+    { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (300 mg Capsule)',
+      drug: 'proGESTerone micronized 200 mg capsule (from drop-down menu)',
+      label: 'Progesterone SR 300 mg with cycles',
+      ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
+      quantity: '63', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Progesterone SR 300 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+    /* Testosterone cream - 2 entries */
+    { family: 'testosterone-cream', pharmacy: 'belmar', heading: 'Testosterone (2% Cream)',
+      drug: 'testosterone 50 mg/5 gram (1 %) transdermal gel (from drop-down menu)',
+      label: 'Belmar Testosterone 2% Cream',
+      ptInstructions: 'Apply 1 click 0.25 ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
+      quantity: '1', refill: '0', days: '90',
+      pharmacyNotes: 'Compound Testosterone 2%, 20 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship patient, compounded to meet patient-specific needs and dose flexibility. Allergies:' },
+    { family: 'testosterone-cream', pharmacy: 'premier', heading: 'Testosterone (2% Cream)',
+      drug: 'testosterone 50 mg/5 gram (1 %) transdermal gel (from drop-down menu)',
+      label: 'Testosterone Cream Premier Pharmacy',
+      ptInstructions: 'Apply (1 click/0.25 ml/5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after',
+      quantity: '1', refill: '0', days: '90',
+      pharmacyNotes: 'Compound Testosterone 2%, 20 mg/ml [0.25 ml/click], QTY 23 ml, Bill to office/ship to patient for patient-specific needs and dose flexibility' },
+    /* Testosterone + estradiol cream - 2 entries */
+    { family: 'test-estradiol-cream', pharmacy: 'belmar', heading: 'Estradiol/Testosterone (Cream)',
+      drug: 'testosterone 50 mg/5 gram (1 %) transdermal gel (from drop-down menu)',
+      label: 'Belmar Estradiol/Testosterone (Topical Cream)',
+      ptInstructions: 'Apply one click/0.25 ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
+      quantity: '1', refill: '2', days: '28',
+      pharmacyNotes: 'Compound: Estradiol/Testosterone 4/20 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship patient, for patient-specific needs and dose flexibility. Allergies:' },
+    { family: 'test-estradiol-cream', pharmacy: 'premier', heading: 'Testosterone + Estradiol (Cream)',
+      drug: 'testosterone 50 mg/5 gram (1 %) transdermal gel (from drop-down menu)',
+      label: 'Testosterone + Estradiol (Cream) Premier Pharmacy',
+      ptInstructions: 'Apply (1 click/0.25 ml/5 mg/0.1 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after',
+      quantity: '1', refill: '0', days: '90',
+      pharmacyNotes: 'Compound: Testosterone 2% & Estradiol 0.4%, (20 mg/4 mg)/ml [0.25 ml/click], QTY 23 ml, Bill to office/ship to patient for patient-specific needs and dose flexibility' },
+    /* Four-hormone oral capsule - 2 entries */
+    { family: 'four-hormone-capsule', pharmacy: 'belmar', heading: 'Estriol/ Estradiol / Progesterone / Testosterone (Capsule)',
+      drug: 'testosterone 100 mg implant pellet (from drop-down menu)',
+      label: 'Belmar Estriol/Estradiol/Progesterone/Testosterone (capsule)',
+      ptInstructions: 'Take 1 capsule PO daily.',
+      quantity: '90', refill: '0', days: '90',
+      pharmacyNotes: 'Compounded: Estriol/Estradiol/Progesterone/Testosterone 0.45/0.45/100/4 mg cap, Bill office/ship patient, for patient-specific needs and dose flexibility. Allergies:' },
+    { family: 'four-hormone-capsule', pharmacy: 'premier', heading: 'Progesterone / Testosterone / Estriol/ Estradiol (Tablet)',
+      drug: 'testosterone 100 mg implant pellet (from drop-down menu)',
+      label: 'Progesterone / Testosterone / Estriol / Estradiol (SL ODT Tab)',
+      ptInstructions: 'Dissolve 1 tablet under the tongue daily',
+      quantity: '90', refill: '0', days: '90',
+      pharmacyNotes: 'Compounded ODT Tab Progesterone 100 mg/Testosterone 4 mg/ Estriol 0.45 mg/Estradiol 0.45 mg, Bill office/ship patient for patient-specific needs and dose flexibility' },
+    ]
+  },
+
   /* -- PHARMACY ROUTING, FROM THE SHARED LAYER --------------------------------
      Empty in source and filled by hydrate(). */
   states: {
@@ -292,18 +628,11 @@ var KORB_WOMENS = {
     supersedes: 'The Women\'s Health Clinical Reference PDF of 2026-09-10, which was ' +
       'hand-produced and carried no version or effective date.',
     intro: 'Menopausal hormone therapy: estradiol, progesterone, testosterone and ' +
-      'estriol, plus PT-141. Pricing is tiered by how many hormones a plan ' +
+      'estriol. Pricing is tiered by how many hormones a plan ' +
       'contains, not by how many prescriptions are written, and the available ' +
       'strengths differ between the two partner pharmacies. Both of those are ' +
       'easy to get wrong and both are set out below.',
     pharmacyOrder: ['premier', 'belmar'],
-    /* Declared, not accidental. rx-signoff treats a document that renders no
-       prescribing blocks as a broken extractor unless the data file says
-       otherwise, which is the right default - this is the first honest case. */
-    noPrescribingBlocks: 'This programme\'s Tebra entries are per-hormone and ' +
-      'per-strength and were never encoded in the hand-built tool, so there are ' +
-      'none to render yet. The document carries the routing, the strengths, the ' +
-      'pricing and the clinical gates; the prescribing blocks are still to be built.',
     sections: []
   },
 
@@ -311,18 +640,41 @@ var KORB_WOMENS = {
     var W = this, d = this.document;
     var PH = (typeof KORB_PHARMACIES !== 'undefined') ? KORB_PHARMACIES : null;
     var stName = function (st) { return PH ? PH.stateName(st) + ' (' + st + ')' : st; };
+    /* Spelled out, no abbreviation. The grouped lists are read, not looked up. */
+    var nameOf = function (st) { return PH ? PH.stateName(st) : st; };
 
     d.sections = [
       {
         id: 'how', heading: 'How the programme works',
         body: [
           'Four hormones can appear in a plan: estradiol, progesterone, testosterone ' +
-            'and estriol. Each counts as ONE ingredient toward the price, and one ' +
+            'and estriol. Each counts as ONE hormone toward the price, and one ' +
             'product can carry two - a progesterone and estradiol cream is a ' +
-            'two-ingredient plan in a single tube.',
+            'two-hormone plan in a single tube.',
           W.pricing.cadence,
           'Creams go to a partner pharmacy. ' + W.gates.localPharmacy.text
         ]
+      },
+      {
+        id: 'candidacy', heading: 'Who is a candidate',
+        render: 'bullets',
+        body: [W.candidacy.lead],
+        bullets: W.candidacy.symptoms,
+        callouts: [W.candidacy.window, W.candidacy.earlyMenopause]
+      },
+      {
+        id: 'uterus', heading: 'First question: does she still have a uterus?',
+        render: 'bullets',
+        warn: true,
+        body: ['This determines the whole plan, so establish it before anything else.'],
+        bullets: [W.uterusRule.withUterus, W.uterusRule.withoutUterus],
+        callouts: [W.uterusRule.cycling]
+      },
+      {
+        id: 'hormones', heading: 'What each hormone is for, and when to use it',
+        render: 'hormoneGuide',
+        body: ['The clinical reason to choose each one, and what it changes about ' +
+               'pharmacy and pricing.']
       },
       {
         id: 'gates', heading: 'The two gates - check these before you send',
@@ -337,32 +689,22 @@ var KORB_WOMENS = {
       },
       {
         id: 'routing', heading: 'Which pharmacy fills for your patient',
-        render: 'table',
-        /* A LOOKUP, one state per cell, not a list of states in a sentence.
-           build-clinical-docs.js refuses a document that restates a state list
-           as narrative - the guard exists because a document once published a
-           pharmacy's PREFERRED states as its SHIP-TO states - and it is right
-           to. This is computed from korb-pharmacies.js at load and laid out
-           three pairs to a row so all 51 fit without scrolling. */
-        columns: ['State', 'Pharmacy', 'State', 'Pharmacy', 'State', 'Pharmacy'],
-        rows: (function () {
-          var keys = Object.keys(W.states.routing).sort();
-          var name = { premier: 'Premier', belmar: 'Belmar' };
-          var per = Math.ceil(keys.length / 3), out = [];
-          for (var r = 0; r < per; r++) {
-            var row = [];
-            for (var c = 0; c < 3; c++) {
-              var k = keys[c * per + r];
-              row.push(k || '', k ? name[W.states.routing[k]] : '');
-            }
-            out.push(row);
-          }
-          return out;
-        })(),
+        render: 'stateGroups',
+        /* GROUPED BY PHARMACY, not sorted by abbreviation. The first attempt was
+           51 rows of two-letter codes interleaved three pairs to a row, and Don
+           read it as "everything looks like Premier" - which it nearly is, 38 of
+           51, so an alphabetical mix hides the 13 that matter. Grouping puts the
+           short list where it can be seen, and the names are spelled out because
+           nobody carries all 51 abbreviations in their head. */
         body: ['Premier is the default wherever Premier is licensed. Belmar covers ' +
-               'every remaining state. All 51 jurisdictions resolve to one of the two, ' +
-               'and this table is computed from the shared pharmacy layer rather than ' +
-               'maintained by hand.'],
+               'every remaining state. Both lists are computed from the shared ' +
+               'pharmacy layer, not maintained here.'],
+        groups: [
+          { pharmacy: 'Premier Pharmacy', count: W.states.premierStates.length,
+            states: W.states.premierStates.map(nameOf) },
+          { pharmacy: 'Belmar Pharmacy', count: W.states.belmarStates.length,
+            states: W.states.belmarStates.map(nameOf) }
+        ],
         callouts: [
           W.belmarAddress.warning + ' ' + W.belmarAddress.address + '. ' + W.belmarAddress.why
         ]
@@ -409,17 +751,58 @@ var KORB_WOMENS = {
       {
         id: 'pricing', heading: 'Pricing and charge codes',
         render: 'table',
+        /* ONE WORDING THROUGHOUT. The first version said "1 hormone" at the top
+           and "One medication" lower down for the same thing, spelled the number
+           both ways, and repeated "Visit, 90-day supply and shipping" on every
+           row until the column was unreadable. The shared terms are stated once
+           in the body and the rows just say what differs. Insurance goes first
+           because it is the cheapest and the one most providers use. Don,
+           2026-09-16. */
         columns: ['Plan', 'Price', 'Charge code'],
-        rows: W.pricing.tiers.map(function (t) {
-          return [t.ingredients + ' hormone' + (t.ingredients > 1 ? 's' : '') +
-                  ' - ' + W.pricing.includes, t.price, t.code];
-        }).concat([[W.pricing.insurance.label, W.pricing.insurance.price, W.pricing.insurance.code]])
-          .concat(W.pricing.withLabs.map(function (r) { return [r.label, r.price, r.code]; }))
-          .concat(W.pricing.pt141.map(function (r) { return [r.label, r.price, r.code]; })),
+        rows: [[W.pricing.insurance.label, W.pricing.insurance.price, W.pricing.insurance.code]]
+          .concat(W.pricing.tiers.map(function (t) {
+            return [t.ingredients + (t.ingredients > 1 ? ' hormones' : ' hormone') +
+                    ' from a partner pharmacy', t.price, t.code];
+          })),
         copyColumn: 2,
-        body: ['Tiered by the number of HORMONES in the plan, not the number of ' +
-               'prescriptions.'],
-        callouts: [W.pricing.fourRule, W.pricing.cadence]
+        body: [
+          'Every plan below is a VISIT plus a 90-DAY SUPPLY plus SHIPPING. Only ' +
+            'what differs is in the table.',
+          'Tiered by how many HORMONES the plan contains, not how many ' +
+            'prescriptions are written. One product can carry more than one: a ' +
+            'progesterone and estradiol cream is two hormones in a single tube, and ' +
+            'bills as two.'
+        ],
+        callouts: [W.pricing.insuranceIntent, W.pricing.offCadence, W.pricing.fourRule]
+      },
+      {
+        id: 'pricing-labs', heading: 'Pricing with labs included',
+        render: 'table',
+        /* A separate table. Bundling these into the one above put six long
+           sentences in a column already carrying three, and the two are read at
+           different moments - one when planning the prescription, one when the
+           patient wants labs. */
+        columns: ['Hormones', 'Labs included', 'Price', 'Charge code'],
+        rows: W.pricing.withLabs.map(function (r) {
+          return [r.hormones + (r.hormones > 1 ? ' hormones' : ' hormone'), r.labs, r.price, r.code];
+        }),
+        copyColumn: 3,
+        body: ['Same visit and 90-day supply as above, with a lab panel added. ' +
+               'Labs on their own, without a prescription, are in the Labs section.'],
+        callouts: [W.pricing.cadence]
+      },
+      {
+        id: 'rx', heading: 'Tebra entries',
+        render: 'womensTebra',
+        body: ['Twenty-eight entries. Every one selects its drug from the Tebra ' +
+               'drop-down; the compounded items then carry their real formulation in ' +
+               'the pharmacy note.']
+      },
+      {
+        id: 'side-effects', heading: 'Side effects to counsel on',
+        render: 'table',
+        columns: ['Hormone', 'What to tell her'],
+        rows: W.sideEffects.map(function (r) { return [r.hormone, r.effects]; })
       },
       {
         id: 'labs', heading: 'Labs',
@@ -520,12 +903,28 @@ var KORB_WOMENS = {
        charge code bills the wrong thing and nothing downstream would notice. */
     var codes = [];
     this.pricing.tiers.forEach(function (t) { codes.push(t.code); });
-    this.pricing.withLabs.concat(this.pricing.labsAlone, this.pricing.pt141)
+    this.pricing.withLabs.concat(this.pricing.labsAlone)
       .forEach(function (r) { codes.push(r.code); });
     codes.push(this.pricing.insurance.code);
     codes.forEach(function (c, i) {
       if (codes.indexOf(c) !== i) problems.push('duplicate charge code: ' + c);
     });
+    /* PT-141 belongs to sexual health. It was in this programme at launch, in
+       the wrong place, and the November document still lists it - so the risk is
+       somebody adding it back from there. Assert it stays out. */
+    /* Nothing provider-facing may mention PT-141: it moved to sexual health and
+       the November document still lists it here, so the risk is a re-import.
+       Checked across the whole document, not just the charge codes - the first
+       version checked codes alone and three prose mentions sailed through. */
+    var facing = JSON.stringify([this.pricing, this.document, this.tebra.entries]);
+    if (/PT-?141|WMN141/i.test(facing)) {
+      problems.push('PT-141 appears in provider-facing women\'s health content. ' +
+        'It belongs to sexual health, in korb-addons-data.js.');
+    }
+    if (codes.some(function (c) { return /141/.test(c); })) {
+      problems.push('PT-141 pricing is back in the women\'s health programme. It ' +
+        'lives in korb-addons-data.js under sexual health.');
+    }
     if (this.pricing.tiers.length !== 3) {
       problems.push('expected 3 pricing tiers, found ' + this.pricing.tiers.length);
     }

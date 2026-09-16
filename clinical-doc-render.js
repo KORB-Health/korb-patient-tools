@@ -410,6 +410,75 @@ function sectionBullets(sec) {
    throws rather than printing an empty frame; a heading over nothing reads as
    "there is nothing to say here", which is the opposite of the truth when the
    real cause is a data path that moved. */
+/* States grouped under the pharmacy that fills them, spelled out. A 51-row
+   lookup keyed on two-letter codes is technically complete and practically
+   unreadable - Don, who has dyslexia, read the first attempt as "everything
+   looks like Premier", which is nearly true and exactly why an alphabetical mix
+   is the wrong shape. The short list has to be visibly short. */
+/* One card per hormone: what it does, why you would choose it, the caution,
+   and what it changes about pharmacy and pricing. Not a table - these are
+   paragraphs of different lengths and a table would ragged them. */
+function sectionHormoneGuide(sec) {
+  var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
+  (D.hormoneGuide || []).forEach(function (g) {
+    h += '<div class="hcard"><h3>' + esc2(g.name) + '</h3>';
+    if (g.firstLine) h += '<p class="lead">' + esc2(g.firstLine) + '</p>';
+    [['What it does', g.does], ['Why', g.why], ['Dosing', g.dosing],
+     ['Pharmacy', g.route], ['Billing', g.billing]].forEach(function (pair) {
+      if (pair[1]) h += '<p><strong>' + pair[0] + '.</strong> ' + esc2(pair[1]) + '</p>';
+    });
+    if (g.caution) h += '<div class="callout warn"><p>' + esc2(g.caution) + '</p></div>';
+    h += '</div>';
+  });
+  return h + calloutsFor(sec);
+}
+
+/* The 28 Tebra entries, grouped by hormone family then pharmacy, through the
+   shared block renderer so they look like every other prescribing block on the
+   site. entryKind 'standard': these are Tebra standard prescriptions, and the
+   drug is SELECTED even on the compounded ones - the compound itself lives in
+   the pharmacy note. */
+function sectionWomensTebra(sec) {
+  var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
+  h += '<div class="callout warn"><p>' + esc2(D.tebra.placeholderWarning) + '</p></div>';
+  var seen = {};
+  (D.tebra.entries || []).forEach(function (e) {
+    if (!seen[e.family]) {
+      seen[e.family] = true;
+      h += '<h3 class="prodhead">' + esc2(e.heading.replace(/\s*\([^)]*\)\s*$/, '')) + '</h3>';
+    }
+    var ph = PH.pharmacies[e.pharmacy];
+    h += '<div class="rxblock">' + RXB.block({
+      pharmacy: ph ? ph.name : e.pharmacy,
+      entryKind: 'standard',
+      label: e.heading,
+      tag: e.days + '-day supply',
+      accent: RXB.accentFor(e.pharmacy),
+      fields: [
+        { field: 'Drug', val: e.drug, copy: false, select: true },
+        { field: 'Name', val: e.label, copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
+        { field: 'Quantity', val: e.quantity, copy: true },
+        { field: 'Refill', val: e.refill, copy: true },
+        { field: 'Days Supply', val: e.days, copy: true },
+        { field: 'Patient Instructions', val: e.ptInstructions, copy: true },
+        { field: 'Pharmacy Instructions', val: e.pharmacyNotes, copy: true }
+      ]
+    }) + '</div>';
+  });
+  return h + calloutsFor(sec);
+}
+
+function sectionStateGroups(sec) {
+  var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
+  (sec.groups || []).forEach(function (g) {
+    h += '<div class="stategroup">' +
+      '<h3>' + esc2(g.pharmacy) + ' <span class="cnt">' + g.count + ' states</span></h3>' +
+      '<p class="statelist">' + g.states.map(esc2).join(' &middot; ') + '</p></div>';
+  });
+  return h + calloutsFor(sec);
+}
+
 function sectionTable(sec) {
   if (!sec.rows || !sec.rows.length) {
     throw new Error('clinical-doc-render: section "' + sec.id + '" is render:table with no rows.');
@@ -490,6 +559,9 @@ function sectionTrtPrescribing(sec) {
 }
 
 function renderSection(sec) {
+  if (sec.render === 'hormoneGuide') return sectionHormoneGuide(sec);
+  if (sec.render === 'womensTebra') return sectionWomensTebra(sec);
+  if (sec.render === 'stateGroups') return sectionStateGroups(sec);
   if (sec.render === 'table') return sectionTable(sec);
   if (sec.render === 'trtPrescribing') return sectionTrtPrescribing(sec);
   if (sec.render === 'matrix') return sectionMatrix(sec);
@@ -522,6 +594,16 @@ function renderBody(data, pharmacies, doc) {
        '.datatbl td{padding:6px 12px;vertical-align:top;border-top:1px solid #E7EBF3;}' +
        '.datatbl tbody tr:nth-child(even){background:#EDF1F8;}' +
        '.datatbl th+th,.datatbl td+td{border-left:1px solid #D7DCE8;}' +
+       '.stategroup{border:1px solid #D7DCE8;background:#fff;border-radius:3px;' +
+       'padding:9pt 11pt;margin:9pt 0;break-inside:avoid;}' +
+       '.stategroup h3{margin:0 0 5pt;font-size:12px;color:#21275B;}' +
+       '.stategroup .cnt{font-weight:400;color:#5A6080;font-size:11px;}' +
+       '.stategroup .statelist{margin:0;font-size:12px;line-height:1.8;color:#21275B;}' +
+       '.hcard{border:1px solid #D7DCE8;background:#fff;border-radius:3px;' +
+       'padding:9pt 12pt;margin:10pt 0;break-inside:avoid;}' +
+       '.hcard h3{margin:0 0 4pt;font-size:13px;color:#21275B;}' +
+       '.hcard .lead{font-weight:700;color:#0F5F69;margin:0 0 6pt;}' +
+       '.hcard p{margin:0 0 5pt;font-size:12px;line-height:1.6;}' +
        '.datatbl td:first-child{font-weight:600;color:#21275B;}' +
        '@media print{.datatbl{break-inside:auto;} .datatbl tr{break-inside:avoid;}}' +
        /* Copy buttons are a screen affordance. They must not appear in the
