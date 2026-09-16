@@ -47,8 +47,22 @@
      - A change to a field that is not rendered does not invalidate it either,
        for the same reason. If a field starts being rendered, it starts counting.
 
-   Charge codes are fingerprinted alongside, because a wrong code is a billing
-   error the provider cannot see and Don reviewed them in the same pass.
+   CHARGE CODES ARE NOT IN THE FINGERPRINT. This comment used to claim they
+   were, "because a wrong code is a billing error the provider cannot see."
+   The intent was right and the statement was false: the codes live in the
+   Pricing and charge codes table, which is not a prescribing block, and
+   blocksIn() only ever sees `div.rxb`. Counted rather than argued - zero FIT*
+   codes appear inside the fingerprinted blocks of any of the fifteen documents.
+
+   It was caught on 2026-09-15 the way these things are caught. A dedupe bug in
+   sectionPricing was dropping the second oral charge tier on four documents, and
+   fixing it ADDED a $399 / FITSemOrl180 row to Premier Semaglutide - a document
+   Don had already signed - without the report moving off "0 SIGNED THEN CHANGED".
+   A pricing row he never saw appeared under his signature and nothing noticed.
+
+   Widening the fingerprint to cover the pricing table would expire all seven
+   existing sign-offs at once, so it is Don's call and not a silent fix. Until he
+   makes it, this signature attests to the prescribing blocks only.
    ============================================================================ */
 'use strict';
 

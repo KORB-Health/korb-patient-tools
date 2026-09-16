@@ -654,7 +654,20 @@ function sectionPricing(doc) {
       K.billingPrograms(key).forEach(prog => {
         const bill = K.billingFor(key, prog, d.dose);
         if (!bill || !bill.options.length) return;
-        const sig = key + '|' + prog + '|' + (d.priceTier || '');
+        /* Collapse by PRICE TIER where one exists, and by DOSE where it does
+           not. priceTier is an injectable-tirzepatide concept: several doses
+           share a tier and must produce one table, which is what this key was
+           written for. No oral dose has a priceTier, so `d.priceTier || ''`
+           gave every oral dose the SAME signature, the first one through won
+           and every later strength was dropped before it reached a row.
+
+           That is how Belmar oral semaglutide came to show only
+           "FastSL Tablet #45 / $299 / FITSemOrl90" while the data file held the
+           1 mg tier, $399 / FITSemOrl180, on the very next dose. Found by Don
+           on 2026-09-15 reading the document: he knew there should be a second
+           charge and a code ending 180. Same fault on Premier and FarmaKeio
+           oral semaglutide and on Premier oral tirzepatide. */
+        const sig = key + '|' + prog + '|' + (d.priceTier || d.dose);
         if (seen[sig]) return;
         seen[sig] = 1;
         /* One table per dose tier, with every supply length as a ROW, rather
