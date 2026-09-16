@@ -182,10 +182,15 @@
     /* Route, schedule, timing and weeks - every value read from the dosing
        data, so a change there reaches this handout on the next page load. */
     h += '<h2>How to use it</h2>' +
-         '<div class="callout"><p>' + esc(S.authoritySource) + '</p></div>' +
+         '<div class="callout"><p>' + esc(doc.authoritySource || S.authoritySource) + '</p></div>' +
          '<table class="kv">' +
-         '<tr><th>How to inject</th><td>' + esc(F.how) + '</td></tr>' +
-         '<tr><th>When to inject</th><td>' + esc(F.timing) + '</td></tr>' +
+         /* Labels are per-handout. Eight of the nine are injections and these
+            defaults suit them; Hormone Therapy is patches, creams and capsules
+            and "How to inject" was simply wrong on it. */
+         '<tr><th>' + esc((doc.factLabels || {}).how || 'How to inject') + '</th><td>' +
+           esc(F.how) + '</td></tr>' +
+         '<tr><th>' + esc((doc.factLabels || {}).timing || 'When to inject') + '</th><td>' +
+           esc(F.timing) + '</td></tr>' +
          '<tr><th>Schedule</th><td>' + esc(F.schedule) + '</td></tr>' +
          (F.windows.length
             ? F.windows.map(function (w) {
@@ -196,8 +201,18 @@
          (doc.weeksNote ? '<p class="fine">' + esc(doc.weeksNote) + '</p>' : '');
 
     (doc.extraSections || []).forEach(function (sec) {
+      /* `body` is accepted alongside `p`. Writing `body` used to render the
+         heading and drop the paragraphs, which is how "How to use a patch"
+         shipped as a title over empty space - visible to Don on the page and to
+         nothing in the build. A section that renders no content now throws
+         rather than printing a bare heading. */
+      var content = sec.p || sec.body;
+      if (!content && !sec.table && !sec.ul && !sec.callout && !sec.warn) {
+        throw new Error('patient-ed-render: extraSection "' + sec.h +
+          '" has no renderable content. Use p/body, table, ul, callout or warn.');
+      }
       h += '<h2>' + esc(sec.h) + '</h2>';
-      if (sec.p) h += paras(sec.p);
+      if (content) h += paras(content);
       if (sec.table) {
         h += '<table class="grid"><thead><tr>' +
              sec.table.head.map(function (x) { return '<th>' + esc(x) + '</th>'; }).join('') +
@@ -255,14 +270,19 @@
            '<p>' + esc(doc.labs.after) + '</p>';
     }
 
-    h += '<h2>Safety reminders</h2>' + ul((doc.safety || []).concat(S.injectionSafety));
+    /* The shared injection-safety block - fresh needle every time, sharps
+       disposal - is appended to every handout. On Hormone Therapy there is
+       nothing to inject and it read as though there were. A handout says so with
+       noInjectionSafety rather than the block being dropped for everyone. */
+    h += '<h2>Safety reminders</h2>' +
+         ul((doc.safety || []).concat(doc.noInjectionSafety ? [] : S.injectionSafety));
 
     var C = S.contact;
     h += '<h2>When to contact KORB</h2>' +
          '<table class="grid"><thead><tr><th>' + esc(C.operations.title) + '</th><th>' +
          esc(C.portal.title) + '</th><th>' + esc(C.emergency.title) + '</th></tr></thead><tbody><tr>' +
          '<td>' + ul(C.operations.items) + paras(C.operations.lines) + '</td>' +
-         '<td>' + ul(C.portal.items) + '</td>' +
+         '<td>' + ul(doc.portalItems || C.portal.items) + '</td>' +
          '<td>' + ul(C.emergency.items) + '</td>' +
          '</tr></tbody></table>' +
          '<p class="fine">' + esc(C.portalNote) + '</p>' +

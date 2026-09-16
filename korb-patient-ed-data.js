@@ -168,9 +168,30 @@ var KORB_PATIENT_ED = {
       source: 'none',
       program: "Women's Health",
 
+      /* NOTHING IN THIS PROGRAMME IS INJECTED. The shared blocks are written for
+         the eight injectable handouts and said so in four places - the facts
+         table headed "How to inject", the "as directed" note about vials, the
+         injection-safety list with sharps disposal, and injection-site
+         irritation in the portal column. All four are overridden here. */
+      factLabels: { how: 'How you take it', timing: 'When to take it' },
+      noInjectionSafety: true,
+
+      authoritySource: 'Your prescription label, or the instructions given to you ' +
+        'by your KORB clinical provider, is the authoritative source for your dose ' +
+        'and directions. What follows is a general reference. Do not adjust ' +
+        'anything without speaking to your provider first.',
+
+      portalItems: [
+        'Skin irritation where you apply a cream or patch',
+        'Mild but persistent side effects',
+        'Questions about whether to continue therapy',
+        'Interest in other KORB programmes, including sexual health'
+      ],
+
       facts: {
         how: 'Patch, cream or capsule, depending on which hormones you are prescribed',
-        timing: 'Creams and patches in the morning unless told otherwise. Progesterone capsules at night.',
+        timing: 'Follow your label. Progesterone capsules are taken at night; ' +
+                'creams and patches are applied at the same time each day.',
         schedule: 'As stated on your prescription label'
       },
 
@@ -234,7 +255,7 @@ var KORB_PATIENT_ED = {
             'preference - if you have been prescribed estrogen without ' +
             'progesterone and you have not had a hysterectomy, contact us before ' +
             'you start.',
-          body: [
+          p: [
             'If you have had a hysterectomy, you do not need progesterone. There ' +
             'is no lining to protect, and adding it would not help you.',
             'If you still have regular periods, your progesterone is taken on a ' +
@@ -259,14 +280,14 @@ var KORB_PATIENT_ED = {
                     'every day reduces how well it absorbs.']
             ]
           },
-          body: [
+          p: [
             'Hormone cream transfers by skin contact. Until it has dried, it can ' +
             'pass to a partner, a child or a pet. Let it dry, and wash your hands.'
           ]
         },
         {
           h: 'How to use a patch',
-          body: [
+          p: [
             'Apply the patch to the lower abdomen or the upper buttock. Not the ' +
             'breasts, and not on skin that is broken or irritated.',
             'Change it on the same day each week, and move it to a slightly ' +
@@ -279,23 +300,26 @@ var KORB_PATIENT_ED = {
 
       storage: {
         cards: [
-          ['Store at room temperature', '68°F – 77°F (20°C – 25°C)'],
-          ['Do NOT refrigerate', 'None of these need cold storage'],
-          ['Keep the cap on the pump', 'And keep creams upright'],
+          ['Patches and capsules', 'Room temperature, 68°F – 77°F (20°C – 25°C). No refrigeration.'],
+          ['Compounded creams', 'FOLLOW THE INSTRUCTIONS THAT CAME WITH YOUR CREAM. Some compounding pharmacies ship them cold and ask you to keep them refrigerated; others do not. Your pharmacy label is the answer.'],
+          ['Keep the cap on the pump', 'And store creams upright'],
           ['Out of reach', 'Of children, and of anyone else in the house']
         ],
         notes: [
-          'Your prescriptions are written as a 12-week supply. If you have ' +
-          'medication left at the end of 12 weeks, that is expected on the ' +
-          'creams - the bottle holds a little more than 12 weeks of doses. Start ' +
-          'the new bottle when it arrives rather than finishing the old one.'
+          'Your programme runs in 12-week blocks, but the amount dispensed at one ' +
+          'time varies by product and by pharmacy - anywhere from about 4 weeks to ' +
+          '12. Some creams are sent a month at a time with refills. Go by what your ' +
+          'label and your pharmacy tell you rather than by the calendar.',
+          'If medication is left over when your next supply arrives, start the new ' +
+          'one rather than finishing the old.'
         ]
       },
 
       travel: 'Hormone therapy travels easily. Keep everything in your carry-on ' +
         'rather than a checked bag, leave it in its original labelled container, ' +
-        'and do NOT refrigerate it at any point - these are room-temperature ' +
-        'medications and cold is not better for them. If you are crossing time ' +
+        'Patches and capsules need no cold storage at all; if your cream came ' +
+        'with instructions to keep it refrigerated, take a small insulated bag. ' +
+        'If you are crossing time ' +
         'zones, keep your patch change day and your nightly capsule on your home ' +
         'schedule until you are settled.',
 
@@ -321,7 +345,9 @@ var KORB_PATIENT_ED = {
         ['Bleeding that is new, heavy, or after you had stopped altogether',
          'Always tell us. It needs looking at rather than waiting for your visit.'],
         ['A lump in the breast, or breast pain that does not settle',
-         'Tell us promptly. We will arrange the right assessment.'],
+         'Tell us, and book with your primary care provider or your gynecologist. ' +
+         'KORB is a telemedicine practice and cannot examine or image you - a ' +
+         'breast lump needs someone in the room.'],
         ['Mood that is getting worse rather than better',
          'Tell us. Do not wait out a low mood on the assumption it will pass.'],
         ['Headaches that are new or unusual for you',
@@ -337,7 +363,8 @@ var KORB_PATIENT_ED = {
         lead: 'KORB uses at-home saliva collection rather than a blood draw for ' +
               'hormone levels.',
         items: [
-          'A kit is sent to you. You collect at home and post it back.',
+          'A kit is mailed to you. You collect the sample at home and mail it ' +
+          'back in the prepaid envelope provided.',
           'Saliva is used deliberately. It measures the fraction of the hormone ' +
           'that is actually reaching your tissues, which is what matters when ' +
           'the hormone is going through your skin. A blood level barely moves ' +
@@ -373,7 +400,11 @@ var KORB_PATIENT_ED = {
         'Your prescriptions run 12 weeks, and your follow-up is at 12 weeks.',
         'Do not change your own dose. Tell us what you are feeling and we will ' +
         'change it with you.',
-        'Nothing here needs refrigerating.'
+        'Patches and capsules need no refrigeration. For creams, follow the ' +
+        'instructions that came with them.',
+        'KORB also offers a SEXUAL HEALTH programme. If low libido or arousal is ' +
+        'something you would like addressed, tell your provider - there are ' +
+        'options beyond hormone therapy.'
       ]
     },
 
