@@ -839,6 +839,31 @@ women's testosterone. Do not re-report those; they are already on the list.
    the bug back: it names the document and exits 1.
 
    **`korb-womens-data.js` still to do.**
+12a. **A LAB REFERENCE AND AN IF-THEN INTERPRETATION CHART.** Don's idea,
+   2026-09-16. **Raise it when the document set is finished, not before** - he was
+   explicit about the timing and about wanting to finish the current pass first.
+
+   What he described: a lab resource providers can go to for readings, findings and
+   what they mean, covering **every** program rather than TRT alone. The lab content
+   already exists but is scattered - TRT has a panel, add-on labs with Quest and
+   charge codes, and interpretation thresholds; FH&L has its own panel in
+   `korb-dosing-data.js`; the SOP appendices in korb-clinical-docs hold more. Pull
+   it all onto the shared layer the way the pharmacy facts went, and generate one
+   document plus a tool.
+
+   The second half is the part worth building carefully: an **if-then chart**. Not a
+   list of reference ranges - a pattern table. His example was several findings read
+   together rather than one at a time:
+
+   > hematocrit up, testosterone elevated, estrogens up, luteinizing hormone low
+
+   ...and from that combination, the likely interpretation, why, and what to do.
+   That is the thing a provider cannot get from a lab report and cannot easily get
+   from a range table either, and it is where a reference stops being a lookup and
+   starts being useful. It is also clinical authoring, so it is Don's content to
+   write or approve - not something to generate from the existing thresholds and
+   present as though it were sourced.
+
 12. **Six pages still type their own 51-state name map.** `korb-pharmacies.js`
    now owns `stateNames`, and `KORB_TRT_Provider_Tool.html` reads it. Still
    carrying private copies: `KORB_GLP1_Patient_Message_Builder.html`,

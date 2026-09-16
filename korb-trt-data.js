@@ -125,7 +125,23 @@ var KORB_TRT = {
   /* ── PRESCRIBING SIGN-OFF ──────────────────────────────────────────────────
      See rx-signoff.js. Empty: no TRT document has been through review, and the
      provider tool is not yet generated so it is not in the inventory either. */
-  rxSignoff: { records: {} },
+  rxSignoff: {
+    records: {
+      /* Signed 2026-09-16, after Don read the document through on screen and
+         asked for the last two changes himself - the Tebra character limits
+         checked, and fertility moved up and made to stand out. "This document
+         looks clean. Everything looks great. Let us go ahead and sign off." */
+      "trt:trt": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-16",
+        "dataVersion": "1.4",
+        "fingerprint": "fp-cf8e8b4e-39860",
+        "blocks": 18,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      }
+    }
+  },
 
   /* -- DECISIONS -------------------------------------------------------------
      Three things were flagged on 2026-09-16 when this file was extracted from

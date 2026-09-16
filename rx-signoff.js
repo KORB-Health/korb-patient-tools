@@ -226,35 +226,6 @@ function inventory() {
   return { docs: out, sources: S };
 }
 
-/* ---- status -------------------------------------------------------------
-   Three states, the same three the monograph mechanism uses. STALE is the one
-   that matters: it means somebody signed this and the content moved afterwards,
-   which is invisible to a boolean flag and is the failure this file exists for. */
-function recordsFor(S) {
-  const all = {};
-  [S.glp1, S.dosing, S.addons].forEach(function (mod) {
-    const recs = (mod.rxSignoff || {}).records || {};
-    Object.keys(recs).forEach(function (k) { all[k] = recs[k]; });
-  });
-  return all;
-}
-
-function status(entry, rec) {
-  if (!rec) return { state: 'unsigned', detail: 'Never reviewed.' };
-  if (rec.fingerprint !== entry.fingerprint) {
-    return {
-      state: 'stale',
-      detail: rec.signedBy + ' signed this on ' + rec.date + ' against ' + rec.fingerprint +
-              '. It now reads ' + entry.fingerprint +
-              '. The prescribing content changed after sign-off.'
-    };
-  }
-  return {
-    state: 'current',
-    detail: 'Signed by ' + rec.signedBy + ' on ' + rec.date + ' against ' + rec.dataVersion + '.'
-  };
-}
-
 /* ---- self check ---------------------------------------------------------
    A report that quietly misses documents is worse than none: it shows a short
    clean list and reads as good news. Assert the inventory is whole before
@@ -300,7 +271,16 @@ function selfCheck(inv) {
    invisible to a boolean flag and is the failure this file exists for. */
 function recordsFor(S) {
   const all = {};
-  [S.glp1, S.dosing, S.addons].forEach(function (mod) {
+  /* Every program data file, not a hardcoded three. korb-trt-data.js was missing
+     here after TRT was added, so a valid sign-off recorded in that file was read
+     by nothing and the document kept reporting "never signed". Derived from the
+     sources object now, so a new program cannot be half-wired the same way.
+
+     There were also TWO copies of this function and of status() in this file,
+     left by an earlier edit. JavaScript takes the last definition, so fixing the
+     first copy would have changed nothing at all. Removed. */
+  Object.keys(S).filter(function (k) { return k !== 'pharmacies'; })
+    .map(function (k) { return S[k]; }).forEach(function (mod) {
     const recs = (mod.rxSignoff || {}).records || {};
     Object.keys(recs).forEach(function (k) { all[k] = recs[k]; });
   });
@@ -342,11 +322,28 @@ function signCommand(key) {
     console.error('Run node rx-signoff.js to see the keys.');
     process.exit(1);
   }
-  const FILE = { 'glp1': 'korb-glp1-data.js', 'fhl': 'korb-dosing-data.js',
-                 'addon': 'korb-addons-data.js' }[key.split(':')[0]];
+  /* One table, not two parallel ones. The first version kept the filename and
+     the version in separate maps keyed by prefix, and when TRT arrived neither
+     gained a row: the command printed "Add this to undefined" and a record with
+     no dataVersion at all. A sign-off that does not say what it was signed
+     against is not much of a sign-off. */
   const S = inv.sources;
-  const version = { 'glp1': S.glp1.meta.version, 'fhl': S.dosing.meta.version,
-                    'addon': S.addons.meta.version }[key.split(':')[0]];
+  const PROGRAM = {
+    glp1:  { file: 'korb-glp1-data.js',   data: S.glp1 },
+    fhl:   { file: 'korb-dosing-data.js', data: S.dosing },
+    addon: { file: 'korb-addons-data.js', data: S.addons },
+    trt:   { file: 'korb-trt-data.js',    data: S.trt }
+  };
+  const prefix = key.split(':')[0];
+  const prog = PROGRAM[prefix];
+  if (!prog) {
+    console.error('rx-signoff: no data file is mapped for the "' + prefix + ':" prefix. ' +
+      'Add it to PROGRAM in signCommand, or the record cannot say which file or ' +
+      'which version it was signed against.');
+    process.exit(1);
+  }
+  const FILE = prog.file;
+  const version = prog.data.meta.version;
 
   const rec = {
     signedBy: 'Donald Stevenson, PA-C',
@@ -363,10 +360,17 @@ function signCommand(key) {
     dataVersion: version,
     fingerprint: doc.fingerprint,
     blocks: doc.count,
+    /* The attestation names the fields actually on the document. It used to say
+       "reason for compounding" unconditionally, which is wrong on TRT and on the
+       brand GLP-1 products: those are standard prescriptions and carry no such
+       field. Attesting to a field that is not there is a small thing that makes
+       the whole record less trustworthy. */
     attests: 'Reviewed the prescribing blocks on this document as rendered - drug ' +
-             'formulation, Tebra favorite name, quantity, unit, refill, days supply, ' +
-             'patient instructions, reason for compounding, pharmacy instructions and ' +
-             'the charge codes - and approve them for use in prescribing.'
+      'formulation, Tebra favorite name, quantity, unit, refill, days supply, ' +
+      'patient instructions, ' +
+      (/reason for compounding/i.test(JSON.stringify(doc.blocks)) ? 'reason for compounding, ' : '') +
+      'pharmacy instructions and the charge codes - and approve them for use in ' +
+      'prescribing.' 
   };
 
   console.log('Add this to ' + FILE + ', inside rxSignoff.records:');
