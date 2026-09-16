@@ -156,6 +156,35 @@ var KORB_GLP1 = {
        NOT FULLY SETTLED: Don said the pricing table layout still looks "a little
        bit off" and chose to keep it rather than iterate further tonight. That is
        cosmetic, it is outside this fingerprint, and it is open. */
+    /* Signed 2026-09-15, this session. Completes the GLP-1 set: all ten
+       monographs signed.
+
+       Checked before it went to Don: dose arithmetic exact at 3 mg/ml on all
+       five doses, identical ladder to plain Premier semaglutide and differing
+       only by the glycine in the formulation and the GLYCINE- prefix on every
+       sig, every value matching the source in korb-clinical-docs, all copied
+       values plain ASCII, and the discard wording correct at "28 days after
+       first use" on all five - no dose here holds four doses in one vial.
+
+       He asked for two checks before signing and both passed. Tebra character
+       caps: 523 capped values across all 15 documents, 0 over, verified with
+       check-tebra-caps.js which was negative-tested the same day. Typography:
+       Montserrat only, no class rendering at two sizes, all four brand colours
+       present.
+
+       And item 12 closed on his diagnosis: the tables looked wrong because they
+       had no background, so odd rows were the page itself. Page is now brand
+       cream with white table surfaces. Colour, not geometry - four layout
+       passes had been chasing the wrong thing. */
+      "glp1:premier_glycine": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-3ae3d14d-25992",
+        "blocks": 10,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "glp1:farmakeio_sema": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",

@@ -890,16 +890,18 @@ women's testosterone. Do not re-report those; they are already on the list.
    Covered now by `test-scheduler.js`, 22 checks, which drives the real flow
    rather than the verdict engine. The tests written alongside the original FH&L
    build passed 19 of 19 and never clicked Continue once.
-12. **The pricing table layout is not finished.** Don, 2026-09-15, on the
-   FarmaKeio Semaglutide reference: "still looks a little bit off", and he chose
-   to keep it and move on rather than iterate again that night. Four passes that
-   day each fixed one complaint and caused another - all-leftover-to-column-one,
-   a table that stopped filling the page, buttons overhanging a too-narrow Tier
-   column, an empty fourth column, a mid-cell Copy button. It now measures
-   right: full width, columns aligned across every table and document, zero
-   overflow at any width. It still does not LOOK right to the person who reads
-   it daily, and that is the judgement that counts. Ask him what specifically
-   reads wrong before changing anything - guessing is what produced four passes.
+12. ~~The pricing table layout is not finished.~~ **DONE 2026-09-15.** Closed by
+   Don's own diagnosis, and it was never the geometry. Four passes had chased
+   column widths while the tables "ran off onto the background" because
+   `.grid td` and `.kv td` carry NO background: an odd row was not a pale cell
+   on a page, it WAS the page, and only even rows had a colour. Against the old
+   #FBFAF6 that edge was invisible, so the fault read as a font or spacing
+   problem. The page is now brand cream #ECE9D1 and every table cell has an
+   explicit white surface, screen only - the PDF stays white. Verified live:
+   page #ECE9D1, rows #FFFFFF/#F7F7F4, no row matching the page.
+   **The lesson is the diagnosis, not the fix.** Four passes of measuring
+   geometry could not find a colour problem. When something "looks off" and the
+   measurements keep coming back correct, the measurement is of the wrong thing.
 
 11. **Scheduler intake — Men's Health and Women's Health question sets.**
    `KORB_Scheduler_Intake_AllPrograms.html` now carries Weight Loss and Functional
