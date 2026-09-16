@@ -645,6 +645,7 @@ function sectionPricing(doc) {
   let h = `<h2>Pricing and charge codes</h2>`;
   const seen = {};
   const tierSeen = {};
+  const tierValue = {};   // tierKey -> 'T1A' etc, injectable tirzepatide only
   const tierOrder = [];
   const shownNotes = [];
   doc.products.forEach(key => {
@@ -679,6 +680,19 @@ function sectionPricing(doc) {
           tierSeen[tierKey] = [];
           tierOrder.push(tierKey);
         }
+        /* The tier is a VALUE A PROVIDER TYPES, not just a label on the table.
+           Don, 2026-09-15: Tebra charge entry for injectable tirzepatide takes
+           the charge code AND the tier, because that is how billing tracks which
+           dose band was dispensed when three bands share a price structure. So
+           the tier gets its own column and its own copy button, the same
+           treatment the charge code gets, rather than being readable only out of
+           the heading.
+
+           Only injectable tirzepatide has a priceTier - semaglutide and every
+           oral have none - so gating the column on this value gives exactly the
+           "tirzepatide injections only" scope Don asked for, with no per-product
+           list to keep in step. */
+        if (d.priceTier) tierValue[tierKey] = d.priceTier;
         /* One row per DISTINCT charge. A brand product carries the same visit fee
            and the same charge code for every supply length and every dose, so
            collecting per program produced four identical "$79 / FITGLP1001"
@@ -687,7 +701,8 @@ function sectionPricing(doc) {
         bill.options.forEach(o => {
           const sigRow = String(o.label || bill.programLabel) + '|' + o.price + '|' + (o.code || o.codeNote || '');
           if (tierSeen[tierKey].some(r => r.sig === sigRow)) return;
-          tierSeen[tierKey].push({ sig: sigRow, programLabel: bill.programLabel, o: o });
+          /* Carry the dose so identical row labels can be told apart below. */
+          tierSeen[tierKey].push({ sig: sigRow, programLabel: bill.programLabel, o: o, dose: d.dose });
         });
         /* No note emitted here. This ran inside the COLLECTION loop, so it printed
            the same manufacturer-pricing note once per program before any table
@@ -699,12 +714,34 @@ function sectionPricing(doc) {
   });
   tierOrder.forEach(tk => {
     h += `<h4>${esc(tk)}</h4>`;
-    h += `<table class="grid"><thead><tr><th>Supply</th><th>Price</th><th>Charge code</th></tr></thead><tbody>`;
+    const tier = tierValue[tk] || null;
+    h += `<table class="grid"><thead><tr><th>Supply</th><th>Price</th><th>Charge code</th>` +
+         (tier ? `<th>Tier</th>` : '') + `</tr></thead><tbody>`;
     const notes = [];
+    /* DISAMBIGUATE IDENTICAL ROW LABELS BY STRENGTH.
+       Premier and FarmaKeio stock an oral dot at BOTH strengths and dispense 90
+       of either for 90 days, so both rows are legitimately "Oral Dot #90" while
+       carrying different prices and different codes - $299 / FITSemOrl90 against
+       $399 / FITSemOrl180. Two rows reading the same thing with different money
+       beside them is a coin toss at the charge screen.
+
+       This only became visible when the dropped second tier was restored earlier
+       today; before that the table showed one row and the clash could not be
+       seen. Belmar does not collide (#45 against #90) and neither does oral
+       tirzepatide (#90 against #180), so the prefix is applied ONLY where the
+       labels are actually identical - the rows Don has already reviewed and
+       signed keep the labels he approved. */
+    const labelCount = {};
     tierSeen[tk].forEach(({ programLabel, o }) => {
-      const label = o.label && o.label !== programLabel ? o.label : programLabel;
+      const l = o.label && o.label !== programLabel ? o.label : programLabel;
+      labelCount[l] = (labelCount[l] || 0) + 1;
+    });
+    tierSeen[tk].forEach(({ programLabel, o, dose }) => {
+      let label = o.label && o.label !== programLabel ? o.label : programLabel;
+      if (labelCount[label] > 1 && dose) label = dose + ' — ' + label;
       h += `<tr><td>${esc(label)}</td><td>${o.price != null ? '$' + esc(o.price) : 'Varies'}</td>` +
-           `<td>${o.code ? codeCopy(o.code) : esc(o.codeNote || 'Operations will provide')}</td></tr>`;
+           `<td>${o.code ? codeCopy(o.code) : esc(o.codeNote || 'Operations will provide')}</td>` +
+           (tier ? `<td>${codeCopy(tier)}</td>` : '') + `</tr>`;
       if (o.priceNote && notes.indexOf(o.priceNote) === -1) notes.push(o.priceNote);
     });
     h += `</tbody></table>`;
