@@ -1150,12 +1150,19 @@ var KORB_WOMENS = {
       },
       {
         id: 'naming', heading: W.estrogenNaming.heading,
-        body: W.estrogenNaming.body,
+        render: 'bullets',
+        /* A lead line, then the three that are being told apart. Rendered as
+           paragraphs when the draft was promoted, which ran them together and
+           lost the parallel structure that is the whole point of the section. */
+        body: [W.estrogenNaming.body[0]],
+        bullets: W.estrogenNaming.body.slice(1),
         callouts: [W.estrogenNaming.callout]
       },
       {
         id: 'combination', heading: W.combinationRule.heading,
-        body: W.combinationRule.body,
+        render: 'bullets',
+        body: [W.combinationRule.body[0]],
+        bullets: W.combinationRule.body.slice(1),
         callouts: [W.combinationRule.callout]
       },
       {

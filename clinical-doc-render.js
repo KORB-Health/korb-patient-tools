@@ -541,9 +541,12 @@ function renderTebraGroup(rows) {
     /* One line, under the block, where a provider is looking when they copy it.
        The patches are the only product in the programme whose supply is not 90
        days, and the difference is invisible unless it is said here. */
-    if (e.family === 'estradiol-patch' && D.patchGuidance) {
-      h += '<p class="rxnote"><strong>' + esc2(D.patchGuidance.daysRule) + '</strong></p>';
-    }
+    /* No per-block days note any more. It existed when the patches were the one
+       product that was not 90 days; the whole programme is 12 weeks now, the
+       block already carries an 84-DAY SUPPLY tag, and repeating it under five
+       blocks is clutter that makes the exception look like it still exists.
+       Don, 2026-09-16. patchGuidance.daysRule stays in the data as the record of
+       the correction; the Supply section is where a provider reads the rule. */
   });
   return h;
 }
