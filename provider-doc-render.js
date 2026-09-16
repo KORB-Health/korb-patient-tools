@@ -216,7 +216,44 @@ const CSS = RXB.CSS + `
   .foot{margin-top:22pt;border-top:2pt solid var(--teal);padding-top:9pt;
         font-size:8.2pt;color:var(--ink2);display:flex;gap:26pt;break-inside:avoid;}
   .foot h4{margin:0 0 3pt;}
-  .foot ul{margin:0;padding-left:12pt;}`;
+  .foot ul{margin:0;padding-left:12pt;}
+
+  /* ── ONE TYPE SCALE FOR THE SCREEN, DEFINED ONCE ──────────────────────
+     Don, 2026-09-15: the bullets under "Before you prescribe" were visibly
+     bigger than the text in the table below them. They were: 15px against
+     11.47px, a 30% jump nobody chose.
+
+     Nobody chose it because two scales were colliding. Everything above is
+     sized in pt, because it is shared with the PDF, and each of the three
+     builders then bolted on its own PARTIAL px scale for the screen - body
+     15px, table 14px, h3, h4. A partial scale only reaches the selectors it
+     names. A rule on table loses to one on .grid td, which is more specific,
+     so the table stayed at 8.6pt while a bare list item with no rule at all
+     inherited body at 15px.
+
+     Worse, that partial scale was COPIED into build-provider-docs.js,
+     build-fhl-docs.js and build-clinical-docs.js, which is exactly how h4 once
+     drifted above h3 - see .prodhead above. Same fault, same cause, second
+     time. So the screen scale now lives here, once, beside the print sizes it
+     has to agree with, and the builders no longer carry font sizes at all.
+
+     Body copy is one size whether it sits in a paragraph, a bullet or any
+     table cell. Column headers are one size. Headings keep their ranks. */
+  @media screen{
+    body{font-size:14px;}
+    p,li,td,th{font-size:14px;}
+    .kv td,.grid td,.rxb-tbl td,.callout p,.callout li{font-size:14px;}
+    .kv th,.grid th,.rxb-tbl th{font-size:12px;}
+    .fine,.foot{font-size:12px;}
+    h1{font-size:30px;} h2{font-size:19px;} h3{font-size:15px;} h4{font-size:13px;}
+    /* Montserrat everywhere on screen, as in the PDF. korb-rx-block.js used to
+       set the Tebra value cells in a monospace face; the note beside .rx above
+       already records the decision to drop that - the "copy this exactly"
+       signal is the tinted panel and the letter-spacing, not a second
+       typeface - but the screen rule outlived the decision, so screen and
+       print disagreed. */
+    .rxb-tbl td{font-family:var(--sans);}
+  }`;
 
 /* TYPEFACE GUARD (build-time, in build-provider-docs.js): the PDF is only in
    the brand face if the fonts actually embedded. A missing @font-face silently
