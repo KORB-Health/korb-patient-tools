@@ -144,6 +144,31 @@ const CSS = RXB.CSS + `
   .grid td{border:0.6pt solid var(--rule);padding:5pt 8pt;font-size:8.6pt;}
   .grid tr:nth-child(even) td{background:var(--zebra);}
 
+  /* PRICING TABLES: the money columns are a FIXED width, the label column takes
+     whatever is left.
+
+     Don, 2026-09-15: the columns were neither consistent with each other nor a
+     sensible size. With auto layout the charge-code column absorbed all the
+     slack in the table, so a ten-character code sat in a column several inches
+     wide with its Copy button floated to the far right edge - the button ended
+     up nowhere near the thing it copies, and no two tables on the page lined up.
+
+     table-layout:fixed plus a width on columns 2, 3 and 4 pins Price, Charge
+     code and Tier to the same size in EVERY pricing table, whether the table
+     has three columns or four. Only the Supply column varies, which is the one
+     whose content genuinely varies - "4-week" against "All 8-week semaglutide,
+     every patient, every pharmacy". */
+  .pricegrid{table-layout:fixed;width:100%;}
+  .pricegrid th:nth-child(2),.pricegrid td:nth-child(2){width:15mm;}
+  .pricegrid th:nth-child(3),.pricegrid td:nth-child(3){width:42mm;}
+  .pricegrid th:nth-child(4),.pricegrid td:nth-child(4){width:22mm;}
+  /* A code must never be broken across lines: a provider reading a wrapped
+     charge code can transcribe it wrong, and the copy button is the whole
+     point of not transcribing it. The long "Operations will provide..." note
+     shares this column and DOES wrap, which is fine - it is prose, not a
+     value. */
+  .pricegrid td code{white-space:nowrap;}
+
   ul{margin:4pt 0 9pt;padding-left:14pt;} li{margin-bottom:3pt;}
 
   /* Callouts carry meaning in their colour: teal informs, amber warns,
@@ -715,7 +740,7 @@ function sectionPricing(doc) {
   tierOrder.forEach(tk => {
     h += `<h4>${esc(tk)}</h4>`;
     const tier = tierValue[tk] || null;
-    h += `<table class="grid"><thead><tr><th>Supply</th><th>Price</th><th>Charge code</th>` +
+    h += `<table class="grid pricegrid"><thead><tr><th>Supply</th><th>Price</th><th>Charge code</th>` +
          (tier ? `<th>Tier</th>` : '') + `</tr></thead><tbody>`;
     const notes = [];
     /* DISAMBIGUATE IDENTICAL ROW LABELS BY STRENGTH.

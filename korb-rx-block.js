@@ -476,7 +476,16 @@
         'border:1px solid #9AD9E0;background:#E8F7F9;color:#0F5F69;border-radius:4px;' +
         'padding:1px 7px;cursor:pointer;}' +
       '.copybtn:hover{background:#D3EDF1;}' +
-      '.copybtn.ok{background:#1B6349;border-color:#1B6349;color:#fff;}}';
+      '.copybtn.ok{background:#1B6349;border-color:#1B6349;color:#fff;}' +
+      /* IN THE PRICING TABLES THE BUTTON SITS NEXT TO THE CODE, NOT AT THE EDGE.
+         float:right is right for the prescribing blocks, where every value sits
+         in one wide column and a right-hand rail of buttons reads as a column of
+         its own - Don asked for that on 2026-09-15. It is wrong in the pricing
+         tables, where the cell holds a ten-character code: the button floated
+         away from the value it belongs to, with inches of empty cell between
+         them. Same button, same behaviour, placed beside the thing it copies. */
+      '.pricegrid .copybtn{float:none;margin-left:8px;vertical-align:baseline;}' +
+      '.pricegrid .cp{display:inline;white-space:nowrap;}}';
     return s;
   }());
 
