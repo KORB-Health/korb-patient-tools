@@ -818,8 +818,15 @@ var KORB_GLP1 = {
                      '2.4 mg needs 0.96 ml. No stocked vial size divides into four doses ' +
                      'for any of them. The only zero-leftover alternative is 8 x 1 ml ' +
                      'for 1.0 mg, which Operations ruled out, and nothing at all for ' +
-                     '1.7 and 2.4 mg. Tirzepatide avoids this entirely because 10 mg/ml ' +
-                     'divides evenly into the stocked sizes.',
+                     '1.7 and 2.4 mg. BELMAR tirzepatide avoids this entirely because it is ' +
+                     '10 mg/ml, which divides evenly into the stocked sizes. This used to ' +
+                     'read "Tirzepatide avoids this entirely", which was wrong: Premier ' +
+                     'and FarmaKeio tirzepatide are 18 mg/ml, and Premier 2 mg draws ' +
+                     '0.11 ml from a 0.6 ml vial - 5.45 doses against a four-dose intent, ' +
+                     'the same shape as the semaglutide case above. Those doses are ' +
+                     'capped by the 28-day line in their sig rather than a dose count, ' +
+                     'which Don confirmed correct on 2026-09-15. Scope corrected the same ' +
+                     'day; no dosing value changed.',
       mitigation: 'Every compounded injectable sig now carries "Discard after 4 doses ' +
                   'or 28 days." On these three doses that instruction is the whole ' +
                   'mitigation rather than a reminder - the vial physically holds a 5th ' +

@@ -120,29 +120,31 @@
   .grid td{border:0.6pt solid var(--rule);padding:5pt 8pt;font-size:8.6pt;}
   .grid tr:nth-child(even) td{background:var(--zebra);}
 
-  /* PRICING TABLES: the money columns are a FIXED width, the label column takes
-     whatever is left.
+  /* PRICING TABLES: every column is sized to its CONTENT PLUS ITS BUTTON, and
+     the table stops there instead of stretching across the page.
 
-     Don, 2026-09-15: the columns were neither consistent with each other nor a
-     sensible size. With auto layout the charge-code column absorbed all the
-     slack in the table, so a ten-character code sat in a column several inches
-     wide with its Copy button floated to the far right edge - the button ended
-     up nowhere near the thing it copies, and no two tables on the page lined up.
+     Two goes at this. The first set a width on the money columns only and left
+     the table at width:100%, which was worse on both counts Don raised. Fixed
+     layout hands all the leftover width to the first column, so "4-week" sat in
+     a column half the page wide; and the Tier column was sized to the text but
+     not to the Copy button beside it, so the button hung off the edge of the
+     table. Measuring a column width is not the same as checking the contents
+     fit in it - the first version was measured and not looked at.
 
-     table-layout:fixed plus a width on columns 2, 3 and 4 pins Price, Charge
-     code and Tier to the same size in EVERY pricing table, whether the table
-     has three columns or four. Only the Supply column varies, which is the one
-     whose content genuinely varies - "4-week" against "All 8-week semaglutide,
-     every patient, every pharmacy". */
-  .pricegrid{table-layout:fixed;width:100%;}
-  .pricegrid th:nth-child(2),.pricegrid td:nth-child(2){width:15mm;}
-  .pricegrid th:nth-child(3),.pricegrid td:nth-child(3){width:42mm;}
-  .pricegrid th:nth-child(4),.pricegrid td:nth-child(4){width:22mm;}
-  /* A code must never be broken across lines: a provider reading a wrapped
-     charge code can transcribe it wrong, and the copy button is the whole
-     point of not transcribing it. The long "Operations will provide..." note
-     shares this column and DOES wrap, which is fine - it is prose, not a
-     value. */
+     So: an explicit width on EVERY column, in mm, chosen to hold the widest
+     value plus its button plus padding, and width:auto so nothing is stretched
+     to fill a page. Identical numbers in every pricing table, so the columns
+     line up down the document and a three-column table lines up with the first
+     three columns of a four-column one. */
+  .pricegrid{table-layout:fixed;width:auto;max-width:100%;}
+  .pricegrid th:nth-child(1),.pricegrid td:nth-child(1){width:64mm;}
+  .pricegrid th:nth-child(2),.pricegrid td:nth-child(2){width:18mm;}
+  .pricegrid th:nth-child(3),.pricegrid td:nth-child(3){width:46mm;}
+  .pricegrid th:nth-child(4),.pricegrid td:nth-child(4){width:32mm;}
+  /* A code must never break across lines: a provider reading a wrapped charge
+     code can transcribe it wrong, and not transcribing it is the whole point of
+     the button. The long "Operations will provide..." note shares this column
+     and DOES wrap, which is right - it is prose, not a value. */
   .pricegrid td code{white-space:nowrap;}
 
   ul{margin:4pt 0 9pt;padding-left:14pt;} li{margin-bottom:3pt;}
