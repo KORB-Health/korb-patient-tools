@@ -84,6 +84,33 @@ var KORB_GLP1 = {
        fingerprint provably moves when a block does change. So fixing the ZIP
        will not stale this attestation, and this attestation does not bless
        the ZIP. */
+    /* Signed 2026-09-15, this session, and the review found a real defect
+       before it was signed rather than after.
+
+       Don read the live page and asked whether the oral should carry two
+       charges, the second with a code ending 180. It should: his source
+       document, docs/pharmacy/Belmar_Semaglutide_2025-11-26.md in
+       korb-clinical-docs, lists #45 at $299 / FITSemOrl90 and #90 at $399 /
+       FITSemOrl180. The data file held both; sectionPricing was dropping the
+       second. Fixed in provider-doc-render.js, then he confirmed both rows on
+       the live page before this was recorded.
+
+       The fix did not touch the 12 prescribing blocks, so the fingerprint he
+       reviewed is the one recorded here. The charge codes are NOT inside it -
+       see the note at the top of rx-signoff.js.
+
+       He also confirmed the 0.5 mg discard wording is deliberate: the sig
+       states the doses the vial really holds, and one 1 ml vial at 1 mg/ml is
+       two doses at that strength, not four. Rationale recorded at the dose. */
+      "glp1:belmar_sema": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-fadb2bb3-30516",
+        "blocks": 12,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "glp1:foundayo": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
