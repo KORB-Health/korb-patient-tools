@@ -287,14 +287,30 @@ var KORB_PATIENT_ED = {
         },
         {
           h: 'How to use a patch',
+          /* Same shape as the cream section above - a lead line, a numbered
+             table, then the one rule worth pulling out. It was three loose
+             paragraphs and read as an afterthought beside the cream steps. */
           p: [
-            'Apply the patch to the lower abdomen or the upper buttock. Not the ' +
-            'breasts, and not on skin that is broken or irritated.',
-            'Change it on the same day each week, and move it to a slightly ' +
-            'different spot each time.',
-            'If a patch comes off, put a new one on and carry on with your usual ' +
-            'change day.'
-          ]
+            'A patch is changed once a week and worn continuously in between, ' +
+            'including in the shower.'
+          ],
+          table: {
+            head: ['Step', 'What to do'],
+            rows: [
+              ['1', 'Wash your hands.'],
+              ['2', 'Apply to clean, dry skin on the lower abdomen or the upper ' +
+                    'buttock. Never the breasts, and never on skin that is broken ' +
+                    'or irritated.'],
+              ['3', 'Press it flat with your palm for about 10 seconds so the ' +
+                    'edges seal.'],
+              ['4', 'Leave it on until your change day. It is fine to shower, ' +
+                    'bathe and swim with it on.'],
+              ['5', 'Change it on the SAME day each week, and put the new one on ' +
+                    'a slightly different spot.']
+            ]
+          },
+          callout: 'If a patch falls off, put a new one on straight away and keep ' +
+            'your usual change day. Do not wait, and do not double up.'
         }
       ],
 
