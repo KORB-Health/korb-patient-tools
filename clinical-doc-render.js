@@ -585,7 +585,13 @@ function renderSection(sec) {
   if (sec.render === 'pharmacyTable') return sectionPharmacyTable(sec);
   if (sec.render === 'productDetail') return sectionProducts(sec);
   if (sec.render === 'bullets') return sectionBullets(sec);
-  return '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body) + decider(sec.decider);
+  /* Callouts here too. The default prose branch dropped them silently, the
+     same gap sectionBullets had - a section with no `render` key rendered its
+     paragraphs and threw its callouts away. Found on the two sections Don
+     approved on 2026-09-16: both carry a closing line and neither appeared.
+     Every branch of renderSection now goes through calloutsFor. */
+  return '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body) +
+    calloutsFor(sec) + decider(sec.decider);
 }
 
 /* ── PAGE ─────────────────────────────────────────────────────────────────── */

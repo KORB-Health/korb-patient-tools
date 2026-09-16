@@ -150,6 +150,22 @@ var KORB_WOMENS = {
       'abdomen or upper buttock.'
   },
 
+  /* -- ESTRADIOL PATCHES -----------------------------------------------------
+     The one product where the Tebra drop-down offers a real choice that changes
+     the prescription. Don, 2026-09-16. */
+  patchGuidance: {
+    weekly: 'Tebra lists ONCE-weekly and TWICE-weekly transdermal patches. Prefer ' +
+      'the ONCE-weekly if the patient can get it - fewer applications and it is ' +
+      'the presentation these entries are written for.',
+    boxRule: 'Once-weekly patches come in a BOX OF 4. So the quantity is 3 BOXES, ' +
+      'not 3 patches: 3 x 4 = 12 patches, one a week for 12 weeks. The pharmacy ' +
+      'note spells that out so the pharmacy tells us if their pack size differs.',
+    daysFlag: 'NOTE FOR DON: the Days Supply on these five entries reads 90, but ' +
+      '12 weekly patches is 84 days. Either the days should be 84 or the quantity ' +
+      'needs to cover 90. Left at 90 as the source had it rather than changed - a ' +
+      'days-supply figure is a prescribing decision.'
+  },
+
   /* -- CLINICAL GATES ---------------------------------------------------------
      The two rules a provider must not get wrong, and one document requirement. */
   gates: {
@@ -324,6 +340,17 @@ var KORB_WOMENS = {
         'loss, reduced muscle mass, hot flashes, depression and increased breast ' +
         'size. High levels are linked with aggression, acne, liver disease and heart ' +
         'muscle damage.' },
+    { marker: 'Progesterone (Pg)',
+      text: 'Produced mainly by the corpus luteum after ovulation, with a smaller ' +
+        'adrenal contribution. It opposes estrogen at the endometrium, which is ' +
+        'why it is what protects the uterine lining. Through its metabolite ' +
+        'allopregnanolone it also has a calming effect and supports sleep, which ' +
+        'is why it is dosed at night. Levels fall through perimenopause and are ' +
+        'low after menopause. Low progesterone RELATIVE to estrogen gives the ' +
+        'picture usually called estrogen dominance - heavy or irregular bleeding, ' +
+        'breast tenderness, fluid retention, irritability and poor sleep. On ' +
+        'saliva testing in a woman using a topical, remember the result reflects ' +
+        'tissue delivery rather than a serum level.' },
     { marker: 'DHEA',
       text: 'Made by the adrenal glands and a precursor to both testosterone and the ' +
         'estrogens; also a neurohormone made in small amounts in the brain. Improves ' +
@@ -354,106 +381,32 @@ var KORB_WOMENS = {
         'disease such as adrenal insufficiency and type 1 diabetes.' }
   ],
 
-  markerGap: 'PROGESTERONE is on both panels and the source document does not ' +
-    'explain it, while explaining the other eight markers. Flagged rather than ' +
-    'written here: an interpretation nobody approved does not belong beside eight ' +
-    'that were. Open for Don.',
+  /* The progesterone entry above was drafted on 2026-09-16 because the source
+     document explains every panel marker except that one, and approved by Don
+     the same day. The other eight are Ayumetrix wording; that one is not, and
+     this note is why. */
+  markerProvenance: 'Eight of the nine marker explanations are Ayumetrix wording ' +
+    'carried from the programme document. PROGESTERONE is not: the source omits ' +
+    'it, so it was drafted and approved by Don Stevenson on 2026-09-16.',
 
   labDisclaimer: 'Ayumetrix developed these tests and determined their performance ' +
     'characteristics. They have not been cleared or approved by the FDA. The lab is ' +
     'CLIA-regulated as qualified for high-complexity testing. Results are ' +
     'informational and do not themselves provide a diagnosis.',
 
-  /* -- DRAFTED, NOT YET APPROVED --------------------------------------------
-     Don asked for three pieces of clinical writing on 2026-09-16 and said he
-     would approve or disapprove them. They are held HERE and are NOT rendered
-     into the document, because content a provider reads should be content the
-     Director of Clinical Operations has signed, not content that is waiting on
-     him. When he approves, move each into the section named in `rendersInto`
-     and delete it from this block.
+  /* -- APPROVED 2026-09-16 --------------------------------------------------
+     Three pieces of clinical writing were drafted on 2026-09-16 and held out of
+     the document until Don read them. He approved all three the same day:
 
-     Sources are named on each so he can check rather than take my word. */
-  pendingApproval: [
-    {
-      id: 'progesterone-marker',
-      why: 'The source document explains every panel marker except progesterone, ' +
-           'which is on both panels.',
-      rendersInto: 'markerMeaning',
-      draft: {
-        marker: 'Progesterone (Pg)',
-        text: 'Produced mainly by the corpus luteum after ovulation, with a smaller ' +
-          'adrenal contribution. It opposes estrogen at the endometrium, which is ' +
-          'why it is what protects the uterine lining. Through its metabolite ' +
-          'allopregnanolone it also has a calming effect and supports sleep, which ' +
-          'is why it is dosed at night. Levels fall through perimenopause and are ' +
-          'low after menopause. Low progesterone RELATIVE to estrogen gives the ' +
-          'picture usually called estrogen dominance - heavy or irregular bleeding, ' +
-          'breast tenderness, fluid retention, irritability and poor sleep. On ' +
-          'saliva testing in a woman using a topical, remember the result reflects ' +
-          'tissue delivery rather than a serum level.'
-      },
-      basis: 'Standard menopause physiology, written to match the length and voice ' +
-             'of the eight Ayumetrix entries beside it. Not lifted from a KORB ' +
-             'document, because no KORB document contains it.'
-    },
-    {
-      id: 'estrogen-vs-estradiol',
-      why: 'Don asked what the difference is between estrogen and estradiol, and ' +
-           'whether estriol and estradiol in the Belmar capsule are an error.',
-      rendersInto: 'a new section after the hormone guide',
-      draft: {
-        heading: 'Estrogen, estradiol, estriol - not the same word',
-        body: [
-          'ESTROGEN is the class. ESTRADIOL is one hormone in that class. The three ' +
-            'human estrogens are estrone (E1), estradiol (E2) and estriol (E3).',
-          'ESTRADIOL is the most potent and the dominant estrogen through the ' +
-            'reproductive years. It is what "estrogen therapy" almost always means ' +
-            'at KORB, and it is what the patches and the single-hormone creams ' +
-            'contain.',
-          'ESTRIOL is the weakest of the three, roughly a tenth as potent at the ' +
-            'receptor, and predominates in pregnancy. It appears at KORB in exactly ' +
-            'one place: the four-hormone capsule, at 0.45 mg alongside 0.45 mg of ' +
-            'estradiol.',
-          'So "Estriol/Estradiol" on the Belmar capsule is NOT a typo and not a ' +
-            'duplicate. They are two different hormones and the capsule contains ' +
-            'both. A combination of estriol and estradiol is sometimes called ' +
-            'Bi-Est. The near-identical spelling is the only thing they share.'
-        ],
-        callout: 'On a prescription the two are not interchangeable words. Write ' +
-          'the hormone, not the class.'
-      },
-      basis: 'Standard endocrinology. The 0.45/0.45 mg figures are from the Belmar ' +
-             'and Premier entries in this file, not from memory.'
-    },
-    {
-      id: 'single-before-combination',
-      why: 'Don raised the clinical objection himself: a combination product ' +
-           'cannot be titrated one component at a time.',
-      rendersInto: 'a new section after the hormone guide',
-      draft: {
-        heading: 'Start with single hormones, combine later',
-        body: [
-          'A combination product is one prescription, so every component moves ' +
-            'together. If a patient on the four-hormone capsule needs more ' +
-            'progesterone, there is no way to give her more progesterone - only ' +
-            'more capsule, which also raises her testosterone, her estradiol and ' +
-            'her estriol.',
-          'So START on single-hormone products while dose-finding. Adjust one ' +
-            'thing at a time, the same discipline as every other KORB programme, ' +
-            'and let symptoms and labs settle.',
-          'ONCE SHE IS STABLE, moving to a combination is reasonable and is often ' +
-            'better for adherence - one cream or one capsule instead of three. ' +
-            'The trade-off is that the next adjustment means unpicking it again.'
-        ],
-        callout: 'Convenience is the reason to combine, and it is a good reason - ' +
-          'but only after the doses are settled. A combination started on day one ' +
-          'is a plan that cannot be tuned.'
-      },
-      basis: "Don's own clinical position, stated 2026-09-16. Written up rather " +
-             'than invented; the arithmetic about the four-hormone capsule follows ' +
-             'from its fixed 0.45/0.45/100/4 mg ratio recorded above.'
-    }
-  ],
+       progesterone-marker       -> markerMeaning, in panel order
+       estrogen-vs-estradiol     -> estrogenNaming, its own section
+       single-before-combination -> combinationRule, its own section
+
+     The mechanism stays: pendingApproval is empty, not deleted, and selfCheck
+     still fails if anything is added here and starts rendering before it is
+     moved out. Content a provider reads is content the Director of Clinical
+     Operations has signed. */
+  pendingApproval: [],
 
   /* -- CONTRAINDICATIONS. Source: the November document, section 4. -----------
      Clinical safety rather than dosing, so it does not fall under Don's
@@ -556,6 +509,52 @@ var KORB_WOMENS = {
     }
   ],
 
+  /* -- NAMING, AND WHY IT MATTERS ON A PRESCRIPTION --------------------------
+     Drafted 2026-09-16 after Don asked what the difference is between estrogen
+     and estradiol, and whether "Estriol/Estradiol" on the Belmar capsule was an
+     error. Approved the same day. */
+  estrogenNaming: {
+    heading: 'Estrogen, estradiol, estriol - not the same word',
+    body: [
+      'ESTROGEN is the class. ESTRADIOL is one hormone in that class. The three ' +
+        'human estrogens are estrone (E1), estradiol (E2) and estriol (E3).',
+      'ESTRADIOL is the most potent and the dominant estrogen through the ' +
+        'reproductive years. It is what estrogen therapy almost always means at ' +
+        'KORB, and it is what the patches and the single-hormone creams contain.',
+      'ESTRIOL is the weakest of the three, roughly a tenth as potent at the ' +
+        'receptor, and predominates in pregnancy. It appears at KORB in exactly ' +
+        'one place: the four-hormone capsule, at 0.45 mg alongside 0.45 mg of ' +
+        'estradiol.',
+      'So Estriol/Estradiol on the Belmar capsule is NOT a typo and not a ' +
+        'duplicate. They are two different hormones and the capsule contains ' +
+        'both. A combination of estriol and estradiol is sometimes called ' +
+        'Bi-Est. The near-identical spelling is the only thing they share.'
+    ],
+    callout: 'On a prescription the two are not interchangeable words. Write the ' +
+      'hormone, not the class.'
+  },
+
+  /* -- SINGLE BEFORE COMBINATION ---------------------------------------------
+     Don's own clinical position, stated and approved 2026-09-16. */
+  combinationRule: {
+    heading: 'Start with single hormones, combine later',
+    body: [
+      'A combination product is one prescription, so every component moves ' +
+        'together. If a patient on the four-hormone capsule needs more ' +
+        'progesterone, there is no way to give her more progesterone - only more ' +
+        'capsule, which also raises her testosterone, her estradiol and her estriol.',
+      'So START on single-hormone products while dose-finding. Adjust one thing at ' +
+        'a time, the same discipline as every other KORB programme, and let ' +
+        'symptoms and labs settle.',
+      'ONCE SHE IS STABLE, moving to a combination is reasonable and is often ' +
+        'better for adherence - one cream or one capsule instead of three. The ' +
+        'trade-off is that the next adjustment means unpicking it again.'
+    ],
+    callout: 'Convenience is the reason to combine, and it is a good reason - but ' +
+      'only after the doses are settled. A combination started on day one is a ' +
+      'plan that cannot be tuned.'
+  },
+
   /* -- THE UTERUS DECISION ----------------------------------------------------
      Written as a decision rather than prose because it is the first question of
      the visit and it determines everything after it. */
@@ -638,36 +637,36 @@ var KORB_WOMENS = {
       compounded: false,
       label: 'Estrogen 0.025 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'patch', refill: '0', days: '90',
-      pharmacyNotes: 'Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '90',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.0375 mg Patch)',
       drug: 'estradiol 0.0375 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.0375 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'patch', refill: '0', days: '90',
-      pharmacyNotes: 'Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '90',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.05 mg Patch)',
       drug: 'estradiol 0.05 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.05 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'patch', refill: '0', days: '90',
-      pharmacyNotes: 'Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '90',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.075 mg Patch)',
       drug: 'estradiol 0.075 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.075 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'patch', refill: '0', days: '90',
-      pharmacyNotes: 'Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '90',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.1 mg Patch)',
       drug: 'estradiol 0.1 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.1 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'patch', refill: '0', days: '90',
-      pharmacyNotes: 'Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '90',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
     /* Estradiol cream - 5 entries */
     { family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.2% Cream)',
       drug: 'Estradiol 0.2%, 2 mg/ml cream',
@@ -940,6 +939,16 @@ var KORB_WOMENS = {
                'pharmacy and pricing.']
       },
       {
+        id: 'naming', heading: W.estrogenNaming.heading,
+        body: W.estrogenNaming.body,
+        callouts: [W.estrogenNaming.callout]
+      },
+      {
+        id: 'combination', heading: W.combinationRule.heading,
+        body: W.combinationRule.body,
+        callouts: [W.combinationRule.callout]
+      },
+      {
         id: 'gates', heading: 'The two gates - check these before you send',
         render: 'bullets',
         warn: true,
@@ -997,7 +1006,8 @@ var KORB_WOMENS = {
         body: ['The strengths are NOT the same at both pharmacies, and that is the ' +
                'commonest way a women\'s health prescription goes wrong: a patient ' +
                'moves between pharmacies and the old strength is carried across.'],
-        callouts: ['Only ' + W.sharedStrength + ' exists at both. Every other estradiol ' +
+        callouts: [W.patchGuidance.weekly, W.patchGuidance.boxRule,
+                   'Only ' + W.sharedStrength + ' exists at both. Every other estradiol ' +
                    'cream strength changes when the pharmacy changes, so the prescription ' +
                    'has to change with it.']
       },
