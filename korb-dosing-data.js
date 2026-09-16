@@ -132,6 +132,37 @@ var KORB_DOSING = {
        protocols rather than to a pharmacy formulary. The cross-checks that
        backed the GLP-1 sign-offs against docs/pharmacy/ in korb-clinical-docs
        do not apply here and were not claimed. */
+    /* Signed 2026-09-15, this session.
+
+       The most display-corrected document of the set, and none of it touched a
+       prescribing value. Don caught three symptoms of one root cause: agent
+       name and strength were being concatenated raw in several places, so the
+       same agent read differently depending on the section.
+
+         "CJC-1295 / Ipamorelin 100 mcg CJC-1295 / 100 mcg Ipamorelin"  glance
+         "100 mcg CJC-1295 / 100 mcg Ipamorelin"                        ladder
+         "Tesamorelin 1 mg 1 mg" and "Dose ladder - Tesamorelin 1 mg"   Peak B
+
+       All of it now goes through agentParts(), so a name and a strength cannot
+       disagree between two sections again.
+
+       AND A REGRESSION OF MINE, CAUGHT BY HIM: an intermediate version shortened
+       the combination dose to its leading amount - "100 mcg" - which read well
+       and was clinically wrong. Greenwich stocks CJC/Ipamorelin with matched
+       and with different component strengths, so both must always show. They do.
+
+       Checked before signing: 38 distinct copied values, all plain ASCII,
+       nothing near a Tebra cap, and no combination strength anywhere on any
+       FH&L page without its pair. */
+      "fhl:peakA": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.13",
+        "fingerprint": "fp-d2d5fd02-23521",
+        "blocks": 10,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "fhl:gateway": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
