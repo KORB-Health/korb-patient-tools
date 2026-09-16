@@ -182,6 +182,8 @@ body{background:var(--cream);}
 .card-body .tablewrap{margin-top:14px;}
 .cardsub{font-size:11px;color:var(--mu);font-weight:700;text-transform:uppercase;
   letter-spacing:.4px;margin-bottom:10px;}
+.stat .val.code{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;
+  font-size:14px;font-weight:600;letter-spacing:.3px;}
 </style>
 </head>
 <body>
@@ -558,7 +560,7 @@ function render(){
     + '<div class="stat-grid">'
     + '<div class="stat"><div class="lbl">Hormones</div><div class="val">' + n + '</div></div>'
     + '<div class="stat"><div class="lbl">Price</div><div class="val">' + esc(tier ? tier.p : "\u2014") + '</div></div>'
-    + '<div class="stat"><div class="lbl">Charge code</div><div class="val" style="font-size:13px">'
+    + '<div class="stat"><div class="lbl">Charge code</div><div class="val code">'
     + esc(tier ? tier.c : "\u2014") + '</div></div>'
     + '<div class="stat"><div class="lbl">Supply</div><div class="val">12 wk</div></div>'
     + '</div>'
