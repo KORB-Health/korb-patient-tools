@@ -1,0 +1,158 @@
+/* ============================================================================
+   PATIENT EDUCATION RENDERER
+
+   Renders one handout from korb-patient-ed-data.js. Runs in the browser, where
+   the page is live, and in build-patient-ed.js, where it produces the PDF. One
+   renderer, so the two cannot drift.
+
+   CSS comes from provider-doc-render.js rather than being written again. The
+   provider references already carry the brand type scale, the cream/document/
+   card surfaces and the Montserrat faces, and a second stylesheet is how a
+   patient handout ends up looking almost but not quite like the rest - see the
+   note on the screen type scale in that file, which existed in three copies
+   before 2026-09-15 and drifted in all three.
+
+   CLINICAL FACTS ARE PULLED, NOT RESTATED. Route, schedule, timing and active
+   weeks come from korb-dosing-data.js through agentKey. If a fact is in that
+   file this module reads it; if it is written in the prose instead, that is a
+   bug, because it is then a second copy that can disagree with the sig.
+   ============================================================================ */
+(function (root, factory) {
+  if (typeof module !== 'undefined' && module.exports) { module.exports = factory(); }
+  else { root.KORB_PATIENT_ED_DOCS = factory(); }
+}(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  var GLP1DOCS = (typeof module !== 'undefined' && module.exports)
+    ? require('./provider-doc-render.js')
+    : (typeof KORB_DOCS !== 'undefined' ? KORB_DOCS : null);
+  var CSS = GLP1DOCS ? GLP1DOCS.CSS : '';
+  var LOGO_URI = GLP1DOCS ? GLP1DOCS.LOGO_URI : '';
+
+  function esc(s) {
+    return String(s === undefined || s === null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ---- the facts that must come from the dosing data ---------------------
+     Throws rather than falling back. A handout that quietly prints nothing
+     where the schedule should be is worse than a build that stops: the first
+     reaches a patient, the second reaches whoever ran the build. */
+  function agentFacts(DOSING, doc) {
+    if (!DOSING || !DOSING.agents) {
+      throw new Error('patient-ed-render: korb-dosing-data.js must be loaded first.');
+    }
+    var a = DOSING.agents[doc.agentKey];
+    if (!a) {
+      throw new Error('patient-ed-render: no agent "' + doc.agentKey + '" in korb-dosing-data.js. ' +
+        'The handout names an agent the dosing data does not have, so its route, ' +
+        'schedule and timing cannot be read. Fix the key rather than typing the facts here.');
+    }
+    var weeks = (DOSING.getActiveWeeks && DOSING.getActiveWeeks(doc.agentKey, 'foundation'))
+      || a.onWeeksFoundation || null;
+    return {
+      how: a.how || '',
+      schedule: a.schedule || '',
+      timing: a.timing || '',
+      activeWeeks: weeks ? ('Weeks ' + weeks[0] + '–' + weeks[1] + ' of your ' +
+        (doc.cycleWeeks || 16) + '-week cycle') : '',
+      offWeeks: (weeks && doc.cycleWeeks && weeks[1] < doc.cycleWeeks)
+        ? ('Weeks ' + (weeks[1] + 1) + '–' + doc.cycleWeeks + ', a ' +
+           (doc.cycleWeeks - weeks[1]) + '-week washout before your next cycle')
+        : ''
+    };
+  }
+
+  /* ---- small builders ---------------------------------------------------- */
+  function ul(items) {
+    return '<ul>' + (items || []).map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>';
+  }
+  function paras(items) {
+    return (items || []).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+  }
+  function twoCol(rows, h1, h2) {
+    return '<table class="grid"><thead><tr><th>' + esc(h1) + '</th><th>' + esc(h2) +
+      '</th></tr></thead><tbody>' + rows.map(function (r) {
+        return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
+
+  function renderBody(DATA, DOSING, doc) {
+    var S = DATA.shared;
+    var F = agentFacts(DOSING, doc);
+    var h = '';
+
+    h += '<div class="lede"><p>' + esc(S.disclaimer) + '</p></div>';
+
+    h += '<h2>What ' + esc(doc.title) + ' is</h2>' + paras(doc.what);
+
+    if (doc.mayHelp) {
+      h += '<h2>What it may support</h2><p>' + esc(doc.mayHelp.lead) + '</p>' +
+           ul(doc.mayHelp.items) + '<p>' + esc(doc.mayHelp.after) + '</p>';
+    }
+
+    /* Route, schedule, timing and weeks - every value read from the dosing
+       data, so a change there reaches this handout on the next page load. */
+    h += '<h2>How to use it</h2>' +
+         '<div class="callout"><p>' + esc(S.authoritySource) + '</p></div>' +
+         '<table class="kv">' +
+         '<tr><th>How to inject</th><td>' + esc(F.how) + '</td></tr>' +
+         '<tr><th>When to inject</th><td>' + esc(F.timing) + '</td></tr>' +
+         '<tr><th>Schedule</th><td>' + esc(F.schedule) + '</td></tr>' +
+         (F.activeWeeks ? '<tr><th>Active weeks</th><td>' + esc(F.activeWeeks) + '</td></tr>' : '') +
+         (F.offWeeks ? '<tr><th>Off weeks</th><td>' + esc(F.offWeeks) + '</td></tr>' : '') +
+         '</table>';
+
+    (doc.timingNotes || []).forEach(function (n) {
+      h += '<h3>' + esc(n[0]) + '</h3><p>' + esc(n[1]) + '</p>';
+    });
+
+    h += '<h2>Storage and handling</h2>' +
+         twoCol(S.storage.cards, 'What to do', 'Detail') + paras(S.storage.notes);
+
+    h += '<h2>Traveling with your medication</h2><p>' + esc(S.travel) + '</p>';
+
+    if (doc.timeline) {
+      h += '<h2>What to expect</h2><table class="grid"><thead><tr><th>Timeline</th>' +
+           '<th>Phase</th><th>What to expect</th></tr></thead><tbody>' +
+           doc.timeline.map(function (r) {
+             return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td></tr>';
+           }).join('') + '</tbody></table>' +
+           (doc.timelineNote ? '<p class="fine">' + esc(doc.timelineNote) + '</p>' : '');
+    }
+
+    h += '<h2>Side effects and what to watch for</h2>';
+    if (doc.common) h += '<h3>What you may notice</h3>' + twoCol(doc.common, 'What you may notice', 'What to do');
+    if (doc.monitorAndTell) h += '<h3>Tell your KORB provider at your next visit</h3>' +
+      twoCol(doc.monitorAndTell, 'What you may notice', 'What to do');
+    if (doc.emergencyLead) h += '<div class="callout warn"><p>' + esc(doc.emergencyLead) + '</p></div>';
+
+    if (doc.labs) {
+      h += '<h2>Lab monitoring</h2><p>' + esc(doc.labs.lead) + '</p>' + ul(doc.labs.items) +
+           '<p>' + esc(doc.labs.after) + '</p>';
+    }
+
+    h += '<h2>Safety reminders</h2>' + ul((doc.safety || []).concat(S.injectionSafety));
+
+    var C = S.contact;
+    h += '<h2>When to contact KORB</h2>' +
+         '<table class="grid"><thead><tr><th>' + esc(C.operations.title) + '</th><th>' +
+         esc(C.portal.title) + '</th><th>' + esc(C.emergency.title) + '</th></tr></thead><tbody><tr>' +
+         '<td>' + ul(C.operations.items) + paras(C.operations.lines) + '</td>' +
+         '<td>' + ul(C.portal.items) + '</td>' +
+         '<td>' + ul(C.emergency.items) + '</td>' +
+         '</tr></tbody></table>' +
+         '<p class="fine">' + esc(C.portalNote) + '</p>' +
+         '<div class="callout warn"><p>' + esc(C.emergencyNote) + '</p></div>';
+
+    if (doc.keyReminders) h += '<h2>Key reminders</h2>' + ul(doc.keyReminders);
+
+    return h;
+  }
+
+  var DOCS = ['sermorelin'];
+
+  return { DOCS: DOCS, esc: esc, renderBody: renderBody, agentFacts: agentFacts,
+           CSS: CSS, LOGO_URI: LOGO_URI };
+}));
