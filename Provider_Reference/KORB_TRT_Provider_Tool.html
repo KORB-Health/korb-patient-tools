@@ -60,13 +60,17 @@ body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,
 .dcell.warn .val{color:var(--red);}
 .dcell .sub{font-size:10.5px;color:var(--mu);margin-top:2px;}
 
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
 @media(min-width:600px){.stat-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}}
 .stat{background:var(--gb);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;text-align:center;}
 .stat .lbl{font-size:9.5px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
 .stat .val{font-size:17px;font-weight:800;color:var(--navy);margin-top:3px;}
 
 .info-box{border-radius:8px;padding:11px 15px;margin-top:12px;font-size:12px;line-height:1.7;}
+/* One vertical rhythm inside a card: spacing comes from each block's own top
+   margin, so no pair of blocks can end up touching because one of them only
+   set a bottom margin. The first child sits flush on the card padding. */
+.card-body > *:first-child{margin-top:0;}
 .info-box.teal{background:var(--lt);border:1px solid var(--teal);}
 .info-box.amber{background:var(--amber);border:1px solid var(--amberbd);}
 .info-box.red{background:var(--redbg);border:1px solid var(--red);color:#7A1F1F;}
@@ -197,6 +201,22 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
     </div>
   </div>
 
+  <div class="sec">Pricing &amp; Charge Codes</div>
+  <div class="tablewrap"><table class="ref">
+    <thead><tr><th>Item</th><th>Price</th><th>Charge code</th></tr></thead>
+    <tbody>
+      <tr><td>Initial TRT labs</td><td>$99</td>
+          <td><span class="codewrap"><span class="code-chip" id="ccTRTlab">FITTRTQ100</span>
+              <button type="button" class="cbtn" onclick="copyCode(this,'ccTRTlab')">Copy code</button></span></td></tr>
+      <tr><td>Quarterly TRT &mdash; visit, medication, shipping</td><td>$399</td>
+          <td><span class="codewrap"><span class="code-chip" id="ccTRTqtr">FITTRTQ001</span>
+              <button type="button" class="cbtn" onclick="copyCode(this,'ccTRTqtr')">Copy code</button></span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="info-box teal">
+    KORB does not accept insurance.
+    Add-on pricing is held in the Optimization Products tool so it is maintained in one place.
+  </div>
   <div class="sec">Dose Ladder Reference</div>
   <div class="tablewrap"><table class="ref" id="ladderTable">
     <thead>
@@ -225,22 +245,6 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
     day before the dose is given. A peak draw will read high and hide a symptomatic trough.
   </div>
 
-  <div class="sec">Pricing &amp; Charge Codes</div>
-  <div class="tablewrap"><table class="ref">
-    <thead><tr><th>Item</th><th>Price</th><th>Charge code</th></tr></thead>
-    <tbody>
-      <tr><td>Initial TRT labs</td><td>$99</td>
-          <td><span class="codewrap"><span class="code-chip" id="ccTRTlab">FITTRTQ100</span>
-              <button type="button" class="cbtn" onclick="copyCode(this,'ccTRTlab')">Copy code</button></span></td></tr>
-      <tr><td>Quarterly TRT &mdash; visit, medication, shipping</td><td>$399</td>
-          <td><span class="codewrap"><span class="code-chip" id="ccTRTqtr">FITTRTQ001</span>
-              <button type="button" class="cbtn" onclick="copyCode(this,'ccTRTqtr')">Copy code</button></span></td></tr>
-    </tbody>
-  </table></div>
-  <div class="info-box teal">
-    KORB does not accept insurance.
-    Add-on pricing is held in the Optimization Products tool so it is maintained in one place.
-  </div>
   <div class="info-box amber">
     <b>SHBG and free testosterone are ADD-ON labs, not part of the standard panel.</b> The move to SQ three times weekly is written
     against low SHBG, so that criterion cannot be read off the standard panel. Open item in the Men's
@@ -585,7 +589,7 @@ function render(){
   h += '<div class="stat"><div class="lbl">Injections/fill</div><div class="val">'+c.inj+'</div></div>';
   h += '</div>';
 
-  h += '<div class="info-box teal" style="margin-top:0;">'
+  h += '<div class="info-box teal">'
      + 'Draw <b>'+c.mlDose.toFixed(2)+' mL</b> ('+c.mgDose.toFixed(0)+' mg) into a '
      + c.R.syringe+' syringe, '+FREQ_WORD[c.R.freq]+'.<br>'
      + 'Draw up with the <b>'+c.R.drawNdl+'</b>, then change to the <b>'+c.R.injNdl
