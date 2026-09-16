@@ -788,8 +788,45 @@ women's testosterone. Do not re-report those; they are already on the list.
    compounded name and will flag a difference, Belmar does not. Worth knowing
    before the next spelling or formatting question: check which pharmacy before
    assuming a string is load-bearing.
-6. **Create `korb-trt-data.js` and `korb-womens-data.js`.** New construction, not
-   cleanup. Should not block 2–5.
+6. **Create `korb-trt-data.js` and `korb-womens-data.js`.**
+   **`korb-trt-data.js` DONE 2026-09-16.** Extracted whole from
+   `KORB_TRT_Provider_Tool.html`, which had held every TRT fact as its own
+   JavaScript. The computed ladder reproduces the tool's printed table exactly and
+   the Tebra fields match field for field. The tool now READS the data file, so the
+   two cannot drift; `check-pages.js` fails if the scripts load out of order, and
+   that was negative-tested by stripping the tag.
+
+   **Testosterone is NOT compounded, and this is the rule.** Testosterone cypionate
+   200 mg/mL is a COMMERCIAL product that happens to be dispensed by a compounding
+   pharmacy - Premier in TX, Empower in CA. Those are two different facts, and
+   conflating them is why the tool carried a Compounded Drug Favorite header and a
+   "Reason for Compounding" row on a commercial generic, plus a pricing footnote
+   saying compounded medications are not FDA-approved. It is a Tebra **STANDARD**
+   prescription: the drug is selected from the drop-down with no copy button, there
+   is no Reason for Compounding field at all, and the word compounded appears
+   nowhere provider-facing. `selfCheck()` asserts every part of that. Decided by
+   Don 2026-09-16, and the same rule the brand GLP-1 documents took on 2026-09-15.
+
+   Routing is **verified**: Premier is live for Texas patients today; Empower has
+   accepted and approved test prescriptions for California with no live patient
+   prescription sent yet. SHBG and free testosterone are **add-on labs**, left as
+   they are pending the formal TRT and Men's Health program review.
+
+   `korb-pharmacies.js` v1.6 gained two things for this. A program can now
+   **narrow** a footprint with `only` rather than only subtract with `excludes` -
+   Schedule III licensure is far narrower than a pharmacy's general reach, and
+   Premier ships peptides to 38 states and testosterone to Texas. And
+   `stateNames` / `stateName()`, because the tool was typing its own 51-entry map.
+
+   **`korb-womens-data.js` still to do.**
+12. **Six pages still type their own 51-state name map.** `korb-pharmacies.js`
+   now owns `stateNames`, and `KORB_TRT_Provider_Tool.html` reads it. Still
+   carrying private copies: `KORB_GLP1_Patient_Message_Builder.html`,
+   `KORB_GLP1_Pharmacy_Routing.html`, `KORB_GLP1_Provider_Reference.html`,
+   `KORB_Provider_Clinical_Reference.html`,
+   `Provider_Reference/KORB_Optimization_Products.html`,
+   `Provider_Reference/KORB_Womens_Health_Provider_Tool.html`. Low stakes until
+   one of them spells a state differently from the others on a clinical document.
 7. ~~Reconcile `KORB_AddOn_Selector.html` / `KORB_Optimization_Products.html`.~~
    **DONE 2026-09-15.** They were not merely "the same file under two names" — they
    had already diverged. `KORB_Optimization_Products.html` is in `build-embed.js`

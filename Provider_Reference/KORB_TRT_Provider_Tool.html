@@ -125,6 +125,8 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
 .korb-top .tagpill{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;
  font-size:10px;font-weight:800;letter-spacing:.9px;padding:7px 13px;border-radius:20px;
  white-space:nowrap;align-self:center;}
+  .selnote{display:block;margin-top:4px;font-size:10.5px;font-weight:700;
+    color:#A15C07;letter-spacing:.01em;}
 </style>
 </head>
 <body>
@@ -247,11 +249,11 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
     </tbody>
   </table></div>
   <div class="info-box teal">
-    KORB does not accept insurance. Compounded medications are not FDA-approved for these specific uses.
+    KORB does not accept insurance.
     Add-on pricing is held in the Optimization Products tool so it is maintained in one place.
   </div>
   <div class="info-box amber">
-    <b>SHBG and free testosterone are not in this panel.</b> The move to SQ three times weekly is written
+    <b>SHBG and free testosterone are ADD-ON labs, not part of the standard panel.</b> The move to SQ three times weekly is written
     against low SHBG, so that criterion cannot be read off the standard panel. Open item in the Men's
     Health Clinical Reference, pending lab panel review with Dr. Rose.
   </div>
@@ -310,31 +312,58 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
   </footer>
 </div>
 
+<!-- Open item 6. Until 2026-09-16 this page held every TRT fact as its own
+     JavaScript: the ladder, the lab panel, the thresholds, the Tebra fields.
+     They now come from korb-trt-data.js. ORDER MATTERS - korb-pharmacies.js
+     must load first or the data file throws by name rather than answering
+     from an empty footprint. -->
+<script src="../korb-pharmacies.js"></script>
+<script src="../korb-trt-data.js"></script>
 <script>
-var CONC = 200.0;      // mg/mL
-var VIAL_ML = 10.0;    // mL
-var SEND_LEAD = 4;     // send Rx this many days before release
-var LAB_LEAD = 14;     // order labs this many days before the next visit
-var MAX_DAYS = 90;     // nothing is dispensed or scheduled beyond 90 days
+if (typeof KORB_TRT === "undefined" || typeof KORB_PHARMACIES === "undefined") {
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E;padding:24px">' +
+      'Could not load korb-pharmacies.js or korb-trt-data.js. This tool reads every ' +
+      'clinical value from those files and will not display without them.</p>';
+  });
+  throw new Error("KORB_TRT_Provider_Tool: data files missing");
+}
+if (!KORB_TRT.hydrated) {
+  throw new Error("KORB_TRT_Provider_Tool: korb-trt-data.js did not hydrate from " +
+                  "korb-pharmacies.js. Check the script order above.");
+}
 
-var STATE_NAME = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
-function stName(a){ return (STATE_NAME[a]||a)+" ("+a+")"; }
-var PRESCRIBER = { TX:"Don Stevenson", CA:"Larisa or LaTonya" };
-var PHARM = {
-  TX: { name:"Premier Pharmacy", supplies:false,
-        notes:"Bill to office/ship to patient" },
-  CA: { name:"Empower Pharmacy", supplies:true,
-        notes:"Bill to office/ship to patient" }
-};
+var T = KORB_TRT;
+var CONC     = T.product.concentrationMgPerMl;
+var VIAL_ML  = T.product.vialMl;
+var SEND_LEAD = T.scheduling.sendLeadDays;
+var LAB_LEAD  = T.scheduling.labLeadDays;
+var MAX_DAYS  = T.scheduling.maxDays;
 
-var ROUTES = {
-  im1:{ label:"IM once weekly",        short:"IM",  freq:1, sq:false,
-        syringe:"3 mL Luer lock", drawNdl:"23G 1in",  injNdl:"25G 1in",    secondLine:false },
-  sq2:{ label:"SQ twice weekly",       short:"SQ",  freq:2, sq:true,
-        syringe:"1 mL Luer lock", drawNdl:"23G 1in",  injNdl:"27G 1/2in",  secondLine:false },
-  sq3:{ label:"SQ three times weekly", short:"SQ",  freq:3, sq:true,
-        syringe:"1 mL Luer lock", drawNdl:"23G 1in",  injNdl:"27G 1/2in",  secondLine:true }
-};
+function stName(a){ return KORB_PHARMACIES.stateName(a) + " (" + a + ")"; }
+var STATE_NAME = KORB_PHARMACIES.stateNames;
+var PRESCRIBER = T.prescribers;
+
+/* Which pharmacy fills a state comes from the shared layer, not from here.
+   T.states.routing is { TX: "premier", CA: "empower" }, computed at load. */
+function pharmFor(st){
+  var key = T.states.routing[st];
+  if (!key) return null;
+  var ph = KORB_PHARMACIES.pharmacies[key];
+  return { key: key, name: ph.name,
+           supplies: !!(ph.programs.trt && ph.programs.trt.suppliesKit),
+           notes: "Bill to office/ship to patient" };
+}
+
+/* Routes, syringes and needles come from korb-trt-data.js. The shape below is
+   the one this page already used, mapped from the data rather than retyped. */
+var ROUTES = {};
+Object.keys(T.routes).forEach(function (k) {
+  var r = T.routes[k];
+  ROUTES[k] = { label:r.label, short:r.short, freq:r.freq, sq:r.sq,
+                syringe:r.syringe, drawNdl:r.drawNeedle, injNdl:r.injectNeedle,
+                secondLine:r.secondLine };
+});
 
 var FREQ_WORD = {1:"weekly", 2:"two times a week", 3:"three times a week"};
 
@@ -345,27 +374,20 @@ function fmt(d){ return d.toLocaleDateString("en-US",{weekday:"short",month:"sho
 function fmtShort(d){ return (d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear(); }
 function daysBetween(a,b){ return Math.round((b-a)/86400000); }
 
-/* ---------- calc ---------- */
+/* ---------- calc ----------
+   Delegates to korb-trt-data.js so the page, any future generated document and
+   the patient handout cannot each round the arithmetic their own way. The local
+   shape is preserved so the render code below is untouched. */
 function calc(W, routeKey){
-  var R = ROUTES[routeKey];
-  var mgDose = W / R.freq;
-  var mlDose = mgDose / CONC;
-  var mlWeek = W / CONC;
-  var days   = Math.floor((VIAL_ML / mlWeek) * 7);
-  /* Injections are counted over the days actually written on the Rx, not over the
-     days the vial physically lasts. At 96/120/144 mg the vial outlasts 90 days and
-     the remainder is discarded, so counting on c.days over-ordered supplies for
-     Empower (CA) and printed an injection count the prescription does not cover. */
-  var rxDays = Math.min(days, MAX_DAYS);
-  var inj    = Math.ceil(rxDays * R.freq / 7);
-  return { mgDose:mgDose, mlDose:mlDose, mlWeek:mlWeek, days:days, rxDays:rxDays, inj:inj, R:R };
+  var c = T.calc(W, routeKey);
+  return { mgDose:c.mgDose, mlDose:c.mlDose, mlWeek:c.mlWeek,
+           days:c.vialDays, rxDays:c.rxDays, inj:c.injections, R:ROUTES[routeKey] };
 }
-
 
 /* ---------- Tebra field table ----------
    Tebra silently truncates past these caps, so values are written to fit
    rather than trimmed after the fact. Caps come from korb-glp1-data.js. */
-var TEBRA_CAP = { ptInstructions:140, reasonForCompounding:30, pharmacyNotes:170 };
+var TEBRA_CAP = T.tebra.caps;
 
 function fieldTable(id, title, fields){
   var h = '<div class="card"><div class="card-hdr"><strong>'+title+'</strong>'
@@ -381,7 +403,14 @@ function fieldTable(id, title, fields){
       h += '<span class="cc'+(over?' over':'')+'">'+v.length+' / '+cap+' characters'
          + (over?' — OVER LIMIT, will truncate in Tebra':'')+'</span>';
     }
-    h += '</td><td class="b"><button class="cbtn" onclick="copyField(this)">Copy</button></td></tr>';
+    /* A value chosen from the Tebra drop-down gets no copy button - pasting it
+       is the mistake, not the shortcut. Same rule as the brand GLP-1 documents. */
+    if(f.select){
+      h += '<span class="selnote">' + KORB_TRT.tebra.selectOnlyNote + '</span>';
+      h += '</td><td class="b"></td></tr>';
+    } else {
+      h += '</td><td class="b"><button class="cbtn" onclick="copyField(this)">Copy</button></td></tr>';
+    }
   });
   h += '</table></div>';
   return h;
@@ -397,7 +426,9 @@ function copyAll(btn, tableId){
   var out = [];
   for(var i=0;i<rows.length;i++){
     var k = rows[i].querySelector("td.k"), v = rows[i].querySelector(".fv");
-    if(k && v) out.push(k.innerText + ": " + v.innerText);
+    /* Skip the drop-down row: it is selected, not pasted, and including it in
+       "copy all fields" is how it ends up pasted. */
+    if(k && v && !rows[i].querySelector(".selnote")) out.push(k.innerText + ": " + v.innerText);
   }
   doCopy(out.join("\n"), btn, "Copy all fields");
 }
@@ -446,7 +477,7 @@ function render(){
   }
 
   var c = calc(W, rk);
-  var P = PHARM[st];
+  var P = pharmFor(st);
 
   // Scheduling needs both dates. Dosing and the Tebra favorite do not, so they render either way.
   // The vial may physically outlast 90 days, but nothing is written past 90:
@@ -561,34 +592,30 @@ function render(){
 
   /* ===== TEBRA FAVORITE ===== */
   var freqWord = FREQ_WORD[c.R.freq];
-  var ptInstr = "Inject "+c.mlDose.toFixed(2)+" ml ("+c.mgDose.toFixed(0)+" mg) "+c.R.short+" "
-              + freqWord+" or as directed by the physician. "+rxDays+" day supply."
-              + (capped ? " Discard unused portion after 90 days." : "");
+  var ptInstr = T.ptInstructions(W, rk);
+  var pharmNotes = T.pharmacyNotes(W, rk, P.key, KORB_PHARMACIES);
 
-  var pharmNotes = P.notes;
-  if(P.supplies){
-    var n = c.inj;
-    var syrShort = c.R.sq ? "1mL LL syr" : "3mL LL syr";
-    pharmNotes = "Alc pads x"+n+"; "+syrShort+" x"+n+"; "
-               + c.R.drawNdl+" x"+n+" (draw); "+c.R.injNdl+" x"+n+" (inject), "+P.notes;
-  }
+  var favName = T.favoriteName(W, rk, P.key);
 
-
-  var qtyUnit = "ml";
-  var favName = (st==="CA" ? "EMPOWER" : "PREMIER") + " \u2013 Testosterone " + W + " mg \u2013 "
-              + (c.R.freq===1 ? "IM Weekly" : "SQ " + c.R.freq + "x Weekly");
-
-  h += fieldTable("trtFav", "Tebra Compounded Drug Favorite", [
-    {k:"Drug Formulation", v:"Testosterone Cypionate 200mg per mL inj (commercial generic)"},
+  /* STANDARD PRESCRIPTION, not a Compounded Drug Favorite.
+     Testosterone cypionate 200 mg/mL is a COMMERCIAL product. It is dispensed by
+     a compounding pharmacy - Premier in TX, Empower in CA - and that is a
+     different fact. Conflating the two is what gave this page a "Reason for
+     Compounding" row on a commercial generic until 2026-09-16.
+     So: the drug is SELECTED from the Tebra drop-down rather than pasted, there
+     is no Reason for Compounding row, and the word compounded appears nowhere.
+     Same treatment the brand GLP-1 documents took on 2026-09-15. Decided by Don
+     2026-09-16. */
+  h += fieldTable("trtFav", "Tebra Prescription", [
+    {k:"Drug", v:T.product.drug, select:true},
     {k:"Name",             v:favName},
     {k:"Select",           v:"Allow Substitution"},
-    {k:"Quantity",         v:"10"},
-    {k:"Unit",             v:qtyUnit},
-    {k:"Refill",           v:"0"},
+    {k:"Quantity",         v:T.tebra.quantity},
+    {k:"Unit",             v:T.tebra.unit},
+    {k:"Refill",           v:T.tebra.refill},
     {k:"Days",             v:String(rxDays)},
-    {k:"Patient Instructions",   v:ptInstr,   cap:TEBRA_CAP.ptInstructions},
-    {k:"Reason for Compounding", v:"Custom dosing and routing", cap:TEBRA_CAP.reasonForCompounding},
-    {k:"Pharmacy Instructions",  v:pharmNotes, cap:TEBRA_CAP.pharmacyNotes}
+    {k:"Patient Instructions",  v:ptInstr,    cap:TEBRA_CAP.ptInstructions},
+    {k:"Pharmacy Instructions", v:pharmNotes, cap:TEBRA_CAP.pharmacyNotes}
   ]);
   h += '<div class="info-box amber"><b>Days field is '+rxDays+'.</b> '
      + (capped

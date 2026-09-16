@@ -154,7 +154,10 @@ var KORB_PHARMACIES = {
           "suppliesKit": true,
           "suppliesKitNote": "Empower ships the injection kit with the vial - alcohol pads, syringes and both needles, counted to the injections the prescription covers. Premier does not, so the Tebra pharmacy note differs by PHARMACY, not by state.",
           "sourcedFrom": "KORB_TRT_Provider_Tool.html, 2026-09-16",
-          "verified": false
+          "inUse": "Set up and accepting prescriptions. Test prescriptions were submitted and approved by Empower; no live patient prescription has gone there yet.",
+          "verified": true,
+          "verifiedBy": "Don Stevenson, PA-C",
+          "verifiedOn": "2026-09-16"
         },
         "womens": {
           "status": "not-offered"
@@ -259,7 +262,10 @@ var KORB_PHARMACIES = {
           "note": "Testosterone cypionate 200 mg/mL, commercial generic, for male TRT. TEXAS ONLY - Schedule III, and controlled-substance licensure is narrower than the 38-state general footprint above. Taken from KORB_TRT_Provider_Tool.html, which has routed TX to Premier since before korb-pharmacies.js existed. NOT INDEPENDENTLY VERIFIED against Premier's DEA registration or state licences - it records what the live provider tool asserts. Confirm with Premier before adding a state.",
           "suppliesKit": false,
           "sourcedFrom": "KORB_TRT_Provider_Tool.html, 2026-09-16",
-          "verified": false
+          "inUse": "LIVE. Premier is the pharmacy for Texas TRT patients today.",
+          "verified": true,
+          "verifiedBy": "Don Stevenson, PA-C",
+          "verifiedOn": "2026-09-16"
         },
         "womens": {
           "status": "not-offered"
@@ -836,6 +842,27 @@ var KORB_PHARMACIES = {
      `program` is optional. Omitted, it answers the licensure question only,
      which is what the old two-argument shipsTo() meant. Callers that care
      about a specific program must say which. */
+  /* Display names for the 51 jurisdictions. Here because a state fact belongs
+     in the state file, and because SEVEN pages were each typing their own copy
+     of this map - see open item 12. A name is low-stakes until one of them
+     spells a state differently from the others on a clinical document. */
+  stateNames: {
+    AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+    CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
+    FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois",
+    IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana",
+    ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan",
+    MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana",
+    NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+    NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota",
+    OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania",
+    RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota",
+    TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia",
+    WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming"
+  },
+
+  stateName: function (abbr) { return this.stateNames[abbr] || abbr; },
+
   servesState: function (pharmacyKey, state, program) {
     var p = this.pharmacies[pharmacyKey];
     if (!p) return false;

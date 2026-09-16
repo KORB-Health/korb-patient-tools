@@ -36,16 +36,23 @@
    to Texas. korb-pharmacies.js v1.6 gained `only` on a program so it can narrow
    a footprint rather than subtract 37 states from it by hand.
 
-   NOT YET VERIFIED, and it needs Don. The TX-Premier and CA-Empower routing
-   records what the live provider tool has asserted since before the shared layer
-   existed. It has NOT been checked against Premier's DEA registration or its
-   state licences. Both program entries carry verified:false and say so.
+   VERIFIED 2026-09-16. Don confirmed the routing. Premier is in live use for
+   Texas patients today; Empower has accepted and approved test prescriptions for
+   California, with no live patient prescription sent there yet.
+
+   NOT COMPOUNDED, and this is the thing to get right. Testosterone cypionate
+   200 mg/mL is a COMMERCIAL product that happens to be dispensed by a compounding
+   pharmacy. Those are two different facts, and conflating them is what produced
+   the original Compounded Drug Favorite entry carrying a Reason for Compounding
+   on a commercial generic. It is a Tebra STANDARD prescription: the drug is
+   selected from the drop-down, and the word compounded appears nowhere a provider
+   can see. selfCheck asserts all of that.
    ============================================================================ */
 
 var KORB_TRT = {
 
   meta: {
-    version: '1.0',
+    version: '1.1',
     created: '2026-09-16',
     updated: '2026-09-16',
     owner: 'Director of Clinical Operations',
@@ -58,8 +65,15 @@ var KORB_TRT = {
       'KORB_TRT_Provider_Tool.html, which had held every one of these facts as ' +
       'JavaScript inside a hand-built page. No clinical content was changed, ' +
       'reworded or added in the move; two things the tool got wrong are recorded ' +
-      'as open questions below rather than fixed silently. Pharmacy and state ' +
-      'facts were NOT copied - they now come from korb-pharmacies.js at load.'
+      'as questions rather than fixed silently. Pharmacy and state facts were NOT ' +
+      'copied; they come from korb-pharmacies.js at load.',
+      '2026-09-16 (v1.1): NOT COMPOUNDED. Don answered all three questions. The ' +
+      'Tebra entry matches the brand products: a STANDARD prescription, the drug ' +
+      'selected from the drop-down, no Reason for Compounding, and the word ' +
+      'compounded nowhere - the field and its cap are removed rather than emptied, ' +
+      'because an empty field still renders a blank row and still invites somebody ' +
+      'to fill it in. Routing verified. SHBG recorded as an add-on lab and left as ' +
+      'is, pending the formal program review.'
     ]
   },
 
@@ -68,45 +82,47 @@ var KORB_TRT = {
      provider tool is not yet generated so it is not in the inventory either. */
   rxSignoff: { records: {} },
 
-  /* ── OPEN QUESTIONS ────────────────────────────────────────────────────────
-     Recorded, not resolved. Each one is a real clinical or operational decision
-     and none of them is mine to make. selfCheck() reports any that are still
-     open so they cannot quietly become permanent. */
-  openQuestions: [
+  /* -- DECISIONS -------------------------------------------------------------
+     Three things were flagged on 2026-09-16 when this file was extracted from
+     the hand-built tool. Don answered all three the same day. Recorded with the
+     answer AND the reasoning, because the reasoning is what stops the next
+     person quietly re-opening them. */
+  decisions: [
     {
       id: 'commercial-not-compounded',
-      raised: '2026-09-16',
-      question: 'The Tebra entry is built as a Compounded Drug Favorite with a ' +
-        '"Reason for Compounding" field, but the drug formulation reads ' +
-        '"Testosterone Cypionate 200mg per mL inj (commercial generic)". A ' +
-        'commercially available product is a Tebra STANDARD prescription, not a ' +
-        'compounded favorite. Don established exactly this for the brand GLP-1 ' +
-        'documents on 2026-09-15 - only the drug is selected from the drop-down ' +
-        'and the compounded headers were wrong. The same correction probably ' +
-        'applies here, but "probably" is not good enough for a Schedule III ' +
-        'prescription and Empower is a compounding pharmacy, so it may genuinely ' +
-        'compound this. NOT CHANGED. tebra.kind is set to the tool\'s current ' +
-        'behaviour and flagged.',
-      blocks: 'tebra.kind, and whether reasonForCompounding should exist at all'
+      question: 'The Tebra entry was built as a Compounded Drug Favorite with a ' +
+        'Reason for Compounding field, while the drug string read "commercial generic".',
+      answer: 'NOT COMPOUNDED. Testosterone cypionate 200 mg/mL is a commercial ' +
+        'product. It is dispensed BY a compounding pharmacy, which is a different ' +
+        'fact, and conflating the two is what produced the original entry. It is a ' +
+        'Tebra STANDARD prescription: the drug is selected from the drop-down, there ' +
+        'is no Reason for Compounding because nothing is compounded, and the word ' +
+        'compounded appears nowhere. Same treatment as the brand GLP-1 products took ' +
+        'on 2026-09-15.',
+      decidedBy: 'Don Stevenson, PA-C',
+      decidedOn: '2026-09-16'
     },
     {
       id: 'trt-pharmacy-licensure',
-      raised: '2026-09-16',
-      question: 'TX routes to Premier and CA to Empower. That is what the ' +
-        'provider tool has always asserted and it is consistent with TX being ' +
-        'the active TRT state, but it has never been checked against Premier\'s ' +
-        'DEA registration or state controlled-substance licences. Recorded in ' +
-        'korb-pharmacies.js with verified:false.',
-      blocks: 'nothing today - TX and CA are the only states the program offers'
+      question: 'TX to Premier and CA to Empower had never been verified against ' +
+        'anything except the provider tool asserting it.',
+      answer: 'CONFIRMED. Both pharmacies are set up. Premier is in live use for ' +
+        'Texas patients today. Empower has accepted and approved test prescriptions ' +
+        'for California; no live patient prescription has gone there yet. ' +
+        'korb-pharmacies.js carries verified:true on both.',
+      decidedBy: 'Don Stevenson, PA-C',
+      decidedOn: '2026-09-16'
     },
     {
       id: 'shbg-not-on-panel',
-      raised: 'carried over from the provider tool',
-      question: 'The criterion for moving to SQ three times weekly is written ' +
-        'against low SHBG, and SHBG and free testosterone are not on the standard ' +
-        'panel. So the trigger for a second-line regimen cannot be read off the ' +
-        'labs KORB orders. Pending lab panel review with Dr. Rose.',
-      blocks: 'routes.sq3 criteria being checkable'
+      question: 'The criterion for second-line SQ three times weekly is low SHBG, ' +
+        'and SHBG is not on the standard panel.',
+      answer: 'LEAVE IT. SHBG is an ADD-ON lab, ordered when it is wanted rather ' +
+        'than drawn by default, so the criterion is reachable - it just is not ' +
+        'answered by the standard panel. Whether SHBG should join that panel belongs ' +
+        'to the formal TRT and Men\'s Health program review, not to a piecemeal change.',
+      decidedBy: 'Don Stevenson, PA-C',
+      decidedOn: '2026-09-16'
     }
   ],
 
@@ -119,8 +135,16 @@ var KORB_TRT = {
     concentrationMgPerMl: 200,
     vialMl: 10,
     vialMg: 2000,
-    formulation: 'Testosterone Cypionate 200mg per mL inj (commercial generic)',
+    /* The exact string a provider SELECTS in the Tebra drug drop-down. Named
+       `drug` rather than `drugFormulation` to match the brand GLP-1 products,
+       because that is what it is: a commercial listing, not a compounded recipe. */
+    drug: 'Testosterone Cypionate 200mg per mL inj (commercial generic)',
     commercial: true,
+    compounded: false,
+    dispensingNote: 'Dispensed BY a compounding pharmacy - Premier in TX, Empower ' +
+      'in CA - but the product itself is commercial. Those are different facts, and ' +
+      'conflating them is what produced the original Compounded Drug Favorite entry ' +
+      'on a commercial generic. Confirmed by Don 2026-09-16.',
     storage: 'Room temperature. Do NOT refrigerate at any point, including in ' +
              'transit. Discard 90 days after first use.',
     storageDays: 90
@@ -196,8 +220,13 @@ var KORB_TRT = {
             'given. A peak draw will read high and hide a symptomatic trough.',
     cadence: 'Full panel at baseline and at each follow-up. Recheck 6 to 8 weeks ' +
              'after any change.',
-    notOnPanel: 'SHBG and free testosterone are not in this panel. See ' +
-                'openQuestions: shbg-not-on-panel.'
+    addOnLabs: ['SHBG', 'Free testosterone'],
+    addOnLabsNote: 'ADD-ON labs, not part of the standard panel - ordered when they ' +
+      'are wanted. The criterion for moving to SQ three times weekly is written ' +
+      'against low SHBG, so that call needs the add-on drawn; it is reachable, just ' +
+      'not answered by the default panel. Whether SHBG should join the standard ' +
+      'panel belongs to the formal TRT and Men\'s Health program review. ' +
+      'Confirmed by Don 2026-09-16: leave as is.'
   },
 
   /* ── TITRATION ─────────────────────────────────────────────────────────────
@@ -267,14 +296,21 @@ var KORB_TRT = {
      anything in the other programs and came from the tool; it is kept because a
      cap that is too small only ever fails safe. */
   tebra: {
-    caps: { ptInstructions: 140, reasonForCompounding: 30, pharmacyNotes: 170 },
-    kind: 'compounded-favorite',
-    kindFlagged: 'See openQuestions: commercial-not-compounded. This is the ' +
-                 'tool\'s current behaviour, not a decision.',
-    reasonForCompounding: 'Custom dosing and routing',
+    /* STANDARD prescription, not a Compounded Drug Favorite. The drug is chosen
+       from the Tebra drop-down. There is no Reason for Compounding field on a
+       standard prescription, and nothing is being compounded to state in one, so
+       the field and its 30-character cap are REMOVED from this file rather than
+       left empty - an empty field still renders a blank row and still invites
+       somebody to fill it in. Decided 2026-09-16; the same rule the brand GLP-1
+       documents took on 2026-09-15. */
+    kind: 'standard',
+    caps: { ptInstructions: 140, pharmacyNotes: 170 },
+    selectOnly: ['Drug'],
+    selectOnlyNote: 'Select this from the Tebra drop-down. Do not copy and paste.',
     allowSubstitution: true,
     refill: '0',
-    unit: 'ml'
+    unit: 'ml',
+    quantity: '10'
   },
 
   /* ── PHARMACY, FROM THE SHARED LAYER ───────────────────────────────────────
@@ -464,9 +500,27 @@ var KORB_TRT = {
       });
     });
 
-    if (this.tebra.reasonForCompounding.length > this.tebra.caps.reasonForCompounding) {
-      problems.push('reasonForCompounding is over its cap');
+    /* Nothing provider-facing in this program may say compounded. The product is
+       commercial; only the dispensing pharmacy compounds other things. This is
+       the assertion that stops the original mistake returning through a
+       copy-paste from one of the peptide files, where the wording is correct. */
+    if (this.tebra.kind !== 'standard') {
+      problems.push('tebra.kind is "' + this.tebra.kind + '". Testosterone cypionate ' +
+        'is commercial and must be a Tebra STANDARD prescription.');
     }
+    if (this.tebra.reasonForCompounding !== undefined) {
+      problems.push('tebra.reasonForCompounding exists. Nothing is compounded, so ' +
+        'there is no reason to give and no field to give it in.');
+    }
+    if (this.product.compounded !== false) {
+      problems.push('product.compounded is not false');
+    }
+    [this.product.drug, this.tebra.selectOnlyNote, this.tebra.kind].forEach(function (v) {
+      if (/compound/i.test(String(v))) {
+        problems.push('the word "compound" appears in a provider-facing TRT value: ' +
+          String(v).slice(0, 60));
+      }
+    });
 
     /* A route's rxDays must not depend on the route - the days supply comes from
        the vial and the weekly dose, and a route that changed it would mean the
@@ -492,14 +546,10 @@ var KORB_TRT = {
       });
     }
 
-    this.openQuestions.forEach(function (q) {
-      problems.push('OPEN QUESTION (' + q.id + '): ' + String(q.question).slice(0, 90) + '...');
-    });
-
     if (typeof console !== 'undefined' && console.log) {
-      var real = problems.filter(function (p) { return p.indexOf('OPEN QUESTION') !== 0; });
-      console.log('KORB_TRT selfCheck: ' + (real.length ? real.length + ' problem(s)' : 'OK') +
-        ', ' + this.openQuestions.length + ' open question(s)');
+      console.log('KORB_TRT selfCheck: ' +
+        (problems.length ? problems.length + ' problem(s)' : 'OK') +
+        ', ' + this.decisions.length + ' recorded decision(s)');
     }
     return problems;
   }
