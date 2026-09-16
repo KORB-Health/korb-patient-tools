@@ -144,27 +144,26 @@ const CSS = RXB.CSS + `
   .grid td{border:0.6pt solid var(--rule);padding:5pt 8pt;font-size:8.6pt;}
   .grid tr:nth-child(even) td{background:var(--zebra);}
 
-  /* PRICING TABLES: every column is sized to its CONTENT PLUS ITS BUTTON, and
-     the table stops there instead of stretching across the page.
+  /* PRICING TABLES: full page width like every other table on the page, with
+     the columns SHARED OUT across it rather than one column swallowing the rest.
 
-     Two goes at this. The first set a width on the money columns only and left
-     the table at width:100%, which was worse on both counts Don raised. Fixed
-     layout hands all the leftover width to the first column, so "4-week" sat in
-     a column half the page wide; and the Tier column was sized to the text but
-     not to the Copy button beside it, so the button hung off the edge of the
-     table. Measuring a column width is not the same as checking the contents
-     fit in it - the first version was measured and not looked at.
+     Three goes at this, and the first two each fixed one complaint and caused
+     another. Widths on the money columns only, at width:100%, handed all the
+     leftover to column one - "4-week" in a column half the page wide. Sizing
+     every column in mm then stopped the table filling the page at all, so it no
+     longer matched the section header or anything else on the page. And the
+     Tier column was twice sized to fit the text but not the Copy button next to
+     it, which is how the button ended up hanging over the table edge: measuring
+     a column is not checking that its contents fit.
 
-     So: an explicit width on EVERY column, in mm, chosen to hold the widest
-     value plus its button plus padding, and width:auto so nothing is stretched
-     to fill a page. Identical numbers in every pricing table, so the columns
-     line up down the document and a three-column table lines up with the first
-     three columns of a four-column one. */
-  .pricegrid{table-layout:fixed;width:auto;max-width:100%;}
-  .pricegrid th:nth-child(1),.pricegrid td:nth-child(1){width:64mm;}
-  .pricegrid th:nth-child(2),.pricegrid td:nth-child(2){width:18mm;}
-  .pricegrid th:nth-child(3),.pricegrid td:nth-child(3){width:46mm;}
-  .pricegrid th:nth-child(4),.pricegrid td:nth-child(4){width:32mm;}
+     So: percentages that add to 100, and a blank fourth cell where there is no
+     Tier. Every pricing table is therefore the full width, and Supply, Price and
+     Charge code sit at the same x position in all of them. */
+  .pricegrid{table-layout:fixed;width:100%;}
+  .pricegrid th:nth-child(1),.pricegrid td:nth-child(1){width:40%;}
+  .pricegrid th:nth-child(2),.pricegrid td:nth-child(2){width:14%;}
+  .pricegrid th:nth-child(3),.pricegrid td:nth-child(3){width:28%;}
+  .pricegrid th:nth-child(4),.pricegrid td:nth-child(4){width:18%;}
   /* A code must never break across lines: a provider reading a wrapped charge
      code can transcribe it wrong, and not transcribing it is the whole point of
      the button. The long "Operations will provide..." note shares this column
@@ -742,8 +741,15 @@ function sectionPricing(doc) {
   tierOrder.forEach(tk => {
     h += `<h4>${esc(tk)}</h4>`;
     const tier = tierValue[tk] || null;
+    /* ALWAYS FOUR COLUMNS. A table with no tier gets a blank fourth cell rather
+       than three columns, so every pricing table in the document is the same
+       width with its columns in the same places - Don, 2026-09-15, after two
+       goes that each fixed one complaint and caused another. Supply, Price and
+       Charge code land at the same x position whether or not the table has a
+       Tier, which is what "all together" means when you are reading down a page
+       of them. */
     h += `<table class="grid pricegrid"><thead><tr><th>Supply</th><th>Price</th><th>Charge code</th>` +
-         (tier ? `<th>Tier</th>` : '') + `</tr></thead><tbody>`;
+         (tier ? `<th>Tier</th>` : `<th class="pad"></th>`) + `</tr></thead><tbody>`;
     const notes = [];
     /* DISAMBIGUATE IDENTICAL ROW LABELS BY STRENGTH.
        Premier and FarmaKeio stock an oral dot at BOTH strengths and dispense 90
@@ -768,7 +774,7 @@ function sectionPricing(doc) {
       if (labelCount[label] > 1 && dose) label = dose + ' — ' + label;
       h += `<tr><td>${esc(label)}</td><td>${o.price != null ? '$' + esc(o.price) : 'Varies'}</td>` +
            `<td>${o.code ? codeCopy(o.code) : esc(o.codeNote || 'Operations will provide')}</td>` +
-           (tier ? `<td>${codeCopy(tier)}</td>` : '') + `</tr>`;
+           (tier ? `<td>${codeCopy(tier)}</td>` : `<td class="pad"></td>`) + `</tr>`;
       if (o.priceNote && notes.indexOf(o.priceNote) === -1) notes.push(o.priceNote);
     });
     h += `</tbody></table>`;
