@@ -856,6 +856,15 @@ women's testosterone. Do not re-report those; they are already on the list.
    `KORB_Womens_Health_Clinical_Reference` is generated, 5 pages, 9 sections. It
    carries no prescribing blocks: this programme's Tebra entries are per-hormone
    and per-strength and were not in the tool, so they remain to be built.
+14. **No patient-facing Women's Health HTML.** The eight generated patient
+   handouts cover peptides, GLP-1 and testosterone. Women's health has three PDFs
+   only - `KORB_Womens_Health_Clinical_Reference.pdf`,
+   `KORB_WomensHealth_Program_Overview.pdf` and
+   `KORB_Patient_Ed_HormoneTherapy.pdf` - all hand-produced, all uploaded 9 and
+   10 September, none built from `korb-womens-data.js` and none reviewed in the
+   2026-09-16 pass. They predate the 12-week supply, commercial progesterone and
+   the PT-141 move. **Assume they are wrong until checked**; do not send them out.
+
 13. **The Women's Health PROVIDER TOOL still has the old model.**
    `Provider_Reference/KORB_Womens_Health_Provider_Tool.html` is hand-built and
    predates everything done to the reference on 2026-09-16. It does not know

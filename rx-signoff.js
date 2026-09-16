@@ -344,7 +344,8 @@ function signCommand(key) {
     glp1:  { file: 'korb-glp1-data.js',   data: S.glp1 },
     fhl:   { file: 'korb-dosing-data.js', data: S.dosing },
     addon: { file: 'korb-addons-data.js', data: S.addons },
-    trt:   { file: 'korb-trt-data.js',    data: S.trt }
+    trt:   { file: 'korb-trt-data.js',    data: S.trt },
+    womens:{ file: 'korb-womens-data.js', data: S.womens }
   };
   const prefix = key.split(':')[0];
   const prog = PROGRAM[prefix];

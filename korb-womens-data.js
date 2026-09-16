@@ -60,7 +60,24 @@ var KORB_WOMENS = {
   },
 
   /* See rx-signoff.js. Nothing reviewed yet. */
-  rxSignoff: { records: {} },
+  rxSignoff: {
+    records: {
+      /* Signed 2026-09-16, at the end of the session that built this document.
+         Don read it through on screen across several passes and drove most of
+         what is in it: the destination split, the 12-week supply, commercial
+         progesterone, the patch boxes, and the three clinical sections he
+         approved by name. */
+      "womens:womens": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-16",
+        "dataVersion": "1.0",
+        "fingerprint": "fp-0663145a-88756",
+        "blocks": 41,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      }
+    }
+  },
 
   sourceConflicts: [
     {
