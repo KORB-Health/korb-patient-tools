@@ -2250,6 +2250,26 @@ var KORB_GLP1 = {
     },
 
     premier_tirz: {
+      /* WHY THE DISCARD WORDING DIFFERS BY DOSE HERE TOO.
+
+         Confirmed by Don on 2026-09-15 when it was raised during the prescribing
+         review: correct as it stands, and the reason is the vial sizes.
+
+           2 mg, 6.5 mg, 13.5 mg    "Discard 28 days after first use."
+           4 mg, 8.5 mg, 16 mg      "Discard after 4 doses or 28 days."
+
+         Same principle as Belmar semaglutide 0.5 mg: the sig only claims a dose
+         COUNT when that count is true of the container the patient is holding.
+         At 18 mg/ml the three doses that say "4 doses" draw from a vial holding
+         about four - 4.04, 4.26 and 4.55. The three that say "28 days" either
+         hold materially more (2 mg draws 0.11 ml from a 0.6 ml vial, 5.45 doses)
+         or ship as TWO different vial sizes at once (6.5 mg gets 0.6 ml plus
+         1 ml, 13.5 mg gets 1 ml plus 2 ml), where no single dose count is true
+         of anything in the box.
+
+         DO NOT normalise these six strings to one wording. Four of them would
+         become false statements about the vial. FarmaKeio tirzepatide is also
+         18 mg/ml and follows the same pattern for the same reason. */
       key: 'premier_tirz',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */
