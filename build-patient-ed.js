@@ -94,7 +94,7 @@ const SCREEN = `
 
 function masthead(doc, live) {
   return `<div class="mast"><div class="tools">` +
-    `<a href="${doc.key}.pdf">PDF version</a><a href="#" onclick="window.print();return false;">Print</a>` +
+    `<a href="${doc.file}.pdf">PDF version</a><a href="#" onclick="window.print();return false;">Print</a>` +
     `</div><img src="${R.LOGO_URI}" alt="KORB Health"></div>` +
     (live ? `<div class="live">Live — reflects korb-dosing-data.js as of this page load</div>` : '') +
     `<div class="titleband"><h1>${R.esc(doc.title)}</h1>` +
@@ -117,9 +117,14 @@ ${SCREEN}
 </style>
 </head><body>
 <div id="doc"></div>
+<!-- provider-doc-render.js is NOT loaded here. Its CSS and logo are inlined
+     into this page at build time, so nothing needs it at runtime - and it
+     expects korb-glp1-data.js, which a peptide handout has no reason to load.
+     Loading it threw "Cannot read properties of undefined (reading CSS)" in
+     the console of every generated handout. Harmless, because the styling was
+     already inlined, and still a broken script on a patient-facing page. -->
 <script src="../korb-pharmacies.js"></script>
 <script src="../korb-dosing-data.js"></script>
-<script src="../provider-doc-render.js"></script>
 <script src="../korb-patient-ed-data.js"></script>
 <script src="../patient-ed-render.js"></script>
 <script>
