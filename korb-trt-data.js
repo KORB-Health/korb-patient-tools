@@ -52,7 +52,7 @@
 var KORB_TRT = {
 
   meta: {
-    version: '1.1',
+    version: '1.2',
     created: '2026-09-16',
     updated: '2026-09-16',
     owner: 'Director of Clinical Operations',
@@ -73,7 +73,21 @@ var KORB_TRT = {
       'compounded nowhere - the field and its cap are removed rather than emptied, ' +
       'because an empty field still renders a blank row and still invites somebody ' +
       'to fill it in. Routing verified. SHBG recorded as an add-on lab and left as ' +
-      'is, pending the formal program review.'
+      'is, pending the formal program review.',
+      '2026-09-16 (v1.2): CLINICAL CONTENT CHANGED - THE 96 MG STEP IS GONE. ' +
+      'Premier will not fill a 90-day supply at 96 mg/week: the vial runs 145 days ' +
+      'at that dose, so a 90-day prescription leaves more than a third unused. The ' +
+      'ladder now starts at 120, which is also the only starting dose. What this ' +
+      'does and does not fix, measured rather than assumed: leftover volume on a ' +
+      '90-day Rx goes 96mg=55 days wasted, 120mg=26, 144mg=7, 168mg=0. Removing 96 ' +
+      'removes by far the worst case, but 120 and 144 still cap at 90 and still ' +
+      'discard a remainder, and 168 is written for 83 days and discards nothing. So ' +
+      'the discard counselling is NOT one rule across the ladder - an earlier draft ' +
+      'of this entry claimed it was, which was wrong. A patient who needs less than 120 is ' +
+      'instructed to take less and titrate up rather than being put back on a step ' +
+      'the pharmacy will not dispense. The dose is recorded in removedDoses with ' +
+      'the reason so it is not reinstated by someone reading an old document. ' +
+      'Source: Don Stevenson, after speaking with Premier the week of 2026-09-08.'
     ]
   },
 
@@ -171,8 +185,24 @@ var KORB_TRT = {
      Every weekly dose divides exactly by every frequency at 200 mg/mL, which is
      why the ladder needs no rounding and the weekly dose in the chart is the
      weekly dose in the patient whatever the route. selfCheck asserts it. */
-  weeklyDosesMg: [96, 120, 144, 168],
-  startingDosesMg: [96, 120],
+  /* 96 mg/week was removed on 2026-09-16. Premier will not fill a 90-day
+     supply at that dose: at 96 mg a 10 mL vial runs 145 days, so a 90-day
+     prescription leaves more than a third of the vial unused and the pharmacy
+     would not dispense against it. Starting at 120 brings the written days and
+     the vial closer together - 96 mg wasted 55 days of vial against a 90-day
+     prescription, 120 wastes 26 - and a patient who needs less can be instructed
+     to take less and titrate up. It does NOT make the discard rule uniform: 120
+     and 144 still cap at 90 and discard a remainder, 168 runs the vial out at
+     83 days and discards nothing.
+     Source: Don Stevenson, after speaking with Premier the week of 2026-09-08. */
+  weeklyDosesMg: [120, 144, 168],
+  startingDosesMg: [120],
+  removedDoses: [
+    { mg: 96, removedOn: '2026-09-16',
+      why: 'Premier will not fill 90 days at 96 mg/week - the vial runs 145 days ' +
+           'and too much goes unused. Instruct a patient who needs less to take ' +
+           'less from the 120 mg regimen rather than reinstating this step.' }
+  ],
 
   routes: {
     im1: {

@@ -168,12 +168,9 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
         <label for="dose">Weekly dose</label>
         <select id="dose">
           <option value="">Select…</option>
-          <option value="96">96 mg / week</option>
-          <option value="120">120 mg / week</option>
-          <option value="144">144 mg / week</option>
-          <option value="168">168 mg / week</option>
+          <!-- filled at load from korb-trt-data.js weeklyDosesMg -->
         </select>
-        <span class="hint">Start at 96 or 120</span>
+        <span class="hint" id="startHint"></span>
       </div>
       <div class="cg">
         <label for="route">Route &amp; frequency</label>
@@ -205,11 +202,8 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
     <thead>
       <tr><th>Weekly dose</th><th>IM once weekly<br><span style="font-weight:400">3 mL Luer lock</span></th><th>SQ twice weekly<br><span style="font-weight:400">1 mL Luer lock</span></th><th>SQ three times weekly<br><span style="font-weight:400">1 mL Luer lock</span></th><th>Days supply</th></tr>
     </thead>
-    <tbody>
-      <tr data-d="96"><td><b>96 mg</b></td><td>0.48 mL</td><td>0.24 mL</td><td>0.16 mL</td><td>145 days</td></tr>
-      <tr data-d="120"><td><b>120 mg</b></td><td>0.60 mL</td><td>0.30 mL</td><td>0.20 mL</td><td>116 days</td></tr>
-      <tr data-d="144"><td><b>144 mg</b></td><td>0.72 mL</td><td>0.36 mL</td><td>0.24 mL</td><td>97 days</td></tr>
-      <tr data-d="168"><td><b>168 mg</b></td><td>0.84 mL</td><td>0.42 mL</td><td>0.28 mL</td><td>83 days</td></tr>
+    <tbody id="ladderBody">
+      <!-- filled at load from korb-trt-data.js ladder() -->
     </tbody>
   </table></div>
   <div class="info-box teal">
@@ -222,13 +216,8 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
   <div class="sec">Standard TRT Lab Panel</div>
   <div class="tablewrap"><table class="ref">
     <thead><tr><th>Test</th><th>Quest code</th></tr></thead>
-    <tbody>
-      <tr><td>FSH &amp; LH</td><td>7137</td></tr>
-      <tr><td>PSA, Total</td><td>5363</td></tr>
-      <tr><td>Prolactin</td><td>746</td></tr>
-      <tr><td>CBC</td><td>1759</td></tr>
-      <tr><td>Estradiol</td><td>4021</td></tr>
-      <tr><td>Testosterone, Total, MS</td><td>15983</td></tr>
+    <tbody id="labBody">
+      <!-- filled at load from korb-trt-data.js labPanel.tests -->
     </tbody>
   </table></div>
   <div class="info-box teal">
@@ -447,6 +436,35 @@ function legacyCopy(t, cb){
   document.body.appendChild(a); a.select();
   try{ document.execCommand("copy"); cb(); }catch(e){}
   document.body.removeChild(a);
+}
+
+/* ---------- tables built from the data file ----------
+   The dose dropdown, the ladder and the lab panel were typed into this HTML
+   until 2026-09-16. Removing the 96 mg step then meant editing the same fact in
+   four places, and missing one would leave a dose a provider can still pick and
+   the pharmacy will not fill. They are built from korb-trt-data.js instead. */
+function buildTables(){
+  var sel = document.getElementById("dose");
+  T.weeklyDosesMg.forEach(function(w){
+    var o = document.createElement("option");
+    o.value = String(w); o.textContent = w + " mg / week";
+    sel.appendChild(o);
+  });
+  var st = T.startingDosesMg;
+  document.getElementById("startHint").textContent =
+    st.length === 1 ? "Start at " + st[0]
+                    : "Start at " + st.slice(0,-1).join(", ") + " or " + st[st.length-1];
+
+  var order = ["im1","sq2","sq3"];
+  document.getElementById("ladderBody").innerHTML = T.ladder().map(function(r){
+    return '<tr data-d="' + r.weeklyMg + '"><td><b>' + r.weeklyMg + ' mg</b></td>' +
+      order.map(function(k){ return '<td>' + r.volumes[k].toFixed(2) + ' mL</td>'; }).join('') +
+      '<td>' + r.vialDays + ' days</td></tr>';
+  }).join('');
+
+  document.getElementById("labBody").innerHTML = T.labPanel.tests.map(function(t){
+    return '<tr><td>' + t.name.replace(/&/g,"&amp;") + '</td><td>' + t.code + '</td></tr>';
+  }).join('');
 }
 
 /* ---------- render ---------- */
@@ -710,6 +728,10 @@ function fallback(t, cb){
   var s=t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");
   document.getElementById("examDate").value=s;
 })();
+
+/* The dose list, the ladder and the lab panel are built from korb-trt-data.js.
+   Must run before anything reads the dose select. */
+buildTables();
 </script>
 </body>
 </html>
