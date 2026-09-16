@@ -268,8 +268,12 @@ var KORB_PHARMACIES = {
           "verifiedBy": "Don Stevenson, PA-C",
           "verifiedOn": "2026-09-16"
         },
-        "womens": {
-          "status": "not-offered"
+"womens": {
+          "status": "active",
+          "note": "Menopausal hormone therapy. Premier is the DEFAULT pharmacy wherever it is licensed - Don, 2026-09-16 - and Belmar picks up the remaining 13 states. No `only` here: the whole 38-state footprint applies, unlike trt.",
+          "verified": true,
+          "verifiedBy": "Don Stevenson, PA-C",
+          "verifiedOn": "2026-09-16"
         }
       },
       "notes": [
@@ -359,8 +363,12 @@ var KORB_PHARMACIES = {
         "trt": {
           "status": "not-offered"
         },
-        "womens": {
-          "status": "not-offered"
+"womens": {
+          "status": "active",
+          "note": "Menopausal hormone therapy in every state Premier does not cover - 13 of them. Belmar is licensed in all 51, so it is the fallback that makes the routing total. It also carries estradiol cream strengths Premier does not (0.4% and 0.8%), which is the commonest way a prescription goes wrong when a patient moves between them.",
+          "verified": true,
+          "verifiedBy": "Don Stevenson, PA-C",
+          "verifiedOn": "2026-09-16"
         }
       },
       "notes": [

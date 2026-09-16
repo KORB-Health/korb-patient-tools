@@ -81,7 +81,8 @@ var PH = null;
    and one `document` block there, with no renderer change. */
 var DOCS = [
   { id: 'addons', global: 'KORB_ADDONS', file: 'KORB_AddOn_Clinical_Reference', title: 'Add-On Clinical Reference' },
-  { id: 'trt', global: 'KORB_TRT', file: 'KORB_TRT_Clinical_Reference', title: 'Testosterone Replacement Clinical Reference' }
+  { id: 'trt', global: 'KORB_TRT', file: 'KORB_TRT_Clinical_Reference', title: 'Testosterone Replacement Clinical Reference' },
+  { id: 'womens', global: 'KORB_WOMENS', file: 'KORB_Womens_Health_Clinical_Reference', title: 'Women\'s Health Clinical Reference' }
 ];
 
 /* ── SMALL HELPERS ────────────────────────────────────────────────────────── */

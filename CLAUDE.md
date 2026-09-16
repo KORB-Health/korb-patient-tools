@@ -838,7 +838,24 @@ women's testosterone. Do not re-report those; they are already on the list.
    sections or a rendered body under 4000 characters. Negative-tested by putting
    the bug back: it names the document and exits 1.
 
-   **`korb-womens-data.js` still to do.**
+   **`korb-womens-data.js` DONE 2026-09-16.** Extracted from
+   `KORB_Womens_Health_Provider_Tool.html`, which already carried the current
+   model. **NOT from the November 2025 programme document** - Don confirmed
+   anything in it beyond the tool is out of date, and two things in it are simply
+   wrong: it has the pharmacy routing backwards, and it names FarmaKeio as a
+   partner pharmacy on all nine pricing tiers. Both recorded in `sourceConflicts`.
+
+   **The routing rule, in Don's words: Premier for all Premier states, Belmar for
+   any other.** 38 and 13. Computed at load from the shared footprint, which the
+   tool's typed list matched byte for byte. Every one of the 51 resolves, and
+   `hydrate()` throws rather than leaving a state unrouted.
+
+   Women's testosterone is Schedule III and is **Texas and California only** -
+   the only states where a KORB provider holds the DEA registration.
+
+   `KORB_Womens_Health_Clinical_Reference` is generated, 5 pages, 9 sections. It
+   carries no prescribing blocks: this programme's Tebra entries are per-hormone
+   and per-strength and were not in the tool, so they remain to be built.
 12a. **A LAB REFERENCE AND AN IF-THEN INTERPRETATION CHART.** Don's idea,
    2026-09-16. **Raise it when the document set is finished, not before** - he was
    explicit about the timing and about wanting to finish the current pass first.

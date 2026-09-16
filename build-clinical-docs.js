@@ -88,7 +88,8 @@ global.KORB_PHARMACIES = PHARMACIES;
    `document` block in that data file. */
 const SOURCES = {
   addons: { dataFile: 'korb-addons-data.js', global: 'KORB_ADDONS' },
-  trt: { dataFile: 'korb-trt-data.js', global: 'KORB_TRT' }
+  trt: { dataFile: 'korb-trt-data.js', global: 'KORB_TRT' },
+  womens: { dataFile: 'korb-womens-data.js', global: 'KORB_WOMENS' }
 };
 
 const BUILD_DATE = new Date().toISOString().slice(0, 10);

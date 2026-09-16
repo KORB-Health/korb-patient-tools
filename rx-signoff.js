@@ -91,7 +91,8 @@ function loadAll() {
     glp1: load('korb-glp1-data.js', 'KORB_GLP1', sandbox),
     dosing: load('korb-dosing-data.js', 'KORB_DOSING', sandbox),
     addons: require('./korb-addons-data.js'),
-    trt: load('korb-trt-data.js', 'KORB_TRT', sandbox)
+    trt: load('korb-trt-data.js', 'KORB_TRT', sandbox),
+    womens: load('korb-womens-data.js', 'KORB_WOMENS', sandbox)
   };
 }
 
@@ -205,7 +206,8 @@ function inventory() {
      overrun and watch the checker miss it. The DOCS row carries the global it
      needs, so the mapping is derived rather than typed. */
   var BY_GLOBAL = { KORB_ADDONS: { data: S.addons, program: 'Add-On', prefix: 'addon' },
-                    KORB_TRT:    { data: S.trt,    program: 'TRT',     prefix: 'trt' } };
+                    KORB_TRT:    { data: S.trt,    program: 'TRT',     prefix: 'trt' },
+                    KORB_WOMENS: { data: S.womens, program: "Women's", prefix: 'womens' } };
   (ADDON.DOCS || []).forEach(function (d) {
     var m = BY_GLOBAL[d.global];
     if (!m) {
@@ -214,7 +216,8 @@ function inventory() {
         'BY_GLOBAL, or its document will be rendered with another program data.');
     }
     out.push({ program: m.program, key: m.prefix + ':' + d.id, label: d.title,
-               file: d.file, html: ADDON.renderBody(m.data, S.pharmacies, d) });
+               file: d.file, html: ADDON.renderBody(m.data, S.pharmacies, d),
+               noBlocksReason: (m.data.document || {}).noPrescribingBlocks || null });
   });
 
   out.forEach(function (e) {
@@ -238,9 +241,18 @@ function selfCheck(inv) {
     if (seen[e.key]) problems.push('duplicate document key: ' + e.key);
     seen[e.key] = true;
     if (!e.label) problems.push(e.key + ' has no title');
-    if (!e.count) problems.push(e.key + ' rendered ZERO prescribing blocks; either the ' +
-      'document genuinely has none, or blocksIn() no longer matches the markup ' +
-      'korb-rx-block.js emits. Check the second before believing the first.');
+    /* A document with no prescribing blocks is almost always a broken extractor,
+       so it stays an error - unless the data file SAYS so and gives a reason.
+       The Women's Health reference is the first honest case: that programme's
+       Tebra entries are per-hormone and per-strength, they were never in the
+       hand-built tool, and they are still to be built. Declaring it is a
+       different act from silently rendering nothing. */
+    if (!e.count && !e.noBlocksReason) {
+      problems.push(e.key + ' rendered ZERO prescribing blocks; either the ' +
+        'document genuinely has none, or blocksIn() no longer matches the markup ' +
+        'korb-rx-block.js emits. Check the second before believing the first. If it ' +
+        'genuinely has none, say so with noPrescribingBlocks in its document block.');
+    }
   });
 
   /* Every document the builders write must appear. Counted from the DOCS lists
@@ -400,8 +412,12 @@ if (require.main === module) {
     process.exit(1);
   }
 
-  const by = { unsigned: [], stale: [], current: [] };
+  const by = { unsigned: [], stale: [], current: [], noblocks: [] };
   inv.docs.forEach(function (e) {
+    /* A document with nothing to sign is not "unsigned" - listing it as awaiting
+       review would send Don to read a document that has nothing for him to
+       approve. Counted separately and named. */
+    if (!e.count && e.noBlocksReason) { by.noblocks.push(e); return; }
     e.state = status(e, recs[e.key]);
     by[e.state.state].push(e);
   });
@@ -417,12 +433,16 @@ if (require.main === module) {
   console.log(pad(by.current.length) + '  signed, unchanged since');
   console.log(pad(by.stale.length) + '  SIGNED THEN CHANGED - need re-reading');
   console.log(pad(by.unsigned.length) + '  never signed');
+  if (by.noblocks.length) {
+    console.log(pad(by.noblocks.length) + '  with no prescribing blocks yet (nothing to sign)');
+  }
   console.log(pad(inv.docs.length) + '  documents, ' +
               inv.docs.reduce(function (a, e) { return a + e.count; }, 0) +
               ' prescribing blocks between them');
 
   [['stale', 'SIGNED THEN CHANGED - re-read these first'],
    ['unsigned', 'NEVER SIGNED'],
+   ['noblocks', 'NO PRESCRIBING BLOCKS YET - nothing to sign'],
    ['current', 'SIGNED AND UNCHANGED']].forEach(function (pair) {
     const rows = by[pair[0]];
     if (!rows.length) return;
