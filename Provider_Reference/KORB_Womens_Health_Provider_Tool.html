@@ -6,78 +6,116 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <title>KORB — Women's Health Provider Tool</title>
 <style>
-:root{--navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--bd:#D6E0E3;--mu:#5A6070;--cream:#ECE9D1;
- --amber:#FFF8E1;--amberbd:#F9A825;--gb:#F8F9FA;--red:#C62828;--redbg:#FDECEA;--green:#2E7D32;--greenbg:#E8F5E9;}
+:root{
+  --navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--bd:#D6E0E3;--mu:#5A6070;--cream:#ECE9D1;
+  --amber:#FFF8E1;--amberbd:#F9A825;--gb:#F8F9FA;--red:#C62828;--redbg:#FDECEA;
+  --green:#2E7D32;--greenbg:#E8F5E9;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{-webkit-text-size-adjust:100%;}
-body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:15px;
- color:#1A1A2E;background:#fff;line-height:1.55;}
-.wrap{max-width:920px;margin:0 auto;padding:18px 14px 64px;}
-.top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;
- padding-bottom:13px;border-bottom:2.5px solid var(--teal);margin-bottom:16px;}
-.top h1{font-size:20px;font-weight:700;color:var(--navy);}
-.top p{font-size:13px;color:var(--mu);margin-top:4px;max-width:600px;}
-.tag{background:var(--navy);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.5px;
- padding:6px 12px;border-radius:20px;white-space:nowrap;}
-.panel{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:15px 14px;margin-bottom:16px;}
-.grid{display:grid;grid-template-columns:1fr;gap:13px;}
-@media(min-width:640px){.grid{grid-template-columns:1fr 1fr;}}
-.f{display:flex;flex-direction:column;gap:5px;min-width:0;}
-.f label{font-size:12.5px;font-weight:700;color:var(--navy);}
-.f select{width:100%;min-height:46px;padding:10px 12px;border:1.5px solid var(--teal);border-radius:8px;
- font-size:16px;color:var(--navy);background:#fff;font-family:inherit;-webkit-appearance:none;appearance:none;
- background-image:linear-gradient(45deg,transparent 50%,var(--navy) 50%),linear-gradient(135deg,var(--navy) 50%,transparent 50%);
- background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px,5px 5px;
- background-repeat:no-repeat;padding-right:36px;}
-.chk{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;background:#fff;
- border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin-bottom:8px;}
-.chk input{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--teal);}
-.chk span{font-size:13.5px;color:var(--navy);}
-.chk small{display:block;font-size:11.5px;color:var(--mu);margin-top:2px;}
-.sec{font-size:14px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
- padding:10px 14px;margin:22px 0 12px;border-radius:4px;}
-.route{border-radius:10px;padding:15px 16px;margin-bottom:14px;border:2px solid var(--teal);background:var(--lt);}
-.route .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;color:var(--mu);}
-.route .v{font-size:20px;font-weight:800;color:var(--navy);margin:4px 0 3px;}
-.route .s{font-size:13px;color:var(--mu);}
-.tier{border-radius:10px;padding:18px;text-align:center;border:2px solid var(--navy);background:#fff;margin-bottom:14px;}
-.tier .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;color:var(--mu);}
-.tier .v{font-size:26px;font-weight:800;color:var(--navy);margin:5px 0 3px;}
-.tier .s{font-size:13px;color:var(--mu);}
-.box{border-radius:8px;padding:11px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;}
-.box.teal{background:var(--lt);border:1px solid var(--teal);}
-.box.amber{background:var(--amber);border:1px solid var(--amberbd);}
-.box.red{background:var(--redbg);border:1px solid var(--red);color:#7A1F1F;}
-.box.green{background:var(--greenbg);border:1px solid var(--green);}
-table.d{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
-table.d th{background:var(--cream);color:var(--navy);text-align:left;padding:8px 9px;font-size:11.5px;
- border-bottom:1.5px solid var(--bd);}
-table.d td{padding:8px 9px;border-bottom:1px solid var(--bd);vertical-align:top;}
-.copybox{background:var(--gb);border:1px solid var(--bd);border-radius:8px;padding:13px 14px;
- font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;
- overflow-wrap:anywhere;margin-top:10px;}
-.copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;min-height:40px;padding:8px 18px;
- font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;}
+body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+ font-size:15px;color:#1A1A2E;background:#fff;line-height:1.55;}
+.wrap{max-width:960px;margin:0 auto;padding:18px 14px 64px;}
+
+.top-bar{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  padding-bottom:14px;border-bottom:2.5px solid var(--teal);margin-bottom:20px;}
+.top-bar h1{font-size:19px;font-weight:700;color:var(--navy);}
+.top-bar p{font-size:12px;color:var(--mu);margin-top:3px;max-width:640px;}
+.badge-internal{background:var(--navy);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.5px;
+  padding:5px 11px;border-radius:20px;white-space:nowrap;}
+
+.controls{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:16px 18px;margin-bottom:18px;}
+.ctrl-grid{display:grid;grid-template-columns:1fr;gap:13px;}
+@media(min-width:600px){.ctrl-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}}
+.cg{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.cg label{font-size:11.5px;font-weight:700;color:var(--navy);}
+.cg select,.cg input{width:100%;max-width:100%;min-height:46px;padding:10px 12px;
+  border:1.5px solid var(--teal);border-radius:8px;font-size:16px;color:var(--navy);
+  background:#fff;font-family:inherit;-webkit-appearance:none;appearance:none;}
+.cg input[type="date"]{display:block;text-align:left;}
+.cg .hint{font-size:10.5px;color:var(--mu);}
+.ctrl-note{font-size:11px;color:var(--mu);margin-top:11px;line-height:1.6;}
+
+.sec{font-size:13.5px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
+  padding:8px 14px;margin:26px 0 12px;border-radius:4px;}
+
+.empty{border:1.5px dashed var(--bd);border-radius:10px;padding:34px 20px;text-align:center;color:var(--mu);}
+.empty h2{font-size:15px;color:var(--navy);margin-bottom:6px;}
+
+.card{border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:14px;}
+.card-hdr{background:var(--navy);color:#fff;padding:11px 16px;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:8px;}
+.card-hdr strong{font-size:13.5px;}
+.card-hdr span{font-size:11.5px;opacity:.85;}
+.card-body{padding:16px;background:#fff;}
+
+.date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:380px){.date-grid{grid-template-columns:1fr;}}
+@media(min-width:700px){.date-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}}
+.dcell{border:1px solid var(--bd);border-radius:8px;padding:11px 13px;background:var(--gb);}
+.dcell.key{background:var(--lt);border-color:var(--teal);border-width:2px;}
+.dcell.warn{background:var(--redbg);border-color:var(--red);border-width:2px;}
+.dcell .lbl{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+.dcell .val{font-size:15px;font-weight:800;color:var(--navy);margin-top:3px;}
+.dcell.warn .val{color:var(--red);}
+.dcell .sub{font-size:10.5px;color:var(--mu);margin-top:2px;}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+@media(min-width:600px){.stat-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}}
+.stat{background:var(--gb);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;text-align:center;}
+.stat .lbl{font-size:9.5px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+.stat .val{font-size:17px;font-weight:800;color:var(--navy);margin-top:3px;}
+
+.info-box{border-radius:8px;padding:11px 15px;margin-top:12px;font-size:12px;line-height:1.7;}
+/* One vertical rhythm inside a card: spacing comes from each block's own top
+   margin, so no pair of blocks can end up touching because one of them only
+   set a bottom margin. The first child sits flush on the card padding. */
+.card-body > *:first-child{margin-top:0;}
+.info-box.teal{background:var(--lt);border:1px solid var(--teal);}
+.info-box.amber{background:var(--amber);border:1px solid var(--amberbd);}
+.info-box.red{background:var(--redbg);border:1px solid var(--red);color:#7A1F1F;}
+.info-box.green{background:var(--greenbg);border:1px solid var(--green);}
+
+.copybox{position:relative;background:var(--gb);border:1px solid var(--bd);border-radius:8px;
+  padding:14px 15px;font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:12px;line-height:1.75;
+  white-space:pre-wrap;overflow-wrap:anywhere;color:#1A1A2E;margin-top:4px;}
+.copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;
+  min-height:42px;padding:9px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;}
+.copybtn:hover{background:var(--navy);color:#fff;}
 .copybtn.done{background:var(--green);color:#fff;}
-/* Charge code as its own chip with a copy button, matching the GLP-1 tool and
-   the Optimization Products selector. The code used to run into the price on
-   one line, so billing had to select it by hand. */
-.codewrap{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:9px;
- justify-content:center;}
+
+.tablewrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table.ref{width:100%;border-collapse:collapse;font-size:13px;min-width:520px;}
+table.ref th{background:var(--cream);color:var(--navy);text-align:left;padding:7px 9px;font-size:11px;
+  border-bottom:1.5px solid var(--bd);}
+table.ref td{padding:9px 9px;border-bottom:1px solid var(--bd);}
+table.ref tr.hi td{background:var(--lt);font-weight:700;}
+
+
+.fldwrap{border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-top:4px;}
+table.fld{width:100%;border-collapse:collapse;font-size:13px;}
+table.fld td{padding:9px 10px;border-bottom:1px solid var(--bd);vertical-align:top;}
+table.fld tr:last-child td{border-bottom:0;}
+table.fld td.k{width:33%;font-weight:700;color:var(--navy);background:var(--gb);}
+table.fld td.v{overflow-wrap:anywhere;}
+table.fld td.b{width:74px;text-align:right;}
+.cbtn{background:var(--teal);color:var(--navy);border:0;border-radius:16px;min-height:32px;
+ padding:5px 13px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;}
+.cbtn.done{background:var(--green);color:#fff;}
+.codewrap{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;}
 .code-chip{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:13px;
  font-weight:600;background:var(--cream);color:var(--navy);border:1px solid var(--bd);
  border-radius:6px;padding:4px 9px;letter-spacing:.3px;}
-.cbtn{background:var(--teal);color:var(--navy);border:0;border-radius:16px;min-height:32px;
- padding:5px 12px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;}
-.cbtn.done{background:var(--green);color:#fff;}
-.card{border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:14px;}
-.chdr{background:var(--navy);color:#fff;padding:11px 15px;display:flex;justify-content:space-between;
- align-items:center;gap:10px;flex-wrap:wrap;}
-.chdr strong{font-size:14px;}
-.cbody{padding:14px 15px;background:#fff;}
-.empty{border:1.5px dashed var(--bd);border-radius:10px;padding:30px 18px;text-align:center;color:var(--mu);}
-footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size:12px;color:var(--mu);
- text-align:center;line-height:1.75;}
+.cc{display:block;font-size:10.5px;color:var(--mu);margin-top:3px;}
+.cc.over{color:var(--red);font-weight:800;}
+@media(max-width:520px){
+  table.fld td.k{width:40%;}
+  table.fld td.b{width:62px;}
+  .cbtn{padding:5px 9px;font-size:11px;}
+}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu);
+  text-align:center;line-height:1.8;}
+
 
 /* Shared KORB provider masthead — same on every tool in the set. */
 .korb-top{background:var(--navy);color:#fff;border-bottom:4px solid var(--teal);
@@ -91,6 +129,27 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 .korb-top .tagpill{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;
  font-size:10px;font-weight:800;letter-spacing:.9px;padding:7px 13px;border-radius:20px;
  white-space:nowrap;align-self:center;}
+  .selnote{display:block;margin-top:4px;font-size:10.5px;font-weight:700;
+    color:#A15C07;letter-spacing:.01em;}
+
+/* The brand cream as the page ground with the content on white, which is what
+   the generated documents do and what Don recognised as the KORB look. Applied
+   to every tool in the set on 2026-09-16, not just this one - one tool looking
+   right and three looking wrong is the problem, not the fix. */
+body{background:var(--cream);}
+.wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;
+  box-shadow:0 1px 3px rgba(33,39,91,.06);margin:0 auto 34px;padding:22px 20px 40px;}
+@media(max-width:620px){.wrap{border-radius:0;border-left:0;border-right:0;padding:18px 14px 30px;}}
+/* Hormone checkboxes. They were running together on one line because the
+   page's own .chk rule went with the old stylesheet. */
+.hormone-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-top:6px;}
+@media(min-width:620px){.hormone-grid{grid-template-columns:1fr 1fr;}}
+.hormone-grid label{display:flex;align-items:flex-start;gap:9px;background:#fff;
+  border:1.5px solid var(--bd);border-radius:8px;padding:10px 12px;cursor:pointer;
+  font-size:13px;color:var(--navy);font-weight:600;min-height:46px;}
+.hormone-grid label:hover{border-color:var(--teal);}
+.hormone-grid input{margin-top:2px;width:18px;height:18px;flex:none;accent-color:var(--teal);}
+.hormone-grid small{display:block;font-weight:400;color:var(--mu);font-size:11px;margin-top:2px;}
 </style>
 </head>
 <body>
@@ -107,31 +166,39 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 </header>
 
 <div class="wrap">
-<div class="panel">
-    <div class="grid">
-      <div class="f">
+<!-- The control panel uses the same components as the TRT tool -
+       .controls / .ctrl-grid / .cg - rather than this page's own .panel / .grid
+       / .f, which is why the two tools did not look like a set even though they
+       shared a masthead and a palette. -->
+  <div class="controls">
+    <div class="ctrl-grid">
+      <div class="cg">
         <label for="st">Patient state</label>
         <select id="st"><option value="">Select…</option></select>
+        <span class="hint">Sets the pharmacy</span>
       </div>
-      <div class="f">
-        <label for="ut">Does the patient have a uterus?</label>
+      <div class="cg">
+        <label for="ut">Uterus present?</label>
         <select id="ut">
           <option value="">Select…</option>
           <option value="yes">Yes</option>
           <option value="no">No</option>
         </select>
+        <span class="hint">Decides whether progesterone is required</span>
+      </div>
+      <div class="cg">
+        <label for="ins">Dispensing route</label>
+        <select id="ins">
+          <option value="partner">Partner pharmacy</option>
+          <option value="local">Patient’s own pharmacy</option>
+        </select>
+        <span class="hint">Partner bills the office</span>
       </div>
     </div>
-    <div class="f" style="margin-top:13px;">
-      <label for="ins">Dispensing route</label>
-      <select id="ins">
-        <option value="partner">Partner pharmacy (Premier or Belmar)</option>
-        <option value="local">Local pharmacy, patient using insurance</option>
-      </select>
-    </div>
-    <div style="margin-top:14px;">
-      <label style="font-size:12.5px;font-weight:700;color:var(--navy);">Hormones being prescribed</label>
-      <div style="margin-top:8px;" id="hormones"></div>
+    <div class="cg" style="margin-top:14px;">
+      <label>Hormones being prescribed</label>
+      <div id="hormones" class="hormone-grid"></div>
+      <span class="hint">Each one counts toward the pricing tier</span>
     </div>
   </div>
 
@@ -270,10 +337,10 @@ function entryBlock(e){
   ];
   if (e.reasonForCompounding) rows.push(['Reason for Compounding', e.reasonForCompounding, false]);
   rows.push(['Pharmacy Instructions', e.pharmacyNotes, false]);
-  var h = '<div class="card"><div class="chdr"><strong>' + esc(e.label) + '</strong>'
+  var h = '<div class="card"><div class="card-hdr"><strong>' + esc(e.label) + '</strong>'
         + '<span>' + esc(e.compounded ? 'Compounded Drug Favorite' : 'Tebra Standard prescription')
-        + ' &middot; ' + esc(e.days) + '-day supply</span></div><div class="cbody">'
-        + '<table class="d">';
+        + ' &middot; ' + esc(e.days) + '-day supply</span></div><div class="card-body">'
+        + '<table class="ref">';
   rows.forEach(function(r){
     h += '<tr><th>' + esc(r[0]) + '</th><td>' + esc(r[1])
        + (r[2] ? '<br><em style="color:#A15C07;font-size:11px">Select this from the Tebra drop-down. '
@@ -301,28 +368,44 @@ function render(){
       : (inP ? "Premier is licensed in "+STATE_NAME[st]+"."
              : "Premier is not licensed in "+STATE_NAME[st]+", so Belmar covers it.");
 
-  var h='<div class="route"><div class="k">Route to</div><div class="v">'+ph+'</div><div class="s">'+why+'</div></div>';
+  /* Route, tier and count as one card of stat cells, which is how the TRT tool
+     presents the same kind of summary. It was three bare divs with class names
+     that no longer exist in the shared stylesheet. */
+  var t0 = ins==="local" ? {p:W.pricing.insurance.price, c:W.pricing.insurance.code}
+                         : TIERS[pick.length];
+  var h='<div class="card"><div class="card-hdr"><strong>'+esc(ph)+'</strong>'
+      + '<span>'+esc(STATE_NAME[st])+' &middot; 12-week supply</span></div>'
+      + '<div class="card-body"><div class="stat-grid">'
+      + '<div class="stat"><div class="lbl">Route to</div><div class="val">'+esc(ph)+'</div></div>'
+      + '<div class="stat"><div class="lbl">Hormones</div><div class="val">'+pick.length+'</div></div>'
+      + '<div class="stat"><div class="lbl">Price</div><div class="val">'+esc(t0?t0.p:"—")+'</div></div>'
+      + '<div class="stat"><div class="lbl">Charge code</div><div class="val" style="font-size:13px">'
+      + esc(t0?t0.c:"—")+'</div></div>'
+      + '</div><div class="info-box teal">'+esc(why)+' '
+      + esc(pick.map(function(x){return x.name;}).join(" + "))+'.</div>'
+      + (t0? '<div style="margin-top:12px">'+codeChip(t0.c,"tc0")+'</div>':'')
+      + '</div></div>';
 
   if(ph==="Belmar"){
-    h+='<div class="box amber"><b>Belmar has several locations. KORB uses the ARIZONA address.</b> '
+    h+='<div class="info-box amber"><b>Belmar has several locations. KORB uses the ARIZONA address.</b> '
      + '12012 N 111th Ave, Youngtown, AZ 85363-1339. Confirm that is the Belmar selected in Tebra before '
      + 'sending, because another Belmar location will be wrong.</div>';
   }
 
   if(pick.some(function(x){return x.id==="test";})){
     if(TEST_STATES[st]){
-      h+='<div class="box red"><b>Prescriber restriction.</b> In '+STATE_NAME[st]+', testosterone may only be '
+      h+='<div class="info-box red"><b>Prescriber restriction.</b> In '+STATE_NAME[st]+', testosterone may only be '
        + 'prescribed by <b>'+TEST_STATES[st]+'</b>. If that is not you, do not send this prescription.</div>';
       /* Women's testosterone comes from Belmar, except Texas, which comes from Premier.
          The Clinical Reference line "Belmar is not used for women's testosterone" is out of
          date; Don confirmed Belmar is the source 2026-09-10. Texas is Premier only. */
       if(ins==="partner"){
-        h+='<div class="box teal"><b>Testosterone source: '+(st==="TX"?"Premier":"Belmar")+'.</b> '
+        h+='<div class="info-box teal"><b>Testosterone source: '+(st==="TX"?"Premier":"Belmar")+'.</b> '
          + 'Women\'s health testosterone comes from Belmar, except in Texas, where it comes from Premier. '
          + 'Never to a local pharmacy.</div>';
       }
     } else {
-      h+='<div class="box red"><b>Testosterone is not available in '+STATE_NAME[st]+'.</b> It is offered in '
+      h+='<div class="info-box red"><b>Testosterone is not available in '+STATE_NAME[st]+'.</b> It is offered in '
        + 'Texas and California only, because those are the only states where a KORB provider holds the '
        + 'required DEA registration. Remove testosterone from this plan. Every other hormone in the program '
        + 'is available in this state.</div>';
@@ -333,11 +416,11 @@ function render(){
   var hasE2=pick.some(function(x){return x.id==="e2"||x.id==="estr";});
   var hasProg=pick.some(function(x){return x.id==="prog";});
   if(ut==="yes"&&hasE2&&!hasProg){
-    h+='<div class="box red"><b>Unopposed estrogen in a patient with a uterus.</b> Estrogen without '
+    h+='<div class="info-box red"><b>Unopposed estrogen in a patient with a uterus.</b> Estrogen without '
      + 'progesterone causes endometrial hyperplasia and can lead to cancer. Add progesterone before sending '
      + 'this prescription.</div>';
   } else if(ut==="yes"&&hasE2&&hasProg){
-    h+='<div class="box green"><b>Progesterone is included alongside estrogen.</b> Check the dose as well as '
+    h+='<div class="info-box green"><b>Progesterone is included alongside estrogen.</b> Check the dose as well as '
      + 'the presence: protection is written against 200 mg nightly, increasing to 300 mg if needed. The oral '
      + 'four-hormone capsule supplies 100 mg, which is a starting dose only.</div>';
   }
@@ -346,13 +429,13 @@ function render(){
   if(ins==="local"){
     var blocked=pick.filter(function(x){return x.compounded;});
     if(blocked.length){
-      h+='<div class="box red"><b>Cannot be filled locally: '
+      h+='<div class="info-box red"><b>Cannot be filled locally: '
        + blocked.map(function(x){return x.name;}).join(", ")
        + '.</b> These are compounded and have no commercial equivalent. A local pharmacy can supply an '
        + 'estradiol <b>patch</b> and progesterone <b>capsules</b> only. Route the rest to '
        + (inP?"Premier":"Belmar")+', or change the plan.</div>';
     }
-    h+='<div class="box amber"><b>Local pharmacy: estradiol PATCH only, never a cream.</b> '
+    h+='<div class="info-box amber"><b>Local pharmacy: estradiol PATCH only, never a cream.</b> '
      + 'Commercial progesterone at 100 mg or 200 mg can also go there. Everything else - every cream, '
      + 'every compounded capsule, and the 300 mg progesterone - goes to a partner pharmacy. '
      + 'The charge is $79 (WMNHlthINS), which covers the visit and the prescription; the patient pays '
@@ -365,46 +448,46 @@ function render(){
      flat insurance tier. Rendering both at once put two different prices on screen. */
   var n=pick.length;
   if(ins==="local"){
-    h+='<div class="tier"><div class="k">Pricing tier — insurance route</div>'
-     + '<div class="v">$79</div>'
-     + '<div class="s">12-week supply, filled at the patient\'s own pharmacy</div>'
-     + codeChip("WMNHlthINS","tc0")+'</div>'
-     + '<div class="box teal"><b>Ingredient tiers do not apply on the insurance route.</b> The $220 / $250 / '
-     + '$299 tiers cover the visit, a 12-week supply and shipping from a partner pharmacy. A patient '
-     + 'paying at their own pharmacy is billed the flat $79 instead.</div>';
+    /* The price and the code are already in the summary card at the top. This
+       repeated both in a second styled block, which is how a provider ended up
+       looking at two prices on one screen. Only the rule that is not obvious
+       from the card survives. */
+    h+='<div class="info-box teal"><b>Hormone tiers do not apply here.</b> The $220 / $250 / $299 '
+     + 'tiers are for a partner pharmacy. A patient filling at her own pharmacy is billed the flat '
+     + '$79, which covers the visit and the prescription; she pays her pharmacy for the medication. '
+     + 'KORB does not bill insurance or complete prior authorisations for these.</div>';
   } else {
-    var t=TIERS[n];
-    h+='<div class="tier"><div class="k">Pricing tier — ingredients counted</div>'
-     + '<div class="v">'+(t?t.p:"No tier")+'</div>'
-     + '<div class="s">'+n+' ingredient'+(n===1?"":"s")+': '+pick.map(function(x){return x.name;}).join(" + ")+'</div>'
-     + (t?codeChip(t.c,"tc1"):'')+'</div>';
     if(n===4){
-      h+='<div class="box teal"><b>Four actives, billed at the three-ingredient tier.</b> This combination is '
+      h+='<div class="info-box teal"><b>Four actives, billed at the three-ingredient tier.</b> This combination is '
        + 'only reachable through the oral four-hormone capsule, which bills at $299 (WMNHlth3).</div>'
-       + '<div class="box red"><b>The oral capsule raises clot risk relative to transdermal routes.</b> Oral '
+       + '<div class="info-box red"><b>The oral capsule raises clot risk relative to transdermal routes.</b> Oral '
        + 'estrogen passes through the liver first, which transdermal does not. Weigh this before choosing the '
        + 'oral route, particularly in a patient with any cardiovascular or clotting history.</div>'
-       + '<div class="box amber"><b>Progesterone in this capsule is 100 mg, which is a starting dose.</b> '
+       + '<div class="info-box amber"><b>Progesterone in this capsule is 100 mg, which is a starting dose.</b> '
        + 'That is the established starting point for this capsule and it may not be enough on its own. The '
        + 'program standard for endometrial protection is 200 mg nightly, increasing to 300 mg if needed, so '
        + 'in a patient with a uterus plan to reassess and titrate rather than treating 100 mg as the '
        + 'maintenance dose. This starting dose is one of the items being re-evaluated in the program update '
        + 'with Dr. Rose. The capsule also contains testosterone, so the prescriber restriction applies.</div>';
-    } else if(!t){
-      h+='<div class="box amber"><b>'+n+' ingredients has no tier.</b> Confirm pricing with Nick before quoting.</div>';
+    } else if(!TIERS[n]){
+      h+='<div class="info-box amber"><b>'+n+' hormones has no tier.</b> Confirm pricing with Nick '
+       + 'before quoting.</div>';
     }
-    h+='<div class="box teal"><b>Tiers count ingredients, not prescriptions.</b> A single compounded cream with '
-     + 'three hormones is a three-ingredient charge.</div>'
-     + '<div class="box amber"><b>This code is medication only.</b> If the patient elects Ayumetrix labs, the '
-     + 'tier code above is replaced by the bundled code, not billed alongside it: Basic '
-     + '$339 / $369 / $418 (WMNHlth1Bsc / 2Bsc / 3Bsc), Complete $469 / $499 / $548 '
-     + '(WMNHlth1Cmp / 2Cmp / 3Cmp). Standalone panels are $119 (LABHlthBsc) and $249 (LABHlthCmp).</div>';
+    /* One box, not two. The card above already shows the hormone count, the
+       price and the code, so repeating the tier arithmetic under it was the
+       clutter Don objected to. What survives is the part the card cannot say:
+       that a combination product counts by ingredient, and that electing labs
+       REPLACES the code rather than adding to it. */
+    h+='<div class="info-box amber"><b>Counted by hormone, not by prescription</b> - a combination '
+     + 'cream with three hormones is a three-hormone charge. <b>If she elects Ayumetrix labs the code '
+     + 'above is REPLACED, not added to:</b> Basic $339 / $369 / $418, Complete $469 / $499 / $548. '
+     + 'Labs alone are $119 or $249.</div>';
   }
 
   /* estradiol: the patch is not stocked at Belmar, so in the 13 non-Premier states the
      partner route is cream only. The hormone list says "patch or cream" for every state. */
   if(ins==="partner"&&!inP&&pick.some(function(x){return x.id==="e2";})){
-    h+='<div class="box amber"><b>No estradiol patch through Belmar.</b> The patch is stocked by Premier and '
+    h+='<div class="info-box amber"><b>No estradiol patch through Belmar.</b> The patch is stocked by Premier and '
      + 'local pharmacies only. In '+STATE_NAME[st]+' the partner route is <b>cream</b>. If this patient needs '
      + 'a patch, the only route is a local pharmacy on insurance at the $79 tier.</div>';
   }
@@ -426,8 +509,8 @@ function render(){
       rows+='<tr><td>Testosterone</td><td>'+mine.testosterone+'</td></tr>';
 
     if(rows){
-      h+='<div class="card"><div class="chdr"><strong>What '+ph+' offers for this patient</strong></div>'
-       + '<div class="cbody"><table class="d"><tr><th>Hormone</th><th>Available at '+ph+'</th></tr>'
+      h+='<div class="card"><div class="card-hdr"><strong>What '+ph+' offers for this patient</strong></div>'
+       + '<div class="card-body"><table class="ref"><tr><th>Hormone</th><th>Available at '+ph+'</th></tr>'
        /* The Belmar address warning is already rendered with the routing block
           above; repeating it here would put it on screen twice. */
        + rows+'</table></div></div>';
@@ -435,7 +518,7 @@ function render(){
       /* The switching caution, and only the part of it that differs. */
       if(pick.some(function(x){return x.id==="e2";})){
         var shared=mine.estradiolCream.filter(function(s){ return other.estradiolCream.indexOf(s)>-1; });
-        h+='<div class="box amber"><b>Estradiol cream strengths do not carry across pharmacies.</b> '
+        h+='<div class="info-box amber"><b>Estradiol cream strengths do not carry across pharmacies.</b> '
          + otherName+' stocks '+other.estradiolCream.join(", ")+'. '
          + (shared.length
             ? 'Only '+shared.join(" and ")+' exists at both. '
@@ -448,28 +531,28 @@ function render(){
 
   /* progesterone quantity */
   if(hasProg){
-    h+='<div class="card"><div class="chdr"><strong>Progesterone quantity</strong></div><div class="cbody">'
-     + '<div class="box teal"><b>Start at 200 mg nightly, increase to 300 mg if needed.</b> Taken at night, '
+    h+='<div class="card"><div class="card-hdr"><strong>Progesterone quantity</strong></div><div class="card-body">'
+     + '<div class="info-box teal"><b>Start at 200 mg nightly, increase to 300 mg if needed.</b> Taken at night, '
      + 'where it supports sleep. 300 mg is only available compounded; the commercial equivalent is one '
      + '200 mg plus one 100 mg capsule.</div>'
      /* Counts read from the Tebra entries rather than typed. They said 67 and
         90 per 90 days; the entries say 63 and 84 over 12 weeks, and the typed
         pair had been wrong on both since before the 12-week change. */
-     + '<table class="d"><tr><th>Patient</th><th>Schedule</th><th>Per 12 weeks</th></tr>'
+     + '<table class="ref"><tr><th>Patient</th><th>Schedule</th><th>Per 12 weeks</th></tr>'
      + '<tr><td>Still cycling</td><td>21 on, 7 off</td><td><b>' + progQty(true) + ' capsules</b></td></tr>'
      + '<tr><td>Postmenopausal</td><td>Daily</td><td><b>' + progQty(false) + ' capsules</b></td></tr></table>'
-     + '<div class="box amber"><b>These counts are one capsule per night.</b> A 300 mg dose through the '
+     + '<div class="info-box amber"><b>These counts are one capsule per night.</b> A 300 mg dose through the '
      + 'COMMERCIAL route is two capsules a night - one 200 mg plus one 100 mg - so the quantity doubles. '
      + 'A compounded 300 mg capsule stays at ' + progQty(true) + ' or ' + progQty(false) + '.</div>'
      /* The peanut rule said "do not use", which is wrong and was corrected on
         2026-09-16: the allergy rules out the COMMERCIAL capsule, not the
         hormone. Getting this wrong means referring a patient out who could
         simply have the compounded one. */
-     + '<div class="box red"><b>PEANUT ALLERGY: do not use a COMMERCIAL progesterone capsule.</b> '
+     + '<div class="info-box red"><b>PEANUT ALLERGY: do not use a COMMERCIAL progesterone capsule.</b> '
      + 'They are suspended in peanut oil. A COMPOUNDED capsule from Belmar or Premier is fine and is '
      + 'the answer - the allergy rules out the product, not the hormone.</div>'
      + (ph==="Premier"
-        ? '<div class="box amber"><b>Premier stocks both commercial and compounded progesterone.</b> State '
+        ? '<div class="info-box amber"><b>Premier stocks both commercial and compounded progesterone.</b> State '
           + 'which one you want on the prescription or the pharmacy has to guess.</div>' : '')
      + '</div></div>';
   }
@@ -479,7 +562,7 @@ function render(){
      applies to any compounded preparation, and estradiol cream and compounded progesterone
      both qualify even though each has a commercial alternative. */
   if(ins==="partner"){
-    h+='<div class="box amber"><b>Medical Necessity Statement required for any compounded item in this plan.</b> '
+    h+='<div class="info-box amber"><b>Medical Necessity Statement required for any compounded item in this plan.</b> '
      + 'Belmar raised this for estradiol cream specifically, but it applies to every compounded preparation, '
      + 'including testosterone cream, estriol, estradiol cream and compounded progesterone. A commercial '
      + 'estradiol patch or commercial progesterone capsule does not need one. Include the statement with the '
@@ -505,9 +588,9 @@ function render(){
     + "\nFOLLOW-UP\n"
     + "Quarterly, or sooner if symptoms are not controlled.";
 
-  h+='<div class="card"><div class="chdr"><strong>Plan — copy into the note</strong>'
+  h+='<div class="card"><div class="card-hdr"><strong>Plan — copy into the note</strong>'
    + '<button class="copybtn" onclick="cp(this,\'wplan\')">Copy plan</button></div>'
-   + '<div class="cbody"><div class="copybox" id="wplan">'+esc(plan)+'</div></div></div>';
+   + '<div class="card-body"><div class="copybox" id="wplan">'+esc(plan)+'</div></div></div>';
 
   /* The blocks for this plan, at the end where a provider has finished deciding
      and is ready to write. Destination comes from the route already computed
@@ -516,14 +599,14 @@ function render(){
   var ent = entriesFor(dest, pick);
   if (ent.length) {
     h += '<div class="sec">Tebra entries for this plan</div>'
-       + '<div class="box teal">' + ent.length + ' entr' + (ent.length===1?'y':'ies')
+       + '<div class="info-box teal">' + ent.length + ' entr' + (ent.length===1?'y':'ies')
        + ' for ' + esc(ph) + '. These are the ones that match the hormones selected and '
        + 'the pharmacy this patient routes to. Strengths differ between pharmacies, so a '
        + 'block from the other pharmacy will not be right.</div>'
        + ent.map(entryBlock).join('');
   }
 
-  h += '<div class="box teal"><b>Looking for PT-141?</b> Still available - it moved out of '
+  h += '<div class="info-box teal"><b>Looking for PT-141?</b> Still available - it moved out of '
      + 'Women\'s Health and into SEXUAL HEALTH. See the Add-On Clinical Reference for pricing, '
      + 'charge codes and the Tebra entries. Belmar fills the nasal spray, Premier the injection.</div>';
 

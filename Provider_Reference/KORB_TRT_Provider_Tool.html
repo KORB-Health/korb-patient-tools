@@ -131,6 +131,15 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
  white-space:nowrap;align-self:center;}
   .selnote{display:block;margin-top:4px;font-size:10.5px;font-weight:700;
     color:#A15C07;letter-spacing:.01em;}
+
+/* The brand cream as the page ground with the content on white, which is what
+   the generated documents do and what Don recognised as the KORB look. Applied
+   to every tool in the set on 2026-09-16, not just this one - one tool looking
+   right and three looking wrong is the problem, not the fix. */
+body{background:var(--cream);}
+.wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;
+  box-shadow:0 1px 3px rgba(33,39,91,.06);margin:0 auto 34px;padding:22px 20px 40px;}
+@media(max-width:620px){.wrap{border-radius:0;border-left:0;border-right:0;padding:18px 14px 30px;}}
 </style>
 </head>
 <body>
