@@ -478,10 +478,25 @@ function sectionWomensTebra(sec) {
         { field: 'Patient Instructions', val: e.ptInstructions, copy: true }
       ].concat(e.reasonForCompounding
         ? [{ field: 'Reason for Compounding', val: e.reasonForCompounding, copy: true }]
-        : []).concat([
-        { field: 'Pharmacy Instructions', val: e.pharmacyNotes, copy: true }
-      ])
+        : []).concat(
+        /* TWO pharmacy notes where the product can go either way. The line
+           differs by DESTINATION, not by whether the product is compounded: a
+           partner pharmacy is billed to the office, a local pharmacy is paid by
+           the patient. Copying the partner line onto a local prescription bills
+           KORB for a medication the patient has already paid for, so the two are
+           separate copyable rows rather than one line to edit under pressure. */
+        e.localEligible
+          ? [{ field: 'Pharmacy Instructions - PARTNER pharmacy', val: e.pharmacyNotes, copy: true },
+             { field: 'Pharmacy Instructions - LOCAL pharmacy', val: e.pharmacyNotesLocal, copy: true }]
+          : [{ field: 'Pharmacy Instructions', val: e.pharmacyNotes, copy: true }]
+      )
     }) + '</div>';
+    /* One line, under the block, where a provider is looking when they copy it.
+       The patches are the only product in the programme whose supply is not 90
+       days, and the difference is invisible unless it is said here. */
+    if (e.family === 'estradiol-patch' && D.patchGuidance) {
+      h += '<p class="rxnote"><strong>' + esc2(D.patchGuidance.daysRule) + '</strong></p>';
+    }
   });
   return h + calloutsFor(sec);
 }
@@ -627,6 +642,7 @@ function renderBody(data, pharmacies, doc) {
        '.hcard h3{margin:0 0 4pt;font-size:13px;color:#21275B;}' +
        '.hcard .lead{font-weight:700;color:#0F5F69;margin:0 0 6pt;}' +
        '.hcard p{margin:0 0 5pt;font-size:12px;line-height:1.6;}' +
+       '.rxnote{margin:-4pt 0 12pt;font-size:11.5px;color:#A15C07;line-height:1.5;}' +
        '.datatbl td:first-child{font-weight:600;color:#21275B;}' +
        '@media print{.datatbl{break-inside:auto;} .datatbl tr{break-inside:avoid;}}' +
        /* Copy buttons are a screen affordance. They must not appear in the

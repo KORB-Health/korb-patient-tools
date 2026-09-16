@@ -150,6 +150,41 @@ var KORB_WOMENS = {
       'abdomen or upper buttock.'
   },
 
+  /* -- SUPPLY LENGTH AND VISIT CADENCE ---------------------------------------
+     Don asked on 2026-09-16 whether to call everything 90 days, rename the
+     programme to 12 weeks, or state each product honestly. The arithmetic
+     decided it: TWO product families are genuinely 84 days, not one.
+
+       12 weekly patches                     84 days
+       63 capsules cycled 21-on / 7-off      84 days  (three 28-day cycles)
+       90 capsules daily                     90 days
+       one 30 mL cream bottle                120 days of clicks, written 90
+
+     So Days Supply now states what each prescription actually covers, and the
+     VISIT is booked at 12 weeks for everybody. 12 weeks is 84 days, which is at
+     or inside every supply above, so no patient runs out waiting for an
+     appointment - and it is one number to schedule against instead of two.
+
+     BILLING STAYS QUARTERLY. The charge codes and the price are a commercial
+     quarter and nothing here changes them. Quarterly for billing, 12 weeks for
+     the visit, and the true figure in the Days Supply field. Writing 90 on a
+     script that covers 84 is the kind of small untruth that becomes a
+     too-early-refill rejection and a patient six days short. */
+  supply: {
+    visitCadence: '12 weeks',
+    visitRule: 'Book the follow-up at 12 WEEKS for every patient, whatever she is ' +
+      'on. It is at or inside the shortest supply the programme writes, so nobody ' +
+      'runs out waiting, and it is one number rather than two.',
+    billingNote: 'Billing stays quarterly - the charge codes and the price are ' +
+      'unchanged. Quarterly for money, 12 weeks for the visit.',
+    byProduct: [
+      { product: 'Estradiol patch', supply: '84 days', why: '3 boxes of 4 = 12 patches, one a week' },
+      { product: 'Progesterone, cycled', supply: '84 days', why: '63 capsules, 21 on and 7 off, three cycles' },
+      { product: 'Progesterone, daily', supply: '90 days', why: '90 capsules, one a night' },
+      { product: 'Creams', supply: '90 days', why: 'One 30 mL bottle holds 120 clicks; written for 90 and the remainder discarded' }
+    ]
+  },
+
   /* -- ESTRADIOL PATCHES -----------------------------------------------------
      The one product where the Tebra drop-down offers a real choice that changes
      the prescription. Don, 2026-09-16. */
@@ -160,10 +195,47 @@ var KORB_WOMENS = {
     boxRule: 'Once-weekly patches come in a BOX OF 4. So the quantity is 3 BOXES, ' +
       'not 3 patches: 3 x 4 = 12 patches, one a week for 12 weeks. The pharmacy ' +
       'note spells that out so the pharmacy tells us if their pack size differs.',
-    daysFlag: 'NOTE FOR DON: the Days Supply on these five entries reads 90, but ' +
-      '12 weekly patches is 84 days. Either the days should be 84 or the quantity ' +
-      'needs to cover 90. Left at 90 as the source had it rather than changed - a ' +
-      'days-supply figure is a prescribing decision.'
+    daysRule: 'These are an 84-DAY supply, not 90. Twelve weekly patches is ' +
+      'twelve weeks. Book the follow-up at 12 weeks. Corrected 2026-09-16 after ' +
+      'Don raised it - the entries had read 90 since the source document.'
+  },
+
+  /* -- WHO PAYS THE PHARMACY -------------------------------------------------
+     The distinction that decides the pharmacy note, and it is NOT commercial
+     versus compounded. Don, 2026-09-16:
+
+       PARTNER PHARMACY (Premier, Belmar) - KORB pays the pharmacy and the
+         patient pays KORB. The note must carry "Bill to office/ship to
+         patient". This is true of a COMMERCIAL product sent to a partner
+         pharmacy as much as a compounded one: a patch filled by Premier is
+         still billed to the office.
+
+       LOCAL PHARMACY - the patient pays the pharmacy directly, as a cash
+         customer. The note must NOT say bill to office, because nobody is
+         billing the office.
+
+     Getting that wrong in the local direction sends the bill to KORB for a
+     medication the patient has already paid for. So the entries that CAN go
+     either way carry two separate notes, and a provider copies the one that
+     matches where it is going rather than editing a line under time pressure. */
+  dispensing: {
+    rule: 'The pharmacy note depends on WHERE it goes, not on whether the product ' +
+      'is commercial or compounded.',
+    partner: 'Partner pharmacy (Premier or Belmar): KORB pays the pharmacy, the ' +
+      'patient pays KORB. The note says Bill to office/ship to patient. True for a ' +
+      'commercial patch filled by Premier just as much as for a compound.',
+    local: 'Local pharmacy: the patient pays the pharmacy as a cash customer. The ' +
+      'note must NOT say bill to office.',
+    /* Flagged 2026-09-16 while checking the supply arithmetic, not changed:
+       the Belmar estradiol/testosterone cream is written for 28 DAYS while its
+       Premier twin is written for 90, and every other cream in the programme is
+       90. One of the two is wrong. A days-supply figure is a prescribing
+       decision so it is left as the source had it and raised with Don. */
+    openQuestion28Day: 'Belmar Estradiol/Testosterone cream reads 28 days; the ' +
+      'Premier equivalent reads 90, as does every other cream. Needs Don.',
+    whatCanGoLocal: 'Only commercially available products can go to a local ' +
+      'pharmacy - in this programme, the estradiol patches. Every cream and every ' +
+      'compounded capsule goes to a partner pharmacy, full stop.'
   },
 
   /* -- CLINICAL GATES ---------------------------------------------------------
@@ -637,36 +709,46 @@ var KORB_WOMENS = {
       compounded: false,
       label: 'Estrogen 0.025 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'BX', refill: '0', days: '90',
-      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Patient pays the pharmacy.' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.0375 mg Patch)',
       drug: 'estradiol 0.0375 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.0375 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'BX', refill: '0', days: '90',
-      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Patient pays the pharmacy.' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.05 mg Patch)',
       drug: 'estradiol 0.05 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.05 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'BX', refill: '0', days: '90',
-      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Patient pays the pharmacy.' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.075 mg Patch)',
       drug: 'estradiol 0.075 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.075 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'BX', refill: '0', days: '90',
-      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Patient pays the pharmacy.' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.1 mg Patch)',
       drug: 'estradiol 0.1 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.1 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', unit: 'BX', refill: '0', days: '90',
-      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient' },
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Bill to office/ship to patient',
+      localEligible: true,
+      pharmacyNotesLocal: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks. Patient pays the pharmacy.' },
     /* Estradiol cream - 5 entries */
     { family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.2% Cream)',
       drug: 'Estradiol 0.2%, 2 mg/ml cream',
@@ -762,7 +844,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Progesterone MCC 100 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule)',
@@ -770,7 +852,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Progesterone SR 100 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (200 mg Capsule)',
@@ -778,7 +860,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Progesterone MCC 200 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule)',
@@ -786,7 +868,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Progesterone SR 200 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (300 mg Capsule)',
@@ -794,7 +876,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Progesterone MCC 300 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (300 mg Capsule)',
@@ -802,7 +884,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Progesterone SR 300 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      quantity: '63', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'Bill to office/ship to patient' },
     /* Testosterone cream - 2 entries */
@@ -937,6 +1019,20 @@ var KORB_WOMENS = {
         render: 'hormoneGuide',
         body: ['The clinical reason to choose each one, and what it changes about ' +
                'pharmacy and pricing.']
+      },
+      {
+        id: 'supply', heading: 'Supply length and when to see her back',
+        render: 'table',
+        columns: ['Product', 'Supply', 'Why'],
+        rows: W.supply.byProduct.map(function (r) { return [r.product, r.supply, r.why]; }),
+        body: [W.supply.visitRule],
+        callouts: [W.supply.billingNote]
+      },
+      {
+        id: 'dispensing', heading: 'Who pays the pharmacy',
+        render: 'bullets',
+        body: [W.dispensing.rule],
+        bullets: [W.dispensing.partner, W.dispensing.local, W.dispensing.whatCanGoLocal]
       },
       {
         id: 'naming', heading: W.estrogenNaming.heading,
