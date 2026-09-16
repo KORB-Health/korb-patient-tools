@@ -140,6 +140,31 @@ var KORB_GLP1 = {
        one screen type scale instead of three partial ones - but that is CSS in
        provider-doc-render.js and touches no prescribing value, so it is not in
        this fingerprint. */
+    /* Signed 2026-09-15, this session.
+
+       The cleanest document in the set on the numbers: dose arithmetic is
+       EXACT at 2.5 mg/ml on all five doses, no rounding compromise anywhere,
+       and every value matches docs/pharmacy/Farmakeio_Semaglutide_2025-11-26.md
+       in korb-clinical-docs line for line, sig text included.
+
+       Two things were put to Don and he settled both. The top dose of 2.5 mg is
+       not over a ceiling - 2.4 mg is outdated and the maximum is 7.2 mg, the
+       branded Wegovy high dose; reasoning recorded at the product. And the
+       pricing tables lost their empty fourth column and got their Copy buttons
+       back on the right rail, to match every other document.
+
+       NOT FULLY SETTLED: Don said the pricing table layout still looks "a little
+       bit off" and chose to keep it rather than iterate further tonight. That is
+       cosmetic, it is outside this fingerprint, and it is open. */
+      "glp1:farmakeio_sema": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-bc233a3f-30092",
+        "blocks": 12,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "glp1:farmakeio_tirz": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
