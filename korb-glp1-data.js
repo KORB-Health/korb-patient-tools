@@ -124,6 +124,31 @@ var KORB_GLP1 = {
 
        None of that is inside this fingerprint - it is all pricing and layout,
        and the fingerprint covers prescribing blocks only. See rx-signoff.js. */
+    /* Signed 2026-09-15, this session.
+
+       The review raised one thing and Don settled it: FarmaKeio 2.5 mg is
+       13 units, which at 18 mg/ml delivers 2.34 mg where the nearest unit
+       would be 14. It is the pharmacy's rounding, it matches their own
+       document, and it is what has been dispensed for about a year. Reasoning
+       recorded at the product so nobody "corrects" it.
+
+       Everything else checked clean before it went to him: pricing identical
+       to Premier and matching the source, every copied value plain ASCII, and
+       the discard wording following the same vial rule he confirmed earlier.
+
+       The page typography was rebuilt under this document during the review -
+       one screen type scale instead of three partial ones - but that is CSS in
+       provider-doc-render.js and touches no prescribing value, so it is not in
+       this fingerprint. */
+      "glp1:farmakeio_tirz": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-d080c761-30094",
+        "blocks": 12,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "glp1:premier_tirz": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
