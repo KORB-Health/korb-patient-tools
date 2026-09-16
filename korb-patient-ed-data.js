@@ -139,6 +139,244 @@ var KORB_PATIENT_ED = {
      agentKey ties a handout to korb-dosing-data.js. Route, schedule, timing and
      active weeks are read from there and are never restated below. */
   docs: {
+    /* ------------------------------------------------------------------------
+       HORMONE THERAPY - the ninth handout, and the first for Women's Health.
+
+       Converted 2026-09-16, the last of the patient PDFs still unconverted. The
+       other eight cover peptides, GLP-1 and testosterone; women's health had
+       three hand-made PDFs from 9 and 10 September and no HTML.
+
+       ONE handout, not one per hormone. The peptide handouts are one per agent
+       because a patient takes one peptide. A woman on hormone therapy is
+       usually on two or three at once - estradiol with progesterone, often
+       testosterone as well - so splitting them would hand her three documents
+       that each omit two thirds of what she is taking.
+
+       Clinical content follows korb-womens-data.js, which Don signed the same
+       day, rather than the November 2025 programme document. Where that file
+       says something in provider language this says the same thing in hers.
+
+       STORAGE AND TRAVEL ARE OVERRIDDEN. The shared blocks say refrigerate,
+       which is right for peptides and wrong for every product here - patches,
+       creams and capsules are all room temperature. That is the mistake the
+       testosterone handout hit in September and it is the same fix.
+       ------------------------------------------------------------------------ */
+    hormone_therapy: {
+      key: 'hormone_therapy',
+      file: 'KORB_Patient_Ed_HormoneTherapy',
+      title: 'Hormone Therapy',
+      source: 'none',
+      program: "Women's Health",
+
+      facts: {
+        how: 'Patch, cream or capsule, depending on which hormones you are prescribed',
+        timing: 'Creams and patches in the morning unless told otherwise. Progesterone capsules at night.',
+        schedule: 'As stated on your prescription label'
+      },
+
+      what: [
+        'Hormone therapy replaces hormones your body has stopped making in the ' +
+        'amounts it used to. Around menopause, estrogen and progesterone fall, ' +
+        'and testosterone falls too. That decline is what causes hot flashes, ' +
+        'night sweats, disturbed sleep, vaginal dryness, low mood and the ' +
+        'difficulty concentrating many women describe as brain fog.',
+
+        'The hormones KORB prescribes are bioidentical, meaning they are ' +
+        'structurally the same as the ones your body makes. You may be ' +
+        'prescribed one, two or three of them, and they are counted that way ' +
+        'when your programme is priced.',
+
+        'Most of them are absorbed through the skin rather than swallowed. That ' +
+        'matters: going through the skin avoids the first pass through your ' +
+        'liver, which is why a patch or cream carries a lower risk of blood ' +
+        'clots than an oral estrogen does.'
+      ],
+
+      mayHelp: {
+        lead: 'Hormone therapy is prescribed for symptoms that are affecting ' +
+              'your quality of life, most commonly:',
+        items: [
+          'Hot flashes and night sweats',
+          'Sleep that is broken or unrefreshing',
+          'Vaginal dryness, or discomfort with intercourse',
+          'Low mood, irritability, or mood that swings more than it used to',
+          'Difficulty concentrating - brain fog',
+          'Low libido, low energy, loss of muscle tone'
+        ]
+      },
+
+      extraSections: [
+        {
+          h: 'The hormones you may be taking',
+          table: {
+            head: ['Hormone', 'What it is for', 'How you take it'],
+            rows: [
+              ['Estradiol',
+               'The main estrogen. Treats hot flashes, night sweats, sleep and ' +
+               'vaginal dryness, and supports bone.',
+               'A patch changed once a week, or a cream you apply daily.'],
+              ['Progesterone',
+               'Protects the lining of the uterus, and helps sleep.',
+               'A capsule taken at night.'],
+              ['Testosterone',
+               'Supports libido, energy, mood and muscle. Women make it too, and ' +
+               'it falls at menopause.',
+               'A cream you apply daily. Available in Texas and California only.']
+            ]
+          }
+        },
+        {
+          h: 'Why progesterone matters if you still have a uterus',
+          callout: 'If you still have a uterus, you will always be prescribed ' +
+            'progesterone alongside estrogen. Estrogen on its own thickens the ' +
+            'lining of the uterus, and over time that can lead to cancer. ' +
+            'Progesterone prevents it. This is not optional and it is not a ' +
+            'preference - if you have been prescribed estrogen without ' +
+            'progesterone and you have not had a hysterectomy, contact us before ' +
+            'you start.',
+          body: [
+            'If you have had a hysterectomy, you do not need progesterone. There ' +
+            'is no lining to protect, and adding it would not help you.',
+            'If you still have regular periods, your progesterone is taken on a ' +
+            'cycle - 21 days on, then 7 days off - rather than every night. Your ' +
+            'label will tell you which.'
+          ]
+        },
+        {
+          h: 'How to apply a cream',
+          callout: 'One click is one measured dose. Do not guess at it and do ' +
+            'not double up if you miss one.',
+          table: {
+            head: ['Step', 'What to do'],
+            rows: [
+              ['1', 'Wash your hands.'],
+              ['2', 'Apply to thin, hairless skin - the inner thigh, the inner ' +
+                    'forearm, or the back of the upper arm.'],
+              ['3', 'Rub it in and let it dry completely before you dress or ' +
+                    'touch anyone.'],
+              ['4', 'Wash your hands again, thoroughly.'],
+              ['5', 'Rotate where you apply it. Using the same patch of skin ' +
+                    'every day reduces how well it absorbs.']
+            ]
+          },
+          body: [
+            'Hormone cream transfers by skin contact. Until it has dried, it can ' +
+            'pass to a partner, a child or a pet. Let it dry, and wash your hands.'
+          ]
+        },
+        {
+          h: 'How to use a patch',
+          body: [
+            'Apply the patch to the lower abdomen or the upper buttock. Not the ' +
+            'breasts, and not on skin that is broken or irritated.',
+            'Change it on the same day each week, and move it to a slightly ' +
+            'different spot each time.',
+            'If a patch comes off, put a new one on and carry on with your usual ' +
+            'change day.'
+          ]
+        }
+      ],
+
+      storage: {
+        cards: [
+          ['Store at room temperature', '68°F – 77°F (20°C – 25°C)'],
+          ['Do NOT refrigerate', 'None of these need cold storage'],
+          ['Keep the cap on the pump', 'And keep creams upright'],
+          ['Out of reach', 'Of children, and of anyone else in the house']
+        ],
+        notes: [
+          'Your prescriptions are written as a 12-week supply. If you have ' +
+          'medication left at the end of 12 weeks, that is expected on the ' +
+          'creams - the bottle holds a little more than 12 weeks of doses. Start ' +
+          'the new bottle when it arrives rather than finishing the old one.'
+        ]
+      },
+
+      travel: 'Hormone therapy travels easily. Keep everything in your carry-on ' +
+        'rather than a checked bag, leave it in its original labelled container, ' +
+        'and do NOT refrigerate it at any point - these are room-temperature ' +
+        'medications and cold is not better for them. If you are crossing time ' +
+        'zones, keep your patch change day and your nightly capsule on your home ' +
+        'schedule until you are settled.',
+
+      common: [
+        ['Breast tenderness or swelling',
+         'Common in the first few weeks. Tell us if it does not settle - it often ' +
+         'responds to a small change in dose.'],
+        ['Headache',
+         'Usually early and short-lived. Tell us if it is new for you or persistent.'],
+        ['Bloating or fluid retention',
+         'Common early. Reducing salt and keeping hydrated helps.'],
+        ['Mood changes',
+         'Tell us. Mood is one of the things dose adjustment tends to fix.'],
+        ['Nausea',
+         'More common with capsules. Taking it with a little food at night helps.'],
+        ['Spotting, or a change in your bleeding',
+         'Expected in the first months, especially if you are cycling ' +
+         'progesterone. Tell us at your visit, and sooner if it is heavy.'],
+        ['Acne, or more hair growth on the face or body',
+         'Usually testosterone. Tell us - the dose can come down.']
+      ],
+      monitorAndTell: [
+        ['Bleeding that is new, heavy, or after you had stopped altogether',
+         'Always tell us. It needs looking at rather than waiting for your visit.'],
+        ['A lump in the breast, or breast pain that does not settle',
+         'Tell us promptly. We will arrange the right assessment.'],
+        ['Mood that is getting worse rather than better',
+         'Tell us. Do not wait out a low mood on the assumption it will pass.'],
+        ['Headaches that are new or unusual for you',
+         'Tell us before your next dose.'],
+        ['A change in your voice, or hair growth you are unhappy with',
+         'Tell us early. Voice changes do not reverse, so we would rather hear ' +
+         'about it at the first sign.'],
+        ['No improvement at all after 12 weeks',
+         'Tell us at your visit. It usually means the dose or the route needs ' +
+         'changing, not that hormone therapy will not work for you.']
+      ],
+      labs: {
+        lead: 'KORB uses at-home saliva collection rather than a blood draw for ' +
+              'hormone levels.',
+        items: [
+          'A kit is sent to you. You collect at home and post it back.',
+          'Saliva is used deliberately. It measures the fraction of the hormone ' +
+          'that is actually reaching your tissues, which is what matters when ' +
+          'the hormone is going through your skin. A blood level barely moves ' +
+          'after a cream, so it would tell your provider very little.',
+          'The complete panel adds a small finger-prick blood spot for thyroid, ' +
+          'because thyroid problems cause many of the same symptoms and are ' +
+          'worth ruling out.'
+        ]
+      },
+
+      safety: [
+        'Tell your provider before you start if you have had breast cancer, ' +
+        'endometrial cancer, or any cancer that was sensitive to estrogen.',
+        'Tell your provider if you have had a blood clot or a clotting disorder, ' +
+        'or if a close relative has.',
+        'Tell your provider if you have had a stroke or a heart attack, or if ' +
+        'your blood pressure is not controlled.',
+        'Tell your provider if you have liver disease.',
+        'Tell your provider about any vaginal bleeding that has not been explained.',
+        'Tell us if you have a PEANUT ALLERGY. The commercial progesterone ' +
+        'capsule is made with peanut oil. A compounded capsule is not, and we ' +
+        'will prescribe that one instead - so this does not stop you having ' +
+        'progesterone.',
+        'If you still have a uterus, never take estrogen without progesterone.',
+        'Do not change your own dose, and do not use anyone else\'s hormones.'
+      ],
+      emergencyLead: 'Call 911 or go to an emergency room if you have any of these:',
+
+      keyReminders: [
+        'If you have a uterus, never take estrogen without progesterone.',
+        'Let creams dry fully before contact with anyone else, and wash your hands.',
+        'Progesterone is taken at night. It helps you sleep.',
+        'Your prescriptions run 12 weeks, and your follow-up is at 12 weeks.',
+        'Do not change your own dose. Tell us what you are feeling and we will ' +
+        'change it with you.',
+        'Nothing here needs refrigerating.'
+      ]
+    },
+
 
     sermorelin: {
       key: 'sermorelin',
