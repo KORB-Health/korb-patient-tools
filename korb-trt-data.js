@@ -52,7 +52,7 @@
 var KORB_TRT = {
 
   meta: {
-    version: '1.2',
+    version: '1.3',
     created: '2026-09-16',
     updated: '2026-09-16',
     owner: 'Director of Clinical Operations',
@@ -87,7 +87,28 @@ var KORB_TRT = {
       'instructed to take less and titrate up rather than being put back on a step ' +
       'the pharmacy will not dispense. The dose is recorded in removedDoses with ' +
       'the reason so it is not reinstated by someone reading an old document. ' +
-      'Source: Don Stevenson, after speaking with Premier the week of 2026-09-08.'
+      'Source: Don Stevenson, after speaking with Premier the week of 2026-09-08.',
+      '2026-09-16 (v1.3): THE SAFETY PROTOCOL, which was entirely absent. This file ' +
+      'was first extracted from KORB_TRT_Provider_Tool.html, and that tool is a ' +
+      'calculator - it carries dosing and Tebra fields and no safety protocol at all. ' +
+      'So the reference shipped without an eligibility gate, precautions, hematologic ' +
+      'or prostate management, cardiovascular screening, fertility counselling, a ' +
+      'monitoring timeline, side effects or any discontinuation guidance. Don noticed ' +
+      'and named most of it. Added from the Men\'s Health Testosterone SOP of ' +
+      '2026-02-10: eligibility gate (Hct below 52, age-adjusted PSA, symptoms and labs ' +
+      'aligned), relative contraindications, hematologic safety with the phlebotomy ' +
+      'rule, age-banded PSA ranges, cardiometabolic screening, fertility with the ' +
+      'adjuncts KORB does NOT offer stated as such, the baseline / 4-6 week / 12-week / ' +
+      'annual timeline, the side-effect table, and stopping therapy. Two absolute ' +
+      'contraindications gained the numbers the SOP carries and the tool did not: ' +
+      'hematocrit above 52 at baseline, and desire for fertility WITHOUT gonadotropin ' +
+      'or enclomiphene support. ' +
+      'DOSING WAS NOT TAKEN FROM THE SOP. Don reworked TRT dosing the week of ' +
+      '2026-09-08 and the SOP is last year, so the live values govern. The three ' +
+      'disagreements - target band 400-700 against 600-800, ladder steps against ' +
+      '10-15 percent adjustments, and the SOP Tebra favorites at 150 and 165 mg/week ' +
+      'in units rather than mL - are recorded in sourceConflicts rather than ' +
+      'reconciled, because reconciling them is a clinical decision.'
     ]
   },
 
@@ -346,11 +367,13 @@ var KORB_TRT = {
           'to PCP, urology, or the appropriate specialist.',
     items: [
       'Known or suspected prostate or breast cancer',
-      'Uncontrolled polycythemia, or elevated hematocrit at baseline',
+      'Hematocrit above 52% at baseline - hold and evaluate for erythrocytosis, ' +
+      'dehydration or sleep apnea',
       'Severe untreated obstructive sleep apnea',
       'Uncontrolled heart failure; MI or stroke within the last 6 months',
       'Thrombophilia',
-      'Active desire for fertility in the near term (relative; counsel and consider referral)',
+      'Active desire for fertility WITHOUT concurrent gonadotropin or enclomiphene ' +
+      'support - KORB does not currently offer either, so this means refer',
       'PSA above 4.0 ng/mL, or above 3.0 ng/mL with high prostate cancer risk, ' +
       'without urological evaluation first'
     ]
@@ -416,6 +439,219 @@ var KORB_TRT = {
              'patient to a provider registered in that state.'
   },
 
+  /* -- WHERE THE SAFETY CONTENT CAME FROM -------------------------------------
+     Sections below marked `source: 'SOP'` are from the Men's Health Testosterone
+     SOP dated 2026-02-10, in korb-clinical-docs/docs/programs/. The first cut of
+     this file was extracted only from the provider tool, which is a calculator
+     and carries no safety protocol at all, so everything here was missing:
+     the eligibility gate, precautions, hematologic and prostate management,
+     cardiovascular screening, fertility, the monitoring timeline, side effects
+     and discontinuation.
+
+     DOSING WAS NOT TAKEN FROM THE SOP. Don reworked the TRT dosing in the week
+     of 2026-09-08 and the SOP predates that, so on anything to do with dose,
+     ladder, titration targets or Tebra fields the live data above governs and
+     the SOP is stale. See sourceConflicts for the specific disagreements, which
+     are recorded rather than reconciled - reconciling them is a clinical
+     decision and belongs to Don, not to this file. */
+  sourceConflicts: [
+    {
+      topic: 'Total testosterone target band',
+      current: '400 - 700 ng/dL at trough, per titration.rows above.',
+      sop: 'SOP 4.3 says target 600 - 800 ng/dL (mid-normal), sub-therapeutic ' +
+           'below 500, supraphysiologic above 900.',
+      resolution: 'CURRENT GOVERNS. The band is part of the dosing work of ' +
+        '2026-09-08 and the SOP predates it. NOT merged. Flagged for Don because ' +
+        'the two documents will be read side by side and the difference is large ' +
+        'enough to change a dose decision.'
+    },
+    {
+      topic: 'Titration step size',
+      current: 'Move one step on the ladder - 120 / 144 / 168 mg per week.',
+      sop: 'SOP 5.3 says adjust the total weekly dose by 10 - 15%.',
+      resolution: 'CURRENT GOVERNS. A fixed ladder and a percentage adjustment ' +
+        'are different methods, and the ladder is what the pharmacy fills.'
+    },
+    {
+      topic: 'Starting dose and available doses',
+      current: 'Start 120 mg/week. Ladder 120 / 144 / 168.',
+      sop: 'SOP 5.3 says start 100 mg/week, with alternatives at 80 and 120 - 140. ' +
+           'Its Tebra favorites are written at 150 and 165 mg/week and express the ' +
+           'dose in UNITS rather than mL.',
+      resolution: 'CURRENT GOVERNS, confirmed by Don 2026-09-16. The SOP favorites ' +
+        'are last year and would not fill: 96 mg was removed because Premier will ' +
+        'not dispense 90 days at that dose.'
+    }
+  ],
+
+  /* -- ELIGIBILITY AND THE BASELINE GATE --------------------------------------
+     source: SOP 2.4.2 and 3.3. What must be true before a first prescription.
+     The provider tool had no concept of this at all - it would compute a
+     perfectly good prescription for a patient who should not be started. */
+  eligibility: {
+    source: 'SOP',
+    lead: 'Confirm ALL of the following before the first prescription. If any is ' +
+          'not met, defer therapy and repeat testing or refer - hematology, ' +
+          'urology or endocrinology as the finding indicates.',
+    gates: [
+      'Hematocrit below 52%.',
+      'PSA within the age-adjusted normal range for the patient (see Prostate safety).',
+      'Normal liver and kidney function, if tested.',
+      'No absolute contraindication present.',
+      'Symptoms and laboratory findings align. Testosterone deficiency is diagnosed ' +
+      'on both, not on a number alone.'
+    ],
+    documentation: 'Abnormal labs must be documented in Tebra with an interpretation ' +
+      'and a plan, not merely filed. Where therapy proceeds despite a borderline ' +
+      'finding, the note must carry the rationale.'
+  },
+
+  /* -- PRECAUTIONS. Not absolute bars; things to settle first. source: SOP 3.4 */
+  precautions: {
+    source: 'SOP',
+    lead: 'Relative contraindications. These are not absolute bars, but each needs ' +
+          'addressing before therapy rather than after.',
+    items: [
+      'Polycythemia, or hematocrit above 50% - re-evaluate for sleep apnea, ' +
+      'dehydration or high-dose therapy.',
+      'Prostate enlargement (BPH) - monitor urinary symptoms and the PSA trend.',
+      'Severe lower urinary tract symptoms (AUA score above 19) - refer to urology first.',
+      'Untreated thyroid dysfunction, metabolic syndrome or severe obesity - optimise first.',
+      'Psychiatric instability or uncontrolled mood disorder - stabilise first, and ' +
+      'coordinate with the PCP.',
+      'High cardiovascular risk or active atherosclerosis - obtain clearance from the ' +
+      'PCP or a cardiologist.'
+    ]
+  },
+
+  /* -- HEMATOLOGIC SAFETY. source: SOP 3.5 and 4.3 ---------------------------
+     The one safety rule most likely to be needed and least likely to be
+     remembered: what to do when the hematocrit climbs. */
+  hematologic: {
+    source: 'SOP',
+    rules: [
+      'Hold or reduce the dose if hematocrit reaches 54%.',
+      'Require documented blood donation or therapeutic phlebotomy before restarting.',
+      'Resume only after hematocrit is below 52%, with the intervention documented in the EHR.',
+      'If hematocrit stays elevated despite intervention, refer to hematology.',
+      'Above 52% on therapy, re-evaluate for dehydration or dosing interval before ' +
+      'assuming the dose is the cause.'
+    ],
+    note: 'Erythrocytosis is the commonest reason to stop testosterone. More frequent ' +
+      'smaller injections lower the peak and often resolve it without a dose reduction.'
+  },
+
+  /* -- PROSTATE SAFETY. source: SOP 3.6 -------------------------------------- */
+  prostate: {
+    source: 'SOP',
+    lead: 'Obtain a baseline PSA for all men, and particularly those 40 and older ' +
+          'or with risk factors. Use age-adjusted ranges.',
+    ranges: [
+      { age: '40 - 49', range: '0.0 - 2.5 ng/mL', action: 'Above 2.5, evaluate family history and risk.' },
+      { age: '50 - 59', range: '0.0 - 3.5 ng/mL', action: 'Above 3.5, consider urology referral.' },
+      { age: '60 - 69', range: '0.0 - 4.5 ng/mL', action: 'Above 4.5, further diagnostic review.' },
+      { age: '70 and older', range: '0.0 - 6.5 ng/mL', action: 'Evaluate in the context of comorbidities.' }
+    ],
+    holdRule: 'Hold TRT and refer to urology if PSA is above 4.0 ng/mL, or above ' +
+      '3.0 in a high-risk group, or has risen more than 1.4 ng/mL in 12 months. ' +
+      'Resume only after urology clearance and a documented negative malignancy ' +
+      'evaluation.'
+  },
+
+  /* -- CARDIOVASCULAR AND METABOLIC. source: SOP 3.7 ------------------------- */
+  cardiometabolic: {
+    source: 'SOP',
+    items: [
+      'Do not begin TRT until blood pressure is controlled, below 140/90. This is ' +
+      'harder over telemedicine - confirm the PCP or specialist is managing it and ' +
+      'that it is in range.',
+      'Screen for sleep apnea and obesity-related hypoventilation by referring the ' +
+      'patient to their PCP.',
+      'Assess HbA1c and a lipid panel for metabolic syndrome.',
+      'Coordinate with the PCP or cardiology for known ASCVD or diabetes.',
+      'Emphasise lifestyle optimisation - nutrition, exercise, stress reduction.'
+    ]
+  },
+
+  /* -- FERTILITY. source: SOP 3.8 and 6 --------------------------------------
+     Stated carefully. The SOP records that KORB does NOT currently offer the
+     adjuncts, while listing them, and a document that lists a drug without that
+     qualifier reads as an offer. */
+  fertility: {
+    source: 'SOP',
+    lead: 'Testosterone suppresses spermatogenesis. Counsel every patient who may ' +
+          'want children before starting, and document the discussion and the ' +
+          'patient preference in the chart.',
+    adjuncts: 'Enclomiphene 25 mg orally daily, or hCG 500 IU two to three times ' +
+      'weekly, are the adjuncts that preserve fertility alongside therapy. ' +
+      'KORB DOES NOT CURRENTLY OFFER EITHER. They are recorded here so the option ' +
+      'is discussed and referred rather than overlooked, and they may be offered ' +
+      'if a need arises.',
+    absolute: 'An active desire for fertility WITHOUT that support is an absolute ' +
+      'contraindication, not a relative one. Refer rather than treat.'
+  },
+
+  /* -- MONITORING TIMELINE. source: SOP 4.2 ---------------------------------- */
+  monitoring: {
+    source: 'SOP',
+    rows: [
+      { when: 'Baseline, before TRT', labs: 'TT, E2, LH/FSH, CBC, PSA, prolactin',
+        why: 'Establish the diagnosis, confirm eligibility, identify contraindications.' },
+      { when: '4 to 6 weeks after starting', labs: 'TT, E2, LH/FSH, CBC, PSA, prolactin',
+        why: 'Initial therapeutic response, erythrocytosis risk, dose accuracy.' },
+      { when: 'Every 12 weeks', labs: 'TT, E2, CBC, drawn 48 hours post-injection',
+        why: 'Therapeutic response, erythrocytosis risk, dose accuracy.' },
+      { when: 'Annually', labs: 'Full panel - TT, E2, LH/FSH, CBC, PSA, prolactin',
+        why: 'Full annual review.' },
+      { when: 'As indicated', labs: 'Any of the above, plus add-ons',
+        why: 'Dose changes, side effects, or abnormal prior results.' }
+    ],
+    note: 'PSA applies to men 40 and older or with risk factors. Recheck 6 to 8 ' +
+      'weeks after any dose or frequency change, drawn at trough.'
+  },
+
+  /* -- SIDE EFFECTS. source: SOP 9.4 ----------------------------------------- */
+  sideEffects: {
+    source: 'SOP',
+    rows: [
+      { system: 'Hematologic', effect: 'Elevated hematocrit',
+        action: 'Increase hydration; consider dose adjustment, more frequent smaller ' +
+                'injections, or phlebotomy if hematocrit reaches 54%.' },
+      { system: 'Endocrine', effect: 'Elevated estradiol',
+        action: 'Review for mood change, bloating and gynecomastia. Treat only if symptomatic.' },
+      { system: 'Dermatologic', effect: 'Acne, oily skin, hair thinning',
+        action: 'Advise skin hygiene; avoid over-supplementation such as DHEA.' },
+      { system: 'Mood and CNS', effect: 'Irritability, mood swings',
+        action: 'Assess estradiol and stress. Avoid abrupt dose increases.' },
+      { system: 'Cardiovascular', effect: 'Fluid retention, raised blood pressure',
+        action: 'Monitor blood pressure; ensure hydration and reduce sodium.' },
+      { system: 'Genitourinary', effect: 'Reduced fertility, testicular atrophy',
+        action: 'Discuss fertility preservation. See Fertility - KORB does not ' +
+                'currently offer the adjuncts.' }
+    ],
+    note: 'Document the symptom review, the education given and the plan for any ' +
+      'side effect the patient reports.'
+  },
+
+  /* -- DISCONTINUATION. source: SOP 9.7 -------------------------------------- */
+  discontinuation: {
+    source: 'SOP',
+    triggers: [
+      'Hematocrit persistently above 54%.',
+      'PSA elevation not cleared by urology.',
+      'Patient preference, or side effects that outweigh the benefit.'
+    ],
+    counselling: [
+      'Endogenous testosterone may take 6 to 12 weeks to return to normal.',
+      'Taper gradually rather than stopping abruptly, or transition to enclomiphene ' +
+      'to support recovery, noting that KORB does not currently offer it.',
+      'Schedule a follow-up telemedicine visit 6 to 8 weeks after stopping, to ' +
+      'review labs and symptoms.'
+    ],
+    refusal: 'If the patient declines recommended labs, phlebotomy or a follow-up ' +
+      'visit, document the refusal and the counselling on the associated risks.'
+  },
+
   /* -- THE STANDALONE DOCUMENT ------------------------------------------------
      Every other KORB program has a reference a provider can read without
      driving a tool: GLP-1 has ten monographs, FH&L four references, add-ons
@@ -438,7 +674,7 @@ var KORB_TRT = {
     subtitle: 'Male TRT - testosterone cypionate',
     kicker: 'Provider use only',
     entity: 'KORB Health Medical Texas PA',
-    version: '1.0',
+    version: '1.1',
     effective: '2026-09-16',
     supersedes: 'Nothing. This is the first standalone TRT reference; before it, ' +
       'the protocol existed only inside the TRT Provider Tool.',
@@ -476,6 +712,13 @@ var KORB_TRT = {
             'is dispensed or scheduled beyond ' + T.scheduling.maxDays + ' days.',
           'Storage: ' + T.product.storage
         ]
+      },
+      {
+        id: 'eligibility', heading: 'Before you start - the baseline gate',
+        render: 'bullets',
+        body: [T.eligibility.lead],
+        bullets: T.eligibility.gates,
+        callouts: [T.eligibility.documentation]
       },
       {
         id: 'pricing', heading: 'Pricing and charge codes',
@@ -566,11 +809,50 @@ var KORB_TRT = {
         callouts: [T.labPanel.addOnDisclaimer]
       },
       {
+        id: 'monitoring', heading: 'Monitoring timeline',
+        render: 'table',
+        columns: ['When', 'Labs', 'Purpose'],
+        rows: T.monitoring.rows.map(function (r) { return [r.when, r.labs, r.why]; }),
+        callouts: [T.monitoring.note]
+      },
+      {
         id: 'titration', heading: 'Titration targets and action thresholds',
         render: 'table',
         columns: ['Marker', 'Threshold', 'Action'],
         rows: T.titration.rows.map(function (r) { return [r.marker, r.threshold, r.action]; }),
         callouts: [T.titration.rule]
+      },
+      {
+        id: 'hematologic', heading: 'Hematologic safety and phlebotomy',
+        render: 'bullets',
+        body: [T.hematologic.note],
+        bullets: T.hematologic.rules
+      },
+      {
+        id: 'prostate', heading: 'Prostate safety and PSA',
+        render: 'table',
+        columns: ['Age', 'Age-adjusted PSA range', 'Action above the range'],
+        rows: T.prostate.ranges.map(function (r) { return [r.age, r.range, r.action]; }),
+        body: [T.prostate.lead],
+        callouts: [T.prostate.holdRule]
+      },
+      {
+        id: 'cardiometabolic', heading: 'Cardiovascular and metabolic safety',
+        render: 'bullets',
+        bullets: T.cardiometabolic.items
+      },
+      {
+        id: 'fertility', heading: 'Fertility',
+        render: 'bullets',
+        body: [T.fertility.lead],
+        bullets: [T.fertility.absolute, T.fertility.adjuncts]
+      },
+      {
+        id: 'side-effects', heading: 'Side effects and counselling',
+        render: 'table',
+        columns: ['System', 'Effect', 'Counselling and action'],
+        rows: T.sideEffects.rows.map(function (r) { return [r.system, r.effect, r.action]; }),
+        callouts: [T.sideEffects.note]
       },
       {
         id: 'workflow', heading: 'Controlled substance workflow',
@@ -594,10 +876,26 @@ var KORB_TRT = {
         ]
       },
       {
-        id: 'contra', heading: 'Do not initiate - contraindications',
+        id: 'contra', heading: 'Do not initiate - absolute contraindications',
         render: 'bullets',
         body: [T.contraindications.lead],
         bullets: T.contraindications.items
+      },
+      {
+        id: 'precautions', heading: 'Precautions - settle these first',
+        render: 'bullets',
+        body: [T.precautions.lead],
+        bullets: T.precautions.items
+      },
+      {
+        id: 'discontinuation', heading: 'Stopping therapy',
+        render: 'bullets',
+        body: ['TRT may be discontinued under supervision when any of the following ' +
+               'applies. Stopping is a clinical event with its own follow-up, not ' +
+               'simply the absence of a prescription.'],
+        bullets: T.discontinuation.triggers
+          .concat(T.discontinuation.counselling)
+          .concat([T.discontinuation.refusal])
       }
     ];
     return d;

@@ -377,8 +377,17 @@ function sectionProducts(sec) {
 }
 
 function sectionBullets(sec) {
+  /* Callouts here too. Three of the TRT safety sections carry one and they were
+     silently dropped - a bullets section rendered its list and threw the
+     callout away, which on "Stopping therapy" would have lost the documented
+     refusal rule. Caught by counting callouts in the rendered page against
+     callouts in the data. */
   return '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body) +
-    bullets(sec.bullets) + decider(sec.decider);
+    bullets(sec.bullets) +
+    (sec.callouts || []).map(function (c) {
+      return '<div class="callout"><p>' + esc2(c) + '</p></div>';
+    }).join('') +
+    decider(sec.decider);
 }
 
 /* A plain table from the data: column headings, rows, and an optional column
