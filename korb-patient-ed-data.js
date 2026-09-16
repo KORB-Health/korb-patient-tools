@@ -512,6 +512,235 @@ var KORB_PATIENT_ED = {
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
+    },
+
+    bpc157: {
+      key: 'bpc157',
+      file: 'KORB_Patient_Ed_BPC157',
+      title: 'BPC-157',
+      agentKey: 'bpc157',
+      program: 'Functional Health & Longevity',
+      cycleWeeks: 16,
+      /* Two windows, each read from its own field on the agent record. One
+         "active weeks" row cannot say that Foundation runs 1-8 and Gateway and
+         Peak run 3-8, and the PDF this replaces spelled both out in prose. */
+      weeksRows: [
+        ['Foundation \u2014 active weeks', 'onWeeksFoundation'],
+        ['Gateway / Peak \u2014 active weeks', 'onWeeksGatewayPeakBase']
+      ],
+      weeksNote: 'On Gateway and Peak the course starts two weeks after your ' +
+                 'start date, which is why it begins later and runs shorter.',
+
+      what: [
+        'BPC-157 is a synthetic peptide derived from a protein found naturally in the ' +
+        'stomach lining. Its full name is Body Protection Compound 157. It is being ' +
+        'studied for possible support of soft tissue recovery, musculoskeletal health ' +
+        'and gut health.'
+      ],
+
+      mayHelp: {
+        lead: 'This medication is one possible adjunctive support option for patients ' +
+              'with goals related to:',
+        items: [
+          'Soft tissue recovery, including tendon, ligament and connective tissue support',
+          'Musculoskeletal wellness during rehabilitation or recovery',
+          'Exercise recovery quality and return-to-activity support',
+          'Gut support in select clinical contexts, discussed with your provider'
+        ],
+        after: 'Response to BPC-157 varies from patient to patient and results are not ' +
+               'guaranteed. Some patients notice changes during their active course and ' +
+               'others do not. Your provider will assess whether to continue at your ' +
+               'follow-up visit.'
+      },
+
+      timingNotes: [
+        ['If you miss a dose',
+         'If you miss a dose on a scheduled day, skip it. Do not double up the next day.']
+      ],
+
+      timeline: [
+        ['Weeks 1\u20132', 'Getting started',
+         'No immediate noticeable effect is common. The therapy works gradually. Continue your schedule.'],
+        ['Active course', 'Foundation 8 weeks; Gateway and Peak 6 weeks',
+         'Recovery quality may begin to shift. Individual response varies from patient to patient.'],
+        ['Off weeks', 'Washout \u2014 labs and lifestyle',
+         'No injections during this window; this is intentional. Your labs, drawn between ' +
+         'weeks 12 and 14, are reviewed during this time, and it is a good stretch to focus ' +
+         'on nutrition, exercise and sleep before your next course.']
+      ],
+      timelineNote:
+        'Your provider will assess whether therapy is appropriate to continue based on ' +
+        'your response, tolerability and goals.',
+
+      common: [
+        ['Injection site redness or irritation',
+         'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+        ['Nausea or GI discomfort', 'Occasionally reported. Usually mild and self-limiting. Tell your KORB provider if it persists.'],
+        ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
+      ],
+      monitorAndTell: [
+        ['Unusual pain or swelling at the injection site',
+         'Could indicate infection. Contact KORB promptly if redness spreads or a fever develops.'],
+        ['Systemic rash or hives',
+         'Tell your KORB provider at your next visit, or sooner if it is spreading or severe.'],
+        ['Any unexplained systemic symptom',
+         'Tell your KORB provider. Do not continue without guidance if you have a significant new symptom.']
+      ],
+
+      labs: {
+        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
+              'provider uses labs to assess your response and your safety.',
+        items: [
+          'Standard longevity panel: CBC, CMP, lipid panel, HbA1c, fasting glucose, fasting ' +
+          'insulin, IGF-1, TSH, free T4, free T3, copper, zinc and ceruloplasmin, at ' +
+          'baseline and every 16-week follow-up.',
+          'PSA, added for men aged 45 and older at every draw.'
+        ],
+        after: 'Your lab draw should be completed between weeks 12 and 14 of your active ' +
+               'cycle, so results are back in time for your 16-week follow-up visit. Some ' +
+               'results, such as IGF-1, can take about a week. Unless your lab order says ' +
+               'otherwise, plan to fast overnight and have blood drawn first thing in the morning.'
+      },
+
+      safety: [
+        'Use BPC-157 only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'BPC-157 is not appropriate during active malignancy or pregnancy.',
+        'Do not restart the course early after your off weeks without provider direction.',
+        'Tell your KORB provider if you develop a new medical condition or become pregnant.'
+      ],
+
+      emergencyLead:
+        'Stop injecting and seek emergency care immediately if you have trouble ' +
+        'breathing, swelling of the face, lips, tongue or throat, a severe rash or ' +
+        'hives, chest pain, or any symptom that feels severe or unsafe.',
+
+      keyReminders: [
+        'BPC-157 is taken every day, including weekends, for the length of your course.',
+        'Write the open date on your vial and discard 28 days after first use.',
+        'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
+        'Do not restart your course early after the off weeks.',
+        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Patient Portal for medical questions, and emergency care for severe symptoms.'
+      ]
+    },
+
+    ghkcu: {
+      key: 'ghkcu',
+      file: 'KORB_Patient_Ed_GHK_Cu',
+      title: 'GHK-Cu',
+      agentKey: 'ghkcu',
+      program: 'Functional Health & Longevity',
+      cycleWeeks: 16,
+      weeksRows: [
+        ['Gateway / Peak add-on \u2014 active weeks', 'onWeeksOptionalAddon']
+      ],
+      weeksNote: 'GHK-Cu is an optional add-on. It begins two weeks after you start ' +
+                 'BPC-157 and runs for four weeks.',
+
+      what: [
+        'GHK-Cu is a copper-binding peptide that occurs naturally in the human body. It ' +
+        'is found in blood plasma, saliva and urine, and its levels decline with age. It ' +
+        'is being studied for possible support of tissue health, collagen support, wound ' +
+        'healing and anti-inflammatory processes.',
+        'GHK-Cu contains copper as part of its structure. Copper, zinc and ceruloplasmin ' +
+        'are part of your standard lab panel, and your provider will pay particular ' +
+        'attention to these results while you are on GHK-Cu.'
+      ],
+
+      mayHelp: {
+        lead: 'This medication is one possible adjunctive support option for patients ' +
+              'with goals related to:',
+        items: [
+          'Skin quality, collagen support and tissue healing',
+          'Anti-inflammatory support in the context of a structured program',
+          'Wound healing and cellular tissue wellness',
+          'Recovery physiology as an adjunctive support option'
+        ],
+        after: 'Response to GHK-Cu varies from patient to patient. It is not a cosmetic ' +
+               'treatment or a guaranteed skin improvement product. Your provider will ' +
+               'assess whether therapy is appropriate to continue at your follow-up visit.'
+      },
+
+      timingNotes: [
+        ['Choosing your three days',
+         'Choose three consistent days each week, for example Monday, Wednesday and ' +
+         'Friday, and keep the same days each week to build a reliable routine.'],
+        ['Copper, zinc and ceruloplasmin are watched closely',
+         'These are part of your standard lab panel. While you are on GHK-Cu your ' +
+         'provider reviews them closely at baseline and at each follow-up visit, and ' +
+         'therapy may be discontinued if copper or ceruloplasmin levels trend upward.'],
+        ['If you miss a dose',
+         'If you miss a dose on a scheduled day, skip it. Do not double up the next day.']
+      ],
+
+      timeline: [
+        ['First 2 weeks', 'Active course begins',
+         'Most patients notice nothing initially. This is normal; the therapy works gradually.'],
+        ['Weeks 3\u20134', 'Active course continues',
+         'Skin quality or tissue changes may begin to emerge. Individual response varies.'],
+        ['After your course', 'Washout \u2014 labs and lifestyle',
+         'No GHK-Cu injections. Your copper, zinc and ceruloplasmin results will be ' +
+         'reviewed at your 16-week follow-up visit, and this is a good window to focus ' +
+         'on nutrition, exercise and sleep before your next course.']
+      ],
+      timelineNote:
+        'Your provider will review copper, zinc and ceruloplasmin closely at baseline and ' +
+        'at your follow-up visit while GHK-Cu is active. Therapy may be discontinued if ' +
+        'copper or ceruloplasmin levels rise.',
+
+      common: [
+        ['Injection site redness or irritation',
+         'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+        ['Mild skin changes at the injection site',
+         'Occasional mild discoloration or sensitivity. Usually self-limiting.'],
+        ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
+      ],
+      monitorAndTell: [
+        ['Copper or ceruloplasmin trending up on labs',
+         'Your provider will review this at your follow-up visit. Therapy may be discontinued if levels rise.'],
+        ['Unusual rash, hives or skin reaction',
+         'Tell your KORB provider promptly. Copper-containing compounds can occasionally cause hypersensitivity.'],
+        ['Any systemic symptom',
+         'Tell your KORB provider. Do not continue without guidance if you have a new unexplained systemic symptom.']
+      ],
+
+      labs: {
+        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
+              'provider uses labs to assess your response and your safety.',
+        items: [
+          'Standard longevity panel: CBC, CMP, lipid panel, HbA1c, fasting glucose, fasting ' +
+          'insulin, IGF-1, TSH, free T4, free T3, copper, zinc and ceruloplasmin, at ' +
+          'baseline and every 16-week follow-up.',
+          'PSA, added for men aged 45 and older at every draw.',
+          'Copper, zinc and ceruloplasmin get particular attention while you are on ' +
+          'GHK-Cu, and therapy may be discontinued if copper or ceruloplasmin trend upward.'
+        ],
+        after: 'Your lab draw should be completed between weeks 12 and 14 of your active ' +
+               'cycle, so results are back in time for your 16-week follow-up visit. Some ' +
+               'results, such as IGF-1, can take about a week. Unless your lab order says ' +
+               'otherwise, plan to fast overnight and have blood drawn first thing in the morning.'
+      },
+
+      safety: [
+        'Use GHK-Cu only as prescribed. Do not change your dose, schedule or course length without provider direction.',
+        'GHK-Cu is absolutely contraindicated if you have Wilson\u2019s disease, a copper metabolism disorder.',
+        'Copper, zinc and ceruloplasmin are part of your standard labs. Do not skip your scheduled draw between weeks 12 and 14.',
+        'Tell your KORB provider if you develop a new medical condition or become pregnant.'
+      ],
+
+      emergencyLead:
+        'Stop injecting and seek emergency care immediately if you have trouble ' +
+        'breathing, swelling of the face, lips, tongue or throat, a severe rash or ' +
+        'hives, chest pain, or any symptom that feels severe or unsafe.',
+
+      keyReminders: [
+        'GHK-Cu is taken three times a week in the evening, on consistent days.',
+        'It is absolutely contraindicated in Wilson\u2019s disease.',
+        'Copper, zinc and ceruloplasmin are watched closely and may end therapy if they rise.',
+        'Write the open date on your vial and discard 28 days after first use.',
+        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Patient Portal for medical questions, and emergency care for severe symptoms.'
+      ]
     }
 
   }

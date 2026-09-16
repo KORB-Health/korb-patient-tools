@@ -49,6 +49,22 @@
         'The handout names an agent the dosing data does not have, so its route, ' +
         'schedule and timing cannot be read. Fix the key rather than typing the facts here.');
     }
+    /* ACTIVE WEEKS VARY BY PROGRAM for some agents, and one row cannot say so.
+       BPC-157 runs weeks 1-8 on Foundation and 3-8 on Gateway/Peak; GHK-Cu is an
+       add-on at weeks 5-8 and has no Foundation window at all, so asking
+       getActiveWeeks for 'foundation' returns undefined and the row would have
+       rendered empty. The PDFs these replace spelled both windows out in prose.
+
+       A handout with more than one window lists them, each read from its own
+       field on the agent record, so they stay pulled rather than retyped. */
+    var windows = (doc.weeksRows || []).map(function (r) {
+      var w = a[r[1]];
+      if (!w) {
+        throw new Error('patient-ed-render: agent "' + doc.agentKey + '" has no "' + r[1] +
+          '". The handout asks for a weeks window the dosing data does not hold.');
+      }
+      return [r[0], 'Weeks ' + w[0] + '–' + w[1]];
+    });
     var weeks = (DOSING.getActiveWeeks && DOSING.getActiveWeeks(doc.agentKey, 'foundation'))
       || a.onWeeksFoundation || null;
     return {
@@ -57,7 +73,8 @@
       timing: a.timing || '',
       activeWeeks: weeks ? ('Weeks ' + weeks[0] + '–' + weeks[1] + ' of your ' +
         (doc.cycleWeeks || 16) + '-week cycle') : '',
-      offWeeks: (weeks && doc.cycleWeeks && weeks[1] < doc.cycleWeeks)
+      windows: windows,
+      offWeeks: (weeks && doc.cycleWeeks && weeks[1] < doc.cycleWeeks && !windows.length)
         ? ('Weeks ' + (weeks[1] + 1) + '–' + doc.cycleWeeks + ', a ' +
            (doc.cycleWeeks - weeks[1]) + '-week washout before your next cycle')
         : ''
@@ -100,9 +117,13 @@
          '<tr><th>How to inject</th><td>' + esc(F.how) + '</td></tr>' +
          '<tr><th>When to inject</th><td>' + esc(F.timing) + '</td></tr>' +
          '<tr><th>Schedule</th><td>' + esc(F.schedule) + '</td></tr>' +
-         (F.activeWeeks ? '<tr><th>Active weeks</th><td>' + esc(F.activeWeeks) + '</td></tr>' : '') +
+         (F.windows.length
+            ? F.windows.map(function (w) {
+                return '<tr><th>' + esc(w[0]) + '</th><td>' + esc(w[1]) + '</td></tr>'; }).join('')
+            : (F.activeWeeks ? '<tr><th>Active weeks</th><td>' + esc(F.activeWeeks) + '</td></tr>' : '')) +
          (F.offWeeks ? '<tr><th>Off weeks</th><td>' + esc(F.offWeeks) + '</td></tr>' : '') +
-         '</table>';
+         '</table>' +
+         (doc.weeksNote ? '<p class="fine">' + esc(doc.weeksNote) + '</p>' : '');
 
     (doc.timingNotes || []).forEach(function (n) {
       h += '<h3>' + esc(n[0]) + '</h3><p>' + esc(n[1]) + '</p>';
