@@ -2471,6 +2471,31 @@ var KORB_GLP1 = {
           }
         },
         {
+          /* WHY THIS DOSE SAYS "Discard 28 days after first use." AND THE OTHERS
+             SAY "Discard after 4 doses or 28 days."
+
+             Deliberate, and confirmed by Don on 2026-09-15 when he was asked about
+             it directly during the prescribing review. The sig states the number of
+             doses the vial actually holds, and at 0.5 mg that number is not four.
+
+             0.5 mg draws 0.5 ml a week from a 1 ml vial at 1 mg/ml, so ONE VIAL IS
+             TWO DOSES and the four-week supply ships as 1 ml x 2 vials. Telling that
+             patient to discard "after 4 doses" would be a false statement about the
+             container in their hand, and it would invite them to keep drawing from
+             an empty vial looking for doses three and four. 0.25 mg is the case the
+             standard wording was written for: 0.25 ml a week from the same 1 ml vial
+             is exactly four doses.
+
+             So this is not drift and it is not an inconsistency to tidy up. DO NOT
+             normalise this string to the program-wide wording. The vial sigs were
+             reworked in the days before 2026-09-15 specifically to state true doses
+             per vial, and this is that work, not a survivor of the old wording.
+
+             Note that acceptedLimitations BELMAR-DAY28-DOSE-CEILING and its
+             machine-checked requiresSigText cover 1.0, 1.7 and 2.4 mg only - the
+             doses whose 5 ml vial physically holds a fifth dose. This dose is not
+             in that set, which is why selfCheck does not demand the other string
+             here. */
           dose: '0.5 mg', mg: 0.5, conc: '1 mg/1 mg/ml', units: 50,
           conc: '1 mg/1 mg/ml',
           vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
