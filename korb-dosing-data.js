@@ -106,7 +106,9 @@ var KORB_DOSING = {
      once; a fingerprint says somebody looked at THIS, and goes stale by itself
      when the content moves afterwards. See rx-signoff.js for the reasoning.
 
-     Empty because nothing has been signed yet. All 4 FH&L documents are unsigned. */
+     Foundation and Gateway are signed. Peak Pathway A and Peak Pathway B are
+     not. Run node rx-signoff.js for the live count rather than trusting a
+     sentence here, which is what this line was before 2026-09-15. */
   rxSignoff: {
     records: {
     /* Signed 2026-09-15. Don reviewed each of these on screen, one at a time,
@@ -115,6 +117,30 @@ var KORB_DOSING = {
        document AS IT STOOD AT 7f993ba - the commit that was HEAD when he gave
        the last of these approvals. All six were byte-identical then and now,
        so each record is a fingerprint of content he actually saw. */
+    /* Signed 2026-09-15, this session. First of the three FH&L references.
+
+       Checked before signing: 12 prescribing blocks, 43 distinct copied values,
+       every one plain ASCII, and nothing over the Tebra caps - part of the 523
+       values across all 15 documents measured by check-tebra-caps.js, which was
+       negative-tested the same day.
+
+       This is the first FH&L document rendered with the brand cream page and
+       explicit white table surfaces, the change that closed open item 12.
+
+       Note the difference in source: this document reads korb-dosing-data.js,
+       not korb-glp1-data.js, and its clinical content answers to Robin's
+       protocols rather than to a pharmacy formulary. The cross-checks that
+       backed the GLP-1 sign-offs against docs/pharmacy/ in korb-clinical-docs
+       do not apply here and were not claimed. */
+      "fhl:gateway": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.13",
+        "fingerprint": "fp-651fd946-28165",
+        "blocks": 12,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "fhl:foundation": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
