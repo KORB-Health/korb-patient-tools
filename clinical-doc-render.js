@@ -386,7 +386,14 @@ function sectionProducts(sec) {
    and have not thought about children yet. */
 function calloutsFor(sec) {
   var cls = sec.warn ? 'callout warn' : 'callout';
-  return (sec.callouts || []).map(function (c) {
+  /* Drop empties. A callout referencing a field that has been renamed comes
+     through as undefined and rendered as a bordered box with nothing in it -
+     which is exactly what happened when markerGap became markerProvenance and
+     the section kept pointing at the old name. Don spotted the stray blue line
+     on the page; nothing in the build had a view about it. */
+  return (sec.callouts || []).filter(function (c) {
+    return c !== undefined && c !== null && String(c).trim() !== '';
+  }).map(function (c) {
     return '<div class="' + cls + '"><p>' + esc2(c) + '</p></div>';
   }).join('');
 }
@@ -485,7 +492,12 @@ function renderTebraGroup(rows) {
       seen[e.family] = true;
       h += '<h3 class="prodhead">' + esc2(e.heading.replace(/\s*\([^)]*\)\s*$/, '')) + '</h3>';
     }
+    /* "local" is a destination, not a pharmacy in korb-pharmacies.js, so it has
+       no name to look up and the header printed the bare key. It gets a real
+       label here rather than a lowercase word a provider has to decode. */
     var ph = PH.pharmacies[e.pharmacy];
+    var phName = e.destination === 'local' ? "Patient's own pharmacy"
+                                           : (ph ? ph.name : e.pharmacy);
     /* COMPOUNDED vs COMMERCIAL, and the difference is the whole point.
        A commercial product - the five estradiol patches - is a Tebra STANDARD
        prescription and its drug is SELECTED from the drop-down. A compound is a
@@ -497,7 +509,7 @@ function renderTebraGroup(rows) {
       ? { field: 'Drug', val: e.drug, copy: true }
       : { field: 'Drug', val: e.drug, copy: false, select: true };
     h += '<div class="rxblock">' + RXB.block({
-      pharmacy: ph ? ph.name : e.pharmacy,
+      pharmacy: phName,
       entryKind: e.compounded ? 'compounded' : 'standard',
       label: e.heading,
       tag: e.days + '-day supply',
@@ -684,8 +696,10 @@ function renderBody(data, pharmacies, doc) {
        '.destblurb{margin:0 0 8pt;font-size:11.5px;color:#5A6080;line-height:1.55;}' +
        '.jump{margin:8pt 0 4pt;font-size:11.5px;}' +
        '.jump span{font-weight:700;color:#21275B;margin-right:6pt;}' +
-       '.jump a{display:inline-block;margin-right:6pt;padding:3pt 9pt;border:1px solid #00B2C3;' +
-       'border-radius:12pt;color:#0F5F69;text-decoration:none;font-weight:600;}' +
+       '.jump a{display:inline-block;margin-right:6pt;padding:4pt 12pt;' +
+       'background:#00B2C3;border:1px solid #00929F;border-radius:12pt;' +
+       'color:#fff;text-decoration:none;font-weight:700;letter-spacing:.01em;}' +
+       '.jump a:hover{background:#0F5F69;border-color:#0F5F69;}' +
        '@media print{.jump{display:none;}}' +
        '.datatbl td:first-child{font-weight:600;color:#21275B;}' +
        '@media print{.datatbl{break-inside:auto;} .datatbl tr{break-inside:avoid;}}' +

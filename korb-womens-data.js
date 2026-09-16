@@ -152,36 +152,41 @@ var KORB_WOMENS = {
 
   /* -- SUPPLY LENGTH AND VISIT CADENCE ---------------------------------------
      Don asked on 2026-09-16 whether to call everything 90 days, rename the
-     programme to 12 weeks, or state each product honestly. The arithmetic
-     decided it: TWO product families are genuinely 84 days, not one.
+     programme to 12 weeks, or state each product honestly. He then settled it:
+     EVERYTHING IS 12 WEEKS. Not some products at 84 days and some at 90 with a
+     note explaining the difference - one number across the whole programme.
 
-       12 weekly patches                     84 days
-       63 capsules cycled 21-on / 7-off      84 days  (three 28-day cycles)
-       90 capsules daily                     90 days
-       one 30 mL cream bottle                120 days of clicks, written 90
+       12 weekly patches                     3 boxes of 4       84 days
+       progesterone cycled 21-on / 7-off     63 capsules        84 days
+       progesterone daily                    84 capsules        84 days
+       cream                                 one 30 mL bottle   84 days
+       Belmar estradiol/testosterone cream   28-day bottle x3   84 days
 
-     So Days Supply now states what each prescription actually covers, and the
-     VISIT is booked at 12 weeks for everybody. 12 weeks is 84 days, which is at
-     or inside every supply above, so no patient runs out waiting for an
-     appointment - and it is one number to schedule against instead of two.
+     The daily capsules went from 90 to 84 because KORB buys progesterone BY THE
+     CAPSULE, so 84 is orderable and there is no reason to write 90. The creams
+     hold more than 84 days of clicks and the remainder is discarded, which is
+     the same rule the GLP-1 and TRT vials already run on.
 
-     BILLING STAYS QUARTERLY. The charge codes and the price are a commercial
-     quarter and nothing here changes them. Quarterly for billing, 12 weeks for
-     the visit, and the true figure in the Days Supply field. Writing 90 on a
-     script that covers 84 is the kind of small untruth that becomes a
-     too-early-refill rejection and a patient six days short. */
+     WHY NOT 90. Ninety days and "quarterly" are marketing words - they read
+     better on the website and they are staying there. This is an internal
+     provider document, so it says what the prescription is. Twelve weeks is
+     eighty-four days, and a follow-up booked at twelve weeks lands exactly when
+     the medication runs out instead of six days early or six days late. */
   supply: {
     visitCadence: '12 weeks',
-    visitRule: 'Book the follow-up at 12 WEEKS for every patient, whatever she is ' +
-      'on. It is at or inside the shortest supply the programme writes, so nobody ' +
-      'runs out waiting, and it is one number rather than two.',
-    billingNote: 'Billing stays quarterly - the charge codes and the price are ' +
-      'unchanged. Quarterly for money, 12 weeks for the visit.',
+    visitRule: 'Everything in this programme is a 12-WEEK supply and the follow-up ' +
+      'is at 12 WEEKS. One number, every product, every patient. Nothing runs out ' +
+      'before the visit and nothing carries a leftover clock.',
+    billingNote: 'The charge codes and the price are unchanged. The website and ' +
+      'the patient-facing material say 90 days or quarterly because it reads ' +
+      'better; this is an internal document, so it says what the prescription ' +
+      'actually is. 12 weeks and 84 days are the same thing.',
     byProduct: [
       { product: 'Estradiol patch', supply: '84 days', why: '3 boxes of 4 = 12 patches, one a week' },
       { product: 'Progesterone, cycled', supply: '84 days', why: '63 capsules, 21 on and 7 off, three cycles' },
-      { product: 'Progesterone, daily', supply: '90 days', why: '90 capsules, one a night' },
-      { product: 'Creams', supply: '90 days', why: 'One 30 mL bottle holds 120 clicks; written for 90 and the remainder discarded' }
+      { product: 'Progesterone, daily', supply: '84 days', why: '84 capsules, one a night' },
+      { product: 'Creams', supply: '84 days', why: 'One 30 mL bottle. It holds more than 84 days of clicks; the remainder is discarded' },
+      { product: 'Belmar estradiol/testosterone cream', supply: '84 days', why: 'A 28-day bottle with 2 refills' }
     ]
   },
 
@@ -298,7 +303,7 @@ var KORB_WOMENS = {
     ],
     fourRule: 'Four hormones bill at the three-hormone tier, $299 / WMNHlth3. ' +
       'There is no fourth tier.',
-    includes: 'Visit, 90-day supply and shipping, from a partner pharmacy.',
+    includes: 'Visit, 12-week supply and shipping, from a partner pharmacy.',
     /* NOT "insurance". The charge code is historic and stays, but the wording
        does not: describing this as an insurance option implies KORB bills
        insurance, and that carries obligations - prior authorisations, medical
@@ -306,9 +311,9 @@ var KORB_WOMENS = {
        not cover. The patient pays cash at their own pharmacy. If they choose to
        run it through their plan that is theirs to do, and theirs to paper.
        Don, 2026-09-16. */
-    insurance: { label: 'Local pharmacy - 90-day supply, patient pays the pharmacy',
+    insurance: { label: 'Local pharmacy - 12-week supply, patient pays the pharmacy',
                  price: '$79', code: 'WMNHlthINS' },
-    localPharmacyRule: 'The $79 covers the VISIT and the prescription. The patient ' +
+    localPharmacyRule: 'The $79 covers the VISIT and the 12-week prescription. The patient ' +
       'pays their own pharmacy for the medication, as a cash customer. KORB does ' +
       'not bill insurance for it.',
     localPharmacyDisclaimer: 'If a patient chooses to run the prescription through ' +
@@ -320,11 +325,11 @@ var KORB_WOMENS = {
     /* Put first in the document. It is the cheapest option and, as of
        2026-09-16, the one most providers are actually using. */
     insuranceFirst: true,
-    insuranceIntent: 'ONE 90-day supply, sent and billed at the same time. Not ' +
-      'monthly, and not two 60-day fills billed as one quarter. No mid-cycle ' +
-      'visits for dose adjustments either - a change between quarters is another ' +
-      'visit and another charge, not a free follow-up.',
-    offCadence: 'If the patient needs to be seen between 90-day supplies, that ' +
+    insuranceIntent: 'ONE 12-week supply, sent and billed at the same time. Not ' +
+      'monthly, and not two shorter fills billed as one. No mid-cycle visits for ' +
+      'dose adjustments either - a change inside the 12 weeks is another visit ' +
+      'and another charge, not a free follow-up.',
+    offCadence: 'If the patient needs to be seen between 12-week supplies, that ' +
       'visit is charged at $79 (WMNHlthINS) like any other visit. Do not send a ' +
       'short supply and bill it against the next quarter - that is where charges ' +
       'get missed, and it is the commonest billing error on this programme.',
@@ -358,8 +363,7 @@ var KORB_WOMENS = {
       'sexual health products - see the Add-On Clinical Reference for pricing, ' +
       'charge codes and the Tebra entries. Belmar fills the nasal spray and ' +
       'Premier the injection.',
-    cadence: 'Prescriptions and dosing are quarterly - one visit, one 90-day ' +
-             'supply.'
+    cadence: 'One visit, one 12-week supply, every 12 weeks.'
   },
 
   /* -- LABS -------------------------------------------------------------------
@@ -546,8 +550,9 @@ var KORB_WOMENS = {
       why: 'It is the reason estrogen is safe to give a woman who still has a uterus. ' +
            'This is not optional and it is not a preference.',
       dosing: 'Start 200 mg nightly, increase to 300 mg if needed. Patients with ' +
-              'regular cycles take it 21 days on, 7 days off - 63 capsules per 90 ' +
-              'days. Patients without regular cycles take it daily - 90 capsules.',
+              'regular cycles take it 21 days on and 7 days off - 63 capsules over ' +
+              'the 12 weeks. Patients without regular cycles take it daily - 84 ' +
+              'capsules.',
       caution: 'PEANUT ALLERGY - do NOT use a COMMERCIAL progesterone capsule, ' +
                'generic or brand: they are suspended in peanut oil. A COMPOUNDED ' +
                'capsule from Belmar or Premier is fine and is the answer here. ' +
@@ -589,7 +594,7 @@ var KORB_WOMENS = {
       does: 'Progesterone, testosterone, estriol and estradiol in one daily capsule, ' +
             'for a patient who would rather not use a topical.',
       dosing: 'Progesterone 100 mg, testosterone 4 mg, estriol 0.45 mg, estradiol ' +
-              '0.45 mg. One daily, 90-day supply.',
+              '0.45 mg. One daily, 84 capsules for 12 weeks.',
       caution: 'ORAL combination MAY INCREASE THE RISK OF BLOOD CLOTS. Transdermal ' +
                'does not carry the same risk, so this is a real trade-off to discuss ' +
                'rather than a formality.',
@@ -655,9 +660,9 @@ var KORB_WOMENS = {
       'because there is no endometrium to protect. Adding it is not harmful but it is ' +
       'not indicated, and it moves the patient up a pricing tier for no benefit.',
     cycling: 'A patient with regular cycles takes progesterone 21 days on and 7 off, ' +
-      'which is 63 capsules per 90 days. A post-menopausal patient takes it daily, ' +
-      'which is 90. Getting this wrong means the quantity on the prescription does ' +
-      'not match the regimen.'
+      'which is 63 capsules over the 12 weeks. A post-menopausal patient takes it ' +
+      'daily, which is 84. Getting this wrong means the quantity on the ' +
+      'prescription does not match the regimen.'
   },
 
   /* -- SIDE EFFECTS. Source: the November document, section 8. ---------------- */
@@ -762,14 +767,14 @@ var KORB_WOMENS = {
       compounded: false,
       label: 'Progesterone COMMERCIAL 100 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       pharmacyNotes: 'Dispense as written.' },
     { destination: 'local', family: 'progesterone', pharmacy: 'local', heading: 'Progesterone (200 mg Capsule, COMMERCIAL)',
       drug: 'progesterone micronized 200 mg capsule',
       compounded: false,
       label: 'Progesterone COMMERCIAL 200 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       pharmacyNotes: 'Dispense as written.' },
     { destination: 'local', family: 'progesterone', pharmacy: 'local', heading: 'Progesterone (100 mg Capsule, COMMERCIAL)',
       drug: 'progesterone micronized 100 mg capsule',
@@ -829,7 +834,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Estradiol Cream 0.2%',
       ptInstructions: 'Apply (1 click/0.25ml/0.5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      quantity: '1', unit: 'bottle', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'QTY 30 ml, Bill office/ship to patient' },
     { destination: 'premier', family: 'estradiol-cream', pharmacy: 'premier', heading: 'Estrogen (0.6% Cream)',
@@ -837,7 +842,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Estradiol Cream 0.6%',
       ptInstructions: 'Apply (1 click/0.25 ml/1.5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      quantity: '1', unit: 'bottle', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'QTY 30 ml, Bill office/ship to patient' },
     /* Progesterone capsule */
@@ -846,7 +851,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Premier Progesterone COMPOUNDED SR 100 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'COMPOUNDED. Bill to office/ship to patient' },
     { destination: 'premier', family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule)',
@@ -854,7 +859,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Premier Progesterone COMPOUNDED SR 200 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'COMPOUNDED. Bill to office/ship to patient' },
     { destination: 'premier', family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (300 mg Capsule)',
@@ -862,7 +867,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Premier Progesterone COMPOUNDED SR 300 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'COMPOUNDED. Bill to office/ship to patient' },
     { destination: 'premier', family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule)',
@@ -894,14 +899,14 @@ var KORB_WOMENS = {
       compounded: false,
       label: 'Premier Progesterone COMMERCIAL 100 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       pharmacyNotes: 'COMMERCIAL product, NOT compounded. Bill to office/ship to patient' },
     { destination: 'premier', family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule, COMMERCIAL)',
       drug: 'progesterone micronized 200 mg capsule',
       compounded: false,
       label: 'Premier Progesterone COMMERCIAL 200 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       pharmacyNotes: 'COMMERCIAL product, NOT compounded. Bill to office/ship to patient' },
     { destination: 'premier', family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule, COMMERCIAL)',
       drug: 'progesterone micronized 100 mg capsule',
@@ -923,7 +928,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Testosterone Cream Premier Pharmacy',
       ptInstructions: 'Apply (1 click/0.25 ml/5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after',
-      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      quantity: '1', unit: 'bottle', refill: '0', days: '84',
       reasonForCompounding: 'No female-dose product',
       pharmacyNotes: 'QTY 23 ml, Bill to office/ship to patient' },
     /* Testosterone + estradiol cream */
@@ -932,7 +937,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Testosterone + Estradiol (Cream) Premier Pharmacy',
       ptInstructions: 'Apply (1 click/0.25 ml/5 mg/0.1 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after',
-      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      quantity: '1', unit: 'bottle', refill: '0', days: '84',
       reasonForCompounding: 'Multi-active combination',
       pharmacyNotes: 'QTY 23 ml, Bill to office/ship to patient' },
     /* Four-hormone oral capsule */
@@ -941,7 +946,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Progesterone / Testosterone / Estriol / Estradiol (SL ODT Tab)',
       ptInstructions: 'Dissolve 1 tablet under the tongue daily',
-      quantity: '90', unit: 'tablet', refill: '0', days: '90',
+      quantity: '84', unit: 'tablet', refill: '0', days: '84',
       reasonForCompounding: 'Multi-active combination',
       pharmacyNotes: 'Bill office/ship patient' },
 
@@ -952,7 +957,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Estradiol Cream 0.2%',
       ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      quantity: '1', unit: 'bottle', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'Medical Necessity Required, QTY 30 ml, Bill to office/ship to patient, Allergies:' },
     { destination: 'belmar', family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.4% Cream)',
@@ -960,7 +965,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Estradiol Cream 0.4%',
       ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      quantity: '1', unit: 'bottle', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'QTY 30 ml, Bill office/ship patient Allergies:' },
     { destination: 'belmar', family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.8% Cream)',
@@ -968,7 +973,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Estradiol Cream 0.8%',
       ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      quantity: '1', unit: 'bottle', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'Medical Necessity Required, QTY 30 ml, Bill office/ship to patient, Allergies:' },
     /* Progesterone capsule */
@@ -977,7 +982,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Progesterone COMPOUNDED MCC 100 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'COMPOUNDED. Bill office/ship to patient Allergies:' },
     { destination: 'belmar', family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (200 mg Capsule)',
@@ -985,7 +990,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Progesterone COMPOUNDED MCC 200 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Peanut-free base',
       pharmacyNotes: 'COMPOUNDED. Bill office/ship to patient Allergies:' },
     { destination: 'belmar', family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (300 mg Capsule)',
@@ -993,7 +998,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Progesterone COMPOUNDED MCC 300 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Strength not commercial',
       pharmacyNotes: 'COMPOUNDED. Bill office/ship to patient Allergies:' },
     { destination: 'belmar', family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (100 mg Capsule)',
@@ -1026,7 +1031,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Testosterone 2% Cream',
       ptInstructions: 'Apply 1 click 0.25 ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      quantity: '1', unit: 'bottle', refill: '0', days: '84',
       reasonForCompounding: 'No female-dose product',
       pharmacyNotes: 'QTY 30 ml, Bill office/ship patient Allergies:' },
     /* Testosterone + estradiol cream */
@@ -1044,7 +1049,7 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Estriol/Estradiol/Progesterone/Testosterone (capsule)',
       ptInstructions: 'Take 1 capsule PO daily.',
-      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      quantity: '84', unit: 'capsule', refill: '0', days: '84',
       reasonForCompounding: 'Multi-active combination',
       pharmacyNotes: 'Bill office/ship patient Allergies:' },
     ]
@@ -1244,7 +1249,7 @@ var KORB_WOMENS = {
           })),
         copyColumn: 2,
         body: [
-          'Every plan below is a VISIT plus a 90-DAY SUPPLY plus SHIPPING. Only ' +
+          'Every plan below is a VISIT plus a 12-WEEK SUPPLY plus SHIPPING. Only ' +
             'what differs is in the table.',
           'Tiered by how many HORMONES the plan contains, not how many ' +
             'prescriptions are written. One product can carry more than one: a ' +
@@ -1267,7 +1272,7 @@ var KORB_WOMENS = {
           return [r.hormones + (r.hormones > 1 ? ' hormones' : ' hormone'), r.labs, r.price, r.code];
         }),
         copyColumn: 3,
-        body: ['Same visit and 90-day supply as above, with a lab panel added. ' +
+        body: ['Same visit and 12-week supply as above, with a lab panel added. ' +
                'Labs on their own, without a prescription, are in the Labs section.'],
         callouts: [W.pricing.cadence]
       },
@@ -1286,9 +1291,14 @@ var KORB_WOMENS = {
       {
         id: 'rx', heading: 'Tebra entries',
         render: 'womensTebra',
-        body: ['Twenty-eight entries. Every one selects its drug from the Tebra ' +
-               'drop-down; the compounded items then carry their real formulation in ' +
-               'the pharmacy note.']
+        /* No count in the prose. It has been 28, then 32, then 41 in a single
+           day, and a number written beside a list goes stale the moment the list
+           moves - the same reason the GLP-1 builder stopped saying "eleven
+           documents". The jump links carry live counts instead. */
+        body: ['Grouped by WHERE the prescription goes, because that is the first ' +
+               'decision and it determines the pharmacy note. Commercial products ' +
+               'select their drug from the Tebra drop-down; compounded products are ' +
+               'typed, and their formulation is the drug line.']
       },
       {
         id: 'markers', heading: 'What the panels measure, and what each result means',
@@ -1298,7 +1308,7 @@ var KORB_WOMENS = {
         body: ['Basic panel (saliva): ' + W.panelMarkers.basic.join(', ') + '.',
                'Complete panel adds a four-point cortisol and a blood spot for ' +
                  W.panelMarkers.complete.bloodSpot.join(', ') + '.'],
-        callouts: [W.markerGap, W.labDisclaimer]
+        callouts: [W.labDisclaimer]
       },
       {
         id: 'side-effects', heading: 'Side effects to counsel on',
