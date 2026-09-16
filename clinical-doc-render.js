@@ -498,7 +498,8 @@ function renderBody(data, pharmacies, doc) {
        'font-size:11px;letter-spacing:.02em;padding:7px 12px;}' +
        '.datatbl td{padding:6px 12px;vertical-align:top;border-top:1px solid #E7EBF3;}' +
        '.datatbl tbody tr:nth-child(even){background:#EDF1F8;}' +
-       '.datatbl td:first-child{border-right:1px solid #D7DCE8;font-weight:600;color:#21275B;}' +
+       '.datatbl th+th,.datatbl td+td{border-left:1px solid #D7DCE8;}' +
+       '.datatbl td:first-child{font-weight:600;color:#21275B;}' +
        '@media print{.datatbl{break-inside:auto;} .datatbl tr{break-inside:avoid;}}' +
        /* Copy buttons are a screen affordance. They must not appear in the
           PDF, where they would print as stray words inside a table cell. */

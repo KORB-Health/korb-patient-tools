@@ -174,11 +174,30 @@ var KORB_TRT = {
     labLeadWhy: 'Order labs 14 days before the next visit. Results can take a ' +
                 'week, so the draw must not be left to the final days.',
     maxDays: 90,
-    maxDaysWhy: 'Nothing is dispensed or scheduled beyond 90 days. At 96, 120 ' +
-                'and 144 mg per week the vial physically outlasts 90 days and the ' +
-                'remainder is discarded. Never tell a patient the vial lasts ' +
-                'longer than 90 days.',
-    refillCountsFrom: 'PMP last fill date, not the visit date.'
+    maxDaysWhy: 'Nothing is dispensed or scheduled beyond 90 days. At 120 and ' +
+                '144 mg per week the vial physically outlasts 90 days and the ' +
+                'remainder is discarded; at 168 it runs out at 83 days and the ' +
+                'prescription is written for 83. Never tell a patient the vial ' +
+                'lasts longer than 90 days.',
+    refillCountsFrom: 'PMP last fill date, not the visit date.',
+    /* Checking the state prescription-monitoring database before writing a
+       Schedule III is a per-state legal requirement, and the database has a
+       different name in each state - which is exactly why a single line saying
+       "check the PMP" is not enough for a provider working in two states.
+       Added at Don's request 2026-09-16. CONFIRM the California entry before
+       relying on it: the Texas system is the one KORB uses daily. */
+    pdmp: {
+      TX: { name: 'Texas Prescription Monitoring Program (PMP Aware)', verified: true },
+      CA: { name: 'CURES - Controlled Substance Utilization Review and Evaluation System',
+            verified: false,
+            note: 'Named from general knowledge of California controlled-substance ' +
+                  'requirements, NOT from a KORB source document. Confirm before the ' +
+                  'first California prescription.' }
+    },
+    pdmpRule: 'Check the patient prescription-monitoring database in THEIR state before ' +
+      'every controlled-substance prescription, not just the first. It is how you find ' +
+      'a patient receiving testosterone or other controlled substances from another ' +
+      'prescriber. Record that you checked, and the last fill date, in the visit note.'
   },
 
   /* ── DOSES AND ROUTES ──────────────────────────────────────────────────────
@@ -246,10 +265,39 @@ var KORB_TRT = {
       { name: 'Estradiol', code: '4021' },
       { name: 'Testosterone, Total, MS', code: '15983' }
     ],
-    timing: 'Draw testosterone at trough, on an injection day before the dose is ' +
-            'given. A peak draw will read high and hide a symptomatic trough.',
+    orderedAs: 'Select the KORB TRT panel in the Quest integration in Tebra. The ' +
+               'panel is already built; the tests below are listed for reference and are ' +
+               'NOT ordered individually.',
+    timing: 'Draw in the MORNING, FASTING, before 10:00 - the KORB standard for all ' +
+            'lab draws, and the window the Men\'s Health SOP specifies for testosterone ' +
+            '(7 to 10 AM). Draw testosterone at trough, on an injection day before the ' +
+            'dose is given. A peak draw will read high and hide a symptomatic trough.',
     cadence: 'Full panel at baseline and at each follow-up. Recheck 6 to 8 weeks ' +
              'after any change.',
+    /* ADD-ON LABS, with the billing code and price. From the Men's Health
+       protocol of 2026-02-10, which is where this table lives; the provider tool
+       never carried it and the first cut of the reference did not either. The
+       provider who orders one of these owns every result it returns, including
+       findings unrelated to testosterone - that disclaimer is the SOP's and is
+       reproduced rather than summarised. */
+    addOn: [
+      { name: 'Testosterone, Free (Dialysis) and Total, LC/MS/MS', quest: '37073', code: 'KLAB37073', price: '$275' },
+      { name: 'Sex Hormone-Binding Globulin (SHBG)', quest: '30740', code: 'KLAB30740', price: '$105' },
+      { name: 'Comprehensive Metabolic Panel', quest: '10231', code: 'KLAB10231', price: '$45' },
+      { name: 'Lipid Panel', quest: '7600', code: 'KLAB7600', price: '$95' },
+      { name: 'Hemoglobin A1c', quest: '496', code: 'KLAB496', price: '$55' },
+      { name: 'Thyroid Panel with TSH, Free T3, Free T4', quest: '34429', code: 'KLAB34429', price: '$165' },
+      { name: 'Vitamin D, 25-Hydroxy, Total, Immunoassay', quest: '17306', code: 'KLAB17306', price: '$185' },
+      { name: 'DHEA Sulfate', quest: '402', code: 'KLAB402', price: '$155' },
+      { name: 'C-Reactive Protein, Cardiac (High Sensitivity)', quest: '10124', code: 'KLAB10124', price: '$75' },
+      { name: 'Ferritin', quest: '457', code: 'KLAB457', price: '$85' }
+    ],
+    addOnDisclaimer: 'Providers who order optional or add-on labs are responsible for ' +
+      'reviewing, addressing and documenting ALL results, including abnormalities not ' +
+      'directly related to TRT. Ordering additional labs expands the clinical scope of ' +
+      'the encounter and may uncover comorbidities that require counselling, follow-up ' +
+      'or referral. Order them when clinically indicated and when you are prepared to ' +
+      'manage whatever comes back.',
     addOnLabs: ['SHBG', 'Free testosterone'],
     addOnLabsNote: 'ADD-ON labs, not part of the standard panel - ordered when they ' +
       'are wanted. The criterion for moving to SQ three times weekly is written ' +
@@ -356,9 +404,13 @@ var KORB_TRT = {
   /* Who may prescribe a Schedule III in each state. A licensure fact about
      PEOPLE, not about a pharmacy, so korb-pharmacies.js is the wrong home and it
      stays here. korb-licensing is the register; this is the operating summary. */
+  /* Names and credentials as the licensing register spells them - Don asked for
+     consistency on 2026-09-16 after seeing "Larisa or LaTonya" here against
+     "Latanya" elsewhere. korb-licensing is the register; these are copied from
+     korb-providers.js in that repo, not typed from memory. */
   prescribers: {
-    TX: 'Don Stevenson',
-    CA: 'Larisa or LaTonya',
+    TX: 'Don Stevenson, PA-C',
+    CA: 'Larisa Hammond, NP or LaTonya King, DNP',
     warning: 'Testosterone may only be prescribed in a state by the provider named ' +
              'for it. If that is not you, do not send the prescription. Route the ' +
              'patient to a provider registered in that state.'
@@ -431,7 +483,10 @@ var KORB_TRT = {
         columns: ['Item', 'Price', 'Charge code'],
         rows: T.pricing.rows.map(money),
         copyColumn: 2,
-        callouts: [T.pricing.notes.join(' ')]
+        /* Only the patient-facing fact. "Add-on pricing is in the Optimization
+           Products tool" is an instruction to whoever maintains the data, not
+           something a prescriber needs mid-consultation - Don, 2026-09-16. */
+        callouts: [T.pricing.notes[0]]
       },
       {
         id: 'availability', heading: 'Pharmacy, states and who may prescribe',
@@ -493,11 +548,22 @@ var KORB_TRT = {
         render: 'table',
         columns: ['Test', 'Quest code'],
         rows: T.labPanel.tests.map(function (t) { return [t.name, t.code]; }),
-        copyColumn: 1,
-        body: [T.labPanel.cadence],
-        callouts: [T.labPanel.timing,
-                   'Add-on labs: ' + T.labPanel.addOnLabs.join(', ') + '. ' +
-                   T.labPanel.addOnLabsNote]
+        /* No copy buttons. The panel is already built in the Quest integration
+           in Tebra - a provider selects "KORB TRT panel" and does not order
+           these one at a time, so a Copy button offers a workflow nobody uses.
+           Don, 2026-09-16. */
+        body: [T.labPanel.orderedAs, T.labPanel.cadence],
+        callouts: [T.labPanel.timing]
+      },
+      {
+        id: 'addon-labs', heading: 'Add-on labs',
+        render: 'table',
+        columns: ['Lab', 'Quest code', 'Charge code', 'Price'],
+        rows: T.labPanel.addOn.map(function (l) { return [l.name, l.quest, l.code, l.price]; }),
+        copyColumn: 2,
+        body: ['Ordered individually when clinically indicated, not part of the KORB ' +
+               'TRT panel. Same draw conditions as the standard panel.'],
+        callouts: [T.labPanel.addOnDisclaimer]
       },
       {
         id: 'titration', heading: 'Titration targets and action thresholds',
@@ -512,6 +578,11 @@ var KORB_TRT = {
         body: ['Timing is computed per patient by the TRT Provider Tool. The rules it ' +
                'applies are these.'],
         bullets: [
+          T.scheduling.pdmpRule,
+          'Texas: ' + T.scheduling.pdmp.TX.name + '.',
+          'California: ' + T.scheduling.pdmp.CA.name + '. ' +
+            (T.scheduling.pdmp.CA.verified ? '' : 'CONFIRM this before the first ' +
+             'California prescription - it has not been checked against a KORB source.'),
           'Refills count from the PMP last fill date, not the visit date.',
           'Order labs ' + T.scheduling.labLeadDays + ' days before the next visit. ' +
             T.scheduling.labLeadWhy,
