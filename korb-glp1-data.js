@@ -102,6 +102,37 @@ var KORB_GLP1 = {
        He also confirmed the 0.5 mg discard wording is deliberate: the sig
        states the doses the vial really holds, and one 1 ml vial at 1 mg/ml is
        two doses at that strength, not four. Rationale recorded at the dose. */
+    /* Signed 2026-09-15, this session. The most-checked document in the set so
+       far, because three separate things were changed under it during review.
+
+       Verified against the source before it went to Don: all eight pricing rows
+       match docs/pharmacy/Premier_Tirzepatide_2025-11-26.md in korb-clinical-docs
+       - T1A 349/599, T2A 399/649, T3A 449/799, oral 499/599, each against the
+       right code. The Corp Partner column in that source is deliberately absent,
+       dropped 2026-09-15. Dose arithmetic is exact at 18 mg/ml across all six
+       doses, and every copied value is plain ASCII.
+
+       Changed during the review, all at Don's direction: the Tier column with a
+       copy button, because Tebra charge entry for injectable tirzepatide takes
+       the tier as well as the code; the oral #180 tier restored, which the
+       renderer had been dropping; and the pricing table geometry, which took
+       three attempts.
+
+       He confirmed the discard wording is correct on all six doses and that the
+       oral dot pricing is right as universal codes across programs. Recorded at
+       the product and in BELMAR-DAY28-DOSE-CEILING respectively.
+
+       None of that is inside this fingerprint - it is all pricing and layout,
+       and the fingerprint covers prescribing blocks only. See rx-signoff.js. */
+      "glp1:premier_tirz": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.22",
+        "fingerprint": "fp-038c8b92-34975",
+        "blocks": 14,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "glp1:belmar_sema": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
