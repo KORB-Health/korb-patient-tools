@@ -142,6 +142,9 @@ var KORB_PATIENT_ED = {
 
     sermorelin: {
       key: 'sermorelin',
+      file: 'KORB_Patient_Ed_Sermorelin',   /* the PUBLISHED name. Deriving it from the title
+                                  invented KORB_Patient_Ed_CJC_1295_Ipamorelin and would
+                                  have left the old file beside the new one. */
       title: 'Sermorelin',
       agentKey: 'sermorelin',
       program: 'Functional Health & Longevity',
@@ -260,6 +263,252 @@ var KORB_PATIENT_ED = {
         'Your washout period is intentional. Do not restart early.',
         'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
         'Response varies, and more is not better. Do not adjust your dose without provider direction.',
+        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Patient Portal for medical questions, and emergency care for severe symptoms.'
+      ]
+    },
+
+    tesamorelin: {
+      key: 'tesamorelin',
+      file: 'KORB_Patient_Ed_Tesamorelin',   /* the PUBLISHED name. Deriving it from the title
+                                  invented KORB_Patient_Ed_CJC_1295_Ipamorelin and would
+                                  have left the old file beside the new one. */
+      title: 'Tesamorelin',
+      agentKey: 'tesamorelin1mg',
+      program: 'Functional Health & Longevity',
+      cycleWeeks: 16,
+      washoutWeeks: 4,
+
+      what: [
+        'Tesamorelin is a synthetic analog of growth hormone releasing factor (GRF). ' +
+        'It stimulates the pituitary gland to release growth hormone (GH) naturally. ' +
+        'It does not replace GH; it encourages your own body to produce it.',
+        'Tesamorelin has the strongest human clinical evidence base among the peptides ' +
+        'in the KORB Longevity Program. It is FDA-approved for HIV-associated ' +
+        'lipodystrophy and is used in the KORB program off-label for body composition ' +
+        'support, specifically targeting visceral adiposity reduction.',
+        'Your provider selects your dose based on your goals, labs and clinical profile. ' +
+        'Your IGF-1 and glucose response will be reviewed at every 16-week follow-up visit.'
+      ],
+
+      mayHelp: {
+        lead: 'This medication is one possible adjunctive support option for patients ' +
+              'with goals related to:',
+        items: [
+          'Visceral and central adiposity reduction, the fat around the organs',
+          'Body composition and metabolic health',
+          'IGF-1 axis support as part of a structured longevity program'
+        ],
+        after: 'Response varies between patients. Clinical studies show visceral fat ' +
+               'reduction over sustained cycles, but individual results depend on ' +
+               'baseline body composition, lifestyle, diet, exercise and other factors. ' +
+               'Your provider will assess your response at each follow-up visit.'
+      },
+
+      timingNotes: [
+        ['Timing matters',
+         'Tesamorelin should be injected at bedtime, on an empty stomach. GH is released ' +
+         'naturally in pulses during sleep, particularly during the first few hours of ' +
+         'deep sleep, and injecting at bedtime aligns with that rhythm. Food, ' +
+         'particularly carbohydrates, can blunt GH release. Wait at least two hours ' +
+         'after your last meal before injecting.'],
+        ['Your dose is chosen for you',
+         'Your specific dose and strength are decisions your KORB provider makes based ' +
+         'on your goals, labs and clinical profile. They are not something to choose or ' +
+         'change yourself. Your dose is compounded specifically for you, so always ' +
+         'follow the exact units on your prescription label, or your provider\u2019s ' +
+         'direction if your label does not list exact units.'],
+        ['The rest day is intentional',
+         'Do not inject on your rest day, and do not make up a missed dose on it. If ' +
+         'you miss a dose on a scheduled day, skip it rather than doubling up the next day.']
+      ],
+
+      timeline: [
+        ['Weeks 1\u20134', 'Starting out',
+         'Most patients notice little initially. Energy or sleep changes are occasionally reported early.'],
+        ['Weeks 4\u20138', 'Active course', 'Changes, if any, begin emerging over time.'],
+        ['Weeks 8\u201312', 'Continued support',
+         'GH/IGF-1 axis support continues. Your provider will review your IGF-1 and glucose at your follow-up visit.'],
+        ['Weeks 13\u201316', 'Off cycle \u2014 labs and lifestyle',
+         'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
+         'are reviewed during this window, and it is a good stretch to focus on ' +
+         'nutrition, exercise and sleep before your next cycle. Do not restart early ' +
+         'without provider direction.']
+      ],
+      timelineNote:
+        'Tesamorelin has the strongest human evidence base in this program for visceral ' +
+        'fat reduction, and results still vary. Your dose may be assessed and adjusted ' +
+        'at your 16-week follow-up visit based on your IGF-1 response, as tolerated and ' +
+        'as directed by your KORB provider.',
+
+      common: [
+        ['Injection site redness or irritation',
+         'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+        ['Flushing or warmth after injection', 'Typically brief, and usually settles within minutes.'],
+        ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
+        ['Nausea', 'Occasionally reported. Usually mild and self-limiting.']
+      ],
+      monitorAndTell: [
+        ['Water retention or puffiness', 'Can occur with GH stimulation. Tell your KORB provider if noticeable.'],
+        ['Joint discomfort or tingling', 'May indicate a dose adjustment is needed. Tell your KORB provider.'],
+        ['Glucose or HbA1c changes',
+         'Tesamorelin is glycemically neutral, but glucose monitoring is required. Tell ' +
+         'your KORB provider if you notice changes.']
+      ],
+
+      labs: {
+        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
+              'provider uses labs to assess your response and your safety.',
+        items: [
+          'IGF-1, your primary response marker. The target is the physiologic range; higher is not better.',
+          'HbA1c and fasting glucose. Tesamorelin is glycemically neutral, but glucose monitoring remains required throughout.',
+          'CBC, CMP, lipid panel, TSH, free T4, free T3, copper, zinc and ceruloplasmin, at baseline and every 16-week follow-up.',
+          'PSA, added for men aged 45 and older at every draw.'
+        ],
+        after: 'Your lab draw should be completed between weeks 12 and 14 of your active ' +
+               'cycle, so results are back in time for your 16-week follow-up visit. Some ' +
+               'results, such as IGF-1, can take about a week. Unless your lab order says ' +
+               'otherwise, plan to fast overnight and have blood drawn first thing in the morning.'
+      },
+
+      safety: [
+        'Use Tesamorelin only as prescribed. Do not change your dose, schedule or route without provider direction.',
+        'Do not combine it with other GH-axis therapies unless KORB specifically instructs you to.',
+        'Tesamorelin requires careful provider oversight if you have uncontrolled diabetes.',
+        'Do not restart after your off weeks early. The washout period is intentional.',
+        'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
+      ],
+
+      emergencyLead:
+        'Stop injecting and seek emergency care immediately if you have trouble ' +
+        'breathing, swelling of the face, lips, tongue or throat, a severe rash or ' +
+        'hives, chest pain, or any symptom that feels severe or unsafe.',
+
+      keyReminders: [
+        'Tesamorelin stimulates your own GH. It is not GH replacement.',
+        'Always follow your prescription label for your exact dose and units.',
+        'Write the open date on your vial and discard 28 days after first use.',
+        'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
+        'Your washout period is intentional. Do not restart early.',
+        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Patient Portal for medical questions, and emergency care for severe symptoms.'
+      ]
+    },
+
+    cjc_ipamorelin: {
+      key: 'cjc_ipamorelin',
+      file: 'KORB_Patient_Ed_CJC_Ipamorelin',   /* the PUBLISHED name. Deriving it from the title
+                                  invented KORB_Patient_Ed_CJC_1295_Ipamorelin and would
+                                  have left the old file beside the new one. */
+      title: 'CJC-1295 / Ipamorelin',
+      agentKey: 'cjcipam',
+      program: 'Functional Health & Longevity',
+      cycleWeeks: 16,
+      washoutWeeks: 4,
+
+      what: [
+        'CJC-1295 / Ipamorelin is a dual-peptide combination used to stimulate growth ' +
+        'hormone (GH) release. CJC-1295 extends GH-releasing signals while Ipamorelin ' +
+        'directly stimulates GH release from the pituitary gland. Together they promote ' +
+        'a more sustained, pulsatile GH effect.',
+        'Like Sermorelin, this combination stimulates your own pituitary to produce GH. ' +
+        'It does not replace growth hormone; it acts through your body\u2019s existing system.',
+        'Your IGF-1 level is one of the key response markers your provider will monitor ' +
+        'throughout your program.'
+      ],
+
+      mayHelp: {
+        lead: 'This medication is one possible adjunctive support option for patients ' +
+              'with goals related to:',
+        items: [
+          'Body composition, lean mass preservation and fat metabolism support as part of a lifestyle program',
+          'Sleep quality and recovery physiology',
+          'GH/IGF-1 axis support',
+          'Exercise recovery and general wellness'
+        ],
+        after: 'Response varies from patient to patient. CJC-1295 / Ipamorelin has human ' +
+               'pharmacokinetic data, but body composition benefits are extrapolated. ' +
+               'Your provider will assess your IGF-1 and your response at your follow-up visit.'
+      },
+
+      timingNotes: [
+        ['Timing matters',
+         'Inject at bedtime on an empty stomach. GH is released naturally during sleep, ' +
+         'and food, particularly carbohydrates, can blunt that release. Wait at least ' +
+         'two hours after your last meal.'],
+        ['Your dose is compounded for you',
+         'Always follow the units and schedule on your prescription label. Do not ' +
+         'estimate a dose or adjust it based on a prior fill.'],
+        ['The rest day is intentional',
+         'Do not inject on your rest day, and do not make up a missed dose on it. If ' +
+         'you miss a dose on a scheduled day, skip it rather than doubling up the next day.']
+      ],
+
+      timeline: [
+        ['Weeks 1\u20134', 'Starting out',
+         'Some patients notice early improvements in sleep or morning energy.'],
+        ['Weeks 4\u20138', 'Early response', 'Many notice nothing yet. This is normal.'],
+        ['Weeks 8\u201312', 'Continued support',
+         'Sleep, recovery and body composition changes may begin to emerge. Do not adjust your schedule.'],
+        ['Weeks 13\u201316', 'Off cycle \u2014 labs and lifestyle',
+         'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
+         'are reviewed during this window, and it is a good stretch to focus on ' +
+         'nutrition, exercise and sleep before your next cycle. Do not restart early ' +
+         'without provider direction.']
+      ],
+      timelineNote:
+        'Do not compare your response to others. Response is highly individual and ' +
+        'influenced by age, baseline GH levels, body composition, sleep quality and ' +
+        'lifestyle habits.',
+
+      common: [
+        ['Injection site redness or irritation',
+         'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+        ['Flushing or warmth after injection', 'Typically brief, and usually settles within minutes.'],
+        ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
+        ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
+      ],
+      monitorAndTell: [
+        ['Water retention or puffiness', 'Can occur with GH stimulation. Tell your KORB provider if noticeable.'],
+        ['Joint discomfort or tingling', 'May indicate a dose adjustment is needed. Tell your KORB provider.'],
+        ['Glucose changes', 'GH stimulation can affect blood sugar. Tell your KORB provider if you notice changes.']
+      ],
+
+      labs: {
+        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
+              'provider uses labs to assess your response and your safety.',
+        items: [
+          'IGF-1, your primary response marker. The target is the physiologic range; higher is not better.',
+          'HbA1c and fasting glucose, because GH stimulation can affect glucose metabolism.',
+          'Thyroid (TSH, free T4, free T3). A functioning thyroid axis is important for optimal GH response.',
+          'CBC, CMP and lipid panel, at baseline and every 16-week follow-up.',
+          'PSA, added for men aged 45 and older at every draw.'
+        ],
+        after: 'Your lab draw should be completed between weeks 12 and 14 of your active ' +
+               'cycle, so results are back in time for your 16-week follow-up visit. Some ' +
+               'results, such as IGF-1, can take about a week. Unless your lab order says ' +
+               'otherwise, plan to fast overnight and have blood drawn first thing in the morning.'
+      },
+
+      safety: [
+        'Use CJC-1295 / Ipamorelin only as prescribed. Do not change your dose, schedule or route without provider direction.',
+        'Do not combine it with other GH-axis therapies unless KORB specifically instructs you to.',
+        'CJC-1295 / Ipamorelin is not appropriate during active malignancy, uncontrolled thyroid disease, or pregnancy.',
+        'Do not restart after your off weeks early. The washout period is intentional.',
+        'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
+      ],
+
+      emergencyLead:
+        'Stop injecting and seek emergency care immediately if you have trouble ' +
+        'breathing, swelling of the face, lips, tongue or throat, a severe rash or ' +
+        'hives, chest pain, or any symptom that feels severe or unsafe.',
+
+      keyReminders: [
+        'CJC-1295 / Ipamorelin stimulates your own GH. It is not GH replacement.',
+        'Always follow your prescription label for your exact dose and units.',
+        'Write the open date on your vial and discard 28 days after first use.',
+        'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
+        'Your washout period is intentional. Do not restart early.',
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]

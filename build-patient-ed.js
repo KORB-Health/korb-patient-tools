@@ -161,7 +161,12 @@ ${R.renderBody(DATA, DOSING, doc)}
 
   for (const k of keys) {
     const doc = DATA.docs[k];
-    const p = path.join(OUT, 'KORB_Patient_Ed_' + doc.title.replace(/[^A-Za-z0-9]+/g, '_') + '.html');
+    /* The PUBLISHED name, never derived from the title. Deriving it produced
+       KORB_Patient_Ed_CJC_1295_Ipamorelin, which would have sat beside the
+       published KORB_Patient_Ed_CJC_Ipamorelin rather than replacing it - two
+       handouts for one drug, which is the drift this whole exercise removes. */
+    if (!doc.file) throw new Error('handout "' + k + '" has no published file name.');
+    const p = path.join(OUT, doc.file + '.html');
     fs.writeFileSync(p, shell(Object.assign({}, doc, { key: k })));
     console.log(`  ${path.basename(p)}  html ${String(fs.statSync(p).size).padStart(6)}`);
   }
@@ -177,7 +182,7 @@ ${R.renderBody(DATA, DOSING, doc)}
   const FONTS = fontFaceBlock();
   for (const k of keys) {
     const doc = DATA.docs[k];
-    const base = 'KORB_Patient_Ed_' + doc.title.replace(/[^A-Za-z0-9]+/g, '_');
+    const base = doc.file;
     const page = await browser.newPage();
     const errs = [];
     page.on('pageerror', e => errs.push(e.message));
