@@ -260,6 +260,28 @@ const CSS = RXB.CSS + `
        a heading smaller than the paragraph it heads. It is a heading; it gets
        the heading size. */
     .callout h3{font-size:15px;}
+    /* THE LOGO HAS NO TRANSPARENCY, SO IT IS BLENDED RATHER THAN BOXED.
+       Don, 2026-09-15, as soon as the page went cream: the lockup appeared in a
+       white rectangle. It always had one. LOGO_URI is a 32-entry PALETTE png
+       with no tRNS chunk - every white pixel is opaque white - and on the old
+       #FBFAF6 page that box was invisible. Changing the background did not
+       break the logo; it revealed what was already there.
+
+       multiply is the fix rather than editing the image. White multiplied by
+       any background is that background, so the box disappears, while the navy
+       and teal darken imperceptibly against a light cream. It also preserves
+       the anti-aliased edges exactly: the first six palette entries are the
+       white ramp around the letterforms, and keying those out by hand - the
+       obvious alternative with no image library on this machine - is precisely
+       how a logo ends up with a pale fringe.
+
+       No effect on the PDF, where the page is white and white x white is white.
+
+       The Patient Hub solves this differently, with a 32 KB RGBA lockup. That is
+       the better asset and the wrong trade here: these documents embed the logo
+       in ten PDFs and chose a 4 KB palette copy for that reason. */
+    .mast img{mix-blend-mode:multiply;}
+
     /* THE PAGE IS BRAND CREAM, SO A TABLE NEEDS ITS OWN SURFACE.
        Don, 2026-09-15, diagnosing why the pricing tables looked wrong: the
        tables "just kind of run off the table onto the background". They did.
