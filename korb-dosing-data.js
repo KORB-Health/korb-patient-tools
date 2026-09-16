@@ -154,6 +154,30 @@ var KORB_DOSING = {
        Checked before signing: 38 distinct copied values, all plain ASCII,
        nothing near a Tebra cap, and no combination strength anywhere on any
        FH&L page without its pair. */
+    /* Signed 2026-09-15, this session. THE FIFTEENTH AND LAST. Every
+       prescribing block in this repo is now signed against a fingerprint.
+
+       This document holds the tightest field on the site - a 165 of 170
+       character pharmacy instruction - and the reason it is long is worth
+       keeping: Greenwich runs Tesamorelin at roughly two thirds of Premier's
+       concentration, so the same prescription is 67 units there against 40 at
+       Premier, and a patient sent 50-unit syringes cannot draw a Greenwich
+       2 mg dose at all. The note that prevents that has five characters of
+       headroom. If it is ever reworded it has to get SHORTER.
+
+       Checked before signing: 44 distinct copied values, all plain ASCII,
+       nothing over a cap, and the agent naming corrected by the Pathway A work
+       - "Tesamorelin 1, 1.5, 2 mg" under "Dose ladder - Tesamorelin", where
+       both had previously carried a strength twice. */
+      "fhl:peakB": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-15",
+        "dataVersion": "2.13",
+        "fingerprint": "fp-fded1e3c-23457",
+        "blocks": 10,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
       "fhl:peakA": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
