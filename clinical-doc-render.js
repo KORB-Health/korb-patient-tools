@@ -80,7 +80,8 @@ var PH = null;
    global that carries it, so adding Men's or Women's Health is one row here
    and one `document` block there, with no renderer change. */
 var DOCS = [
-  { id: 'addons', global: 'KORB_ADDONS', file: 'KORB_AddOn_Clinical_Reference', title: 'Add-On Clinical Reference' }
+  { id: 'addons', global: 'KORB_ADDONS', file: 'KORB_AddOn_Clinical_Reference', title: 'Add-On Clinical Reference' },
+  { id: 'trt', global: 'KORB_TRT', file: 'KORB_TRT_Clinical_Reference', title: 'Testosterone Replacement Clinical Reference' }
 ];
 
 /* ── SMALL HELPERS ────────────────────────────────────────────────────────── */
@@ -380,7 +381,94 @@ function sectionBullets(sec) {
     bullets(sec.bullets) + decider(sec.decider);
 }
 
+/* A plain table from the data: column headings, rows, and an optional column
+   whose cells get a Copy button. Written once because four TRT sections need it
+   - pricing, the dose ladder, the lab panel and the titration thresholds - and
+   Women's Health will need the same. A `render: "table"` section with no rows
+   throws rather than printing an empty frame; a heading over nothing reads as
+   "there is nothing to say here", which is the opposite of the truth when the
+   real cause is a data path that moved. */
+function sectionTable(sec) {
+  if (!sec.rows || !sec.rows.length) {
+    throw new Error('clinical-doc-render: section "' + sec.id + '" is render:table with no rows.');
+  }
+  var copyCol = sec.copyColumn === undefined ? -1 : sec.copyColumn;
+  var head = '<tr>' + (sec.columns || []).map(function (c) {
+    return '<th>' + esc2(c) + '</th>';
+  }).join('') + '</tr>';
+  var body = sec.rows.map(function (r) {
+    return '<tr>' + r.map(function (cell, i) {
+      var v = esc2(cell);
+      if (i === copyCol && cell) {
+        v = '<span class="cp" data-copy="' + esc2(cell) + '">' + esc2(cell) +
+            '<button class="copybtn" type="button" aria-label="Copy">Copy</button></span>';
+      }
+      return '<td>' + v + '</td>';
+    }).join('') + '</tr>';
+  }).join('');
+  return '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body) +
+    '<table class="datatbl"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>' +
+    (sec.callouts || []).map(function (c) {
+      return '<div class="callout"><p>' + esc2(c) + '</p></div>';
+    }).join('');
+}
+
+/* TRT prescribing blocks, grouped by pharmacy. Every dose and route pair is a
+   separate Tebra favorite because the Name encodes both, so each gets its own
+   complete block - Don's rule for the compounded programs, and it holds here
+   for the same reason: a provider copies a whole block into Tebra, and a
+   factored one cannot be copied.
+
+   entryKind:'standard' and select:true on the Drug row are the whole point.
+   Testosterone cypionate is COMMERCIAL, dispensed by a compounding pharmacy,
+   and the block must not call itself a Compounded Drug Favorite or offer a copy
+   button on a value that has to be chosen from Tebra's own list. */
+function sectionTrtPrescribing(sec) {
+  var T = D, out = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
+  var phKey = sec.pharmacy;
+  var ph = PH.pharmacies[phKey];
+  var states = PH.statesFor(phKey, 'trt');
+  if (!states.length) {
+    throw new Error('clinical-doc-render: ' + phKey + ' fills TRT in no state, so section "' +
+      sec.id + '" would print prescriptions nobody can send.');
+  }
+
+  out += '<div class="callout"><p><strong>' + esc2(ph.name) + '</strong> &middot; ' +
+    states.map(function (st) { return esc2(PH.stateName(st) + ' (' + st + ')'); }).join(', ') +
+    '. ' + esc2(T.prescribers.warning) + ' In ' +
+    states.map(function (st) { return esc2(PH.stateName(st)) + ': <strong>' +
+      esc2(T.prescribers[st]) + '</strong>'; }).join('; ') + '.</p></div>';
+
+  T.weeklyDosesMg.forEach(function (w) {
+    Object.keys(T.routes).forEach(function (rk) {
+      var c = T.calc(w, rk);
+      var fields = [
+        { field: 'Drug', val: T.product.drug, copy: false, select: true },
+        { field: 'Name', val: T.favoriteName(w, rk, phKey), copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
+        { field: 'Quantity', val: T.tebra.quantity, copy: true },
+        { field: 'Unit', val: T.tebra.unit, copy: true },
+        { field: 'Refill', val: T.tebra.refill, copy: true },
+        { field: 'Days Supply', val: String(c.rxDays), copy: true },
+        { field: 'Patient Instructions', val: T.ptInstructions(w, rk), copy: true },
+        { field: 'Pharmacy Instructions', val: T.pharmacyNotes(w, rk, phKey, PH), copy: true }
+      ];
+      out += '<div class="rxblock">' + RXB.block({
+        pharmacy: ph.name,
+        entryKind: 'standard',
+        label: w + ' mg/week - ' + T.routes[rk].label,
+        tag: c.rxDays + '-day supply',
+        fields: fields,
+        accent: RXB.accentFor(phKey)
+      }) + '</div>';
+    });
+  });
+  return out;
+}
+
 function renderSection(sec) {
+  if (sec.render === 'table') return sectionTable(sec);
+  if (sec.render === 'trtPrescribing') return sectionTrtPrescribing(sec);
   if (sec.render === 'matrix') return sectionMatrix(sec);
   if (sec.render === 'pharmacyTable') return sectionPharmacyTable(sec);
   if (sec.render === 'productDetail') return sectionProducts(sec);
@@ -401,6 +489,17 @@ function renderBody(data, pharmacies, doc) {
      one that will not fit. Rows still stay whole, and the heading still stays
      with what follows it, so nothing lands orphaned. */
   h += '<style>.rxblock{break-inside:auto;}' +
+       /* Generic data table. Same surface treatment as a prescribing block -
+          white cell ground against the cream page, full-row zebra, a divider
+          after the first column - so the two read as one system. */
+       '.datatbl{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0 4px;' +
+       'background:#fff;border:1px solid #D7DCE8;}' +
+       '.datatbl th{background:#21275B;color:#fff;text-align:left;font-weight:700;' +
+       'font-size:11px;letter-spacing:.02em;padding:7px 12px;}' +
+       '.datatbl td{padding:6px 12px;vertical-align:top;border-top:1px solid #E7EBF3;}' +
+       '.datatbl tbody tr:nth-child(even){background:#EDF1F8;}' +
+       '.datatbl td:first-child{border-right:1px solid #D7DCE8;font-weight:600;color:#21275B;}' +
+       '@media print{.datatbl{break-inside:auto;} .datatbl tr{break-inside:avoid;}}' +
        /* Copy buttons are a screen affordance. They must not appear in the
           PDF, where they would print as stray words inside a table cell. */
        /* No .copybtn rules here. korb-rx-block.js owns them, and this file's

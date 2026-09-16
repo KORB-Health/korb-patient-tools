@@ -68,11 +68,27 @@ function loadGlobal(file, globalName) {
 
 const PHARMACIES = loadGlobal('korb-pharmacies.js', 'KORB_PHARMACIES');
 
+/* Into the GLOBAL scope, and before any program file, exactly as a page loads
+   them. Program data files hydrate their state lists from KORB_PHARMACIES at
+   load and build anything derived from it afterwards.
+
+   This line was missing until 2026-09-16 and it produced the silent failure
+   this repo keeps re-learning. korb-trt-data.js builds its document sections
+   only once hydrated; unhydrated it hydrates nothing, builds nothing, and
+   selfCheck skips the routing assertions and prints OK. So the build reported
+   success, the typeface check passed, and it wrote a ONE-PAGE PDF of a document
+   that is twenty pages long - a title band and nothing under it. The live HTML
+   was fine, because a browser loads both scripts, which is exactly what makes
+   this shape hard to notice: the thing you click works and the thing you print
+   is empty. */
+global.KORB_PHARMACIES = PHARMACIES;
+
 /* One row per document: the data file, the global it declares, and the
    renderer id. Adding Men's or Women's Health is one row here plus a
    `document` block in that data file. */
 const SOURCES = {
-  addons: { dataFile: 'korb-addons-data.js', global: 'KORB_ADDONS' }
+  addons: { dataFile: 'korb-addons-data.js', global: 'KORB_ADDONS' },
+  trt: { dataFile: 'korb-trt-data.js', global: 'KORB_TRT' }
 };
 
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
@@ -214,9 +230,28 @@ ${R.CSS}
 /* The PDF path stamps a real build date, because a printed page is a snapshot
    and should say which one. The live page says "live" instead. */
 function printableHtml(doc, data) {
+  /* Assert the document is actually there before it becomes a PDF. On
+     2026-09-16 the TRT reference built to a ONE-PAGE pdf - a title band over
+     nothing - because the builder had not put KORB_PHARMACIES on the global, so
+     korb-trt-data.js never hydrated and never built its sections. Every check
+     passed: selfCheck skips its routing assertions when unhydrated, the
+     typeface check reads a valid PDF, and the live HTML was correct because a
+     browser loads both scripts. The printed artefact was the only thing wrong
+     and nothing looked at it. */
+  const dd = data.document;
+  if (!dd || !dd.sections || !dd.sections.length) {
+    throw new Error('build-clinical-docs: "' + doc.id + '" has no document sections. ' +
+      'If the data file builds them from hydrated state, KORB_PHARMACIES must be on ' +
+      'the global BEFORE the data file is loaded.');
+  }
+  const body = R.renderBody(data, PHARMACIES, { id: doc.id, stamp: 'built ' + BUILD_DATE });
+  if (body.length < 4000) {
+    throw new Error('build-clinical-docs: "' + doc.id + '" rendered only ' + body.length +
+      ' characters. That is a title page, not a document.');
+  }
   return `<!doctype html><html><head><meta charset="utf-8">
 <title>${R.esc(data.document.title)}</title><style>${R.CSS}</style></head>
-<body>${R.renderBody(data, PHARMACIES, { id: doc.id, stamp: 'built ' + BUILD_DATE })}</body></html>`;
+<body>${body}</body></html>`;
 }
 
 async function main() {
