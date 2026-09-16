@@ -480,8 +480,7 @@ function rxCard(e){
   var rows = [
     { k:"Drug", v:e.drug, select: !e.compounded },
     { k:"Name", v:e.label },
-    { k:"Select", v:"Allow Substitution", select:true,
-      note:"Tick Allow Substitution in Tebra. There is nothing to paste." },
+    { k:"Select", v:"Allow Substitution", nocopy:true },
     { k:"Quantity", v:e.quantity },
     { k:"Unit", v:e.unit },
     { k:"Refill", v:e.refill },
@@ -500,15 +499,16 @@ function rxCard(e){
         + '<div class="fldwrap"><table class="fld" id="' + id + '">';
   rows.forEach(function(r){
     var v = String(r.v), cap = r.cap || 0, over = cap && v.length > cap;
-    h += '<tr><td class="k">' + esc(r.k) + '</td>'
+    h += '<tr' + (r.select || r.nocopy ? ' class="nocopy"' : '') + '>'
+       + '<td class="k">' + esc(r.k) + '</td>'
        + '<td class="v"><span class="fv">' + esc(v) + '</span>';
     if (cap){
       h += '<span class="cc' + (over ? ' over' : '') + '">' + v.length + ' / ' + cap + ' characters'
          + (over ? ' \u2014 OVER LIMIT, will truncate in Tebra' : '') + '</span>';
     }
-    if (r.select){
-      h += '<span class="selnote">' + esc(r.note || W.tebra.selectOnlyNote) + '</span>'
-         + '</td><td class="b"></td></tr>';
+    if (r.select || r.nocopy){
+      if (r.select) h += '<span class="selnote">' + esc(r.note || W.tebra.selectOnlyNote) + '</span>';
+      h += '</td><td class="b"></td></tr>';
     } else {
       h += '</td><td class="b"><button class="cbtn" onclick="copyField(this)">Copy</button></td></tr>';
     }
@@ -525,7 +525,7 @@ function copyAll(btn, id){
   var rows = document.getElementById(id).querySelectorAll("tr"), out = [];
   for (var i = 0; i < rows.length; i++){
     var k = rows[i].querySelector("td.k"), v = rows[i].querySelector(".fv");
-    if (k && v && !rows[i].querySelector(".selnote")) out.push(k.innerText + ": " + v.innerText);
+    if (k && v && rows[i].className.indexOf("nocopy") < 0) out.push(k.innerText + ": " + v.innerText);
   }
   doCopy(out.join("\n"), btn, "Copy all fields");
 }
