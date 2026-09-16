@@ -221,7 +221,17 @@
     .kv td,.grid td,.rxb-tbl td,.callout p,.callout li{font-size:14px;}
     .kv th,.grid th,.rxb-tbl th{font-size:12px;}
     .fine,.foot{font-size:12px;}
+    /* .fine inside a callout is still fine print. Without this it loses to the
+       .callout p rule above, which is more specific, and the SAME CLASS then
+       renders at two sizes on one page - 12px in the open and 14px in a
+       callout. Found by listing every p with its class and its computed size
+       rather than by looking at the page. */
+    .callout .fine,.callout p.fine{font-size:12px;}
     h1{font-size:30px;} h2{font-size:19px;} h3{font-size:15px;} h4{font-size:13px;}
+    /* A callout's heading was 12.27px sitting above its own 14px body text -
+       a heading smaller than the paragraph it heads. It is a heading; it gets
+       the heading size. */
+    .callout h3{font-size:15px;}
     /* Montserrat everywhere on screen, as in the PDF. korb-rx-block.js used to
        set the Tebra value cells in a monospace face; the note beside .rx above
        already records the decision to drop that - the "copy this exactly"
