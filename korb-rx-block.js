@@ -485,7 +485,13 @@
          away from the value it belongs to, with inches of empty cell between
          them. Same button, same behaviour, placed beside the thing it copies. */
       '.pricegrid .copybtn{float:none;margin-left:8px;vertical-align:baseline;}' +
-      '.pricegrid .cp{display:inline;white-space:nowrap;}}';
+      /* The CODE never breaks (set in provider-doc-render.js) but the button
+         beside it may drop to the next line. Without this the pair is one
+         unbreakable run, so on a narrow window the Tier column - the smallest
+         one - cannot hold it and the button overhangs the table. Measured at a
+         442px table: 8 overhanging buttons before, 0 after. A wrapped button is
+         ugly at phone width; a button hanging outside the table is broken. */
+      '.pricegrid .cp{display:inline;}}';
     return s;
   }());
 
