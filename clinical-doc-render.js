@@ -438,10 +438,49 @@ function sectionHormoneGuide(sec) {
    site. entryKind 'standard': these are Tebra standard prescriptions, and the
    drug is SELECTED even on the compounded ones - the compound itself lives in
    the pharmacy note. */
+/* Entries grouped by WHERE the prescription goes, with a jump link per
+   destination. Don, 2026-09-16: a Premier block carrying a local-pharmacy note
+   underneath it was the thing that read wrong - the destination is the first
+   decision, so it is the top-level split, and each entry now has exactly one
+   pharmacy note because there is only one place it can go.
+
+   The jump links are screen-only. On paper they would be three dead words. */
 function sectionWomensTebra(sec) {
   var h = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
+  var DESTS = [
+    { key: 'local',   title: 'Local pharmacy',
+      blurb: 'Commercial products only - the estradiol patches and commercial ' +
+             'progesterone at 100 mg or 200 mg. The patient collects and pays at ' +
+             'their own pharmacy, so these notes carry no billing instruction.' },
+    { key: 'premier', title: 'Premier pharmacy',
+      blurb: 'Billed to the office and shipped to the patient. Premier fills both ' +
+             'compounded and commercial progesterone, and the entries say which.' },
+    { key: 'belmar',  title: 'Belmar pharmacy',
+      blurb: 'Billed to the office and shipped to the patient. Compounded only.' }
+  ];
+
+  h += '<div class="jump"><span>Jump to:</span>';
+  DESTS.forEach(function (d) {
+    var n = (D.tebra.entries || []).filter(function (e) { return e.destination === d.key; }).length;
+    h += '<a href="#rx-' + d.key + '">' + esc2(d.title) + ' (' + n + ')</a>';
+  });
+  h += '</div>';
+
+  DESTS.forEach(function (d) {
+    var rows = (D.tebra.entries || []).filter(function (e) { return e.destination === d.key; });
+    if (!rows.length) return;
+    h += '<h3 class="desthead" id="rx-' + d.key + '">' + esc2(d.title) +
+         ' <span class="cnt">' + rows.length + ' entries</span></h3>';
+    h += '<p class="destblurb">' + esc2(d.blurb) + '</p>';
+    h += renderTebraGroup(rows);
+  });
+  return h + calloutsFor(sec);
+}
+
+function renderTebraGroup(rows) {
+  var h = '';
   var seen = {};
-  (D.tebra.entries || []).forEach(function (e) {
+  rows.forEach(function (e) {
     if (!seen[e.family]) {
       seen[e.family] = true;
       h += '<h3 class="prodhead">' + esc2(e.heading.replace(/\s*\([^)]*\)\s*$/, '')) + '</h3>';
@@ -478,18 +517,14 @@ function sectionWomensTebra(sec) {
         { field: 'Patient Instructions', val: e.ptInstructions, copy: true }
       ].concat(e.reasonForCompounding
         ? [{ field: 'Reason for Compounding', val: e.reasonForCompounding, copy: true }]
-        : []).concat(
-        /* TWO pharmacy notes where the product can go either way. The line
-           differs by DESTINATION, not by whether the product is compounded: a
-           partner pharmacy is billed to the office, a local pharmacy is paid by
-           the patient. Copying the partner line onto a local prescription bills
-           KORB for a medication the patient has already paid for, so the two are
-           separate copyable rows rather than one line to edit under pressure. */
-        e.localEligible
-          ? [{ field: 'Pharmacy Instructions - PARTNER pharmacy', val: e.pharmacyNotes, copy: true },
-             { field: 'Pharmacy Instructions - LOCAL pharmacy', val: e.pharmacyNotesLocal, copy: true }]
-          : [{ field: 'Pharmacy Instructions', val: e.pharmacyNotes, copy: true }]
-      )
+        : []).concat([
+        /* ONE pharmacy note per entry. The products that can go two places have
+           two entries, under the two destinations, rather than one entry with
+           two notes to choose between - choosing under time pressure is how the
+           partner line ends up on a local prescription and KORB gets billed for
+           medication the patient already paid for. */
+        { field: 'Pharmacy Instructions', val: e.pharmacyNotes, copy: true }
+      ])
     }) + '</div>';
     /* One line, under the block, where a provider is looking when they copy it.
        The patches are the only product in the programme whose supply is not 90
@@ -498,7 +533,7 @@ function sectionWomensTebra(sec) {
       h += '<p class="rxnote"><strong>' + esc2(D.patchGuidance.daysRule) + '</strong></p>';
     }
   });
-  return h + calloutsFor(sec);
+  return h;
 }
 
 function sectionStateGroups(sec) {
@@ -643,6 +678,15 @@ function renderBody(data, pharmacies, doc) {
        '.hcard .lead{font-weight:700;color:#0F5F69;margin:0 0 6pt;}' +
        '.hcard p{margin:0 0 5pt;font-size:12px;line-height:1.6;}' +
        '.rxnote{margin:-4pt 0 12pt;font-size:11.5px;color:#A15C07;line-height:1.5;}' +
+       '.desthead{margin:18pt 0 2pt;padding:5pt 9pt;background:#21275B;color:#fff;' +
+       'font-size:13px;border-radius:3px;}' +
+       '.desthead .cnt{font-weight:400;opacity:.75;font-size:11px;}' +
+       '.destblurb{margin:0 0 8pt;font-size:11.5px;color:#5A6080;line-height:1.55;}' +
+       '.jump{margin:8pt 0 4pt;font-size:11.5px;}' +
+       '.jump span{font-weight:700;color:#21275B;margin-right:6pt;}' +
+       '.jump a{display:inline-block;margin-right:6pt;padding:3pt 9pt;border:1px solid #00B2C3;' +
+       'border-radius:12pt;color:#0F5F69;text-decoration:none;font-weight:600;}' +
+       '@media print{.jump{display:none;}}' +
        '.datatbl td:first-child{font-weight:600;color:#21275B;}' +
        '@media print{.datatbl{break-inside:auto;} .datatbl tr{break-inside:avoid;}}' +
        /* Copy buttons are a screen affordance. They must not appear in the

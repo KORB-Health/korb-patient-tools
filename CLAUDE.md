@@ -856,6 +856,18 @@ women's testosterone. Do not re-report those; they are already on the list.
    `KORB_Womens_Health_Clinical_Reference` is generated, 5 pages, 9 sections. It
    carries no prescribing blocks: this programme's Tebra entries are per-hormone
    and per-strength and were not in the tool, so they remain to be built.
+13. **The Women's Health PROVIDER TOOL still has the old model.**
+   `Provider_Reference/KORB_Womens_Health_Provider_Tool.html` is hand-built and
+   predates everything done to the reference on 2026-09-16. It does not know
+   about: the destination split (local / Premier / Belmar), commercial
+   progesterone, 84-day supplies on patches and cycled progesterone, the 12-week
+   visit cadence, boxes rather than patches, or that PT-141 has moved. Don's
+   words: the tool selects products and pharmacy and gives more detail, the
+   reference is the hard copy for someone who does not want the tool - so the two
+   must agree. Wire the tool to `korb-womens-data.js` the way
+   `KORB_TRT_Provider_Tool.html` was wired to `korb-trt-data.js`, rather than
+   hand-editing it into agreement.
+
 12a. **A LAB REFERENCE AND AN IF-THEN INTERPRETATION CHART.** Don's idea,
    2026-09-16. **Raise it when the document set is finished, not before** - he was
    explicit about the timing and about wanting to finish the current pass first.
