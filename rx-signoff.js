@@ -316,7 +316,15 @@ function signCommand(key) {
   const rec = {
     signedBy: 'Donald Stevenson, PA-C',
     role: 'Director of Clinical Operations and Lead Provider',
-    date: new Date().toISOString().slice(0, 10),
+    /* LOCAL date, not UTC. toISOString() is UTC, so between 19:00 CDT and
+       midnight it stamps tomorrow - a provider signing at 19:46 on 15 Sep got
+       a record dated the 16th, a date they had not reached. An attestation
+       carries the day the provider signed it, in the provider's own day. */
+    date: (function () {
+      const d = new Date();
+      const p2 = function (n) { return (n < 10 ? '0' : '') + n; };
+      return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate());
+    })(),
     dataVersion: version,
     fingerprint: doc.fingerprint,
     blocks: doc.count,
