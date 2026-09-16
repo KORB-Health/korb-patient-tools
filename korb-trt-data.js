@@ -52,7 +52,7 @@
 var KORB_TRT = {
 
   meta: {
-    version: '1.3',
+    version: '1.4',
     created: '2026-09-16',
     updated: '2026-09-16',
     owner: 'Director of Clinical Operations',
@@ -108,7 +108,17 @@ var KORB_TRT = {
       'disagreements - target band 400-700 against 600-800, ladder steps against ' +
       '10-15 percent adjustments, and the SOP Tebra favorites at 150 and 165 mg/week ' +
       'in units rather than mL - are recorded in sourceConflicts rather than ' +
-      'reconciled, because reconciling them is a clinical decision.'
+      'reconciled, because reconciling them is a clinical decision.',
+      '2026-09-16 (v1.4): FERTILITY MADE UNMISSABLE, and a cap check that was not ' +
+      'checking. Don asked for both. Fertility moved from section 15 to section 3, ' +
+      'so it is read before the dose ladder and before any prescribing block, and ' +
+      'the standing warning is written once and rendered in three places - the ' +
+      'baseline gate, its own section, and above BOTH sets of prescribing blocks, ' +
+      'which is where a provider actually is when it matters. It uses the house ' +
+      '.callout.warn style, which nothing else on this document claims. ' +
+      'selfCheck now measures PHARMACY instructions as well as patient ' +
+      'instructions; it had only ever measured the latter, and on the ' +
+      'kit-shipping pharmacies the pharmacy note is the longer of the two.'
     ]
   },
 
@@ -499,7 +509,8 @@ var KORB_TRT = {
       'Normal liver and kidney function, if tested.',
       'No absolute contraindication present.',
       'Symptoms and laboratory findings align. Testosterone deficiency is diagnosed ' +
-      'on both, not on a number alone.'
+      'on both, not on a number alone.',
+      'FERTILITY HAS BEEN ASKED ABOUT AND THE ANSWER DOCUMENTED. See the next section.'
     ],
     documentation: 'Abnormal labs must be documented in Tebra with an interpretation ' +
       'and a plan, not merely filed. Where therapy proceeds despite a borderline ' +
@@ -579,6 +590,17 @@ var KORB_TRT = {
      qualifier reads as an offer. */
   fertility: {
     source: 'SOP',
+    /* One sentence, written once and rendered in three places: the baseline
+       gate, its own section near the top, and above both sets of prescribing
+       blocks. Don, 2026-09-16 - the providers who need it are the ones about to
+       write a prescription, so it has to be where they are looking then, not
+       eleven sections further down. */
+    standingWarning: 'ASK ABOUT FERTILITY BEFORE YOU PRESCRIBE. Testosterone ' +
+      'suppresses sperm production, and it can do so in a man who never raised ' +
+      'the subject because he came in about energy or libido. Ask every patient ' +
+      'whether he may want children, document the answer, and refer rather than ' +
+      'treat if he does - KORB does not currently offer the adjuncts that ' +
+      'preserve fertility alongside therapy.',
     lead: 'Testosterone suppresses spermatogenesis. Counsel every patient who may ' +
           'want children before starting, and document the discussion and the ' +
           'patient preference in the chart.',
@@ -721,6 +743,14 @@ var KORB_TRT = {
         callouts: [T.eligibility.documentation]
       },
       {
+        id: 'fertility', heading: 'Fertility - ask before you prescribe',
+        render: 'bullets',
+        warn: true,
+        body: [T.fertility.lead],
+        bullets: [T.fertility.absolute, T.fertility.adjuncts],
+        callouts: [T.fertility.standingWarning]
+      },
+      {
         id: 'pricing', heading: 'Pricing and charge codes',
         render: 'table',
         columns: ['Item', 'Price', 'Charge code'],
@@ -775,6 +805,7 @@ var KORB_TRT = {
       {
         id: 'rx-premier', heading: 'Prescribing - Premier Pharmacy',
         render: 'trtPrescribing', pharmacy: 'premier',
+        warnBefore: T.fertility.standingWarning,
         body: ['One complete entry per dose and route. The Name field encodes both, ' +
                'so each combination is its own Tebra favorite and is written out in full ' +
                'rather than factored - a provider copies a whole block into Tebra.']
@@ -782,6 +813,7 @@ var KORB_TRT = {
       {
         id: 'rx-empower', heading: 'Prescribing - Empower Pharmacy',
         render: 'trtPrescribing', pharmacy: 'empower',
+        warnBefore: T.fertility.standingWarning,
         body: ['Empower ships the injection kit with the vial, so the pharmacy ' +
                'instructions carry the supply counts. That is the only difference from ' +
                'the Premier entries above.']
@@ -840,12 +872,6 @@ var KORB_TRT = {
         id: 'cardiometabolic', heading: 'Cardiovascular and metabolic safety',
         render: 'bullets',
         bullets: T.cardiometabolic.items
-      },
-      {
-        id: 'fertility', heading: 'Fertility',
-        render: 'bullets',
-        body: [T.fertility.lead],
-        bullets: [T.fertility.absolute, T.fertility.adjuncts]
       },
       {
         id: 'side-effects', heading: 'Side effects and counselling',
@@ -1059,10 +1085,26 @@ var KORB_TRT = {
           problems.push(w + '/' + rk + ' patient instructions do not state the ' +
             c.rxDays + '-day supply that calc() produces');
         }
+        /* BOTH copied values, for every pharmacy. Only patient instructions were
+           checked here until 2026-09-16; pharmacy instructions were not, and they
+           are the longer of the two on the kit-shipping pharmacies. Tebra
+           truncates silently, so a sig that loses its tail still looks like a sig
+           and a supply list that loses its tail ships the wrong needles. */
         var pi = self.ptInstructions(w, rk);
         if (pi.length > self.tebra.caps.ptInstructions) {
           problems.push(w + '/' + rk + ' patient instructions are ' + pi.length +
             ' characters, over the ' + self.tebra.caps.ptInstructions + ' cap');
+        }
+        if (typeof KORB_PHARMACIES !== 'undefined' && self.hydrated) {
+          Object.keys(self.states.routing).forEach(function (st) {
+            var phKey = self.states.routing[st];
+            var pn = self.pharmacyNotes(w, rk, phKey, KORB_PHARMACIES);
+            if (pn.length > self.tebra.caps.pharmacyNotes) {
+              problems.push(w + '/' + rk + ' pharmacy instructions for ' + phKey +
+                ' are ' + pn.length + ' characters, over the ' +
+                self.tebra.caps.pharmacyNotes + ' cap');
+            }
+          });
         }
       });
     });

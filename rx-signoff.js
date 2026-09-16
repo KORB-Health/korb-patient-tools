@@ -90,7 +90,8 @@ function loadAll() {
     pharmacies: global.KORB_PHARMACIES,
     glp1: load('korb-glp1-data.js', 'KORB_GLP1', sandbox),
     dosing: load('korb-dosing-data.js', 'KORB_DOSING', sandbox),
-    addons: require('./korb-addons-data.js')
+    addons: require('./korb-addons-data.js'),
+    trt: load('korb-trt-data.js', 'KORB_TRT', sandbox)
   };
 }
 
@@ -191,9 +192,29 @@ function inventory() {
     out.push({ program: 'FH&L', key: 'fhl:' + d.id, label: d.title,
                file: d.file, html: FHL.renderBody(S.dosing, d) });
   });
+  /* clinical-doc-render.js now serves more than one program, so each document
+     must be rendered with ITS OWN data file. The first version passed S.addons
+     for every row and keyed them all 'addon:', which meant the TRT reference
+     entered the inventory as a second copy of the Add-On document under a TRT
+     name: 25 add-on blocks, none of TRT's 18, and its prescribing values never
+     reached check-tebra-caps.js at all. It reported "0 over the cap" across
+     "16 documents" while never having seen the sixteenth.
+
+     Found because Don asked whether the TRT patient and pharmacy instructions
+     were within the Tebra caps, and the honest way to answer was to plant an
+     overrun and watch the checker miss it. The DOCS row carries the global it
+     needs, so the mapping is derived rather than typed. */
+  var BY_GLOBAL = { KORB_ADDONS: { data: S.addons, program: 'Add-On', prefix: 'addon' },
+                    KORB_TRT:    { data: S.trt,    program: 'TRT',     prefix: 'trt' } };
   (ADDON.DOCS || []).forEach(function (d) {
-    out.push({ program: 'Add-On', key: 'addon:' + d.id, label: d.title,
-               file: d.file, html: ADDON.renderBody(S.addons, S.pharmacies, d) });
+    var m = BY_GLOBAL[d.global];
+    if (!m) {
+      throw new Error('rx-signoff: clinical-doc-render DOCS row "' + d.id + '" declares ' +
+        'global ' + d.global + ', which this file has no data source for. Add it to ' +
+        'BY_GLOBAL, or its document will be rendered with another program data.');
+    }
+    out.push({ program: m.program, key: m.prefix + ':' + d.id, label: d.title,
+               file: d.file, html: ADDON.renderBody(m.data, S.pharmacies, d) });
   });
 
   out.forEach(function (e) {

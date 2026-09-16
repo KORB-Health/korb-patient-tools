@@ -376,6 +376,20 @@ function sectionProducts(sec) {
   return h + decider(sec.decider);
 }
 
+/* Callouts, optionally as warnings. `.callout.warn` is already in the shared
+   stylesheet - orange border and ground - and it is what a provider's eye stops
+   on. Used sparingly: on a page where everything is highlighted, nothing is.
+   Fertility is the first TRT section to claim it, at Don's direction on
+   2026-09-16: testosterone suppresses spermatogenesis, and the patients most
+   likely to be harmed by missing that are the young ones who came in for energy
+   and have not thought about children yet. */
+function calloutsFor(sec) {
+  var cls = sec.warn ? 'callout warn' : 'callout';
+  return (sec.callouts || []).map(function (c) {
+    return '<div class="' + cls + '"><p>' + esc2(c) + '</p></div>';
+  }).join('');
+}
+
 function sectionBullets(sec) {
   /* Callouts here too. Three of the TRT safety sections carry one and they were
      silently dropped - a bullets section rendered its list and threw the
@@ -384,9 +398,7 @@ function sectionBullets(sec) {
      callouts in the data. */
   return '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body) +
     bullets(sec.bullets) +
-    (sec.callouts || []).map(function (c) {
-      return '<div class="callout"><p>' + esc2(c) + '</p></div>';
-    }).join('') +
+    calloutsFor(sec) +
     decider(sec.decider);
 }
 
@@ -417,9 +429,7 @@ function sectionTable(sec) {
   }).join('');
   return '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body) +
     '<table class="datatbl"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>' +
-    (sec.callouts || []).map(function (c) {
-      return '<div class="callout"><p>' + esc2(c) + '</p></div>';
-    }).join('');
+    calloutsFor(sec);
 }
 
 /* TRT prescribing blocks, grouped by pharmacy. Every dose and route pair is a
@@ -442,6 +452,9 @@ function sectionTrtPrescribing(sec) {
       sec.id + '" would print prescriptions nobody can send.');
   }
 
+  if (sec.warnBefore) {
+    out += '<div class="callout warn"><p>' + esc2(sec.warnBefore) + '</p></div>';
+  }
   out += '<div class="callout"><p><strong>' + esc2(ph.name) + '</strong> &middot; ' +
     states.map(function (st) { return esc2(PH.stateName(st) + ' (' + st + ')'); }).join(', ') +
     '. ' + esc2(T.prescribers.warning) + ' In ' +
