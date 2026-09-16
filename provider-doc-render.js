@@ -159,11 +159,15 @@ const CSS = RXB.CSS + `
      So: percentages that add to 100, and a blank fourth cell where there is no
      Tier. Every pricing table is therefore the full width, and Supply, Price and
      Charge code sit at the same x position in all of them. */
+  /* Widths on the COLUMNS, not on nth-child. nth-child counts cells, and a
+     cell that spans two columns makes those counts lie - the tier-less tables
+     merge columns 3 and 4, so the third cell is the fourth column too. A
+     colgroup states the geometry once and colspan cannot disturb it. */
   .pricegrid{table-layout:fixed;width:100%;}
-  .pricegrid th:nth-child(1),.pricegrid td:nth-child(1){width:40%;}
-  .pricegrid th:nth-child(2),.pricegrid td:nth-child(2){width:14%;}
-  .pricegrid th:nth-child(3),.pricegrid td:nth-child(3){width:28%;}
-  .pricegrid th:nth-child(4),.pricegrid td:nth-child(4){width:18%;}
+  .pricegrid col.c1{width:40%;}
+  .pricegrid col.c2{width:14%;}
+  .pricegrid col.c3{width:28%;}
+  .pricegrid col.c4{width:18%;}
   /* A code must never break across lines: a provider reading a wrapped charge
      code can transcribe it wrong, and not transcribing it is the whole point of
      the button. The long "Operations will provide..." note shares this column
@@ -788,15 +792,24 @@ function sectionPricing(doc) {
   tierOrder.forEach(tk => {
     h += `<h4>${esc(tk)}</h4>`;
     const tier = tierValue[tk] || null;
-    /* ALWAYS FOUR COLUMNS. A table with no tier gets a blank fourth cell rather
-       than three columns, so every pricing table in the document is the same
-       width with its columns in the same places - Don, 2026-09-15, after two
-       goes that each fixed one complaint and caused another. Supply, Price and
-       Charge code land at the same x position whether or not the table has a
-       Tier, which is what "all together" means when you are reading down a page
-       of them. */
-    h += `<table class="grid pricegrid"><thead><tr><th>Supply</th><th>Price</th><th>Charge code</th>` +
-         (tier ? `<th>Tier</th>` : `<th class="pad"></th>`) + `</tr></thead><tbody>`;
+    /* FOUR COLUMN WIDTHS ALWAYS, BUT NO EMPTY COLUMN.
+       Don, 2026-09-15: a blank fourth column on the semaglutide tables read as
+       a mistake - an empty box with a rule down the middle of nothing. But the
+       table still has to be the same total width as the tirzepatide ones, with
+       Supply, Price and Charge code in the same places, or the page stops
+       lining up.
+
+       So the geometry lives in a colgroup, which is fixed whatever the cells
+       do, and where there is no tier the Charge code cell spans columns 3 and 4.
+       Same table width, same first three column positions, no divider and no
+       empty box - the charge code simply gets the room the tier would have
+       taken. */
+    h += `<table class="grid pricegrid"><colgroup>` +
+         `<col class="c1"><col class="c2"><col class="c3"><col class="c4">` +
+         `</colgroup><thead><tr><th>Supply</th><th>Price</th>` +
+         (tier ? `<th>Charge code</th><th>Tier</th>`
+               : `<th colspan="2">Charge code</th>`) +
+         `</tr></thead><tbody>`;
     const notes = [];
     /* DISAMBIGUATE IDENTICAL ROW LABELS BY STRENGTH.
        Premier and FarmaKeio stock an oral dot at BOTH strengths and dispense 90
@@ -819,9 +832,10 @@ function sectionPricing(doc) {
     tierSeen[tk].forEach(({ programLabel, o, dose }) => {
       let label = o.label && o.label !== programLabel ? o.label : programLabel;
       if (labelCount[label] > 1 && dose) label = dose + ' — ' + label;
+      const codeCell = o.code ? codeCopy(o.code) : esc(o.codeNote || 'Operations will provide');
       h += `<tr><td>${esc(label)}</td><td>${o.price != null ? '$' + esc(o.price) : 'Varies'}</td>` +
-           `<td>${o.code ? codeCopy(o.code) : esc(o.codeNote || 'Operations will provide')}</td>` +
-           (tier ? `<td>${codeCopy(tier)}</td>` : `<td class="pad"></td>`) + `</tr>`;
+           (tier ? `<td>${codeCell}</td><td>${codeCopy(tier)}</td>`
+                 : `<td colspan="2">${codeCell}</td>`) + `</tr>`;
       if (o.priceNote && notes.indexOf(o.priceNote) === -1) notes.push(o.priceNote);
     });
     h += `</tbody></table>`;

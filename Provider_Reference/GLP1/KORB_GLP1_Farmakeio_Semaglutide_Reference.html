@@ -135,11 +135,15 @@
      So: percentages that add to 100, and a blank fourth cell where there is no
      Tier. Every pricing table is therefore the full width, and Supply, Price and
      Charge code sit at the same x position in all of them. */
+  /* Widths on the COLUMNS, not on nth-child. nth-child counts cells, and a
+     cell that spans two columns makes those counts lie - the tier-less tables
+     merge columns 3 and 4, so the third cell is the fourth column too. A
+     colgroup states the geometry once and colspan cannot disturb it. */
   .pricegrid{table-layout:fixed;width:100%;}
-  .pricegrid th:nth-child(1),.pricegrid td:nth-child(1){width:40%;}
-  .pricegrid th:nth-child(2),.pricegrid td:nth-child(2){width:14%;}
-  .pricegrid th:nth-child(3),.pricegrid td:nth-child(3){width:28%;}
-  .pricegrid th:nth-child(4),.pricegrid td:nth-child(4){width:18%;}
+  .pricegrid col.c1{width:40%;}
+  .pricegrid col.c2{width:14%;}
+  .pricegrid col.c3{width:28%;}
+  .pricegrid col.c4{width:18%;}
   /* A code must never break across lines: a provider reading a wrapped charge
      code can transcribe it wrong, and not transcribing it is the whole point of
      the button. The long "Operations will provide..." note shares this column
