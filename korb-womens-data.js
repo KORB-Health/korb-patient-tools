@@ -210,13 +210,31 @@ var KORB_WOMENS = {
     fourRule: 'Four hormones bill at the three-hormone tier, $299 / WMNHlth3. ' +
       'There is no fourth tier.',
     includes: 'Visit, 90-day supply and shipping, from a partner pharmacy.',
-    insurance: { label: 'Insurance - 90-day supply to the patient own pharmacy',
+    /* NOT "insurance". The charge code is historic and stays, but the wording
+       does not: describing this as an insurance option implies KORB bills
+       insurance, and that carries obligations - prior authorisations, medical
+       necessity letters, appeals - that KORB does not take on and that $79 does
+       not cover. The patient pays cash at their own pharmacy. If they choose to
+       run it through their plan that is theirs to do, and theirs to paper.
+       Don, 2026-09-16. */
+    insurance: { label: 'Local pharmacy - 90-day supply, patient pays the pharmacy',
                  price: '$79', code: 'WMNHlthINS' },
+    localPharmacyRule: 'The $79 covers the VISIT and the prescription. The patient ' +
+      'pays their own pharmacy for the medication, as a cash customer. KORB does ' +
+      'not bill insurance for it.',
+    localPharmacyDisclaimer: 'If a patient chooses to run the prescription through ' +
+      'their insurance, that is their decision and their paperwork. KORB does NOT ' +
+      'complete prior authorisations, medical necessity letters, appeals or any ' +
+      'other insurance documentation for these prescriptions. None of that is ' +
+      'included in the $79, and it is not available separately - refer the patient ' +
+      'to their primary care provider for it.',
     /* Put first in the document. It is the cheapest option and, as of
        2026-09-16, the one most providers are actually using. */
     insuranceFirst: true,
     insuranceIntent: 'ONE 90-day supply, sent and billed at the same time. Not ' +
-      'monthly, and not two 60-day fills billed as one quarter.',
+      'monthly, and not two 60-day fills billed as one quarter. No mid-cycle ' +
+      'visits for dose adjustments either - a change between quarters is another ' +
+      'visit and another charge, not a free follow-up.',
     offCadence: 'If the patient needs to be seen between 90-day supplies, that ' +
       'visit is charged at $79 (WMNHlthINS) like any other visit. Do not send a ' +
       'short supply and bill it against the next quarter - that is where charges ' +
@@ -346,6 +364,97 @@ var KORB_WOMENS = {
     'CLIA-regulated as qualified for high-complexity testing. Results are ' +
     'informational and do not themselves provide a diagnosis.',
 
+  /* -- DRAFTED, NOT YET APPROVED --------------------------------------------
+     Don asked for three pieces of clinical writing on 2026-09-16 and said he
+     would approve or disapprove them. They are held HERE and are NOT rendered
+     into the document, because content a provider reads should be content the
+     Director of Clinical Operations has signed, not content that is waiting on
+     him. When he approves, move each into the section named in `rendersInto`
+     and delete it from this block.
+
+     Sources are named on each so he can check rather than take my word. */
+  pendingApproval: [
+    {
+      id: 'progesterone-marker',
+      why: 'The source document explains every panel marker except progesterone, ' +
+           'which is on both panels.',
+      rendersInto: 'markerMeaning',
+      draft: {
+        marker: 'Progesterone (Pg)',
+        text: 'Produced mainly by the corpus luteum after ovulation, with a smaller ' +
+          'adrenal contribution. It opposes estrogen at the endometrium, which is ' +
+          'why it is what protects the uterine lining. Through its metabolite ' +
+          'allopregnanolone it also has a calming effect and supports sleep, which ' +
+          'is why it is dosed at night. Levels fall through perimenopause and are ' +
+          'low after menopause. Low progesterone RELATIVE to estrogen gives the ' +
+          'picture usually called estrogen dominance - heavy or irregular bleeding, ' +
+          'breast tenderness, fluid retention, irritability and poor sleep. On ' +
+          'saliva testing in a woman using a topical, remember the result reflects ' +
+          'tissue delivery rather than a serum level.'
+      },
+      basis: 'Standard menopause physiology, written to match the length and voice ' +
+             'of the eight Ayumetrix entries beside it. Not lifted from a KORB ' +
+             'document, because no KORB document contains it.'
+    },
+    {
+      id: 'estrogen-vs-estradiol',
+      why: 'Don asked what the difference is between estrogen and estradiol, and ' +
+           'whether estriol and estradiol in the Belmar capsule are an error.',
+      rendersInto: 'a new section after the hormone guide',
+      draft: {
+        heading: 'Estrogen, estradiol, estriol - not the same word',
+        body: [
+          'ESTROGEN is the class. ESTRADIOL is one hormone in that class. The three ' +
+            'human estrogens are estrone (E1), estradiol (E2) and estriol (E3).',
+          'ESTRADIOL is the most potent and the dominant estrogen through the ' +
+            'reproductive years. It is what "estrogen therapy" almost always means ' +
+            'at KORB, and it is what the patches and the single-hormone creams ' +
+            'contain.',
+          'ESTRIOL is the weakest of the three, roughly a tenth as potent at the ' +
+            'receptor, and predominates in pregnancy. It appears at KORB in exactly ' +
+            'one place: the four-hormone capsule, at 0.45 mg alongside 0.45 mg of ' +
+            'estradiol.',
+          'So "Estriol/Estradiol" on the Belmar capsule is NOT a typo and not a ' +
+            'duplicate. They are two different hormones and the capsule contains ' +
+            'both. A combination of estriol and estradiol is sometimes called ' +
+            'Bi-Est. The near-identical spelling is the only thing they share.'
+        ],
+        callout: 'On a prescription the two are not interchangeable words. Write ' +
+          'the hormone, not the class.'
+      },
+      basis: 'Standard endocrinology. The 0.45/0.45 mg figures are from the Belmar ' +
+             'and Premier entries in this file, not from memory.'
+    },
+    {
+      id: 'single-before-combination',
+      why: 'Don raised the clinical objection himself: a combination product ' +
+           'cannot be titrated one component at a time.',
+      rendersInto: 'a new section after the hormone guide',
+      draft: {
+        heading: 'Start with single hormones, combine later',
+        body: [
+          'A combination product is one prescription, so every component moves ' +
+            'together. If a patient on the four-hormone capsule needs more ' +
+            'progesterone, there is no way to give her more progesterone - only ' +
+            'more capsule, which also raises her testosterone, her estradiol and ' +
+            'her estriol.',
+          'So START on single-hormone products while dose-finding. Adjust one ' +
+            'thing at a time, the same discipline as every other KORB programme, ' +
+            'and let symptoms and labs settle.',
+          'ONCE SHE IS STABLE, moving to a combination is reasonable and is often ' +
+            'better for adherence - one cream or one capsule instead of three. ' +
+            'The trade-off is that the next adjustment means unpicking it again.'
+        ],
+        callout: 'Convenience is the reason to combine, and it is a good reason - ' +
+          'but only after the doses are settled. A combination started on day one ' +
+          'is a plan that cannot be tuned.'
+      },
+      basis: "Don's own clinical position, stated 2026-09-16. Written up rather " +
+             'than invented; the arithmetic about the four-hormone capsule follows ' +
+             'from its fixed 0.45/0.45/100/4 mg ratio recorded above.'
+    }
+  ],
+
   /* -- CONTRAINDICATIONS. Source: the November document, section 4. -----------
      Clinical safety rather than dosing, so it does not fall under Don's
      "everything else is out of date". */
@@ -424,7 +533,7 @@ var KORB_WOMENS = {
             'sexual wellness, energy, mood and muscle tone.',
       dosing: 'Testosterone 2% (1 click = 5 mg) with estradiol 0.4% (1 click = 1 mg). ' +
               'One click daily.',
-      billing: 'TWO hormones for pricing, in a single tube.'
+      billing: 'Two hormones for pricing, in a single tube.'
     },
     {
       name: 'Progesterone / testosterone / estradiol',
@@ -432,7 +541,7 @@ var KORB_WOMENS = {
       route: 'Testosterone and estradiol as cream, progesterone as capsules, from a ' +
              'partner pharmacy. Through a local pharmacy this becomes estradiol ' +
              'PATCH plus progesterone capsules only - no cream, no testosterone.',
-      billing: 'THREE hormones for pricing.'
+      billing: 'Three hormones for pricing.'
     },
     {
       name: 'Four-hormone oral capsule',
@@ -466,7 +575,7 @@ var KORB_WOMENS = {
 
   /* -- SIDE EFFECTS. Source: the November document, section 8. ---------------- */
   sideEffects: [
-    { hormone: 'Estrogen',
+    { hormone: 'Estrogens - estradiol and estriol',
       effects: 'Headache, nausea, bloating, mood swings, breast swelling and ' +
         'tenderness, change in vaginal bleeding. Increased risk of blood clots, ' +
         'breast cancer, and endometrial cancer - the last of which is reduced by ' +
@@ -529,35 +638,35 @@ var KORB_WOMENS = {
       compounded: false,
       label: 'Estrogen 0.025 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', refill: '0', days: '90',
+      quantity: '3', unit: 'patch', refill: '0', days: '90',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.0375 mg Patch)',
       drug: 'estradiol 0.0375 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.0375 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', refill: '0', days: '90',
+      quantity: '3', unit: 'patch', refill: '0', days: '90',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.05 mg Patch)',
       drug: 'estradiol 0.05 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.05 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', refill: '0', days: '90',
+      quantity: '3', unit: 'patch', refill: '0', days: '90',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.075 mg Patch)',
       drug: 'estradiol 0.075 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.075 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', refill: '0', days: '90',
+      quantity: '3', unit: 'patch', refill: '0', days: '90',
       pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'estradiol-patch', pharmacy: 'premier', heading: 'Estrogen (0.1 mg Patch)',
       drug: 'estradiol 0.1 mg/24 hr weekly transdermal patch',
       compounded: false,
       label: 'Estrogen 0.1 mg Patch',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
-      quantity: '3', refill: '0', days: '90',
+      quantity: '3', unit: 'patch', refill: '0', days: '90',
       pharmacyNotes: 'Bill to office/ship to patient' },
     /* Estradiol cream - 5 entries */
     { family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.2% Cream)',
@@ -565,166 +674,189 @@ var KORB_WOMENS = {
       compounded: true,
       label: 'Belmar Estradiol Cream 0.2%',
       ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', refill: '0', days: '90',
-      pharmacyNotes: 'Medical Necessity Required, Compound Estradiol 0.2%, 2 mg/ml [0.25 ml/click], QTY 30 ml, Bill to office/ship to patient, Allergies:' },
+      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'Medical Necessity Required, QTY 30 ml, Bill to office/ship to patient, Allergies:' },
     { family: 'estradiol-cream', pharmacy: 'premier', heading: 'Estrogen (0.2% Cream)',
       drug: 'Estradiol 0.2%, 2 mg/ml cream',
       compounded: true,
       label: 'Estradiol Cream 0.2%',
       ptInstructions: 'Apply (1 click/0.25ml/0.5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', refill: '0', days: '90',
-      pharmacyNotes: 'Compound Estradiol 0.2%, 2 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship to patient compounded to meet patient-specific needs and dose flexibility' },
+      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'QTY 30 ml, Bill office/ship to patient' },
     { family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.4% Cream)',
       drug: 'Estradiol 0.4%, 4 mg/ml cream',
       compounded: true,
       label: 'Belmar Estradiol Cream 0.4%',
       ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', refill: '0', days: '90',
-      pharmacyNotes: 'Compound Estradiol 0.4%, 4 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship patient, compounded to meet patient-specific needs and dose flexibility. Allergies:' },
+      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'QTY 30 ml, Bill office/ship patient Allergies:' },
     { family: 'estradiol-cream', pharmacy: 'premier', heading: 'Estrogen (0.6% Cream)',
       drug: 'Estradiol 0.6%, 6 mg/ml cream',
       compounded: true,
       label: 'Estradiol Cream 0.6%',
       ptInstructions: 'Apply (1 click/0.25 ml/1.5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', refill: '0', days: '90',
-      pharmacyNotes: 'Compound Estradiol 0.6%, 6 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship to patient, compounded to meet patient-specific needs and dose flexibility' },
+      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'QTY 30 ml, Bill office/ship to patient' },
     { family: 'estradiol-cream', pharmacy: 'belmar', heading: 'Estrogen (0.8% Cream)',
       drug: 'Estradiol 0.8%, 8 mg/ml cream',
       compounded: true,
       label: 'Belmar Estradiol Cream 0.8%',
       ptInstructions: 'Apply 1 click/0.25ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', refill: '0', days: '90',
-      pharmacyNotes: 'Medical Necessity Required for dose flexibility, Compound Estradiol 0.8%, 8 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship to patient, Allergies:' },
+      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'Medical Necessity Required, QTY 30 ml, Bill office/ship to patient, Allergies:' },
     /* Progesterone capsule - 12 entries */
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (100 mg Capsule)',
       drug: 'Progesterone (clear) MCC 100 mg capsule',
       compounded: true,
       label: 'Belmar Progesterone MCC 100 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone (clear) MCC 100 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Peanut-free base',
+      pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule)',
       drug: 'Progesterone SR 100 mg capsule',
       compounded: true,
       label: 'Progesterone SR 100 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone SR 100 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Peanut-free base',
+      pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (200 mg Capsule)',
       drug: 'Progesterone (clear) MCC 200 mg capsule',
       compounded: true,
       label: 'Belmar Progesterone MCC 200 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone (clear) MCC 200 mg, Bill office/ship to patient, compounded to meet patient-specific dose and excipient needs. Allergies:' },
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Peanut-free base',
+      pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule)',
       drug: 'Progesterone SR 200 mg capsule',
       compounded: true,
       label: 'Progesterone SR 200 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone SR 200 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Peanut-free base',
+      pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (300 mg Capsule)',
       drug: 'Progesterone (clear) MCC 300 mg capsule',
       compounded: true,
       label: 'Belmar Progesterone MCC 300 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone (clear) MCC 300 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (300 mg Capsule)',
       drug: 'Progesterone SR 300 mg capsule',
       compounded: true,
       label: 'Progesterone SR 300 mg NO cycles',
       ptInstructions: 'Take 1 cap PO QHS',
-      quantity: '90', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone SR 300 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (100 mg Capsule)',
       drug: 'Progesterone (clear) MCC 100 mg capsule',
       compounded: true,
       label: 'Belmar Progesterone MCC 100 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone (clear) MCC 100 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Peanut-free base',
+      pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (100 mg Capsule)',
       drug: 'Progesterone SR 100 mg capsule',
       compounded: true,
       label: 'Progesterone SR 100 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone SR 100 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Peanut-free base',
+      pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (200 mg Capsule)',
       drug: 'Progesterone (clear) MCC 200 mg capsule',
       compounded: true,
       label: 'Belmar Progesterone MCC 200 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone (clear) MCC 200 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Peanut-free base',
+      pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (200 mg Capsule)',
       drug: 'Progesterone SR 200 mg capsule',
       compounded: true,
       label: 'Progesterone SR 200 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone SR 200 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Peanut-free base',
+      pharmacyNotes: 'Bill to office/ship to patient' },
     { family: 'progesterone', pharmacy: 'belmar', heading: 'Progesterone (300 mg Capsule)',
       drug: 'Progesterone (clear) MCC 300 mg capsule',
       compounded: true,
       label: 'Belmar Progesterone MCC 300 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone (clear) MCC 300 mg, Bill office/ship to patient compounded to meet patient-specific dose and excipient needs. Allergies:' },
+      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'Bill office/ship to patient Allergies:' },
     { family: 'progesterone', pharmacy: 'premier', heading: 'Progesterone (300 mg Capsule)',
       drug: 'Progesterone SR 300 mg capsule',
       compounded: true,
       label: 'Progesterone SR 300 mg with cycles',
       ptInstructions: 'Take 1 cap PO QHS, cycle 21 days on / 7 days off',
-      quantity: '63', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Progesterone SR 300 mg, Bill to office/ship to patient, compounded to meet patient-specific dose and excipient needs' },
+      quantity: '63', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Strength not commercial',
+      pharmacyNotes: 'Bill to office/ship to patient' },
     /* Testosterone cream - 2 entries */
     { family: 'testosterone-cream', pharmacy: 'belmar', heading: 'Testosterone (2% Cream)',
       drug: 'Testosterone 2%, 20 mg/ml cream',
       compounded: true,
       label: 'Belmar Testosterone 2% Cream',
       ptInstructions: 'Apply 1 click 0.25 ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', refill: '0', days: '90',
-      pharmacyNotes: 'Compound Testosterone 2%, 20 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship patient, compounded to meet patient-specific needs and dose flexibility. Allergies:' },
+      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      reasonForCompounding: 'No female-dose product',
+      pharmacyNotes: 'QTY 30 ml, Bill office/ship patient Allergies:' },
     { family: 'testosterone-cream', pharmacy: 'premier', heading: 'Testosterone (2% Cream)',
       drug: 'Testosterone 2%, 20 mg/ml cream',
       compounded: true,
       label: 'Testosterone Cream Premier Pharmacy',
       ptInstructions: 'Apply (1 click/0.25 ml/5 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after',
-      quantity: '1', refill: '0', days: '90',
-      pharmacyNotes: 'Compound Testosterone 2%, 20 mg/ml [0.25 ml/click], QTY 23 ml, Bill to office/ship to patient for patient-specific needs and dose flexibility' },
+      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      reasonForCompounding: 'No female-dose product',
+      pharmacyNotes: 'QTY 23 ml, Bill to office/ship to patient' },
     /* Testosterone + estradiol cream - 2 entries */
     { family: 'test-estradiol-cream', pharmacy: 'belmar', heading: 'Estradiol/Testosterone (Cream)',
       drug: 'Estradiol/Testosterone 4/20 mg/ml cream',
       compounded: true,
       label: 'Belmar Estradiol/Testosterone (Topical Cream)',
       ptInstructions: 'Apply one click/0.25 ml daily to hairless skin. Let dry. Avoid contact. Wash hands after.',
-      quantity: '1', refill: '2', days: '28',
-      pharmacyNotes: 'Compound: Estradiol/Testosterone 4/20 mg/ml [0.25 ml/click], QTY 30 ml, Bill office/ship patient, for patient-specific needs and dose flexibility. Allergies:' },
+      quantity: '1', unit: 'bottle', refill: '2', days: '28',
+      reasonForCompounding: 'Multi-active combination',
+      pharmacyNotes: 'QTY 30 ml, Bill office/ship patient Allergies:' },
     { family: 'test-estradiol-cream', pharmacy: 'premier', heading: 'Testosterone + Estradiol (Cream)',
       drug: 'Testosterone 2% & Estradiol 0.4%, (20 mg/4 mg)/ml cream',
       compounded: true,
       label: 'Testosterone + Estradiol (Cream) Premier Pharmacy',
       ptInstructions: 'Apply (1 click/0.25 ml/5 mg/0.1 mg) daily to hairless skin. Let dry. Avoid contact. Wash hands after',
-      quantity: '1', refill: '0', days: '90',
-      pharmacyNotes: 'Compound: Testosterone 2% & Estradiol 0.4%, (20 mg/4 mg)/ml [0.25 ml/click], QTY 23 ml, Bill to office/ship to patient for patient-specific needs and dose flexibility' },
+      quantity: '1', unit: 'bottle', refill: '0', days: '90',
+      reasonForCompounding: 'Multi-active combination',
+      pharmacyNotes: 'QTY 23 ml, Bill to office/ship to patient' },
     /* Four-hormone oral capsule - 2 entries */
     { family: 'four-hormone-capsule', pharmacy: 'belmar', heading: 'Estriol/ Estradiol / Progesterone / Testosterone (Capsule)',
       drug: 'Estriol/Estradiol/Progesterone/Testosterone 0.45/0.45/100/4 mg cap',
       compounded: true,
       label: 'Belmar Estriol/Estradiol/Progesterone/Testosterone (capsule)',
       ptInstructions: 'Take 1 capsule PO daily.',
-      quantity: '90', refill: '0', days: '90',
-      pharmacyNotes: 'Compounded: Estriol/Estradiol/Progesterone/Testosterone 0.45/0.45/100/4 mg cap, Bill office/ship patient, for patient-specific needs and dose flexibility. Allergies:' },
+      quantity: '90', unit: 'capsule', refill: '0', days: '90',
+      reasonForCompounding: 'Multi-active combination',
+      pharmacyNotes: 'Bill office/ship patient Allergies:' },
     { family: 'four-hormone-capsule', pharmacy: 'premier', heading: 'Progesterone / Testosterone / Estriol/ Estradiol (Tablet)',
       drug: 'Progesterone 100 mg/Testosterone 4 mg/ Estriol 0.45 mg/Estradiol 0.45 mg ODT tablet',
       compounded: true,
       label: 'Progesterone / Testosterone / Estriol / Estradiol (SL ODT Tab)',
       ptInstructions: 'Dissolve 1 tablet under the tongue daily',
-      quantity: '90', refill: '0', days: '90',
-      pharmacyNotes: 'Compounded ODT Tab Progesterone 100 mg/Testosterone 4 mg/ Estriol 0.45 mg/Estradiol 0.45 mg, Bill office/ship patient for patient-specific needs and dose flexibility' },
+      quantity: '90', unit: 'tablet', refill: '0', days: '90',
+      reasonForCompounding: 'Multi-active combination',
+      pharmacyNotes: 'Bill office/ship patient' },
     ]
   },
 
@@ -904,7 +1036,8 @@ var KORB_WOMENS = {
             'progesterone and estradiol cream is two hormones in a single tube, and ' +
             'bills as two.'
         ],
-        callouts: [W.pricing.insuranceIntent, W.pricing.offCadence, W.pricing.fourRule]
+        callouts: [W.pricing.localPharmacyRule, W.pricing.localPharmacyDisclaimer,
+                   W.pricing.insuranceIntent, W.pricing.offCadence, W.pricing.fourRule]
       },
       {
         id: 'pricing-labs', heading: 'Pricing with labs included',
@@ -1092,7 +1225,24 @@ var KORB_WOMENS = {
       }
     });
 
+    /* Drafted content must not reach a provider before Don has approved it.
+       The report says how many are waiting rather than letting them sit silent. */
+    var rendered = JSON.stringify(this.document.sections || []);
+    (this.pendingApproval || []).forEach(function (d) {
+      var probe = (d.draft && (d.draft.text || (d.draft.body || [])[0])) || '';
+      if (probe && rendered.indexOf(probe.slice(0, 40)) !== -1) {
+        problems.push('pendingApproval draft "' + d.id + '" is rendering into the ' +
+          'document but has not been approved. Either approve it and move it out ' +
+          'of pendingApproval, or take it off the page.');
+      }
+    });
+
     if (typeof console !== 'undefined' && console.log) {
+      if ((this.pendingApproval || []).length) {
+        console.log('KORB_WOMENS: ' + this.pendingApproval.length +
+          ' draft(s) awaiting Don - ' +
+          this.pendingApproval.map(function (d) { return d.id; }).join(', '));
+      }
       console.log('KORB_WOMENS selfCheck: ' +
         (problems.length ? problems.length + ' problem(s)' : 'OK'));
     }

@@ -468,11 +468,19 @@ function sectionWomensTebra(sec) {
         { field: 'Name', val: e.label, copy: true },
         { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
         { field: 'Quantity', val: e.quantity, copy: true },
+        /* Unit and Reason for Compounding are part of the house field order in
+           korb-rx-block.js and were missing from every women's block until
+           2026-09-16. Quantity 1 with no unit does not say one WHAT - the other
+           programmes carry "5 mL" or "10 ml" and a provider reads the pair. */
+        { field: 'Unit', val: e.unit, copy: true },
         { field: 'Refill', val: e.refill, copy: true },
         { field: 'Days Supply', val: e.days, copy: true },
-        { field: 'Patient Instructions', val: e.ptInstructions, copy: true },
+        { field: 'Patient Instructions', val: e.ptInstructions, copy: true }
+      ].concat(e.reasonForCompounding
+        ? [{ field: 'Reason for Compounding', val: e.reasonForCompounding, copy: true }]
+        : []).concat([
         { field: 'Pharmacy Instructions', val: e.pharmacyNotes, copy: true }
-      ]
+      ])
     }) + '</div>';
   });
   return h + calloutsFor(sec);
