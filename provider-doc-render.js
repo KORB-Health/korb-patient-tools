@@ -260,6 +260,26 @@ const CSS = RXB.CSS + `
        a heading smaller than the paragraph it heads. It is a heading; it gets
        the heading size. */
     .callout h3{font-size:15px;}
+    /* THE PAGE IS BRAND CREAM, SO A TABLE NEEDS ITS OWN SURFACE.
+       Don, 2026-09-15, diagnosing why the pricing tables looked wrong: the
+       tables "just kind of run off the table onto the background". They did.
+       .grid td and .kv td carry no background at all, so an odd row was not a
+       pale cell on a page - it WAS the page, and only the even rows had a
+       colour. Against the old #FBFAF6 that was nearly invisible, which is why
+       the fault read as a font or spacing problem rather than a colour one.
+
+       On brand cream it would be worse, not better, so the two go together: the
+       page becomes #ECE9D1 and every table cell becomes an explicit white
+       surface. A table is then a card on cream with a real edge, which is how
+       the rest of the brand reads. Zebra rows keep their tint.
+
+       Screen only. The PDF page stays white, where a cream flood would waste
+       ink and print muddy. */
+    .grid td,.kv td,.kv th,.rxb-tbl td,.rxb-tbl th,.rxb{background:#fff;}
+    .grid tr:nth-child(even) td,
+    .kv tr:nth-child(even) th,
+    .kv tr:nth-child(even) td{background:var(--zebra);}
+
     /* Montserrat everywhere on screen, as in the PDF. korb-rx-block.js used to
        set the Tebra value cells in a monospace face; the note beside .rx above
        already records the decision to drop that - the "copy this exactly"

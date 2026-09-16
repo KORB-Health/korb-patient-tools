@@ -116,7 +116,7 @@ ${R.CSS}
   /* Layout only. FONT SIZES LIVE IN ONE PLACE, the @media screen block at the
      end of CSS in provider-doc-render.js. Three copies of a partial type scale
      is what put 15px bullets above an 11.5px table. Do not add sizes here. */
-  body { max-width: 8.5in; margin: 0 auto; padding: 28px 26px 60px; background: #FBFAF6; }
+  body { max-width: 8.5in; margin: 0 auto; padding: 28px 26px 60px; background: #ECE9D1; }   /* brand cream. Screen only - the PDF stays white. */
   .live { font-family: Montserrat, Helvetica, Arial, sans-serif; font-weight: 600; font-size: 10px; letter-spacing: .06em;
           text-transform: uppercase; color: #1E6B4F; background: #E9F3EE;
           border: 1px solid #C3E0D2; padding: 4px 9px; display: inline-block; margin-bottom: 14px; }
