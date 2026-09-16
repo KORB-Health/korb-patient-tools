@@ -125,36 +125,55 @@ function agentKeys(doc) {
   return out;
 }
 
-/* A DISPLAY TITLE FOR ONE AGENT. label + ' ' + dose is wrong twice over, and
-   both were visible in "At a glance" before 2026-09-15:
+/* ONE AGENT, SPLIT INTO A NAME AND A STRENGTH.
 
-     Tesamorelin    label "Tesamorelin 1 mg", dose "1 mg"
-                    -> "Tesamorelin 1 mg 1 mg"
-     CJC/Ipamorelin label "CJC-1295 / Ipamorelin",
-                    dose "100 mcg CJC-1295 / 100 mcg Ipamorelin"
-                    -> "CJC-1295 / Ipamorelin 100 mcg CJC-1295 / 100 mcg Ipamorelin"
+   label + ' ' + dose is wrong for two agents, and both were visible before
+   2026-09-15:
+
+     Tesamorelin     label "Tesamorelin 1 mg", dose "1 mg"
+                     -> "Tesamorelin 1 mg 1 mg"
+     CJC/Ipamorelin  label "CJC-1295 / Ipamorelin",
+                     dose "100 mcg CJC-1295 / 100 mcg Ipamorelin"
+                     -> the whole name twice
 
    Neither is a typo in the data. The Tesamorelin labels carry their strength
-   where every other agent's does not, and the CJC dose legitimately names both
-   components because they are dosed separately. Concatenating is what breaks.
+   where no other agent's does, and the CJC dose names both components because
+   THEY ARE TWO DRUGS AND EACH HAS ITS OWN STRENGTH. Concatenating is what
+   breaks, so this is fixed here and not in korb-dosing-data.js, whose label and
+   dose feed prescribing strings.
 
-   Fixed here rather than in korb-dosing-data.js deliberately: `label` and `dose`
-   feed prescribing strings, and this is a heading. A display problem does not
-   justify editing a value a pharmacy matches on. */
-function agentTitle(key) {
+   BOTH STRENGTHS ALWAYS SHOW on a combination agent - "100mcg/100mcg", not
+   "100 mcg". A first attempt kept only the leading amount, which read fine and
+   was clinically wrong: Don, 2026-09-15, Greenwich stocks CJC/Ipamorelin with
+   MATCHED strengths and also with DIFFERENT ones, so a single number cannot say
+   which product is in front of you. Shortening a heading is never worth
+   dropping half of a combination dose. */
+function agentParts(key) {
   const a = K.agents[key];
-  if (!a) return key;
+  if (!a) return { name: key, dose: '' };
   const label = String(a.label || ''), dose = String(a.dose || '');
-  if (!dose) return label;
-  /* The label already states the strength. */
-  if (label.indexOf(dose) !== -1) return label;
-  /* The dose repeats the component names - keep only its leading amount. */
+  if (!dose) return { name: label, dose: '' };
+
+  /* The label already carries the strength - take it back out of the name. */
+  if (label.indexOf(dose) !== -1) {
+    return { name: label.replace(dose, '').trim().replace(/[\s,-]+$/, ''), dose: dose };
+  }
+
+  /* A combination dose names its components. Keep EVERY amount, joined, so the
+     pairing is visible: "100 mcg CJC-1295 / 100 mcg Ipamorelin" -> 100mcg/100mcg */
   const firstWord = label.split(/[\s/]+/)[0];
   if (firstWord && dose.indexOf(firstWord) !== -1) {
-    const lead = dose.match(/^([\d.]+\s*(?:mcg|mg|ug|units?))/i);
-    if (lead) return label + ' ' + lead[1];
+    const amounts = dose.match(/[\d.]+\s*(?:mcg|mg|ug|units?)/gi);
+    if (amounts && amounts.length > 1) {
+      return { name: label, dose: amounts.map(function (x) { return x.replace(/\s+/g, ''); }).join('/'), compound: true };
+    }
   }
-  return label + ' ' + dose;
+  return { name: label, dose: dose };
+}
+
+function agentTitle(key) {
+  const p = agentParts(key);
+  return p.dose ? (p.name + ' ' + p.dose) : p.name;
 }
 
 function weeksLabel(key, context) {
@@ -173,41 +192,37 @@ function bullets(list) {
 }
 function stateList(arr) { return (arr || []).slice().join(', '); }
 
-/* COLLAPSE ONE AGENT'S DOSES ONTO ONE ENTRY.
-   Don, 2026-09-15: the Peak pathways list four Sermorelin strengths, and
-   repeating the word four times pushed the row onto two lines and broke oddly -
-   "Sermorelin 200 mcg . Sermorelin 300 mcg . Sermorelin 400 mcg ." then
-   "Sermorelin 500 mcg . BPC-157 500 mcg . GHK-Cu 2 mg" on the next.
+/* COLLAPSE ONE AGENT'S STRENGTHS ONTO ONE ENTRY.
+   Don, 2026-09-15: repeating "Sermorelin" four times pushed the row onto two
+   lines and broke in an odd place. The name now appears once with its
+   strengths after it.
 
-   Now "Sermorelin 200, 300, 400, 500 mcg", one entry per agent. Single-dose
-   agents are untouched, so BPC-157 and GHK-Cu read exactly as before.
-
-   The doses are joined only when they share a unit. Mixing mcg and mg under one
-   trailing unit would state a dose that is a thousand times wrong, which is
-   worth three lines of code to make impossible. */
-function groupAgentNames(names) {
-  const order = [];
-  const byName = {};
-  names.forEach(function (full) {
-    const m = String(full).match(/^(.*?)\s+([\d.]+)\s*(mcg|mg|ug|units?)$/i);
-    if (!m) { order.push(full); byName[full] = null; return; }
-    const name = m[1], dose = m[2], unit = m[3];
-    if (!byName[name]) { byName[name] = { doses: [], units: {}, pairs: [] }; order.push(name); }
-    byName[name].doses.push(dose);
-    byName[name].pairs.push({ dose: dose, unit: unit });
-    byName[name].units[unit.toLowerCase()] = true;
+   A combination agent keeps its full paired strengths - "100mcg/100mcg,
+   150mcg/150mcg" - because half a combination dose is not a dose. Only simple
+   single-amount strengths sharing one unit are compressed to "200, 300, 400
+   mcg"; anything else is spelled out, so a mcg can never be read under a mg. */
+function groupAgentEntries(keys) {
+  const order = [], byName = {};
+  keys.forEach(function (key) {
+    const p = agentParts(key);
+    if (!byName[p.name]) { byName[p.name] = []; order.push(p.name); }
+    if (byName[p.name].indexOf(p.dose) === -1) byName[p.name].push(p.dose);
   });
-  return order.map(function (k) {
-    const g = byName[k];
-    if (!g) return k;
-    const units = Object.keys(g.units);
-    if (units.length !== 1) {
-      /* Mixed units: spell each dose out with ITS OWN unit. An earlier version
-         indexed the unit list by position, which pairs a dose with whichever
-         unit happened to come first - a silent thousand-fold error. */
-      return g.pairs.map(function (d) { return k + ' ' + d.dose + ' ' + d.unit; }).join(' · ');
+  return order.map(function (name) {
+    const doses = byName[name].filter(Boolean);
+    if (!doses.length) return name;
+    if (doses.length === 1) return name + ' ' + doses[0];
+    const units = {}, amounts = [];
+    let simple = true;
+    doses.forEach(function (d) {
+      const m = String(d).match(/^([\d.]+)\s*(mcg|mg|ug|units?)$/i);
+      if (!m) { simple = false; return; }
+      amounts.push(m[1]); units[m[2].toLowerCase()] = true;
+    });
+    if (simple && Object.keys(units).length === 1) {
+      return name + ' ' + amounts.join(', ') + ' ' + Object.keys(units)[0];
     }
-    return k + ' ' + g.doses.join(', ') + ' ' + units[0];
+    return name + ' ' + doses.join(', ');
   }).join(' · ');
 }
 
@@ -215,8 +230,7 @@ function groupAgentNames(names) {
 
 function sectionGlance(doc) {
   const prog = K.programs[doc.program];
-  const names = agentKeys(doc).map(function (r) { return agentTitle(r.key); });
-  const uniqueNames = names.filter(function (n, i) { return names.indexOf(n) === i; });
+  const agentKeyList = agentKeys(doc).map(function (r) { return r.key; });
 
   let structure;
   if (doc.program === 'foundation') {
@@ -230,7 +244,7 @@ function sectionGlance(doc) {
     ['Program', esc(prog.label)],
     ['Structure', esc(structure)],
     ['Cycle length', '16 weeks'],
-    ['Agents in this document', esc(groupAgentNames(uniqueNames))],
+    ['Agents in this document', esc(groupAgentEntries(agentKeyList))],
     ['Pharmacies', esc(pharmKeys().map(pharmName).join(' and ')) + ' — routed by patient state']
   ]) + '</table>';
 }
