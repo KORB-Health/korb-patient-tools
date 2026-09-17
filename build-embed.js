@@ -198,6 +198,42 @@ const TARGETS = [
             notes: p.tebra.pharmacyNotes || ''
           }
         };
+        /* COMMERCIAL products are picked from the Tebra drop-down, so the tool
+           needs to know which they are and what the drop-down entry is called.
+           Without this the selector would keep offering a copy button on a name
+           that will not transmit. Same rule as the clinical reference. */
+        if (p.commercial) {
+          rec.commercial = true;
+          rec.dd = p.dropdownEntry || p.drugFormulation;
+        }
+        /* EXTRA STRENGTHS. Tretinoin is prescribed at three, and the selector
+           previously showed only the first, so a provider wanting 0.05% had no
+           entry to copy and had to edit one by hand. Each is carried whole, the
+           same rule the reference follows: never factor, never generate. The
+           label is the strength, read off the formulation it belongs to. */
+        function strengthOf(text) {
+          var m = /(\d+(?:\.\d+)?\s*%)/.exec(String(text || ''));
+          return m ? m[1].replace(/\s+/g, '') : null;
+        }
+        var alts = (p.tebraAlso || []).map(function (a) {
+          return {
+            s: strengthOf(a.drugFormulation) || a.name,
+            /* The drop-down name at THIS strength, for a commercial product. */
+            dd: a.dropdownEntry || null,
+            form: a.drugFormulation || null,
+            label: a.name || null,
+            sig: a.sig || null,
+            qty: a.quantity === null || a.quantity === undefined ? null : String(a.quantity),
+            unit: a.unit || null,
+            days: a.days === null || a.days === undefined ? null : String(a.days),
+            reason: a.reasonForCompounding || '',
+            notes: a.pharmacyNotes || ''
+          };
+        });
+        if (alts.length) {
+          rec.t.s = strengthOf(p.drugFormulation) || 'Standard';
+          rec.alt = alts;
+        }
         if (p.nitrateContraindicated) { rec.nitrate = true; }
         if (p.warn) { rec.warn = p.warn; }
         if (p.warnAmber) { rec.warnAmber = p.warnAmber; }
