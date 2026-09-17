@@ -50,96 +50,12 @@ const CHECK_ONLY = process.argv.indexOf('--check') > -1;
 /* ---- what gets embedded where ---------------------------------------- */
 
 const TARGETS = [
-  {
-    html: 'Provider_Reference/KORB_GLP1_Provider_Tool.html',
-    varName: 'DATA',
-    source: 'korb-glp1-data.js',
-    /* The GLP-1 tool embeds a flattened projection, not the raw products object.
-       Two shapes collapse into one here, which is the whole point of doing it in
-       code rather than by hand:
-
-         - Compounded products carry drugFormulation on the DOSE (one compound,
-           many fill lengths). Brand products carry the Tebra string as `drug` on
-           each FILL. The tool only ever reads fill.drugFormulation, so both are
-           normalised onto the fill.
-         - dropdownWarning / dropdownNote are named warn / note in the tool.
-
-       Fill order matters: it is the order the duration control renders. */
-    project: function (mod) {
-      const out = {};
-      Object.keys(mod.products).forEach(function (key) {
-        const p = mod.products[key];
-        const rec = {
-          key: p.key, label: p.label, drug: p.drug, pharmacy: p.pharmacy,
-          compounded: !!p.compounded, route: p.route, frequency: p.frequency,
-          orderVia: p.orderVia, brandName: !p.compounded,
-          warn: p.dropdownWarning || null,
-          note: p.dropdownNote || p.presentationNote || null,
-          prescribingNotes: p.prescribingNotes || [],
-          doses: []
-        };
-        if (p.status) { rec.status = p.status; }
-        if (p.statusNote) { rec.statusNote = p.statusNote; }
-
-        const ph = mod.pharmacies && mod.pharmacies[p.pharmacy];
-        if (ph && ph.status && ph.status !== 'active' && ph.statusNote) {
-          rec.pharmacyStatusNote = ph.statusNote;
-        }
-
-        (p.doses || []).forEach(function (d) {
-          const dose = {
-            dose: d.dose,
-            mg: has(d, 'mg') ? d.mg : null,
-            units: has(d, 'units') ? d.units : null,
-            conc: has(d, 'conc') ? d.conc : null,
-            use: has(d, 'use') ? d.use : null,
-            presentation: has(d, 'presentation') ? d.presentation : null,
-            chargeCode: has(d, 'chargeCode') ? d.chargeCode : null,
-            vials4: has(d, 'vials4') ? d.vials4 : null,
-            vials8: has(d, 'vials8') ? d.vials8 : null,
-            fills: []
-          };
-          /* T1A / T2A / T3A. This is the modifier billing needs alongside the
-             charge code, and it is a property of the dose, not of the fill. */
-          if (d.priceTier) {
-            const tier = mod.pricing.tirzepatideTiers[d.priceTier];
-            dose.tier = { code: d.priceTier, appliesTo: tier ? tier.appliesTo : null };
-          }
-
-          FILL_KEYS.forEach(function (k) {
-            const f = d[k];
-            if (!f) return;
-            /* Billing resolved through billingFor() rather than re-implementing
-               its brand / oral / tiered / banded branch inside the page. */
-            const bill = mod.billingFor(key, k, d.dose);
-            dose.fills.push({
-              billing: bill ? { options: bill.options, note: bill.note,
-                                programLabel: bill.programLabel } : null,
-              key: k,
-              /* label is the short duration chip; name is the Tebra favourite
-                 string. Brand products store that string as `label` in the data
-                 file, compounded ones as `name`. */
-              label: labelFor(k),
-              /* brand: the Tebra string is on the fill; compounded: on the dose */
-              drugFormulation: f.drug || d.drugFormulation || null,
-              name: f.name || f.label || null,
-              allowSubstitution: has(f, 'allowSubstitution') ? f.allowSubstitution : null,
-              quantity: f.quantity,
-              unit: has(f, 'unit') ? f.unit : null,
-              refill: f.refill,
-              days: f.days,
-              ptInstructions: f.ptInstructions,
-              reasonForCompounding: has(f, 'reasonForCompounding') ? f.reasonForCompounding : null,
-              pharmacyNotes: has(f, 'pharmacyNotes') ? f.pharmacyNotes : null
-            });
-          });
-          rec.doses.push(dose);
-        });
-        out[key] = rec;
-      });
-      return out;
-    }
-  },
+  /* The GLP-1 Provider Tool was a target until 2026-09-17, when it was retired
+     to a redirect: it produced the same 150 Tebra entries as the ten signed
+     monographs, zero unique to either. Removed from TARGETS rather than left
+     pointing at a redirect, which would have had every build rewrite a page
+     with no data in it. The orphan scan below still covers that file, so an
+     embedded block reappearing there fails the build. */
   {
     html: 'Provider_Reference/KORB_Optimization_Products.html',
     varName: 'ADDONS',

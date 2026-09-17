@@ -113,6 +113,31 @@ including the Women's Health patient handout.
 **Out for provider feedback** — not yet either way.
 `Provider_Reference/KORB_BMI_Protein_Calculator.html` and its `_standalone` twin.
 
+**Retired 2026-09-17.** `Provider_Reference/KORB_GLP1_Provider_Tool.html` is now a
+redirect to `KORB_GLP1_Provider_Reference.html`. It was NOT deleted, because the URL
+was on the intranet that day.
+
+Two reasons, and the first decides it. **It duplicated the monographs exactly**:
+every Tebra favorite name it could produce was extracted and compared against the
+ten generated GLP-1 monographs - 150 in the tool, 150 in the monographs, **zero
+unique to either**. Every prescription it offered already sat in a signed document.
+
+**And it told providers those monographs were unreviewed.** It carried a hardcoded
+amber banner reading "Monograph not yet clinically reviewed" and quoting
+`signoffStatus.state = "unsigned"` as static text. It never called
+`signoffStatus()`. All three molecules have been `current` since 2026-09-06, so the
+banner had contradicted the register for eleven days.
+
+That is the Known-failure shape in a third form: not a check that reported fine
+without looking, nor one that reported broken without looking, but **a frozen QUOTE
+of a check's output, still on screen long after the thing it quoted had changed.**
+A cached answer is not an answer. Worth looking for elsewhere: any place a document
+states the result of a check rather than running it.
+
+Its data was never stale - `build-embed.js` kept the blob matching
+`korb-glp1-data.js`. It was redundant, frozen and wrong about the sign-off.
+**Being current is not the same as being worth keeping.**
+
 **Retired and deleted.** `KORB_Injection_Tracker.html` was deleted from the repo
 root on 2026-09-13. Never released, superseded, and it had sat in the tree looking
 exactly as finished as the live set. Do not put it back.
@@ -194,8 +219,11 @@ Does NOT update on its own.
 
 | Page | Regenerate with |
 |---|---|
-| `Provider_Reference/KORB_GLP1_Provider_Tool.html` | `node build-embed.js` (from repo root) |
 | `Provider_Reference/KORB_Optimization_Products.html` | `node build-embed.js` (from repo root) |
+
+**There was a second one until 2026-09-17.**
+`Provider_Reference/KORB_GLP1_Provider_Tool.html` was retired to a redirect and
+removed from `TARGETS`. One frozen page remains. See Retired below.
 
 **3. Hand-built** — no data file, no generator. Every change is a manual edit.
 These are the liability.
@@ -489,7 +517,11 @@ probe yet and are reported as CANNOT BE FINGERPRINTED, which is a loud state rat
 than a quiet omission. The Men's Health probe was written on 2026-09-17. Writing one
 for the GLP-1 and Add-On tools is open work.
 
-**Status as of 2026-09-17: 25 artifacts, 4 signed.** The Men's and Women's Health
+**Status as of 2026-09-17: 24 artifacts, 6 signed.** The Add-On tool and GLP-1
+Pharmacy Routing were signed after review the same day; the GLP-1 Provider Tool left
+the register when it was retired to a redirect.
+
+**Status earlier that day: 25 artifacts, 4 signed.** The Men's and Women's Health
 provider tools and the Testosterone and Hormone Therapy handouts. Ready to sign and
 awaiting review: the GLP-1 provider tool (150 blocks), the Add-On tool (25 blocks,
 the same 25 the signed reference renders) and GLP-1 Pharmacy Routing (51 states, no

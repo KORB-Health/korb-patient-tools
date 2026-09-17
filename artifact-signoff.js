@@ -102,9 +102,6 @@ const TOOL_META = {
   'Provider_Reference/KORB_Optimization_Products.html':
     { key: 'addons', probe: 'addons', label: 'Add-On Optimization Products',
       records: { file: 'korb-addons-data.js', global: 'KORB_ADDONS' } },
-  'Provider_Reference/KORB_GLP1_Provider_Tool.html':
-    { key: 'glp1', probe: 'glp1tool', label: 'GLP-1 Provider Tool',
-      records: { file: 'korb-glp1-data.js', global: 'KORB_GLP1' } },
 
   'KORB_GLP1_Pharmacy_Routing.html':
     { key: 'glp1routing', probe: 'routing', label: 'GLP-1 Pharmacy Routing',
@@ -148,6 +145,8 @@ function excluded(f) {
   if (f === 'KORB_Patient_Hub.html') return 'patient-facing, not a provider tool';
   if (f === 'Provider_Reference/KORB_AddOn_Selector.html')
     return 'redirect to KORB_Optimization_Products.html, no content of its own';
+  if (f === 'Provider_Reference/KORB_GLP1_Provider_Tool.html')
+    return 'retired 2026-09-17 - redirect to KORB_GLP1_Provider_Reference.html';
   if (/^Patient_Education\//.test(f)) return 'handout - listed separately below';
   return null;
 }
@@ -519,66 +518,17 @@ PROBES.addons = function () {
   return { kind: 'tool', states: states.length, routing: routing, blocks: blocks };
 };
 
-/* GLP-1 provider tool.
+/* The GLP-1 provider tool's probe lived here until 2026-09-17. The tool was
+   retired to a redirect - it produced the same 150 Tebra entries as the ten
+   signed monographs - so the probe went with it rather than being kept against
+   a page that no longer renders anything.
 
-   A FROZEN TOOL FINGERPRINTS ITS EMBEDDED BLOB, NOT THE DATA FILE. This one and
-   the Add-On tool take their data from build-embed.js at build time, so editing
-   korb-glp1-data.js does NOT move this fingerprint until build-embed.js runs.
-   Found by a negative test that appeared to fail: a changed patient instruction
-   moved nothing, which looked like a blind probe and was not - the tool was
-   still serving last build's data. Rebuilt, the same edit moved it.
-
-   That is correct behaviour and it is worth knowing: a SIGNED frozen tool plus
-   an edited data file is a real state, and the thing that catches it is
-   `node build-embed.js --check`, not this register. Run both.
-
-
-   Four dependent selects: pharmacy group, then medication, then dose, then fill
-   length, each enabled by the one before it. The probe walks every reachable
-   combination rather than a sample, because the thing that changes silently
-   here is which doses a pharmacy still offers - the Greenwich retirement of
-   2026-09-11 is exactly this shape - and a sample would have missed it.
-
-   Records the option lists at each level plus the fields of every prescribing
-   block reached. Deliberately NOT recorded: the plan note's free text, which
-   restates values already captured and would make an unrelated wording change
-   expire the signature. */
-PROBES.glp1tool = function () {
-  var fire = function (el) { el.dispatchEvent(new Event('change', { bubbles: true })); };
-  var opts = function (el) {
-    return [].map.call(el.options, function (o) { return o.value; }).filter(Boolean);
-  };
-  var phg = document.getElementById('phg');
-  var ph  = document.getElementById('ph');
-  var dz  = document.getElementById('dz');
-  var fz  = document.getElementById('fz');
-
-  var tree = {}, blocks = {};
-  opts(phg).forEach(function (g) {
-    phg.value = g; fire(phg);
-    tree[g] = {};
-    opts(ph).forEach(function (m) {
-      ph.value = m; fire(ph);
-      tree[g][m] = {};
-      opts(dz).forEach(function (d) {
-        dz.value = d; fire(dz);
-        var fills = opts(fz);
-        tree[g][m][d] = fills;
-        fills.forEach(function (f) {
-          fz.value = f; fire(fz);
-          [].forEach.call(document.querySelectorAll('table.fld'), function (tbl) {
-            var name = [g, m, d, f].join(' / ');
-            blocks[name] = [].map.call(tbl.querySelectorAll('tr'), function (tr) {
-              var k = tr.querySelector('td.k'), v = tr.querySelector('.fv');
-              return k && v ? k.innerText.trim() + '=' + v.innerText.replace(/\s+/g, ' ').trim() : '';
-            }).filter(Boolean).join('|');
-          });
-        });
-      });
-    });
-  });
-  return { kind: 'tool', states: Object.keys(tree).length, routing: tree, blocks: blocks };
-};
+   Its one durable lesson is kept, because it cost a failed-looking negative
+   test to learn: A FROZEN TOOL FINGERPRINTS ITS EMBEDDED BLOB, NOT ITS DATA
+   FILE. Editing korb-addons-data.js does not move the Add-On tool's fingerprint
+   until build-embed.js runs. A signed frozen tool beside an edited data file is
+   a real state, and `node build-embed.js --check` is what catches it, not this
+   register. Run both. */
 
 /* GLP-1 pharmacy routing.
 

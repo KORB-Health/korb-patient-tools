@@ -277,6 +277,34 @@ var KORB_GLP1 = {
     }
   },
 
+  /* See artifact-signoff.js. THE TOOLS, not the documents.
+
+     This file already carries two registers: monographSignoff for the clinical
+     content and rxSignoff for the prescribing blocks per document. This is the
+     third kind - an interactive page a provider operates - and it is separate
+     for the usual reason: a routing change should not expire a monograph.
+
+     KORB_GLP1_Pharmacy_Routing.html decides WHERE a prescription goes and
+     writes none itself, so its fingerprint is the full routing message for all
+     51 states rather than any prescribing block. The page's own
+     KORB_ROUTING_SELFCHECK() asserts the routing is internally consistent; this
+     records what it decided, so a change shows up as a stale signature rather
+     than as a check that still passes. */
+  artifactSignoff: {
+    records: {
+      "tool:glp1routing": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-17",
+        "fingerprint": "fp-79fb1a74-25617",
+        "covers": "51 states, 0 prescribing blocks",
+        "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+        "note": "Approved 2026-09-17. Don: \"we used the other day and it is good to go.\" KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio."
+      }
+    }
+  },
+
+
   meta: {
     version: '2.22',
     created: '2026-08-06',

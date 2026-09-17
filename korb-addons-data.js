@@ -147,6 +147,26 @@ var KORB_ADDONS = {
     ]
   },
 
+  /* See artifact-signoff.js. The TOOL is signed separately from the clinical
+     reference even though both render from this file: the reference's signature
+     covers the prescribing blocks, this one covers which products a provider is
+     OFFERED for a given state and gender, and which programmes each gender
+     bars. The probe reaches the same 25 blocks the reference renders. */
+  artifactSignoff: {
+    records: {
+      "tool:addons": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-17",
+        "fingerprint": "fp-dedb8d10-30710",
+        "covers": "51 states, 25 prescribing blocks",
+        "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+        "note": "Approved 2026-09-17 after the afternoon's rebuild: the panel layout, gender gating the programme, category-then-product selection, the strength selector, and nine products moved to Tebra Standard prescriptions. Don: \"we just sent time on this afternoon working on so it is good.\""
+      }
+    }
+  },
+
+
   meta: {
     version: "1.7",
     created: "2026-09-11",
