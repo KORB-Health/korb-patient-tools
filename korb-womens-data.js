@@ -211,15 +211,25 @@ var KORB_WOMENS = {
      The one product where the Tebra drop-down offers a real choice that changes
      the prescription. Don, 2026-09-16. */
   patchGuidance: {
-    weekly: 'Tebra lists ONCE-weekly and TWICE-weekly transdermal patches. Prefer ' +
-      'the ONCE-weekly if the patient can get it - fewer applications and it is ' +
-      'the presentation these entries are written for.',
-    boxRule: 'Once-weekly patches come in a BOX OF 4. So the quantity is 3 BOXES, ' +
-      'not 3 patches: 3 x 4 = 12 patches, one a week for 12 weeks. The pharmacy ' +
+    weekly: 'Tebra lists ONCE-weekly and TWICE-weekly transdermal patches, and ' +
+      'the local commercial route now carries BOTH at all five strengths. Write ' +
+      'whichever the patient\'s pharmacy can actually source. The once-weekly is ' +
+      'fewer applications, but it is the harder of the two to get.',
+    sourcing: 'The once-weekly patch in a box of 4 is proving hard to source. ' +
+      'Premier confirmed on 2026-09-16 that they cannot supply it at a price ' +
+      'that works against what KORB charges, and raising the price was ' +
+      'considered and rejected, so Premier is not a route for it. That is why ' +
+      'the twice-weekly presentation exists on the local commercial route.',
+    boxRule: 'Box sizes differ by presentation and BOTH come to 3 BOXES for ' +
+      'twelve weeks - quantity 3 BX either way, which is arithmetic and not a ' +
+      'copy-paste. Once-weekly: BOX OF 4, 3 x 4 = 12 patches, one a week. ' +
+      'Twice-weekly: BOX OF 8, 3 x 8 = 24 patches, two a week. The pharmacy ' +
       'note spells that out so the pharmacy tells us if their pack size differs.',
-    daysRule: 'These are an 84-DAY supply, not 90. Twelve weekly patches is ' +
-      'twelve weeks. Book the follow-up at 12 weeks. Corrected 2026-09-16 after ' +
-      'Don raised it - the entries had read 90 since the source document.'
+    daysRule: 'These are an 84-DAY supply, not 90 - for both presentations. ' +
+      'Twelve weekly patches is twelve weeks, and twenty-four twice-weekly ' +
+      'patches is also twelve weeks. Book the follow-up at 12 weeks. Corrected ' +
+      '2026-09-16 after Don raised it - the entries had read 90 since the ' +
+      'source document.'
   },
 
   /* -- WHO PAYS THE PHARMACY -------------------------------------------------
@@ -742,42 +752,94 @@ var KORB_WOMENS = {
        already written in its own pharmacy note. Don, 2026-09-16. */
     entries: [
     /* ===== LOCAL pharmacy - patient collects and pays - 9 entries ===== */
-    /* Estradiol patch */
-    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.025 mg Patch)',
+    /* Estradiol patch - TWO presentations at every strength.
+       Don, 2026-09-16, after speaking to Premier that afternoon: a once-weekly
+       patch in a box of 4 is proving hard to source, and Premier cannot supply
+       it at a price that works against what KORB charges. Raising the price was
+       considered and rejected. So the local commercial route now carries BOTH
+       presentations at all five strengths and the provider picks whichever the
+       patient's pharmacy can actually get.
+
+         ONCE weekly   1 patch/week  x 12 weeks = 12 patches  = 3 boxes of 4
+         TWICE weekly  2 patches/wk  x 12 weeks = 24 patches  = 3 boxes of 8
+
+       Both land on quantity 3 BX and 84 days, which is a coincidence of the box
+       sizes and not a copy-paste: 3x4=12 at one a week and 3x8=24 at two a week
+       are both exactly twelve weeks. The pharmacy note spells the arithmetic out
+       so a pharmacy with a different pack size tells us.
+
+       LOCAL ONLY. Premier and Belmar are untouched - this was not asked for
+       there and Premier is the pharmacy that cannot source it. */
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.025 mg Patch, ONCE WEEKLY)',
       drug: 'estradiol 0.025 mg/24 hr weekly transdermal patch',
       compounded: false,
-      label: 'Estrogen 0.025 mg Patch',
+      label: 'Estrogen 0.025 mg Patch - once weekly (4/box)',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
       quantity: '3', unit: 'BX', refill: '0', days: '84',
       pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks.' },
-    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.0375 mg Patch)',
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.025 mg Patch, TWICE WEEKLY)',
+      drug: 'estradiol 0.025 mg/24 hr semiweekly transdermal patch',
+      compounded: false,
+      label: 'Estrogen 0.025 mg Patch - twice weekly (8/box)',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks twice weekly, on the same 2 days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 8 patches = 24 patches, two a week for 12 weeks.' },
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.0375 mg Patch, ONCE WEEKLY)',
       drug: 'estradiol 0.0375 mg/24 hr weekly transdermal patch',
       compounded: false,
-      label: 'Estrogen 0.0375 mg Patch',
+      label: 'Estrogen 0.0375 mg Patch - once weekly (4/box)',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
       quantity: '3', unit: 'BX', refill: '0', days: '84',
       pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks.' },
-    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.05 mg Patch)',
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.0375 mg Patch, TWICE WEEKLY)',
+      drug: 'estradiol 0.0375 mg/24 hr semiweekly transdermal patch',
+      compounded: false,
+      label: 'Estrogen 0.0375 mg Patch - twice weekly (8/box)',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks twice weekly, on the same 2 days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 8 patches = 24 patches, two a week for 12 weeks.' },
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.05 mg Patch, ONCE WEEKLY)',
       drug: 'estradiol 0.05 mg/24 hr weekly transdermal patch',
       compounded: false,
-      label: 'Estrogen 0.05 mg Patch',
+      label: 'Estrogen 0.05 mg Patch - once weekly (4/box)',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
       quantity: '3', unit: 'BX', refill: '0', days: '84',
       pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks.' },
-    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.075 mg Patch)',
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.05 mg Patch, TWICE WEEKLY)',
+      drug: 'estradiol 0.05 mg/24 hr semiweekly transdermal patch',
+      compounded: false,
+      label: 'Estrogen 0.05 mg Patch - twice weekly (8/box)',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks twice weekly, on the same 2 days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 8 patches = 24 patches, two a week for 12 weeks.' },
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.075 mg Patch, ONCE WEEKLY)',
       drug: 'estradiol 0.075 mg/24 hr weekly transdermal patch',
       compounded: false,
-      label: 'Estrogen 0.075 mg Patch',
+      label: 'Estrogen 0.075 mg Patch - once weekly (4/box)',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
       quantity: '3', unit: 'BX', refill: '0', days: '84',
       pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks.' },
-    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.1 mg Patch)',
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.075 mg Patch, TWICE WEEKLY)',
+      drug: 'estradiol 0.075 mg/24 hr semiweekly transdermal patch',
+      compounded: false,
+      label: 'Estrogen 0.075 mg Patch - twice weekly (8/box)',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks twice weekly, on the same 2 days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 8 patches = 24 patches, two a week for 12 weeks.' },
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.1 mg Patch, ONCE WEEKLY)',
       drug: 'estradiol 0.1 mg/24 hr weekly transdermal patch',
       compounded: false,
-      label: 'Estrogen 0.1 mg Patch',
+      label: 'Estrogen 0.1 mg Patch - once weekly (4/box)',
       ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks weekly. Replace the same days each week. Avoid breasts/irritated skin. Rotate sites.',
       quantity: '3', unit: 'BX', refill: '0', days: '84',
       pharmacyNotes: '3 boxes of 4 patches = 12 patches, one weekly for 12 weeks.' },
+    { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.1 mg Patch, TWICE WEEKLY)',
+      drug: 'estradiol 0.1 mg/24 hr semiweekly transdermal patch',
+      compounded: false,
+      label: 'Estrogen 0.1 mg Patch - twice weekly (8/box)',
+      ptInstructions: 'Apply 1 patch to the lower abdomen or buttocks twice weekly, on the same 2 days each week. Avoid breasts/irritated skin. Rotate sites.',
+      quantity: '3', unit: 'BX', refill: '0', days: '84',
+      pharmacyNotes: '3 boxes of 8 patches = 24 patches, two a week for 12 weeks.' },
     /* Progesterone capsule */
     { destination: 'local', family: 'progesterone', pharmacy: 'local', heading: 'Progesterone (100 mg Capsule, COMMERCIAL)',
       drug: 'progesterone micronized 100 mg capsule',
@@ -1240,7 +1302,8 @@ var KORB_WOMENS = {
         body: ['The strengths are NOT the same at both pharmacies, and that is the ' +
                'commonest way a women\'s health prescription goes wrong: a patient ' +
                'moves between pharmacies and the old strength is carried across.'],
-        callouts: [W.patchGuidance.weekly, W.patchGuidance.boxRule,
+        callouts: [W.patchGuidance.weekly, W.patchGuidance.sourcing,
+                   W.patchGuidance.boxRule,
                    'Only ' + W.sharedStrength + ' exists at both. Every other estradiol ' +
                    'cream strength changes when the pharmacy changes, so the prescription ' +
                    'has to change with it.']
