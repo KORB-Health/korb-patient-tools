@@ -74,7 +74,7 @@ const PHARMACIES = loadGlobal('korb-pharmacies.js', 'KORB_PHARMACIES');
    load and build anything derived from it afterwards.
 
    This line was missing until 2026-09-16 and it produced the silent failure
-   this repo keeps re-learning. korb-trt-data.js builds its document sections
+   this repo keeps re-learning. korb-mens-data.js builds its document sections
    only once hydrated; unhydrated it hydrates nothing, builds nothing, and
    selfCheck skips the routing assertions and prints OK. So the build reported
    success, the typeface check passed, and it wrote a ONE-PAGE PDF of a document
@@ -89,7 +89,7 @@ global.KORB_PHARMACIES = PHARMACIES;
    `document` block in that data file. */
 const SOURCES = {
   addons: { dataFile: 'korb-addons-data.js', global: 'KORB_ADDONS' },
-  trt: { dataFile: 'korb-trt-data.js', global: 'KORB_TRT' },
+  mens: { dataFile: 'korb-mens-data.js', global: 'KORB_MENS' },
   womens: { dataFile: 'korb-womens-data.js', global: 'KORB_WOMENS' }
 };
 
@@ -235,7 +235,7 @@ function printableHtml(doc, data) {
   /* Assert the document is actually there before it becomes a PDF. On
      2026-09-16 the TRT reference built to a ONE-PAGE pdf - a title band over
      nothing - because the builder had not put KORB_PHARMACIES on the global, so
-     korb-trt-data.js never hydrated and never built its sections. Every check
+     korb-mens-data.js never hydrated and never built its sections. Every check
      passed: selfCheck skips its routing assertions when unhydrated, the
      typeface check reads a valid PDF, and the live HTML was correct because a
      browser loads both scripts. The printed artefact was the only thing wrong

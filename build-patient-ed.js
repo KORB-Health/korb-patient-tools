@@ -74,8 +74,22 @@ function loadGlp1() {
   return G;
 }
 
+/* The Men's Health handout reads korb-mens-data.js. Loaded the same way and
+   for the same reason as the GLP-1 one: one file per program, and a handout
+   that names the wrong source should fail loudly rather than find a value by
+   accident. */
+function loadMens() {
+  const sandbox = {};
+  global.KORB_PHARMACIES = global.KORB_PHARMACIES || null;
+  const src = fs.readFileSync(path.join(ROOT, 'korb-mens-data.js'), 'utf8');
+  new Function('exports', 'module', src + '\n;this.KORB_MENS=KORB_MENS;').call(sandbox, {}, {});
+  const M = sandbox.KORB_MENS;
+  if (M.hydrate) M.hydrate(global.KORB_PHARMACIES);
+  return M;
+}
+
 /* Which data file a handout reads. */
-function sourceFor(doc, DOSING, GLP1) { return doc.source === 'glp1' ? GLP1 : DOSING; }
+function sourceFor(doc, S) { return S[doc.source] || S.dosing; }
 
 function loadChromium() {
   for (const t of ['playwright', 'playwright-core', 'puppeteer']) {
@@ -109,12 +123,21 @@ const SCREEN = `
   .mast img { height: 34px; width: auto; display: block; }
 }`;
 
+/* One map, three uses: the script tag, the global, and the name in the live
+   badge. They were three separate ternaries and adding a fourth source meant
+   editing all three and hoping. A handout whose badge names the wrong data file
+   is a small lie on a patient-facing page. */
+const SOURCE_FILE   = { glp1: 'korb-glp1-data.js', mens: 'korb-mens-data.js',
+                        dosing: 'korb-dosing-data.js' };
+const SOURCE_GLOBAL = { glp1: 'KORB_GLP1', mens: 'KORB_MENS', dosing: 'KORB_DOSING' };
+function sourceKey(doc) { return doc.source === 'none' ? null : (SOURCE_FILE[doc.source] ? doc.source : 'dosing'); }
+
 function masthead(doc, live) {
   return `<div class="mast"><div class="tools">` +
     `<a href="${doc.file}.pdf">PDF version</a><a href="#" onclick="window.print();return false;">Print</a>` +
     `</div><img src="${R.LOGO_URI}" alt="KORB Health"></div>` +
     (live && doc.source !== 'none'
-      ? `<div class="live">Live — reflects ${doc.source === 'glp1' ? 'korb-glp1-data.js' : 'korb-dosing-data.js'} as of this page load</div>`
+      ? `<div class="live">Live — reflects ${SOURCE_FILE[sourceKey(doc)]} as of this page load</div>`
       : '') +
     `<div class="titleband"><h1>${R.esc(doc.title)}</h1>` +
     `<p class="sub">Patient Education · ${R.esc(doc.program)}</p></div>` +
@@ -143,12 +166,12 @@ ${SCREEN}
      the console of every generated handout. Harmless, because the styling was
      already inlined, and still a broken script on a patient-facing page. -->
 <script src="../korb-pharmacies.js"></script>
-${doc.source === 'none' ? '' : doc.source === 'glp1' ? '<script src="../korb-glp1-data.js"></script>' : '<script src="../korb-dosing-data.js"></script>'}
+${sourceKey(doc) ? `<script src="../${SOURCE_FILE[sourceKey(doc)]}"></script>` : ''}
 <script src="../korb-patient-ed-data.js"></script>
 <script src="../patient-ed-render.js"></script>
 <script>
   (function () {
-    var D = ${doc.source === 'none' ? 'null' : doc.source === 'glp1' ? 'KORB_GLP1' : 'KORB_DOSING'};
+    var D = ${sourceKey(doc) ? SOURCE_GLOBAL[sourceKey(doc)] : 'null'};
     if (D && D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
     var doc = KORB_PATIENT_ED.docs[${JSON.stringify(doc.key)}];
     var R = KORB_PATIENT_ED_DOCS;
@@ -170,7 +193,7 @@ ${R.renderBody(DATA, DOSING, doc)}
 
 (async function main() {
   const DOSING = loadDosing();
-  const GLP1 = loadGlp1();
+  const S = { dosing: DOSING, glp1: loadGlp1(), mens: loadMens() };
   const want = process.argv[2];
   const keys = Object.keys(DATA.docs).filter(k => !want || k === want);
   if (!keys.length) {
@@ -182,7 +205,7 @@ ${R.renderBody(DATA, DOSING, doc)}
 
   /* Fail the build if a handout names an agent the dosing data does not have.
      Better a stopped build than a handout with a blank schedule. */
-  keys.forEach(k => R.agentFacts(sourceFor(DATA.docs[k], DOSING, GLP1), DATA.docs[k]));
+  keys.forEach(k => R.agentFacts(sourceFor(DATA.docs[k], S), DATA.docs[k]));
 
   for (const k of keys) {
     const doc = DATA.docs[k];
@@ -211,7 +234,7 @@ ${R.renderBody(DATA, DOSING, doc)}
     const page = await browser.newPage();
     const errs = [];
     page.on('pageerror', e => errs.push(e.message));
-    await page.setContent(printableHtml(sourceFor(doc, DOSING, GLP1), doc), { waitUntil: 'load' });
+    await page.setContent(printableHtml(sourceFor(doc, S), doc), { waitUntil: 'load' });
     await page.pdf({
       path: path.join(OUT, base + '.pdf'),
       format: 'Letter', printBackground: true,

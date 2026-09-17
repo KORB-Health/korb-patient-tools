@@ -44,7 +44,7 @@ const NEEDS = {
      nowhere" and routes every patient to the fallback. */
   'korb-glp1-data.js': ['korb-pharmacies.js'],
   'korb-dosing-data.js': ['korb-pharmacies.js'],
-  'korb-trt-data.js': ['korb-pharmacies.js'],
+  'korb-mens-data.js': ['korb-pharmacies.js'],
   'korb-womens-data.js': ['korb-pharmacies.js'],
 
   /* Render modules. */

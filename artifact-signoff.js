@@ -79,10 +79,10 @@ const ARTIFACTS = [
     file: 'Provider_Reference/KORB_Womens_Health_Provider_Tool.html',
     records: { file: 'korb-womens-data.js', global: 'KORB_WOMENS' } },
 
-  { key: 'tool:trt', kind: 'tool', probe: null,
-    label: 'TRT Provider Tool',
-    file: 'Provider_Reference/KORB_TRT_Provider_Tool.html',
-    records: { file: 'korb-trt-data.js', global: 'KORB_TRT' } },
+  { key: 'tool:mens', kind: 'tool', probe: 'mens',
+    label: "Men's Health Provider Tool",
+    file: 'Provider_Reference/KORB_Mens_Health_Provider_Tool.html',
+    records: { file: 'korb-mens-data.js', global: 'KORB_MENS' } },
 
   { key: 'tool:glp1', kind: 'tool', probe: null,
     label: 'GLP-1 Provider Tool',
@@ -282,6 +282,71 @@ PROBES.womens = function () {
   return { kind: 'tool', states: states.length, routing: routing, blocks: blocks };
 };
 
+/* Men's Health provider tool.
+
+   Same two passes as the Women's probe, over this tool's own axes. Routing here
+   is state -> pharmacy rather than state -> destination list, because
+   testosterone cypionate is Schedule III and only two states have a pharmacy at
+   all. A state that resolves to no pharmacy is recorded as such: that is the
+   fact a DEA registration or a state licence would move, and it is the whole
+   reason this tool has a state selector.
+
+   Blocks depend on dose, route and the pharmacy the state resolves to, not on
+   the state itself, so pass 2 walks doses and routes per distinct pharmacy
+   rather than repeating 51 times.
+
+   Deliberately NOT recorded: the date fields. Visit, refill and lab scheduling
+   are computed from an exam date and a PMP date, so including them would make
+   the fingerprint depend on what day it was probed and every signature would
+   expire overnight. */
+PROBES.mens = function () {
+  var stEl = document.getElementById('state');
+  var doseEl = document.getElementById('dose');
+  var routeEl = document.getElementById('route');
+  var fire = function (el) { el.dispatchEvent(new Event('change', { bubbles: true })); };
+  var optsOf = function (el) {
+    return [].map.call(el.options, function (o) { return o.value; }).filter(Boolean);
+  };
+
+  var states = optsOf(stEl);
+  var doses = optsOf(doseEl);
+  var routes = optsOf(routeEl);
+
+  /* PASS 1 - which pharmacy each state resolves to, and whether it has one. */
+  var routing = {};
+  var byPharmacy = {};
+  states.forEach(function (code) {
+    var P = (typeof pharmFor === 'function') ? pharmFor(code) : null;
+    var name = P && (P.name || P.label || P.key) ? (P.name || P.label || P.key) : null;
+    routing[code] = { pharmacy: name, prescribable: !!name };
+    if (name && !byPharmacy[name]) byPharmacy[name] = code;
+  });
+
+  /* PASS 2 - the prescribing blocks, per pharmacy x dose x route. */
+  var blocks = {};
+  Object.keys(byPharmacy).forEach(function (pharm) {
+    stEl.value = byPharmacy[pharm]; fire(stEl);
+    doses.forEach(function (d) {
+      routes.forEach(function (r) {
+        doseEl.value = d; fire(doseEl);
+        routeEl.value = r; fire(routeEl);
+        [].forEach.call(document.querySelectorAll('#output table.fld'), function (tbl) {
+          var card = tbl.closest ? tbl.closest('.card') : null;
+          var hd = card ? card.querySelector('.card-hdr') : null;
+          var name = pharm + ' / ' + d + ' / ' + r + ' / ' +
+            (hd ? hd.innerText.replace(/Copy all fields/g, '').replace(/\s+/g, ' ').trim() : 'rx');
+          blocks[name] = [].map.call(tbl.querySelectorAll('tr'), function (tr) {
+            var k = tr.querySelector('td.k'), v = tr.querySelector('.fv');
+            return k && v ? k.innerText.trim() + '=' + v.innerText.replace(/\s+/g, ' ').trim() : '';
+          }).filter(Boolean).join('|');
+        });
+      });
+    });
+  });
+
+  return { kind: 'tool', states: states.length, routing: routing, blocks: blocks };
+};
+
 /* ---- rendering ---------------------------------------------------------- */
 function chromium() {
   try { return require('playwright').chromium; }
@@ -391,10 +456,10 @@ function status(r) {
         'dosing and administration guidance, the storage and travel instructions, ' +
         'the side effect and safety sections and the instructions on when to make ' +
         'contact - and approve it for release to patients.'
-      : 'Reviewed this tool as rendered - the states and destinations it offers, ' +
-        'the products it puts in front of a provider for each of them, the hormones ' +
-        'it gates, and the Tebra prescribing blocks it produces - and approve it ' +
-        'for use by the provider team.';
+      : 'Reviewed this tool as rendered - the states it covers, the pharmacies ' +
+        'and products it offers for each of them, what it blocks and where, and ' +
+        'the Tebra prescribing blocks it produces - and approve it for use by ' +
+        'the provider team.';
     console.log('\nAdd this to ' + r.records.file + ', inside artifactSignoff.records:\n');
     console.log('  ' + JSON.stringify({
       signedBy: 'Donald Stevenson, PA-C',

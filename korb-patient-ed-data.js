@@ -42,6 +42,14 @@ var KORB_PATIENT_ED = {
      patients can actually see, and a signature here does not move it. */
   artifactSignoff: {
     records: {
+      "handout:testosterone": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-17",
+        "fingerprint": "fp-982b0eb4-11974",
+        "covers": "11509 characters, 17 headings",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+      },
       "handout:hormonetherapy": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
@@ -1403,11 +1411,11 @@ var KORB_PATIENT_ED = {
     },
 
     /* NO DATA FILE. Testosterone is the one handout here that cannot pull, because
-       korb-trt-data.js does not exist - open item 6 in CLAUDE.md. Its route,
+       korb-mens-data.js does not exist - open item 6 in CLAUDE.md. Its route,
        schedule and storage are stated below rather than read, and source:'none'
        makes that explicit so the page does not imply it is live when it is not.
 
-       When korb-trt-data.js lands: delete `facts`, set source and a product key,
+       When korb-mens-data.js lands: delete `facts`, set source and a product key,
        and check whether `storage` can move into it too. Testosterone storage is
        NOT the shared peptide block - room temperature, 90 days - and inheriting
        the shared one would tell a patient to refrigerate a medication that must
@@ -1416,13 +1424,16 @@ var KORB_PATIENT_ED = {
       key: 'testosterone',
       file: 'KORB_Patient_Ed_Testosterone',
       title: 'Testosterone',
-      source: 'none',
+      source: 'mens',
       program: 'Men\u2019s Health',
-      facts: {
-        how: 'Injection \u2014 subcutaneous or intramuscular, as your provider directs',
-        timing: 'On your scheduled injection day, as stated on your label',
-        schedule: 'As stated on your prescription label'
-      },
+      /* `how` is DERIVED from korb-mens-data.js routes - see mensFacts() in
+         patient-ed-render.js. Timing and schedule stay here as prose because
+         neither is a fact that file holds: both depend on the individual
+         prescription, so deriving them would dress prose up as live. Wired
+         2026-09-17, closing the TODO in the comment above, which had been open
+         since the data file landed on 2026-09-16. */
+      timingText: 'On your scheduled injection day, as stated on your label',
+      scheduleText: 'As stated on your prescription label',
 
       what: [
         'Testosterone cypionate is a long-acting injectable form of testosterone. It ' +

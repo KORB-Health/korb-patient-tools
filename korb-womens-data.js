@@ -47,7 +47,7 @@ var KORB_WOMENS = {
     entity: 'KORB Health Medical Texas PA',
     extractedFrom: 'Provider_Reference/KORB_Womens_Health_Provider_Tool.html as at 2026-09-16',
     scope: 'Menopausal hormone therapy for women. Male testosterone replacement ' +
-           'is korb-trt-data.js.',
+           'is korb-mens-data.js.',
     changelog: [
       '2026-09-16 (v1.0): CREATED. Open item 6, second half. Extracted from the ' +
       'hand-built provider tool, which already carried the current model. The ' +

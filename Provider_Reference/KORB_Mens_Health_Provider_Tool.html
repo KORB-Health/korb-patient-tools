@@ -181,7 +181,7 @@ body{background:var(--cream);}
         <label for="dose">Weekly dose</label>
         <select id="dose">
           <option value="">Select…</option>
-          <!-- filled at load from korb-trt-data.js weeklyDosesMg -->
+          <!-- filled at load from korb-mens-data.js weeklyDosesMg -->
         </select>
         <span class="hint" id="startHint"></span>
       </div>
@@ -232,7 +232,7 @@ body{background:var(--cream);}
       <tr><th>Weekly dose</th><th>IM once weekly<br><span style="font-weight:400">3 mL Luer lock</span></th><th>SQ twice weekly<br><span style="font-weight:400">1 mL Luer lock</span></th><th>SQ three times weekly<br><span style="font-weight:400">1 mL Luer lock</span></th><th>Days supply</th></tr>
     </thead>
     <tbody id="ladderBody">
-      <!-- filled at load from korb-trt-data.js ladder() -->
+      <!-- filled at load from korb-mens-data.js ladder() -->
     </tbody>
   </table></div>
   <div class="info-box teal">
@@ -246,7 +246,7 @@ body{background:var(--cream);}
   <div class="tablewrap"><table class="ref">
     <thead><tr><th>Test</th><th>Quest code</th></tr></thead>
     <tbody id="labBody">
-      <!-- filled at load from korb-trt-data.js labPanel.tests -->
+      <!-- filled at load from korb-mens-data.js labPanel.tests -->
     </tbody>
   </table></div>
   <div class="info-box teal">
@@ -316,26 +316,26 @@ body{background:var(--cream);}
 
 <!-- Open item 6. Until 2026-09-16 this page held every TRT fact as its own
      JavaScript: the ladder, the lab panel, the thresholds, the Tebra fields.
-     They now come from korb-trt-data.js. ORDER MATTERS - korb-pharmacies.js
+     They now come from korb-mens-data.js. ORDER MATTERS - korb-pharmacies.js
      must load first or the data file throws by name rather than answering
      from an empty footprint. -->
 <script src="../korb-pharmacies.js"></script>
-<script src="../korb-trt-data.js"></script>
+<script src="../korb-mens-data.js"></script>
 <script>
-if (typeof KORB_TRT === "undefined" || typeof KORB_PHARMACIES === "undefined") {
+if (typeof KORB_MENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
   document.addEventListener("DOMContentLoaded", function () {
     document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E;padding:24px">' +
-      'Could not load korb-pharmacies.js or korb-trt-data.js. This tool reads every ' +
+      'Could not load korb-pharmacies.js or korb-mens-data.js. This tool reads every ' +
       'clinical value from those files and will not display without them.</p>';
   });
-  throw new Error("KORB_TRT_Provider_Tool: data files missing");
+  throw new Error("KORB_Mens_Health_Provider_Tool: data files missing");
 }
-if (!KORB_TRT.hydrated) {
-  throw new Error("KORB_TRT_Provider_Tool: korb-trt-data.js did not hydrate from " +
+if (!KORB_MENS.hydrated) {
+  throw new Error("KORB_Mens_Health_Provider_Tool: korb-mens-data.js did not hydrate from " +
                   "korb-pharmacies.js. Check the script order above.");
 }
 
-var T = KORB_TRT;
+var T = KORB_MENS;
 var CONC     = T.product.concentrationMgPerMl;
 var VIAL_ML  = T.product.vialMl;
 var SEND_LEAD = T.scheduling.sendLeadDays;
@@ -357,7 +357,7 @@ function pharmFor(st){
            notes: "Bill to office/ship to patient" };
 }
 
-/* Routes, syringes and needles come from korb-trt-data.js. The shape below is
+/* Routes, syringes and needles come from korb-mens-data.js. The shape below is
    the one this page already used, mapped from the data rather than retyped. */
 var ROUTES = {};
 Object.keys(T.routes).forEach(function (k) {
@@ -377,7 +377,7 @@ function fmtShort(d){ return (d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear(
 function daysBetween(a,b){ return Math.round((b-a)/86400000); }
 
 /* ---------- calc ----------
-   Delegates to korb-trt-data.js so the page, any future generated document and
+   Delegates to korb-mens-data.js so the page, any future generated document and
    the patient handout cannot each round the arithmetic their own way. The local
    shape is preserved so the render code below is untouched. */
 function calc(W, routeKey){
@@ -418,7 +418,7 @@ function fieldTable(id, title, fields){
     /* A value chosen from the Tebra drop-down gets no copy button - pasting it
        is the mistake, not the shortcut. Same rule as the brand GLP-1 documents. */
     if(f.select || f.nocopy){
-      if(f.select) h += '<span class="selnote">' + KORB_TRT.tebra.selectOnlyNote + '</span>';
+      if(f.select) h += '<span class="selnote">' + KORB_MENS.tebra.selectOnlyNote + '</span>';
       h += '</td><td class="b"></td></tr>';
     } else {
       h += '</td><td class="b"><button class="cbtn" onclick="copyField(this)">Copy</button></td></tr>';
@@ -465,7 +465,7 @@ function legacyCopy(t, cb){
    The dose dropdown, the ladder and the lab panel were typed into this HTML
    until 2026-09-16. Removing the 96 mg step then meant editing the same fact in
    four places, and missing one would leave a dose a provider can still pick and
-   the pharmacy will not fill. They are built from korb-trt-data.js instead. */
+   the pharmacy will not fill. They are built from korb-mens-data.js instead. */
 function buildTables(){
   var sel = document.getElementById("dose");
   T.weeklyDosesMg.forEach(function(w){
@@ -754,7 +754,7 @@ function fallback(t, cb){
   document.getElementById("examDate").value=s;
 })();
 
-/* The dose list, the ladder and the lab panel are built from korb-trt-data.js.
+/* The dose list, the ladder and the lab panel are built from korb-mens-data.js.
    Must run before anything reads the dose select. */
 buildTables();
 </script>

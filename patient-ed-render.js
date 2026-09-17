@@ -92,9 +92,49 @@
     return out;
   }
 
+  /* Testosterone reads korb-mens-data.js. WHICH ROUTES EXIST is a fact that
+     lives in that file and is used by the provider reference and the tool, so
+     the handout derives its route sentence rather than typing a fourth copy.
+
+     This is the TODO that sat in korb-patient-ed-data.js from the day the
+     handout was written - "when korb-trt-data.js lands, delete doc.facts and
+     give the handout a source" - and was still open after the file landed on
+     2026-09-16, which left the two free to disagree.
+
+     Only `how` is derived, because only `how` is a fact the data file holds.
+     Timing and schedule stay as prose: what day a patient injects and how often
+     is on their own prescription label and varies by the route prescribed, so
+     there is nothing upstream to read. Deriving a sentence that is not in the
+     data would be dressing prose up as live. */
+  function mensFacts(MENS, doc) {
+    if (!MENS || !MENS.routes) {
+      throw new Error('patient-ed-render: korb-mens-data.js must be loaded first, ' +
+        'and after korb-pharmacies.js.');
+    }
+    var routes = Object.keys(MENS.routes).map(function (k) { return MENS.routes[k]; });
+    if (!routes.length) {
+      throw new Error('patient-ed-render: korb-mens-data.js declares no routes, so ' +
+        'the handout cannot say how the injection is given. Fix the data file ' +
+        'rather than typing the sentence here.');
+    }
+    var anySq = routes.some(function (r) { return r.sq; });
+    var anyIm = routes.some(function (r) { return !r.sq; });
+    var how = anySq && anyIm
+      ? 'Injection — subcutaneous or intramuscular, as your provider directs'
+      : anySq ? 'Injection — subcutaneous, as your provider directs'
+              : 'Injection — intramuscular, as your provider directs';
+    return {
+      how: how,
+      timing: doc.timingText || '',
+      schedule: doc.scheduleText || '',
+      windows: [], activeWeeks: '', offWeeks: ''
+    };
+  }
+
   function agentFacts(DOSING, doc) {
     if (doc.source === 'glp1') { return glp1Facts(DOSING, doc); }
-    /* NO DATA FILE YET. Testosterone has no korb-trt-data.js - that is open item
+    if (doc.source === 'mens') { return mensFacts(DOSING, doc); }
+    /* NO DATA FILE YET. Testosterone has no korb-mens-data.js - that is open item
        6 - so its route and schedule are prose here rather than pulled, and this
        says so plainly instead of letting the page imply it is live. When that
        file exists, delete doc.facts and give the handout a source and a key.

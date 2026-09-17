@@ -91,7 +91,7 @@ function loadAll() {
     glp1: load('korb-glp1-data.js', 'KORB_GLP1', sandbox),
     dosing: load('korb-dosing-data.js', 'KORB_DOSING', sandbox),
     addons: require('./korb-addons-data.js'),
-    trt: load('korb-trt-data.js', 'KORB_TRT', sandbox),
+    mens: load('korb-mens-data.js', 'KORB_MENS', sandbox),
     womens: load('korb-womens-data.js', 'KORB_WOMENS', sandbox)
   };
 }
@@ -206,7 +206,7 @@ function inventory() {
      overrun and watch the checker miss it. The DOCS row carries the global it
      needs, so the mapping is derived rather than typed. */
   var BY_GLOBAL = { KORB_ADDONS: { data: S.addons, program: 'Add-On', prefix: 'addon' },
-                    KORB_TRT:    { data: S.trt,    program: 'TRT',     prefix: 'trt' },
+                    KORB_MENS:   { data: S.mens,   program: "Men's",  prefix: 'mens' },
                     KORB_WOMENS: { data: S.womens, program: "Women's", prefix: 'womens' } };
   (ADDON.DOCS || []).forEach(function (d) {
     var m = BY_GLOBAL[d.global];
@@ -283,7 +283,7 @@ function selfCheck(inv) {
    invisible to a boolean flag and is the failure this file exists for. */
 function recordsFor(S) {
   const all = {};
-  /* Every program data file, not a hardcoded three. korb-trt-data.js was missing
+  /* Every program data file, not a hardcoded three. korb-mens-data.js was missing
      here after TRT was added, so a valid sign-off recorded in that file was read
      by nothing and the document kept reporting "never signed". Derived from the
      sources object now, so a new program cannot be half-wired the same way.
@@ -344,7 +344,7 @@ function signCommand(key) {
     glp1:  { file: 'korb-glp1-data.js',   data: S.glp1 },
     fhl:   { file: 'korb-dosing-data.js', data: S.dosing },
     addon: { file: 'korb-addons-data.js', data: S.addons },
-    trt:   { file: 'korb-trt-data.js',    data: S.trt },
+    mens:  { file: 'korb-mens-data.js',    data: S.mens },
     womens:{ file: 'korb-womens-data.js', data: S.womens }
   };
   const prefix = key.split(':')[0];

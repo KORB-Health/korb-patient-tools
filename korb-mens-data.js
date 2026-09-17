@@ -7,7 +7,7 @@
    WHERE THIS CAME FROM
 
    Open item 6. Until 2026-09-16 there was no TRT data file, and every fact
-   below lived inside Provider_Reference/KORB_TRT_Provider_Tool.html as
+   below lived inside Provider_Reference/KORB_Mens_Health_Provider_Tool.html as
    JavaScript - the dose ladder, the lab panel, the titration thresholds, the
    contraindications, the Tebra favorite, the visit-note template. That tool is
    hand-built, which CLAUDE.md lists as the liability it is: the Dose Guide went
@@ -49,20 +49,20 @@
    can see. selfCheck asserts all of that.
    ============================================================================ */
 
-var KORB_TRT = {
+var KORB_MENS = {
 
   meta: {
     version: '1.4',
     created: '2026-09-16',
     updated: '2026-09-16',
     owner: 'Director of Clinical Operations',
-    extractedFrom: 'Provider_Reference/KORB_TRT_Provider_Tool.html as at 2026-09-16',
+    extractedFrom: 'Provider_Reference/KORB_Mens_Health_Provider_Tool.html as at 2026-09-16',
     scope: 'Male testosterone replacement only. Female testosterone is a women\'s ' +
            'health question and belongs in korb-womens-data.js, not here.',
     entity: 'KORB Health Medical Texas PA',
     changelog: [
       '2026-09-16 (v1.0): CREATED. Open item 6. Extracted whole from ' +
-      'KORB_TRT_Provider_Tool.html, which had held every one of these facts as ' +
+      'KORB_Mens_Health_Provider_Tool.html, which had held every one of these facts as ' +
       'JavaScript inside a hand-built page. No clinical content was changed, ' +
       'reworded or added in the move; two things the tool got wrong are recorded ' +
       'as questions rather than fixed silently. Pharmacy and state facts were NOT ' +
@@ -89,7 +89,7 @@ var KORB_TRT = {
       'the reason so it is not reinstated by someone reading an old document. ' +
       'Source: Don Stevenson, after speaking with Premier the week of 2026-09-08.',
       '2026-09-16 (v1.3): THE SAFETY PROTOCOL, which was entirely absent. This file ' +
-      'was first extracted from KORB_TRT_Provider_Tool.html, and that tool is a ' +
+      'was first extracted from KORB_Mens_Health_Provider_Tool.html, and that tool is a ' +
       'calculator - it carries dosing and Tebra fields and no safety protocol at all. ' +
       'So the reference shipped without an eligibility gate, precautions, hematologic ' +
       'or prostate management, cardiovascular screening, fertility counselling, a ' +
@@ -131,7 +131,13 @@ var KORB_TRT = {
          asked for the last two changes himself - the Tebra character limits
          checked, and fertility moved up and made to stand out. "This document
          looks clean. Everything looks great. Let us go ahead and sign off." */
-      "trt:trt": {
+      /* KEY MIGRATED from "trt:trt" on 2026-09-17 when the program was renamed
+         to Men's Health. The FINGERPRINT is unchanged and was re-verified after
+         the rename: it is taken over the rendered prescribing blocks, which carry
+         drug names and Tebra fields and no document title, so renaming the
+         programme cannot and did not move it. Don's review of 2026-09-16 stands
+         and has NOT been re-attested here. */
+      "mens:mens": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
         "date": "2026-09-16",
@@ -142,6 +148,26 @@ var KORB_TRT = {
       }
     }
   },
+  /* See artifact-signoff.js. The TOOL is signed separately from the clinical
+     reference even though both render from this file. The reference's signature
+     covers the prescribing blocks; this one covers which state resolves to which
+     pharmacy and whether it is prescribable at all - the Schedule III question,
+     which is the fact a DEA registration or a state licence would move and which
+     the reference's fingerprint would not notice. */
+  artifactSignoff: {
+    records: {
+      "tool:mens": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-17",
+        "fingerprint": "fp-e48db880-8894",
+        "covers": "2 states, 18 prescribing blocks",
+        "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team."
+      }
+    }
+  },
+
+
 
   /* -- DECISIONS -------------------------------------------------------------
      Three things were flagged on 2026-09-16 when this file was extracted from
@@ -706,10 +732,10 @@ var KORB_TRT = {
      below from the same values the tool uses, because a second copy of the dose
      ladder is a second thing to forget. */
   document: {
-    id: 'trt',
-    file: 'KORB_TRT_Clinical_Reference',
-    title: 'Testosterone Replacement Clinical Reference',
-    subtitle: 'Male TRT - testosterone cypionate',
+    id: 'mens',
+    file: 'KORB_Mens_Health_Clinical_Reference',
+    title: "Men's Health Clinical Reference",
+    subtitle: 'Testosterone replacement - testosterone cypionate',
     kicker: 'Provider use only',
     entity: 'KORB Health Medical Texas PA',
     version: '1.1',
@@ -947,14 +973,14 @@ var KORB_TRT = {
 
   hydrate: function (PH) {
     if (!PH || !PH.pharmacies) throw new Error(
-      'korb-trt-data.js: korb-pharmacies.js must be loaded first.');
+      'korb-mens-data.js: korb-pharmacies.js must be loaded first.');
     var routing = {}, offered = [];
     Object.keys(PH.pharmacies).forEach(function (key) {
       PH.statesFor(key, 'trt').forEach(function (st) {
         /* Two pharmacies claiming the same state is not a preference to resolve
            quietly - it is a question about a controlled substance. Throw. */
         if (routing[st] && routing[st] !== key) {
-          throw new Error('korb-trt-data.js: ' + st + ' is claimed for TRT by both ' +
+          throw new Error('korb-mens-data.js: ' + st + ' is claimed for TRT by both ' +
             routing[st] + ' and ' + key + '. Controlled-substance routing cannot be ' +
             'ambiguous. Fix korb-pharmacies.js.');
         }
@@ -970,7 +996,7 @@ var KORB_TRT = {
 
   requireHydrated: function () {
     if (!this.hydrated) throw new Error(
-      'korb-trt-data.js: TRT pharmacy routing was asked for before ' +
+      'korb-mens-data.js: TRT pharmacy routing was asked for before ' +
       'korb-pharmacies.js was loaded. Add <script src="korb-pharmacies.js"></script> ' +
       'BEFORE this file.');
   },
@@ -981,9 +1007,9 @@ var KORB_TRT = {
      their own way. */
   calc: function (weeklyMg, routeKey) {
     var R = this.routes[routeKey];
-    if (!R) throw new Error('korb-trt-data.js: unknown route "' + routeKey + '"');
+    if (!R) throw new Error('korb-mens-data.js: unknown route "' + routeKey + '"');
     if (this.weeklyDosesMg.indexOf(weeklyMg) < 0) {
-      throw new Error('korb-trt-data.js: ' + weeklyMg + ' mg/week is not on the ladder');
+      throw new Error('korb-mens-data.js: ' + weeklyMg + ' mg/week is not on the ladder');
     }
     var conc = this.product.concentrationMgPerMl;
     var mgDose = weeklyMg / R.freq;
@@ -1172,7 +1198,7 @@ var KORB_TRT = {
     }
 
     if (typeof console !== 'undefined' && console.log) {
-      console.log('KORB_TRT selfCheck: ' +
+      console.log('KORB_MENS selfCheck: ' +
         (problems.length ? problems.length + ' problem(s)' : 'OK') +
         ', ' + this.decisions.length + ' recorded decision(s)');
     }
@@ -1183,10 +1209,10 @@ var KORB_TRT = {
 /* Hydrate on load when the pharmacy layer is present - the same line the other
    two program files carry. A Node caller requiring this file directly must call
    hydrate() itself. */
-if (typeof KORB_PHARMACIES !== 'undefined') { KORB_TRT.hydrate(KORB_PHARMACIES); }
+if (typeof KORB_PHARMACIES !== 'undefined') { KORB_MENS.hydrate(KORB_PHARMACIES); }
 
 /* Sections are derived from the clinical data, so they are built after
    hydrate() - the availability table reads the routing it produces. */
-if (KORB_TRT.hydrated) { KORB_TRT.documentBuild(); }
+if (KORB_MENS.hydrated) { KORB_MENS.documentBuild(); }
 
-if (typeof module !== 'undefined' && module.exports) { module.exports = KORB_TRT; }
+if (typeof module !== 'undefined' && module.exports) { module.exports = KORB_MENS; }

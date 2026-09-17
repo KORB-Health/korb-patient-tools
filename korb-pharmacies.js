@@ -115,7 +115,7 @@ var KORB_PHARMACIES = {
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
-      "2026-09-16 (v1.6): PROGRAMS CAN NOW NARROW A FOOTPRINT, not just subtract from it. servesState honours an `only` list on a program. Added for TRT: testosterone cypionate is Schedule III and a pharmacy's controlled-substance licensure is far narrower than the states it can ship an ordinary compound to - Premier ships peptides to 38 states and testosterone to Texas. Saying that with `excludes` would mean typing the other 37 and re-typing them whenever the general footprint moves, which is a list kept in step by hand. No program declared `only` before this, and every existing GLP-1 and peptide footprint was captured before the change and compared after: none moved. Also filled in the trt program for premier (TX) and empower (CA), both verified:false - they record what KORB_TRT_Provider_Tool.html has asserted since before this file existed and have NOT been checked against DEA registration or state licences. suppliesKit records that Empower ships the injection kit and Premier does not, which is why the Tebra pharmacy note differs by pharmacy rather than by state.",
+      "2026-09-16 (v1.6): PROGRAMS CAN NOW NARROW A FOOTPRINT, not just subtract from it. servesState honours an `only` list on a program. Added for TRT: testosterone cypionate is Schedule III and a pharmacy's controlled-substance licensure is far narrower than the states it can ship an ordinary compound to - Premier ships peptides to 38 states and testosterone to Texas. Saying that with `excludes` would mean typing the other 37 and re-typing them whenever the general footprint moves, which is a list kept in step by hand. No program declared `only` before this, and every existing GLP-1 and peptide footprint was captured before the change and compared after: none moved. Also filled in the trt program for premier (TX) and empower (CA), both verified:false - they record what KORB_Mens_Health_Provider_Tool.html has asserted since before this file existed and have NOT been checked against DEA registration or state licences. suppliesKit records that Empower ships the injection kit and Premier does not, which is why the Tebra pharmacy note differs by pharmacy rather than by state.",
       "2026-09-15 (v1.5): korb-dosing-data.js wired on under open item 4, joining korb-glp1-data.js. Its premierRouting now comes from statesFor('premier', 'peptides') at load instead of being typed there. crossCheck reports derived files by name and states plainly that their lists were NOT independently verified, since comparing a value with itself is agreement it did not earn. Also added dispensingName, address1, cityStateZip and phone for lillydirect and novocare, which the brand GLP-1 documents print.",
       "2026-09-11 (v1.0-1.4): extracted from korb-glp1-data.js; reshaped to pharmacy x program keying; GLP-1 wired on under open item 3."
     ]
@@ -153,7 +153,7 @@ var KORB_PHARMACIES = {
           "note": "Commercial testosterone for male TRT. California only, which is also Empower's whole footprint, so `only` is redundant here and stated anyway - it makes the Schedule III scope explicit rather than a side effect of the footprint happening to be one state.",
           "suppliesKit": true,
           "suppliesKitNote": "Empower ships the injection kit with the vial - alcohol pads, syringes and both needles, counted to the injections the prescription covers. Premier does not, so the Tebra pharmacy note differs by PHARMACY, not by state.",
-          "sourcedFrom": "KORB_TRT_Provider_Tool.html, 2026-09-16",
+          "sourcedFrom": "KORB_Mens_Health_Provider_Tool.html, 2026-09-16",
           "inUse": "Set up and accepting prescriptions. Test prescriptions were submitted and approved by Empower; no live patient prescription has gone there yet.",
           "verified": true,
           "verifiedBy": "Don Stevenson, PA-C",
@@ -259,10 +259,10 @@ var KORB_PHARMACIES = {
         "trt": {
           "status": "active",
           "only": ["TX"],
-          "note": "Testosterone cypionate 200 mg/mL, commercial generic, for male TRT. TEXAS ONLY - Schedule III, and controlled-substance licensure is narrower than the 38-state general footprint above. Taken from KORB_TRT_Provider_Tool.html, which has routed TX to Premier since before korb-pharmacies.js existed. NOT INDEPENDENTLY VERIFIED against Premier's DEA registration or state licences - it records what the live provider tool asserts. Confirm with Premier before adding a state.",
+          "note": "Testosterone cypionate 200 mg/mL, commercial generic, for male TRT. TEXAS ONLY - Schedule III, and controlled-substance licensure is narrower than the 38-state general footprint above. Taken from KORB_Mens_Health_Provider_Tool.html, which has routed TX to Premier since before korb-pharmacies.js existed. NOT INDEPENDENTLY VERIFIED against Premier's DEA registration or state licences - it records what the live provider tool asserts. Confirm with Premier before adding a state.",
           "suppliesKit": true,
           "suppliesKitNote": "Premier ships the injection kit with the vial too - medication, syringes, needles and alcohol pads. Corrected 2026-09-16 by Don. Both the TRT Provider Tool and the February Men's Health protocol had Premier shipping nothing, which was wrong and would have had a Texas patient waiting on supplies nobody ordered.",
-          "sourcedFrom": "KORB_TRT_Provider_Tool.html, 2026-09-16",
+          "sourcedFrom": "KORB_Mens_Health_Provider_Tool.html, 2026-09-16",
           "inUse": "LIVE. Premier is the pharmacy for Texas TRT patients today.",
           "verified": true,
           "verifiedBy": "Don Stevenson, PA-C",

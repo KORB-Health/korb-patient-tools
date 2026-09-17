@@ -8,6 +8,35 @@ Read it before changing anything. Last revised 2026-09-13.
 
 ---
 
+## TRT IS MEN'S HEALTH. ONE PROGRAM, NOT TWO.
+
+Confirmed by Don 2026-09-17, and the repo had it wrong. The provider side said
+TRT and the patient side said Men's Health, for the same program, and a stale
+hand-made `KORB_Mens_Health_Clinical_Reference.pdf` sat alongside the generated
+TRT reference that had already superseded it. Anyone reading the tree would have
+concluded Men's Health was an unbuilt fifth program and started building it.
+
+**Men's Health is the PROGRAM. Testosterone replacement is the therapy inside
+it**, exactly as hormone therapy sits inside Women's Health. That leaves room for
+the sexual health, hair loss and skin care add-ons already sold under Men's
+Health.
+
+Renamed 2026-09-17: `korb-trt-data.js` to `korb-mens-data.js`, the global
+`KORB_TRT` to `KORB_MENS`, `KORB_TRT_Clinical_Reference` to
+`KORB_Mens_Health_Clinical_Reference`, `KORB_TRT_Provider_Tool.html` to
+`KORB_Mens_Health_Provider_Tool.html`, and the document id `trt` to `mens`. The
+superseded ReportLab PDF of 2026-09-10 was deleted; the generated reference now
+carries its name.
+
+**The sign-off survived the rename and was NOT re-attested.** Its key moved from
+`trt:trt` to `mens:mens` and the fingerprint is unchanged, because a fingerprint
+is taken over the rendered prescribing blocks, which carry drug names and Tebra
+fields and no document title. Verified rather than assumed: all 18 blocks were
+captured before the rename and compared after, and all 18 are byte-identical
+with the section list unchanged. Don's review of 2026-09-16 stands.
+
+---
+
 ## What this repo is
 
 Provider- and patient-facing clinical tools for KORB Health, published as static
@@ -70,7 +99,15 @@ half-empty page - but it is still a broken link. The URL is
 `KORB_BMI_Protein_Calculator_standalone.html` is the other pattern, a single file
 with zero script tags, and it buys portability by giving up the live update.
 
-**NOT published to the team.** Men's Health, and everything patient-facing
+**Men's Health (TRT).** The clinical reference and the provider tool are built,
+signed and ready to post; as of 2026-09-17 they are NOT yet on the intranet.
+URLs are
+`.../Provider_Reference/KORB_Mens_Health_Clinical_Reference.html` and
+`.../Provider_Reference/KORB_Mens_Health_Provider_Tool.html`.
+This program was missing from this section entirely until 2026-09-17, in either
+direction, which is how it sat outside the only record of what is live.
+
+**NOT published to the team.** Everything patient-facing
 including the Women's Health patient handout.
 
 **Out for provider feedback** — not yet either way.
@@ -166,7 +203,7 @@ These are the liability.
 `KORB_GLP1_Dose_Guide.html`, `KORB_Lab_Interpretation_Tool.html`,
 `KORB_Patient_Hub.html`, `KORB_Testosterone_Tracker.html`,
 `KORB_Scheduler_Intake_Prototype.html`,
-`Provider_Reference/KORB_TRT_Provider_Tool.html`,
+`Provider_Reference/KORB_Mens_Health_Provider_Tool.html`,
 `Provider_Reference/KORB_Womens_Health_Provider_Tool.html`,
 `Provider_Reference/KORB_BMI_Protein_Calculator*.html`
 
@@ -362,8 +399,11 @@ folder now disagrees with the HTML beside it, and the PDF is the half that gets
 printed, emailed and pinned to an audit. Treat a skipped PDF phase as an open defect
 until the rebuild runs, not as a tidy-up that can wait.
 
-There is no generator for Men's Health or Women's Health. Those tools are hand-built
-and have no data file at all.
+~~There is no generator for Men's Health or Women's Health.~~ **Both are
+generated now.** Men's Health builds from `korb-mens-data.js` and Women's Health
+from `korb-womens-data.js`, both through `build-clinical-docs.js`. This paragraph
+was already wrong when Women's Health landed on 2026-09-16 and stayed wrong for a
+day, which is how the Men's Health confusion survived.
 
 ---
 
@@ -446,8 +486,8 @@ reporting "nothing to see" without having looked.
 
 Every tool and every handout is listed whether signed or not. Three tools have no
 probe yet and are reported as CANNOT BE FINGERPRINTED, which is a loud state rather
-than a quiet omission. Writing a probe for the TRT, GLP-1 and Add-On tools is open
-work.
+than a quiet omission. The Men's Health probe was written on 2026-09-17. Writing one
+for the GLP-1 and Add-On tools is open work.
 
 **Status as of 2026-09-17: 13 artifacts, 2 signed.** The Women's Health provider
 tool (51 states, 46 blocks) and the Hormone Therapy patient handout. Eight handouts
@@ -684,9 +724,11 @@ included. They rebuild from the data files. Recover source, then rebuild.
 
 ### Correction to an earlier assumption
 
-There are **no** `korb-mens-data.js` or `korb-womens-data.js` files in progress. That
-session intended to build them and did not start. Nothing was lost; nothing exists.
-They are still open item 6.
+~~There are no `korb-mens-data.js` or `korb-womens-data.js` files in progress.~~
+**Both exist now.** `korb-womens-data.js` was built 2026-09-16.
+`korb-mens-data.js` is the same file as the former `korb-trt-data.js`, built
+2026-09-16 and renamed 2026-09-17 once Don confirmed TRT and Men's Health are one
+program. Open item 6 is closed.
 
 ### Push does not work from Cowork
 
@@ -694,11 +736,15 @@ The `clinical-generators` push failed because the sandbox proxy will not issue a
 credential for this repo. It is not a GitHub permissions problem and retrying will not
 help. **Push from Claude Code on the desktop, where real git credentials exist.**
 
-Two documents in that set — Men's Health and Women's Health — are still the
-10 September ReportLab originals, not generated. Known defects in them: Open Items
-sections the style standard forbids, no version or effective date, "KORB Health Group"
-in the header instead of the medical PA, and a stale line saying Belmar is not used for
-women's testosterone. Do not re-report those; they are already on the list.
+~~Two documents in that set — Men's Health and Women's Health — are still the
+10 September ReportLab originals.~~ **Both are generated now and both ReportLab
+originals are gone.** The Men's Health one was deleted 2026-09-17; its defects
+were confirmed by extracting its text first, not taken on trust: `KORB Health
+Group` eight times including the running header and `KORB Health Medical Texas
+PA` zero times, an Open Items section reading "Flagged and not yet resolved", and
+no version or effective date. **One claim in the old list was wrong**: the word
+Belmar does not appear in that document at all, so the "stale line about women's
+testosterone" was either already gone or never in it.
 
 ---
 
@@ -845,7 +891,7 @@ women's testosterone. Do not re-report those; they are already on the list.
    belmar_sema, which is supplied at two concentrations by dose band.
    **Still hand-built and still a liability:** `KORB_Lab_Interpretation_Tool.html`,
    `KORB_Patient_Hub.html`, `KORB_Testosterone_Tracker.html`,
-   `KORB_Scheduler_Intake_Prototype.html`, `Provider_Reference/KORB_TRT_Provider_Tool.html`,
+   `KORB_Scheduler_Intake_Prototype.html`, `Provider_Reference/KORB_Mens_Health_Provider_Tool.html`,
    `Provider_Reference/KORB_Womens_Health_Provider_Tool.html`,
    `Provider_Reference/KORB_BMI_Protein_Calculator*.html`. The TRT and Women's
    tools need item 6's data files before they can be wired at all.
@@ -855,9 +901,10 @@ women's testosterone. Do not re-report those; they are already on the list.
    compounded name and will flag a difference, Belmar does not. Worth knowing
    before the next spelling or formatting question: check which pharmacy before
    assuming a string is load-bearing.
-6. **Create `korb-trt-data.js` and `korb-womens-data.js`.**
-   **`korb-trt-data.js` DONE 2026-09-16.** Extracted whole from
-   `KORB_TRT_Provider_Tool.html`, which had held every TRT fact as its own
+6. ~~**Create `korb-trt-data.js` and `korb-womens-data.js`.**~~ **CLOSED.**
+   **`korb-mens-data.js` (then named `korb-trt-data.js`) DONE 2026-09-16**, renamed
+   2026-09-17. Extracted whole from what is now
+   `KORB_Mens_Health_Provider_Tool.html`, which had held every TRT fact as its own
    JavaScript. The computed ladder reproduces the tool's printed table exactly and
    the Tebra fields match field for field. The tool now READS the data file, so the
    two cannot drift; `check-pages.js` fails if the scripts load out of order, and
@@ -888,7 +935,7 @@ women's testosterone. Do not re-report those; they are already on the list.
    **A standalone reference now exists too.** TRT was the only program without
    one: GLP-1 has ten monographs, FH&L four references, add-ons one, and TRT had
    only the interactive tool, so a provider who wanted to read the protocol had to
-   operate a calculator to see it. `KORB_TRT_Clinical_Reference` is generated by
+   operate a calculator to see it. `KORB_Mens_Health_Clinical_Reference` is generated by
    `build-clinical-docs.js` from the same data file the tool reads - 15 pages, 18
    prescribing blocks, being three doses x three routes x two pharmacies, each
    written out in full because the Tebra Name encodes dose and route.
@@ -924,6 +971,25 @@ women's testosterone. Do not re-report those; they are already on the list.
    prescribing blocks when first built - the Tebra entries are per-hormone and
    per-strength and were not in the tool - and they were built out over the two
    days after. It now renders **46**, signed 2026-09-17 at v1.1.
+15. **The Testosterone handout reads `korb-mens-data.js`.** DONE 2026-09-17.
+   It carried `source: 'none'` and its own typed `facts` block, with a comment
+   saying to wire it up once the data file landed. The file landed 2026-09-16 and
+   the wiring did not happen, so the route sentence a patient reads was typed
+   separately from the route table the provider documents read, free to disagree.
+   Only `how` is derived, because only `how` is a fact that file holds: timing and
+   schedule depend on the individual prescription, and deriving them would dress
+   prose up as live. Negative-tested by flipping the one IM route to `sq: true`,
+   which changed the sentence to "subcutaneous" alone.
+   **`KORB_Patient_Ed_HormoneTherapy` is now the LAST handout on `source: 'none'`**,
+   with the same duplication for Women's Health. It has no live badge, which is
+   the visible symptom.
+   **A refactor in `build-patient-ed.js` broke six handouts on the way**: the live
+   badge read "reflects undefined" on every peptide handout, because they carry no
+   `source` key at all and the new lookup used `doc.source` rather than the
+   fallback. Caught because the rendered character counts dropped by exactly the
+   difference between "korb-dosing-data.js" and "undefined". **The handouts that
+   declare no source are the ones a source-keyed change will break.**
+
 14. ~~No patient-facing Women's Health HTML.~~ **DONE 2026-09-16.**
    `KORB_Patient_Ed_HormoneTherapy` is generated now - the ninth handout and the
    first for Women's Health, converting the last of the hand-made patient PDFs.
