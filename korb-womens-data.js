@@ -215,14 +215,16 @@ var KORB_WOMENS = {
       'the local commercial route now carries BOTH at all five strengths. Write ' +
       'whichever the patient\'s pharmacy can actually source. The once-weekly is ' +
       'fewer applications, but it is the harder of the two to get.',
-    sourcing: 'The once-weekly patch in a box of 4 can be hard to source. On ' +
-      '2026-09-16 Premier could not supply it at a price that works against ' +
-      'what KORB charges, and raising the price was considered and rejected. ' +
-      'That is a supply position on one day and NOT a delisting - the Premier ' +
-      'patch entries below stand, and it may be available again tomorrow. ' +
-      'CONFIRM WITH PREMIER THAT THEY CAN GET IT before sending a once-weekly ' +
-      'patch there. The twice-weekly presentation on the local commercial ' +
-      'route exists so there is a second way to fill when they cannot.',
+    sourcing: 'TWO SEPARATE THINGS, and they are easy to run together. ' +
+      'FIRST, the ONCE-weekly patch is in short supply generally. That is a ' +
+      'market shortage and not a Premier problem, so Premier is still a route ' +
+      'for it and its entries below stand. CONFIRM WITH PREMIER THAT THEY CAN ' +
+      'GET IT before sending a once-weekly patch there. SECOND, the ' +
+      'TWICE-weekly patch is NOT ordered through Premier at all. Premier was ' +
+      'asked on 2026-09-16 and CAN source it, but not at a price that works ' +
+      'against KORB pricing with the compounded partner pharmacies, and ' +
+      'raising the price was considered and rejected. So the twice-weekly ' +
+      'presentation goes to the patient\'s own local pharmacy only.',
     boxRule: 'Box sizes differ by presentation and BOTH come to 3 BOXES for ' +
       'twelve weeks - quantity 3 BX either way, which is arithmetic and not a ' +
       'copy-paste. Once-weekly: BOX OF 4, 3 x 4 = 12 patches, one a week. ' +
@@ -756,12 +758,19 @@ var KORB_WOMENS = {
     entries: [
     /* ===== LOCAL pharmacy - patient collects and pays - 9 entries ===== */
     /* Estradiol patch - TWO presentations at every strength.
-       Don, 2026-09-16, after speaking to Premier that afternoon: a once-weekly
-       patch in a box of 4 is proving hard to source, and Premier cannot supply
-       it at a price that works against what KORB charges. Raising the price was
-       considered and rejected. So the local commercial route now carries BOTH
-       presentations at all five strengths and the provider picks whichever the
-       patient's pharmacy can actually get.
+       The local commercial route carries BOTH at all five strengths and the
+       provider picks whichever the patient's pharmacy can actually get.
+
+       TWO SEPARATE FACTS. Corrected 2026-09-17 after an earlier version of
+       this block ran them together and got the reason backwards.
+
+       1. The ONCE-weekly patch is in SHORT SUPPLY generally. A market
+          shortage, nothing to do with Premier.
+       2. The TWICE-weekly patch is a COST decision. Don asked Premier on
+          2026-09-16 whether they could be a source for it. They CAN get it.
+          It is not cost-effective for KORB against the pricing structure with
+          the compounded partner pharmacies, and raising the price was
+          considered and rejected.
 
          ONCE weekly   1 patch/week  x 12 weeks = 12 patches  = 3 boxes of 4
          TWICE weekly  2 patches/wk  x 12 weeks = 24 patches  = 3 boxes of 8
@@ -771,8 +780,10 @@ var KORB_WOMENS = {
        are both exactly twelve weeks. The pharmacy note spells the arithmetic out
        so a pharmacy with a different pack size tells us.
 
-       LOCAL ONLY. Premier and Belmar are untouched - this was not asked for
-       there and Premier is the pharmacy that cannot source it. */
+       SO: the TWICE-weekly presentation is LOCAL ONLY, on cost. Premier's
+       five ONCE-weekly entries STAND - Don, 2026-09-17 - because a shortage is
+       not a delisting and the control is a provider confirming with Premier
+       before sending. Belmar carries no patch at all. */
     { destination: 'local', family: 'estradiol-patch', pharmacy: 'local', heading: 'Estrogen (0.025 mg Patch, ONCE WEEKLY)',
       drug: 'estradiol 0.025 mg/24 hr weekly transdermal patch',
       compounded: false,
