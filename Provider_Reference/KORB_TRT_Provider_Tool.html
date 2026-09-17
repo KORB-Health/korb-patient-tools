@@ -402,9 +402,18 @@ function fieldTable(id, title, fields){
     h += '<tr'+(f.select||f.nocopy?' class="nocopy"':'')+'><td class="k">'+f.k
        + '</td><td class="v"><span class="fv" data-k="'+f.k+'">'
        + v.replace(/</g,"&lt;")+'</span>';
-    if(cap){
-      h += '<span class="cc'+(over?' over':'')+'">'+v.length+' / '+cap+' characters'
-         + (over?' — OVER LIMIT, will truncate in Tebra':'')+'</span>';
+    /* Character counts are a BUILD-TIME concern, not a provider-facing one.
+   They were reference scaffolding and they sat directly under the value a
+   provider copies into Tebra, which is the one place a stray number must
+   never appear. Don, 2026-09-17. The cap still governs: check-tebra-caps.js
+   --gate measures every rendered value across all documents and exits 1 on
+   an overrun, and the OVER LIMIT warning below still renders if one ever
+   reaches the page, so removing the routine count removes noise, not a
+   guard. A count that is only shown when it is wrong cannot be mistaken
+   for part of the prescription. */
+    if(over){
+      h += '<span class="cc over">'+v.length+' / '+cap
+         + ' characters — OVER LIMIT, will truncate in Tebra</span>';
     }
     /* A value chosen from the Tebra drop-down gets no copy button - pasting it
        is the mistake, not the shortcut. Same rule as the brand GLP-1 documents. */
