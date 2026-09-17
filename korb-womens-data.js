@@ -215,11 +215,14 @@ var KORB_WOMENS = {
       'the local commercial route now carries BOTH at all five strengths. Write ' +
       'whichever the patient\'s pharmacy can actually source. The once-weekly is ' +
       'fewer applications, but it is the harder of the two to get.',
-    sourcing: 'The once-weekly patch in a box of 4 is proving hard to source. ' +
-      'Premier confirmed on 2026-09-16 that they cannot supply it at a price ' +
-      'that works against what KORB charges, and raising the price was ' +
-      'considered and rejected, so Premier is not a route for it. That is why ' +
-      'the twice-weekly presentation exists on the local commercial route.',
+    sourcing: 'The once-weekly patch in a box of 4 can be hard to source. On ' +
+      '2026-09-16 Premier could not supply it at a price that works against ' +
+      'what KORB charges, and raising the price was considered and rejected. ' +
+      'That is a supply position on one day and NOT a delisting - the Premier ' +
+      'patch entries below stand, and it may be available again tomorrow. ' +
+      'CONFIRM WITH PREMIER THAT THEY CAN GET IT before sending a once-weekly ' +
+      'patch there. The twice-weekly presentation on the local commercial ' +
+      'route exists so there is a second way to fill when they cannot.',
     boxRule: 'Box sizes differ by presentation and BOTH come to 3 BOXES for ' +
       'twelve weeks - quantity 3 BX either way, which is arithmetic and not a ' +
       'copy-paste. Once-weekly: BOX OF 4, 3 x 4 = 12 patches, one a week. ' +
