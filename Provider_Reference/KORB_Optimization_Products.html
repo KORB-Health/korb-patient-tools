@@ -13,6 +13,32 @@ html{-webkit-text-size-adjust:100%;}
 body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
  font-size:15px;color:#1A1A2E;background:#fff;line-height:1.55;}
 .wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 64px;}
+/* The brand cream as the page ground with the content on white. Every other
+   tool in the set took this on 2026-09-16 and this one did not, which is why
+   it did not look like a KORB page beside them. Don spotted it 2026-09-17. */
+body{background:var(--cream);}
+.wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;
+  box-shadow:0 1px 3px rgba(33,39,91,.06);margin:0 auto 34px;padding:22px 20px 40px;}
+@media(max-width:620px){.wrap{border-radius:0;border-left:0;border-right:0;padding:18px 14px 30px;}}
+
+/* Category rows, the same component the Women's Health tool uses: tick a
+   category and the product picker for it appears inside the row. Copied
+   deliberately rather than invented - a provider moving between two KORB tools
+   should meet one control, not two that do the same job differently. */
+.cats{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px;}
+.crow{border:1.5px solid var(--bd);border-radius:9px;background:#fff;overflow:hidden;}
+.crow.on{border-color:var(--teal);border-width:2px;box-shadow:0 0 0 3px rgba(0,178,195,.12);}
+.crow > label{display:flex;align-items:center;gap:11px;padding:12px 14px;cursor:pointer;
+  font-size:14px;font-weight:700;color:var(--navy);min-height:48px;}
+.crow.on > label{background:var(--lt);}
+.crow input{width:20px;height:20px;flex:none;accent-color:var(--teal);cursor:pointer;}
+.crow .sub{display:block;font-weight:400;color:var(--mu);font-size:11.5px;margin-top:2px;}
+.crow .pickwrap{padding:0 14px 13px;}
+.crow .pickwrap label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.crow select{width:100%;min-height:44px;padding:9px 11px;border:1.5px solid var(--teal);
+  border-radius:8px;font-size:15px;color:var(--navy);background:#fff;font-family:inherit;}
+.crow .none{font-size:11.5px;color:var(--red);padding:0 14px 13px;}
+.catlbl{font-size:11.5px;font-weight:700;color:var(--navy);}
 
 /* Navy masthead. The tool already speaks navy on its section bars and card
    headers; the title block now matches instead of sitting on white. */
@@ -129,7 +155,6 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
    chip look so the two rows read as one control in two steps, and the picked
    state uses the same pressed styling a category chip already has. */
 .chip.prod{ font-weight:600; }
-#picker{ margin-top:6px; }
 .pickhead{ flex-basis:100%; font-size:12px; font-weight:700; color:var(--navy);
   display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
 .pickhead .hint{ font-weight:400; }
@@ -156,15 +181,6 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
   </div>
 </header>
 
-<div class="filter">
-  <div class="inner">
-    <div class="lbl">Show which add-ons</div>
-    <div class="chips" id="chips" role="group" aria-label="Filter by add-on category"></div>
-    <div class="chips" id="picker" role="group" aria-label="Choose individual products" hidden></div>
-    <div class="count" id="count"></div>
-  </div>
-</div>
-
 <div class="wrap">
 
   <div class="panel">
@@ -173,16 +189,11 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
         <label for="st">Patient state</label>
         <select id="st"><option value="">Select…</option></select>
       </div>
-      <div class="f">
-        <label for="prog">Current program</label>
-        <select id="prog">
-          <option value="">Select…</option>
-          <option>Weight Loss &amp; Metabolic Health</option>
-          <option>Men's Health</option>
-          <option>Women's Health</option>
-          <option>Functional Health &amp; Longevity</option>
-        </select>
-      </div>
+      <!-- GENDER BEFORE PROGRAMME, deliberately. Gender narrows which
+           programmes are offered, so asking for it second means the programme
+           list is already correct when the provider reaches it. Asking for the
+           programme first means offering one that is about to be withdrawn.
+           Don, 2026-09-17. -->
       <div class="f">
         <label for="sex">Patient gender</label>
         <select id="sex">
@@ -195,11 +206,32 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
              it rather than in a message elsewhere on the page. -->
         <div class="hint" id="genderNote"></div>
       </div>
+      <div class="f">
+        <label for="prog">Current program</label>
+        <select id="prog">
+          <option value="">Select…</option>
+          <option>Weight Loss &amp; Metabolic Health</option>
+          <option>Men's Health</option>
+          <option>Women's Health</option>
+          <option>Functional Health &amp; Longevity</option>
+        </select>
+      </div>
     </div>
     <label class="chk">
       <input type="checkbox" id="fko">
       <span>Patient already receives GLP-1 from FarmaKeio. Route add-ons to FarmaKeio to keep one pharmacy.</span>
     </label>
+
+    <!-- The add-on choice lives INSIDE the panel with the patient details.
+         It used to sit in a sticky bar above the header, where a provider
+         could work the whole panel and never notice there was anything to
+         choose. Don, 2026-09-17: keep it all in the blue box. Same component
+         as the Women's Health tool - tick a category, then pick the product. -->
+    <div style="margin-top:16px;">
+      <span class="catlbl">Add-ons for this visit</span>
+      <div id="cats" class="cats"></div>
+      <span class="hint" id="count">Choose a state, gender and programme first.</span>
+    </div>
   </div>
 
   <div id="out">
@@ -404,11 +436,9 @@ var active = {sexual:false, hair:false, skin:false, antiaging:false};
    provider's choice survives a repaint caused by any other control. */
 var strengthPick = {};
 
-/* Which individual products are switched on, per product key. An empty object
-   means "not narrowed yet" and shows everything: a tool that opens blank looks
-   broken. Don, 2026-09-17 - narrowing is the point, but it has to be a choice
-   the provider makes rather than a wall they climb before seeing anything. */
-var pick = {};
+/* The product chosen in each category, keyed by category. Empty means nothing
+   chosen, and nothing chosen renders nothing. */
+var sel = {};
 
 /* Follow-up cadence per add-on category, from the Add-On Clinical Reference availability
    matrix. The tool previously carried none of this except the NAD+ 28-day note. */
@@ -437,90 +467,74 @@ function products(ph, sex){
   });
 }
 
-/* Chips carry a live count per group so the provider can see what a filter will
-   hide before tapping it, and what is hidden after. */
-function paintChips(all, shownCount){
-  var counts = {sexual:0, hair:0, skin:0, antiaging:0};
-  (all||[]).forEach(function(p){ var g=GROUP_OF[p.cat]; if(g) counts[g]++; });
-  var box=document.getElementById("chips");
+/* CATEGORY THEN PRODUCT, in one component, inside the panel.
+
+   This replaces a sticky chip bar that sat above the page header. Two problems
+   with it, both Don's, 2026-09-17: a provider could fill in the whole blue box
+   and never notice there was anything to choose above it, and with nothing
+   chosen it printed every product in the category, which is the state where a
+   provider least knows which one they want.
+
+   So: tick a category, choose the product, and the prescription appears. Until
+   a product is chosen nothing is rendered. Deliberately the same component the
+   Women's Health tool uses for hormones, because a provider moving between two
+   KORB tools should meet one control rather than two that do the same job in
+   different shapes. */
+function paintCats(all){
+  var box = document.getElementById("cats");
+  var ready = !!(document.getElementById("st").value &&
+                 document.getElementById("sex").value &&
+                 document.getElementById("prog").value);
+  if(!ready){ box.innerHTML = ""; return; }
+
   box.innerHTML = GROUPS.map(function(g){
-    return '<button type="button" class="chip" data-g="'+g.key+'" aria-pressed="'+(active[g.key]?"true":"false")+'">'
-         + esc(g.label) + '<span class="n">' + counts[g.key] + '</span></button>';
-  }).join("")
-  + '<button type="button" class="linkbtn" data-act="all">All</button>'
-  + '<button type="button" class="linkbtn" data-act="none">Clear</button>';
+    var items = (all||[]).filter(function(p){ return GROUP_OF[p.cat] === g.key; });
+    var seen = {}, uniq = [];
+    items.forEach(function(p){ if(!seen[p.name]){ seen[p.name]=true; uniq.push(p); } });
 
-  paintPicker(all);
-
-  var total=(all||[]).length;
-  var hidden=total-shownCount;
-  document.getElementById("count").innerHTML = total
-    ? 'Showing <b>'+shownCount+'</b> of <b>'+total+'</b> products'
-      + (hidden ? ' &middot; '+hidden+' hidden by the filter above' : '')
-    : 'Select state, program and gender below to list products.';
+    var on = !!active[g.key];
+    var h = '<div class="crow' + (on?' on':'') + '" id="crow_'+g.key+'">'
+          + '<label><input type="checkbox" data-g="'+g.key+'"'+(on?' checked':'')
+          + (uniq.length?'':' disabled')+'>'
+          + '<span>' + esc(g.label)
+          + '<span class="sub">' + (uniq.length
+              ? uniq.length + (uniq.length===1?' product':' products') + ' available here'
+              : 'Nothing available for this state and gender') + '</span></span></label>';
+    if(on && uniq.length){
+      h += '<div class="pickwrap"><label for="sel_'+g.key+'">Which product?</label>'
+         + '<select id="sel_'+g.key+'" data-sel="'+g.key+'">'
+         + '<option value="">Select…</option>'
+         + uniq.map(function(p){
+             return '<option value="'+esc(p.name)+'"'+(sel[g.key]===p.name?' selected':'')+'>'
+                  + esc(p.name)+'</option>';
+           }).join('')
+         + '</select></div>';
+    }
+    return h + '</div>';
+  }).join('');
 }
 
-/* WHICH PRODUCTS, not just which categories. A category chip answers "show me
-   sexual health"; this answers "which of the two". Before it, choosing a
-   category printed every prescription in it and the provider scrolled past the
-   ones they did not want, which is the shape that produces a wrong paste.
-   Don, 2026-09-17.
-
-   Only products in an ACTIVE category are listed, so the two controls read
-   top-down: category first, then product. Nothing selected means nothing is
-   narrowed, and everything in the active categories shows. */
-function paintPicker(all){
-  var box = document.getElementById("picker");
-  var live = (all||[]).filter(function(p){ return active[GROUP_OF[p.cat]]; });
-  if(!live.length){ box.innerHTML = ""; box.hidden = true; return; }
-  box.hidden = false;
-
-  var seen = {}, items = [];
-  live.forEach(function(p){
-    if(seen[p.name]) return;
-    seen[p.name] = true;
-    items.push(p);
-  });
-
-  var anyPicked = items.some(function(p){ return pick[p.name]; });
-  box.innerHTML = '<div class="pickhead">Which products?'
-    + '<span class="hint">' + (anyPicked
-        ? 'Showing only what you have chosen.'
-        : 'Nothing chosen, so all ' + items.length + ' are showing. Choose to narrow.')
-    + '</span></div>'
-    + items.map(function(p){
-        return '<button type="button" class="chip prod" data-name="' + esc(p.name) + '"'
-             + ' aria-pressed="' + (pick[p.name] ? 'true' : 'false') + '">'
-             + esc(p.name) + '</button>';
-      }).join('')
-    + '<button type="button" class="linkbtn" data-pact="none">Show all</button>';
-}
-
-document.getElementById("picker").addEventListener("click", function(e){
-  var b = e.target.closest("button"); if(!b) return;
-  if(b.dataset.pact === "none") pick = {};
-  else if(b.dataset.name) {
-    if(pick[b.dataset.name]) delete pick[b.dataset.name];
-    else pick[b.dataset.name] = true;
-  } else return;
-  render();
+/* One delegated listener on the container, because paintCats() replaces its
+   whole contents on every render and a listener bound to a row would be thrown
+   away with it. */
+document.getElementById("cats").addEventListener("change", function(e){
+  var t = e.target;
+  if(t.dataset && t.dataset.g){
+    active[t.dataset.g] = t.checked;
+    if(!t.checked) delete sel[t.dataset.g];   /* untick clears the product too */
+    render();
+  } else if(t.dataset && t.dataset.sel){
+    if(t.value) sel[t.dataset.sel] = t.value; else delete sel[t.dataset.sel];
+    render();
+  }
 });
 
 /* The strength control lives inside a card that render() rewrites, so it is
-   delegated from a container that does not get replaced. */
+   delegated from the document rather than bound to the select. */
 document.addEventListener("change", function(e){
-  var sel = e.target;
-  if(!sel || !sel.classList || !sel.classList.contains("strengthsel")) return;
-  strengthPick[sel.dataset.key] = parseInt(sel.value, 10);
-  render();
-});
-
-document.getElementById("chips").addEventListener("click", function(e){
-  var b=e.target.closest("button"); if(!b) return;
-  if(b.dataset.act==="all")  GROUPS.forEach(function(g){ active[g.key]=true; });
-  else if(b.dataset.act==="none") GROUPS.forEach(function(g){ active[g.key]=false; });
-  else if(b.dataset.g) active[b.dataset.g] = !active[b.dataset.g];
-  else return;
+  var el = e.target;
+  if(!el || !el.classList || !el.classList.contains("strengthsel")) return;
+  strengthPick[el.dataset.key] = parseInt(el.value, 10);
   render();
 });
 
@@ -532,8 +546,9 @@ function render(){
       out=document.getElementById("out");
 
   if(!st||!prog||!sex){
-    paintChips([], 0);
-    out.innerHTML='<div class="empty">Select state, program, and gender to see available add-ons.</div>'; return;
+    paintCats([]);
+    document.getElementById("count").textContent = "Choose a state, gender and programme first.";
+    out.innerHTML='<div class="empty">Select state, gender and program to see available add-ons.</div>'; return;
   }
 
   var inP=PREMIER.indexOf(st)>-1, inF=FKO.indexOf(st)>-1;
@@ -592,18 +607,28 @@ function cardsFor(all, prog){
      read the same way round. */
   var order = {}; GROUPS.forEach(function(g,i){ order[g.key]=i; });
   var inCategory = all.filter(function(p){ return active[GROUP_OF[p.cat]] !== false; });
-  /* The product picker narrows WITHIN the chosen categories. Nothing picked
-     means nothing narrowed, so everything in those categories shows. */
-  var narrowed = Object.keys(pick).length
-    ? inCategory.filter(function(p){ return pick[p.name]; })
-    : inCategory;
-  var shown = narrowed.sort(function(a,b){ return order[GROUP_OF[a.cat]] - order[GROUP_OF[b.cat]]; });
-  paintChips(all, shown.length);
+  /* ONLY WHAT WAS CHOSEN. A ticked category with no product chosen renders
+     nothing: showing everything in the category is the state where a provider
+     is least sure which one they want, and it is the state that produces a
+     wrong paste. Don, 2026-09-17. */
+  var chosen = {};
+  Object.keys(sel).forEach(function(k){ chosen[sel[k]] = true; });
+  var shown = inCategory.filter(function(p){ return chosen[p.name]; })
+                        .sort(function(a,b){ return order[GROUP_OF[a.cat]] - order[GROUP_OF[b.cat]]; });
+  paintCats(all);
+
+  var ticked = GROUPS.filter(function(g){ return active[g.key]; }).length;
+  document.getElementById("count").textContent = shown.length
+    ? "Showing " + shown.length + " prescription" + (shown.length===1?"":"s") + "."
+    : (ticked ? "Category chosen. Now pick the product."
+              : all.length + " product" + (all.length===1?"":"s") +
+                " available for this patient. Tick a category to choose one.");
 
   if(!shown.length){
-    return '<div class="empty"><b>Choose a category above.</b><br>'
-     + all.length+' product'+(all.length===1?'':'s')+' available for this patient. '
-     + 'Pick one or more categories to see them.</div>';
+    return '<div class="empty"><b>' + (ticked ? 'Choose a product.' : 'Choose an add-on category.')
+     + '</b><br>' + (ticked
+         ? 'Tick the category and pick the exact product; only the prescriptions you choose are shown.'
+         : all.length+' product'+(all.length===1?'':'s')+' available for this patient.') + '</div>';
   }
 
   var lastGroup = null;
@@ -686,8 +711,9 @@ function fb(t,cb){ var a=document.createElement("textarea"); a.value=t;
   a.style.position="fixed"; a.style.opacity="0"; document.body.appendChild(a); a.select();
   try{document.execCommand("copy");cb();}catch(e){} document.body.removeChild(a); }
 
-/* Paint the filter on load so the categories are visible before anything is chosen. */
-paintChips([], 0);
+/* Nothing to paint on load: the category rows only exist once the patient
+   details are in, which is the order the panel asks for them. */
+paintCats([]);
 </script>
 </body>
 </html>
