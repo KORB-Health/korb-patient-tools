@@ -40,9 +40,9 @@
 var KORB_WOMENS = {
 
   meta: {
-    version: '1.0',
+    version: '1.1',
     created: '2026-09-16',
-    updated: '2026-09-16',
+    updated: '2026-09-17',
     owner: 'Director of Clinical Operations',
     entity: 'KORB Health Medical Texas PA',
     extractedFrom: 'Provider_Reference/KORB_Womens_Health_Provider_Tool.html as at 2026-09-16',
@@ -55,28 +55,58 @@ var KORB_WOMENS = {
       'the same day that anything in it beyond the tool is out of date, including ' +
       'its pharmacy routing, which is backwards, and its naming of FarmaKeio as a ' +
       'partner pharmacy for this programme. Pharmacy and state facts come from ' +
-      'korb-pharmacies.js at load.'
+      'korb-pharmacies.js at load.',
+
+      '2026-09-17 (v1.1): The estradiol patch in TWO presentations. The ' +
+      'twice-weekly patch added at all five strengths on the local commercial ' +
+      'route, five further prescribing blocks. Routing separated: once-weekly ' +
+      'goes to Premier or to a local pharmacy and is in market-wide short ' +
+      'supply, so confirm Premier can obtain it before sending one there; ' +
+      'twice-weekly goes local only, on cost rather than availability. ' +
+      'patchGuidance.weekly and .sourcing rewritten to the register of the ' +
+      'rest of the document - the deliberation behind the cost decision stays ' +
+      'in the source comment, not in provider-facing prose. Signed the same ' +
+      'day at 46 blocks.'
     ]
   },
 
-  /* See rx-signoff.js. Nothing reviewed yet. */
+  /* See rx-signoff.js.
+
+     RE-SIGNED 2026-09-17 at 46 blocks. The 2026-09-16 signature covered 41 and
+     went stale the same week: the five twice-weekly estradiol patch entries on
+     the local route were added afterwards, and a fingerprint over the rendered
+     blocks is what caught it rather than anyone remembering. The prior record
+     is kept below the current one so the trail is readable. */
   rxSignoff: {
     records: {
-      /* Signed 2026-09-16, at the end of the session that built this document.
-         Don read it through on screen across several passes and drove most of
-         what is in it: the destination split, the 12-week supply, commercial
-         progesterone, the patch boxes, and the three clinical sections he
-         approved by name. */
       "womens:womens": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-17",
+        "dataVersion": "1.1",
+        "fingerprint": "fp-c1ef128f-99928",
+        "blocks": 46,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      }
+    },
+
+    /* Superseded records. Not read by rx-signoff.js; kept because a sign-off
+       that silently replaces its predecessor loses the one thing the register
+       exists to show, which is what was approved and when. */
+    superseded: [
+      {
+        "key": "womens:womens",
+        "signedBy": "Donald Stevenson, PA-C",
         "date": "2026-09-16",
         "dataVersion": "1.0",
         "fingerprint": "fp-0663145a-88756",
         "blocks": 41,
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        "supersededOn": "2026-09-17",
+        "supersededBecause": "The twice-weekly estradiol patch was added at all " +
+          "five strengths on the local route, taking the document from 41 " +
+          "prescribing blocks to 46."
       }
-    }
+    ]
   },
 
   sourceConflicts: [
@@ -211,20 +241,16 @@ var KORB_WOMENS = {
      The one product where the Tebra drop-down offers a real choice that changes
      the prescription. Don, 2026-09-16. */
   patchGuidance: {
-    weekly: 'Tebra lists ONCE-weekly and TWICE-weekly transdermal patches, and ' +
-      'the local commercial route now carries BOTH at all five strengths. Write ' +
-      'whichever the patient\'s pharmacy can actually source. The once-weekly is ' +
-      'fewer applications, but it is the harder of the two to get.',
-    sourcing: 'TWO SEPARATE THINGS, and they are easy to run together. ' +
-      'FIRST, the ONCE-weekly patch is in short supply generally. That is a ' +
-      'market shortage and not a Premier problem, so Premier is still a route ' +
-      'for it and its entries below stand. CONFIRM WITH PREMIER THAT THEY CAN ' +
-      'GET IT before sending a once-weekly patch there. SECOND, the ' +
-      'TWICE-weekly patch is NOT ordered through Premier at all. Premier was ' +
-      'asked on 2026-09-16 and CAN source it, but not at a price that works ' +
-      'against KORB pricing with the compounded partner pharmacies, and ' +
-      'raising the price was considered and rejected. So the twice-weekly ' +
-      'presentation goes to the patient\'s own local pharmacy only.',
+    weekly: 'The estradiol patch is supplied in TWO presentations, ONCE weekly ' +
+      'and TWICE weekly, and a local pharmacy carries both at all five ' +
+      'strengths. They are separate Tebra entries. Select the presentation the ' +
+      'prescription is for: the two differ in quantity and in patient ' +
+      'instructions.',
+    sourcing: 'The two presentations route differently. ONCE weekly goes to ' +
+      'Premier or to a local pharmacy, and it is in short supply market-wide: ' +
+      'CONFIRM PREMIER CAN OBTAIN IT before sending one there. TWICE weekly ' +
+      'goes to a local pharmacy ONLY. Premier is not a route for it, and the ' +
+      'reason is cost rather than availability.',
     boxRule: 'Box sizes differ by presentation and BOTH come to 3 BOXES for ' +
       'twelve weeks - quantity 3 BX either way, which is arithmetic and not a ' +
       'copy-paste. Once-weekly: BOX OF 4, 3 x 4 = 12 patches, one a week. ' +
@@ -1170,8 +1196,8 @@ var KORB_WOMENS = {
     subtitle: 'Menopausal hormone therapy',
     kicker: 'Provider use only',
     entity: 'KORB Health Medical Texas PA',
-    version: '1.0',
-    effective: '2026-09-16',
+    version: '1.1',
+    effective: '2026-09-17',
     supersedes: 'The Women\'s Health Clinical Reference PDF of 2026-09-10, which was ' +
       'hand-produced and carried no version or effective date.',
     intro: 'Menopausal hormone therapy: estradiol, progesterone, testosterone and ' +

@@ -55,10 +55,23 @@ Sexual Health and Skin Care handouts, and the Weight Loss, Men's Health and Wome
 Health program overviews. They sit in the same folder as the live set, under the
 same naming convention, and look identical.
 
-**Published to the provider team.** The Functional Health tools and the GLP-1 tools.
+**Published to the provider team.** The Functional Health tools, the GLP-1 tools,
+and as of 2026-09-17 the Women's Health Clinical Reference, posted to the intranet
+for providers.
 
-**NOT published to the team.** Men's Health, Women's Health, and everything
-patient-facing.
+**That intranet link must be the GitHub Pages URL**, not an uploaded copy of the
+file. Every generated document here is a shell whose entire body is `<p>Loading…</p>`
+plus script tags; it builds itself from the data files at page load, which is what
+keeps it current. Save one off and upload it as a file and its relative paths break,
+and a provider gets the red "Could not load korb-womens-data.js" guard instead of a
+document. The guard is deliberate - it refuses rather than rendering a plausible
+half-empty page - but it is still a broken link. The URL is
+`https://korb-health.github.io/korb-patient-tools/Provider_Reference/KORB_Womens_Health_Clinical_Reference.html`.
+`KORB_BMI_Protein_Calculator_standalone.html` is the other pattern, a single file
+with zero script tags, and it buys portability by giving up the live update.
+
+**NOT published to the team.** Men's Health, and everything patient-facing
+including the Women's Health patient handout.
 
 **Out for provider feedback** — not yet either way.
 `Provider_Reference/KORB_BMI_Protein_Calculator.html` and its `_standalone` twin.
@@ -435,6 +448,13 @@ taken, so a rebuild on a different day does not invalidate a signature.
 To record one: `node rx-signoff.js --sign <key>` prints the record to paste into
 the data file. It does not write it. A sign-off is a clinical attestation and it
 should land as a reviewed diff, not a side effect. There is no `--all`.
+
+**Status as of 2026-09-17: 17 documents, 285 prescribing blocks, ALL 17 signed.**
+Nothing unsigned and nothing stale for the first time. Women's Health was re-signed
+at 46 blocks on 2026-09-17, superseding the 41-block signature of 2026-09-16; the
+superseded record is kept in `rxSignoff.superseded` in `korb-womens-data.js` rather
+than overwritten, so the register shows what was approved and when. The status
+paragraph below is the 2026-09-15 snapshot and is kept for the history.
 
 **Status as of 2026-09-15: 15 documents, 221 prescribing blocks, 6 signed.**
 
@@ -853,9 +873,10 @@ women's testosterone. Do not re-report those; they are already on the list.
    Women's testosterone is Schedule III and is **Texas and California only** -
    the only states where a KORB provider holds the DEA registration.
 
-   `KORB_Womens_Health_Clinical_Reference` is generated, 5 pages, 9 sections. It
-   carries no prescribing blocks: this programme's Tebra entries are per-hormone
-   and per-strength and were not in the tool, so they remain to be built.
+   `KORB_Womens_Health_Clinical_Reference` is generated, 9 sections. It carried no
+   prescribing blocks when first built - the Tebra entries are per-hormone and
+   per-strength and were not in the tool - and they were built out over the two
+   days after. It now renders **46**, signed 2026-09-17 at v1.1.
 14. ~~No patient-facing Women's Health HTML.~~ **DONE 2026-09-16.**
    `KORB_Patient_Ed_HormoneTherapy` is generated now - the ninth handout and the
    first for Women's Health, converting the last of the hand-made patient PDFs.
