@@ -874,6 +874,30 @@ testosterone" was either already gone or never in it.
    the data file alone leaves `hydrated` false and `requireHydrated()` throws.
    `check-pages.js` gained the data-file dependency and **failed on all four
    generated pages** before the rebuild, which is the only reason to believe it.
+16. **ONE SHARED PLAN BLOCK ACROSS ALL FOUR TOOLS. Don asked to be reminded.**
+   Raised 2026-09-17, deliberately deferred to be done in one pass.
+
+   **Only the GLP-1 provider tool has one today.** It renders a full note -
+   assessment and plan, dose and how to draw it, supply, dispensing pharmacy, a
+   COUNSELING section and a FOLLOW-UP line - into a `.copybox` with one Copy
+   plan button. Men's Health and the Add-On tool have nothing.
+
+   **The Women's Health tool LOOKS like it has one and does not.** `cp(btn,id)`
+   at line 755 has the button label "Copy plan" and nothing calls it. A grep for
+   "Copy plan" finds it and a provider never can. Delete it or wire it, but do
+   not read it as evidence the feature exists.
+
+   **Why it was deferred rather than added to the Add-On tool on the day.** The
+   GLP-1 plan text is prose hand-written inside that one HTML file. Adding a
+   second copy to the Add-On tool, then a third and fourth, is the exact shape
+   the prescribing block was in before `korb-rx-block.js`: the same thing four
+   times in four forms, a provider seeing something different depending on which
+   tool they opened, and nothing checking any of them against the reference.
+
+   So: ONE renderer, fed by the data files, which already carry the counselling,
+   follow-up cadence and monitoring that a plan note needs and which are already
+   signed. Then a plan block cannot drift from the reference beside it.
+
 **NEXT →**
 5. **Retire the hand-built tables.** `KORB_GLP1_Dose_Guide.html` ~~first~~ **DONE
    2026-09-14**, `5c1c5e4`. Its table is built from `korb-glp1-data.js` at load;
