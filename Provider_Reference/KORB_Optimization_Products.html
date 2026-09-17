@@ -158,10 +158,21 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 .pickhead{ flex-basis:100%; font-size:12px; font-weight:700; color:var(--navy);
   display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
 .pickhead .hint{ font-weight:400; }
-.strengthrow{ display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-  margin:8px 0 2px; }
-.strengthrow label{ font-size:12.5px; font-weight:700; color:var(--navy); }
-.strengthrow select{ padding:4px 8px; font:inherit; font-size:13px; }
+/* The strength control is a DECISION, not a caption. Don, 2026-09-17: he had to
+   hunt for it. It now sits in its own tinted band with a teal edge, directly
+   above the fields it rewrites, so the eye meets it before the prescription
+   rather than after. Sized like a control, not like a note. */
+.strengthrow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  margin:10px 0 0; padding:11px 13px; background:var(--lt);
+  border:1.5px solid var(--teal); border-left-width:5px; border-radius:9px; }
+.strengthrow label{ font-size:12px; font-weight:800; color:var(--navy);
+  text-transform:uppercase; letter-spacing:.4px; }
+.strengthrow select{ min-height:40px; padding:8px 11px; font-family:inherit;
+  font-size:15px; font-weight:700; color:var(--navy); background:#fff;
+  border:1.5px solid var(--teal); border-radius:7px; min-width:118px; }
+.strengthrow .hint{ font-size:11.5px; }
+.strengthrow .cnt{ display:inline-block; background:var(--teal); color:#fff;
+  font-size:11px; font-weight:800; border-radius:999px; padding:2px 9px; }
 .selnote{ display:block; margin-top:3px; font-size:11.5px; font-weight:700;
   color:#B26A00; }
 </style>
@@ -692,7 +703,8 @@ function cardsFor(all, prog){
          all.map(function(e,n){
            return '<option value="'+n+'"'+(n===cur?' selected':'')+'>'+esc(e.s||('Option '+(n+1)))+'</option>';
          }).join('')+'</select>'+
-         '<span class="hint">'+all.length+' strengths available. The prescription below is the one selected.</span></div>';
+         '<span class="cnt">'+all.length+' strengths</span>'+
+         '<span class="hint">The prescription below changes with this.</span></div>';
       h+=fieldTable('tb'+i, all[cur], p);
     } else {
       h+=fieldTable('tb'+i, p.t, p);
