@@ -109,6 +109,26 @@ var KORB_WOMENS = {
     ]
   },
 
+  /* See artifact-signoff.js. The TOOL is a separate artifact from the clinical
+     reference even though both render from this file: the reference's signature
+     covers the prescribing blocks, and this one covers the layer that decides
+     WHICH of them a provider is offered for a given state and pharmacy. That
+     layer is where all three defects of 2026-09-16 were - the progesterone
+     quantities, the peanut allergy wording and the local pharmacy description -
+     and none of them would have moved the reference's fingerprint. */
+  artifactSignoff: {
+    records: {
+      "tool:womens": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-17",
+        "fingerprint": "fp-222659c0-108302",
+        "covers": "51 states, 46 prescribing blocks",
+        "attests": "Reviewed this tool as rendered - the states and destinations it offers, the products it puts in front of a provider for each of them, the hormones it gates, and the Tebra prescribing blocks it produces - and approve it for use by the provider team."
+      }
+    }
+  },
+
   sourceConflicts: [
     {
       topic: 'Which pharmacy is the default',

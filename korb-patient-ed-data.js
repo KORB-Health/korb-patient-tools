@@ -32,6 +32,28 @@
 
 var KORB_PATIENT_ED = {
 
+  /* See artifact-signoff.js. This file had NO sign-off structure of any kind
+     until 2026-09-17: nine patient handouts carrying clinical content, none of
+     them with anywhere to record that a clinician had read one. The fingerprint
+     is over the RENDERED body text, because a handout has no prescribing blocks
+     and the text is the whole of what a patient receives.
+
+     Signing is not releasing. CLAUDE.md's RELEASE STATUS is the record of what
+     patients can actually see, and a signature here does not move it. */
+  artifactSignoff: {
+    records: {
+      "handout:hormonetherapy": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-17",
+        "fingerprint": "fp-174b6821-11389",
+        "covers": "10869 characters, 17 headings",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+      }
+    }
+  },
+
+
   meta: {
     version: '1.0',
     lastUpdated: '2026-09-15',

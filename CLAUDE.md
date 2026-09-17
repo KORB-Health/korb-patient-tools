@@ -413,12 +413,48 @@ other alone.
 
 ## Prescribing sign-off
 
-Two separate registers, and the separation is the point.
+**THREE** separate registers, and the separation is the point.
 
 | | Covers | Lives in | Read it with |
 |---|---|---|---|
 | **Monograph sign-off** | Indications, interactions, contraindications, monitoring, ICD-10, counselling script | `monographSignoff` in `korb-glp1-data.js` | `node build-signoff-sheet.js` |
 | **Prescribing sign-off** | Tebra fields and charge codes, per DOCUMENT | `rxSignoff` in all three data files | `node rx-signoff.js` |
+| **Artifact sign-off** | The interactive TOOLS and the patient HANDOUTS | `artifactSignoff` in the data file each one reads | `node artifact-signoff.js` |
+
+**The third register, added 2026-09-17.** `rx-signoff.js` enumerates generated
+DOCUMENTS from the `DOCS` lists in the render modules, so two kinds of thing were
+invisible to it: the interactive tools, and the nine patient handouts.
+`korb-patient-ed-data.js` had no sign-off structure of any kind - nine documents of
+patient-facing clinical content with nowhere to record that a clinician had read one.
+
+**What a fingerprint covers depends on the kind, and that choice is the whole
+value.** A handout is fingerprinted on its rendered body text, because it has no
+prescribing blocks and the text is all a patient receives. A TOOL is fingerprinted
+on its **routing behaviour** - every state, the destinations it offers, the hormones
+it gates, and the exact product list each picker is filled with - **plus** its
+prescribing blocks. Blocks alone would have duplicated a signature already given on
+the clinical reference, since both render the same entries from the same data file.
+What is unique to a tool is the layer deciding WHICH entries a provider is offered,
+and all three defects found in the Women's Health tool on 2026-09-16 were in that
+layer. Don chose this scope on 2026-09-17.
+
+**It drives a real browser**, because routing is only observable by operating the
+tool. Reading the source would be reading the thing the signature is meant to be
+independent of. So **no Chromium means exit 1, not a clean report** - the opposite
+of the builders, which skip their PDF phase and carry on. A check has no business
+reporting "nothing to see" without having looked.
+
+Every tool and every handout is listed whether signed or not. Three tools have no
+probe yet and are reported as CANNOT BE FINGERPRINTED, which is a loud state rather
+than a quiet omission. Writing a probe for the TRT, GLP-1 and Add-On tools is open
+work.
+
+**Status as of 2026-09-17: 13 artifacts, 2 signed.** The Women's Health provider
+tool (51 states, 46 blocks) and the Hormone Therapy patient handout. Eight handouts
+unsigned, three tools undrivable.
+
+**Signing is not releasing.** The RELEASE STATUS section at the top is the record of
+what patients and providers can actually see, and a signature here does not move it.
 
 ```bash
 node rx-signoff.js
@@ -500,6 +536,17 @@ This repo has real self-checks. Use them, and prove they have teeth.
   planted overrun reports 178/140.
   **Headroom is thin.** The longest patient instruction is 139 of 140. Adding a
   word to a sig is not a free edit; run this after any sig change.
+- `node artifact-signoff.js` — the tools and handouts. Expect 0 stale; it exits 1
+  if anything signed has moved. Negative-tested both halves on 2026-09-17, and the
+  first attempt at the handout half was a FALSE PASS worth knowing about: the
+  phrase being changed was replaced in a **code comment** rather than in rendered
+  content, so nothing moved and the check looked blind when it was fine. **When a
+  negative test on this repo's data files fails to fire, confirm the string you
+  broke actually reaches the page before concluding the check is broken.** Redone
+  against a rendered sentence, the handout went stale correctly. The tool half is
+  the more interesting one: dropping CA from the Schedule III states reported STALE
+  while still showing 46 blocks, which is the proof that the routing half has teeth
+  and not merely the blocks.
 - `KORB_PHARMACIES.selfCheck()` — currently passes, but only validates itself. It
   cannot see `korb-glp1-data.js`. See Open work.
 
