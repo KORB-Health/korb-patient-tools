@@ -41,6 +41,7 @@
 const fs = require('fs');
 const path = require('path');
 const R = require('./fhl-doc-render.js');
+const buildDate = require('./build-date.js');
 const RXB = require('./korb-rx-block.js');
 const AUDIT = require('./dose-audit.js');
 
@@ -70,7 +71,7 @@ const K = (function () {
   return sandbox.KORB_DOSING;
 })();
 
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
+const BUILD_DATE = buildDate();   // LOCAL date - see build-date.js
 
 /* Playwright is resolved rather than hardcoded to one machine's global path.
    Returns null when it is not installed rather than killing the process: it

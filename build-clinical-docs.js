@@ -42,6 +42,7 @@
 const fs = require('fs');
 const path = require('path');
 const R = require('./clinical-doc-render.js');
+const buildDate = require('./build-date.js');
 
 const REPO = __dirname;
 const OUT = path.join(REPO, 'Provider_Reference');
@@ -92,7 +93,7 @@ const SOURCES = {
   womens: { dataFile: 'korb-womens-data.js', global: 'KORB_WOMENS' }
 };
 
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
+const BUILD_DATE = buildDate();   // LOCAL date - see build-date.js
 
 function loadChromium() {
   const tries = ['playwright', 'playwright-core',

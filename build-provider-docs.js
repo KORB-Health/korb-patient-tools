@@ -38,6 +38,7 @@
 const fs = require('fs');
 const path = require('path');
 const R = require('./provider-doc-render.js');
+const buildDate = require('./build-date.js');
 const RXB = require('./korb-rx-block.js');
 const AUDIT = require('./dose-audit.js');
 
@@ -66,7 +67,7 @@ const K = (function () {
   return sandbox.KORB_GLP1;
 })();
 
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
+const BUILD_DATE = buildDate();   // LOCAL date - see build-date.js
 
 /* The live shell. Deliberately tiny: everything that could go stale lives in
    the two scripts it loads, not in this file. Screen styling only - the print

@@ -41,11 +41,12 @@
 const fs = require('fs');
 const path = require('path');
 const R = require('./patient-ed-render.js');
+const buildDate = require('./build-date.js');
 const DATA = require('./korb-patient-ed-data.js');
 
 const ROOT = __dirname;
 const OUT = path.join(ROOT, 'Patient_Education');
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
+const BUILD_DATE = buildDate();   // LOCAL date - see build-date.js
 
 /* korb-dosing-data.js is a browser global, not a module. */
 function loadDosing() {
