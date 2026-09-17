@@ -73,31 +73,116 @@ const FILE_URL = 'file:///' + ROOT.replace(/\\/g, '/') + '/';
    reported as UNDRIVABLE and cannot be signed. That is a loud, visible state
    rather than a quiet omission: the tool is in the list, it is counted, and
    the report says why it has no fingerprint. */
-const ARTIFACTS = [
-  { key: 'tool:womens', kind: 'tool', probe: 'womens',
-    label: "Women's Health Provider Tool",
-    file: 'Provider_Reference/KORB_Womens_Health_Provider_Tool.html',
-    records: { file: 'korb-womens-data.js', global: 'KORB_WOMENS' } },
+/* EVERY TOOL AND EVERY HANDOUT, DERIVED FROM THE TREE - NOT TYPED.
 
-  { key: 'tool:mens', kind: 'tool', probe: 'mens',
-    label: "Men's Health Provider Tool",
-    file: 'Provider_Reference/KORB_Mens_Health_Provider_Tool.html',
-    records: { file: 'korb-mens-data.js', global: 'KORB_MENS' } },
+   The first version of this file typed four tools and its own comment claimed
+   it listed every one. It listed four of seventeen. Twelve provider tools were
+   simply absent, and the report showed a short clean page that read as good
+   news - which is the exact failure this repo keeps writing checks against.
+   Don caught it 2026-09-17 by asking whether the programmes were finished.
 
-  { key: 'tool:glp1', kind: 'tool', probe: null,
-    label: 'GLP-1 Provider Tool',
-    file: 'Provider_Reference/KORB_GLP1_Provider_Tool.html',
-    records: { file: 'korb-glp1-data.js', global: 'KORB_GLP1' } },
+   So the list is now derived from git, and a new tool joins the denominator by
+   existing. Classification is by rule, and every exclusion is named below so a
+   missing file is explicable rather than invisible.
 
-  { key: 'tool:addons', kind: 'tool', probe: null,
-    label: 'Add-On Optimization Products',
-    file: 'Provider_Reference/KORB_Optimization_Products.html',
-    records: { file: 'korb-addons-data.js', global: 'KORB_ADDONS' } }
-];
+   The rule that made the old list wrong is worth stating plainly: A REGISTER
+   THAT CANNOT SEE SOMETHING REPORTS IT AS FINE. */
+const TOOL_META = {
+  /* file (relative, forward slashes) -> probe + where its record lives.
+     A tool with no probe is reported as UNDRIVABLE with the reason, which is a
+     loud state. A tool missing from this map still appears, still counts, and
+     says it has no probe - the map narrows what can be FINGERPRINTED, never
+     what is LISTED. */
+  'Provider_Reference/KORB_Womens_Health_Provider_Tool.html':
+    { key: 'womens', probe: 'womens', label: "Women's Health Provider Tool",
+      records: { file: 'korb-womens-data.js', global: 'KORB_WOMENS' } },
+  'Provider_Reference/KORB_Mens_Health_Provider_Tool.html':
+    { key: 'mens', probe: 'mens', label: "Men's Health Provider Tool",
+      records: { file: 'korb-mens-data.js', global: 'KORB_MENS' } },
+  'Provider_Reference/KORB_Optimization_Products.html':
+    { key: 'addons', probe: 'addons', label: 'Add-On Optimization Products',
+      records: { file: 'korb-addons-data.js', global: 'KORB_ADDONS' } },
+  'Provider_Reference/KORB_GLP1_Provider_Tool.html':
+    { key: 'glp1', probe: 'glp1tool', label: 'GLP-1 Provider Tool',
+      records: { file: 'korb-glp1-data.js', global: 'KORB_GLP1' } },
+
+  'KORB_GLP1_Pharmacy_Routing.html':
+    { key: 'glp1routing', probe: 'routing', label: 'GLP-1 Pharmacy Routing',
+      records: { file: 'korb-glp1-data.js', global: 'KORB_GLP1' } },
+
+  /* No probe yet. Each names what a probe would have to drive, so whoever
+     writes one is not starting from the file. */
+  'KORB_GLP1_Provider_Reference.html':
+    { probe: null, why: 'product, pharmacy and dose selectors feeding a monograph view' },
+  'KORB_GLP1_Dose_Guide.html':
+    { probe: null, why: 'medication, pharmacy and dose selectors over the dose ladder' },
+  'KORB_GLP1_Patient_Message_Builder.html':
+    { probe: null, why: 'builds portal message text against a 1000-character cap' },
+  'KORB_Provider_Clinical_Reference.html':
+    { probe: null, why: 'FH&L state selector and per-programme routing' },
+  'KORB_Functional_Health_Tracker.html':
+    { probe: null, why: 'FH&L agent and week tracking' },
+  'KORB_Patient_Treatment_Schedule.html':
+    { probe: null, why: 'FH&L schedule generation from a start date' },
+  'KORB_Lab_Interpretation_Tool.html':
+    { probe: null, why: 'hand-built, no data file - see open item 5' },
+  'KORB_Testosterone_Tracker.html':
+    { probe: null, why: 'hand-built, no data file - see open item 5' },
+  'KORB_Scheduler_Intake_Prototype.html':
+    { probe: null, why: 'vendor spec prototype, not a clinical tool' },
+  'KORB_Scheduler_Intake_AllPrograms.html':
+    { probe: null, why: 'vendor spec prototype, not a clinical tool' },
+  'Provider_Reference/KORB_BMI_Protein_Calculator.html':
+    { probe: null, why: 'out for provider feedback, not released' },
+  'Provider_Reference/KORB_BMI_Protein_Calculator_standalone.html':
+    { probe: null, why: 'out for provider feedback, not released' }
+};
+
+/* Named exclusions. Anything here is deliberately not an artifact of this
+   register, and says which register it belongs to instead. */
+function excluded(f) {
+  if (/^Provider_Reference\/GLP1\//.test(f)) return 'generated document - rx-signoff.js';
+  if (/_Clinical_Reference\.html$/.test(f)) return 'generated document - rx-signoff.js';
+  if (/^Provider_Reference\/KORB_FHL_.*_Provider_Reference\.html$/.test(f))
+    return 'generated document - rx-signoff.js';
+  if (f === 'KORB_Patient_Hub.html') return 'patient-facing, not a provider tool';
+  if (f === 'Provider_Reference/KORB_AddOn_Selector.html')
+    return 'redirect to KORB_Optimization_Products.html, no content of its own';
+  if (/^Patient_Education\//.test(f)) return 'handout - listed separately below';
+  return null;
+}
+
+const ARTIFACTS = [];
+const EXCLUDED = [];
+
+require('child_process')
+  .execSync('git ls-files "*.html"', { encoding: 'utf8', cwd: ROOT })
+  .split('\n').map(function (x) { return x.trim(); })
+  .filter(Boolean)
+  .forEach(function (f) {
+    const why = excluded(f);
+    if (why) { EXCLUDED.push({ file: f, why: why }); return; }
+    const meta = TOOL_META[f] || {};
+    const base = f.split('/').pop().replace(/\.html$/, '');
+    ARTIFACTS.push({
+      /* STABLE KEY. A signature is stored against it, so it must not be
+         derived from a filename: KORB_TRT_Provider_Tool.html became
+         KORB_Mens_Health_Provider_Tool.html earlier today and a derived key
+         would have silently orphaned Don's signature. Mapped tools name their
+         own; unmapped ones derive one, and carry no signature yet anyway. */
+      key: 'tool:' + (meta.key || base.replace(/^KORB_/, '').toLowerCase()),
+      kind: 'tool',
+      probe: meta.probe || null,
+      noProbeWhy: meta.probe ? null
+        : (meta.why || 'not yet classified - add it to TOOL_META in artifact-signoff.js'),
+      label: meta.label || base.replace(/^KORB_/, '').split('_').join(' '),
+      file: f,
+      records: meta.records || null
+    });
+  });
 
 /* The handouts are uniform - static renders with no controls - so they are
-   generated from the directory rather than typed. A typed list is the thing
-   this repo has been bitten by twice. */
+   generated from the directory rather than typed, for the same reason. */
 fs.readdirSync(path.join(ROOT, 'Patient_Education'))
   .filter(function (f) { return /^KORB_Patient_Ed_.*\.html$/.test(f); })
   .sort()
@@ -134,6 +219,13 @@ function fnv(str) {
 }
 
 function normalise(s) { return String(s).replace(/\s+/g, ' ').trim(); }
+
+/* Column padding for the report. Written out rather than relying on padEnd so
+   a long derived key pushes its label right instead of running into it. */
+function pad(v, n) {
+  v = String(v);
+  return v.length >= n ? v + '  ' : v + new Array(n - v.length + 1).join(' ');
+}
 
 /* ---- reading the existing records --------------------------------------- */
 const sandboxCache = {};
@@ -347,6 +439,175 @@ PROBES.mens = function () {
   return { kind: 'tool', states: states.length, routing: routing, blocks: blocks };
 };
 
+/* Add-On optimization tool.
+
+   Three axes that decide what a provider is offered: the state (which picks the
+   pharmacy), the gender (which filters products AND gates the programme), and
+   the category. The probe walks every state for both genders and records which
+   products each combination offers, then opens every category and takes the
+   prescribing blocks for every product and every strength.
+
+   The gender/programme gate is recorded too - which programmes are disabled for
+   each gender - because that is a rule about who may be prescribed what, and it
+   would otherwise be invisible to any check. */
+PROBES.addons = function () {
+  var fire = function (el) { el.dispatchEvent(new Event('change', { bubbles: true })); };
+  var set = function (id, v) { var el = document.getElementById(id); el.value = v; fire(el); };
+  var opts = function (el) {
+    return [].map.call(el.options, function (o) { return o.value; }).filter(Boolean);
+  };
+  var st = document.getElementById('st');
+  var prog = document.getElementById('prog');
+  var states = opts(st);
+  var routing = {}, blocks = {};
+
+  ['m', 'f'].forEach(function (g) {
+    states.forEach(function (code) {
+      set('st', code); set('sex', g);
+      var barred = [].filter.call(prog.options, function (o) { return o.disabled; })
+                     .map(function (o) { return o.text; });
+      /* Any programme still open, so the category rows exist at all. */
+      var open = opts(prog).filter(function (v) { return !barred.length || barred.indexOf(v) === -1; })[0];
+      if (!open) { routing[code + '/' + g] = { barred: barred, products: [] }; return; }
+      set('prog', open);
+
+      var offered = [];
+      /* RE-QUERY EVERY TIME. Ticking a category calls render(), which repaints
+         the whole row set, so a NodeList captured before the first tick is a
+         list of detached nodes and every later click goes nowhere. The first
+         version of this probe did exactly that and reported 4 blocks out of 25
+         while looking like it had walked everything. Drive by key, never by a
+         held reference. */
+      var catKeys = [].map.call(document.querySelectorAll('.crow input[data-g]'),
+                                function (c) { return c.dataset.g; });
+      catKeys.forEach(function (g) {
+        var cb = document.querySelector('.crow input[data-g="' + g + '"]');
+        if (!cb || cb.disabled) return;
+        if (!cb.checked) { cb.checked = true; fire(cb); }
+        var names = opts(document.getElementById('sel_' + g) || { options: [] });
+        names.forEach(function (name) {
+          offered.push(g + ':' + name);
+          var sel = document.getElementById('sel_' + g);
+          if (!sel) return;
+          sel.value = name; fire(sel);
+          var n = (document.querySelectorAll('.strengthsel option').length) || 1;
+          for (var i = 0; i < n; i++) {
+            var ss = document.querySelector('.strengthsel');
+            if (ss) { ss.value = String(i); fire(ss); }
+            [].forEach.call(document.querySelectorAll('#out table.fld'), function (tbl) {
+              var rows = [].map.call(tbl.querySelectorAll('tr'), function (tr) {
+                var k = tr.querySelector('td.k'), v = tr.querySelector('.fv');
+                return k && v ? k.innerText.trim() + '=' + v.innerText.replace(/\s+/g, ' ').trim() : '';
+              }).filter(Boolean);
+              /* KEYED BY THE TEBRA FAVORITE NAME, which already carries the
+                 pharmacy and the strength. Keying by the product name collapsed
+                 FarmaKeio and Premier into one entry, so an edit to one of the
+                 two could hide behind whichever was captured last. */
+              var nm = rows.filter(function (r) { return r.indexOf('Name=') === 0; })[0];
+              var lbl = nm ? nm.slice(5) : (name + (n > 1 ? ' @' + i : ''));
+              blocks[lbl] = rows.join('|');
+            });
+          }
+        });
+        var back = document.querySelector('.crow input[data-g="' + g + '"]');
+        if (back && back.checked) { back.checked = false; fire(back); }
+      });
+      routing[code + '/' + g] = { barred: barred, products: offered.sort() };
+    });
+  });
+
+  return { kind: 'tool', states: states.length, routing: routing, blocks: blocks };
+};
+
+/* GLP-1 provider tool.
+
+   A FROZEN TOOL FINGERPRINTS ITS EMBEDDED BLOB, NOT THE DATA FILE. This one and
+   the Add-On tool take their data from build-embed.js at build time, so editing
+   korb-glp1-data.js does NOT move this fingerprint until build-embed.js runs.
+   Found by a negative test that appeared to fail: a changed patient instruction
+   moved nothing, which looked like a blind probe and was not - the tool was
+   still serving last build's data. Rebuilt, the same edit moved it.
+
+   That is correct behaviour and it is worth knowing: a SIGNED frozen tool plus
+   an edited data file is a real state, and the thing that catches it is
+   `node build-embed.js --check`, not this register. Run both.
+
+
+   Four dependent selects: pharmacy group, then medication, then dose, then fill
+   length, each enabled by the one before it. The probe walks every reachable
+   combination rather than a sample, because the thing that changes silently
+   here is which doses a pharmacy still offers - the Greenwich retirement of
+   2026-09-11 is exactly this shape - and a sample would have missed it.
+
+   Records the option lists at each level plus the fields of every prescribing
+   block reached. Deliberately NOT recorded: the plan note's free text, which
+   restates values already captured and would make an unrelated wording change
+   expire the signature. */
+PROBES.glp1tool = function () {
+  var fire = function (el) { el.dispatchEvent(new Event('change', { bubbles: true })); };
+  var opts = function (el) {
+    return [].map.call(el.options, function (o) { return o.value; }).filter(Boolean);
+  };
+  var phg = document.getElementById('phg');
+  var ph  = document.getElementById('ph');
+  var dz  = document.getElementById('dz');
+  var fz  = document.getElementById('fz');
+
+  var tree = {}, blocks = {};
+  opts(phg).forEach(function (g) {
+    phg.value = g; fire(phg);
+    tree[g] = {};
+    opts(ph).forEach(function (m) {
+      ph.value = m; fire(ph);
+      tree[g][m] = {};
+      opts(dz).forEach(function (d) {
+        dz.value = d; fire(dz);
+        var fills = opts(fz);
+        tree[g][m][d] = fills;
+        fills.forEach(function (f) {
+          fz.value = f; fire(fz);
+          [].forEach.call(document.querySelectorAll('table.fld'), function (tbl) {
+            var name = [g, m, d, f].join(' / ');
+            blocks[name] = [].map.call(tbl.querySelectorAll('tr'), function (tr) {
+              var k = tr.querySelector('td.k'), v = tr.querySelector('.fv');
+              return k && v ? k.innerText.trim() + '=' + v.innerText.replace(/\s+/g, ' ').trim() : '';
+            }).filter(Boolean).join('|');
+          });
+        });
+      });
+    });
+  });
+  return { kind: 'tool', states: Object.keys(tree).length, routing: tree, blocks: blocks };
+};
+
+/* GLP-1 pharmacy routing.
+
+   One state selector and a routing answer per state. This page already has a
+   self check - KORB_ROUTING_SELFCHECK() - and the two do different jobs: that
+   one asserts the routing is internally consistent, this one records WHAT it
+   decided so a change to any of it shows up as a stale signature rather than
+   as a passing check.
+
+   The full message string is taken, not just the pharmacy name. A state moving
+   from "Premier ships here" to "Premier ships here, confirm supply" is a change
+   a provider reads and acts on. */
+PROBES.routing = function () {
+  var st = document.getElementById('st');
+  var fire = function (el) { el.dispatchEvent(new Event('change', { bubbles: true })); };
+  var out = {};
+  [].map.call(st.options, function (o) { return o.value; }).filter(Boolean).forEach(function (code) {
+    st.value = code; fire(st);
+    var box = document.getElementById('out') || document.body;
+    out[code] = box.innerText.replace(/\s+/g, ' ').trim();
+  });
+  /* This page decides WHERE a prescription goes, it does not write one, so it
+     has no prescribing blocks and says so. Declaring it is a different act
+     from silently rendering none - the same distinction rx-signoff.js draws
+     with noPrescribingBlocks. */
+  return { kind: 'tool', states: Object.keys(out).length, routing: out, blocks: {},
+           noBlocksReason: 'a routing page decides the destination and writes no prescription' };
+};
+
 /* ---- rendering ---------------------------------------------------------- */
 function chromium() {
   try { return require('playwright').chromium; }
@@ -367,7 +628,18 @@ async function measure() {
   for (const a of ARTIFACTS) {
     const entry = Object.assign({}, a, { record: recordFor(a) });
     if (!a.probe) {
-      entry.undrivable = 'no probe: this tool has no driver yet, so its routing cannot be fingerprinted';
+      entry.undrivable = a.noProbeWhy
+        ? 'no probe yet - ' + a.noProbeWhy
+        : 'no probe: this tool has no driver yet, so its routing cannot be fingerprinted';
+      out.push(entry);
+      continue;
+    }
+    /* A probe NAMED but not implemented is a different fault from one that was
+       never written, and it used to crash here with "cannot read blocks of
+       undefined" - which reads like a broken tool rather than a broken
+       register. Say which it is. */
+    if (!PROBES[a.probe]) {
+      entry.undrivable = 'TOOL_META names probe "' + a.probe + '" and PROBES has no such function';
       out.push(entry);
       continue;
     }
@@ -414,9 +686,13 @@ function selfCheck(rows) {
     if (r.kind === 'tool') {
       if (!r.shot || !r.shot.states) problems.push(r.key + ' probed zero states');
       if (!r.shot || !Object.keys(r.shot.blocks || {}).length) {
-        problems.push(r.key + ' produced zero prescribing blocks across every state ' +
-          'and destination. Either the tool is broken or the probe no longer matches ' +
-          'its markup. Check the second before believing the first.');
+        /* Zero blocks is almost always a broken probe, so it stays an error
+           unless the probe SAYS the tool has none and why. */
+        if (!(r.shot && r.shot.noBlocksReason)) {
+          problems.push(r.key + ' produced zero prescribing blocks across every state ' +
+            'and destination. Either the tool is broken or the probe no longer matches ' +
+            'its markup. Check the second before believing the first.');
+        }
       }
     }
   });
@@ -494,7 +770,7 @@ function status(r) {
     list.forEach(function (r) {
       const note = r.undrivable || r.error ||
         (r.kind === 'tool' ? r.size + ' blocks' : r.size + ' chars');
-      console.log('  ' + r.key.padEnd(24) + r.label.padEnd(42) + note);
+      console.log('  ' + pad(r.key, 34) + pad(r.label, 34) + note);
     });
     console.log('');
   }

@@ -489,9 +489,34 @@ probe yet and are reported as CANNOT BE FINGERPRINTED, which is a loud state rat
 than a quiet omission. The Men's Health probe was written on 2026-09-17. Writing one
 for the GLP-1 and Add-On tools is open work.
 
-**Status as of 2026-09-17: 13 artifacts, 2 signed.** The Women's Health provider
-tool (51 states, 46 blocks) and the Hormone Therapy patient handout. Eight handouts
-unsigned, three tools undrivable.
+**Status as of 2026-09-17: 25 artifacts, 4 signed.** The Men's and Women's Health
+provider tools and the Testosterone and Hormone Therapy handouts. Ready to sign and
+awaiting review: the GLP-1 provider tool (150 blocks), the Add-On tool (25 blocks,
+the same 25 the signed reference renders) and GLP-1 Pharmacy Routing (51 states, no
+blocks - it decides a destination and writes no prescription, which it declares).
+
+**THE DENOMINATOR WAS WRONG UNTIL 2026-09-17 AND THE REGISTER SAID IT WAS RIGHT.**
+The first version typed four tools and its own comment claimed it listed every one.
+It listed four of seventeen; twelve provider tools were absent, and the report
+showed a short clean page that read as good news. Don found it by asking whether the
+programmes were finished, not by any check failing.
+
+The list is now DERIVED from `git ls-files`, so a new tool joins the denominator by
+existing, and every exclusion is named in `excluded()` with the register it belongs
+to instead. A tool with no probe is listed, counted, and says what a probe would
+have to drive. **A register that cannot see something reports it as fine.**
+
+**Stable keys, not derived ones.** A signature is stored against the key, and
+`KORB_TRT_Provider_Tool.html` became `KORB_Mens_Health_Provider_Tool.html` earlier
+the same day - a key derived from the filename would have silently orphaned that
+signature. Mapped tools name their own key in `TOOL_META`.
+
+**A frozen tool fingerprints its EMBEDDED blob, not its data file.** The GLP-1 and
+Add-On tools take their data from `build-embed.js` at build time, so editing the
+data file does not move their fingerprint until the build runs. Found by a negative
+test that looked like it failed and had not: the tool was still serving last build's
+data. A signed frozen tool beside an edited data file is a real state, and
+`node build-embed.js --check` is what catches it, not this register. Run both.
 
 **Signing is not releasing.** The RELEASE STATUS section at the top is the record of
 what patients and providers can actually see, and a signature here does not move it.
