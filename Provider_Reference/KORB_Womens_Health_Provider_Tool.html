@@ -223,7 +223,8 @@ body{background:var(--cream);}
       <div class="cg">
         <label for="dest">Dispensing pharmacy</label>
         <select id="dest"><option value="">Select…</option></select>
-        <span class="hint">All three are offered; the state sets the default</span>
+        <span class="hint" id="destHint">Pick a state first</span>
+        <span class="selnote" id="destBlocked" hidden></span>
       </div>
     </div>
 
@@ -339,11 +340,69 @@ var DESTS = [
   { key: "local",   label: "Patient\u2019s own pharmacy" }
 ];
 var destSel = document.getElementById("dest");
-DESTS.forEach(function (d) {
-  var o = document.createElement("option");
-  o.value = d.key; o.textContent = d.label;
-  destSel.appendChild(o);
-});
+
+/* A pharmacy that cannot ship to the patient's state is not offered at all.
+   Don, 2026-09-16: "It should be a hard stop if the pharmacy is not one that I
+   can ship to because of the states that they're in. I need to not have access
+   to them." Until then all three were always listed and the state only set the
+   default, so California offered Premier - which cannot ship there - and
+   nothing stopped a provider picking it.
+
+   The gate reads PH.shipsTo(), the shared footprint, NOT W.states.belmarStates.
+   Those two answer different questions and confusing them breaks Texas:
+   premierStates (38) and belmarStates (13) are a ROUTING partition that says
+   which pharmacy is the DEFAULT, they are disjoint and TX is in the Premier
+   half - but Belmar genuinely ships to all 51 including Texas. Gating on the
+   routing list would strip Belmar out of Texas, which is the opposite of what
+   was asked for. Measured, not assumed: Premier reaches 38 and is blocked in
+   AL AK AR CA HI ID IN IA MA MN NH SC WA; Belmar reaches 51; every state is
+   reachable by at least one, so this can never empty the list. */
+function destsForState(st) {
+  return DESTS.filter(function (d) {
+    if (d.key === "local") return true;      // the patient's own pharmacy has no footprint
+    return PH.shipsTo(d.key, st);
+  });
+}
+
+function fillDests() {
+  var st = stSel.value, prev = destSel.value;
+  var hint = document.getElementById("destHint");
+  var note = document.getElementById("destBlocked");
+
+  destSel.innerHTML = "";
+
+  if (!st) {
+    destSel.appendChild(new Option("Select a state first", ""));
+    destSel.disabled = true;
+    hint.textContent = "Pick a state first";
+    note.hidden = true;
+    return;
+  }
+
+  destSel.disabled = false;
+  destSel.appendChild(new Option("Select…", ""));
+
+  var ok = destsForState(st);
+  ok.forEach(function (d) { destSel.appendChild(new Option(d.label, d.key)); });
+
+  /* Keep the provider's choice if it still ships; otherwise fall back to the
+     routed default rather than leaving a blocked pharmacy selected. */
+  var stillValid = ok.some(function (d) { return d.key === prev; });
+  destSel.value = stillValid ? prev : (W.states.routing[st] || "");
+
+  var blocked = DESTS.filter(function (d) {
+    return !ok.some(function (o) { return o.key === d.key; });
+  });
+  if (blocked.length) {
+    note.textContent = blocked.map(function (d) { return d.label; }).join(" and ")
+      + " cannot ship to " + STATE_NAME[st] + ", so "
+      + (blocked.length > 1 ? "they are" : "it is") + " not offered.";
+    note.hidden = false;
+  } else {
+    note.hidden = true;
+  }
+  hint.textContent = ok.length + " of " + DESTS.length + " available in " + STATE_NAME[st];
+}
 
 /* Which families a hormone can be dispensed as. Estradiol is the one with a
    real choice - patch or cream - and the picker below shows whichever the
@@ -415,11 +474,12 @@ HORMONES.forEach(function (h) {
   });
 });
 
-/* The state sets the default pharmacy, and the provider can override it - all
-   three are always offered, because a provider has to be able to see the blocks
-   for a pharmacy the routing did not pick. */
+/* The state decides which pharmacies exist at all, then sets the default among
+   them. A pharmacy that cannot ship there is removed from the list, not merely
+   left unselected - see destsForState() above for why this reads the shipping
+   footprint rather than the routing partition. */
 stSel.addEventListener("change", function () {
-  if (!destSel.value && this.value) destSel.value = W.states.routing[this.value] || "";
+  fillDests();
   HORMONES.forEach(function (h) { fillPicker(h.id); });
   render();
 });
@@ -428,6 +488,10 @@ destSel.addEventListener("change", function () {
   render();
 });
 document.getElementById("ut").addEventListener("change", render);
+
+/* The pharmacy select starts disabled: with no state there is no way to know
+   which pharmacies are legal, and offering all three would be the bug. */
+fillDests();
 
 function esc(s){return String(s).replace(/</g,"&lt;");}
 function chosen(){return HORMONES.filter(function(h){return document.getElementById("h_"+h.id).checked;});}
