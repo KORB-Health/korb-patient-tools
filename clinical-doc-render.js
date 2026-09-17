@@ -246,10 +246,44 @@ function tebraRows(p) {
      provider might prescribe. */
   var entries = [t].concat(p.tebraAlso || []);
   return entries.map(function (e) {
+    var fields = RXB.fieldsFrom(e, { drugFormulation: e.drugFormulation || p.drugFormulation });
+
+    /* COMMERCIAL PRODUCTS ARE NOT COMPOUNDED FAVORITES. Don, 2026-09-17, and
+       the same rule testosterone took on 2026-09-16. Metformin, oral
+       spironolactone, oral finasteride and tretinoin cream are commercial
+       products that happen to be dispensed by a 503A pharmacy. Those are two
+       different facts. A provider picks them from the Tebra drop-down, so the
+       Drug Formulation row carries NO copy button - a pasted name produces an
+       entry that will not transmit - the header says Tebra Standard
+       prescription, and Reason for Compounding does not appear at all, because
+       nothing is being compounded. */
+    if (p.commercial) {
+      fields = fields.filter(function (f) { return f.field !== 'Reason for Compounding'; });
+      fields = fields.map(function (f) {
+        if (f.field !== 'Drug Formulation') { return f; }
+        return { field: f.field, val: p.dropdownEntry || f.val, copy: false, select: true };
+      });
+    }
+
+    /* ALLOW SUBSTITUTION on every entry, compounded or not. It was absent here
+       and present on Men's and Women's, so the same field set rendered
+       differently depending on which document a provider opened. Never carries
+       a copy button: it is a checkbox in Tebra, not a paste. */
+    if (!fields.some(function (f) { return f.field === 'Allow Substitution'; })) {
+      var at = fields.map(function (f) { return f.field; }).indexOf('Quantity');
+      var sub = { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false };
+      if (at === -1) { fields.push(sub); } else { fields.splice(at, 0, sub); }
+    }
+
     return RXB.block({
       pharmacy: pharmName(p.pharmacy),
+      entryKind: p.commercial ? 'standard' : 'compounded',
       label: e.name || p.name,
-      fields: RXB.fieldsFrom(e, { drugFormulation: e.drugFormulation || p.drugFormulation }),
+      /* The supply as a right-aligned tile rather than buried at the end of the
+         favorite name, matching Men's and Women's Health. Don, 2026-09-17: it
+         is the thing a provider misreads, so it goes where the eye lands. */
+      tag: (e.days || e.daysSupply) ? (e.days || e.daysSupply) + '-day supply' : '',
+      fields: fields,
       accent: RXB.accentFor(p.pharmacy)
     });
   }).join('');

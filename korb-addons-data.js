@@ -171,6 +171,11 @@ var KORB_ADDONS = {
   products: [
   {
     "key": "farmakeio_metformin_er_500_mg",
+    /* COMMERCIAL, not compounded. Selected from the Tebra drop-down;
+       no copy button, no Reason for Compounding, header reads Tebra
+       Standard prescription. Don, 2026-09-17. */
+    "commercial": true,
+    "dropdownEntry": "metFORMIN ER 500 mg tablet, extended release 24 hr",
     "group": "antiaging",
     "category": "Anti-Aging",
     "sex": "any",
@@ -238,6 +243,11 @@ var KORB_ADDONS = {
   },
   {
     "key": "premier_metformin_er_500_mg",
+    /* COMMERCIAL, not compounded. Selected from the Tebra drop-down;
+       no copy button, no Reason for Compounding, header reads Tebra
+       Standard prescription. Don, 2026-09-17. */
+    "commercial": true,
+    "dropdownEntry": "metFORMIN ER 500 mg tablet, extended release 24 hr",
     "group": "antiaging",
     "category": "Anti-Aging",
     "sex": "any",
@@ -305,6 +315,11 @@ var KORB_ADDONS = {
   },
   {
     "key": "farmakeio_spironolactone_50_mg_f",
+    /* COMMERCIAL, not compounded. Selected from the Tebra drop-down;
+       no copy button, no Reason for Compounding, header reads Tebra
+       Standard prescription. Don, 2026-09-17. */
+    "commercial": true,
+    "dropdownEntry": "Spironolactone 50 mg tablet",
     "group": "hair",
     "category": "Hair Loss — oral",
     "sex": "f",
@@ -367,6 +382,11 @@ var KORB_ADDONS = {
   },
   {
     "key": "farmakeio_finasteride_1_mg",
+    /* COMMERCIAL, not compounded. Selected from the Tebra drop-down;
+       no copy button, no Reason for Compounding, header reads Tebra
+       Standard prescription. Don, 2026-09-17. */
+    "commercial": true,
+    "dropdownEntry": "Finasteride 1 mg tablet",
     "group": "hair",
     "category": "Hair Loss — oral",
     "sex": "m",
@@ -422,13 +442,18 @@ var KORB_ADDONS = {
       "pharmacyNotes": "Bill to office / ship to patient. No equivalent commercial option."
     },
     "nitrateContraindicated": false,
-    "warn": null,
+    "warn": "FDA ALERT - COMPOUNDED TOPICAL FINASTERIDE. The FDA has alerted providers, compounders and consumers to the risks of compounded topical finasteride for hair loss, on 32 adverse event reports received 2019-2024. No topical finasteride is FDA-approved, so its safety, effectiveness and quality have not been evaluated. The reported events are the SAME as oral finasteride, which means systemic absorption occurs despite the topical route: erectile dysfunction, decreased libido, testicular pain, anxiety, depression, suicidal ideation, brain fog, fatigue and insomnia. In the majority of reports the effects PERSISTED after the product was stopped. Local reactions - irritation, redness, scaling, stinging, burning - also occur, and there is a transfer risk to other people: an oral tablet is coated and this is not, and finasteride is contraindicated in pregnancy for risk to a male fetus, so it must not be handled by women who are or may become pregnant. COUNSEL EVERY PATIENT BEFORE PRESCRIBING, document informed consent, monitor for systemic as well as local effects, and report adverse events to FDA MedWatch. Do NOT tell a patient the topical route carries no systemic risk: consumers told the FDA that a prescriber had told them exactly that. https://www.fda.gov/drugs/human-drug-compounding/fda-alerts-health-care-providers-compounders-and-consumers-potential-risks-associated-compounded",
     "warnAmber": "Days field is 60, not 90. This product does not last 90 days at two applications daily.",
     "note": null,
     "monitor": null
   },
   {
     "key": "premier_spironolactone_50_mg_f",
+    /* COMMERCIAL, not compounded. Selected from the Tebra drop-down;
+       no copy button, no Reason for Compounding, header reads Tebra
+       Standard prescription. Don, 2026-09-17. */
+    "commercial": true,
+    "dropdownEntry": "Spironolactone 50 mg tablet",
     "group": "hair",
     "category": "Hair Loss — oral",
     "sex": "f",
@@ -491,6 +516,11 @@ var KORB_ADDONS = {
   },
   {
     "key": "premier_finasteride_1_mg",
+    /* COMMERCIAL, not compounded. Selected from the Tebra drop-down;
+       no copy button, no Reason for Compounding, header reads Tebra
+       Standard prescription. Don, 2026-09-17. */
+    "commercial": true,
+    "dropdownEntry": "Finasteride 1 mg tablet",
     "group": "hair",
     "category": "Hair Loss — oral",
     "sex": "m",
@@ -546,7 +576,7 @@ var KORB_ADDONS = {
       "pharmacyNotes": "Bill to office / ship to patient. No equivalent commercial option."
     },
     "nitrateContraindicated": false,
-    "warn": null,
+    "warn": "FDA ALERT - COMPOUNDED TOPICAL FINASTERIDE. The FDA has alerted providers, compounders and consumers to the risks of compounded topical finasteride for hair loss, on 32 adverse event reports received 2019-2024. No topical finasteride is FDA-approved, so its safety, effectiveness and quality have not been evaluated. The reported events are the SAME as oral finasteride, which means systemic absorption occurs despite the topical route: erectile dysfunction, decreased libido, testicular pain, anxiety, depression, suicidal ideation, brain fog, fatigue and insomnia. In the majority of reports the effects PERSISTED after the product was stopped. Local reactions - irritation, redness, scaling, stinging, burning - also occur, and there is a transfer risk to other people: an oral tablet is coated and this is not, and finasteride is contraindicated in pregnancy for risk to a male fetus, so it must not be handled by women who are or may become pregnant. COUNSEL EVERY PATIENT BEFORE PRESCRIBING, document informed consent, monitor for systemic as well as local effects, and report adverse events to FDA MedWatch. Do NOT tell a patient the topical route carries no systemic risk: consumers told the FDA that a prescriber had told them exactly that. https://www.fda.gov/drugs/human-drug-compounding/fda-alerts-health-care-providers-compounders-and-consumers-potential-risks-associated-compounded",
     "warnAmber": "Days field is 42, not 90. This product does not last 90 days at two applications daily.",
     "note": null,
     "monitor": null
@@ -739,6 +769,11 @@ var KORB_ADDONS = {
   },
   {
     "key": "premier_tretinoin_cream",
+    /* COMMERCIAL, not compounded. Selected from the Tebra drop-down;
+       no copy button, no Reason for Compounding, header reads Tebra
+       Standard prescription. Don, 2026-09-17. */
+    "commercial": true,
+    "dropdownEntry": "tretinoin 0.025 % topical cream",
     "group": "skin",
     "category": "Skin Care",
     "sex": "any",
