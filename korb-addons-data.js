@@ -168,6 +168,41 @@ var KORB_ADDONS = {
     nitrates: "Absolute contraindication for any sexual health product. Ask directly at every visit rather than relying on the medication list."
   },
 
+  /* -- OUTSTANDING ASKS TO A PHARMACY ---------------------------------------
+     Questions KORB has not yet put to a pharmacy, or has put and not had an
+     answer to. Data only: it is deliberately NOT rendered into the provider
+     reference, because an Open Items section on a clinical document is exactly
+     what the house style forbids - a provider reading a protocol should not
+     have to sort settled from unsettled.
+
+     It lives here rather than in a note to nobody so that the next person to
+     talk to the pharmacy has the list. Read it with listPharmacyAsks(). */
+  pharmacyAsks: [
+    {
+      "raised": "2026-09-17",
+      "pharmacy": "premier",
+      "products": ["premier_korb_electric_f", "farmakeio_korb_electric_f"],
+      "ask": "What is the container volume of the KORB Electric topical? Every other " +
+             "topical in this file states one - 30 mL spray, 60 mL foam, 20 g tube, " +
+             "30 mL cream - and these two state none, so the quantity of 1 bottle does " +
+             "not say how much is being dispensed.",
+      "why": "Volume belongs in drugFormulation, which is the custom compound name the " +
+             "pharmacy fills from. Without it the prescription does not specify the " +
+             "amount, and a provider cannot tell a patient how long a bottle lasts.",
+      "status": "open",
+      "note": "KORB Electric is standing-order with Premier, so this is a question for " +
+              "the next Premier conversation rather than a blocker. Don, 2026-09-17: " +
+              "leave the field off until Premier answers rather than guessing a size."
+    }
+  ],
+
+  /* The open asks above, for whoever is next speaking to a pharmacy. */
+  listPharmacyAsks: function (pharmacyKey) {
+    return (this.pharmacyAsks || []).filter(function (a) {
+      return a.status === 'open' && (!pharmacyKey || a.pharmacy === pharmacyKey);
+    });
+  },
+
   products: [
   {
     "key": "farmakeio_metformin_er_500_mg",
@@ -190,7 +225,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "metFORMIN ER 500 mg tablet, extended release 24 hr (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO - Metformin ER 500 mg - 90-Day Supply",
+      "name": "FARMAKEIO - Metformin ER 500 mg",
       "sig": "TAKE ONE TAB PO QD",
       "quantity": "90",
       "unit": "tablet",
@@ -226,7 +261,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Nicotinamide (with chromium) 500 mcg-750 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO - NAD+ Injection - 28-Day Supply",
+      "name": "FARMAKEIO - NAD+ 200 mg/mL Injection",
       "sig": "Injectable 50 mg subcutaneously twice a week, discard unused medication 28 days after first puncture",
       "quantity": "1",
       "unit": "vial",
@@ -262,7 +297,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "metFORMIN ER 500 mg tablet, extended release 24 hr (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - Metformin ER 500 mg - 90-Day Supply",
+      "name": "PREMIER - Metformin ER 500 mg",
       "sig": "TAKE ONE TAB PO QD",
       "quantity": "90",
       "unit": "tablet",
@@ -298,7 +333,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Nicotinamide (with chromium) 500 mcg-750 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - NAD+ Injection - 28-Day Supply",
+      "name": "PREMIER - NAD+ 200 mg/mL Injection",
       "sig": "Injectable 50 mg subcutaneously twice a week, discard unused medication 28 days after first puncture",
       "quantity": "1",
       "unit": "vial",
@@ -334,7 +369,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Spironolactone 50mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO - Spironolactone 50 mg - 90-Day Supply",
+      "name": "FARMAKEIO - Spironolactone 50 mg",
       "sig": "Take one tablet daily for hair loss",
       "quantity": "90",
       "unit": "tablet",
@@ -365,7 +400,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Hair Regrowth Treatment 2 % topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO - Minoxidil 2% Topical Spray - 60-Day Supply",
+      "name": "FARMAKEIO - Minoxidil 2% Topical Spray",
       "sig": "Apply 1-2 sprays topically once daily to dry hair, leave on for at least 4 hours or overnight",
       "quantity": "1",
       "unit": "bottle",
@@ -376,7 +411,7 @@ var KORB_ADDONS = {
     },
     "nitrateContraindicated": false,
     "warn": null,
-    "warnAmber": "Days field is 60, not 90. This product does not last 90 days at two applications daily.",
+    "warnAmber": "Days Supply is 60, not 90, and it depends on how the patient uses it. This 30 mL / 120-spray bottle lasts 60 days at 2 sprays daily and 120 days at 1 spray daily. Tell the patient which they are getting BEFORE they pay: at two sprays a day this is a two-month supply, not a quarter. This is a DIFFERENT product from the Premier foam and the numbers are not interchangeable - FarmaKeio changed its formulation, so the two programmes run on different bottles and different day counts.",
     "note": null,
     "monitor": null
   },
@@ -401,7 +436,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "finasteride 1mg (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO - Finasteride 1 mg - 90-Day Supply",
+      "name": "FARMAKEIO - Finasteride 1 mg",
       "sig": "Take one tablet daily for hair loss",
       "quantity": "90",
       "unit": "tablet",
@@ -432,7 +467,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Hair Regrowth Treatment 5 % topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO - Minoxidil 6% Topical Spray - 60-Day Supply",
+      "name": "FARMAKEIO - Minoxidil 6% Topical Spray",
       "sig": "Apply 1-2 sprays topically once daily to dry hair, leave on for at least 4 hours or overnight",
       "quantity": "1",
       "unit": "bottle",
@@ -443,7 +478,7 @@ var KORB_ADDONS = {
     },
     "nitrateContraindicated": false,
     "warn": "FDA ALERT - COMPOUNDED TOPICAL FINASTERIDE. The FDA has alerted providers, compounders and consumers to the risks of compounded topical finasteride for hair loss, on 32 adverse event reports received 2019-2024. No topical finasteride is FDA-approved, so its safety, effectiveness and quality have not been evaluated. The reported events are the SAME as oral finasteride, which means systemic absorption occurs despite the topical route: erectile dysfunction, decreased libido, testicular pain, anxiety, depression, suicidal ideation, brain fog, fatigue and insomnia. In the majority of reports the effects PERSISTED after the product was stopped. Local reactions - irritation, redness, scaling, stinging, burning - also occur, and there is a transfer risk to other people: an oral tablet is coated and this is not, and finasteride is contraindicated in pregnancy for risk to a male fetus, so it must not be handled by women who are or may become pregnant. COUNSEL EVERY PATIENT BEFORE PRESCRIBING, document informed consent, monitor for systemic as well as local effects, and report adverse events to FDA MedWatch. Do NOT tell a patient the topical route carries no systemic risk: consumers told the FDA that a prescriber had told them exactly that. https://www.fda.gov/drugs/human-drug-compounding/fda-alerts-health-care-providers-compounders-and-consumers-potential-risks-associated-compounded",
-    "warnAmber": "Days field is 60, not 90. This product does not last 90 days at two applications daily.",
+    "warnAmber": "Days Supply is 60, not 90, and it depends on how the patient uses it. This 30 mL / 120-spray bottle lasts 60 days at 2 sprays daily and 120 days at 1 spray daily. Tell the patient which they are getting BEFORE they pay: at two sprays a day this is a two-month supply, not a quarter. This is a DIFFERENT product from the Premier foam and the numbers are not interchangeable - FarmaKeio changed its formulation, so the two programmes run on different bottles and different day counts.",
     "note": null,
     "monitor": null
   },
@@ -468,7 +503,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Spironolactone 50mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - Spironolactone 50 mg - 90-Day Supply",
+      "name": "PREMIER - Spironolactone 50 mg",
       "sig": "Take one tablet daily for hair loss",
       "quantity": "90",
       "unit": "tablet",
@@ -494,12 +529,12 @@ var KORB_ADDONS = {
     "chargeCode": "AGEHairFOreg",
     "formulation": "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% — 60 mL foam",
     "dosing": "Apply 1 to 2 pumps to dry hair once daily",
-    "supply": "42 days at 2/day, up to 85 at 1/day",
+    "supply": "42 days at 2 pumps/day, 84 days at 1 pump/day",
     "drugFormulation": "Minoxidil 2% / Spironolactone 0.05% / Latanoprost 0.01% topical foam, 60 mL bottle",
     "retiredDropdownEntry": "MinoxidiL 2% topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - Minoxidil 2% Topical Foam - 42-Day Supply",
+      "name": "PREMIER - Minoxidil 2% Topical Foam",
       "sig": "Apply 1-2 pumps topically to dry hair once daily",
       "quantity": "1",
       "unit": "bottle",
@@ -510,7 +545,7 @@ var KORB_ADDONS = {
     },
     "nitrateContraindicated": false,
     "warn": null,
-    "warnAmber": "Days field is 42, not 90. This product does not last 90 days at two applications daily.",
+    "warnAmber": "Days Supply is 42, not 90, and it depends on how the patient uses it. This 60 mL foam lasts 42 days at 2 pumps daily and 84 days at 1 pump daily. Tell the patient which they are getting BEFORE they pay: at two pumps a day this is a six-week supply, not a quarter, and a patient expecting 90 days for one price will be short.",
     "note": null,
     "monitor": null
   },
@@ -535,7 +570,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "finasteride 1mg (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - Finasteride 1 mg - 90-Day Supply",
+      "name": "PREMIER - Finasteride 1 mg",
       "sig": "Take one tablet daily for hair loss",
       "quantity": "90",
       "unit": "tablet",
@@ -561,12 +596,12 @@ var KORB_ADDONS = {
     "chargeCode": "AGEHairFOreg",
     "formulation": "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% — 60 mL foam",
     "dosing": "Apply 1 to 2 pumps to dry hair once daily",
-    "supply": "42 days at 2/day, up to 85 at 1/day",
+    "supply": "42 days at 2 pumps/day, 84 days at 1 pump/day",
     "drugFormulation": "Minoxidil 6% / Finasteride 0.3% / Tretinoin 0.025% topical foam, 60 mL bottle",
     "retiredDropdownEntry": "minoxidiL 5% topical solution (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - Minoxidil 6% Topical Foam - 42-Day Supply",
+      "name": "PREMIER - Minoxidil 6% Topical Foam",
       "sig": "Apply 1-2 pumps topically to dry hair once daily",
       "quantity": "1",
       "unit": "bottle",
@@ -577,7 +612,7 @@ var KORB_ADDONS = {
     },
     "nitrateContraindicated": false,
     "warn": "FDA ALERT - COMPOUNDED TOPICAL FINASTERIDE. The FDA has alerted providers, compounders and consumers to the risks of compounded topical finasteride for hair loss, on 32 adverse event reports received 2019-2024. No topical finasteride is FDA-approved, so its safety, effectiveness and quality have not been evaluated. The reported events are the SAME as oral finasteride, which means systemic absorption occurs despite the topical route: erectile dysfunction, decreased libido, testicular pain, anxiety, depression, suicidal ideation, brain fog, fatigue and insomnia. In the majority of reports the effects PERSISTED after the product was stopped. Local reactions - irritation, redness, scaling, stinging, burning - also occur, and there is a transfer risk to other people: an oral tablet is coated and this is not, and finasteride is contraindicated in pregnancy for risk to a male fetus, so it must not be handled by women who are or may become pregnant. COUNSEL EVERY PATIENT BEFORE PRESCRIBING, document informed consent, monitor for systemic as well as local effects, and report adverse events to FDA MedWatch. Do NOT tell a patient the topical route carries no systemic risk: consumers told the FDA that a prescriber had told them exactly that. https://www.fda.gov/drugs/human-drug-compounding/fda-alerts-health-care-providers-compounders-and-consumers-potential-risks-associated-compounded",
-    "warnAmber": "Days field is 42, not 90. This product does not last 90 days at two applications daily.",
+    "warnAmber": "Days Supply is 42, not 90, and it depends on how the patient uses it. This 60 mL foam lasts 42 days at 2 pumps daily and 84 days at 1 pump daily. Tell the patient which they are getting BEFORE they pay: at two pumps a day this is a six-week supply, not a quarter, and a patient expecting 90 days for one price will be short.",
     "note": null,
     "monitor": null
   },
@@ -597,7 +632,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "vaginal lubricant inserts (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO - KORB Electric Topical - 90-Day Supply",
+      "name": "FARMAKEIO - KORB Electric Topical",
       "sig": "KORB ELECTRIC Apply 1-2 clicks topically to the clitoris 30 minutes before a sexual encounter",
       "quantity": "1",
       "unit": "bottle",
@@ -628,7 +663,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Viagra 50 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "FARMAKEIO - PERFORM Rapid ODT - 90-Day Supply",
+      "name": "FARMAKEIO - PERFORM Rapid ODT",
       "sig": "PERFORM Rapid ODT: Take 1/2 - 1 ODT 30 minutes before intercourse as needed",
       "quantity": "20",
       "unit": "tablet",
@@ -659,7 +694,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "vaginal lubricant inserts (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - KORB Electric Topical - 90-Day Supply",
+      "name": "PREMIER - KORB Electric Topical",
       "sig": "KORB ELECTRIC Apply 1-2 clicks topically to the clitoris 30 minutes before a sexual encounter",
       "quantity": "1",
       "unit": "bottle",
@@ -690,7 +725,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "Viagra 50 mg tablet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - KORB Rise Troche - 90-Day Supply",
+      "name": "PREMIER - KORB Rise Troche",
       "sig": "KORB RISE Take 1/2 - 1 troche 30 minutes before intercourse as needed",
       "quantity": "20",
       "unit": "troche",
@@ -721,7 +756,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "estradioL 0.25 mg/0.25 gram (0.1 %) transdermal gel packet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - Estriol Combo Cream - 120-Day Supply",
+      "name": "PREMIER - Estriol Combo Cream",
       "sig": "Apply (1 click/0.25 ml/0.25 g) to the affected area once daily as directed",
       "quantity": "1",
       "unit": "bottle",
@@ -752,7 +787,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "estradioL 0.75 mg/0.75 gram (0.1%) transdermal gel packet (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - Estriol Cream 0.3% - 120-Day Supply",
+      "name": "PREMIER - Estriol Cream 0.3%",
       "sig": "Apply (1 click/0.25 ml/0.25 g, containing estriol 0.075%) to the affected external area once daily as directed",
       "quantity": "1",
       "unit": "bottle",
@@ -797,7 +832,7 @@ var KORB_ADDONS = {
     "tebraAlso": [
       {
         "drugFormulation": "Tretinoin 0.05% topical cream, 20 g tube",
-        "name": "PREMIER - Tretinoin Cream 0.05% - 80-Day Supply",
+        "name": "PREMIER - Tretinoin Cream 0.05%",
         "sig": "Apply a pea-sized amount daily as needed",
         "quantity": "1",
         "unit": "tube",
@@ -808,7 +843,7 @@ var KORB_ADDONS = {
       },
       {
         "drugFormulation": "Tretinoin 0.1% topical cream, 20 g tube",
-        "name": "PREMIER - Tretinoin Cream 0.1% - 80-Day Supply",
+        "name": "PREMIER - Tretinoin Cream 0.1%",
         "sig": "Apply a pea-sized amount daily as needed",
         "quantity": "1",
         "unit": "tube",
@@ -821,7 +856,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": "tretinoin 0.025 % topical cream (from drop-down)",
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - Tretinoin Cream 0.025% - 80-Day Supply",
+      "name": "PREMIER - Tretinoin Cream 0.025%",
       "sig": "Apply a pea-sized amount daily as needed",
       "quantity": "1",
       "unit": "tube",
@@ -853,7 +888,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": null,
     "needsSignoff": true,
     "tebra": {
-      "name": "BELMAR - PT-141 Nasal Spray - 28-Day Supply",
+      "name": "BELMAR - PT-141 Nasal Spray",
       "sig": "One spray in each nostril 1 to 2 hours before intercourse as needed",
       "quantity": "1",
       "unit": "bottle",
@@ -885,7 +920,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": null,
     "needsSignoff": true,
     "tebra": {
-      "name": "PREMIER - PT-141 Injection - 28-Day Supply",
+      "name": "PREMIER - PT-141 Injection",
       "sig": "Inject 1 to 2 mg subcutaneously about 2 hours before intercourse as needed",
       "quantity": "1",
       "unit": "vial",
@@ -916,7 +951,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": null,
     "needsSignoff": true,
     "tebra": {
-      "name": "BELMAR - NAD+ Nasal Spray - 28-Day Supply",
+      "name": "BELMAR - NAD+ 300 mg/mL Nasal Spray",
       "sig": "Start 1 spray in each nostril once daily. May increase to 2 sprays in each nostril once daily.",
       "quantity": "1",
       "unit": "bottle",
@@ -947,7 +982,7 @@ var KORB_ADDONS = {
     "retiredDropdownEntry": null,
     "needsSignoff": true,
     "tebra": {
-      "name": "BELMAR - NAD+ FastSL Sublingual - 28-Day Supply",
+      "name": "BELMAR - NAD+ 100 mg FastSL Sublingual",
       "sig": "Dissolve 1/2 to 1 tablet under the tongue each morning Monday to Friday. No dose at weekends.",
       "quantity": "20",
       "unit": "tablet",
