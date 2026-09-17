@@ -166,6 +166,13 @@ body{background:var(--cream);}
 .hrow select{width:100%;min-height:44px;padding:9px 11px;border:1.5px solid var(--teal);
   border-radius:8px;font-size:15px;color:var(--navy);background:#fff;font-family:inherit;}
 .hrow .none{font-size:11.5px;color:var(--red);padding:0 14px 13px;}
+/* A hormone the provider may not prescribe in this state. Greyed and not
+   tickable, with the reason on the row - see gateHormones(). */
+.hrow.blocked{background:var(--gb);border-color:var(--bd);opacity:.72;}
+.hrow.blocked > label{cursor:not-allowed;color:var(--mu);}
+.hrow.blocked input{cursor:not-allowed;}
+.hrow .blockwhy{display:block;font-size:11.5px;font-weight:600;color:var(--red);
+  padding:0 14px 12px;line-height:1.55;}
 
 /* Top-level rhythm in the output. Every block gets its spacing from one rule
    rather than from its own margin, so nothing can end up touching, and a navy
@@ -480,6 +487,7 @@ HORMONES.forEach(function (h) {
    footprint rather than the routing partition. */
 stSel.addEventListener("change", function () {
   fillDests();
+  gateHormones();
   HORMONES.forEach(function (h) { fillPicker(h.id); });
   render();
 });
@@ -489,9 +497,54 @@ destSel.addEventListener("change", function () {
 });
 document.getElementById("ut").addEventListener("change", render);
 
+/* Testosterone is Schedule III and may only be written in the states where a
+   KORB provider holds the DEA registration - Texas and California. Until now
+   the tool WARNED but did not stop: outside those two you could still tick it,
+   pick a product, and it landed in the plan AND counted toward the ingredient
+   tier, so a Florida visit billed WMNHlth2 at $250 for two hormones, one of
+   which cannot be dispensed there. Same class of fault as the pharmacy select,
+   one layer up. Don, 2026-09-16.
+
+   Unchecking is what removes it from the bill: chosen() reads the checkbox, and
+   the tier is sels.length, so an unticked hormone cannot reach tierFor().
+
+   With no state chosen nothing is blocked - there is no basis yet - and render()
+   already refuses to output without a state. */
+function gateHormones() {
+  var st = stSel.value;
+  HORMONES.forEach(function (h) {
+    if (h.id !== "test") return;                       // only Schedule III is gated
+    var row = document.getElementById("row_" + h.id),
+        box = document.getElementById("h_" + h.id),
+        why = row.querySelector(".blockwhy");
+    var allowed = !st || W.testosterone.states.indexOf(st) > -1;
+
+    box.disabled = !allowed;
+    row.classList.toggle("blocked", !allowed);
+
+    if (!allowed) {
+      if (box.checked) {                               // drop a selection that just became illegal
+        box.checked = false;
+        row.classList.remove("on");
+        document.getElementById("pick_" + h.id).hidden = true;
+      }
+      if (!why) {
+        why = document.createElement("span");
+        why.className = "blockwhy";
+        row.appendChild(why);
+      }
+      why.textContent = "Not available in " + STATE_NAME[st] + ". "
+        + W.testosterone.why + " " + W.testosterone.outsideRule;
+    } else if (why) {
+      why.remove();
+    }
+  });
+}
+
 /* The pharmacy select starts disabled: with no state there is no way to know
    which pharmacies are legal, and offering all three would be the bug. */
 fillDests();
+gateHormones();
 
 function esc(s){return String(s).replace(/</g,"&lt;");}
 function chosen(){return HORMONES.filter(function(h){return document.getElementById("h_"+h.id).checked;});}
@@ -652,6 +705,11 @@ function render(){
          + ', testosterone may only be prescribed by <b>' + esc(W.testosterone.prescribers[st])
          + '</b>. If that is not you, do not send this prescription.</div>';
     } else {
+      /* BACKSTOP. gateHormones() makes this unreachable by unticking and
+         disabling testosterone outside its two states, so reaching here means
+         the gate failed. Kept deliberately: the cost of a redundant warning is
+         nothing, and the cost of a silent Schedule III prescription in the
+         wrong state is not. */
       g += '<div class="info-box red"><b>Testosterone is not available in ' + esc(STATE_NAME[st])
          + '.</b> ' + esc(W.testosterone.why) + ' ' + esc(W.testosterone.outsideRule) + '</div>';
     }
