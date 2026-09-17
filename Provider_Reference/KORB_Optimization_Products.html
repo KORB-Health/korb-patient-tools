@@ -176,6 +176,7 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 .selnote{ display:block; margin-top:3px; font-size:11.5px; font-weight:700;
   color:#B26A00; }
 </style>
+<script src="../korb-plan-block.js"></script>
 </head>
 <body>
 
@@ -716,7 +717,47 @@ function cardsFor(all, prog){
      'For any sexual health product, document that nitrate use was asked about and excluded. For hair loss and '+
      'skin care, document counselling on the 3 to 6 month timeline and on sun sensitivity.</div>';
 
+  /* THE PLAN NOTE. Shared renderer, content from this file's data: the products
+     chosen, their notes, the follow-up cadence for each category, and any
+     monitoring a product declares. Nothing clinical is composed here - a
+     sentence written in the tool would be unsigned text on a chart note, free
+     to disagree with the Add-On Clinical Reference beside it. */
+  h += planFor(shown, prog);
+
   return h;
+}
+
+/* Build the plan spec from what the provider actually selected. */
+function planFor(shown, prog){
+  if(!shown.length || typeof KORB_PLAN === "undefined") return "";
+
+  /* Read the state from the control, not from a variable named st. An element
+     with id="st" is also window.st in a browser, so `stName(st)` inside this
+     function silently stringified the <select> itself and the note read
+     "State: [object HTMLSelectElement]". Caught by reading the rendered note. */
+  var stCode = document.getElementById("st").value;
+  var lines = [["Programme", prog], ["State", stName(stCode)]];
+  var counselling = [], monitoring = [], cadence = {};
+
+  shown.forEach(function(p){
+    var t = p.t || {};
+    lines.push([p.name, [t.form, t.sig].filter(Boolean).join(" - ")]);
+    if(t.qty) lines.push(["  Dispense", t.qty + " " + (t.unit||"") + (t.days ? ", " + t.days + " day supply" : "")]);
+    if(p.note) counselling.push(p.name + ": " + p.note);
+    /* Nitrate exclusion is something a provider must record having ASKED, not a
+       property of the product, so it belongs in the note rather than in memory. */
+    if(p.nitrate) counselling.push(p.name + ": nitrate use asked about and excluded.");
+    (p.monitor||[]).forEach(function(m){ monitoring.push(p.name + ": " + m); });
+    if(FOLLOWUP[p.cat]) cadence[FOLLOWUP[p.cat]] = true;
+  });
+
+  return KORB_PLAN.card({
+    title: "KORB add-on - plan",
+    lines: lines,
+    counselling: counselling,
+    followUp: Object.keys(cadence),
+    monitoring: monitoring
+  }, "addonplan");
 }
 
 function fb(t,cb){ var a=document.createElement("textarea"); a.value=t;

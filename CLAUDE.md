@@ -931,8 +931,42 @@ testosterone" was either already gone or never in it.
    the data file alone leaves `hydrated` false and `requireHydrated()` throws.
    `check-pages.js` gained the data-file dependency and **failed on all four
    generated pages** before the rebuild, which is the only reason to believe it.
-16. **ONE SHARED PLAN BLOCK ACROSS ALL FOUR TOOLS. Don asked to be reminded.**
-   Raised 2026-09-17, deliberately deferred to be done in one pass.
+16. ~~ONE SHARED PLAN BLOCK ACROSS ALL FOUR TOOLS.~~ **DONE 2026-09-17.**
+   `korb-plan-block.js` owns the shape of a KORB plan note - section order,
+   headings, the card, the Copy button, and the rule that an empty section is
+   omitted rather than printed empty. The Men's, Women's and Add-On tools each
+   assemble a spec from their own data file and this renders it.
+
+   **It owns no clinical sentence.** Counselling, follow-up cadence and
+   monitoring are read from the signed data files. A sentence composed in a tool
+   would be unsigned text on a chart note, free to disagree with the reference
+   beside it.
+
+   **ASCII is enforced on the note, not on the card.** It goes into an EMR
+   field, so the same reasoning as Tebra copy values applies: an en dash or a
+   curly quote can be dropped on the way in, and a chart note is the last place
+   to find out. Anything the fold has not been taught is DROPPED rather than
+   guessed at. `selfCheck()` asserts both that and the empty-section rule, and
+   both halves were negative-tested.
+
+   **THE FIRST VERSION OF THE PROBES DID NOT COVER THE NOTE.** All three tools
+   gained a plan block and not one fingerprint moved - the register reported
+   nothing changed on the day every tool changed. A plan note is clinical text a
+   provider pastes into a chart and it must be inside the signature. Fixed, and
+   the three tools correctly went stale. **When a tool gains a new kind of
+   output, ask what the probe captures before trusting that it still passes.**
+
+   Three bugs it turned up, all found by reading the rendered note:
+   an `id="st"` element is also `window.st`, so `stName(st)` inside a helper
+   stringified the `<select>` and the note read "State: [object
+   HTMLSelectElement]"; a `var T` added at the end of the Men's `render()`
+   hoisted to the top and shadowed the tool's own `T`, so every selection threw;
+   and `labs` is an array in `korb-mens-data.js` and an object in
+   `korb-womens-data.js`, so assuming symmetry threw ".map is not a function".
+   **Two programmes, two shapes. Read each file rather than expecting symmetry.**
+
+17. **The Women's tool still has a dead `cp()` helper** labelled "Copy plan"
+   that nothing calls, from before the shared block. Delete it.
 
    **Only the GLP-1 provider tool has one today.** It renders a full note -
    assessment and plan, dose and how to draw it, supply, dispensing pharmacy, a

@@ -192,6 +192,7 @@ body{background:var(--cream);}
 .stat .val.code{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;
   font-size:14px;font-weight:600;letter-spacing:.3px;}
 </style>
+<script src="../korb-plan-block.js"></script>
 </head>
 <body>
 
@@ -749,7 +750,49 @@ function render(){
   h += '<div class="info-box teal"><b>Looking for PT-141?</b> Still available - it moved to '
      + 'SEXUAL HEALTH. See the Add-On Clinical Reference.</div>';
 
+  /* THE PLAN NOTE. Shared renderer; content from korb-womens-data.js, the file
+     the Women's Health Clinical Reference is built from, so the note and the
+     reference cannot disagree. Named WD, not W - render() already binds W. */
+  if (typeof KORB_PLAN !== "undefined" && ready.length){
+    var WD = W;
+    h += KORB_PLAN.card({
+      title: "Menopausal hormone therapy - plan",
+      lines: [["State", (STATE_NAME[st] || st) + " (" + st + ")"],
+              ["Uterus present", ut === "yes" ? "Yes - estrogen must be paired with progesterone" : "No"],
+              ["Dispensing", destLabel(dest)]]
+             .concat(ready.map(function(x){
+               return [x.h.name, [x.entry.drug, x.entry.ptInstructions].filter(Boolean).join(" - ")];
+             })),
+      counselling: (WD.sideEffects || []).map(function(r){
+        return r.hormone + ": " + r.effects;
+      }),
+      followUp: (WD.supply || {}).visitCadence
+        ? "Return in " + WD.supply.visitCadence + "."
+        : "",
+      /* labs is an OBJECT here - vendor, panels and rationale - not the array
+         Men's Health uses. Assuming the same shape threw ".map is not a
+         function" and the note never rendered. Two programmes, two shapes;
+         read each file rather than expecting symmetry. */
+      monitoring: [(WD.labs && WD.labs.vendor)
+          ? "Labs are ordered through " + WD.labs.vendor +
+            (WD.labs.vendorNote ? ". " + WD.labs.vendorNote : "")
+          : ""]
+        .concat(((WD.labs || {}).panels || []).map(function(p){
+          return typeof p === "string" ? p
+               : [p.name || p.panel, p.includes || p.markers].filter(Boolean).join(": ");
+        }))
+    }, "womensplan");
+  }
+
   out.innerHTML = h;
+}
+
+/* The pharmacy label for the plan note, read off the control rather than
+   re-derived, so the note says what the provider selected. */
+function destLabel(key){
+  var sel = document.getElementById("dest");
+  var o = [].filter.call(sel.options, function(x){ return x.value === key; })[0];
+  return o ? o.text : key;
 }
 
 function cp(btn,id){ doCopy(document.getElementById(id).innerText, btn, "Copy plan"); }

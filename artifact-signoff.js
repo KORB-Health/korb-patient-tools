@@ -254,6 +254,18 @@ function recordFor(a) {
 
 const PROBES = {};
 
+/* THE PLAN NOTE IS CLINICAL TEXT AND IT IS COVERED.
+
+   Added 2026-09-17 with korb-plan-block.js. A plan note is pasted into a chart,
+   so it is exactly the kind of content a signature has to reach - and the first
+   version of these probes did not touch it. All three tools gained one without
+   a single fingerprint moving: the register reported nothing changed on the day
+   every tool changed. Caught by looking at the report after the wiring, not by
+   any check.
+
+   Each tool probe now returns the rendered text of the plan note it produces
+   for the selection it ends on. */
+
 /* Static render. Everything the reader sees, and nothing else. */
 PROBES.static = function () {
   return {
@@ -370,7 +382,11 @@ PROBES.womens = function () {
     });
   });
 
-  return { kind: 'tool', states: states.length, routing: routing, blocks: blocks };
+  return { kind: 'tool', states: states.length, routing: routing, blocks: blocks,
+           plan: (function () {
+             var pre = document.querySelector('.korb-plan-body');
+             return pre ? pre.innerText.replace(/\s+$/, '') : '';
+           })() };
 };
 
 /* Men's Health provider tool.
@@ -435,7 +451,11 @@ PROBES.mens = function () {
     });
   });
 
-  return { kind: 'tool', states: states.length, routing: routing, blocks: blocks };
+  return { kind: 'tool', states: states.length, routing: routing, blocks: blocks,
+           plan: (function () {
+             var pre = document.querySelector('.korb-plan-body');
+             return pre ? pre.innerText.replace(/\s+$/, '') : '';
+           })() };
 };
 
 /* Add-On optimization tool.
@@ -515,7 +535,11 @@ PROBES.addons = function () {
     });
   });
 
-  return { kind: 'tool', states: states.length, routing: routing, blocks: blocks };
+  return { kind: 'tool', states: states.length, routing: routing, blocks: blocks,
+           plan: (function () {
+             var pre = document.querySelector('.korb-plan-body');
+             return pre ? pre.innerText.replace(/\s+$/, '') : '';
+           })() };
 };
 
 /* The GLP-1 provider tool's probe lived here until 2026-09-17. The tool was

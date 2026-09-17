@@ -141,6 +141,7 @@ body{background:var(--cream);}
   box-shadow:0 1px 3px rgba(33,39,91,.06);margin:0 auto 34px;padding:22px 20px 40px;}
 @media(max-width:620px){.wrap{border-radius:0;border-left:0;border-right:0;padding:18px 14px 30px;}}
 </style>
+<script src="../korb-plan-block.js"></script>
 </head>
 <body>
 
@@ -726,6 +727,41 @@ function render(){
      + '<div class="info-box teal">Post to the KORB lab queue space so Ops can schedule the patient reminder. '
      + 'No patient identifiers in this message.</div>'
      + '</div></div>';
+  }
+
+  /* THE PLAN NOTE. Shared renderer; content from korb-mens-data.js. Nothing
+     clinical is composed here - counselling and monitoring come from the file
+     the Men's Health Clinical Reference is built from, so the note and the
+     reference cannot disagree. */
+  if(typeof KORB_PLAN !== "undefined"){
+    /* NOT named T. This function already has a `T` bound near the top, and a
+       `var T` down here hoists to the top of render() and shadows it, leaving
+       the tool's own `T.ptInstructions(...)` reading a property of undefined.
+       The page threw on every selection and rendered nothing. */
+    var MD = KORB_MENS;
+    var mon = ((MD.monitoring||{}).rows||[]).map(function(r){
+      return r.when + ": " + r.labs + (r.why ? " - " + r.why : "");
+    });
+    h += KORB_PLAN.card({
+      title: "Testosterone replacement - plan",
+      lines: [
+        ["State", stName(st)],
+        ["Medication", MD.product ? (MD.product.name || MD.product.drug || "Testosterone cypionate") : "Testosterone cypionate"],
+        ["Dose", W + " mg per week, " + (c.R ? c.R.label : rk) +
+                 " (" + c.mgDose + " mg per injection, " + c.mlDose + " mL)"],
+        /* c.inj is injections across the WHOLE supply, not per week. Labelled
+           "per week" first, which read as 13 injections a week on a once-weekly
+           route. Caught by reading the rendered note. */
+        ["Injections dispensed", c.inj + " over " + rxDays + " days"],
+        ["Dispensed by", P ? (P.name || P.key) : ""],
+        ["Supply", rxDays + " days"]
+      ],
+      counselling: ((MD.sideEffects||{}).rows||[]).map(function(r){
+        return r.system + ": " + r.effect + (r.action ? " - " + r.action : "");
+      }),
+      followUp: MD.followUpRule || "Recheck at trough before any dose change.",
+      monitoring: mon
+    }, "mensplan");
   }
 
   document.getElementById("output").innerHTML = h;
