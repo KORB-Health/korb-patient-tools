@@ -1561,3 +1561,25 @@ testosterone" was either already gone or never in it.
    changed both. This is the same warning item 1b carries about the 100
    occurrences in `korb-glp1-data.js`: **look at every hit before touching any of
    them.**
+
+30. **THE CREAM DESK IS ON THE GENERATED PAGES ONLY.** Don flagged on 2026-09-18
+   that `KORB_Patient_Treatment_Schedule.html` had no cream down the sides like
+   the rest of the set. Measured across every patient-facing page, and he was
+   pointing at a real split: **all 26 generated pages** carry the treatment -
+   `#ECE9D1` desk, `#FBFAF6` panel, 1px side rules - and **every hand-built tool
+   is white and full width**, with no document surface at all.
+
+   Fixed on the Treatment Schedule, which is the one the Functional Health and
+   Longevity welcome letter links to. The panel goes on `.wrap` rather than
+   `body`, because `.wrap` carries this tool's 920px column - wider than the
+   8.5in the reading documents use, which the schedule table needs. **Screen
+   only**, matching `build-patient-ed.js`: the print sheet stays white, where a
+   cream flood wastes ink and prints muddy. Verified by emulating print - the
+   desk does not follow. Checked at 375, 640, 920 and 1400px: no overflow, and
+   the panel fills the viewport below its own width rather than leaving slivers.
+
+   **STILL WHITE AND FULL WIDTH**, same gap, not done: `KORB_Patient_Hub.html`,
+   `KORB_GLP1_Dose_Guide.html`, `KORB_Lab_Interpretation_Tool.html`,
+   `KORB_Testosterone_Tracker.html`. `KORB_Functional_Health_Tracker.html` has a
+   near-miss `#F6F5F0` body and no panel. Each is hand-built with its own
+   layout, so each needs looking at rather than one blanket rule.
