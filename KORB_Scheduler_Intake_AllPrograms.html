@@ -743,7 +743,7 @@
 
         <!-- 6 · HEALTH: MEDS -->
         <fieldset class="page hidden" id="p6">
-          <h3 class="pagetitle">Medications and allergies</h3>
+          <h3 class="pagetitle">Medications, allergies and symptoms</h3>
           <p class="pagesub">Part 3 of 4.</p>
 
           <fieldset class="q">
@@ -817,6 +817,23 @@
               <p class="helper">In some cases we will ask for that in writing before starting. Your provider will tell you if that applies to you.</p>
             </fieldset>
           </div>
+
+          <fieldset class="q">
+            <legend>Do you currently have any of these? Check all that apply.</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="ros" id="r1" data-name="Nausea"><span>Nausea</span></label>
+              <label class="opt"><input type="checkbox" class="ros" id="r2" data-name="Vomiting"><span>Vomiting</span></label>
+              <label class="opt"><input type="checkbox" class="ros" id="r3" data-name="Diarrhea"><span>Diarrhea</span></label>
+              <label class="opt"><input type="checkbox" class="ros" id="r4" data-name="Constipation"><span>Constipation</span></label>
+              <label class="opt"><input type="checkbox" class="ros" id="r5" data-name="Heartburn or acid reflux"><span>Heartburn or acid reflux</span></label>
+              <label class="opt"><input type="checkbox" class="ros" id="r6" data-name="Stomach pain or bloating"><span>Stomach pain or bloating</span></label>
+              <label class="opt"><input type="checkbox" class="ros" id="r7" data-name="Feeling very tired"><span>Feeling very tired</span></label>
+              <label class="opt"><input type="checkbox" class="ros" id="r8" data-name="Headache"><span>Headache</span></label>
+              <label class="opt"><input type="checkbox" class="ros" id="r9" data-name="Dizziness or lightheaded when standing up"><span>Dizziness or lightheaded when standing up</span></label>
+              <label class="opt"><input type="checkbox" id="ros-none"><span><b>None of these</b></span></label>
+            </div>
+            <p class="helper">This is about how you feel now, before any treatment. None of these stops you from being seen. Your provider needs a starting point so that if something changes later, you both know what is new.</p>
+          </fieldset>
         </fieldset>
 
         <!-- 7 · HEALTH: GOALS AND EXPECTATIONS -->
@@ -2239,6 +2256,7 @@
   exclusive('.abs',$('ab-none'));
   exclusive('#p5 .rel',$('rel-none'));
   exclusive('#p6 .rel',$('med-none'));
+  exclusive('.ros',$('ros-none'));
   exclusive('.addon',$('ad-none'));
 
   // repeating rows
@@ -2443,6 +2461,7 @@
 
     if(i===6){
       need(anyChecked('#p6 .rel')||$('med-none').checked,'The medications question, or None of these apply',groupBox($('med-none')));
+      need(anyChecked('.ros')||$('ros-none').checked,'The symptoms question, or None of these',groupBox($('ros-none')));
       if($('med-glp').checked) need($('med-glp-s').value!=='','Which other weight loss medication','med-glp-s');
       need(groupAnswered('hasmeds'),'Whether you take other prescription medications',groupBox($('hm-no')));
       if(val('hasmeds')==='yes') need(rowsHaveOne('medRows'),'At least one medication, or change the answer to No','medRows');
@@ -2782,6 +2801,13 @@
     if(b>=25) return 'E66.3 - Overweight';
     return 'Below treatment threshold';
   }
+  function rosNames(){
+    return listChecked('.ros').map(function(c){return c.getAttribute('data-name')});
+  }
+  function rosDenied(){
+    return [].slice.call(document.querySelectorAll('.ros')).filter(function(c){return !c.checked})
+      .map(function(c){return c.getAttribute('data-name').toLowerCase()});
+  }
   function comorbLines(){
     return listChecked('.comorb').map(function(c){
       var d=document.querySelector('.subq[data-for="'+c.id+'"]');
@@ -2962,9 +2988,16 @@
         'Weight-related conditions reported:\n'+(comorbLines().length?comorbLines().join('\n'):'  - none reported')+
         '\nInterested in add-on services: '+(addons.length?addons.join(', '):'none')});
 
-    S.push({t:'ROS', tag:'not collected', cls:'t-gap',
-      body:'[The intake does not collect a review of systems.]',
-      note:'This is the new-consult ROS gap already recorded in the note system master. The fix named there is one checkbox question on the intake, around ten symptoms plus none of these. Until that is added, the provider fills ROS at the visit rather than pasting a pre-typed all-negative block.'});
+    var rosPos=rosNames(), rosNeg=rosDenied();
+    S.push({t:'ROS', tag:'paste', cls:'t-paste',
+      body:'Patient-reported on the intake form, '+today()+', before any treatment.\n\n'+
+        (rosPos.length
+          ? 'Reports: '+rosPos.join(', ').toLowerCase()+'.\n'
+          : 'Reports none of the symptoms asked.\n')+
+        (rosNeg.length
+          ? 'Denies: '+rosNeg.join(', ')+'.'
+          : ''),
+      note:'Closes the new-consult ROS gap recorded in the note system master. This is a baseline taken before treatment, not a side effect check, so it is the thing later check-ins are compared against. The follow-up check-in asks twelve; this asks nine, because injection site reaction, sulfur burps and hair thinning are treatment effects a never-treated patient cannot report. ROS carries forward on a SALT, so replace it only when the answers actually change.'});
 
     S.push({t:'OBJECTIVE - EXAM', tag:'paste', cls:'t-paste',
       body:'Synchronous audio-video telehealth. Patient physically located in '+st+' at the time of service; provider holds active licensure in this state. Identity verified. Telehealth informed consent obtained and documented '+
