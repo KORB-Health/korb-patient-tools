@@ -1522,8 +1522,20 @@ testosterone" was either already gone or never in it.
    A second negative test on the fact itself: one broken href in `korb-quest.js`
    appeared on BOTH pages, and restoring it cleared both.
 
-   **`KORB_Patient_Treatment_Schedule.html` still says KORB Health Group**, the
-   MSO, in its byline and running header, on a live patient-facing document
-   giving clinical instruction. That is the open item 1b fault, which covered the
-   clinical set and never reached this hand-built tool. Not fixed here. Worth
-   doing next.
+   **`KORB_Patient_Treatment_Schedule.html` said KORB Health Group**, the MSO,
+   in its byline and running header, on a live patient-facing document giving
+   clinical instruction. Open item 1b covered the clinical set on 2026-09-14 and
+   never reached the hand-built patient tools. **Fixed 2026-09-18**, and the
+   rendered page now carries the PA twice and the MSO zero times.
+
+   **Surveyed rather than assumed, and two of the remaining hits are correct.**
+   All six hand-built patient pages were checked. `KORB_Patient_Hub.html` and
+   `KORB_Lab_Interpretation_Tool.html` already said the PA. The Testosterone
+   Tracker and the GLP-1 Dose Guide name neither. What is deliberately LEFT:
+   `alt="KORB Health Group"` on the logo, which is the brand lockup and not an
+   attribution, and **`PRODID:-//KORB Health Group//...` in the Functional Health
+   Tracker's calendar export**, which is a software product identifier - the MSO
+   genuinely is the entity producing the tool. A find-and-replace would have
+   changed both. This is the same warning item 1b carries about the 100
+   occurrences in `korb-glp1-data.js`: **look at every hit before touching any of
+   them.**
