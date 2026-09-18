@@ -1432,6 +1432,14 @@ testosterone" was either already gone or never in it.
    deleted. Same shape as the Women's tool's dead `cp()` in item 17: **a helper
    nothing calls is not harmless, it is a decoy.**
 
+   **They are CENTRED.** They first shipped left-aligned, on the argument that a
+   button under a heading and a list is not in the middle of a reading order the
+   way a set of choices is. Don looked at the rendered page and called it: a lone
+   button hard against the left margin reads as left-heavy and unfinished, and it
+   disagreed with the choice panels two sections above it, which `.k-pills`
+   already centres. **One alignment for every button on the page.** Measured at
+   375px: equal 55px gutters either side, still 44px tall, no overflow.
+
    Every generated patient page is now down to **one** sub-44px tap target at
    375px, and it is `Print` in the masthead. `.k-val` carries the contact values
    to 44px, screen only - on paper a 44px minimum on a table cell just pads the

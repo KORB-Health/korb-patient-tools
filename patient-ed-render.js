@@ -489,11 +489,16 @@
     return '<a class="k-val" href="' + esc(w.href) + '">' + esc(w.value) + '</a>';
   }
 
-  /* Left-aligned rather than centred: these sit under a heading and a list, not
-     in the middle of a reading order the way a set of choices does. .k-pill is
-     the shared rule, so they are 44px like every other choice in the set. */
+  /* CENTRED, like every other button in the patient set.
+
+     These first shipped left-aligned on the argument that they sit under a
+     heading and a list rather than in the middle of a reading order. Don looked
+     at the rendered page on 2026-09-18 and called it: a lone button hard against
+     the left margin reads as left-heavy and unfinished, and it disagreed with
+     the choice panels two sections above it, which .k-pills already centres.
+     One alignment for every button on the page. */
   function buttons(list) {
-    return '<p class="k-pills" style="justify-content:flex-start;margin:10px 0 4px;">' +
+    return '<p class="k-pills" style="margin:10px 0 4px;">' +
       list.map(function (w) {
         return '<a class="k-pill" href="' + esc(w.href) + '" target="_blank" ' +
                'rel="noopener">' + esc(w.value) + ' ↗</a>';
