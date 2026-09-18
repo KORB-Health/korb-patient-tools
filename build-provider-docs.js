@@ -142,7 +142,12 @@ ${R.CSS}
     var bar = document.createElement('div');
     bar.innerHTML = '<span class="live">Live — reflects korb-glp1-data.js v' +
       KORB_DOCS.esc(KORB_GLP1.meta.version) + ' as of this page load</span>' +
-      '<span class="tools"><a href="${doc.file}.pdf">PDF version</a>' +
+      /* No 'PDF version' link. The provider PDFs were retired 2026-09-17:
+         every one had an HTML twin that reads the data files on load, so the
+         PDF was a second copy that went stale and made every correction a
+         two-place job. The intranet was moved to the HTML links first. Print
+         produces a PDF from current data at the moment it is pressed. */
+      '<span class="tools">' +
       '<a href="#" onclick="window.print();return false;">Print</a></span>';
     document.body.insertBefore(bar, document.body.firstChild);
 
