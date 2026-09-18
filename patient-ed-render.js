@@ -311,6 +311,75 @@
     return h;
   }
 
+
+  /* ------------------------------------------------------------------
+     Standalone guides: Start Here, Welcome, Lab Scheduling, Injection &
+     Storage Safety, When to Contact KORB.
+
+     Generic on purpose. A guide is a list of sections, and a section is
+     paragraphs, bullets, a two-column card table, a link list, or a named
+     block out of DATA.shared. The shared route is the point: the Injection &
+     Storage guide and every molecule handout render the SAME storage cards,
+     travel paragraph and injection-safety rules from one place, so the
+     standalone guide cannot drift from the handout the way two PDFs did.
+     ------------------------------------------------------------------ */
+
+  function cards(rows) {
+    return '<table class="grid"><tbody>' + (rows || []).map(function (r) {
+      return '<tr><th>' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td></tr>';
+    }).join('') + '</tbody></table>';
+  }
+
+  function links(items) {
+    return '<ul class="linklist">' + (items || []).map(function (l) {
+      return '<li><a href="' + esc(l.href) + '">' + esc(l.label) + '</a>' +
+             (l.note ? ' <span class="linknote">' + esc(l.note) + '</span>' : '') + '</li>';
+    }).join('') + '</ul>';
+  }
+
+  function sharedBlock(DATA, name) {
+    var sh = DATA.shared || {};
+    if (name === 'storage') {
+      if (!sh.storage) { return ''; }
+      return cards(sh.storage.cards) + paras(sh.storage.notes);
+    }
+    if (name === 'travel') { return sh.travel ? paras([sh.travel]) : ''; }
+    if (name === 'injectionSafety') { return ul(sh.injectionSafety); }
+    if (name === 'contact') {
+      if (!sh.contact) { return ''; }
+      return ['operations', 'portal', 'emergency'].map(function (k) {
+        var c = sh.contact[k];
+        if (!c) { return ''; }
+        return '<h3>' + esc(c.title) + '</h3>' + (c.items ? ul(c.items) : '') +
+               (c.lines ? paras(c.lines) : '');
+      }).join('');
+    }
+    throw new Error('patient-ed-render: guide asks for shared block "' + name +
+      '", which does not exist in korb-patient-ed-data.js.');
+  }
+
+  function renderGuideBody(DATA, DOSING, guide) {
+    var h = '';
+    if (guide.disclaimer) { h += '<p class="lede">' + esc(guide.disclaimer) + '</p>'; }
+    if (guide.intro) { h += paras(guide.intro); }
+
+    (guide.sections || []).forEach(function (sec) {
+      if (sec.h) { h += '<h2>' + esc(sec.h) + '</h2>'; }
+      if (sec.lead) { h += '<p>' + esc(sec.lead) + '</p>'; }
+      if (sec.paras) { h += paras(sec.paras); }
+      if (sec.cards) { h += cards(sec.cards); }
+      if (sec.items) { h += ul(sec.items); }
+      if (sec.links) { h += links(sec.links); }
+      if (sec.shared) { h += sharedBlock(DATA, sec.shared); }
+      if (sec.after) { h += paras(sec.after); }
+    });
+
+    if (guide.keyReminders) {
+      h += '<h2>Key reminders</h2>' + ul(guide.keyReminders);
+    }
+    return h;
+  }
+
   function renderBody(DATA, DOSING, doc) {
     var S = DATA.shared;
     var F = agentFacts(DOSING, doc);
@@ -446,7 +515,7 @@
 
   var DOCS = ['sermorelin'];
 
-  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, agentFacts: agentFacts,
+  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, agentFacts: agentFacts,
            contraindications: contraindications,
            CSS: CSS, LOGO_URI: LOGO_URI };
 }));

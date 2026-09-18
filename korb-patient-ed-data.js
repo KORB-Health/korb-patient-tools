@@ -178,7 +178,7 @@ var KORB_PATIENT_ED = {
     foundation: {
       key: 'foundation',
       title: 'Foundation Program',
-      cycleWeeks: '16',
+      cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which agent and dosing schedule are right for you. If you have questions, contact KORB by phone or email.',
       what: [
         'Foundation is the single-agent tier of KORB\'s Functional Health and Longevity Program. At any given time one peptide is active, and your provider selects it based on your goals and clinical profile. You may switch to a different agent at each 16-week follow-up, but Foundation never combines two agents at once.',
@@ -245,7 +245,7 @@ var KORB_PATIENT_ED = {
     gateway: {
       key: 'gateway',
       title: 'Gateway Program',
-      cycleWeeks: '16',
+      cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines your exact schedule and add-ons. If you have questions, contact KORB by phone or email.',
       what: [
         'Gateway is KORB\'s staggered two-medication tier within the Functional Health and Longevity Program. Unlike Foundation\'s single-agent model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day.',
@@ -306,7 +306,7 @@ var KORB_PATIENT_ED = {
     peak: {
       key: 'peak',
       title: 'Peak Performance Program',
-      cycleWeeks: '16',
+      cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
       what: [
         'Peak Performance is KORB\'s performance and body-composition focused tier within the Functional Health and Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.',
@@ -381,7 +381,7 @@ var KORB_PATIENT_ED = {
     longevity: {
       key: 'longevity',
       title: 'Functional Health and Longevity Program',
-      cycleWeeks: '16',
+      cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which program and medication(s) are right for you. If you have questions, contact KORB by phone or email.',
       what: [
         'KORB\'s Functional Health and Longevity Program is a physician-guided, cash-pay telemedicine program built around select injectable peptide therapies. After a clinical intake and review, your provider determines which program tier and medication or medications are appropriate for your goals.',
@@ -435,6 +435,364 @@ var KORB_PATIENT_ED = {
         'All tiers run on the same 16-week cycle with a lab draw between weeks 12 and 14.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
         'For current program pricing, contact KORB Operations or ask your provider.'
+      ]
+    }
+  },
+
+
+  /* Standalone guides, rendered by renderGuideBody. Sections that duplicate a
+     handout - storage, injection safety, travel, contact - are declared as
+     shared block references rather than retyped, so the guide and the handouts
+     cannot disagree. That divergence is exactly what two separate PDFs
+     produced. */
+  guides: {
+    start_here: {
+      key: 'start_here',
+      title: 'Start Here Guide',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
+      intro: [
+        'This is the first thing to read after your baseline visit. It tells you what order to read everything else in, what happens in your first cycle, and what to do if something does not feel right.'
+      ],
+      sections: [
+        {
+          h: 'Read your materials in this order',
+          lead: 'Each one assumes you have read the one before it.',
+          links: [
+            {
+              href: 'KORB_Longevity_Program_Overview.html',
+              label: 'Program Overview',
+              note: 'what the program is and how a cycle runs'
+            },
+            {
+              href: 'KORB_Foundation_Program_Overview.html',
+              label: 'Your tier overview',
+              note: 'Foundation, Gateway or Peak, whichever your provider confirms'
+            },
+            {
+              href: 'KORB_Patient_Ed_Sermorelin.html',
+              label: 'Your medication guide',
+              note: 'the handout for the specific agent you are prescribed'
+            },
+            {
+              href: 'KORB_Injection_Storage_Safety_Guide.html',
+              label: 'Injection, Storage and Safety Guide',
+              note: 'read before your first injection'
+            },
+            {
+              href: 'KORB_When_to_Contact_KORB_or_ER.html',
+              label: 'When to Contact KORB or the ER',
+              note: 'keep this one to hand'
+            }
+          ],
+          after: [
+            'Your pharmacy also sends instructions with your medication. Those are specific to what you were dispensed, and they take priority over anything general written here.'
+          ]
+        },
+        {
+          h: 'Your first cycle, in order',
+          items: [
+            'Baseline visit. Labs only. No prescription is sent at this visit.',
+            'Your labs come back, usually within about a week.',
+            'KORB Operations schedules the visit that starts your 16-week cycle.',
+            'At that visit your provider reviews your labs and confirms your tier and your medication.',
+            'Your medication ships from the pharmacy with its own instructions.',
+            'A lab order is placed for a draw between weeks 12 and 14, so results are back before your follow-up.',
+            'At your 16-week follow-up your provider reviews everything and decides the next cycle with you.'
+          ]
+        },
+        {
+          h: 'Lifestyle still matters',
+          lead: 'These therapies support nutrition, training and sleep. They do not replace them, and response is noticeably better in people who have the basics in place.',
+          items: [
+            'Nutrition. Adequate protein, and enough total food to support recovery.',
+            'Movement. Resistance training if you are able, plus regular general activity.',
+            'Recovery. Consistent sleep, and honest management of stress and alcohol.'
+          ]
+        },
+        {
+          h: 'What to expect after starting',
+          paras: [
+            'Response varies between patients. These are not guaranteed treatments, and results, if any, usually emerge gradually across a cycle rather than in the first week or two.',
+            'Mild injection-site redness or irritation is common early on and usually settles. Anything severe, spreading, or accompanied by trouble breathing or swelling is not expected, and is covered in the contact guide.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'Baseline visit is labs only. No prescription is sent at your first visit.',
+        'Your pharmacy instructions and your prescription label take priority over any general guide.',
+        'Read the Injection, Storage and Safety Guide before your first injection.',
+        'Nothing here is personalized medical advice. Your provider decides your tier and your medication.'
+      ]
+    },
+
+    welcome: {
+      key: 'welcome',
+      title: 'Welcome to KORB',
+      root: true,
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
+      intro: [
+        'We are glad you are here. This is your starting point for the KORB Functional Health and Longevity Program.',
+        'At your first visit you complete your baseline labs. Your provider reviews those results and confirms your program and medication plan afterwards. Everything below helps you get oriented in the meantime.'
+      ],
+      sections: [
+        {
+          h: 'Your most important links',
+          links: [
+            {
+              href: 'KORB_Patient_Treatment_Schedule.html',
+              label: 'Treatment Schedule',
+              note: 'your personalized schedule, with your dates'
+            },
+            {
+              href: 'KORB_Functional_Health_Tracker.html',
+              label: 'Peptide Tracker',
+              note: 'track your injections and how you are doing'
+            }
+          ]
+        },
+        {
+          h: 'Getting started',
+          lead: 'New to the program? This is the short orientation.',
+          links: [
+            {
+              href: 'Patient_Education/KORB_Start_Here_Guide.html',
+              label: 'Start Here Guide'
+            }
+          ]
+        },
+        {
+          h: 'Program overview',
+          lead: 'The bigger picture of how the program works. Your provider confirms which tier fits your goals once your labs are back.',
+          links: [
+            {
+              href: 'Patient_Education/KORB_Longevity_Program_Overview.html',
+              label: 'Program Overview'
+            }
+          ]
+        },
+        {
+          h: 'Your program tiers',
+          lead: 'Each tier is structured differently. Once your provider confirms your tier, open the matching overview.',
+          links: [
+            {
+              href: 'Patient_Education/KORB_Foundation_Program_Overview.html',
+              label: 'Foundation Program Overview'
+            },
+            {
+              href: 'Patient_Education/KORB_Gateway_Program_Overview.html',
+              label: 'Gateway Program Overview'
+            },
+            {
+              href: 'Patient_Education/KORB_Peak_Program_Overview.html',
+              label: 'Peak Performance Program Overview'
+            }
+          ]
+        },
+        {
+          h: 'Your medication guides',
+          lead: 'Once your provider confirms your medication, open the matching guide for how it works, how to use it, and what to expect.',
+          links: [
+            {
+              href: 'Patient_Education/KORB_Patient_Ed_Sermorelin.html',
+              label: 'Sermorelin'
+            },
+            {
+              href: 'Patient_Education/KORB_Patient_Ed_CJC_Ipamorelin.html',
+              label: 'CJC-1295 / Ipamorelin'
+            },
+            {
+              href: 'Patient_Education/KORB_Patient_Ed_BPC157.html',
+              label: 'BPC-157'
+            },
+            {
+              href: 'Patient_Education/KORB_Patient_Ed_Tesamorelin.html',
+              label: 'Tesamorelin'
+            },
+            {
+              href: 'Patient_Education/KORB_Patient_Ed_GHK_Cu.html',
+              label: 'GHK-Cu (add-on)'
+            }
+          ]
+        },
+        {
+          h: 'Safety and support',
+          links: [
+            {
+              href: 'Patient_Education/KORB_Injection_Storage_Safety_Guide.html',
+              label: 'Injection, Storage and Safety Guide'
+            },
+            {
+              href: 'Patient_Education/KORB_When_to_Contact_KORB_or_ER.html',
+              label: 'When to Contact KORB or the ER'
+            }
+          ]
+        },
+        {
+          h: 'Contact us',
+          shared: 'contact'
+        }
+      ]
+    },
+
+    labs: {
+      key: 'labs',
+      title: 'Schedule Your Quest Lab Appointment',
+      root: true,
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
+      intro: [
+        'Your Quest Diagnostics lab order has been placed. The next step is to book your draw.'
+      ],
+      sections: [
+        {
+          h: 'Book your appointment',
+          paras: [
+            'Booking at Quest Diagnostics takes about a minute. Most Quest locations also accept walk-ins, though we recommend calling your nearest location first to confirm availability and hours.',
+            'You can also book through the MyQuest app, and view your results there once they are available.'
+          ]
+        },
+        {
+          h: 'How to prepare',
+          lead: 'Unless your provider has told you otherwise:',
+          items: [
+            'Fast for 8 to 12 hours.',
+            'Drink plenty of water.',
+            'Complete your draw before 10:00 AM.',
+            'Morning and fasting is preferred wherever possible.'
+          ]
+        },
+        {
+          h: 'What happens next',
+          paras: [
+            'Results usually take about a week. Once we have received and reviewed them, our team contacts you to schedule your follow-up appointment and discuss next steps.',
+            'If your results are not back in time, your follow-up visit may need to be rescheduled. Completing your draw in the window you were given is what prevents that.'
+          ]
+        },
+        {
+          h: 'Questions',
+          shared: 'contact'
+        }
+      ]
+    },
+
+    injection: {
+      key: 'injection',
+      title: 'Injection, Storage and Safety Guide',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
+      intro: [
+        'Read this before your first injection. It covers what to have ready, how to check your medication, how to store it, sharps disposal and travel.'
+      ],
+      sections: [
+        {
+          h: 'Before you inject',
+          lead: 'Have these ready before you start.',
+          items: [
+            'Your medication, taken out of the fridge.',
+            'Alcohol swabs.',
+            'A new insulin needle and syringe.',
+            'An FDA-cleared sharps container.',
+            'A clean surface and good lighting.'
+          ]
+        },
+        {
+          h: 'Check your medication first',
+          lead: 'Do not inject, and contact KORB, if any of these are true.',
+          items: [
+            'The solution is cloudy or discolored, or has particles in it.',
+            'The vial is cracked or damaged.',
+            'The vial is past 28 days from first use, or past the beyond-use date on your label.',
+            'The medication has been frozen, or left somewhere hot.'
+          ]
+        },
+        {
+          h: 'Storage',
+          shared: 'storage'
+        },
+        {
+          h: 'Injection safety',
+          shared: 'injectionSafety'
+        },
+        {
+          h: 'Injection technique',
+          paras: [
+            'Prepare the exact dose you were instructed to use. Your prescription label and your pharmacy instructions are the authoritative source for your dose, not any general guide.',
+            'These medications are given subcutaneously, into the fat layer just under the skin, not into muscle or a vein. Rotate your injection sites rather than using the same spot repeatedly.'
+          ]
+        },
+        {
+          h: 'Mild injection-site reactions',
+          paras: [
+            'Some redness, mild swelling or itching at the injection site is common and usually settles on its own within a day or two. Rotating sites helps.',
+            'Contact KORB if a reaction does not resolve, keeps getting worse, or spreads well beyond the injection site. Trouble breathing, or swelling of the face, lips, tongue or throat, is an emergency and is not something to message about.'
+          ]
+        },
+        {
+          h: 'Traveling with your medication',
+          shared: 'travel'
+        }
+      ],
+      keyReminders: [
+        'A new needle and syringe every time. Never reuse, and never mix two peptides in one syringe.',
+        'Write the open date on the vial and discard 28 days after first use, or earlier if your label says so.',
+        'Your prescription label is the authoritative source for your dose and directions.',
+        'Follow your state or local rules for sharps disposal.'
+      ]
+    },
+
+    contact: {
+      key: 'contact',
+      title: 'When to Contact KORB or the ER',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
+      intro: [
+        'Keep this one to hand. It covers who to contact, for what, and what counts as an emergency rather than a message.'
+      ],
+      sections: [
+        {
+          h: 'Who to contact, and for what',
+          shared: 'contact'
+        },
+        {
+          h: 'What to include in your message',
+          lead: 'Including these first saves a round of questions and gets you an answer faster.',
+          items: [
+            'Your full name and the name of your medication.',
+            'The dose and schedule you are using.',
+            'When you started therapy.',
+            'What you are experiencing, and when it started.',
+            'Anything you have already tried.'
+          ]
+        },
+        {
+          h: 'Not an emergency, but worth a message',
+          items: [
+            'Mild side effects that are not urgent.',
+            'Injection-site irritation or redness that does not resolve.',
+            'Sleep changes, flushing, or a mild rash or itching.',
+            'Questions about whether to continue therapy.',
+            'A concern that therapy is not helping.',
+            'Dose instructions, timing or storage questions.',
+            'Pharmacy, shipping, scheduling or billing questions.'
+          ]
+        },
+        {
+          h: 'Go to emergency care instead of messaging',
+          lead: 'These are not things to email about. Call 911 or go to your nearest emergency room.',
+          items: [
+            'Trouble breathing, or swelling of the face, lips, tongue or throat.',
+            'Severe rash or widespread hives.',
+            'Chest pain, or fainting.',
+            'Confusion, or severe weakness.',
+            'Severe or rapidly worsening symptoms.',
+            'Any symptom that feels urgent or unsafe.'
+          ],
+          after: [
+            'Phone and email are not appropriate for emergencies, and they are not monitored around the clock. When in doubt, go to urgent care or the emergency room. Nobody at KORB will think you overreacted.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'Phone and email are business hours only and are not for emergencies.',
+        'Trouble breathing or swelling of the face, lips, tongue or throat is an emergency. Call 911.',
+        'Include your medication, dose and start date in any message, so your provider can answer in one reply.'
       ]
     }
   },
