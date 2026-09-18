@@ -1206,3 +1206,59 @@ testosterone" was either already gone or never in it.
    the same error corrected on the reference that day - the allergy rules out the
    commercial capsule, not the hormone; and local pharmacy described as estradiol
    patch only, when commercial progesterone can go there too.
+
+18. ~~ONE CHOICE PANEL, NOT TWO.~~ **DONE 2026-09-18.** The panel-and-pills
+   treatment shipped twice in one file on the same day: inline styles in
+   `links()` for the Start Here Guide, CSS classes in `HUB_CSS` for the two
+   welcome letters. Both render a label, a line of guidance and a row of
+   choices, and they were **eight measured properties apart** - 420 against
+   470px, 8 against 10px radius, `#DEDCC9` against `#D5D5CC`, 14 against 14.5px,
+   and the one that mattered, **a 38px choice button against a 44px one**.
+
+   44px is the tap target the rest of this stylesheet holds to deliberately, and
+   the 38px ones were the buttons a patient uses to reach the RIGHT tier and the
+   RIGHT handout, on pages whose stated purpose is being opened from a text
+   message. Eight of them on one page.
+
+   `CHOICE_CSS` is now the single declaration, included by `HUB_CSS` and emitted
+   by `links()` once per call that contains a panel. The bodies `links()` renders
+   into contribute no stylesheet of their own, which is why it emits rather than
+   the caller. Every colour is a brand variable the handout stylesheet already
+   defines on every patient page; only `--k-teal-ink` is hub-local so it is set
+   there too.
+
+   **The one surviving difference is deliberate and is a modifier, not a second
+   copy**: `.linklist .k-panel` caps at 420px so a panel in a reading order lines
+   up with the step buttons above it, against 470px on a hub.
+
+   **Negative-tested both halves**, which is the only reason to believe it is one
+   source: `min-height` changed to 52px in the single rule moved BOTH pages to
+   52, and restoring it moved both back to 44. The Start Here Guide went from
+   nine sub-44px tap targets at 375px to one, that one being the Print link in
+   the masthead, which every page has.
+
+   **Still under 44px on both welcome letters**: the `.k-act` contact rows, at
+   25px for the phone/email value and 38px for their Copy buttons. Same defect
+   class, different component, not yet fixed.
+
+19. **TWO protein calculators, and that is the design.** Don, 2026-09-18. One
+   patient-facing, one provider-facing and standalone on the intranet with
+   copy-and-paste note sections. They are not a duplicate to be merged.
+
+   `Provider_Reference/KORB_BMI_Protein_Calculator_standalone.html` is the
+   provider one and already carries "Copy into the chart" and a note textarea.
+   Its twin `KORB_BMI_Protein_Calculator.html` has the textarea and not the
+   chart-copy control, and neither file has any script tags, so what actually
+   distinguishes the two is currently unclear. Settle that before either goes on
+   the intranet.
+
+   **What IS still duplicated is the PATIENT one**, in two files: `proteinCalc()`
+   in `patient-ed-render.js` and the hand-coded original in
+   `KORB_Patient_Hub.html`. Verified byte-for-byte equivalent in behaviour on
+   2026-09-18 - four cases across both unit systems, both goals and both sides of
+   the BMI 30 adjusted-body-weight boundary, identical to the gram in all four -
+   but the control ids differ (`proteinWeight` against `kpW`), so "ported
+   verbatim" is not literally true. The comment in `proteinCalc()` says the quiet
+   part: *"If the numbers change, they change in both."* That is one clinical
+   formula in two files, which is the one thing this repo exists to prevent.
+   The hub is hand-built, so this closes when the hub does.

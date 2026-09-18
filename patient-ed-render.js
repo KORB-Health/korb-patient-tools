@@ -370,37 +370,68 @@
      every Gateway and every Peak patient to the wrong tier and everyone not on
      Sermorelin to the wrong handout. Don found both on 2026-09-18.
 
-     Rendered smaller than a step button so the step still reads as one step. */
-  var BTN_SM = 'display:inline-block;box-sizing:border-box;margin:0 5px 6px;' +
-               'padding:9px 15px;background:#fff;color:#21275B;' +
-               'border:1.5px solid #00808D;border-radius:6px;text-decoration:none;' +
-               'font-weight:700;font-size:10.5pt;line-height:1.3;';
+     A step that is a SET gets a PANEL, not a button. It first shipped as a
+     cream button with a navy border - a different colour but the same shape, so
+     Don clicked it on 2026-09-18 and nothing happened, which is exactly what a
+     thing shaped like a button promises. A bordered panel holding a label, a
+     line of guidance and the real choices cannot be mistaken for something
+     clickable, because the clickable things are visibly sitting inside it.
 
-  /* A step that is a SET gets a PANEL, not a button.
+     ONE SET OF RULES, USED IN BOTH PLACES. This shipped twice on 2026-09-18 -
+     inline styles here, CSS classes in HUB_CSS - and measuring the two rendered
+     pages put them eight properties apart, the consequential one being a 38px
+     choice button on the guide against 44px on the welcome letters. 44px is the
+     tap target the rest of this stylesheet holds to deliberately, and these are
+     the buttons a patient uses to reach the RIGHT tier and the RIGHT handout,
+     on a page whose whole point is being opened from a text message. Same idea,
+     same rules, declared once. Every colour here is a brand variable the
+     handout stylesheet already defines on every patient page; only
+     --k-teal-ink is hub-local, so it is set here too. */
+  var CHOICE_CSS = [
+    ':root{--k-teal-ink:#00808D;}',
+    '.k-panel{box-sizing:border-box;max-width:470px;margin:0 auto;padding:15px;',
+    'background:#F7F5E9;border:1px solid var(--rule);border-radius:10px;}',
 
-     It first shipped as a cream button with a navy border - a different colour
-     but the same shape, so Don clicked it on 2026-09-18 and nothing happened,
-     which is exactly what a thing shaped like a button promises. A bordered
-     panel holding a label, a line of guidance and the real choices cannot be
-     mistaken for something clickable, because the clickable things are visibly
-     sitting inside it. */
-  var PANEL = 'display:block;box-sizing:border-box;max-width:420px;' +
-              'margin:0 auto 14px;padding:13px 14px 8px;background:#F7F5E9;' +
-              'border:1px solid #DEDCC9;border-radius:8px;text-align:center;';
-  var PANEL_H = 'display:block;font-size:11pt;font-weight:700;color:#21275B;' +
-                'line-height:1.3;margin:0 0 3px;';
-  var PANEL_N = 'display:block;font-size:9.5pt;color:#4A4F6B;line-height:1.4;margin:0 0 9px;';
+    /* pick exactly one of these: sized to the word, not to the column */
+    '.k-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;',
+    'max-width:470px;margin:0 auto;}',
+    '.k-panel .k-pills{max-width:none;}',
+    '.k-pill{display:inline-flex;align-items:center;padding:10px 16px;background:#fff;',
+    'color:var(--navy);border:1.5px solid var(--k-teal-ink);border-radius:7px;',
+    'text-decoration:none;font-weight:700;font-size:14.5px;line-height:1.3;min-height:44px;}',
+    '.k-pill:hover{background:var(--teal);color:var(--navy);}',
+    '.k-pill:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
+
+    /* the label and the line of guidance above the choices. The hub has no
+       equivalent - its section heading already says what the set is - so these
+       two rules are only ever exercised by links(). */
+    '.k-panel-h{display:block;font-size:15px;font-weight:800;color:var(--navy);',
+    'line-height:1.3;margin:0 0 3px;text-align:center;}',
+    '.k-panel-n{display:block;font-size:13px;color:var(--ink2);line-height:1.4;',
+    'margin:0 0 11px;text-align:center;}',
+
+    /* In a reading order the panel sits under the step buttons, which cap at
+       420px. A 470px panel below them would read as a different column. */
+    '.linklist .k-panel{max-width:420px;margin:0 auto 14px;}'
+  ].join('');
 
   function links(items, alt) {
-    return '<div class="linklist" style="margin:10px 0 4px;">' + (items || []).map(function (l) {
+    var hasChoices = (items || []).some(function (l) { return l.choices && l.choices.length; });
+    /* Emitted here rather than by the caller because links() is the only thing
+       that renders a panel outside the hub, and the bodies it renders into
+       (guide, program, handout) contribute no stylesheet of their own. Once per
+       call, not once per panel. */
+    return (hasChoices ? '<style>' + CHOICE_CSS + '</style>' : '') +
+      '<div class="linklist" style="margin:10px 0 4px;">' + (items || []).map(function (l) {
       if (l.choices && l.choices.length) {
-        return '<span style="' + PANEL + '">' +
-               '<span style="' + PANEL_H + '">' + esc(l.label) + '</span>' +
-               (l.note ? '<span style="' + PANEL_N + '">' + esc(l.note) + '</span>' : '') +
+        return '<div class="k-panel">' +
+               '<span class="k-panel-h">' + esc(l.label) + '</span>' +
+               (l.note ? '<span class="k-panel-n">' + esc(l.note) + '</span>' : '') +
+               '<div class="k-pills">' +
                l.choices.map(function (c) {
-                 return '<a href="' + esc(c.href) + '" style="' + BTN_SM + '">' +
+                 return '<a class="k-pill" href="' + esc(c.href) + '">' +
                         esc(c.label) + '</a>';
-               }).join('') + '</span>';
+               }).join('') + '</div></div>';
       }
       return '<a href="' + esc(l.href) + '" style="' + (alt ? BTN_ALT : BTN) + '">' +
              esc(l.label) + '</a>' +
@@ -556,23 +587,7 @@
     '.k-bnote{display:block;max-width:420px;margin:7px auto 0;text-align:center;',
     'font-size:13.5px;color:var(--ink2);line-height:1.45;}',
 
-    /* The tinted panel from the Start Here Guide, which Don picked out on
-       2026-09-18 as the treatment he wanted here too. A loose centred row of
-       pills reads as leftovers; the same row inside a panel reads as a set you
-       are being asked to choose from. Tonal progression is page cream, panel a
-       shade lighter, pills white, so the choices sit clearly on top. */
-    '.k-panel{box-sizing:border-box;max-width:470px;margin:0 auto;padding:15px;',
-    'background:#F7F5E9;border:1px solid var(--rule);border-radius:10px;}',
-
-    /* pick exactly one of these: sized to the word, not to the column */
-    '.k-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;',
-    'max-width:470px;margin:0 auto;}',
-    '.k-panel .k-pills{max-width:none;}',
-    '.k-pill{display:inline-flex;align-items:center;padding:10px 16px;background:#fff;',
-    'color:var(--navy);border:1.5px solid var(--k-teal-ink);border-radius:7px;',
-    'text-decoration:none;font-weight:700;font-size:14.5px;line-height:1.3;min-height:44px;}',
-    '.k-pill:hover{background:var(--teal);color:var(--navy);}',
-    '.k-pill:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
+    CHOICE_CSS,
 
     /* phone, email, portal. The VALUE is on the page as text, because a mailto:
        on a machine with no default mail client is a button that does nothing at
