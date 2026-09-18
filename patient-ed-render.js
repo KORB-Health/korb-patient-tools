@@ -392,6 +392,126 @@
       '", which does not exist in korb-patient-ed-data.js.');
   }
 
+
+  /* ------------------------------------------------------------------
+     HUB LAYOUT  (renderHubBody)
+
+     Used by the Welcome Letter, which is not a document. It is a set of
+     destinations, and it is the page that gets texted to patients, so it is
+     opened on a phone far more often than it is read on a desk.
+
+     The shell's stylesheet is built for handouts: pt units, an 8.5in sheet with
+     a border, margins that imply paper. That is right for a dosing guide and
+     wrong here, so this overrides the document chrome and lays the page out as
+     a web page. A stylesheet rather than inline styles is fine now: this page
+     is no longer the source of a generated PDF, so nothing has to survive a
+     print pipeline.
+
+     One column under 620px, two above, and the two tools a patient needs every
+     week sit above everything else in their own treatment.
+     ------------------------------------------------------------------ */
+
+  var HUB_CSS = [
+    ':root{--k-navy:#21275B;--k-navy-deep:#171B40;--k-teal:#00B2C3;',
+    '--k-teal-ink:#00808D;--k-cream:#ECE9D1;--k-orange:#FBB040;',
+    '--k-ink:#2A2E45;--k-muted:#5C6178;--k-line:#DCDCE6;}',
+
+    /* undo the sheet-of-paper chrome the handout stylesheet imposes */
+    'body{max-width:none!important;border:0!important;padding:0!important;',
+    'background:var(--k-cream)!important;font-size:16px!important;',
+    'line-height:1.55!important;color:var(--k-ink)!important;}',
+    '#doc{max-width:780px;margin:0 auto;padding:0 16px 56px;}',
+
+    '.hub-mast{text-align:center;padding:22px 0 14px;}',
+    '.hub-mast img{height:30px;width:auto;}',
+
+    '.hub-hero{background:var(--k-navy);color:#fff;border-radius:14px;',
+    'padding:28px 24px;margin:0 0 22px;}',
+    '.hub-hero h1{margin:0 0 6px;font-size:30px;line-height:1.15;font-weight:800;color:#fff;}',
+    '.hub-hero .k-sub{color:var(--k-teal);font-weight:700;font-size:14px;',
+    'letter-spacing:.04em;text-transform:uppercase;margin:0 0 14px;}',
+    '.hub-hero p{margin:0 0 10px;color:#E8EAF2;font-size:15.5px;}',
+    '.hub-hero p:last-child{margin-bottom:0;}',
+
+    '.hub-sec{margin:0 0 26px;}',
+    '.hub-sec > h2{background:none!important;color:var(--k-navy)!important;',
+    'font-size:13px!important;font-weight:800!important;letter-spacing:.08em;',
+    'text-transform:uppercase;margin:0 0 4px!important;padding:0!important;}',
+    '.hub-sec .k-lead{margin:0 0 14px;color:var(--k-muted);font-size:15px;}',
+
+    '.hub-grid{display:grid;gap:12px;grid-template-columns:1fr;}',
+    '@media(min-width:620px){.hub-grid.two{grid-template-columns:1fr 1fr;}}',
+
+    /* a destination card: the whole thing is the tap target */
+    '.k-card{display:block;background:#fff;border:1px solid var(--k-line);',
+    'border-left:5px solid var(--k-teal);border-radius:10px;padding:15px 17px;',
+    'text-decoration:none;color:var(--k-navy);min-height:44px;}',
+    '.k-card .k-name{display:block;font-weight:800;font-size:16.5px;line-height:1.3;}',
+    '.k-card .k-desc{display:block;margin-top:5px;color:var(--k-muted);',
+    'font-size:14px;font-weight:400;line-height:1.45;}',
+    '.k-card .k-go{display:inline-block;margin-top:9px;font-size:13px;',
+    'font-weight:700;color:var(--k-teal-ink);letter-spacing:.02em;}',
+    '.k-card:hover{border-color:var(--k-teal);box-shadow:0 2px 10px rgba(33,39,91,.10);}',
+
+    /* the two weekly tools, raised above the rest */
+    '.k-card.k-primary{background:var(--k-navy);border-color:var(--k-navy-deep);',
+    'border-left:5px solid var(--k-orange);color:#fff;}',
+    '.k-card.k-primary .k-name{color:#fff;font-size:18px;}',
+    '.k-card.k-primary .k-desc{color:#D5D9E8;}',
+    '.k-card.k-primary .k-go{color:var(--k-orange);}',
+    '.k-card.k-primary:hover{box-shadow:0 3px 14px rgba(33,39,91,.28);}',
+
+    '.hub-note{background:#fff;border:1px solid var(--k-line);border-radius:10px;',
+    'padding:14px 16px;margin:0 0 22px;color:var(--k-muted);font-size:14.5px;}',
+    '.hub-note ul{margin:8px 0 0;padding-left:20px;}',
+    '.hub-note li{margin:0 0 5px;}',
+
+    '.hub-foot{margin-top:26px;padding-top:14px;border-top:1px solid var(--k-line);',
+    'text-align:center;color:var(--k-muted);font-size:13px;}',
+
+    '@media print{body{background:#fff!important;}.k-card{break-inside:avoid;}}'
+  ].join('');
+
+  function hubCard(l, primary) {
+    return '<a class="k-card' + (primary ? ' k-primary' : '') + '" href="' + esc(l.href) + '">' +
+           '<span class="k-name">' + esc(l.label) + '</span>' +
+           (l.note ? '<span class="k-desc">' + esc(l.note) + '</span>' : '') +
+           '<span class="k-go">' + esc(l.go || 'Open') + ' \u2192</span></a>';
+  }
+
+  function renderHubBody(DATA, DOSING, hub) {
+    var h = '<style>' + HUB_CSS + '</style>';
+
+    h += '<div class="hub-hero"><h1>' + esc(hub.title) + '</h1>' +
+         '<p class="k-sub">' + esc(hub.sub || 'Functional Health & Longevity') + '</p>' +
+         paras(hub.intro) + '</div>';
+
+    (hub.sections || []).forEach(function (sec) {
+      h += '<section class="hub-sec">';
+      if (sec.h) { h += '<h2>' + esc(sec.h) + '</h2>'; }
+      if (sec.lead) { h += '<p class="k-lead">' + rich(sec.lead) + '</p>'; }
+      if (sec.items) {
+        h += '<div class="hub-note"><ul>' +
+             sec.items.map(function (i) { return '<li>' + rich(i) + '</li>'; }).join('') +
+             '</ul></div>';
+      }
+      if (sec.links && sec.links.length) {
+        /* two across only when there are an even number worth pairing; a lone
+           card stretched half-width next to nothing looks like a mistake */
+        var two = sec.links.length > 1;
+        h += '<div class="hub-grid' + (two ? ' two' : '') + '">' +
+             sec.links.map(function (l) { return hubCard(l, !!sec.primary); }).join('') +
+             '</div>';
+      }
+      h += '</section>';
+    });
+
+    if (hub.disclaimer) {
+      h += '<p class="hub-foot">' + esc(hub.disclaimer) + '</p>';
+    }
+    return h;
+  }
+
   function renderGuideBody(DATA, DOSING, guide) {
     var h = '';
     if (guide.disclaimer) { h += '<p class="lede">' + esc(guide.disclaimer) + '</p>'; }
@@ -549,7 +669,7 @@
 
   var DOCS = ['sermorelin'];
 
-  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, agentFacts: agentFacts,
+  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, renderHubBody: renderHubBody, agentFacts: agentFacts,
            contraindications: contraindications,
            CSS: CSS, LOGO_URI: LOGO_URI };
 }));

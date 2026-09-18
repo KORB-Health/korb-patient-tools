@@ -1094,7 +1094,8 @@ var KORB_PATIENT_ED = {
       ],
       sections: [
         {
-          h: 'Your most important links',
+          h: 'Start here every week',
+          primary: true,
           links: [
             {
               href: 'KORB_Patient_Treatment_Schedule.html',
