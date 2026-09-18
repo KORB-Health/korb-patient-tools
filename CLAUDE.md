@@ -64,11 +64,19 @@ This matters most for the Men's and Women's Health work coming next: those
 documents will exist, and render, and look exactly as published as the live ones,
 while not being released to anybody.
 
-**Every document on this live list is now served as HTML as well as PDF**, as of
-2026-09-17. The HTML rebuilds itself from the data files on each page load; the PDF
-is a snapshot. **Link the `.html`.** `KORB_Patient_Hub.html` and the Welcome Letter,
-which is itself a link hub, were both repointed. The PDFs are kept for printing and
-for attaching to a Tebra chart.
+**There are no PDFs any more.** All 43 were retired on 2026-09-17, patient and
+provider. Every document is a shell that reads its data file in the browser, so a
+pharmacy, state or dosing change reaches the reader on their next page load. The
+stored PDF was a second copy that drifted, and it is how 14 of the 16 patient
+documents kept naming KORB Health Group, the MSO, on clinical instruction long after
+the HTML byline had been corrected to KORB Health Medical Texas PA.
+
+**If anyone needs a file, press Print.** Every page has the button and it builds a PDF
+from current data at that moment, which is what the stored file was only pretending to
+be. `KORB_GLP1_Data_Review.pdf` is the one PDF left in the repo; it has no HTML twin.
+
+The "PDF version" link is gone from the pages and from all four builders that write
+it. Do not reintroduce it.
 
 **LIVE to patients** — the Functional Health & Longevity patient set, and nothing
 else:
