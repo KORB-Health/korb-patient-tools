@@ -144,6 +144,26 @@ const CSS = RXB.CSS + `
   .grid td{border:0.6pt solid var(--rule);padding:5pt 8pt;font-size:8.6pt;}
   .grid tr:nth-child(even) td{background:var(--zebra);}
 
+  /* A COLUMN HEADER IS NAVY. A ROW LABEL IS NOT.
+
+     .grid th was written for a thead - a real header row across the top of a
+     timeline or a pricing table, where a navy band is correct and reads as the
+     top of the table. cards() then reused .grid for label/value rows, which
+     puts a th in the FIRST COLUMN of every body row, and the same rule painted
+     a solid navy stripe down the left of the Storage table on the patient
+     safety guide. Don flagged it on 2026-09-18: hard to read, and the table
+     looks like two tables.
+
+     It is the same defect the house standard names for a prescribing block - a
+     tint on the label column alone makes every row two-tone and the block reads
+     as two columns - and .kv already had it right, with a white label cell,
+     navy TEXT, and the zebra carried across the whole row. This brings .grid's
+     body labels into line with .kv and leaves thead alone, so no timeline or
+     pricing table moves. */
+  .grid tbody th{background:#fff;color:var(--navy);width:31%;
+                 border:0.6pt solid var(--rule);vertical-align:top;font-size:8.2pt;}
+  .grid tbody tr:nth-child(even) th{background:var(--zebra);}
+
   /* PRICING TABLES: full page width like every other table on the page, with
      the columns SHARED OUT across it rather than one column swallowing the rest.
 
@@ -297,8 +317,9 @@ const CSS = RXB.CSS + `
 
        Screen only. The PDF page stays white, where a cream flood would waste
        ink and print muddy. */
-    .grid td,.kv td,.kv th,.rxb-tbl td,.rxb-tbl th,.rxb{background:#fff;}
+    .grid td,.grid tbody th,.kv td,.kv th,.rxb-tbl td,.rxb-tbl th,.rxb{background:#fff;}
     .grid tr:nth-child(even) td,
+    .grid tbody tr:nth-child(even) th,
     .kv tr:nth-child(even) th,
     .kv tr:nth-child(even) td{background:var(--zebra);}
 

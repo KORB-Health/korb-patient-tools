@@ -151,9 +151,67 @@ function masthead(doc, live) {
     `<p class="byline">KORB Health Medical Texas PA · Patient education</p>`;
 }
 
+/* A hub carries its own hero, so it gets the logo bar and nothing else - no
+   titleband, no byline. renderHubBody draws the rest. */
+function hubMasthead() {
+  return `<div class="mast hub-mast"><div class="tools">` +
+    `<a href="#" onclick="window.print();return false;">Print</a>` +
+    `</div><img src="${R.LOGO_URI}" alt="KORB Health"></div>`;
+}
+
+/* EVERY PATIENT PAGE IS BUILT HERE, not just the nine handouts.
+
+   Until 2026-09-18 this builder emitted DATA.docs and nothing else. The
+   thirteen guides and four program overviews - which include every document
+   the release record lists as LIVE to patients, both welcome letters and the
+   lab page - were written to disk by something that is not in this repo. They
+   had no generator at all.
+
+   That is not a filing complaint. Each of those pages inlines the shared
+   stylesheet at BUILD time, so a fix to provider-doc-render.js reaches the
+   nine handouts on the next build and reaches the other seventeen never. The
+   Storage table on the patient safety guide was the case that exposed it: the
+   rule was corrected, the handouts rebuilt, and the page Don was looking at
+   did not move, because nothing could rebuild it.
+
+   THE COLLECTION DECIDES THE RENDERER, and the doc decides the rest:
+     docs      renderBody         a single agent
+     programs  renderProgramBody  a tier
+     guides    renderGuideBody    everything else, or renderHubBody if hub
+   `root: true` publishes to the repo root rather than Patient_Education/,
+   which changes the depth of every script tag. */
+const COLLECTIONS = ['docs', 'programs', 'guides'];
+
+function targets(want) {
+  const out = [];
+  COLLECTIONS.forEach(coll => {
+    Object.keys(DATA[coll]).forEach(key => {
+      const doc = Object.assign({}, DATA[coll][key], { key: key });
+      if (!doc.file) {
+        throw new Error(coll + '.' + key + ' has no published file name. Add `file:` ' +
+          'to korb-patient-ed-data.js. Do NOT derive it from the title - ' +
+          'KORB_MensHealth_Program_Overview is not what a deriver would produce.');
+      }
+      if (want && key !== want) { return; }
+      const renderer = coll === 'docs' ? 'renderBody'
+                     : coll === 'programs' ? 'renderProgramBody'
+                     : doc.hub ? 'renderHubBody' : 'renderGuideBody';
+      out.push({ coll, key, doc, renderer,
+                 /* docs carry a bare stem, guides and programs a repo-relative
+                    path. Neither is derived: both are what is already published. */
+                 rel: (doc.file.indexOf('/') >= 0 || doc.root
+                        ? doc.file : 'Patient_Education/' + doc.file) + '.html',
+                 up: doc.root ? '' : '../' });
+    });
+  });
+  return out;
+}
+
 /* The live page. Deliberately small: everything that could go stale is in the
    scripts it loads. */
-function shell(doc) {
+function shell(t) {
+  const doc = t.doc;
+  const head = t.renderer === 'renderHubBody' ? hubMasthead() : masthead(doc, true);
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -171,18 +229,26 @@ ${SCREEN}
      Loading it threw "Cannot read properties of undefined (reading CSS)" in
      the console of every generated handout. Harmless, because the styling was
      already inlined, and still a broken script on a patient-facing page. -->
-<script src="../korb-pharmacies.js"></script>
-${sourceKey(doc) ? `<script src="../${SOURCE_FILE[sourceKey(doc)]}"></script>` : ''}
-<script src="../korb-patient-ed-data.js"></script>
-<script src="../patient-ed-render.js"></script>
+<script src="${t.up}korb-pharmacies.js"></script>
+${sourceKey(doc) ? `<script src="${t.up}${SOURCE_FILE[sourceKey(doc)]}"></script>` : ''}
+${/* A page may read a SECOND program's data. The GLP-1 welcome letter loads
+      korb-glp1-data.js beside korb-dosing-data.js, and the first version of
+      this generator dropped it: the page still rendered identically, so only
+      check-pages noticed - 75 module loads became 74. A script tag that is not
+      needed TODAY is still the difference between a page that keeps working
+      when a section starts reading that file and one that fails on a patient's
+      phone. Declared in the data file, never inferred. */''}
+${(doc.alsoLoad || []).map(k => `<script src="${t.up}${SOURCE_FILE[k]}"></script>`).join('\n')}
+<script src="${t.up}korb-patient-ed-data.js"></script>
+<script src="${t.up}patient-ed-render.js"></script>
 <script>
   (function () {
     var D = ${sourceKey(doc) ? SOURCE_GLOBAL[sourceKey(doc)] : 'null'};
     if (D && D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
-    var doc = KORB_PATIENT_ED.docs[${JSON.stringify(doc.key)}];
+    var doc = KORB_PATIENT_ED.${t.coll}[${JSON.stringify(t.key)}];
     var R = KORB_PATIENT_ED_DOCS;
     document.getElementById('doc').innerHTML =
-      ${JSON.stringify(masthead(doc, true))} + R.renderBody(KORB_PATIENT_ED, D, doc);
+      ${JSON.stringify(head)} + R.${t.renderer}(KORB_PATIENT_ED, D, doc);
   }());
 </script>
 </body></html>`;
@@ -201,72 +267,57 @@ ${R.renderBody(DATA, DOSING, doc)}
   const DOSING = loadDosing();
   const S = { dosing: DOSING, glp1: loadGlp1(), mens: loadMens() };
   const want = process.argv[2];
-  const keys = Object.keys(DATA.docs).filter(k => !want || k === want);
-  if (!keys.length) {
-    console.error('No handout "' + want + '". Known: ' + Object.keys(DATA.docs).join(', '));
+  const list = targets(want);
+  if (!list.length) {
+    const all = COLLECTIONS.reduce((a, c) => a.concat(Object.keys(DATA[c])), []);
+    console.error('No patient page "' + want + '". Known: ' + all.join(', '));
     process.exit(1);
   }
 
   if (!fs.existsSync(OUT)) fs.mkdirSync(OUT, { recursive: true });
 
   /* Fail the build if a handout names an agent the dosing data does not have.
-     Better a stopped build than a handout with a blank schedule. */
-  keys.forEach(k => R.agentFacts(sourceFor(DATA.docs[k], S), DATA.docs[k]));
+     Better a stopped build than a handout with a blank schedule. Only the
+     handouts pull agent facts; a guide or a tier has no single agent. */
+  list.filter(t => t.coll === 'docs')
+      .forEach(t => R.agentFacts(sourceFor(t.doc, S), t.doc));
 
-  for (const k of keys) {
-    const doc = DATA.docs[k];
-    /* The PUBLISHED name, never derived from the title. Deriving it produced
-       KORB_Patient_Ed_CJC_1295_Ipamorelin, which would have sat beside the
-       published KORB_Patient_Ed_CJC_Ipamorelin rather than replacing it - two
-       handouts for one drug, which is the drift this whole exercise removes. */
-    if (!doc.file) throw new Error('handout "' + k + '" has no published file name.');
-    const p = path.join(OUT, doc.file + '.html');
-    fs.writeFileSync(p, shell(Object.assign({}, doc, { key: k })));
-    console.log(`  ${path.basename(p)}  html ${String(fs.statSync(p).size).padStart(6)}`);
+  for (const t of list) {
+    /* A page that is not `root: true` belongs in Patient_Education/. An early
+       version of this loop joined a bare stem onto ROOT and wrote nine handouts
+       to the repo root, beside the real ones, where they looked exactly as
+       published as the originals - the same shape as the injection tracker the
+       repo deleted for sitting in the tree looking finished. Cheap to assert,
+       invisible without it. */
+    if (!t.doc.root && t.rel.indexOf('Patient_Education/') !== 0) {
+      throw new Error(t.coll + '.' + t.key + ' is not root: true but would publish to "' +
+        t.rel + '". Patient pages go in Patient_Education/ unless they are root.');
+    }
+    const p = path.join(ROOT, t.rel);
+    const dir = path.dirname(p);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(p, shell(t));
+    console.log(`  ${t.coll.padEnd(8)} ${t.rel.padEnd(56)} ${String(fs.statSync(p).size).padStart(6)}`);
   }
 
-  const chromium = loadChromium();
-  if (!chromium) {
-    console.log('\n  PDFs were NOT refreshed: no Chromium available.');
-    console.log('  npm install && npx playwright install chromium');
-    return;
-  }
+  /* NO PDF PHASE. All 43 stored PDFs were retired on 2026-09-17 because a
+     stored file is a second copy that drifts - it is how 14 of the 16 patient
+     documents kept naming KORB Health Group, the MSO, on clinical instruction
+     long after the HTML byline had been corrected to the PA.
 
-  const browser = await chromium.launch();
-  const FONTS = fontFaceBlock();
-  for (const k of keys) {
-    const doc = DATA.docs[k];
-    const base = doc.file;
-    const page = await browser.newPage();
-    const errs = [];
-    page.on('pageerror', e => errs.push(e.message));
-    await page.setContent(printableHtml(sourceFor(doc, S), doc), { waitUntil: 'load' });
-    await page.pdf({
-      path: path.join(OUT, base + '.pdf'),
-      format: 'Letter', printBackground: true,
-      margin: { top: '0.85in', bottom: '0.7in', left: '0.6in', right: '0.6in' },
-      displayHeaderFooter: true,
-      headerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:5px;border-bottom:1.5px solid #00B2C3;">
-          <img src="${R.LOGO_URI}" style="height:26px;width:auto;">
-          <div style="text-align:right;font-size:7.5pt;color:#21275B;line-height:1.3;">
-            <div style="font-weight:bold;">${R.esc('Patient Education · ' + doc.title)}</div>
-            <div style="font-weight:bold;">KORB Health Medical Texas PA</div>
-          </div>
-        </div></div>`,
-      footerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
-        <div style="border-top:1.5px solid #00B2C3;padding-top:5px;display:flex;justify-content:space-between;font-size:7pt;color:#4A4F6B;">
-          <span>Educational reference only. Follow your prescription label and your KORB provider's guidance.</span>
-          <span>Page <span class="pageNumber"></span></span>
-        </div></div>`
-    });
-    await page.close();
-    console.log(`  ${base}  pdf ${String(fs.statSync(path.join(OUT, base + '.pdf')).size).padStart(7)}` +
-                (errs.length ? '  ERRORS: ' + errs.join('|') : ''));
-  }
-  await browser.close();
+     This builder went on writing all nine of them anyway. The retirement
+     removed the "PDF version" LINK from the pages and from the builders, and
+     nobody removed the pdf() call, so any run of this script quietly recreated
+     the exact files the repo had decided to delete. Found on 2026-09-18 by
+     running it. If anyone needs a file they press Print, which builds one from
+     current data at that moment.
 
-  console.log(`\nBuilt ${keys.length} handout(s) from korb-patient-ed-data.js v${DATA.meta.version} ` +
-              `and korb-dosing-data.js v${DOSING.meta.version} on ${BUILD_DATE}`);
-  console.log('HTML renders live from the data files. PDF is a snapshot of this build.');
+     Do not reintroduce this. */
+
+  const by = c => list.filter(t => t.coll === c).length;
+  console.log(`\nBuilt ${list.length} patient page(s) - ${by('docs')} handout(s), ` +
+              `${by('programs')} program overview(s), ${by('guides')} guide(s) - from ` +
+              `korb-patient-ed-data.js v${DATA.meta.version} and ` +
+              `korb-dosing-data.js v${DOSING.meta.version} on ${BUILD_DATE}`);
+  console.log('Every page renders live from the data files. No PDFs: retired 2026-09-17.');
 }());

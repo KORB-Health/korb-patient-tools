@@ -1271,3 +1271,62 @@ testosterone" was either already gone or never in it.
    part: *"If the numbers change, they change in both."* That is one clinical
    formula in two files, which is the one thing this repo exists to prevent.
    The hub is hand-built, so this closes when the hub does.
+
+20. ~~SEVENTEEN PATIENT PAGES HAD NO GENERATOR.~~ **DONE 2026-09-18.**
+   `build-patient-ed.js` emitted `DATA.docs` and nothing else - the nine
+   handouts. The thirteen guides and four program overviews, which between them
+   are every document the release record lists as LIVE to patients plus both
+   welcome letters and the lab page, were written to disk by something that is
+   not in this repo.
+
+   **This is not a filing complaint.** Each of those pages inlines the shared
+   stylesheet at BUILD time and loads only the data files at run time. So a fix
+   in `provider-doc-render.js` reaches the nine handouts on the next build and
+   reaches the other seventeen NEVER. The Storage table below is what exposed
+   it: the rule was corrected, the handouts rebuilt, and the page Don was
+   actually looking at did not move, because nothing in the repo could rebuild
+   it. Seventeen pages were frozen at whatever a missing tool last produced.
+
+   The builder now walks `docs`, `programs` and `guides`; the collection picks
+   the renderer, `hub: true` picks `renderHubBody`, and `root: true` publishes to
+   the repo root and shortens every script path. `file` and `program` were added
+   to all seventeen entries, **read off the published pages rather than derived**
+   - `KORB_MensHealth_Program_Overview` is not what a deriver produces from
+   "Men's Health Program Overview", and the same trap is recorded for the
+   handouts.
+
+   **Verified by rendering all 26 before and after, not by reading the output.**
+   25 of 26 are byte-identical in rendered text and links, with zero JS errors.
+   The 26th is the finding: `KORB_Longevity_Program_Overview.html` had the h1
+   **"Functional Health & Longevity Program"** and the data file says
+   **"and"**. The published page had drifted from the data file and nothing
+   could see it, which is the whole argument for the generator in one line.
+
+   **`alsoLoad` exists because the first version silently dropped a script.**
+   The GLP-1 welcome letter loads `korb-glp1-data.js` beside
+   `korb-dosing-data.js`; the shell emitted one source file, the page still
+   rendered identically, and only `check-pages.js` noticed - 75 module loads
+   became 74. Declared in the data file, never inferred.
+
+   **The builder was still writing the nine retired PDFs.** All 43 were retired
+   on 2026-09-17, which removed the "PDF version" LINK from the pages and the
+   builders and left the `page.pdf()` call in place, so any run recreated the
+   exact files the repo had decided to delete. Found by running it. The PDF
+   phase is gone. **Retiring an output means removing what writes it, not just
+   what links to it.**
+
+21. ~~A ROW LABEL WAS PAINTED LIKE A COLUMN HEADER.~~ **DONE 2026-09-18.**
+   `.grid th` was written for a `thead` - a real header row across the top of a
+   timeline or pricing table, where a navy band is correct. `cards()` then reused
+   `.grid` for label/value rows, which puts a `th` in the FIRST COLUMN of every
+   body row, so the same rule painted a solid navy stripe down the left of the
+   Storage table on the patient safety guide. Don flagged it: hard to read, and
+   it looks like two tables.
+
+   It is the **same defect the house standard already names** for a prescribing
+   block - a tint on the label column alone makes every row two-tone and the
+   block reads as two columns - and `.kv` already had it right. `.grid tbody th`
+   now matches `.kv th`: white cell, navy TEXT, zebra carried across the whole
+   row. `thead` is untouched, so no timeline or pricing table moved: measured at
+   12 navy `thead` cells on the Semaglutide handout before and after, and 4
+   navy `tbody` cells on the safety guide before and 0 after.

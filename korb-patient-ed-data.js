@@ -177,6 +177,8 @@ var KORB_PATIENT_ED = {
   programs: {
     foundation: {
       key: 'foundation',
+      file: 'Patient_Education/KORB_Foundation_Program_Overview',
+      program: 'Functional Health & Longevity',
       title: 'Foundation Program',
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which agent and dosing schedule are right for you. If you have questions, contact KORB by phone or email.',
@@ -244,6 +246,8 @@ var KORB_PATIENT_ED = {
 
     gateway: {
       key: 'gateway',
+      file: 'Patient_Education/KORB_Gateway_Program_Overview',
+      program: 'Functional Health & Longevity',
       title: 'Gateway Program',
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines your exact schedule and add-ons. If you have questions, contact KORB by phone or email.',
@@ -305,6 +309,8 @@ var KORB_PATIENT_ED = {
 
     peak: {
       key: 'peak',
+      file: 'Patient_Education/KORB_Peak_Program_Overview',
+      program: 'Functional Health & Longevity',
       title: 'Peak Performance Program',
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
@@ -380,6 +386,8 @@ var KORB_PATIENT_ED = {
 
     longevity: {
       key: 'longevity',
+      file: 'Patient_Education/KORB_Longevity_Program_Overview',
+      program: 'Functional Health & Longevity',
       title: 'Functional Health and Longevity Program',
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which program and medication(s) are right for you. If you have questions, contact KORB by phone or email.',
@@ -448,6 +456,8 @@ var KORB_PATIENT_ED = {
   guides: {
     anti_aging: {
       key: 'anti_aging',
+      file: 'Patient_Education/KORB_Patient_Ed_Anti_Aging',
+      program: 'KORB Health',
       title: 'Anti-Aging',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
@@ -527,6 +537,8 @@ var KORB_PATIENT_ED = {
 
     hair_loss: {
       key: 'hair_loss',
+      file: 'Patient_Education/KORB_Patient_Ed_Hair_Loss',
+      program: 'KORB Health',
       title: 'Hair Loss Treatment',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
@@ -609,6 +621,8 @@ var KORB_PATIENT_ED = {
 
     sexual_health: {
       key: 'sexual_health',
+      file: 'Patient_Education/KORB_Patient_Ed_Sexual_Health',
+      program: 'KORB Health',
       title: 'Sexual Health',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
@@ -700,6 +714,8 @@ var KORB_PATIENT_ED = {
 
     skin_care: {
       key: 'skin_care',
+      file: 'Patient_Education/KORB_Patient_Ed_Skin_Care',
+      program: 'KORB Health',
       title: 'Skin Care Treatment',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
@@ -785,6 +801,8 @@ var KORB_PATIENT_ED = {
 
     weight_loss: {
       key: 'weight_loss',
+      file: 'Patient_Education/KORB_WeightLoss_Program_Overview',
+      program: 'KORB Health',
       title: 'Weight Loss Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
@@ -858,6 +876,8 @@ var KORB_PATIENT_ED = {
 
     mens_health: {
       key: 'mens_health',
+      file: 'Patient_Education/KORB_MensHealth_Program_Overview',
+      program: 'KORB Health',
       title: 'Men\'s Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
@@ -931,6 +951,8 @@ var KORB_PATIENT_ED = {
 
     womens_health: {
       key: 'womens_health',
+      file: 'Patient_Education/KORB_WomensHealth_Program_Overview',
+      program: 'KORB Health',
       title: 'Women\'s Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
@@ -1006,6 +1028,8 @@ var KORB_PATIENT_ED = {
 
     start_here: {
       key: 'start_here',
+      file: 'Patient_Education/KORB_Start_Here_Guide',
+      program: 'Functional Health & Longevity',
       title: 'Start Here Guide',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
@@ -1095,6 +1119,9 @@ var KORB_PATIENT_ED = {
 
     glp1_welcome: {
       key: 'glp1_welcome',
+      hub: true,
+      alsoLoad: ['glp1'],
+      file: 'KORB_GLP1_Welcome_Letter',
       title: 'Welcome to KORB',
       root: true,
       sub: 'Weight Loss & Metabolic Health',
@@ -1292,6 +1319,8 @@ var KORB_PATIENT_ED = {
 
     welcome: {
       key: 'welcome',
+      hub: true,
+      file: 'KORB_Welcome_Letter',
       title: 'Welcome to KORB',
       root: true,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If you have questions, contact KORB.',
@@ -1442,6 +1471,8 @@ var KORB_PATIENT_ED = {
 
     labs: {
       key: 'labs',
+      file: 'KORB_Schedule_Your_Lab_Appointment',
+      program: 'Functional Health & Longevity',
       title: 'Schedule Your Quest Lab Appointment',
       root: true,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
@@ -1482,6 +1513,8 @@ var KORB_PATIENT_ED = {
 
     injection: {
       key: 'injection',
+      file: 'Patient_Education/KORB_Injection_Storage_Safety_Guide',
+      program: 'Functional Health & Longevity',
       title: 'Injection, Storage and Safety Guide',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
@@ -1546,6 +1579,8 @@ var KORB_PATIENT_ED = {
 
     contact: {
       key: 'contact',
+      file: 'Patient_Education/KORB_When_to_Contact_KORB_or_ER',
+      program: 'Functional Health & Longevity',
       title: 'When to Contact KORB or the ER',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
