@@ -446,6 +446,564 @@ var KORB_PATIENT_ED = {
      cannot disagree. That divergence is exactly what two separate PDFs
      produced. */
   guides: {
+    anti_aging: {
+      key: 'anti_aging',
+      title: 'Anti-Aging',
+      disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
+      intro: [
+        'Two treatments aimed at how you age rather than at a specific symptom. They can be added to any KORB program, and you may be prescribed one or both. Neither requires lab work to start.'
+      ],
+      sections: [
+        {
+          h: 'NAD+',
+          paras: [
+            'NAD+ is a coenzyme your body already makes. It is involved in energy production, DNA repair and immune function. Levels fall steadily with age, and supplementing aims to restore some of what has been lost.',
+            'Most people take it hoping for better energy, sharper focus, and less of the general worn-down feeling that creeps in with age. Research is promising but still developing, so think of it as supporting how you feel rather than producing a dramatic change.'
+          ],
+          cards: [
+            [
+              'Injection under the skin',
+              'Twice a week. Most people use the lower abdomen; the arm, thigh or buttock also work. Rotate the site.'
+            ],
+            [
+              'Nasal spray',
+              'Once daily, one or two sprays in each nostril as directed.'
+            ],
+            [
+              'Dissolving tablet',
+              'Under the tongue each morning, Monday to Friday, with weekends off. Let it dissolve fully; do not chew or swallow it whole.'
+            ]
+          ],
+          after: [
+            'Your NAD+ supply lasts 28 days and you refill monthly rather than quarterly. If you use the injection there will still be medication in the vial at 28 days. That is expected. Discard it and start your new vial. Compounded medication is not considered safe to use past that point once the vial has been punctured.',
+            'Tell your provider if you take isotretinoin, sold as Accutane. NAD+ is not used alongside it.'
+          ]
+        },
+        {
+          h: 'Metformin',
+          paras: [
+            'Metformin has been used for decades for blood sugar and is on the World Health Organization\'s list of essential medicines. It is prescribed here for a different reason: a growing body of research links it to lower rates of dementia and some cancers, reduced cardiovascular risk, and less inflammation.',
+            'One extended-release tablet daily. Your supply is 90 days, so it follows the usual quarterly rhythm.',
+            'You will probably not feel any different, and that is normal. Unlike a medication that treats a symptom you can notice, metformin here is aimed at long-term risk. Not feeling a change does not mean it is not working.',
+            'You do not need to be diabetic to take it. At this dose it may nudge your blood sugar slightly lower, but it is unlikely to cause symptoms of low blood sugar.'
+          ],
+          after: [
+            'Before you start, your provider needs to know about kidney problems, liver problems, heart failure or heavy alcohol use. Metformin is not appropriate for everyone and these are the things that matter most. Also tell us if you are scheduled for surgery or an imaging scan that uses contrast dye, since metformin is usually paused around those.'
+          ]
+        },
+        {
+          h: 'Side effects',
+          cards: [
+            [
+              'Nausea or upset stomach',
+              'The most common effect for both. Usually settles. Taking metformin with food helps.'
+            ],
+            [
+              'Headache, fatigue or indigestion (NAD+)',
+              'May occur early on. Tell your provider if it persists.'
+            ],
+            [
+              'Dizziness, sweating and headache together (metformin)',
+              'Can indicate blood sugar dipping. Have something to eat and tell your provider.'
+            ],
+            [
+              'Injection site soreness or redness',
+              'Rotate sites and use new equipment each time.'
+            ]
+          ],
+          after: [
+            'Seek urgent care for unusual muscle pain or weakness, trouble breathing, unusual sleepiness, severe stomach pain with nausea and vomiting, or feeling very cold or lightheaded. These are rare but are the symptoms that matter most while taking metformin. Do not wait to hear back from KORB.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'Neither treatment requires lab work to start.',
+        'NAD+ injection: discard the vial 28 days after first puncture even if medication remains.',
+        'Tell your provider about kidney or liver problems, heart failure or heavy alcohol use before starting metformin.',
+        'Metformin is usually paused around surgery and contrast imaging. Tell us if either is scheduled.',
+        'Do not take NAD+ alongside isotretinoin (Accutane).'
+      ]
+    },
+
+    hair_loss: {
+      key: 'hair_loss',
+      title: 'Hair Loss Treatment',
+      disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
+      intro: [
+        'Hair loss treatment comes as a once-daily pill, a once-daily topical you apply to your scalp, or both together. Your provider chooses based on your pattern of loss, your health history and your preference.'
+      ],
+      sections: [
+        {
+          h: 'What you may be prescribed',
+          cards: [
+            [
+              'Men',
+              'Pill: finasteride. Topical: minoxidil with finasteride and tretinoin.'
+            ],
+            [
+              'Women',
+              'Pill: spironolactone. Topical: minoxidil with spironolactone and latanoprost.'
+            ]
+          ],
+          after: [
+            'These are not interchangeable between people. **The men\'s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects.** Never take, share or borrow someone else\'s prescription, including a partner\'s.'
+          ]
+        },
+        {
+          h: 'Give it three to six months',
+          paras: [
+            'This is the single most important thing to understand before you start. Hair grows slowly, and these treatments work by protecting the hair you have and improving the quality of new growth. Most people see no visible change for the first three months, and the clearest results appear between three and six months.',
+            'Some people notice increased shedding in the first few weeks. That is usually a normal part of the cycle resetting and not a sign the treatment is failing. Stopping early is the most common reason treatment does not work. If you stop, any gains will gradually reverse.'
+          ]
+        },
+        {
+          h: 'How to use the topical',
+          items: [
+            'Apply once daily to a dry scalp, not damp or freshly washed hair.',
+            'Use one to two applications depending on how much area you are covering. Your provider will tell you which.',
+            'Work it into the scalp where you are thinning, not onto the hair itself.',
+            'Wash your hands afterwards.',
+            'Leave it on for at least four hours, or overnight if that suits your routine better.'
+          ],
+          after: [
+            'How long your bottle lasts depends on how much you use. Two doses a day runs out roughly twice as fast as one. Tell us early if you are running low rather than at the last minute.'
+          ]
+        },
+        {
+          h: 'Side effects',
+          cards: [
+            [
+              'Scalp redness, itching or dryness (topical)',
+              'Common early on. Tell your provider if it is severe or does not settle.'
+            ],
+            [
+              'Increased shedding in the first few weeks',
+              'Usually normal. Contact KORB if it is heavy or lasts beyond about six weeks.'
+            ],
+            [
+              'Reduced sex drive or difficulty with erections (finasteride)',
+              'Uncommon but real. Tell your provider rather than stopping on your own.'
+            ],
+            [
+              'Breast tenderness or swelling (either pill)',
+              'Tell your provider.'
+            ],
+            [
+              'Dizziness or feeling lightheaded (spironolactone)',
+              'Stand up slowly. Tell your provider if it continues.'
+            ],
+            [
+              'Unwanted hair growth where the topical has run',
+              'Tell your provider.'
+            ]
+          ]
+        }
+      ],
+      keyReminders: [
+        'Finasteride must never be taken by a woman who is or could become pregnant. It causes serious birth defects.',
+        'Never share or borrow a hair loss prescription, including a partner\'s.',
+        'Give it three to six months. Stopping early is the commonest reason it does not work.',
+        'Apply the topical to a dry scalp and leave it at least four hours.'
+      ]
+    },
+
+    sexual_health: {
+      key: 'sexual_health',
+      title: 'Sexual Health',
+      disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
+      intro: [
+        '**Do not use these medications if you take nitrates for chest pain.** Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with this treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
+      ],
+      sections: [
+        {
+          h: 'For men: KORB Rise',
+          paras: [
+            'KORB Rise is a dissolvable troche you place in your mouth. It contains the same active ingredients found in Viagra and Cialis, combined with L-Arginine and oxytocin. L-Arginine is included specifically to reduce headache, which is the most common side effect.',
+            'Oxytocin does something different from the other ingredients. Sildenafil and tadalafil work on blood flow. Oxytocin acts on the brain, where it plays a part in arousal, desire and feeling relaxed and connected with a partner. It was added to address the side of the response that blood flow alone does not reach, particularly where stress or anxiety is part of the picture. This use of oxytocin is newer and less well established than the other ingredients, so tell your provider how it works for you.'
+          ],
+          cards: [
+            [
+              'How to take it',
+              'Let half to one troche dissolve in your mouth. Do not swallow it whole.'
+            ],
+            [
+              'When',
+              'About 30 minutes before sexual activity.'
+            ],
+            [
+              'How long it lasts',
+              'Up to 36 hours, so it does not need tight planning.'
+            ]
+          ],
+          after: [
+            'Start with half a troche. If that is not enough, your provider may tell you to increase to a full one. Do not take more than one troche in a 24-hour period unless your provider specifically tells you to.',
+            'If you live in a state we serve through a different pharmacy you may receive PERFORM instead. It is the same idea in a fast-dissolving tablet, taken 30 minutes before sexual activity. It does not contain L-Arginine, so headache may be a little more noticeable.'
+          ]
+        },
+        {
+          h: 'For women: KORB Electric',
+          paras: [
+            'KORB Electric is a topical gel applied directly to the clitoris about 30 minutes before sexual activity. It works by increasing local blood flow rather than acting on the whole body.',
+            'Apply one to two clicks from the applicator. Wash your hands before and after. One bottle covers roughly 20 uses.'
+          ]
+        },
+        {
+          h: 'What to expect',
+          items: [
+            'These medications support your body\'s normal response. They do not create arousal on their own, so interest and stimulation still matter.',
+            'The first attempt is not always the best measure. It is common to need a few tries to find your timing and the right amount.',
+            'Alcohol and heavy meals both blunt the effect. A large, fatty meal beforehand is the most common reason people feel it did not work.'
+          ]
+        },
+        {
+          h: 'Side effects',
+          cards: [
+            [
+              'Headache',
+              'The most common effect. Usually mild. Stay hydrated. Tell your provider if it persists.'
+            ],
+            [
+              'Stuffy nose or flushing',
+              'Common and temporary.'
+            ],
+            [
+              'Upset stomach or nausea',
+              'Common. Taking it on a lighter stomach may help.'
+            ],
+            [
+              'Changes in vision, such as a blue tinge or blurring',
+              'Uncommon. Stop and contact KORB if it happens.'
+            ],
+            [
+              'Local irritation (KORB Electric)',
+              'Wash the area. Tell your provider if it does not settle.'
+            ]
+          ],
+          after: [
+            '**Seek emergency care right away** for an erection lasting more than 4 hours, chest pain during or after sex, sudden loss of vision or hearing, fainting, or severe dizziness. An erection that will not go down is a medical emergency and can cause permanent damage if untreated.'
+          ]
+        },
+        {
+          h: 'Getting refills',
+          paras: [
+            'There is no lab work and no scheduled follow-up for this add-on. When you need more, send a message through the patient portal and your provider will review it. Do not wait until you are completely out.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'Never combine with nitrates for chest pain. This can be life-threatening.',
+        'Take about 30 minutes before sexual activity. The effect lasts up to 36 hours.',
+        'An erection lasting more than 4 hours is a medical emergency. Go to the emergency room.',
+        'No lab work and no scheduled follow-up. Request refills through the portal before you run out.'
+      ]
+    },
+
+    skin_care: {
+      key: 'skin_care',
+      title: 'Skin Care Treatment',
+      disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
+      intro: [
+        'All three creams are applied once daily. Your provider selects which one fits your skin and your goals, and may start you at a lower strength.'
+      ],
+      sections: [
+        {
+          h: 'What you may be prescribed',
+          cards: [
+            [
+              'Tretinoin',
+              'Acne, oily skin, scarring and dark spots. A pea-sized amount once daily.'
+            ],
+            [
+              'Estriol',
+              'Dry skin, fine lines, elasticity and spots. One click once daily.'
+            ],
+            [
+              'Combo cream',
+              'A broader approach combining several active ingredients. One click once daily.'
+            ]
+          ]
+        },
+        {
+          h: 'How to apply',
+          items: [
+            'Wash your face and let it dry completely first. Applying to damp skin increases irritation.',
+            'Use only the amount described. More does not work faster and will irritate your skin.',
+            'Apply at night unless your provider tells you otherwise.',
+            'Avoid the corners of your nose, your eyes and your lips.',
+            'Wash your hands afterwards.',
+            'Follow with a plain moisturizer if your skin feels tight or dry.'
+          ],
+          after: [
+            'These creams make your skin more sensitive to the sun. Use sunscreen daily, even in winter and on overcast days. Without it you are more likely to burn, and sun exposure will work directly against the spots and discolouration you are treating.'
+          ]
+        },
+        {
+          h: 'What to expect',
+          paras: [
+            'Skin often looks slightly worse before it looks better. Dryness, flaking and mild redness in the first few weeks are expected as your skin adjusts. Acne can briefly flare as blocked pores clear.',
+            'If irritation is uncomfortable, tell your provider. Often the answer is to use it every other night for a while rather than stopping altogether. Most people see steady improvement over six to twelve weeks.'
+          ]
+        },
+        {
+          h: 'Side effects',
+          cards: [
+            [
+              'Dryness, flaking or peeling',
+              'Expected early on. Moisturize and tell your provider if severe.'
+            ],
+            [
+              'Redness or mild stinging on application',
+              'Common at first. Should settle within a few weeks.'
+            ],
+            [
+              'A short-lived acne flare',
+              'Common as pores clear. Give it a few weeks.'
+            ],
+            [
+              'Sunburn more easily than usual',
+              'Use sunscreen daily. This is expected with these creams.'
+            ],
+            [
+              'Breast tenderness or unexpected bleeding (estriol)',
+              'Estriol contains a hormone. Contact KORB if this happens.'
+            ]
+          ],
+          after: [
+            'Tell your provider if you are pregnant, trying to conceive or breastfeeding. Tretinoin is not used in pregnancy. Estriol contains a hormone, so mention it if you already take hormone therapy through another KORB program so your full plan can be reviewed together.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'Apply once daily to clean, completely dry skin.',
+        'A pea-sized amount is enough. More causes irritation without better results.',
+        'Wear sunscreen every day.',
+        'Expect dryness and a possible flare in the first few weeks.',
+        'If irritation is too much, ask about every-other-night use rather than stopping.',
+        'Tretinoin is not used in pregnancy. Tell your provider if you are pregnant or trying to conceive.'
+      ]
+    },
+
+    weight_loss: {
+      key: 'weight_loss',
+      title: 'Weight Loss Program Overview',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
+      intro: [
+        'KORB\'s Weight Loss Program uses GLP-1 medication, semaglutide or tirzepatide, prescribed by your KORB provider and dispensed by a licensed US pharmacy. Your provider selects your medication and starting dose based on your goals and health history, and adjusts your plan at regular follow-up visits.'
+      ],
+      sections: [
+        {
+          h: 'About compounded medication',
+          paras: [
+            'Your medication is prepared for you by a licensed US compounding pharmacy. Compounding pharmacies are state-licensed and regulated, and they prepare each prescription to your provider\'s specifications rather than mass-producing it. This is what allows your dose to be tailored to you and adjusted over time.',
+            'Because the FDA reviews mass-manufactured products rather than individual prescriptions, compounded preparations are not FDA-approved. The active ingredient is the same one used in the brand-name medication. If you would like to discuss a brand-name option, ask your provider whether it is a fit for you.'
+          ]
+        },
+        {
+          h: 'If you are also managing diabetes',
+          paras: [
+            'If you are managing diabetes or pre-diabetes, KORB can continue to provide your GLP-1 medication, but you should continue your diabetes care, including any related lab monitoring, with the clinician who manages it. That may be your primary care provider, an endocrinologist or another specialist.'
+          ]
+        },
+        {
+          h: 'Your medication options',
+          cards: [
+            [
+              'Semaglutide',
+              'A GLP-1 receptor agonist. Slows digestion and reduces appetite, which supports gradual, sustained weight loss. Injected once weekly, starting low and increasing every 4 weeks as tolerated.'
+            ],
+            [
+              'Tirzepatide',
+              'A dual GIP/GLP-1 receptor agonist. Works through two hormone pathways rather than one, which may support greater appetite reduction for some patients. Injected once weekly, with the same gradual increase.'
+            ]
+          ],
+          after: [
+            'Your provider will recommend which to start with, and may also discuss a daily oral option, either a tablet or a dissolvable troche, if injections are not the right fit.'
+          ],
+          links: [
+            {
+              href: 'KORB_Patient_Ed_Semaglutide.html',
+              label: 'Semaglutide handout',
+              note: 'full dosing, timing and storage'
+            },
+            {
+              href: 'KORB_Patient_Ed_Tirzepatide.html',
+              label: 'Tirzepatide handout',
+              note: 'full dosing, timing and storage'
+            }
+          ]
+        },
+        {
+          h: 'Pricing',
+          paras: [
+            'For current Weight Loss Program pricing, contact KORB Operations or ask your provider at your visit.'
+          ]
+        },
+        {
+          h: 'How your program works',
+          items: [
+            'Your first visit includes a full history and a review of whether GLP-1 therapy is safe and appropriate for you.',
+            'Your provider selects your medication and starting dose.',
+            'Your dose increases gradually, typically every 4 weeks, based on how you are tolerating it.',
+            'You are reviewed at regular follow-up visits, where your plan is adjusted.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'Compounded medication is not FDA-approved. The active ingredient is the same one used in the brand-name product.',
+        'If you have diabetes or pre-diabetes, keep that care with the clinician who manages it.',
+        'Your dose increases gradually. Do not change it on your own.',
+        'For current pricing, contact KORB Operations or ask your provider.'
+      ]
+    },
+
+    mens_health: {
+      key: 'mens_health',
+      title: 'Men\'s Health Program Overview',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
+      intro: [
+        'KORB\'s Men\'s Health Program is built around how you actually feel. The main program is Testosterone Replacement Therapy for men with lab-confirmed low testosterone and symptoms that go with it. Three optional add-ons are available alongside it: KORB Rise for sexual health, a hair loss treatment, and skin care.',
+        'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss and Metabolic Health, or with Functional Health and Longevity. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
+      ],
+      sections: [
+        {
+          h: 'Testosterone Replacement Therapy',
+          paras: [
+            'Testosterone naturally declines with age. When levels fall low enough to cause symptoms, replacing it can help. Common reasons men start include ongoing fatigue, reduced strength or muscle mass, increased body fat, low sex drive, low mood or motivation, and poor recovery from exercise.'
+          ],
+          cards: [
+            [
+              'What it is',
+              'Testosterone cypionate, a long-acting injectable form of testosterone.'
+            ],
+            [
+              'How it is given',
+              'A small injection you give yourself at home, either under the skin or into the muscle.'
+            ],
+            [
+              'Labs',
+              'Required before starting and at every follow-up.'
+            ],
+            [
+              'Follow-up',
+              'Every 12 weeks, or sooner if your provider recommends it.'
+            ]
+          ],
+          after: [
+            '**Testosterone is currently available to KORB patients in Texas and California only.** If you live elsewhere, ask your provider about other options that may fit your goals.',
+            '**Labs are not optional.** Testosterone affects your red blood cell count, your prostate and your hormone balance, and those changes are not always something you can feel. Regular lab work is how your provider keeps your dose in the right range and catches problems early.'
+          ]
+        },
+        {
+          h: 'Add-ons available alongside',
+          links: [
+            {
+              href: 'KORB_Patient_Ed_Sexual_Health.html',
+              label: 'KORB Rise, sexual health',
+              note: 'no lab work required'
+            },
+            {
+              href: 'KORB_Patient_Ed_Hair_Loss.html',
+              label: 'Hair loss treatment'
+            },
+            {
+              href: 'KORB_Patient_Ed_Skin_Care.html',
+              label: 'Skin care'
+            }
+          ],
+          after: [
+            '**Do not take KORB Rise if you take nitrates for chest pain.** The combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.'
+          ]
+        },
+        {
+          h: 'Pricing',
+          paras: [
+            'For current Men\'s Health Program pricing, contact KORB Operations or ask your provider at your visit.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'Testosterone is available to KORB patients in Texas and California only.',
+        'Labs are required before starting and at every follow-up. They are not optional.',
+        'Follow-up is every 12 weeks, or sooner if your provider recommends it.',
+        'Never take KORB Rise with nitrates for chest pain.'
+      ]
+    },
+
+    womens_health: {
+      key: 'womens_health',
+      title: 'Women\'s Health Program Overview',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
+      intro: [
+        'KORB\'s Women\'s Health Program treats the symptoms of perimenopause, menopause and the years after. Treatment is hormone therapy, matched to your symptoms and your health history, and prescribed by a licensed KORB provider.',
+        'Most women come to us for hot flashes, night sweats, disrupted sleep, mood changes, vaginal dryness or painful intercourse, low libido, or the mental fog that often comes with this stage. You do not need to have all of them, and you do not need to wait until they are severe.'
+      ],
+      sections: [
+        {
+          h: 'The three stages',
+          cards: [
+            [
+              'Perimenopause',
+              'Hormones fluctuate and periods become irregular. Symptoms often start here.'
+            ],
+            [
+              'Menopause',
+              'Twelve months without a period.'
+            ],
+            [
+              'Postmenopause',
+              'The years afterwards, when lower hormone levels affect bone and heart health.'
+            ]
+          ]
+        },
+        {
+          h: 'What you may be prescribed',
+          lead: 'Your provider chooses from three hormones, alone or in combination.',
+          cards: [
+            [
+              'Estradiol',
+              'The main treatment for hot flashes, night sweats, sleep and vaginal dryness. Comes as a skin patch or cream.'
+            ],
+            [
+              'Progesterone',
+              'Protects the uterus when you take estrogen. Also helps sleep and mood. A capsule taken at night.'
+            ],
+            [
+              'Testosterone',
+              'Supports libido, energy, mood and muscle strength. A cream.'
+            ]
+          ],
+          after: [
+            'Testosterone is currently available to KORB patients in Texas and California only. Estradiol and progesterone are available everywhere we operate.',
+            '**If you still have your uterus, you will always be prescribed progesterone alongside estrogen. This is not optional and it is not an upsell.** Estrogen on its own thickens the lining of the uterus over time, which raises cancer risk. Progesterone prevents that.'
+          ]
+        },
+        {
+          h: 'Timing matters',
+          paras: [
+            'Hormone therapy works best and carries the least risk when it is started under age 60 and within about ten years of your last period. That does not mean it is unavailable outside that window, but your provider will weigh it differently and will talk it through with you.'
+          ]
+        },
+        {
+          h: 'How your treatment is adjusted',
+          paras: [
+            'This program is guided by how you feel, not by a lab number. There is no blood test that tells us the right dose for you, so your provider adjusts based on your symptoms and how you are responding.'
+          ]
+        },
+        {
+          h: 'Pricing',
+          paras: [
+            'For current Women\'s Health Program pricing, contact KORB Operations or ask your provider at your visit.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'If you still have your uterus, progesterone is always prescribed alongside estrogen. This is not optional.',
+        'Testosterone is available in Texas and California only. Estradiol and progesterone are available everywhere we operate.',
+        'Hormone therapy works best started under 60 and within about ten years of your last period.',
+        'This program is guided by your symptoms, not by a lab number.'
+      ]
+    },
+
     start_here: {
       key: 'start_here',
       title: 'Start Here Guide',

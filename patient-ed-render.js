@@ -187,11 +187,20 @@
   }
 
   /* ---- small builders ---------------------------------------------------- */
+  /* esc() first, then a single markdown-ish flourish: **text** becomes bold.
+     Escaping happens BEFORE this, so the asterisks cannot smuggle in markup.
+     It exists because the patient guides carry safety lines - nitrates,
+     finasteride in pregnancy, a four-hour erection - that should not read at
+     the same weight as the sentence around them. */
+  function rich(t) {
+    return esc(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  }
+
   function ul(items) {
-    return '<ul>' + (items || []).map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>';
+    return '<ul>' + (items || []).map(function (i) { return '<li>' + rich(i) + '</li>'; }).join('') + '</ul>';
   }
   function paras(items) {
-    return (items || []).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+    return (items || []).map(function (p) { return '<p>' + rich(p) + '</p>'; }).join('');
   }
   function twoCol(rows, h1, h2) {
     return '<table class="grid"><thead><tr><th>' + esc(h1) + '</th><th>' + esc(h2) +
@@ -326,7 +335,7 @@
 
   function cards(rows) {
     return '<table class="grid"><tbody>' + (rows || []).map(function (r) {
-      return '<tr><th>' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td></tr>';
+      return '<tr><th>' + rich(r[0]) + '</th><td>' + rich(r[1]) + '</td></tr>';
     }).join('') + '</tbody></table>';
   }
 
@@ -365,7 +374,7 @@
 
     (guide.sections || []).forEach(function (sec) {
       if (sec.h) { h += '<h2>' + esc(sec.h) + '</h2>'; }
-      if (sec.lead) { h += '<p>' + esc(sec.lead) + '</p>'; }
+      if (sec.lead) { h += '<p>' + rich(sec.lead) + '</p>'; }
       if (sec.paras) { h += paras(sec.paras); }
       if (sec.cards) { h += cards(sec.cards); }
       if (sec.items) { h += ul(sec.items); }
