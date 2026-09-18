@@ -597,11 +597,18 @@
     'background:#fff;border:1px solid var(--rule);border-radius:9px;padding:12px 14px;}',
     '.k-act .k-act-l{flex:0 0 auto;font-size:12px;font-weight:800;color:var(--ink2);',
     'letter-spacing:.06em;text-transform:uppercase;min-width:52px;}',
+    /* Both of these are 44px for the same reason the choice pills are: these
+       are the controls a patient uses to reach a human, on a page opened from a
+       text message. The value was a bare inline <a> at 25px and its Copy button
+       was 38px, so the two smallest targets on the page were the phone number
+       and the email address. inline-flex rather than a padding bump, because
+       padding on an inline element does not grow its hit area. */
     '.k-act .k-act-v{flex:1 1 auto;min-width:0;font-size:16px;font-weight:700;',
-    'color:var(--navy);text-decoration:none;overflow-wrap:anywhere;}',
+    'color:var(--navy);text-decoration:none;overflow-wrap:anywhere;',
+    'display:inline-flex;align-items:center;min-height:44px;}',
     '.k-act .k-act-v:hover{color:var(--k-teal-ink);text-decoration:underline;}',
     '.k-act .k-copy{flex:0 0 auto;align-self:auto;font-size:12.5px;padding:7px 12px;',
-    'min-height:38px;}',
+    'min-height:44px;}',
 
     /* the patient protein calculator, embedded rather than linked. Lifted from
        the navy card in KORB_Patient_Hub.html, so it is the PATIENT tool - the

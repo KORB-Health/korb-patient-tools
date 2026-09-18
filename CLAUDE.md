@@ -1237,9 +1237,18 @@ testosterone" was either already gone or never in it.
    nine sub-44px tap targets at 375px to one, that one being the Print link in
    the masthead, which every page has.
 
-   **Still under 44px on both welcome letters**: the `.k-act` contact rows, at
-   25px for the phone/email value and 38px for their Copy buttons. Same defect
-   class, different component, not yet fixed.
+   **The `.k-act` contact rows followed the same day**, for the same reason:
+   the value was a bare inline `<a>` at 25px and its Copy button 38px, so the two
+   smallest targets on a welcome letter were the phone number and the email
+   address - the controls a patient uses to reach a human. `inline-flex` rather
+   than a padding bump, because padding on an inline element does not grow its
+   hit area. Both welcome letters went from six sub-44px targets at 375px to one.
+
+   **That one is `Print`, at 15px, and it is on EVERY page** including all nine
+   handouts and all four overviews. It is masthead chrome rather than a
+   destination, and it is the only sub-44px target left anywhere in the patient
+   set. Left alone deliberately; revisit it as a masthead question, not a
+   per-page one.
 
 19. **TWO protein calculators, and that is the design.** Don, 2026-09-18. One
    patient-facing, one provider-facing and standalone on the intranet with
