@@ -363,8 +363,32 @@
   var NOTE = 'display:block;text-align:center;font-size:9.5pt;color:#4A4F6B;' +
              'margin:-4px auto 11px;max-width:420px;';
 
+  /* A step in a reading order that is a SET, not a document: "your tier
+     overview" is one of three and "your medication guide" is one of five.
+     Both used to be a single button pointing at Foundation and at Sermorelin -
+     the first item of each set standing in for the whole of it, which sent
+     every Gateway and every Peak patient to the wrong tier and everyone not on
+     Sermorelin to the wrong handout. Don found both on 2026-09-18.
+
+     Rendered smaller than a step button so the step still reads as one step. */
+  var BTN_SM = 'display:inline-block;box-sizing:border-box;margin:0 6px 7px 0;' +
+               'padding:8px 14px;background:#fff;color:#21275B;' +
+               'border:1.5px solid #00808D;border-radius:6px;text-decoration:none;' +
+               'font-weight:700;font-size:10.5pt;line-height:1.3;';
+  var CHOICE_WRAP = 'display:block;max-width:420px;margin:0 auto 12px;text-align:center;';
+
   function links(items, alt) {
     return '<div class="linklist" style="margin:10px 0 4px;">' + (items || []).map(function (l) {
+      if (l.choices && l.choices.length) {
+        return '<span style="' + BTN + 'background:#ECE9D1;color:#21275B;' +
+               'border:2px solid #21275B;cursor:default;">' + esc(l.label) + '</span>' +
+               (l.note ? '<span style="' + NOTE + '">' + esc(l.note) + '</span>' : '') +
+               '<span style="' + CHOICE_WRAP + '">' +
+               l.choices.map(function (c) {
+                 return '<a href="' + esc(c.href) + '" style="' + BTN_SM + '">' +
+                        esc(c.label) + '</a>';
+               }).join('') + '</span>';
+      }
       return '<a href="' + esc(l.href) + '" style="' + (alt ? BTN_ALT : BTN) + '">' +
              esc(l.label) + '</a>' +
              (l.note ? '<span style="' + NOTE + '">' + esc(l.note) + '</span>' : '');
@@ -443,18 +467,33 @@
     '.hub-hero p{margin:0 0 10px;color:var(--cream);font-size:15.5px;}',
     '.hub-hero p:last-child{margin-bottom:0;}',
 
-    '.hub-sec{margin:0 0 26px;}',
+    /* A section heading has to beat the card labels inside it. It used to lose:
+       13px uppercase against a 16.5px card name and an 18px primary one, which
+       is why the page read as an undifferentiated run of buttons with no sense
+       of where one group ended. Don flagged exactly that on 2026-09-18. The
+       teal rule carries the grouping; the sections are separated by a hairline
+       so the eye has somewhere to stop. */
+    '.hub-sec{margin:0 0 34px;}',
+    '.hub-sec + .hub-sec{padding-top:30px;border-top:1px solid var(--rule);}',
     '.hub-sec > h2{background:none!important;color:var(--navy)!important;',
-    'font-size:13px!important;font-weight:800!important;letter-spacing:.08em;',
-    'text-transform:uppercase;margin:0 0 4px!important;padding:0!important;}',
-    '.hub-sec .k-lead{margin:0 0 14px;color:var(--ink2);font-size:15px;}',
+    'font-size:21px!important;font-weight:800!important;letter-spacing:-.01em;',
+    'line-height:1.25;text-transform:none;margin:0 0 7px!important;',
+    'padding:1px 0 1px 13px!important;border-left:4px solid var(--teal);}',
+    '.hub-sec .k-lead{margin:0 0 15px;color:var(--ink2);font-size:15px;}',
 
     '.hub-grid{display:grid;gap:12px;grid-template-columns:1fr;}',
     '@media(min-width:620px){.hub-grid.two{grid-template-columns:1fr 1fr;}}',
 
+    /* THREE WEIGHTS OF DESTINATION, not one.
+
+       Every link on the page used to render as the same white card with the
+       same teal stripe, so a five-item pick-your-handout list shouted exactly
+       as loudly as the tracker a patient opens weekly. The teal stripe moved to
+       the section heading; a plain card no longer competes with it. */
+
     /* a destination card: the whole card is the tap target */
     '.k-card{display:block;background:#fff;border:1px solid var(--rule);',
-    'border-left:5px solid var(--teal);border-radius:10px;padding:15px 17px;',
+    'border-radius:10px;padding:15px 17px;',
     'text-decoration:none;color:var(--navy);min-height:44px;}',
     '.k-card .k-name{display:block;font-weight:800;font-size:16.5px;line-height:1.3;}',
     '.k-card .k-desc{display:block;margin-top:5px;color:var(--ink2);',
@@ -463,13 +502,79 @@
     'font-weight:700;color:var(--k-teal-ink);letter-spacing:.02em;}',
     '.k-card:hover{border-color:var(--teal);box-shadow:0 2px 10px rgba(33,39,91,.10);}',
 
-    /* the two weekly tools, raised above the rest */
-    '.k-card.k-primary{background:var(--navy);border-color:var(--ink);',
-    'border-left:5px solid var(--orange);color:#fff;}',
+    /* the two weekly tools, raised above the rest. Teal, not orange: orange is
+       the callout colour everywhere else in the system and reads as a warning
+       when it fronts a navigation card. */
+    '.k-card.k-primary{background:var(--navy);border-color:var(--navy);',
+    'border-left:5px solid var(--teal);color:#fff;}',
     '.k-card.k-primary .k-name{color:#fff;font-size:18px;}',
     '.k-card.k-primary .k-desc{color:var(--cream);}',
-    '.k-card.k-primary .k-go{color:var(--orange);}',
+    '.k-card.k-primary .k-go{color:var(--teal);}',
     '.k-card.k-primary:hover{box-shadow:0 3px 14px rgba(33,39,91,.28);}',
+
+    /* a set of siblings you pick ONE of - the tiers, the medication handouts.
+       A tight list, because the choice is the content and the chrome is not. */
+    '.k-list{background:#fff;border:1px solid var(--rule);border-radius:10px;',
+    'overflow:hidden;}',
+    '.k-list a{display:flex;align-items:center;gap:12px;padding:14px 16px;',
+    'text-decoration:none;color:var(--navy);min-height:44px;',
+    'border-top:1px solid var(--rule);}',
+    '.k-list a:first-child{border-top:0;}',
+    '.k-list a:hover{background:var(--panel);}',
+    '.k-list .k-name{flex:1 1 auto;font-weight:700;font-size:15.5px;line-height:1.35;}',
+    '.k-list .k-desc{display:block;margin-top:2px;font-weight:400;font-size:13.5px;',
+    'color:var(--ink2);line-height:1.4;}',
+    '.k-list .k-go{flex:0 0 auto;font-size:18px;font-weight:700;color:var(--k-teal-ink);}',
+
+    /* phone, email, portal. The VALUE is on the page as text, because a mailto:
+       on a machine with no default mail client is a button that does nothing at
+       all - which is what Don hit on 2026-09-18 and correctly called broken. */
+    '.k-acts{display:flex;flex-direction:column;gap:9px;}',
+    '.k-act{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;',
+    'background:#fff;border:1px solid var(--rule);border-radius:9px;padding:12px 14px;}',
+    '.k-act .k-act-l{flex:0 0 auto;font-size:12px;font-weight:800;color:var(--ink2);',
+    'letter-spacing:.06em;text-transform:uppercase;min-width:52px;}',
+    '.k-act .k-act-v{flex:1 1 auto;min-width:0;font-size:16px;font-weight:700;',
+    'color:var(--navy);text-decoration:none;overflow-wrap:anywhere;}',
+    '.k-act .k-act-v:hover{color:var(--k-teal-ink);text-decoration:underline;}',
+    '.k-act .k-copy{flex:0 0 auto;align-self:auto;font-size:12.5px;padding:7px 12px;',
+    'min-height:38px;}',
+
+    /* the patient protein calculator, embedded rather than linked. Lifted from
+       the navy card in KORB_Patient_Hub.html, so it is the PATIENT tool - the
+       provider twin in Provider_Reference carries "Copy into the chart" and has
+       no business on a patient page. Restyled light because the hub card it
+       came from sat on navy and this page is cream. */
+    '.k-calc{background:#fff;border:1px solid var(--rule);border-radius:10px;',
+    'padding:17px 18px;margin:0 0 14px;}',
+    '.k-calc .k-calc-h{margin:0 0 3px;font-size:16.5px;font-weight:800;color:var(--navy);}',
+    '.k-calc .k-calc-s{margin:0 0 14px;font-size:13.5px;color:var(--ink2);line-height:1.45;}',
+    '.k-calc label{display:block;font-size:12px;font-weight:800;color:var(--ink2);',
+    'letter-spacing:.05em;text-transform:uppercase;margin:0 0 5px;}',
+    '.k-calc .k-f{margin:0 0 12px;}',
+    '.k-calc .k-in{display:flex;gap:8px;align-items:center;}',
+    '.k-calc input,.k-calc select{font:inherit;font-size:16px;color:var(--navy);',
+    'background:#fff;border:1.5px solid var(--rule);border-radius:7px;padding:10px 11px;',
+    'min-height:44px;width:100%;min-width:0;}',
+    '.k-calc input:focus,.k-calc select:focus{outline:3px solid var(--teal);outline-offset:1px;}',
+    '.k-calc .k-u{flex:0 0 auto;width:78px;}',
+    '.k-calc .k-unit{flex:0 0 auto;font-size:13px;color:var(--ink2);font-weight:700;}',
+    '@media(min-width:560px){.k-calc .k-row{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}}',
+    '.k-calc button{font:inherit;font-size:15px;font-weight:800;width:100%;',
+    'background:var(--teal);color:var(--navy);border:2px solid var(--k-teal-ink);',
+    'border-radius:24px;padding:12px;cursor:pointer;min-height:48px;margin-top:2px;}',
+    '.k-calc button:hover{background:var(--k-teal-ink);color:#fff;}',
+    '.k-calc button:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
+    '.k-calc .k-res{margin-top:14px;}',
+    '.k-calc .k-res-in{background:var(--navy);border-radius:10px;padding:15px;text-align:center;}',
+    '.k-calc .k-res-l{font-size:11px;color:var(--teal);text-transform:uppercase;',
+    'letter-spacing:.08em;font-weight:800;}',
+    '.k-calc .k-res-n{font-size:30px;font-weight:800;color:#fff;margin-top:3px;line-height:1.1;}',
+    '.k-calc .k-res-m{font-size:13px;color:var(--cream);margin-top:7px;}',
+    '.k-calc .k-res-b{font-size:12px;color:var(--cream);opacity:.85;margin-top:9px;line-height:1.55;}',
+    '.k-calc .k-err{font-size:13.5px;color:var(--navy);background:var(--panel);',
+    'border:1px solid var(--rule);border-radius:8px;padding:11px 13px;}',
+    '@media print{.k-calc button{display:none;}}',
 
     '.hub-note{background:#fff;border:1px solid var(--rule);border-radius:10px;',
     'padding:14px 16px;margin:0 0 22px;color:var(--ink2);font-size:14.5px;}',
@@ -489,12 +594,18 @@
     '.k-note p strong{color:var(--navy);}',
     '.k-note p{margin:0;color:var(--ink2);font-size:14.5px;}',
 
+    /* Two across from 700px up. In one full-width column the prompt text ran
+       out well short of the right edge and the small bottom-left button left a
+       dead quarter of every card, which is the left-heavy look Don described.
+       Narrower columns fill, and the button stretches rather than floating. */
+    '@media(min-width:700px){.hub-grid.k-prompts{grid-template-columns:1fr 1fr;}}',
     '.k-prompt{background:#fff;border:1px solid var(--rule);border-radius:10px;',
     'padding:15px 17px;display:flex;flex-direction:column;gap:9px;}',
     '.k-prompt h3{margin:0;font-size:16px;font-weight:800;color:var(--navy);}',
     '.k-prompt .k-why{margin:0;color:var(--ink2);font-size:13.5px;}',
     '.k-prompt .k-text{margin:0;background:var(--panel);border:1px solid var(--rule);',
     'border-radius:7px;padding:11px 13px;font-size:13.5px;line-height:1.5;color:var(--ink);}',
+    '.k-prompt .k-copy{margin-top:auto;align-self:stretch;}',
     '.k-copy{align-self:flex-start;font:inherit;font-size:13.5px;font-weight:700;',
     'background:var(--teal);color:var(--navy);border:2px solid var(--k-teal-ink);',
     'border-radius:7px;padding:9px 16px;cursor:pointer;min-height:44px;}',
@@ -518,8 +629,137 @@
            '<span class="k-go">' + esc(l.go || 'Open') + ' \u2192</span></a>';
   }
 
+  /* One of a set you pick a single item from. Same link, a tenth of the noise. */
+  function hubRow(l) {
+    return '<a href="' + esc(l.href) + '">' +
+           '<span class="k-name">' + esc(l.label) +
+           (l.note ? '<span class="k-desc">' + esc(l.note) + '</span>' : '') +
+           '</span>' +
+           '<span class="k-go" aria-hidden="true">\u2192</span></a>';
+  }
+
+  /* A way to reach a human. The address or number is TEXT on the page.
+
+     It used to be a card like any other, which meant the email card was an
+     <a href="mailto:"> and nothing else. On a machine with no default mail
+     client - most desktops in a clinic - clicking it does nothing whatsoever:
+     no error, no handoff, no address revealed. Don hit this on 2026-09-18 and
+     reasonably read it as a broken button. Showing the value fixes it for every
+     patient in that position, and the copy control means they can use it
+     without a mail client at all. */
+  function actRow(l, i) {
+    var m = /^(mailto|tel):(.+)$/i.exec(l.href || '');
+    if (!m) {
+      return '<div class="k-act"><span class="k-act-l">Open</span>' +
+             '<a class="k-act-v" href="' + esc(l.href) + '" target="_blank" rel="noopener">' +
+             esc(String(l.label || '').replace(/^open\s+/i, '')) + '</a></div>';
+    }
+    var scheme = m[1].toLowerCase();
+    var id = 'kact' + i;
+    /* the data labels these "Call (888) ..." and "Email info@..."; the verb is
+       the column header here, so it would otherwise be said twice */
+    var shown = String(l.label || '').replace(/^(call|email|text)\s+/i, '');
+    return '<div class="k-act">' +
+           '<span class="k-act-l">' + (scheme === 'mailto' ? 'Email' : 'Call') + '</span>' +
+           '<a class="k-act-v" id="' + id + '" href="' + esc(l.href) + '">' + esc(shown) + '</a>' +
+           '<button type="button" class="k-copy" data-for="' + id + '">Copy</button>' +
+           '</div>';
+  }
+
+  /* The patient protein calculator.
+
+     USDA 2025-2030, 1.2-1.6 g/kg/day for maintenance and 1.6-2.0 for active
+     loss, on adjusted body weight once BMI reaches 30 - above that, current
+     weight returns a target higher than the body needs and higher than most
+     people on a GLP-1 could eat. Devine for ideal body weight.
+
+     Ported verbatim from KORB_Patient_Hub.html rather than rewritten, so the
+     two agree by construction. If the numbers change, they change in both. */
+  function proteinCalc() {
+    return '<div class="k-calc">' +
+      '<p class="k-calc-h">Work out your daily protein target</p>' +
+      '<p class="k-calc-s">Based on the 2025&ndash;2030 USDA Dietary Guidelines. ' +
+      'This is a general reference, not personalized advice &mdash; ask your provider ' +
+      'for individual guidance.</p>' +
+
+      '<div class="k-row">' +
+        '<div class="k-f"><label for="kpW">Weight</label><div class="k-in">' +
+          '<input type="number" id="kpW" inputmode="decimal" placeholder="180">' +
+          '<select id="kpU" class="k-u" aria-label="Weight unit">' +
+          '<option value="lb">lb</option><option value="kg">kg</option></select>' +
+        '</div></div>' +
+        '<div class="k-f"><label for="kpFt">Height</label><div class="k-in">' +
+          '<input type="number" id="kpFt" inputmode="numeric" placeholder="5" aria-label="Height, feet">' +
+          '<span class="k-unit">ft</span>' +
+          '<input type="number" id="kpIn" inputmode="numeric" placeholder="10" aria-label="Height, inches">' +
+          '<span class="k-unit">in</span>' +
+        '</div></div>' +
+      '</div>' +
+
+      '<div class="k-row">' +
+        '<div class="k-f"><label for="kpS">Sex at birth</label>' +
+          '<select id="kpS"><option value="m">Male</option><option value="f">Female</option></select>' +
+        '</div>' +
+        '<div class="k-f"><label for="kpG">Goal</label>' +
+          '<select id="kpG"><option value="maintain">General health / maintenance</option>' +
+          '<option value="loss">Active weight loss (preserve muscle)</option></select>' +
+        '</div>' +
+      '</div>' +
+
+      '<button type="button" id="kpGo">Calculate my target</button>' +
+      '<div class="k-res" id="kpOut" role="status" aria-live="polite"></div>' +
+      '</div>';
+  }
+
+  /* Delegated, for the same reason the copy handler is: this markup is assigned
+     with innerHTML, and neither a <script> returned in the string nor an inline
+     onclick pointing at a function that was never defined would ever run. */
+  function bindCalc() {
+    if (typeof document === 'undefined' || document.__korbCalcBound) { return; }
+    document.__korbCalcBound = true;
+    document.addEventListener('click', function (e) {
+      var b = e.target && e.target.closest && e.target.closest('#kpGo');
+      if (!b) { return; }
+      function v(id) { return parseFloat((document.getElementById(id) || {}).value); }
+      function s(id) { return (document.getElementById(id) || {}).value; }
+      var out = document.getElementById('kpOut');
+      if (!out) { return; }
+
+      var w = v('kpW'), ft = v('kpFt'), inch = v('kpIn') || 0;
+      if (!w || w <= 0 || !ft || ft <= 0) {
+        out.innerHTML = '<div class="k-err">Enter your weight and height to see a target range.</div>';
+        return;
+      }
+      var kg = s('kpU') === 'lb' ? w / 2.20462 : w;
+      var totalIn = ft * 12 + inch;
+      var bmi = kg / Math.pow(totalIn * 0.0254, 2);
+
+      var ibw = (s('kpS') === 'm' ? 50 : 45.5) + 2.3 * (totalIn - 60);
+      if (ibw < 40) { ibw = 40; }
+      var basisKg = kg;
+      var basisNote = 'Based on your current weight.';
+      if (bmi >= 30) {
+        basisKg = ibw + 0.4 * (kg - ibw);
+        basisNote = 'Based on adjusted body weight rather than your current weight. ' +
+          'Above a BMI of 30, using current weight produces a target that is higher ' +
+          'than the body actually needs and higher than most people can eat.';
+      }
+      var loss = s('kpG') === 'loss';
+      var loG = Math.round(basisKg * (loss ? 1.6 : 1.2));
+      var hiG = Math.round(basisKg * (loss ? 2.0 : 1.6));
+
+      out.innerHTML = '<div class="k-res-in">' +
+        '<div class="k-res-l">Daily target</div>' +
+        '<div class="k-res-n">' + loG + '–' + hiG + ' g</div>' +
+        '<div class="k-res-m">Spread across 3–4 meals for best results</div>' +
+        '<div class="k-res-b">BMI ' + bmi.toFixed(1) + '. ' + basisNote + '</div>' +
+        '</div>';
+    });
+  }
+
   function renderHubBody(DATA, DOSING, hub) {
     var h = '<style>' + HUB_CSS + '</style>';
+    bindCalc();
 
     h += '<div class="hub-hero"><h1>' + esc(hub.title) + '</h1>' +
          '<p class="k-sub">' + esc(hub.sub || 'Functional Health & Longevity') + '</p>' +
@@ -538,8 +778,9 @@
         h += '<div class="k-note"><span class="k-note-t">' + esc(sec.callout.title) + '</span>' +
              '<p>' + rich(sec.callout.text) + '</p></div>';
       }
+      if (sec.embed === 'protein') { h += proteinCalc(); }
       if (sec.prompts && sec.prompts.length) {
-        h += '<div class="hub-grid">' + sec.prompts.map(function (p, i) {
+        h += '<div class="hub-grid k-prompts">' + sec.prompts.map(function (p, i) {
           var pid = 'p' + (sec.h || '').replace(/\W+/g, '') + i;
           return '<div class="k-prompt"><h3>' + esc(p.title) + '</h3>' +
                  (p.why ? '<p class="k-why">' + esc(p.why) + '</p>' : '') +
@@ -555,12 +796,30 @@
         }).join('') + '</div>';
       }
       if (sec.links && sec.links.length) {
-        /* two across only when there are an even number worth pairing; a lone
-           card stretched half-width next to nothing looks like a mistake */
-        var two = sec.links.length > 1;
-        h += '<div class="hub-grid' + (two ? ' two' : '') + '">' +
-             sec.links.map(function (l) { return hubCard(l, !!sec.primary); }).join('') +
-             '</div>';
+        /* A section declares its own weight with `as`, and a section holding a
+           mailto: or tel: is a contact block whether it says so or not. */
+        var isContact = sec.as === 'contact' ||
+          sec.links.some(function (l) { return /^(mailto|tel):/i.test(l.href || ''); });
+
+        if (isContact) {
+          h += '<div class="k-acts">' +
+               sec.links.map(function (l, i) { return actRow(l, i); }).join('') +
+               '</div>';
+        } else if (sec.as === 'list' ||
+                   (!sec.primary && !sec.links.some(function (l) { return l.note; }))) {
+          /* A card carries a label, a description and an Open affordance. With
+             no description it is a label floating in a box of white space, and
+             nine of those in a row is the "bunch of buttons that all look the
+             same" Don described. Nothing to describe means a row, not a card. */
+          h += '<div class="k-list">' + sec.links.map(hubRow).join('') + '</div>';
+        } else {
+          /* two across only when there are an even number worth pairing; a lone
+             card stretched half-width next to nothing looks like a mistake */
+          var two = sec.links.length > 1 && sec.links.length % 2 === 0;
+          h += '<div class="hub-grid' + (two ? ' two' : '') + '">' +
+               sec.links.map(function (l) { return hubCard(l, !!sec.primary); }).join('') +
+               '</div>';
+        }
       }
       h += '</section>';
     });

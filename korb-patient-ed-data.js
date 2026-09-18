@@ -1022,14 +1022,24 @@ var KORB_PATIENT_ED = {
               note: 'what the program is and how a cycle runs'
             },
             {
-              href: 'KORB_Foundation_Program_Overview.html',
               label: 'Your tier overview',
-              note: 'Foundation, Gateway or Peak, whichever your provider confirms'
+              note: 'open the one your provider confirmed for you',
+              choices: [
+                { href: 'KORB_Foundation_Program_Overview.html', label: 'Foundation' },
+                { href: 'KORB_Gateway_Program_Overview.html', label: 'Gateway' },
+                { href: 'KORB_Peak_Program_Overview.html', label: 'Peak Performance' }
+              ]
             },
             {
-              href: 'KORB_Patient_Ed_Sermorelin.html',
               label: 'Your medication guide',
-              note: 'the handout for the specific agent you are prescribed'
+              note: 'open the handout for the agent you were prescribed',
+              choices: [
+                { href: 'KORB_Patient_Ed_Sermorelin.html', label: 'Sermorelin' },
+                { href: 'KORB_Patient_Ed_CJC_Ipamorelin.html', label: 'CJC-1295 / Ipamorelin' },
+                { href: 'KORB_Patient_Ed_BPC157.html', label: 'BPC-157' },
+                { href: 'KORB_Patient_Ed_Tesamorelin.html', label: 'Tesamorelin' },
+                { href: 'KORB_Patient_Ed_GHK_Cu.html', label: 'GHK-Cu' }
+              ]
             },
             {
               href: 'KORB_Injection_Storage_Safety_Guide.html',
@@ -1156,17 +1166,49 @@ var KORB_PATIENT_ED = {
             title: 'Why this matters more on a GLP-1 than off one',
             text: 'These medications work by reducing appetite, so you will eat less without trying to. The risk is that you lose muscle along with fat. **Protein and resistance training are what protect muscle**, and protein is the one that is easy to miss when you are not hungry. Work out your daily target, then use the ideas below to hit it.'
           },
-          links: [
+          /* The calculator itself, not a link to one.
+
+             This used to point at Provider_Reference/KORB_BMI_Protein_Calculator_
+             standalone.html - the PROVIDER tool, which carries "Copy into the
+             chart" and other charting affordances that have no meaning for a
+             patient and should not be on a patient-facing page at all. The
+             patient calculator already existed, embedded in KORB_Patient_Hub.html.
+             That is the one rendered here. Don caught the swap on 2026-09-18. */
+          embed: 'protein'
+        },
+        /* The assistant list sits ABOVE the prompts, not below them. A patient
+           who has never used one of these tools needs somewhere to paste before
+           a prompt to paste is worth anything; at the bottom of six long cards
+           most of them never reached it. Don, 2026-09-18. */
+        {
+          h: 'Pick a free AI assistant',
+          lead: 'Any of these will handle the prompts below, and all of them have a free version. KORB does not endorse or have any relationship with any of them. Pick whichever you already use or like the look of. Open one in a new tab, then come back for a prompt.',
+          tools: [
             {
-              href: 'Provider_Reference/KORB_BMI_Protein_Calculator_standalone.html',
-              label: 'Work out my daily protein target',
-              note: 'Enter your height and weight and it gives you a daily protein number to aim for.'
+              href: 'https://chat.openai.com',
+              label: 'ChatGPT'
+            },
+            {
+              href: 'https://claude.ai',
+              label: 'Claude'
+            },
+            {
+              href: 'https://gemini.google.com',
+              label: 'Google Gemini'
+            },
+            {
+              href: 'https://copilot.microsoft.com',
+              label: 'Microsoft Copilot'
+            },
+            {
+              href: 'https://www.perplexity.ai',
+              label: 'Perplexity'
             }
           ]
         },
         {
-          h: 'Use an AI assistant for meal ideas',
-          lead: 'Copy any prompt below, paste it into a free AI assistant, and it will generate ideas for you. Nothing to sign up for, and you can keep asking follow-up questions until you get something you would actually eat.',
+          h: 'Prompts to paste in',
+          lead: 'Copy any prompt below and paste it into the assistant you picked. Nothing to sign up for, and you can keep asking follow-up questions in plain language until you get something you would actually eat, for example "make these dairy free" or "I do not like fish".',
           callout: {
             title: 'Before you use these',
             text: 'The answers come from the AI assistant, not from KORB, and AI tools do sometimes get things wrong. Treat the results as ideas to consider, not instructions. **Do not type your medical conditions, medications or other health details into these tools.** The prompts are written so you do not need to. If you are thinking about a real change to how you eat, bring it to your provider first.'
@@ -1198,35 +1240,19 @@ var KORB_PATIENT_ED = {
               text: 'I am eating at a [TYPE OF RESTAURANT]. Suggest 8 protein-forward things I could order that are not fried or heavy in cream and oil, and that work as a smaller portion. For each, note roughly how much protein it has and one simple modification to ask for. Do not give me medical or nutrition advice, just ordering suggestions.'
             },
             {
+              title: 'Look up the protein in what you already eat',
+              why: 'So you are working from numbers rather than guessing at them.',
+              text: 'Build me a reference table of the protein content of common everyday foods. Cover meat, poultry, fish, eggs, dairy, beans and pulses, soy, grains and nuts. For each one give a normal portion size both in grams and as a household measure such as a cup, a slice or a palm, and the grams of protein in that portion. Sort it from most protein per portion to least. Then add a short list of the ten that give the most protein for the smallest amount of food. Do not give me medical or nutrition advice, just the table.'
+            },
+            {
+              title: 'A protein checklist for a working week',
+              why: 'For eating at a desk, on a job site, or between appointments.',
+              text: 'Give me a one-page checklist of high-protein foods that need no cooking, or under five minutes of preparation, for someone who works full time and eats at least one meal away from home. Split it into three groups: keep at home, take with you, and buy while you are out. Every item should have at least 15 g of protein in a normal portion, and you should note the portion size and the protein for each one. Keep it short enough to print and stick on a fridge. Do not give me medical or nutrition advice, just the list.'
+            },
+            {
               title: 'Compare tracking apps yourself',
               why: 'So you pick a tool, rather than being pointed at one.',
               text: 'Compare the most widely used free food and protein tracking apps available today. For each, tell me: what it costs, whether the free version is genuinely usable, how easy it is to log protein specifically, and what data it collects about me. Present it as a table and tell me which is best for someone focused mainly on hitting a daily protein target. Give me the trade-offs, not a single recommendation.'
-            }
-          ]
-        },
-        {
-          h: 'Free AI assistants you could use',
-          lead: 'All of these have a free version that will handle these prompts. KORB does not endorse or have any relationship with any of them. Pick whichever you already use or like the look of. Paste the prompt in, press enter, and ask follow-ups in plain language, for example "make these dairy free" or "I do not like fish".',
-          tools: [
-            {
-              href: 'https://chat.openai.com',
-              label: 'ChatGPT'
-            },
-            {
-              href: 'https://claude.ai',
-              label: 'Claude'
-            },
-            {
-              href: 'https://gemini.google.com',
-              label: 'Google Gemini'
-            },
-            {
-              href: 'https://copilot.microsoft.com',
-              label: 'Microsoft Copilot'
-            },
-            {
-              href: 'https://www.perplexity.ai',
-              label: 'Perplexity'
             }
           ]
         },
@@ -1313,6 +1339,8 @@ var KORB_PATIENT_ED = {
         {
           h: 'Your program tiers',
           lead: 'Each tier is structured differently. Once your provider confirms your tier, open the matching overview below.',
+          /* pick one of three, so a compact list rather than three full cards */
+          as: 'list',
           links: [
             {
               href: 'Patient_Education/KORB_Foundation_Program_Overview.html',
@@ -1331,6 +1359,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Your medication guides',
           lead: 'Once your provider confirms your medication, open the matching guide below for how it works, how to use it, and what to expect.',
+          as: 'list',
           links: [
             {
               href: 'Patient_Education/KORB_Patient_Ed_Sermorelin.html',
