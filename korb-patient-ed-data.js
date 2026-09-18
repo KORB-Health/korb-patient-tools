@@ -1087,7 +1087,7 @@ var KORB_PATIENT_ED = {
       key: 'welcome',
       title: 'Welcome to KORB',
       root: true,
-      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If you have questions, contact KORB.',
       intro: [
         'We are glad you are here. This is your starting point for the KORB Functional Health and Longevity Program.',
         'At your first visit you complete your baseline labs. Your provider reviews those results and confirms your program and medication plan afterwards. Everything below helps you get oriented in the meantime.'
@@ -1095,42 +1095,41 @@ var KORB_PATIENT_ED = {
       sections: [
         {
           h: 'Your most important links',
+          lead: 'Your personalized schedule and your day-to-day tracker, in one place.',
           links: [
             {
               href: 'KORB_Patient_Treatment_Schedule.html',
-              label: 'Treatment Schedule',
-              note: 'your personalized schedule, with your dates'
+              label: 'Open Treatment Schedule'
             },
             {
               href: 'KORB_Functional_Health_Tracker.html',
-              label: 'Peptide Tracker',
-              note: 'track your injections and how you are doing'
+              label: 'Open My Peptide Tracker'
             }
           ]
         },
         {
           h: 'Getting started',
-          lead: 'New to the program? This is the short orientation.',
+          lead: 'New to the program? Start here for a quick overview of what to expect in your first cycle.',
           links: [
             {
               href: 'Patient_Education/KORB_Start_Here_Guide.html',
-              label: 'Start Here Guide'
+              label: 'Open the Start Here Guide'
             }
           ]
         },
         {
           h: 'Program overview',
-          lead: 'The bigger picture of how the program works. Your provider confirms which tier fits your goals once your labs are back.',
+          lead: 'Want the bigger picture of how the Functional Health and Longevity Program works? This covers the program structure. Your provider will confirm which tier fits your goals once your labs are back.',
           links: [
             {
               href: 'Patient_Education/KORB_Longevity_Program_Overview.html',
-              label: 'Program Overview'
+              label: 'Longevity Program Overview'
             }
           ]
         },
         {
           h: 'Your program tiers',
-          lead: 'Each tier is structured differently. Once your provider confirms your tier, open the matching overview.',
+          lead: 'Each tier is structured differently. Once your provider confirms your tier, open the matching overview below.',
           links: [
             {
               href: 'Patient_Education/KORB_Foundation_Program_Overview.html',
@@ -1148,7 +1147,7 @@ var KORB_PATIENT_ED = {
         },
         {
           h: 'Your medication guides',
-          lead: 'Once your provider confirms your medication, open the matching guide for how it works, how to use it, and what to expect.',
+          lead: 'Once your provider confirms your medication, open the matching guide below for how it works, how to use it, and what to expect.',
           links: [
             {
               href: 'Patient_Education/KORB_Patient_Ed_Sermorelin.html',
@@ -1168,7 +1167,17 @@ var KORB_PATIENT_ED = {
             },
             {
               href: 'Patient_Education/KORB_Patient_Ed_GHK_Cu.html',
-              label: 'GHK-Cu (add-on)'
+              label: 'GHK-Cu (Add-On)'
+            }
+          ]
+        },
+        {
+          h: 'How to give your injections',
+          lead: 'Watch our short video walkthrough before your first injection.',
+          links: [
+            {
+              href: 'https://bit.ly/KORBSQInjection',
+              label: 'Watch the Injection Video'
             }
           ]
         },
@@ -1177,7 +1186,7 @@ var KORB_PATIENT_ED = {
           links: [
             {
               href: 'Patient_Education/KORB_Injection_Storage_Safety_Guide.html',
-              label: 'Injection, Storage and Safety Guide'
+              label: 'Injection Storage & Safety Guide'
             },
             {
               href: 'Patient_Education/KORB_When_to_Contact_KORB_or_ER.html',
@@ -1186,8 +1195,31 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
+          h: 'Join our community',
+          lead: 'Connect with others on the program and find extra support along the way.',
+          links: [
+            {
+              href: 'https://go.korbhealth.com/JoinKORBcirclecommunity',
+              label: 'Join the KORB Circle Community'
+            }
+          ]
+        },
+        {
           h: 'Contact us',
-          shared: 'contact'
+          items: [
+            'Call us: (888) 959-7299',
+            'Email us: info@korbhealth.com',
+            'Non-medical questions: reply to any text message or appointment reminder. Our staff responds Monday to Friday, 9:00 AM to 6:00 PM CST.'
+          ],
+          after: [
+            'Medical questions go through your Patient Portal.'
+          ],
+          links: [
+            {
+              href: 'https://portal.kareo.com/app/new/login',
+              label: 'Open Patient Portal'
+            }
+          ]
         }
       ]
     },

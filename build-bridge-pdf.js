@@ -130,6 +130,25 @@ function serve() {
           'printed copy, not the live version';
       }
 
+      /* 2c. the logo prints far larger than it needs to and sits hard left.
+         Quarter it and centre it, so the page opens on the content rather than
+         on a banner. */
+      const mast = document.querySelector('.mast');
+      if (mast) {
+        mast.setAttribute('style',
+          'text-align:center;border-bottom:1.5px solid #00B2C3;' +
+          'padding-bottom:8px;margin:0 0 14px;');
+        const img = mast.querySelector('img');
+        if (img) {
+          img.setAttribute('style',
+            'height:30px;width:auto;display:inline-block;margin:0 auto;' +
+            'mix-blend-mode:multiply;');
+        }
+      }
+      /* the title band reads better centred above centred buttons */
+      const tb = document.querySelector('.titleband');
+      if (tb) tb.setAttribute('style', (tb.getAttribute('style') || '') + ';text-align:center;');
+
       /* 3. say plainly that this is a copy, and where the live one is */
       const note = document.createElement('p');
       note.setAttribute('style',

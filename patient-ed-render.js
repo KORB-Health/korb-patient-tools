@@ -339,11 +339,36 @@
     }).join('') + '</tbody></table>';
   }
 
-  function links(items) {
-    return '<ul class="linklist">' + (items || []).map(function (l) {
-      return '<li><a href="' + esc(l.href) + '">' + esc(l.label) + '</a>' +
-             (l.note ? ' <span class="linknote">' + esc(l.note) + '</span>' : '') + '</li>';
-    }).join('') + '</ul>';
+  /* Buttons, not a bulleted list of links.
+
+     The Welcome Letter these replaced used centred branded buttons, and that is
+     not decoration: it is what tells a patient the thing is tappable. A blue
+     underlined word in a wall of text does not.
+
+     Styles are inline on each element rather than in a stylesheet, because
+     these render into a PDF through Playwright and an inline style is the one
+     thing that cannot be lost on the way. */
+  /* Teal fill with navy text, not navy fill. The section headings are navy
+     bands, so navy buttons under them read as more heading rather than as
+     something to press. Teal is the other brand colour and separates action
+     from label at a glance. Navy on teal is legible at this weight and size;
+     white on teal is not, so the text is navy. */
+  var BTN = 'display:block;box-sizing:border-box;width:100%;max-width:420px;' +
+            'margin:0 auto 9px;padding:12px 18px;text-align:center;' +
+            'background:#00B2C3;color:#0E1236;border:2px solid #00808D;' +
+            'border-radius:6px;text-decoration:none;font-weight:700;' +
+            'font-size:11.5pt;line-height:1.3;letter-spacing:.01em;';
+  var BTN_ALT = BTN.replace('background:#00B2C3;', 'background:#FBB040;')
+                   .replace('border:2px solid #00808D;', 'border:2px solid #C8862A;');
+  var NOTE = 'display:block;text-align:center;font-size:9.5pt;color:#4A4F6B;' +
+             'margin:-4px auto 11px;max-width:420px;';
+
+  function links(items, alt) {
+    return '<div class="linklist" style="margin:10px 0 4px;">' + (items || []).map(function (l) {
+      return '<a href="' + esc(l.href) + '" style="' + (alt ? BTN_ALT : BTN) + '">' +
+             esc(l.label) + '</a>' +
+             (l.note ? '<span style="' + NOTE + '">' + esc(l.note) + '</span>' : '');
+    }).join('') + '</div>';
   }
 
   function sharedBlock(DATA, name) {
