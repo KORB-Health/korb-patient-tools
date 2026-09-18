@@ -477,7 +477,8 @@
     '.hub-note li{margin:0 0 5px;}',
 
     '.hub-foot{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule);',
-    'text-align:center;color:var(--ink2);font-size:13px;}',
+    'text-align:center;color:var(--ink2);font-size:13px;line-height:1.55;}',
+    '.hub-foot strong{color:var(--navy);font-size:13.5px;}',
 
     '.k-note{background:#fff;border:1px solid var(--rule);border-left:5px solid var(--orange);',
     'border-radius:10px;padding:15px 17px;margin:0 0 14px;}',
@@ -564,9 +565,13 @@
       h += '</section>';
     });
 
-    if (hub.disclaimer) {
-      h += '<p class="hub-foot">' + esc(hub.disclaimer) + '</p>';
-    }
+    /* The practice, named. The hero replaced the shell's title band and the
+       byline went with it, which quietly took the attribution off the two most
+       patient-facing pages in the repo the same week 14 documents were
+       corrected for naming the MSO instead. KORB Health Group LLC does not
+       practise medicine; KORB Health Medical Texas PA does. */
+    h += '<p class="hub-foot"><strong>KORB Health Medical Texas PA</strong>' +
+         (hub.disclaimer ? '<br>' + esc(hub.disclaimer) : '') + '</p>';
 
     /* Copy-to-clipboard for the prompt cards.
 
