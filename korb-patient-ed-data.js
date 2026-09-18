@@ -1022,7 +1022,7 @@ var KORB_PATIENT_ED = {
               note: 'what the program is and how a cycle runs'
             },
             {
-              label: 'Your tier overview',
+              label: 'Your Tier Overview',
               note: 'open the one your provider confirmed for you',
               choices: [
                 { href: 'KORB_Foundation_Program_Overview.html', label: 'Foundation' },
@@ -1031,14 +1031,14 @@ var KORB_PATIENT_ED = {
               ]
             },
             {
-              label: 'Your medication guide',
+              label: 'Your Medication Guide',
               note: 'open the handout for the agent you were prescribed',
               choices: [
                 { href: 'KORB_Patient_Ed_Sermorelin.html', label: 'Sermorelin' },
                 { href: 'KORB_Patient_Ed_CJC_Ipamorelin.html', label: 'CJC-1295 / Ipamorelin' },
                 { href: 'KORB_Patient_Ed_BPC157.html', label: 'BPC-157' },
                 { href: 'KORB_Patient_Ed_Tesamorelin.html', label: 'Tesamorelin' },
-                { href: 'KORB_Patient_Ed_GHK_Cu.html', label: 'GHK-Cu' }
+                { href: 'KORB_Patient_Ed_GHK_Cu.html', label: 'GHK-Cu (Add-On)' }
               ]
             },
             {
@@ -1156,7 +1156,7 @@ var KORB_PATIENT_ED = {
             },
             {
               href: 'Patient_Education/KORB_Injection_Storage_Safety_Guide.html',
-              label: 'Injection, Storage & Safety Guide'
+              label: 'Injection, Storage and Safety Guide'
             }
           ]
         },
@@ -1344,15 +1344,15 @@ var KORB_PATIENT_ED = {
           links: [
             {
               href: 'Patient_Education/KORB_Foundation_Program_Overview.html',
-              label: 'Foundation Program Overview'
+              label: 'Foundation'
             },
             {
               href: 'Patient_Education/KORB_Gateway_Program_Overview.html',
-              label: 'Gateway Program Overview'
+              label: 'Gateway'
             },
             {
               href: 'Patient_Education/KORB_Peak_Program_Overview.html',
-              label: 'Peak Performance Program Overview'
+              label: 'Peak Performance'
             }
           ]
         },
@@ -1398,7 +1398,7 @@ var KORB_PATIENT_ED = {
           links: [
             {
               href: 'Patient_Education/KORB_Injection_Storage_Safety_Guide.html',
-              label: 'Injection Storage & Safety Guide'
+              label: 'Injection, Storage and Safety Guide'
             },
             {
               href: 'Patient_Education/KORB_When_to_Contact_KORB_or_ER.html',

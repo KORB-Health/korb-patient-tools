@@ -692,6 +692,7 @@ footer strong{color:#fff;}
   </div>
 </div>
 
+<script src="korb-patient-ed-data.js"></script>
 <script>
 function calcProtein(){
   var w   = parseFloat(document.getElementById('proteinWeight').value);
@@ -820,76 +821,85 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
   </div>
 </div>
 
+<!-- MEAL-IDEA PROMPTS ARE NOT WRITTEN HERE ANY MORE.
+
+     This section used to be a hand-typed copy of the six prompts that also live
+     in korb-patient-ed-data.js, which is how the hub and the GLP-1 welcome
+     letter came to hold two copies of the same text, free to disagree. Two new
+     prompts were added to the letter on 2026-09-18 and this page would silently
+     have kept showing six. It now renders KORB_PATIENT_ED.guides.glp1_welcome,
+     so both surfaces show the same prompts because they ARE the same prompts.
+     Add a prompt to the data file and it appears in both. -->
 <div class="wrap ai-sec" id="mealideas">
   <div class="sec-head">
     <div class="eyebrow">Try This</div>
     <h2>Use an AI assistant for meal ideas.</h2>
-    <p>Copy any prompt below, paste it into a free AI assistant, and it will generate ideas for you. Nothing to sign up for, and you can keep asking follow-up questions until you get something you would actually eat.</p>
+    <p id="aiLead"></p>
+  </div>
+
+  <div class="res-card" style="margin-bottom:18px;">
+    <div class="res-icon">&#9881;</div>
+    <div>
+      <h4 id="aiToolsH"></h4>
+      <p id="aiToolsP"></p>
+      <div class="ai-tools" id="aiTools"></div>
+    </div>
   </div>
 
   <div class="res-card" style="margin-bottom:18px;">
     <div class="res-icon">!</div>
     <div>
-      <h4>Before you use these</h4>
-      <p>The answers come from the AI assistant, not from KORB, and AI tools do sometimes get things wrong. Treat the results as ideas to consider, not instructions. <b>Do not type your medical conditions, medications, or other health details into these tools.</b> The prompts are written so you do not need to. If you are thinking about a real change to how you eat, bring it to your provider first.</p>
+      <h4 id="aiWarnH"></h4>
+      <p id="aiWarnP"></p>
     </div>
   </div>
 
-  <div class="ai-grid">
-      <div class="pcard-ai">
-        <h4>High-protein breakfasts</h4>
-        <div class="why">Breakfast is the meal most people skip once appetite drops.</div>
-        <div class="ptext" id="ai0">Give me 10 high-protein breakfast ideas using whole, minimally processed foods. Each should have at least 25 g of protein and no more than six ingredients. Keep them low in fat, since heavy or greasy meals can cause nausea. List the protein content per serving. Do not give me medical or nutrition advice, just food ideas.</div>
-        <button type="button" class="pcopy" onclick="copyPrompt(this,'ai0')">Copy this prompt</button>
-      </div>
-      <div class="pcard-ai">
-        <h4>Small meals that still hit protein</h4>
-        <div class="why">For when you fill up after a few bites but still need the protein.</div>
-        <div class="ptext" id="ai1">I get full very quickly and can only eat small portions. Give me 10 meal ideas that are small in volume but high in protein, at least 25 g each. Prioritise protein density over portion size. Keep them simple to prepare. List protein per serving. Do not give me medical or nutrition advice, just food ideas.</div>
-        <button type="button" class="pcopy" onclick="copyPrompt(this,'ai1')">Copy this prompt</button>
-      </div>
-      <div class="pcard-ai">
-        <h4>Gentle food for a queasy day</h4>
-        <div class="why">For the day or two after a dose increase.</div>
-        <div class="ptext" id="ai2">Give me 10 bland, low-fat, easy-to-digest meal and snack ideas that still contain protein. Avoid fried, greasy, very sweet, and strongly spiced foods. Each should be quick to prepare and easy to eat in small amounts. List protein per serving. Do not give me medical or nutrition advice, just food ideas.</div>
-        <button type="button" class="pcopy" onclick="copyPrompt(this,'ai2')">Copy this prompt</button>
-      </div>
-      <div class="pcard-ai">
-        <h4>A week of simple dinners</h4>
-        <div class="why">Removes the daily decision, which is usually the hard part.</div>
-        <div class="ptext" id="ai3">Plan 7 simple dinners for one week. Each should have at least 30 g of protein, use whole or minimally processed ingredients, and take under 30 minutes. Reuse ingredients across meals to reduce waste. Then give me a single consolidated grocery list organised by store section. Do not give me medical or nutrition advice, just recipes and a list.</div>
-        <button type="button" class="pcopy" onclick="copyPrompt(this,'ai3')">Copy this prompt</button>
-      </div>
-      <div class="pcard-ai">
-        <h4>Ordering when you eat out</h4>
-        <div class="why">Restaurant portions are large and often high in fat.</div>
-        <div class="ptext" id="ai4">I am eating at a [TYPE OF RESTAURANT]. Suggest 8 protein-forward things I could order that are not fried or heavy in cream and oil, and that work as a smaller portion. For each, note roughly how much protein it has and one simple modification to ask for. Do not give me medical or nutrition advice, just ordering suggestions.</div>
-        <button type="button" class="pcopy" onclick="copyPrompt(this,'ai4')">Copy this prompt</button>
-      </div>
-      <div class="pcard-ai">
-        <h4>Compare tracking apps yourself</h4>
-        <div class="why">So you pick a tool, rather than being pointed at one.</div>
-        <div class="ptext" id="ai5">Compare the most widely used free food and protein tracking apps available today. For each, tell me: what it costs, whether the free version is genuinely usable, how easy it is to log protein specifically, and what data it collects about me. Present it as a table and tell me which is best for someone focused mainly on hitting a daily protein target. Give me the trade-offs, not a single recommendation.</div>
-        <button type="button" class="pcopy" onclick="copyPrompt(this,'ai5')">Copy this prompt</button>
-      </div>
-  </div>
-
-  <div class="res-card" style="margin-top:18px;">
-    <div class="res-icon">&#9881;</div>
-    <div>
-      <h4>Free AI assistants you could use</h4>
-      <p>All of these have a free version that will handle these prompts. KORB does not endorse or have any relationship with any of them &mdash; pick whichever you already use or like the look of.</p>
-      <div class="ai-tools">
-        <a class="ai-tool" target="_blank" rel="noopener" href="https://chat.openai.com">ChatGPT &#8599;</a>
-        <a class="ai-tool" target="_blank" rel="noopener" href="https://claude.ai">Claude &#8599;</a>
-        <a class="ai-tool" target="_blank" rel="noopener" href="https://gemini.google.com">Google Gemini &#8599;</a>
-        <a class="ai-tool" target="_blank" rel="noopener" href="https://copilot.microsoft.com">Microsoft Copilot &#8599;</a>
-        <a class="ai-tool" target="_blank" rel="noopener" href="https://www.perplexity.ai">Perplexity &#8599;</a>
-      </div>
-      <p style="margin-top:10px;">Paste the prompt in, press enter, and ask follow-ups in plain language &mdash; for example &ldquo;make these dairy free&rdquo; or &ldquo;I do not like fish.&rdquo;</p>
-    </div>
-  </div>
+  <div class="ai-grid" id="aiGrid"></div>
 </div>
+
+<script>
+(function () {
+  var G = window.KORB_PATIENT_ED && KORB_PATIENT_ED.guides && KORB_PATIENT_ED.guides.glp1_welcome;
+  if (!G) { return; }
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  /* the data marks emphasis as **bold**, the same convention rich() reads */
+  function rich(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+  function sec(name) {
+    return (G.sections || []).filter(function (x) { return x[name]; })[0];
+  }
+  function set(id, html) { var e = document.getElementById(id); if (e) { e.innerHTML = html; } }
+
+  var prompts = sec('prompts'), tools = sec('tools');
+
+  if (tools) {
+    set('aiToolsH', esc(tools.h));
+    set('aiToolsP', rich(tools.lead));
+    set('aiTools', (tools.tools || []).map(function (t) {
+      return '<a class="ai-tool" target="_blank" rel="noopener" href="' + esc(t.href) + '">' +
+             esc(t.label) + ' &#8599;</a>';
+    }).join(''));
+  }
+  if (prompts) {
+    set('aiLead', rich(prompts.lead));
+    if (prompts.callout) {
+      set('aiWarnH', esc(prompts.callout.title));
+      set('aiWarnP', rich(prompts.callout.text));
+    }
+    set('aiGrid', (prompts.prompts || []).map(function (p, i) {
+      var id = 'ai' + i;
+      return '<div class="pcard-ai"><h4>' + esc(p.title) + '</h4>' +
+             (p.why ? '<div class="why">' + esc(p.why) + '</div>' : '') +
+             '<div class="ptext" id="' + id + '">' + esc(p.text) + '</div>' +
+             '<button type="button" class="pcopy" onclick="copyPrompt(this,\'' + id + '\')">' +
+             'Copy this prompt</button></div>';
+    }).join(''));
+  }
+}());
+</script>
 
 <div class="wrap safety">
   <span class="eyebrow">Always Available</span>

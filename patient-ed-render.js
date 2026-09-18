@@ -371,19 +371,32 @@
      Sermorelin to the wrong handout. Don found both on 2026-09-18.
 
      Rendered smaller than a step button so the step still reads as one step. */
-  var BTN_SM = 'display:inline-block;box-sizing:border-box;margin:0 6px 7px 0;' +
-               'padding:8px 14px;background:#fff;color:#21275B;' +
+  var BTN_SM = 'display:inline-block;box-sizing:border-box;margin:0 5px 6px;' +
+               'padding:9px 15px;background:#fff;color:#21275B;' +
                'border:1.5px solid #00808D;border-radius:6px;text-decoration:none;' +
                'font-weight:700;font-size:10.5pt;line-height:1.3;';
-  var CHOICE_WRAP = 'display:block;max-width:420px;margin:0 auto 12px;text-align:center;';
+
+  /* A step that is a SET gets a PANEL, not a button.
+
+     It first shipped as a cream button with a navy border - a different colour
+     but the same shape, so Don clicked it on 2026-09-18 and nothing happened,
+     which is exactly what a thing shaped like a button promises. A bordered
+     panel holding a label, a line of guidance and the real choices cannot be
+     mistaken for something clickable, because the clickable things are visibly
+     sitting inside it. */
+  var PANEL = 'display:block;box-sizing:border-box;max-width:420px;' +
+              'margin:0 auto 14px;padding:13px 14px 8px;background:#F7F5E9;' +
+              'border:1px solid #DEDCC9;border-radius:8px;text-align:center;';
+  var PANEL_H = 'display:block;font-size:11pt;font-weight:700;color:#21275B;' +
+                'line-height:1.3;margin:0 0 3px;';
+  var PANEL_N = 'display:block;font-size:9.5pt;color:#4A4F6B;line-height:1.4;margin:0 0 9px;';
 
   function links(items, alt) {
     return '<div class="linklist" style="margin:10px 0 4px;">' + (items || []).map(function (l) {
       if (l.choices && l.choices.length) {
-        return '<span style="' + BTN + 'background:#ECE9D1;color:#21275B;' +
-               'border:2px solid #21275B;cursor:default;">' + esc(l.label) + '</span>' +
-               (l.note ? '<span style="' + NOTE + '">' + esc(l.note) + '</span>' : '') +
-               '<span style="' + CHOICE_WRAP + '">' +
+        return '<span style="' + PANEL + '">' +
+               '<span style="' + PANEL_H + '">' + esc(l.label) + '</span>' +
+               (l.note ? '<span style="' + PANEL_N + '">' + esc(l.note) + '</span>' : '') +
                l.choices.map(function (c) {
                  return '<a href="' + esc(c.href) + '" style="' + BTN_SM + '">' +
                         esc(c.label) + '</a>';
@@ -526,6 +539,32 @@
     'color:var(--ink2);line-height:1.4;}',
     '.k-list .k-go{flex:0 0 auto;font-size:18px;font-weight:700;color:var(--k-teal-ink);}',
 
+    /* Borrowed from the Start Here Guide, which Don preferred on 2026-09-18: a
+       filled button at a fixed readable width with its explanation centred
+       underneath, rather than another full-bleed card. Everything being the
+       same width was half of why the page read as one undifferentiated block -
+       the navy pair, these, and the choice pills below now measure differently. */
+    '.k-btnw{margin:0 0 17px;}',
+    '.k-btnw:last-child{margin-bottom:0;}',
+    '.k-btn{display:block;box-sizing:border-box;width:100%;max-width:420px;',
+    'margin:0 auto;padding:14px 20px;text-align:center;background:var(--teal);',
+    'color:#0E1236;border:2px solid var(--k-teal-ink);border-radius:7px;',
+    'text-decoration:none;font-weight:800;font-size:16px;line-height:1.3;',
+    'min-height:44px;}',
+    '.k-btn:hover{background:var(--k-teal-ink);color:#fff;}',
+    '.k-btn:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
+    '.k-bnote{display:block;max-width:420px;margin:7px auto 0;text-align:center;',
+    'font-size:13.5px;color:var(--ink2);line-height:1.45;}',
+
+    /* pick exactly one of these: sized to the word, not to the column */
+    '.k-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;',
+    'max-width:470px;margin:0 auto;}',
+    '.k-pill{display:inline-flex;align-items:center;padding:10px 16px;background:#fff;',
+    'color:var(--navy);border:1.5px solid var(--k-teal-ink);border-radius:7px;',
+    'text-decoration:none;font-weight:700;font-size:14.5px;line-height:1.3;min-height:44px;}',
+    '.k-pill:hover{background:var(--teal);color:var(--navy);}',
+    '.k-pill:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
+
     /* phone, email, portal. The VALUE is on the page as text, because a mailto:
        on a machine with no default mail client is a button that does nothing at
        all - which is what Don hit on 2026-09-18 and correctly called broken. */
@@ -636,6 +675,17 @@
            (l.note ? '<span class="k-desc">' + esc(l.note) + '</span>' : '') +
            '</span>' +
            '<span class="k-go" aria-hidden="true">\u2192</span></a>';
+  }
+
+  function hubBtn(l) {
+    return '<div class="k-btnw"><a class="k-btn" href="' + esc(l.href) + '">' +
+           esc(l.label) + '</a>' +
+           (l.note ? '<span class="k-bnote">' + esc(l.note) + '</span>' : '') +
+           '</div>';
+  }
+
+  function hubPill(l) {
+    return '<a class="k-pill" href="' + esc(l.href) + '">' + esc(l.label) + '</a>';
   }
 
   /* A way to reach a human. The address or number is TEXT on the page.
@@ -805,20 +855,21 @@
           h += '<div class="k-acts">' +
                sec.links.map(function (l, i) { return actRow(l, i); }).join('') +
                '</div>';
-        } else if (sec.as === 'list' ||
-                   (!sec.primary && !sec.links.some(function (l) { return l.note; }))) {
-          /* A card carries a label, a description and an Open affordance. With
-             no description it is a label floating in a box of white space, and
-             nine of those in a row is the "bunch of buttons that all look the
-             same" Don described. Nothing to describe means a row, not a card. */
-          h += '<div class="k-list">' + sec.links.map(hubRow).join('') + '</div>';
-        } else {
+        } else if (sec.primary) {
           /* two across only when there are an even number worth pairing; a lone
              card stretched half-width next to nothing looks like a mistake */
           var two = sec.links.length > 1 && sec.links.length % 2 === 0;
           h += '<div class="hub-grid' + (two ? ' two' : '') + '">' +
-               sec.links.map(function (l) { return hubCard(l, !!sec.primary); }).join('') +
+               sec.links.map(function (l) { return hubCard(l, true); }).join('') +
                '</div>';
+        } else if (sec.as === 'list' ||
+                   (sec.links.length >= 3 && !sec.links.some(function (l) { return l.note; }))) {
+          /* a set you pick exactly one of: sized to its own label, so a run of
+             them is visibly a choice rather than another stack of full-width
+             boxes. Three tiers and five handouts were the worst offenders. */
+          h += '<div class="k-pills">' + sec.links.map(hubPill).join('') + '</div>';
+        } else {
+          h += sec.links.map(hubBtn).join('');
         }
       }
       h += '</section>';
