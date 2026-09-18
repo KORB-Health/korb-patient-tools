@@ -220,6 +220,10 @@ function shell(t) {
 <style>
 ${R.CSS}
 ${SCREEN}
+/* The pill and panel rules, on EVERY patient page rather than emitted by
+   whichever renderer happens to need them. ways() and screening() render
+   buttons and neither sits near a links() call. */
+${R.CHOICE_CSS}
 </style>
 </head><body>
 <div id="doc"></div>

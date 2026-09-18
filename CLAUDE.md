@@ -1397,3 +1397,42 @@ testosterone" was either already gone or never in it.
    reach a human, in the same place every time, whatever the page was about.
    The mechanism exists now - `ways()` renders it and every value is reachable -
    so this is a decision about placement, not new plumbing.
+
+26. ~~A DESTINATION IS A BUTTON. A VALUE IS A ROW.~~ **DONE 2026-09-18.** Don
+   asked for the Patient Portal and the TSA rules to be buttons rather than an
+   underlined phrase to hunt for inside a paragraph.
+
+   The line drawn, and it is the reason this is a rule rather than two edits:
+   **a phone number and an email address are VALUES** - a patient reads them,
+   copies them onto something else, or taps the affordance their phone already
+   gives `tel:` and `mailto:`. **A portal sign-in and a set of federal rules are
+   PLACES**, and a place gets a button. So `ways()` splits its list: values go in
+   the `.kv` row table, `http(s)` destinations render through one `buttons()`
+   helper, which `screening()` also calls. One button renderer, not two.
+
+   **The split is not cosmetic.** The first attempt put the button inside the
+   table and the Patient Portal came out as a one-row table whose only cell held
+   a button, with an empty "Portal" label beside it. Found by screenshotting the
+   rendered page, which is the only way that kind of thing shows up.
+
+   **A sentence written to hand off to its own last phrase does not survive
+   becoming a button.** `travelScreening.text` ended "...the current rules are
+   at", with the address as the final words, and once the address moved into a
+   button the paragraph read "The current rules are at." The text now ends, and
+   `buttonLabel` says what pressing it does. **A URL is not a button label.**
+
+   `CHOICE_CSS` is inlined by `build-patient-ed.js` into every patient page
+   rather than emitted by `links()`, because `ways()` and `screening()` render
+   buttons and neither is anywhere near a `links()` call.
+
+   **A dead helper ate the first fix.** `linkOrText()` was left behind by the
+   previous iteration of this work, nothing called it, and a targeted edit
+   landed in it instead of in the live `valueOf()`. The page was measured rather
+   than assumed, the class was absent from the rendered DOM, and the helper was
+   deleted. Same shape as the Women's tool's dead `cp()` in item 17: **a helper
+   nothing calls is not harmless, it is a decoy.**
+
+   Every generated patient page is now down to **one** sub-44px tap target at
+   375px, and it is `Print` in the masthead. `.k-val` carries the contact values
+   to 44px, screen only - on paper a 44px minimum on a table cell just pads the
+   row.

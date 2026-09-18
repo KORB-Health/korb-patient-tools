@@ -412,17 +412,21 @@
 
     /* In a reading order the panel sits under the step buttons, which cap at
        420px. A 470px panel below them would read as a different column. */
-    '.linklist .k-panel{max-width:420px;margin:0 auto 14px;}'
+    '.linklist .k-panel{max-width:420px;margin:0 auto 14px;}',
+
+    /* A phone number and an email address in a contact row are links, and a
+       bare inline <a> is an 18px tap target. Screen only: on paper a 44px
+       minimum on a table cell just pads the row. */
+    '@media screen{.k-val{display:inline-flex;align-items:center;min-height:44px;}}'
   ].join('');
 
   function links(items, alt) {
-    var hasChoices = (items || []).some(function (l) { return l.choices && l.choices.length; });
-    /* Emitted here rather than by the caller because links() is the only thing
-       that renders a panel outside the hub, and the bodies it renders into
-       (guide, program, handout) contribute no stylesheet of their own. Once per
-       call, not once per panel. */
-    return (hasChoices ? '<style>' + CHOICE_CSS + '</style>' : '') +
-      '<div class="linklist" style="margin:10px 0 4px;">' + (items || []).map(function (l) {
+    /* CHOICE_CSS used to be emitted here, inside the body, because the guide and
+       handout bodies contributed no stylesheet of their own. Since 2026-09-18
+       build-patient-ed.js inlines it into every patient page, so a button works
+       wherever one is rendered - including ways() and screening(), which are
+       nowhere near a links() call. */
+    return '<div class="linklist" style="margin:10px 0 4px;">' + (items || []).map(function (l) {
       if (l.choices && l.choices.length) {
         return '<div class="k-panel">' +
                '<span class="k-panel-h">' + esc(l.label) + '</span>' +
@@ -448,9 +452,12 @@
   function screening(sh) {
     var t = sh && sh.travelScreening;
     if (!t) { return ''; }
-    return '<p>' + esc(t.text) + ' ' +
-           '<a href="' + esc(t.href) + '" target="_blank" rel="noopener">' +
-           esc(t.linkLabel) + '</a>.</p>';
+    /* A BUTTON, NOT A WORD IN A SENTENCE. Don, 2026-09-18: a patient should be
+       able to press something rather than find the one underlined phrase in a
+       paragraph. Same .k-pill as every other choice in the patient set, so it
+       is already a 44px target. */
+    return '<p>' + esc(t.text) + '</p>' +
+           buttons([{ href: t.href, value: t.buttonLabel || t.linkLabel }]);
   }
 
   /* A way to reach a human, as a table rather than a paragraph.
@@ -459,25 +466,53 @@
      this needs no new rules and picks up the row treatment corrected on
      2026-09-18. A value with an href is a link; Hours has none and stays text,
      which is the whole point of storing value and href separately. */
-  function linkOrText(w) {
-    if (!w.href) { return esc(w.value); }
-    return '<a href="' + esc(w.href) + '"' +
-      (/^https?:/i.test(w.href) ? ' target="_blank" rel="noopener"' : '') +
-      '>' + esc(w.value) + '</a>';
-  }
+  /* A VALUE goes in a row. A DESTINATION gets a button.
 
+     Phone, email and hours are values: a patient reads them, copies them, or
+     taps the native affordance a phone already gives tel: and mailto:. A portal
+     sign-in is a place you go, and Don asked on 2026-09-18 for those to be
+     buttons rather than an underlined phrase to hunt for in a line of text.
+
+     They are split rather than mixed, because a one-row table whose only cell
+     holds a button looks like a mistake - which is exactly how the Patient
+     Portal row rendered on the first attempt. */
   function ways(list, inline) {
     if (!list || !list.length) { return ''; }
-    /* inline: for the three-column contact grid, where a nested table would be
-       a table inside a cell of another table. Same values, same links. */
-    if (inline) {
-      return list.map(function (w) {
-        return '<p><strong>' + esc(w.label) + ':</strong> ' + linkOrText(w) + '</p>';
-      }).join('');
+    var rows = [], btns = [];
+    list.forEach(function (w) {
+      (w.href && /^https?:/i.test(w.href) ? btns : rows).push(w);
+    });
+
+    var h = '';
+    if (rows.length) {
+      h += inline
+        ? rows.map(function (w) {
+            return '<p><strong>' + esc(w.label) + ':</strong> ' + valueOf(w) + '</p>';
+          }).join('')
+        : '<table class="kv"><tbody>' + rows.map(function (w) {
+            return '<tr><th>' + esc(w.label) + '</th><td>' + valueOf(w) + '</td></tr>';
+          }).join('') + '</tbody></table>';
     }
-    return '<table class="kv"><tbody>' + list.map(function (w) {
-      return '<tr><th>' + esc(w.label) + '</th><td>' + linkOrText(w) + '</td></tr>';
-    }).join('') + '</tbody></table>';
+    if (btns.length) { h += buttons(btns); }
+    return h;
+  }
+
+  function valueOf(w) {
+    if (!w.href) { return esc(w.value); }
+    /* k-val, because a bare inline <a> in a table cell is an 18px tap target
+       and this is the phone number a patient presses. */
+    return '<a class="k-val" href="' + esc(w.href) + '">' + esc(w.value) + '</a>';
+  }
+
+  /* Left-aligned rather than centred: these sit under a heading and a list, not
+     in the middle of a reading order the way a set of choices does. .k-pill is
+     the shared rule, so they are 44px like every other choice in the set. */
+  function buttons(list) {
+    return '<p class="k-pills" style="justify-content:flex-start;margin:10px 0 4px;">' +
+      list.map(function (w) {
+        return '<a class="k-pill" href="' + esc(w.href) + '" target="_blank" ' +
+               'rel="noopener">' + esc(w.value) + ' ↗</a>';
+      }).join('') + '</p>';
   }
 
   function sharedBlock(DATA, name) {
@@ -1165,5 +1200,5 @@
 
   return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, renderHubBody: renderHubBody, agentFacts: agentFacts,
            contraindications: contraindications,
-           CSS: CSS, LOGO_URI: LOGO_URI };
+           CSS: CSS, CHOICE_CSS: CHOICE_CSS, LOGO_URI: LOGO_URI };
 }));

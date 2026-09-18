@@ -139,10 +139,16 @@ var KORB_PATIENT_ED = {
        A patient carrying testosterone needs the checkpoint sentence as much as
        one carrying semaglutide. */
     travelScreening: {
+      /* The sentence ENDS. It used to trail off into "the current rules are at"
+         with the address as the last words, which reads correctly only while the
+         link is inline. Don asked for a button on 2026-09-18, and a sentence
+         written to hand off to its own final phrase does not survive that move.
+         buttonLabel says what pressing it does; the URL is not a label. */
       text: 'TSA asks that you tell the officer at the start of screening that ' +
             'you are carrying medically necessary liquids, and they may need to ' +
-            'be inspected separately. The current rules are at',
-      linkLabel: 'tsa.gov/travel/travel-tips',
+            'be inspected separately. TSA sets these rules and can change them, ' +
+            'so check before you fly.',
+      buttonLabel: 'Check the current TSA rules',
       href: 'https://www.tsa.gov/travel/travel-tips'
     },
 
