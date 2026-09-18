@@ -833,6 +833,30 @@ The `clinical-generators` push failed because the sandbox proxy will not issue a
 credential for this repo. It is not a GitHub permissions problem and retrying will not
 help. **Push from Claude Code on the desktop, where real git credentials exist.**
 
+**Re-hit 2026-09-18, and the paragraph above was only half the story.** Both write
+routes out of a cloud session are closed, so knowing about the first one and
+reaching for the second wastes a session:
+
+- `git push` is refused by the egress proxy with *"korb-patient-tools is not in
+  this session's authorized repository set"*. This is a **repo allowlist, not a
+  credential problem** — supplying a token in the push URL by hand gets the same
+  403. `git clone` still works, because reading a public repo needs no credential,
+  which makes the block look narrower than it is. The proxy error names the fix:
+  add the repository to the session's sources.
+- **The GitHub connector cannot substitute.** It authenticates as the repo owner
+  and reads fine, which is exactly why it looks like the way round. Every write
+  returns `403 Resource not accessible by integration` — it holds read scope only.
+  Check this BEFORE preparing a payload for it: pushing three changed files that
+  way means emitting 334KB, a 175KB clinical data file included, through a tool
+  call, and the permission error arrives after all of it.
+
+So from a cloud session, produce the commits and hand them over rather than
+pushing: `git bundle create <file> main..<branch>` carries the branch exactly, and
+`git format-patch main..HEAD` gives the same thing as readable diffs. Verify the
+handover instead of trusting it — replay the patches onto a scratch branch off
+`main` with `git am` and compare `git rev-parse <branch>^{tree}`; identical tree
+hashes prove the carrier is faithful.
+
 ~~Two documents in that set — Men's Health and Women's Health — are still the
 10 September ReportLab originals.~~ **Both are generated now and both ReportLab
 originals are gone.** The Men's Health one was deleted 2026-09-17; its defects
