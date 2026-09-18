@@ -168,6 +168,277 @@ var KORB_PATIENT_ED = {
   /* ── THE HANDOUTS ───────────────────────────────────────────────────────
      agentKey ties a handout to korb-dosing-data.js. Route, schedule, timing and
      active weeks are read from there and are never restated below. */
+
+  /* Program overviews. Rendered by renderProgramBody in patient-ed-render.js,
+     not by renderBody: a tier is not a molecule. Narrative lives here; which
+     agents a tier offers and when each is active inside the cycle are read
+     from korb-dosing-data.js at page load, because that is the part the PDFs
+     stated as fixed text and got wrong the moment the data moved. */
+  programs: {
+    foundation: {
+      key: 'foundation',
+      title: 'Foundation Program',
+      cycleWeeks: '16',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which agent and dosing schedule are right for you. If you have questions, contact KORB by phone or email.',
+      what: [
+        'Foundation is the single-agent tier of KORB\'s Functional Health and Longevity Program. At any given time one peptide is active, and your provider selects it based on your goals and clinical profile. You may switch to a different agent at each 16-week follow-up, but Foundation never combines two agents at once.',
+        'If a staggered, multi-agent approach interests you, ask your provider about the Gateway or Peak Performance programs.',
+        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
+      ],
+      agentsHeading: 'Your Foundation agent options',
+      agentsLead: 'Your provider selects one of the following based on your goals. Each has its own active window inside your 16-week cycle. Your Treatment Schedule shows exact dates.',
+      agents: [
+        {
+          key: 'sermorelin',
+          context: 'foundation',
+          text: 'A growth hormone-releasing peptide. Possible support for sleep quality, recovery and body composition goals. Injected most nights, 6 on and 1 off.'
+        },
+        {
+          key: 'cjcipam',
+          context: 'foundation',
+          text: 'A growth hormone-releasing peptide combination. Possible support for similar goals to Sermorelin, with a different release profile. Injected most nights, 6 on and 1 off.'
+        },
+        {
+          key: 'bpc157',
+          context: 'foundation',
+          text: 'A peptide studied for possible support of soft tissue recovery and musculoskeletal health. Injected daily.'
+        }
+      ],
+      note: {
+        label: 'One agent at a time.',
+        text: 'Foundation never combines two agents simultaneously. At each 16-week follow-up you and your provider may continue your current agent or switch to a different one. See the Patient Education handout for your specific agent for full dosing, timing and storage instructions.'
+      },
+      pricing: 'For current Foundation Program pricing, contact KORB Operations or ask your provider at your visit.',
+      cycle: [
+        'Baseline visit, labs only. No prescription is sent at your first visit.',
+        'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
+        'At that visit your provider reviews your labs and starts your treatment.',
+        'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
+        'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
+        'Any time after your agent\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+      ],
+      expect: [
+        'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
+        'Your provider reassesses your treatment and your response at every 16-week follow-up visit.'
+      ],
+      labs: [
+        'Baseline labs are required before you start. A lab order is placed at the beginning of each 16-week cycle for a draw at Quest Diagnostics.',
+        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week, and your visit may need to be rescheduled if they are not in yet.'
+      ],
+      safety: [
+        'Use your Foundation agent only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'Do not add a second peptide or combine agents on your own. Foundation is single-agent only.',
+        'This program is not appropriate during active malignancy or pregnancy.',
+        'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
+        'Your prescription label is the authoritative source for your dose and directions.',
+        'Use a new syringe for every injection. Do not reuse syringes.',
+        'Follow your state or local regulations for sharps disposal.'
+      ],
+      keyReminders: [
+        'Your provider selects your Foundation agent. This guide is a general orientation, not personalized medical advice.',
+        'Only one agent is active at a time. You may switch to a different agent at your next follow-up if you and your provider agree.',
+        'Baseline visit is labs only. No prescription is sent at your first visit.',
+        'For current program pricing, contact KORB Operations or ask your provider.'
+      ]
+    },
+
+    gateway: {
+      key: 'gateway',
+      title: 'Gateway Program',
+      cycleWeeks: '16',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines your exact schedule and add-ons. If you have questions, contact KORB by phone or email.',
+      what: [
+        'Gateway is KORB\'s staggered two-medication tier within the Functional Health and Longevity Program. Unlike Foundation\'s single-agent model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day.',
+        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
+      ],
+      agentsHeading: 'How your Gateway combination works',
+      agentsLead: 'Two agents, started at different points in the cycle by design. Your Treatment Schedule shows your exact dates.',
+      agents: [
+        {
+          key: 'sermorelin',
+          context: 'foundation',
+          text: 'Your primary agent, begun on your start date. Injected most nights, 6 on and 1 off.'
+        },
+        {
+          key: 'bpc157',
+          context: 'gatewayPeakBase',
+          text: 'Added after Sermorelin is already under way, not on your start date. Injected daily.'
+        }
+      ],
+      note: {
+        label: 'Staggered by design.',
+        text: 'The two agents start at different times on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together to catch up, and do not change the order.'
+      },
+      pricing: 'For current Gateway Program pricing, contact KORB Operations or ask your provider at your visit.',
+      cycle: [
+        'Baseline visit, labs only. No prescription is sent at your first visit.',
+        'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
+        'At that visit your provider reviews your labs and starts your treatment.',
+        'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
+        'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
+        'Any time after your agent\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+      ],
+      expect: [
+        'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
+        'Your provider reassesses your treatment and your response at every 16-week follow-up visit.'
+      ],
+      labs: [
+        'Baseline labs are required before you start. A lab order is placed at the beginning of each 16-week cycle for a draw at Quest Diagnostics.',
+        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week, and your visit may need to be rescheduled if they are not in yet.'
+      ],
+      safety: [
+        'Use your Gateway agents only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'Keep the stagger. Do not start both agents on the same day.',
+        'This program is not appropriate during active malignancy or pregnancy.',
+        'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
+        'Your prescription label is the authoritative source for your dose and directions.',
+        'Use a new syringe for every injection. Do not reuse syringes.',
+        'Follow your state or local regulations for sharps disposal.'
+      ],
+      keyReminders: [
+        'Gateway is two agents on a fixed staggered schedule, not two agents started together.',
+        'Your provider sets your schedule. This guide is a general orientation, not personalized medical advice.',
+        'Baseline visit is labs only. No prescription is sent at your first visit.',
+        'For current program pricing, contact KORB Operations or ask your provider.'
+      ]
+    },
+
+    peak: {
+      key: 'peak',
+      title: 'Peak Performance Program',
+      cycleWeeks: '16',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
+      what: [
+        'Peak Performance is KORB\'s performance and body-composition focused tier within the Functional Health and Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.',
+        'Your provider selects your pathway. You do not choose between them on your own, and they are not combined.',
+        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
+      ],
+      tiersHeading: 'Choosing your pathway',
+      tiersLead: 'Both pathways run on the same 16-week cycle. The difference is the primary agent.',
+      tiers: [
+        {
+          name: 'Pathway A, CJC-1295 / Ipamorelin',
+          text: 'A growth hormone-releasing peptide combination as your primary agent, with staggered BPC-157 and an optional GHK-Cu add-on.'
+        },
+        {
+          name: 'Pathway B, Tesamorelin',
+          text: 'Tesamorelin as your primary agent, with staggered BPC-157 and an optional GHK-Cu add-on. Tesamorelin is dose-selectable, so your provider sets your strength.'
+        }
+      ],
+      agentsHeading: 'The agents that run alongside your pathway',
+      agentsLead: 'Whichever pathway you are on, these run on the same schedule inside your cycle.',
+      agents: [
+        {
+          key: 'bpc157',
+          context: 'gatewayPeakBase',
+          text: 'Added after your primary agent is already under way, not on your start date. Injected daily.'
+        },
+        {
+          key: 'ghkcu',
+          context: 'optionalAddon',
+          text: 'An optional add-on, included only if your provider prescribes it.'
+        }
+      ],
+      note: {
+        label: 'Staggered by design.',
+        text: 'Your agents start at different points in the cycle on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together and do not change the order.'
+      },
+      pricing: 'For current Peak Performance Program pricing, contact KORB Operations or ask your provider at your visit.',
+      cycle: [
+        'Baseline visit, labs only. No prescription is sent at your first visit.',
+        'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
+        'At that visit your provider reviews your labs and starts your treatment.',
+        'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
+        'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
+        'Any time after your agent\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+      ],
+      expect: [
+        'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
+        'Your provider reassesses your treatment and your response at every 16-week follow-up visit.'
+      ],
+      labs: [
+        'Baseline labs are required before you start. A lab order is placed at the beginning of each 16-week cycle for a draw at Quest Diagnostics.',
+        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week, and your visit may need to be rescheduled if they are not in yet.'
+      ],
+      safety: [
+        'Use your Peak agents only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'Keep the stagger. Do not start your agents on the same day to catch up.',
+        'GHK-Cu is an add-on only if your provider prescribed it. Do not add it yourself.',
+        'This program is not appropriate during active malignancy or pregnancy.',
+        'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
+        'Your prescription label is the authoritative source for your dose and directions.',
+        'Use a new syringe for every injection. Do not reuse syringes.',
+        'Follow your state or local regulations for sharps disposal.'
+      ],
+      keyReminders: [
+        'Your provider selects your pathway. Pathways A and B are alternatives, not a combination.',
+        'GHK-Cu is optional and only included if prescribed.',
+        'Baseline visit is labs only. No prescription is sent at your first visit.',
+        'For current program pricing, contact KORB Operations or ask your provider.'
+      ]
+    },
+
+    longevity: {
+      key: 'longevity',
+      title: 'Functional Health and Longevity Program',
+      cycleWeeks: '16',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which program and medication(s) are right for you. If you have questions, contact KORB by phone or email.',
+      what: [
+        'KORB\'s Functional Health and Longevity Program is a physician-guided, cash-pay telemedicine program built around select injectable peptide therapies. After a clinical intake and review, your provider determines which program tier and medication or medications are appropriate for your goals.',
+        'This guide is a general orientation to the whole program. Your tier has its own guide with more detail, and your provider gives you individualized guidance.',
+        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
+      ],
+      tiersHeading: 'Choosing your program',
+      tiersLead: 'All three tiers run on the same 16-week cycle. They differ in how many agents are active and whether they are staggered.',
+      tiers: [
+        {
+          name: 'Foundation',
+          text: 'The single-agent tier. One peptide is active at a time, chosen by your provider from Sermorelin, CJC-1295 / Ipamorelin or BPC-157. Agents are never combined, though you may switch at a follow-up.'
+        },
+        {
+          name: 'Gateway',
+          text: 'The staggered two-medication tier. Sermorelin with BPC-157 added later in the cycle rather than on the same day.'
+        },
+        {
+          name: 'Peak Performance',
+          text: 'The performance and body-composition tier. Two pathways, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.'
+        }
+      ],
+      pricing: 'For current pricing on any tier, contact KORB Operations or ask your provider at your visit.',
+      cycle: [
+        'Baseline visit, labs only. No prescription is sent at your first visit.',
+        'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
+        'At that visit your provider reviews your labs and starts your treatment.',
+        'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
+        'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
+        'Any time after your agent\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+      ],
+      expect: [
+        'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
+        'Your provider reassesses your treatment and your response at every 16-week follow-up visit.'
+      ],
+      labs: [
+        'Baseline labs are required before you start. A lab order is placed at the beginning of each 16-week cycle for a draw at Quest Diagnostics.',
+        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week, and your visit may need to be rescheduled if they are not in yet.'
+      ],
+      safety: [
+        'Use your medication only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'Do not add an agent or change tiers on your own. Your tier is a clinical decision.',
+        'This program is not appropriate during active malignancy or pregnancy.',
+        'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
+        'Your prescription label is the authoritative source for your dose and directions.',
+        'Use a new syringe for every injection. Do not reuse syringes.',
+        'Follow your state or local regulations for sharps disposal.'
+      ],
+      keyReminders: [
+        'Your provider decides your tier after your intake and labs. This guide is a general orientation, not personalized medical advice.',
+        'All tiers run on the same 16-week cycle with a lab draw between weeks 12 and 14.',
+        'Baseline visit is labs only. No prescription is sent at your first visit.',
+        'For current program pricing, contact KORB Operations or ask your provider.'
+      ]
+    }
+  },
+
   docs: {
     /* ------------------------------------------------------------------------
        HORMONE THERAPY - the ninth handout, and the first for Women's Health.

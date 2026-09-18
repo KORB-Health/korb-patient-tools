@@ -200,6 +200,117 @@
       }).join('') + '</tbody></table>';
   }
 
+
+  /* ------------------------------------------------------------------
+     Program overviews (Foundation, Gateway, Peak, Longevity).
+
+     A program overview is NOT a molecule handout. renderBody resolves one
+     agent out of korb-dosing-data.js and describes it; a program describes a
+     tier, which agents it can use, and how the 16-week cycle runs. Different
+     shape, so a different renderer rather than a pile of conditionals in the
+     old one.
+
+     The narrative lives in korb-patient-ed-data.js. The part that goes stale -
+     which agents a tier offers and when each one is active inside the cycle -
+     is read from korb-dosing-data.js on every page load. That is the whole
+     reason these exist as HTML: the PDFs stated "active for the first 12
+     weeks" as fixed text, so a change to onWeeksFoundation reached the data
+     file and never reached the patient.
+     ------------------------------------------------------------------ */
+
+  function windowSentence(DOSING, agentKey, context, cycleWeeks) {
+    var w = DOSING.getActiveWeeks && DOSING.getActiveWeeks(agentKey, context);
+    if (!w) { return ''; }
+    var start = w[0], end = w[1], off = cycleWeeks - end;
+    /* "an 8-week", not "a 8-week". Only 8, 11 and 18 take "an" in the range a
+       cycle can produce. */
+    function art(n) { return (n === 8 || n === 11 || n === 18) ? 'an ' : 'a '; }
+
+    if (start > 1) {
+      /* A staggered agent stops mid-cycle while the primary is still running, so
+         calling the rest of the cycle a "washout before your next cycle" reads as
+         though the whole program has stopped. It has not. */
+      return 'Active from week ' + start + ' through week ' + end + ' of your ' +
+             cycleWeeks + '-week cycle, then stopped for the remainder of the cycle.';
+    }
+    var active = 'Active for the first ' + end + ' weeks of your ' + cycleWeeks + '-week cycle';
+    if (off > 0) {
+      active += ', followed by ' + art(off) + off + '-week washout before your next cycle begins';
+    }
+    return active + '.';
+  }
+
+  function agentBlocks(DATA, DOSING, prog) {
+    return (prog.agents || []).map(function (a) {
+      var agent = DOSING.agents[a.key];
+      if (!agent) {
+        throw new Error('patient-ed-render: program "' + prog.key + '" names agent "' +
+          a.key + '", which is not in korb-dosing-data.js. Fix the key; do not ' +
+          'hardcode the text.');
+      }
+      var name = a.label || agent.label || a.key;
+      var win = windowSentence(DOSING, a.key, a.context || 'foundation', prog.cycleWeeks || 16);
+      return '<h3>' + esc(name) + '</h3><p>' + esc(a.text) +
+             (win ? ' ' + esc(win) : '') + '</p>';
+    }).join('');
+  }
+
+  function renderProgramBody(DATA, DOSING, prog) {
+    var sh = DATA.shared || {};
+    var h = '';
+
+    h += '<p class="lede">' + esc(prog.disclaimer) + '</p>';
+
+    h += '<h2>What the ' + esc(prog.title) + ' is</h2>' + paras(prog.what);
+
+    /* Tiers before agents. On Peak the reader has to know which pathway they are
+       on before a list of agents that "run alongside your pathway" means
+       anything. */
+    if (prog.tiers && prog.tiers.length) {
+      h += '<h2>' + esc(prog.tiersHeading || 'Choosing your program') + '</h2>';
+      if (prog.tiersLead) { h += '<p>' + esc(prog.tiersLead) + '</p>'; }
+      h += prog.tiers.map(function (t) {
+        return '<h3>' + esc(t.name) + '</h3><p>' + esc(t.text) + '</p>';
+      }).join('');
+    }
+
+    if (prog.agents && prog.agents.length) {
+      h += '<h2>' + esc(prog.agentsHeading || 'Your agent options') + '</h2>';
+      if (prog.agentsLead) { h += '<p>' + esc(prog.agentsLead) + '</p>'; }
+      h += agentBlocks(DATA, DOSING, prog);
+    }
+
+    if (prog.note) {
+      h += '<p><strong>' + esc(prog.note.label) + '</strong> ' + esc(prog.note.text) + '</p>';
+    }
+
+    h += '<p><strong>Pricing.</strong> ' + esc(prog.pricing) + '</p>';
+
+    h += '<h2>How your ' + (prog.cycleWeeks || 16) + '-week cycle works</h2>' + ul(prog.cycle);
+    h += '<h2>What to expect</h2>' + paras(prog.expect);
+    h += '<h2>Labs and monitoring</h2>' + paras(prog.labs);
+    h += '<h2>Safety reminders</h2>' + ul(prog.safety);
+
+    /* shared.contact is {operations, portal, emergency}, each {title, items,
+       lines?}. It is shared with the molecule handouts, so it is read as it is
+       rather than reshaped here. */
+    if (sh.contact) {
+      h += '<h2>When to contact KORB, and when to seek emergency care</h2>';
+      ['operations', 'portal', 'emergency'].forEach(function (k) {
+        var c = sh.contact[k];
+        if (!c) { return; }
+        h += '<h3>' + esc(c.title) + '</h3>';
+        if (c.items) { h += ul(c.items); }
+        if (c.lines) { h += paras(c.lines); }
+      });
+      h += '<p>Phone and email are not appropriate for emergencies. When in doubt, ' +
+           'go to urgent care or the emergency room.</p>';
+    }
+
+    h += '<h2>Key reminders</h2>' + ul(prog.keyReminders);
+    return h;
+  }
+
   function renderBody(DATA, DOSING, doc) {
     var S = DATA.shared;
     var F = agentFacts(DOSING, doc);
@@ -335,7 +446,7 @@
 
   var DOCS = ['sermorelin'];
 
-  return { DOCS: DOCS, esc: esc, renderBody: renderBody, agentFacts: agentFacts,
+  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, agentFacts: agentFacts,
            contraindications: contraindications,
            CSS: CSS, LOGO_URI: LOGO_URI };
 }));
