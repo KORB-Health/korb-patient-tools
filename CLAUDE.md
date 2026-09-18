@@ -64,7 +64,21 @@ This matters most for the Men's and Women's Health work coming next: those
 documents will exist, and render, and look exactly as published as the live ones,
 while not being released to anybody.
 
-**There are no PDFs any more.** All 43 were retired on 2026-09-17, patient and
+**`KORB_Welcome_Letter.pdf` is kept on purpose, for patients who already hold that
+URL.** It is the designed PDF with only its link annotations rewritten, by
+`tools/retarget-pdf-links.py`, so what a patient sees is byte-for-byte the page that was
+designed and every button now opens the live `.html`.
+
+**Do not regenerate it from `korb-patient-ed-data.js`.** That was tried on 2026-09-17,
+it produced a different document wearing the same name, and the generator was deleted.
+To change where it points, rerun the retarget tool. To change what it says, the design
+lives outside this repo.
+
+That tool also fixes any old KORB PDF still sitting in Drive or Dropbox: it swaps the
+retired `pacstevenson.github.io` base and rewrites `.pdf` targets in one pass, and it
+refuses rather than guesses when no matching `.html` exists.
+
+**Every other PDF is retired.** All 43 were retired on 2026-09-17, patient and
 provider. Every document is a shell that reads its data file in the browser, so a
 pharmacy, state or dosing change reaches the reader on their next page load. The
 stored PDF was a second copy that drifted, and it is how 14 of the 16 patient
