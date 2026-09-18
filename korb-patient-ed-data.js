@@ -1095,15 +1095,16 @@ var KORB_PATIENT_ED = {
       sections: [
         {
           h: 'Your most important links',
-          lead: 'Your personalized schedule and your day-to-day tracker, in one place.',
           links: [
             {
               href: 'KORB_Patient_Treatment_Schedule.html',
-              label: 'Open Treatment Schedule'
+              label: 'Open Treatment Schedule',
+              note: 'Your personalized schedule: visit checkpoints, lab timing and program milestones, all in one place.'
             },
             {
               href: 'KORB_Functional_Health_Tracker.html',
-              label: 'Open My Peptide Tracker'
+              label: 'Open My Peptide Tracker',
+              note: 'Track your doses day to day and see where you are in your cycle.'
             }
           ]
         },
