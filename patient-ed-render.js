@@ -556,9 +556,18 @@
     '.k-bnote{display:block;max-width:420px;margin:7px auto 0;text-align:center;',
     'font-size:13.5px;color:var(--ink2);line-height:1.45;}',
 
+    /* The tinted panel from the Start Here Guide, which Don picked out on
+       2026-09-18 as the treatment he wanted here too. A loose centred row of
+       pills reads as leftovers; the same row inside a panel reads as a set you
+       are being asked to choose from. Tonal progression is page cream, panel a
+       shade lighter, pills white, so the choices sit clearly on top. */
+    '.k-panel{box-sizing:border-box;max-width:470px;margin:0 auto;padding:15px;',
+    'background:#F7F5E9;border:1px solid var(--rule);border-radius:10px;}',
+
     /* pick exactly one of these: sized to the word, not to the column */
     '.k-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;',
     'max-width:470px;margin:0 auto;}',
+    '.k-panel .k-pills{max-width:none;}',
     '.k-pill{display:inline-flex;align-items:center;padding:10px 16px;background:#fff;',
     'color:var(--navy);border:1.5px solid var(--k-teal-ink);border-radius:7px;',
     'text-decoration:none;font-weight:700;font-size:14.5px;line-height:1.3;min-height:44px;}',
@@ -840,10 +849,13 @@
         }).join('') + '</div>';
       }
       if (sec.tools && sec.tools.length) {
-        h += '<div class="k-tools">' + sec.tools.map(function (t) {
-          return '<a href="' + esc(t.href) + '" target="_blank" rel="noopener">' +
+        /* Same pill and the same panel as a set of tiers: these are a set you
+           pick one of too. The arrow is the only difference that earns its
+           keep, because these five leave the site and the tiers do not. */
+        h += '<div class="k-panel"><div class="k-pills">' + sec.tools.map(function (t) {
+          return '<a class="k-pill" href="' + esc(t.href) + '" target="_blank" rel="noopener">' +
                  esc(t.label) + ' \u2197</a>';
-        }).join('') + '</div>';
+        }).join('') + '</div></div>';
       }
       if (sec.links && sec.links.length) {
         /* A section declares its own weight with `as`, and a section holding a
@@ -867,7 +879,8 @@
           /* a set you pick exactly one of: sized to its own label, so a run of
              them is visibly a choice rather than another stack of full-width
              boxes. Three tiers and five handouts were the worst offenders. */
-          h += '<div class="k-pills">' + sec.links.map(hubPill).join('') + '</div>';
+          h += '<div class="k-panel"><div class="k-pills">' +
+               sec.links.map(hubPill).join('') + '</div></div>';
         } else {
           h += sec.links.map(hubBtn).join('');
         }
