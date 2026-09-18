@@ -134,7 +134,12 @@ function sourceKey(doc) { return doc.source === 'none' ? null : (SOURCE_FILE[doc
 
 function masthead(doc, live) {
   return `<div class="mast"><div class="tools">` +
-    `<a href="${doc.file}.pdf">PDF version</a><a href="#" onclick="window.print();return false;">Print</a>` +
+    /* No 'PDF version' link. The stored patient PDFs were retired on
+       2026-09-17: they drifted from the page, and 14 of the 16 still named
+       KORB Health Group on clinical instruction after the HTML was fixed.
+       Print produces a PDF from current data at the moment it is pressed,
+       which is what the stored file was pretending to be. */
+    `<a href="#" onclick="window.print();return false;">Print</a>` +
     `</div><img src="${R.LOGO_URI}" alt="KORB Health"></div>` +
     (live && doc.source !== 'none'
       ? `<div class="live">Live — reflects ${SOURCE_FILE[sourceKey(doc)]} as of this page load</div>`
