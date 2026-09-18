@@ -64,6 +64,12 @@ This matters most for the Men's and Women's Health work coming next: those
 documents will exist, and render, and look exactly as published as the live ones,
 while not being released to anybody.
 
+**Every document on this live list is now served as HTML as well as PDF**, as of
+2026-09-17. The HTML rebuilds itself from the data files on each page load; the PDF
+is a snapshot. **Link the `.html`.** `KORB_Patient_Hub.html` and the Welcome Letter,
+which is itself a link hub, were both repointed. The PDFs are kept for printing and
+for attaching to a Tebra chart.
+
 **LIVE to patients** — the Functional Health & Longevity patient set, and nothing
 else:
 
@@ -76,6 +82,12 @@ else:
 | When to Contact KORB or the ER | `Patient_Education/KORB_When_to_Contact_KORB_or_ER.pdf` |
 | Four program overviews | Foundation, Gateway, Longevity, Peak |
 | Five peptide handouts | BPC-157, CJC-1295/Ipamorelin, GHK-Cu, Sermorelin, Tesamorelin |
+
+**Open question, 2026-09-17.** This record says `KORB_Patient_Hub.html` is not
+released, and Don has said the patient education hub is with the website developer.
+Those may be two different things, the repo hub versus a page the developer is
+building from it. Whoever knows should reconcile this line; it is the only record and
+it currently contradicts what is happening.
 
 **NOT released to patients.** All GLP-1 and weight loss, all add-ons, Men's Health,
 Women's Health, and `KORB_Patient_Hub.html`. In `Patient_Education/` that covers the
