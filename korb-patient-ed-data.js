@@ -1347,20 +1347,12 @@ var KORB_PATIENT_ED = {
             'Non-medical questions: reply to any text message or appointment reminder. Our staff responds Monday to Friday, 9:00 AM to 6:00 PM CST.',
             'Medical questions go through your Patient Portal.'
           ],
-          links: [
-            {
-              href: 'tel:+18889597299',
-              label: 'Call (888) 959-7299'
-            },
-            {
-              href: 'mailto:info@korbhealth.com',
-              label: 'Email info@korbhealth.com'
-            },
-            {
-              href: 'https://portal.kareo.com/app/new/login',
-              label: 'Open Patient Portal'
-            }
-          ]
+          /* Filled from shared.contact rather than typed. Both welcome letters
+             carried their own copy of the phone number, the email address and
+             the portal URL, beside the shared block that holds the same three
+             facts for the other 24 pages. A second copy of a phone number is a
+             second thing to update when it changes. */
+          shared: 'contact'
         }
       ]
     },
@@ -1499,20 +1491,12 @@ var KORB_PATIENT_ED = {
             'Non-medical questions: reply to any text message or appointment reminder. Our staff responds Monday to Friday, 9:00 AM to 6:00 PM CST.',
             'Medical questions go through your Patient Portal.'
           ],
-          links: [
-            {
-              href: 'tel:+18889597299',
-              label: 'Call (888) 959-7299'
-            },
-            {
-              href: 'mailto:info@korbhealth.com',
-              label: 'Email info@korbhealth.com'
-            },
-            {
-              href: 'https://portal.kareo.com/app/new/login',
-              label: 'Open Patient Portal'
-            }
-          ]
+          /* Filled from shared.contact rather than typed. Both welcome letters
+             carried their own copy of the phone number, the email address and
+             the portal URL, beside the shared block that holds the same three
+             facts for the other 24 pages. A second copy of a phone number is a
+             second thing to update when it changes. */
+          shared: 'contact'
         }
       ]
     },
@@ -1588,10 +1572,6 @@ var KORB_PATIENT_ED = {
             'If your results are not back in time, your follow-up visit may need to be rescheduled. Completing your draw in the window you were given is what prevents that.'
           ]
         },
-        {
-          h: 'Questions',
-          shared: 'contact'
-        }
       ]
     },
 

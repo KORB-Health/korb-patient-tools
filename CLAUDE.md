@@ -1436,3 +1436,56 @@ testosterone" was either already gone or never in it.
    375px, and it is `Print` in the masthead. `.k-val` carries the contact values
    to 44px, screen only - on paper a 44px minimum on a table cell just pads the
    row.
+
+27. ~~THE WELCOME LETTERS HAD NO DOCUMENT SURFACE.~~ **DONE 2026-09-18.** Don:
+   the GLP-1 letter read as "one big, huge glob of cream" and looked unfinished
+   beside the rest of the set. It was. `HUB_CSS` opened with a block captioned
+   *"undo the sheet-of-paper chrome the handout stylesheet imposes"* and flooded
+   `body` with brand cream at full width.
+
+   That chrome is not decoration. Page cream behind, a lighter `#FBFAF6` panel
+   with a hairline edge in front, is the only thing telling a reader where the
+   document starts and the desk ends, and every other patient page has it. The
+   two pages without it were **the two a new patient opens first**.
+
+   Only the type scale is overridden now; the surface, the width and the side
+   rules are left to the builder's `@media screen` block, where they are set for
+   the whole set. `#doc` also stopped capping its own width at 780px - `body`
+   already caps at 8.5in, so the letters rendered a narrower column than the
+   handout beside them. Verified by measuring: all three of Welcome, GLP-1
+   Welcome and Start Here now report the same body background, desk background,
+   816px width and 1px rule.
+
+28. ~~CONTACT DETAILS AT THE FOOT OF EVERY PAGE.~~ **DONE 2026-09-18**, Don's
+   call to make. They sit at the foot, in the same place, on **25 of 26 pages**.
+
+   Before this the block appeared wherever a document happened to declare
+   `shared: 'contact'`: mid-document on one page, a three-column table on the
+   handouts, a "Questions" section on the lab page, and absent from several
+   entirely. A patient opening a page from a text message should not have to
+   read the page to find out how to reach a human.
+
+   **The 26th is `KORB_When_to_Contact_KORB_or_ER`, which suppresses it**, since
+   printing the same three details immediately under a document whose entire
+   subject is who to contact is worse than not having a footer.
+
+   **What stayed and what moved, because they are different kinds of thing.**
+   WHICH problem goes to whom is clinical content and stays in the body - the
+   handouts keep their three-column split, and `portalItems` is still
+   per-handout. The phone number, the email address and the portal link are
+   contact DETAILS and appear once, at the foot. No page now prints the number
+   twice.
+
+   **Both welcome letters typed their own copy of all three.** They carried
+   `Call (888) 959-7299`, `Email info@korbhealth.com` and the portal URL as
+   their own links beside `shared.contact`, which holds the same three facts for
+   the other 24 pages. Their Contact us section is filled from the shared block
+   now and still renders as `.k-act` rows, which is the right treatment on a hub
+   - a labelled row with the value visible and a Copy button.
+
+   **A regex nearly ate the data file doing this.** A greedy `re.S` pattern over
+   "Contact us" sections matched across the end of one object and broke
+   `korb-patient-ed-data.js` into a syntax error. Restored from git and redone
+   by replacing the exact literal block, with an assertion that it appears
+   exactly twice. **Match a literal and count it; do not pattern-match across
+   object boundaries in a 175KB data file.**

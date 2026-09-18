@@ -300,23 +300,8 @@
     h += '<h2>Labs and monitoring</h2>' + paras(prog.labs);
     h += '<h2>Safety reminders</h2>' + ul(prog.safety);
 
-    /* shared.contact is {operations, portal, emergency}, each {title, items,
-       lines?}. It is shared with the molecule handouts, so it is read as it is
-       rather than reshaped here. */
-    if (sh.contact) {
-      h += '<h2>When to contact KORB, and when to seek emergency care</h2>';
-      ['operations', 'portal', 'emergency'].forEach(function (k) {
-        var c = sh.contact[k];
-        if (!c) { return; }
-        h += '<h3>' + esc(c.title) + '</h3>';
-        if (c.items) { h += ul(c.items); }
-        h += ways(c.ways);
-      });
-      h += '<p>Phone and email are not appropriate for emergencies. When in doubt, ' +
-           'go to urgent care or the emergency room.</p>';
-    }
-
     h += '<h2>Key reminders</h2>' + ul(prog.keyReminders);
+    h += contactFooter(sh, prog);
     return h;
   }
 
@@ -515,6 +500,33 @@
       }).join('') + '</p>';
   }
 
+  /* THE CONTACT FOOTER, ON EVERY PATIENT PAGE, IN THE SAME PLACE.
+
+     Don asked on 2026-09-18 whether contact details belonged at the foot of
+     every page and left the placement to judgement. They do, and the foot is
+     the place. Until now the block appeared wherever a document happened to
+     declare `shared: 'contact'`, so it was mid-document on one page, a
+     three-column table on another, a "Questions" section on the lab page, and
+     absent from several entirely. A patient who opens a page from a text
+     message should find how to reach a human in the same place every time,
+     whatever the page was about, without reading the page to look for it.
+
+     Compact on purpose. It is a footer, not the triage guide: how to reach us,
+     the portal, and the one line that says phone and email are not for
+     emergencies. WHICH problem goes to whom is a clinical decision and stays on
+     When to Contact KORB or the ER, which is the whole subject of that
+     document - and which is why that page suppresses this footer rather than
+     printing the same details twice in a row. */
+  function contactFooter(S, doc) {
+    var C = S && S.contact;
+    if (!C || (doc && doc.key === 'contact')) { return ''; }
+    var all = (C.operations.ways || []).concat(C.portal.ways || []);
+    return '<h2>How to reach KORB</h2>' +
+           ways(all) +
+           (C.emergencyNote ? '<div class="callout warn"><p>' +
+              esc(C.emergencyNote) + '</p></div>' : '');
+  }
+
   function sharedBlock(DATA, name) {
     var sh = DATA.shared || {};
     if (name === 'storage') {
@@ -572,11 +584,24 @@
   var HUB_CSS = [
     ':root{--k-teal-ink:#00808D;}',
 
-    /* undo the sheet-of-paper chrome the handout stylesheet imposes */
-    'body{max-width:none!important;border:0!important;padding:0!important;',
-    'background:var(--cream)!important;font-size:16px!important;',
-    'line-height:1.55!important;color:var(--ink)!important;}',
-    '#doc{max-width:780px;margin:0 auto;padding:0 16px 56px;}',
+    /* THE WELCOME LETTERS KEEP THE SHEET OF PAPER. Don, 2026-09-18: the GLP-1
+       letter read as "one big, huge glob of cream" and looked unfinished beside
+       the rest of the set.
+
+       This block used to say "undo the sheet-of-paper chrome the handout
+       stylesheet imposes" and flooded the body with brand cream at full width.
+       That removed the only thing telling a reader where the document starts
+       and the desk ends: page cream behind, a lighter panel with a hairline
+       edge in front. Every other patient page has it, so the two letters - the
+       FIRST thing a new patient opens - were the two that looked half-built.
+
+       So only the TYPE SCALE is overridden here. The surface, the width and the
+       side rules are left to the builder's @media screen block, which is where
+       they are set for the whole set. #doc no longer caps its own width either:
+       body already caps at 8.5in, and a second 780px cap inside it produced a
+       narrower column on a letter than on the handout beside it. */
+    'body{font-size:16px!important;line-height:1.55!important;color:var(--ink)!important;}',
+    '#doc{max-width:none;margin:0;padding:0 0 12px;}',
 
     '.hub-mast{text-align:center;padding:22px 0 14px;}',
     '.hub-mast img{height:30px;width:auto;}',
@@ -957,6 +982,23 @@
                  esc(t.label) + ' \u2197</a>';
         }).join('') + '</div></div>';
       }
+      /* THE PHONE NUMBER IS WRITTEN ONCE. Both welcome letters typed their own
+         "Call (888) 959-7299 / Email ... / Open Patient Portal" links beside
+         shared.contact, which holds the same three facts for the other 24
+         pages. A second copy of a phone number is a second thing to update.
+         A section with `shared: 'contact'` is filled from the shared block and
+         still renders as the .k-act rows, which is the right treatment for a
+         hub: a labelled row with the value visible and a Copy button. */
+      var secLinks = sec.links;
+      if (sec.shared === 'contact') {
+        var CC = (DATA.shared && DATA.shared.contact) || {};
+        secLinks = (CC.operations.ways || []).concat(CC.portal.ways || [])
+          .filter(function (w) { return w.href; })
+          .map(function (w) { return { href: w.href, label: w.value }; });
+      }
+      if (secLinks && secLinks.length) {
+        sec = Object.assign({}, sec, { links: secLinks });
+      }
       if (sec.links && sec.links.length) {
         /* A section declares its own weight with `as`, and a section holding a
            mailto: or tel: is a contact block whether it says so or not. */
@@ -1060,6 +1102,7 @@
     if (guide.keyReminders) {
       h += '<h2>Key reminders</h2>' + ul(guide.keyReminders);
     }
+    h += contactFooter(DATA.shared, guide);
     return h;
   }
 
@@ -1180,19 +1223,23 @@
     h += '<h2>Safety reminders</h2>' +
          ul((doc.safety || []).concat(doc.noInjectionSafety ? [] : S.injectionSafety));
 
+    /* WHICH problem goes to whom, kept - a handout is where a patient is when
+       they notice a side effect, and the three-way split is clinical content.
+       The DETAILS moved to contactFooter, so the phone number is not printed
+       twice on one page. portalItems is per-handout and stays. */
     var C = S.contact;
     h += '<h2>When to contact KORB</h2>' +
          '<table class="grid"><thead><tr><th>' + esc(C.operations.title) + '</th><th>' +
          esc(C.portal.title) + '</th><th>' + esc(C.emergency.title) + '</th></tr></thead><tbody><tr>' +
-         '<td>' + ul(C.operations.items) + ways(C.operations.ways, true) + '</td>' +
-         '<td>' + ul(doc.portalItems || C.portal.items) + ways(C.portal.ways, true) + '</td>' +
+         '<td>' + ul(C.operations.items) + '</td>' +
+         '<td>' + ul(doc.portalItems || C.portal.items) + '</td>' +
          '<td>' + ul(C.emergency.items) + '</td>' +
          '</tr></tbody></table>' +
-         '<p class="fine">' + esc(C.portalNote) + '</p>' +
-         '<div class="callout warn"><p>' + esc(C.emergencyNote) + '</p></div>';
+         '<p class="fine">' + esc(C.portalNote) + '</p>';
 
     if (doc.keyReminders) h += '<h2>Key reminders</h2>' + ul(doc.keyReminders);
 
+    h += contactFooter(S, doc);
     return h;
   }
 
