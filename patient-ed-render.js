@@ -498,7 +498,17 @@
      the choice panels two sections above it, which .k-pills already centres.
      One alignment for every button on the page. */
   function buttons(list) {
-    return '<p class="k-pills" style="margin:10px 0 4px;">' +
+    /* margin:10px AUTO 4px, and the auto is load-bearing. Writing `10px 0 4px`
+       here overrode the `margin:0 auto` on .k-pills, so the 470px flex box sat
+       flush left in a 762px column and only the button inside it was centred.
+       It moved a little and looked worse than before, which is exactly what Don
+       saw on 2026-09-18.
+
+       The first measurement missed it because it compared the gutters to the
+       VIEWPORT rather than to the text column, and at 375px the body fills the
+       viewport, so the wrong reference agreed by coincidence. Measure a centred
+       thing against its PARENT. */
+    return '<p class="k-pills" style="margin:10px auto 4px;">' +
       list.map(function (w) {
         return '<a class="k-pill" href="' + esc(w.href) + '" target="_blank" ' +
                'rel="noopener">' + esc(w.value) + ' ↗</a>';

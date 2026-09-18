@@ -1437,8 +1437,22 @@ testosterone" was either already gone or never in it.
    way a set of choices is. Don looked at the rendered page and called it: a lone
    button hard against the left margin reads as left-heavy and unfinished, and it
    disagreed with the choice panels two sections above it, which `.k-pills`
-   already centres. **One alignment for every button on the page.** Measured at
-   375px: equal 55px gutters either side, still 44px tall, no overflow.
+   already centres. **One alignment for every button on the page.**
+
+   **THE FIRST ATTEMPT AT CENTRING MADE IT WORSE, AND THE MEASUREMENT AGREED
+   THAT IT WAS FINE.** Removing `justify-content:flex-start` left the inline
+   `margin:10px 0 4px`, which overrides `margin:0 auto` on `.k-pills` - so the
+   470px flex box sat flush LEFT in a 762px column and only the button inside it
+   was centred. It moved a little and looked more off than before, which is
+   exactly what Don reported.
+
+   **The check was a false pass because it used the wrong reference.** It
+   compared the button's gutters to `document.documentElement.clientWidth`, the
+   VIEWPORT, and reported 55px either side. True, and irrelevant: at 375px the
+   body fills the viewport, so the wrong reference agreed by coincidence, and at
+   900px it would not have. **Measure a centred thing against its PARENT.** Redone
+   that way, the offset from column centre is 0px on both pages at 375, 900 and
+   1150px, and the planted bug reads 146px.
 
    Every generated patient page is now down to **one** sub-44px tap target at
    375px, and it is `Print` in the masthead. `.k-val` carries the contact values
