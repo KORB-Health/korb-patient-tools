@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>KORB Appointment Scheduler</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
@@ -867,6 +868,131 @@
               <label class="opt review"><input type="radio" name="expect" id="ex-brand" value="review"><span>I was expecting brand-name medication. I would like to talk about it</span></label>
             </div>
             <p class="helper hidden" id="brandNote">Brand-name options do exist in some situations. They are decided case by case with your provider, they are not available to every patient, and they are not available in every state, so nothing is promised here. Your provider will go through it with you at your visit.</p>
+          </fieldset>
+        </fieldset>
+
+
+        <!-- 18-22 · MEN'S HEALTH -->
+        <fieldset class="page hidden" id="p18">
+          <h3 class="pagetitle">Height and weight</h3>
+          <p class="pagesub">Part 1 of 5. For your chart. There is no weight requirement for this program.</p>
+          <div class="row3">
+            <div><label class="fieldlab" for="mh-ft">Height (feet)</label><input type="number" id="mh-ft" min="3" max="7" placeholder="5"></div>
+            <div><label class="fieldlab" for="mh-in">Inches</label><input type="number" id="mh-in" min="0" max="11" placeholder="10"></div>
+            <div><label class="fieldlab" for="mh-wt">Weight (lbs)</label><input type="number" id="mh-wt" min="80" max="700" placeholder="180"></div>
+          </div>
+          <p class="helper">No BMI is calculated for this program. This is for your chart.</p>
+        </fieldset>
+
+        <fieldset class="page hidden" id="p19">
+          <h3 class="pagetitle">What brings you here</h3>
+          <p class="pagesub">Part 2 of 5. Testosterone is treated when symptoms and blood work agree, so your provider needs both. These are the symptoms.</p>
+
+          <fieldset class="q">
+            <legend>Which of these have you noticed? Check all that apply.</legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" class="msym" id="ms1" data-name="Low energy or fatigue"><span>Low energy or fatigue</span></label>
+              <label class="opt"><input type="checkbox" class="msym" id="ms2" data-name="Low sex drive"><span>Low sex drive</span></label>
+              <label class="opt"><input type="checkbox" class="msym" id="ms3" data-name="Erection problems"><span>Erection problems</span></label>
+              <label class="opt"><input type="checkbox" class="msym" id="ms4" data-name="Low mood or irritability"><span>Low mood or irritability</span></label>
+              <label class="opt"><input type="checkbox" class="msym" id="ms5" data-name="Trouble focusing or remembering things"><span>Trouble focusing or remembering things</span></label>
+              <label class="opt"><input type="checkbox" class="msym" id="ms6" data-name="Losing muscle or strength despite training"><span>Losing muscle or strength despite training</span></label>
+              <label class="opt"><input type="checkbox" class="msym" id="ms7" data-name="Gaining fat, especially around the middle"><span>Gaining fat, especially around the middle</span></label>
+              <label class="opt"><input type="checkbox" class="msym" id="ms8" data-name="Poor sleep, or no motivation"><span>Poor sleep, or no motivation</span></label>
+              <label class="opt"><input type="checkbox" class="msym" id="ms9" data-name="Less facial or body hair"><span>Less facial or body hair</span></label>
+              <label class="opt"><input type="checkbox" id="msym-none"><span><b>None of these</b></span></label>
+            </div>
+            <p class="helper">Answer for how things actually are, not how you think they should be. Nothing here rules you out.</p>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>What are you hoping testosterone will do for you? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="mgoal" id="mg-sym" value="sym"><span>Help with the symptoms above, like energy, sex drive and recovery</span></label>
+              <label class="opt"><input type="radio" name="mgoal" id="mg-both" value="both"><span>Both: help the symptoms, and build muscle or improve how I look</span></label>
+              <label class="opt"><input type="radio" name="mgoal" id="mg-perf" value="perf"><span>Mainly build muscle, improve my physique, or improve athletic performance</span></label>
+              <label class="opt"><input type="radio" name="mgoal" id="mg-unsure" value="unsure"><span>I am not sure yet, I want to talk it through</span></label>
+            </div>
+            <p class="helper hidden" id="mgoalNote">KORB treats testosterone deficiency. We do not prescribe testosterone for muscle building, physique or sports performance on its own. If that is your main goal, your provider will talk you through the Functional Health and Longevity program, which is built for exactly that.</p>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Are you subject to drug testing in your sport or your job? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="mwada" id="mw-no" value="no"><span>No</span></label>
+              <label class="opt"><input type="radio" name="mwada" id="mw-yes" value="yes"><span>Yes</span></label>
+            </div>
+            <p class="helper hidden" id="mwadaNote"><b>Testosterone is a banned substance in tested sport, and a therapeutic use exemption is not automatic.</b> This does not stop you being seen or treated. It does mean you need to know the risk before you start, and your provider will go through it with you at your visit.</p>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="page hidden" id="p20">
+          <h3 class="pagetitle">Safety screen</h3>
+          <p class="pagesub">Part 3 of 5. Please answer honestly. Most of these do not mean we cannot help you, they mean we need to talk first.</p>
+
+          <fieldset class="q">
+            <legend>Have you ever been told you have any of these?</legend>
+            <div class="opts">
+              <label class="opt stop"><input type="checkbox" class="mabs" id="mab1" data-f="Prostate cancer, known or suspected"><span>Prostate cancer, or a prostate check you are waiting on the result of</span></label>
+              <label class="opt stop"><input type="checkbox" class="mabs" id="mab2" data-f="Breast cancer"><span>Breast cancer</span></label>
+              <label class="opt review"><input type="checkbox" class="mrel" id="mrl1" data-f="Heart failure, not well controlled"><span>Heart failure that is not well controlled</span></label>
+              <label class="opt review"><input type="checkbox" class="mrel" id="mrl2" data-f="Sleep apnea, severe or untreated"><span>Sleep apnea that is severe, or that you are not treating</span></label>
+              <label class="opt review"><input type="checkbox" class="mrel" id="mrl3" data-f="MI or stroke within 6 months"><span>A heart attack or stroke in the last 6 months</span></label>
+              <label class="opt review"><input type="checkbox" class="mrel" id="mrl4" data-f="Wants to father a child"><span>I want to father a child, now or in the next year or two</span></label>
+              <label class="opt review"><input type="checkbox" class="mrel" id="mrl5" data-f="Prostate enlargement or urinary symptoms"><span>An enlarged prostate, or trouble passing urine</span></label>
+              <label class="opt review"><input type="checkbox" class="mrel" id="mrl6" data-f="Psychiatric instability"><span>A mood or psychiatric condition that is not stable right now</span></label>
+              <label class="opt"><input type="checkbox" id="mstop-none"><span><b>None of these apply</b></span></label>
+            </div>
+            <p class="helper">Your provider goes through anything you tick here with you at the visit.</p>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="page hidden" id="p21">
+          <h3 class="pagetitle">Medications and allergies</h3>
+          <p class="pagesub">Part 4 of 5. If you answer no, we will not ask you to list anything.</p>
+
+          <fieldset class="q">
+            <legend>Are you taking testosterone or any hormone therapy right now? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="mcurt" id="mct-no" value="no"><span>No</span></label>
+              <label class="opt review"><input type="radio" name="mcurt" id="mct-yes" value="review"><span>Yes, prescribed by another provider</span></label>
+              <label class="opt review"><input type="radio" name="mcurt" id="mct-other" value="review"><span>Yes, from another source</span></label>
+            </div>
+            <p class="helper">Baseline blood work has to be drawn off therapy to mean anything, so your provider needs to know before labs are ordered.</p>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Do you have any medication allergies? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="malg" id="malg-no" value="no"><span>No</span></label>
+              <label class="opt"><input type="radio" name="malg" id="malg-yes" value="yes"><span>Yes</span></label>
+            </div>
+            <div class="subq hidden" id="malgWrap">
+              <label class="fieldlab" for="malgList">Which ones, and what happens?</label>
+              <textarea id="malgList" placeholder="For example: sesame oil, causes a rash"></textarea>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="page hidden" id="p22">
+          <h3 class="pagetitle">Blood work, and what happens next</h3>
+          <p class="pagesub">Part 5 of 5. This is the part most people do not expect, so we would rather tell you now than at the visit.</p>
+
+          <fieldset class="q">
+            <legend>Have you had blood work for testosterone in the last 6 months? <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="mlabs" id="mlb-full" value="full"><span>Yes, a full panel, and I can send the results</span></label>
+              <label class="opt"><input type="radio" name="mlabs" id="mlb-some" value="some"><span>Yes, but I am not sure what was tested</span></label>
+              <label class="opt"><input type="radio" name="mlabs" id="mlb-no" value="no"><span>No</span></label>
+            </div>
+            <p class="helper">Bring them if you have them. A complete recent panel from a proper laboratory can sometimes save you a redraw. Home finger-prick kits cannot be used to start treatment.</p>
+          </fieldset>
+
+          <fieldset class="q">
+            <legend>Two things to know before you book. <span class="req">*</span></legend>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" id="mack"><span>I understand that <b>this visit is a live video visit</b>, not a form or a phone call, and that <b>nothing is prescribed at it</b>. My provider reviews my symptoms and orders blood work. Treatment, if it is right for me, starts at a later visit once those results are back.</span></label>
+            </div>
           </fieldset>
         </fieldset>
 
@@ -1818,7 +1944,7 @@
   // page index -> stage number (1-8)
   /* STAGE maps a page to its rail stage. 0-3 shared, 4-7 weight loss health,
      8 add-on questions, 9 consent, 10 schedule, 11 outcome, 12-17 FH&L health. */
-  var STAGE=[1,2,3,4,5,5,5,5,6,7,8,9,5,5,5,5,5,5];
+  var STAGE=[1,2,3,4,5,5,5,5,6,7,8,9,5,5,5,5,5,5,5,5,5,5,5];
   /* LAST is the outcome page's id, which is also the last entry in ORDER. It is
      an id, not a position: the FH&L pages are 12 to 17 in the DOM and sit in the
      MIDDLE of the flow, so any test of the form `cur >= LAST` is wrong and was
@@ -1828,7 +1954,7 @@
   /* ORDER is the flow, not the id order. FH&L pages live at 12-17 in the DOM so
      the weight loss indices never moved, but they are walked between the health
      stage and the add-on questions. visible() decides which branch is shown. */
-  var ORDER=[0,1,2,3,4,5,6,7,12,13,14,15,16,17,8,9,10,11];
+  var ORDER=[0,1,2,3,4,5,6,7,12,13,14,15,16,17,18,19,20,21,22,8,9,10,11];
   function opos(i){var p=ORDER.indexOf(i);return p<0?0:p}
   var cur=0, staff=false, maxReached=0;
 
@@ -1836,10 +1962,12 @@
   function num(id){var v=parseFloat($(id).value);return isNaN(v)?null:v}
   function isWL(){return val('prog')==='wl'}
   function isFHL(){return val('prog')==='fhl'}
-  function screened(){return isWL()||isFHL()}
+  function isMH(){return val('prog')==='mh'}
+  function screened(){return isWL()||isFHL()||isMH()}
   function isMale(){return val('sex')==='m'}
   function healthPage(i){return i>=4&&i<=7}
   function fhlPage(i){return i>=12&&i<=17}
+  function mhPage(i){return i>=18&&i<=22}
 
   function age(){
     var v=$('dob').value; if(!v) return null;
@@ -1910,6 +2038,48 @@
                                            treated" stop being stops.
        input.frel checked                  a flag. option[data-hot] marks it.
        radio value="stop" / "review"       single-answer questions */
+  /* Men's Health. Shape follows Don's rulings of 17 Sep 2026, recorded in
+     korb-clinical-docs/CLAUDE.md. Three things make it unlike the other two:
+
+     1. DOES NOT QUALIFY is the two cancers only. Everything else on SOP 3.3 that
+        a patient can self-report is reversible or temporal, and the decline
+        screen never says which answer caused it, so declining a man with
+        treatable sleep apnea sends him to a clinic that does not screen for it.
+     2. Under 25 is a referral, not a decline. He is still offered other
+        programs. This is the one screen allowed to say why, because a referral
+        that does not name somewhere to go is useless.
+     3. Performance or physique with no symptoms is out of scope for TRT and
+        pivots to FH&L. Being drug tested is a different axis and never blocks.
+
+     Hematocrit and PSA are deliberately absent. They are Step 5 lab checks and
+     cannot be self-reported. Do not add proxy questions for them. */
+  function evaluateMH(){
+    var stops=[], revs=[], a=age();
+
+    [].slice.call(document.querySelectorAll('.mabs')).forEach(function(c){
+      if(c.checked) stops.push(c.getAttribute('data-f')||c.id);
+    });
+    [].slice.call(document.querySelectorAll('.mrel')).forEach(function(c){
+      if(c.checked) revs.push(c.getAttribute('data-f')||c.id);
+    });
+
+    if(val('mcurt')==='review') revs.push('Already on testosterone or hormone therapy, baseline must be drawn off therapy');
+    if(val('mwada')==='yes') revs.push('Subject to drug testing in sport or work, counselled, does not block');
+    if(val('mlabs')==='some') revs.push('Reports recent labs but cannot say what was tested');
+
+    var symCount=[].slice.call(document.querySelectorAll('.msym')).filter(function(c){return c.checked}).length;
+    var goal=val('mgoal');
+    // scope, not safety: no symptoms and a performance goal is not a TRT patient
+    var scope = (goal==='perf' && symCount===0);
+    if(goal==='perf' && symCount>0) revs.push('Main goal is performance or physique, symptoms also reported');
+
+    var st=$('state').value;
+    if(st && st!=='Texas') revs.push('Testosterone is live in Texas only right now, California in progress. Patient is in '+st);
+
+    return {na:false, minor:false, referral:(a!==null && a>=18 && a<25),
+            scope:scope, bmi:null, meets:null, stops:stops, revs:revs};
+  }
+
   function evaluateFHL(){
     var stops=[], revs=[];
 
@@ -1963,6 +2133,7 @@
     if(isMinor()) return {na:false, minor:true, bmi:null, meets:null,
       stops:['Under 18. KORB treats adults only'], revs:[]};
     if(isFHL()) return evaluateFHL();
+    if(isMH()) return evaluateMH();
     if(!isWL()) return {na:true, bmi:null, meets:null, stops:[], revs:[]};
     var b=bmi(), co=comorbs(), stops=[], revs=[];
 
@@ -2180,9 +2351,14 @@
     var fc=$('fhlConsent');
     if(fc){
       fc.classList.toggle('hidden', !isFHL());
-      $('consentTitle').innerHTML = (isFHL()
-        ? 'Peptide and telehealth consents'
-        : 'Telehealth consent') + ' <span class="req">*</span>';
+    }
+    $('consentTitle').innerHTML = (isFHL()
+      ? 'Peptide and telehealth consents'
+      : 'Telehealth consent') + ' <span class="req">*</span>';
+    if($('mgoalNote')){
+      $('mgoalNote').classList.toggle('hidden', val('mgoal')!=='perf');
+      $('mwadaNote').classList.toggle('hidden', val('mwada')!=='yes');
+      $('malgWrap').classList.toggle('hidden', val('malg')!=='yes');
     }
 
     // every follow-up block keyed to its checkbox
@@ -2257,6 +2433,8 @@
   exclusive('#p5 .rel',$('rel-none'));
   exclusive('#p6 .rel',$('med-none'));
   exclusive('.ros',$('ros-none'));
+  exclusive('.msym',$('msym-none'));
+  exclusive('.mabs,.mrel',$('mstop-none'));
   exclusive('.addon',$('ad-none'));
 
   // repeating rows
@@ -2459,6 +2637,27 @@
       });
     }
 
+    if(i===19){
+      need(anyChecked('.msym')||$('msym-none').checked,'The symptoms question, or None of these',groupBox($('msym-none')));
+      need(groupAnswered('mgoal'),'What you are hoping testosterone will do',groupBox($('mg-sym')));
+      need(groupAnswered('mwada'),'Whether you are subject to drug testing',groupBox($('mw-no')));
+    }
+
+    if(i===20){
+      need(anyChecked('.mabs')||anyChecked('.mrel')||$('mstop-none').checked,'The safety question, or None of these apply',groupBox($('mstop-none')));
+    }
+
+    if(i===21){
+      need(groupAnswered('mcurt'),'Whether you take testosterone or hormone therapy now',groupBox($('mct-no')));
+      need(groupAnswered('malg'),'Whether you have medication allergies',groupBox($('malg-no')));
+      if(val('malg')==='yes') need(filled('malgList'),'Which allergies','malgList');
+    }
+
+    if(i===22){
+      need(groupAnswered('mlabs'),'Whether you have had recent blood work',groupBox($('mlb-full')));
+      need($('mack').checked,'Please confirm you understand the visit and lab sequence',groupBox($('mack')));
+    }
+
     if(i===6){
       need(anyChecked('#p6 .rel')||$('med-none').checked,'The medications question, or None of these apply',groupBox($('med-none')));
       need(anyChecked('.ros')||$('ros-none').checked,'The symptoms question, or None of these',groupBox($('ros-none')));
@@ -2628,6 +2827,7 @@
   function visible(i){
     if(healthPage(i) && !isWL()) return false;
     if(fhlPage(i) && !isFHL()) return false;
+    if(mhPage(i) && !isMH()) return false;
     if(i===8 && !anyAddon()) return false;
     return true;
   }
@@ -2671,6 +2871,33 @@
       o.innerHTML='<h3>We are not able to schedule this appointment</h3>'+
         '<p>KORB Health treats adults only, and that applies to every one of our programs.</p>'+
         '<p>Please call us at <b>(888) 959-7299</b>. We will talk it through and help point you toward somewhere that can.</p>'+crisis;
+    } else if(isMH() && r.referral){
+      /* Under 25. The ONLY screen allowed to name its reason, because a
+         referral that does not say where to go is worse than useless. He is
+         not turned away: other programs are still open to him. */
+      o.innerHTML='<h3>Testosterone is not the right starting point for you</h3>'+
+        '<p>You told us you are under 25. KORB does not start testosterone therapy under that age, and that is a deliberate policy rather than anything about your answers.</p>'+
+        '<p>Testosterone is still settling into its natural pattern into the mid twenties, and when levels do come back low in a younger man there is usually a specific cause worth finding rather than replacing. Starting testosterone can also affect fertility, which matters more at your age than it might later.</p>'+
+        '<p><b>What to do instead.</b> If you already see an endocrinologist or a urologist, follow up with them, as they know your history. If you do not, start with your primary care provider and ask about a full hormone workup.</p>'+
+        '<p><b>You are still welcome here.</b> Our other programs are open to you, and your visit can cover those instead. Call us at <b>(888) 959-7299</b> and we will talk it through.</p>'+crisis;
+    } else if(isMH() && r.scope){
+      /* Scope, not safety. SOP 1.0: KORB does not prescribe testosterone for
+         performance or physique. This is a pivot to FH&L, not a dead end. */
+      o.innerHTML='<h3>There may be a better fit for what you are after</h3>'+
+        '<p>You told us your main goal is building muscle, physique or athletic performance, and that you are not having the symptoms testosterone treats.</p>'+
+        '<p><b>KORB treats testosterone deficiency.</b> We do not prescribe testosterone for performance or physique on its own. That is not a judgement about the goal, it is what our program is and is not for.</p>'+
+        '<p><b>What we do have.</b> Our Functional Health and Longevity program is built for exactly this: body composition, recovery, sleep and training. <b>Your visit is booked</b> and your provider will go through it with you.</p>'+
+        '<p>If your symptoms change, or you think we have read this wrong, say so at the visit or call <b>(888) 959-7299</b>.</p>'+crisis;
+    } else if(!r.na && r.stops.length && isMH()){
+      /* MH decline. The weight loss wording promises he "may leave without a
+         prescription", which would be misleading here: nobody is prescribed at
+         a first testosterone visit either way. The rule still holds, this
+         screen never says which answer caused it. */
+      o.innerHTML='<h3>We need to talk before you start this program</h3>'+
+        '<p>Based on what you told us, testosterone therapy may not be safe or appropriate for you right now. That is not a judgement about you and it is not the end of the conversation.</p>'+
+        '<p><b>Your visit is booked and we are glad you are coming.</b> Your provider will go through your answers with you, explain what they mean, and talk about whether another KORB program is a better fit.</p>'+
+        '<p>Worth knowing either way: nothing is prescribed at a first testosterone visit. That visit is for your history and your blood work. Nothing is charged before it.</p>'+
+        '<p>If you would rather talk it through before booking, call us at <b>(888) 959-7299</b>.</p>'+crisis;
     } else if(!r.na && r.stops.length && isFHL()){
       /* FH&L decline. Deliberately different from the weight loss version,
          because nobody leaves an FH&L baseline visit with a prescription in
@@ -2689,6 +2916,13 @@
         '<p>Based on what you told us, a GLP-1 medication may not be safe or appropriate for you right now. That is not a judgement about you and it is not the end of the conversation.</p>'+
         '<p><b>Your visit is booked and we are glad you are coming.</b> Your provider will go through what you told us, explain why, and talk about whether another KORB program is a better fit. Please understand that you may leave that visit without a prescription for this medication.</p>'+
         '<p>If you would rather talk it through first, call us at <b>(888) 959-7299</b>.</p>'+crisis;
+    } else if(!r.na && isMH()){
+      o.innerHTML='<h3>Your visit is booked</h3>'+
+        (r.revs.length
+          ? '<p>Everything you told us goes to your provider before you meet, including a few things they will want to discuss. That is normal and most people have something on that list.</p>'
+          : '<p>Everything you told us goes to your provider before you meet.</p>')+
+        '<p><b>What happens at the visit.</b> It is a live video visit, which the law requires for testosterone. Your provider goes through your symptoms and history and orders your baseline blood work. <b>Nothing is prescribed that day.</b></p>'+
+        '<p><b>What happens after.</b> Your results come back, and you and your provider decide together at the next visit whether to start and on what. Symptoms and blood work have to agree before testosterone is started.</p>'+crisis;
     } else if(!r.na && r.revs.length && isFHL()){
       o.innerHTML='<h3>Your visit is booked</h3>'+
         '<p>Everything you told us goes to your provider before you meet, including a few things they will want to discuss with you. That is a normal part of starting this program and most people have something on this list.</p>'+
@@ -2769,7 +3003,8 @@
   });
   form.addEventListener('change',function(){ render();
     if(healthPage(cur)&&!isWL()) show(nextIdx(cur,1));
-    if(fhlPage(cur)&&!isFHL()) show(nextIdx(cur,1)); });
+    if(fhlPage(cur)&&!isFHL()) show(nextIdx(cur,1));
+    if(mhPage(cur)&&!isMH()) show(nextIdx(cur,1)); });
   form.addEventListener('input',render);
 
 
@@ -2935,8 +3170,89 @@
     return S;
   }
 
+  /* Men's Health provider note. Deliberately does NOT carry a diagnosis line:
+     E29.1 needs symptoms AND biochemical confirmation (SOP 1.1), and no labs
+     exist at this visit. Writing a code here would be documenting a diagnosis
+     that has not been made. */
+  function noteSectionsMH(){
+    var r=evaluate();
+    var verdict = r.minor ? 'DOES NOT QUALIFY - under 18'
+      : r.referral ? 'REFERRED - under 25, TRT not initiated'
+      : r.scope ? 'OUT OF SCOPE FOR TRT - performance goal, no symptoms'
+      : r.stops.length ? 'DOES NOT QUALIFY'
+      : r.revs.length ? 'QUALIFIES WITH REVIEW' : 'QUALIFIES';
+    function raw(id){var e=$(id);return e?String(e.value||'').trim():''}
+    function grp(sel){
+      var o=[].slice.call(document.querySelectorAll(sel)).filter(function(c){return c.checked})
+        .map(function(c){return c.getAttribute('data-name')||c.getAttribute('data-f')});
+      return o.length?o.join('; '):'none reported';
+    }
+    var st=$('state').value||'[state]', S=[];
+    var GOAL={sym:'Symptom relief',both:'Symptom relief and body composition',
+              perf:'Performance or physique',unsure:'Undecided, wants to discuss'};
+    var LABS={full:'Reports a full panel within 6 months, can send results',
+              some:'Reports recent labs, unsure what was tested',
+              no:'No recent testosterone labs'};
+
+    S.push({t:'CC', tag:'paste', cls:'t-paste',
+      body:"Men's Health new patient consultation for testosterone evaluation. Synchronous audio-video. Patient completed the KORB intake on "+today()+'.'});
+
+    S.push({t:'SCREENING RESULT', tag:'paste', cls:'t-paste',
+      body:'SCREENING RESULT: '+verdict+
+        '\nFLAGGED FOR REVIEW: '+(r.revs.length?r.revs.join('; '):'none')+
+        (r.stops.length?'\nABSOLUTE CONTRAINDICATION REPORTED: '+r.stops.join('; '):'')+
+        '\nNo prescription at this visit. Baseline panel ordered today: total testosterone, LH, FSH, sensitive estradiol, CBC, PSA, prolactin. Initiation decision at the follow-up once results are reviewed.',
+      note:'Screening only. Hematocrit and PSA are not on the intake because they cannot be self-reported; they are checked here, at Step 5, before anything is started.'});
+
+    S.push({t:'VITALS', tag:'enter in Tebra', cls:'t-tebra',
+      body:'Height: '+(raw('mh-ft')?raw('mh-ft')+' ft '+(raw('mh-in')||'0')+' in':'[not given]')+
+        '\nWeight: '+(raw('mh-wt')?raw('mh-wt')+' lb':'[not given]')+
+        '\nNo BMI criterion applies to this program.'});
+
+    S.push({t:'HPI', tag:'paste', cls:'t-paste',
+      body:'Patient is a '+(age()!==null?age()+'-year-old ':'')+'male presenting to discuss testosterone therapy.'+
+        '\nStated goal: '+(GOAL[val('mgoal')]||'not answered')+
+        '\nSymptoms reported: '+grp('.msym')+
+        '\nPrior or current hormone therapy: '+(val('mcurt')==='no'?'none':val('mcurt')?'yes, see review flags':'not answered')+
+        '\nRecent laboratory work: '+(LABS[val('mlabs')]||'not answered')+
+        '\nSubject to drug testing in sport or work: '+(val('mwada')==='yes'?'YES, counselled that testosterone is prohibited in tested sport and that a TUE is not automatic':'no')});
+
+    S.push({t:'ROS', tag:'paste', cls:'t-paste',
+      body:'Patient-reported on the intake form, '+today()+'.\n\nAndrogen-related symptoms reported: '+grp('.msym')+'.'});
+
+    S.push({t:'SAFETY SCREEN', tag:'paste', cls:'t-paste',
+      body:'Absolute contraindications reported: '+(r.stops.length?r.stops.join('; '):'none')+
+        '\nItems requiring discussion: '+(r.revs.length?r.revs.join('; '):'none')+
+        '\nAllergies: '+(val('malg')==='yes'?(raw('malgList')||'[stated but not listed]'):'none reported'),
+      note:'Per the 17 Sep ruling, only prostate and breast cancer decline at intake. Heart failure, untreated sleep apnea, recent MI or stroke and fertility intent are reversible or temporal, so they are discussed rather than used to turn the patient away.'});
+
+    S.push({t:'OBJECTIVE - EXAM', tag:'paste', cls:'t-paste',
+      body:'Synchronous audio-video telehealth. Patient physically located in '+st+' at the time of service; provider holds active licensure in this state. Identity verified. Telehealth informed consent obtained and documented '+
+        (val('consent')==='yes'?'on '+today()+'.':'[consent not recorded].')+
+        '\n\nExam limited to what is observable by video: alert, well-appearing, no acute distress, normal affect and speech. No physical examination performed.'});
+
+    S.push({t:'ASSESSMENT', tag:'paste', cls:'t-paste',
+      body:(r.referral
+        ? 'Under 25. TRT not initiated per program policy. Referred to endocrinology or urology if already established, otherwise to primary care for a full hormone workup. Other KORB programs discussed.'
+        : r.scope
+        ? 'Presents for performance or physique goals without symptoms of testosterone deficiency. Outside the scope of the testosterone program per SOP 1.0. Functional Health and Longevity discussed as the appropriate alternative.'
+        : 'Possible testosterone deficiency, not yet established. Diagnosis requires symptoms AND biochemical confirmation on a morning draw from a CLIA-certified laboratory. No diagnosis code is assigned at this visit.'),
+      note:'No E29.1 until labs confirm. Assigning it now would document a diagnosis that has not been made.'});
+
+    S.push({t:'PLAN', tag:'paste', cls:'t-paste',
+      body:(r.referral||r.scope
+        ? 'No testosterone prescribed. Alternative program discussed. Patient given the reason and the referral route in writing on the intake outcome screen.'
+        : 'Baseline panel ordered: total testosterone (morning draw, 7 to 10 AM, fasting if possible), LH, FSH, sensitive estradiol, CBC, PSA, prolactin.'+
+          '\nPatient advised to hold testosterone or anabolic supplements for 7 days before the draw, and to avoid heavy exercise, sexual activity and acute illness in the 24 hours before.'+
+          '\nNo prescription issued today. Follow-up visit scheduled to review results and decide on initiation.'+
+          '\nPatient acknowledged on the intake that this visit is video and that nothing is prescribed at it.')});
+
+    return S;
+  }
+
   function noteSections(){
     if(isFHL()) return noteSectionsFHL();
+    if(isMH()) return noteSectionsMH();
     var r=evaluate(), b=r.bmi;
     var st=$('state').value||'[state]';
     var verdict = r.minor ? 'DOES NOT QUALIFY - under 18'
