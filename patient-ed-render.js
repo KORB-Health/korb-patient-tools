@@ -411,63 +411,73 @@
      week sit above everything else in their own treatment.
      ------------------------------------------------------------------ */
 
+  /* Brand palette comes from the shell's :root, which is the one defined in
+     docs/KORB_Brand_Guidelines.md: --navy #21275B, --teal #00B2C3, --cream
+     #ECE9D1, --orange #FBB040, plus its ink and rule greys. Nothing here
+     redefines them.
+
+     One colour is introduced: #00808D, teal darkened for small text. Teal at
+     full strength fails contrast against white at 13px. It is not a new brand
+     colour and it is not new here either - both scheduler intake forms already
+     use it as --teal-ink for the same reason.
+
+     Type is inherited, which is the point: the shell sets Montserrat and the
+     hub does not override font-family anywhere. */
   var HUB_CSS = [
-    ':root{--k-navy:#21275B;--k-navy-deep:#171B40;--k-teal:#00B2C3;',
-    '--k-teal-ink:#00808D;--k-cream:#ECE9D1;--k-orange:#FBB040;',
-    '--k-ink:#2A2E45;--k-muted:#5C6178;--k-line:#DCDCE6;}',
+    ':root{--k-teal-ink:#00808D;}',
 
     /* undo the sheet-of-paper chrome the handout stylesheet imposes */
     'body{max-width:none!important;border:0!important;padding:0!important;',
-    'background:var(--k-cream)!important;font-size:16px!important;',
-    'line-height:1.55!important;color:var(--k-ink)!important;}',
+    'background:var(--cream)!important;font-size:16px!important;',
+    'line-height:1.55!important;color:var(--ink)!important;}',
     '#doc{max-width:780px;margin:0 auto;padding:0 16px 56px;}',
 
     '.hub-mast{text-align:center;padding:22px 0 14px;}',
     '.hub-mast img{height:30px;width:auto;}',
 
-    '.hub-hero{background:var(--k-navy);color:#fff;border-radius:14px;',
+    '.hub-hero{background:var(--navy);color:#fff;border-radius:14px;',
     'padding:28px 24px;margin:0 0 22px;}',
     '.hub-hero h1{margin:0 0 6px;font-size:30px;line-height:1.15;font-weight:800;color:#fff;}',
-    '.hub-hero .k-sub{color:var(--k-teal);font-weight:700;font-size:14px;',
+    '.hub-hero .k-sub{color:var(--teal);font-weight:700;font-size:14px;',
     'letter-spacing:.04em;text-transform:uppercase;margin:0 0 14px;}',
-    '.hub-hero p{margin:0 0 10px;color:#E8EAF2;font-size:15.5px;}',
+    '.hub-hero p{margin:0 0 10px;color:var(--cream);font-size:15.5px;}',
     '.hub-hero p:last-child{margin-bottom:0;}',
 
     '.hub-sec{margin:0 0 26px;}',
-    '.hub-sec > h2{background:none!important;color:var(--k-navy)!important;',
+    '.hub-sec > h2{background:none!important;color:var(--navy)!important;',
     'font-size:13px!important;font-weight:800!important;letter-spacing:.08em;',
     'text-transform:uppercase;margin:0 0 4px!important;padding:0!important;}',
-    '.hub-sec .k-lead{margin:0 0 14px;color:var(--k-muted);font-size:15px;}',
+    '.hub-sec .k-lead{margin:0 0 14px;color:var(--ink2);font-size:15px;}',
 
     '.hub-grid{display:grid;gap:12px;grid-template-columns:1fr;}',
     '@media(min-width:620px){.hub-grid.two{grid-template-columns:1fr 1fr;}}',
 
-    /* a destination card: the whole thing is the tap target */
-    '.k-card{display:block;background:#fff;border:1px solid var(--k-line);',
-    'border-left:5px solid var(--k-teal);border-radius:10px;padding:15px 17px;',
-    'text-decoration:none;color:var(--k-navy);min-height:44px;}',
+    /* a destination card: the whole card is the tap target */
+    '.k-card{display:block;background:#fff;border:1px solid var(--rule);',
+    'border-left:5px solid var(--teal);border-radius:10px;padding:15px 17px;',
+    'text-decoration:none;color:var(--navy);min-height:44px;}',
     '.k-card .k-name{display:block;font-weight:800;font-size:16.5px;line-height:1.3;}',
-    '.k-card .k-desc{display:block;margin-top:5px;color:var(--k-muted);',
+    '.k-card .k-desc{display:block;margin-top:5px;color:var(--ink2);',
     'font-size:14px;font-weight:400;line-height:1.45;}',
     '.k-card .k-go{display:inline-block;margin-top:9px;font-size:13px;',
     'font-weight:700;color:var(--k-teal-ink);letter-spacing:.02em;}',
-    '.k-card:hover{border-color:var(--k-teal);box-shadow:0 2px 10px rgba(33,39,91,.10);}',
+    '.k-card:hover{border-color:var(--teal);box-shadow:0 2px 10px rgba(33,39,91,.10);}',
 
     /* the two weekly tools, raised above the rest */
-    '.k-card.k-primary{background:var(--k-navy);border-color:var(--k-navy-deep);',
-    'border-left:5px solid var(--k-orange);color:#fff;}',
+    '.k-card.k-primary{background:var(--navy);border-color:var(--ink);',
+    'border-left:5px solid var(--orange);color:#fff;}',
     '.k-card.k-primary .k-name{color:#fff;font-size:18px;}',
-    '.k-card.k-primary .k-desc{color:#D5D9E8;}',
-    '.k-card.k-primary .k-go{color:var(--k-orange);}',
+    '.k-card.k-primary .k-desc{color:var(--cream);}',
+    '.k-card.k-primary .k-go{color:var(--orange);}',
     '.k-card.k-primary:hover{box-shadow:0 3px 14px rgba(33,39,91,.28);}',
 
-    '.hub-note{background:#fff;border:1px solid var(--k-line);border-radius:10px;',
-    'padding:14px 16px;margin:0 0 22px;color:var(--k-muted);font-size:14.5px;}',
+    '.hub-note{background:#fff;border:1px solid var(--rule);border-radius:10px;',
+    'padding:14px 16px;margin:0 0 22px;color:var(--ink2);font-size:14.5px;}',
     '.hub-note ul{margin:8px 0 0;padding-left:20px;}',
     '.hub-note li{margin:0 0 5px;}',
 
-    '.hub-foot{margin-top:26px;padding-top:14px;border-top:1px solid var(--k-line);',
-    'text-align:center;color:var(--k-muted);font-size:13px;}',
+    '.hub-foot{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule);',
+    'text-align:center;color:var(--ink2);font-size:13px;}',
 
     '@media print{body{background:#fff!important;}.k-card{break-inside:avoid;}}'
   ].join('');
