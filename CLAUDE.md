@@ -1578,8 +1578,44 @@ testosterone" was either already gone or never in it.
    desk does not follow. Checked at 375, 640, 920 and 1400px: no overflow, and
    the panel fills the viewport below its own width rather than leaving slivers.
 
-   **STILL WHITE AND FULL WIDTH**, same gap, not done: `KORB_Patient_Hub.html`,
-   `KORB_GLP1_Dose_Guide.html`, `KORB_Lab_Interpretation_Tool.html`,
-   `KORB_Testosterone_Tracker.html`. `KORB_Functional_Health_Tracker.html` has a
-   near-miss `#F6F5F0` body and no panel. Each is hand-built with its own
-   layout, so each needs looking at rather than one blanket rule.
+   **ALL TWELVE DONE the same day**, after Don asked for the set. See item 31.
+
+31. ~~EVERY TOOL NOW HAS THE PAGE CHROME.~~ **DONE 2026-09-18.**
+   `korb-page-chrome.css` holds it: cream desk, `#FBFAF6` sheet, a hairline down
+   each side, screen only. Twelve hand-built pages link it; the thirteenth is a
+   deliberate copy, below.
+
+   **MEASURED BEFORE TOUCHING ANYTHING.** All 62 tracked HTML pages were loaded
+   and their computed backgrounds read: **50 had the desk, 12 did not, and the 12
+   were exactly the hand-built ones.** Don found three of them by eye - the
+   Treatment Schedule, then the Testosterone Tracker and the GLP-1 Dose Guide -
+   and asked for the rest to be checked. The survey is what made "the rest" a
+   list rather than a guess.
+
+   **NO WIDTH IN THE SHARED FILE, deliberately.** Every one of these tools
+   already has a constrained `.wrap`, and they are not the same width and should
+   not be: 560px on the Functional Health Tracker, 720 on the Testosterone
+   Tracker, 920 on the Treatment Schedule, 1180 on the scheduler prototypes,
+   which carry a wide table. This file paints the column each tool already has
+   rather than imposing one. That was checked first - all eleven `.wrap`
+   elements were measured and every one was constrained and transparent, which
+   is what made a single rule possible.
+
+   **LINK IT AFTER THE PAGE'S OWN `<style>`.** These rules and a page's own
+   `body{background:#fff}` have equal specificity, so the later one wins. Linked
+   before, the file does nothing at all and does it silently.
+
+   **THE ONE COPY, AND WHY IT IS ALLOWED.**
+   `Provider_Reference/KORB_BMI_Protein_Calculator_standalone.html` has the block
+   inlined instead. It is the portable twin - a single document with no local
+   dependency, which is what lets it be emailed or dropped on a share and still
+   work, a tradeoff CLAUDE.md already records. Linking the stylesheet would take
+   the portability away for eight lines of chrome. It is the only copy and it
+   says so in the file.
+
+   **Negative-tested, and the result is the honest one.** A colour changed in
+   `korb-page-chrome.css` moved **5 of 6** sampled pages, and the sixth was the
+   standalone - which is the tradeoff demonstrated rather than asserted.
+   Verified on all twelve at 1400px and 375px: desk present, panel present, no
+   horizontal overflow, no JS errors, and **print stays white on every one** -
+   confirmed by emulating print media, not by reading the media query.

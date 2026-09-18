@@ -141,6 +141,24 @@ footer{margin-top:30px; padding-top:16px; border-top:1px solid var(--border);
 .korb-top p{font-size:13px;color:#C3CBE8;margin-top:6px;max-width:62ch;}
 .korb-top .tagpill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:800;letter-spacing:.1em;padding:3px 12px;border-radius:20px;white-space:nowrap;}
 </style>
+<!-- THE ONE DELIBERATE COPY of korb-page-chrome.css.
+
+     This file is the portable twin: a single document with no local dependency,
+     which is what lets it be emailed or dropped on a share and still work. That
+     tradeoff is already recorded in CLAUDE.md - it buys portability by giving up
+     the live update. Linking the shared stylesheet would take the portability
+     away for eight lines of chrome.
+
+     So it is copied, and it is the only copy. If korb-page-chrome.css changes,
+     change it here too. -->
+<style>
+@media screen {
+  html { background: #ECE9D1; }
+  body { background: #ECE9D1; }
+  .wrap { background: #FBFAF6; border-left: 1px solid #DEDBC4;
+          border-right: 1px solid #DEDBC4; min-height: 100vh; box-sizing: border-box; }
+}
+</style>
 </head>
 <body>
 

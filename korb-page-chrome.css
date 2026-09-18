@@ -1,0 +1,43 @@
+/* ============================================================================
+   KORB HEALTH — THE PAGE CHROME FOR HAND-BUILT TOOLS
+
+   Brand cream behind, a lighter sheet of paper in front, a hairline down each
+   side. It is the only thing telling a reader where the document starts and the
+   desk ends, and it is why a KORB page looks like a KORB page.
+
+   WHY THIS FILE EXISTS. The 26 generated patient pages get this from the
+   @media screen block in build-patient-ed.js. Every hand-built tool rendered
+   white, edge to edge, with no document surface at all - measured across all 62
+   tracked pages on 2026-09-18, 50 had it and 12 did not, and the 12 were the
+   hand-built ones. Don spotted it on the Treatment Schedule, then the
+   Testosterone Tracker and the GLP-1 Dose Guide, and asked for the set.
+
+   Writing the same eight lines into eleven files is what this repo exists to
+   prevent, so it is one file that they link.
+
+   NO WIDTH HERE, DELIBERATELY. Every one of these tools already has a
+   constrained .wrap, and they are not the same width and should not be: 560px
+   for the Functional Health Tracker, 720 for the Testosterone Tracker, 1180 for
+   the scheduler prototypes, which carry a wide table. This file paints the
+   column each tool already has rather than imposing one.
+
+   SCREEN ONLY. The print sheet stays white - a cream flood wastes ink and
+   prints muddy. Same reasoning as the generated set.
+
+   LINK IT AFTER THE PAGE'S OWN <style> BLOCK. These rules and a page's own
+   body{background:#fff} have equal specificity, so the later one wins. Linked
+   before, this file does nothing at all and does it silently.
+   ============================================================================ */
+
+@media screen {
+  html { background: #ECE9D1; }          /* the desk */
+  body { background: #ECE9D1; }
+
+  .wrap {
+    background: #FBFAF6;                  /* the sheet */
+    border-left: 1px solid #DEDBC4;
+    border-right: 1px solid #DEDBC4;
+    min-height: 100vh;                    /* run the sides to the bottom */
+    box-sizing: border-box;
+  }
+}

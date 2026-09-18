@@ -15,20 +15,6 @@
 body{font-family:Arial,sans-serif;font-size:14px;color:#1A1A2E;background:#fff;}
 .wrap{max-width:920px;margin:0 auto;padding:24px 20px 60px;}
 
-/* THE CREAM DESK AND THE SHEET OF PAPER, as on every generated patient page.
-   This tool rendered white edge to edge and full width, so it had no document
-   surface at all - nothing telling a reader where the page starts and the desk
-   ends. Don flagged it on 2026-09-18 against the rest of the set.
-
-   SCREEN ONLY, matching build-patient-ed.js: the print sheet stays white, where
-   a cream flood would waste ink and print muddy. The panel goes on .wrap rather
-   than body because .wrap is what carries this tool's 920px column - wider than
-   the 8.5in the reading documents use, which the schedule table needs. */
-@media screen{
-  html{background:#ECE9D1;}
-  body{background:#ECE9D1;}
-  .wrap{background:#FBFAF6;border-left:1px solid #DEDBC4;border-right:1px solid #DEDBC4;
-        min-height:100vh;box-sizing:border-box;}
 }
 
 /* Header */
@@ -156,6 +142,7 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 </style>
+<link rel="stylesheet" href="korb-page-chrome.css">
 </head>
 <body>
 <div class="wrap">
