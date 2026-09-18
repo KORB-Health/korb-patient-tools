@@ -142,12 +142,13 @@ function masthead(doc, live) {
     `<a href="#" onclick="window.print();return false;">Print</a>` +
     `</div><img src="${R.LOGO_URI}" alt="KORB Health"></div>` +
     (live && doc.source !== 'none'
-      ? `<div class="live">Live — reflects ${SOURCE_FILE[sourceKey(doc)]} as of this page load</div>`
-      : '') +
+      /* No data-file banner on a patient page. It named korb-dosing-data.js to
+         someone who was texted a link, which is build plumbing, not patient
+         information. Provider references keep theirs. */
+      ? '' : '') +
     `<div class="titleband"><h1>${R.esc(doc.title)}</h1>` +
     `<p class="sub">Patient Education · ${R.esc(doc.program)}</p></div>` +
-    `<p class="byline">KORB Health Medical Texas PA · Patient education · ` +
-    (live ? `live — reflects the data file as of this page load` : `built ${BUILD_DATE}`) + `</p>`;
+    `<p class="byline">KORB Health Medical Texas PA · Patient education</p>`;
 }
 
 /* The live page. Deliberately small: everything that could go stale is in the

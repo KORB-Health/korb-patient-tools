@@ -1208,14 +1208,18 @@ var KORB_PATIENT_ED = {
         {
           h: 'Contact us',
           items: [
-            'Call us: (888) 959-7299',
-            'Email us: info@korbhealth.com',
-            'Non-medical questions: reply to any text message or appointment reminder. Our staff responds Monday to Friday, 9:00 AM to 6:00 PM CST.'
-          ],
-          after: [
+            'Non-medical questions: reply to any text message or appointment reminder. Our staff responds Monday to Friday, 9:00 AM to 6:00 PM CST.',
             'Medical questions go through your Patient Portal.'
           ],
           links: [
+            {
+              href: 'tel:+18889597299',
+              label: 'Call (888) 959-7299'
+            },
+            {
+              href: 'mailto:info@korbhealth.com',
+              label: 'Email info@korbhealth.com'
+            },
             {
               href: 'https://portal.kareo.com/app/new/login',
               label: 'Open Patient Portal'
