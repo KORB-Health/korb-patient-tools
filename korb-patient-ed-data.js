@@ -1083,6 +1083,187 @@ var KORB_PATIENT_ED = {
       ]
     },
 
+    glp1_welcome: {
+      key: 'glp1_welcome',
+      title: 'Welcome to KORB',
+      root: true,
+      sub: 'Weight Loss & Metabolic Health',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If you have questions, contact KORB.',
+      intro: [
+        'We are glad you are here. This is your starting point for the KORB Weight Loss and Metabolic Health Program.',
+        'Your provider selects your medication and your starting dose, and adjusts it at your follow-up visits. Everything below helps you get oriented, learn how the injections work, and know how to reach us.'
+      ],
+      sections: [
+        {
+          h: 'Start here every week',
+          primary: true,
+          links: [
+            {
+              href: 'KORB_Patient_Treatment_Schedule.html',
+              label: 'Open Treatment Schedule',
+              note: 'Your personalized schedule: visit checkpoints, lab timing and program milestones, all in one place.'
+            },
+            {
+              href: 'KORB_GLP1_Dose_Guide.html',
+              label: 'Open My Dose & Injection Guide',
+              note: 'How much to draw up for your dose and your pharmacy, week by week.'
+            }
+          ]
+        },
+        {
+          h: 'Getting started',
+          lead: 'New to the program? This covers what the medication is, how it is prepared, and what your first few months look like.',
+          links: [
+            {
+              href: 'Patient_Education/KORB_WeightLoss_Program_Overview.html',
+              label: 'Weight Loss Program Overview'
+            }
+          ]
+        },
+        {
+          h: 'Your medication guide',
+          lead: 'Once your provider confirms your medication, open the matching guide for how it works, how to use it, what to expect and how to store it.',
+          links: [
+            {
+              href: 'Patient_Education/KORB_Patient_Ed_Semaglutide.html',
+              label: 'Semaglutide',
+              note: 'Once-weekly injection. Dose increases roughly every 4 weeks as tolerated.'
+            },
+            {
+              href: 'Patient_Education/KORB_Patient_Ed_Tirzepatide.html',
+              label: 'Tirzepatide',
+              note: 'Once-weekly injection, works on two hormone pathways rather than one.'
+            }
+          ]
+        },
+        {
+          h: 'How to give your injections',
+          lead: 'Watch the short video walkthrough before your first injection, then keep the written guide for storage, travel and sharps disposal.',
+          links: [
+            {
+              href: 'https://bit.ly/KORBSQInjection',
+              label: 'Watch the Injection Video'
+            },
+            {
+              href: 'Patient_Education/KORB_Injection_Storage_Safety_Guide.html',
+              label: 'Injection, Storage & Safety Guide'
+            }
+          ]
+        },
+        {
+          h: 'Protein is the thing to get right',
+          callout: {
+            title: 'Why this matters more on a GLP-1 than off one',
+            text: 'These medications work by reducing appetite, so you will eat less without trying to. The risk is that you lose muscle along with fat. **Protein and resistance training are what protect muscle**, and protein is the one that is easy to miss when you are not hungry. Work out your daily target, then use the ideas below to hit it.'
+          },
+          links: [
+            {
+              href: 'Provider_Reference/KORB_BMI_Protein_Calculator_standalone.html',
+              label: 'Work out my daily protein target',
+              note: 'Enter your height and weight and it gives you a daily protein number to aim for.'
+            }
+          ]
+        },
+        {
+          h: 'Use an AI assistant for meal ideas',
+          lead: 'Copy any prompt below, paste it into a free AI assistant, and it will generate ideas for you. Nothing to sign up for, and you can keep asking follow-up questions until you get something you would actually eat.',
+          callout: {
+            title: 'Before you use these',
+            text: 'The answers come from the AI assistant, not from KORB, and AI tools do sometimes get things wrong. Treat the results as ideas to consider, not instructions. **Do not type your medical conditions, medications or other health details into these tools.** The prompts are written so you do not need to. If you are thinking about a real change to how you eat, bring it to your provider first.'
+          },
+          prompts: [
+            {
+              title: 'High-protein breakfasts',
+              why: 'Breakfast is the meal most people skip once appetite drops.',
+              text: 'Give me 10 high-protein breakfast ideas using whole, minimally processed foods. Each should have at least 25 g of protein and no more than six ingredients. Keep them low in fat, since heavy or greasy meals can cause nausea. List the protein content per serving. Do not give me medical or nutrition advice, just food ideas.'
+            },
+            {
+              title: 'Small meals that still hit protein',
+              why: 'For when you fill up after a few bites but still need the protein.',
+              text: 'I get full very quickly and can only eat small portions. Give me 10 meal ideas that are small in volume but high in protein, at least 25 g each. Prioritise protein density over portion size. Keep them simple to prepare. List protein per serving. Do not give me medical or nutrition advice, just food ideas.'
+            },
+            {
+              title: 'Gentle food for a queasy day',
+              why: 'For the day or two after a dose increase.',
+              text: 'Give me 10 bland, low-fat, easy-to-digest meal and snack ideas that still contain protein. Avoid fried, greasy, very sweet, and strongly spiced foods. Each should be quick to prepare and easy to eat in small amounts. List protein per serving. Do not give me medical or nutrition advice, just food ideas.'
+            },
+            {
+              title: 'A week of simple dinners',
+              why: 'Removes the daily decision, which is usually the hard part.',
+              text: 'Plan 7 simple dinners for one week. Each should have at least 30 g of protein, use whole or minimally processed ingredients, and take under 30 minutes. Reuse ingredients across meals to reduce waste. Then give me a single consolidated grocery list organised by store section. Do not give me medical or nutrition advice, just recipes and a list.'
+            },
+            {
+              title: 'Ordering when you eat out',
+              why: 'Restaurant portions are large and often high in fat.',
+              text: 'I am eating at a [TYPE OF RESTAURANT]. Suggest 8 protein-forward things I could order that are not fried or heavy in cream and oil, and that work as a smaller portion. For each, note roughly how much protein it has and one simple modification to ask for. Do not give me medical or nutrition advice, just ordering suggestions.'
+            },
+            {
+              title: 'Compare tracking apps yourself',
+              why: 'So you pick a tool, rather than being pointed at one.',
+              text: 'Compare the most widely used free food and protein tracking apps available today. For each, tell me: what it costs, whether the free version is genuinely usable, how easy it is to log protein specifically, and what data it collects about me. Present it as a table and tell me which is best for someone focused mainly on hitting a daily protein target. Give me the trade-offs, not a single recommendation.'
+            }
+          ]
+        },
+        {
+          h: 'Free AI assistants you could use',
+          lead: 'All of these have a free version that will handle these prompts. KORB does not endorse or have any relationship with any of them. Pick whichever you already use or like the look of. Paste the prompt in, press enter, and ask follow-ups in plain language, for example "make these dairy free" or "I do not like fish".',
+          tools: [
+            {
+              href: 'https://chat.openai.com',
+              label: 'ChatGPT'
+            },
+            {
+              href: 'https://claude.ai',
+              label: 'Claude'
+            },
+            {
+              href: 'https://gemini.google.com',
+              label: 'Google Gemini'
+            },
+            {
+              href: 'https://copilot.microsoft.com',
+              label: 'Microsoft Copilot'
+            },
+            {
+              href: 'https://www.perplexity.ai',
+              label: 'Perplexity'
+            }
+          ]
+        },
+        {
+          h: 'Safety and support',
+          links: [
+            {
+              href: 'Patient_Education/KORB_When_to_Contact_KORB_or_ER.html',
+              label: 'When to Contact KORB or the ER',
+              note: 'What to message about, and what is an emergency. Worth reading once before you need it.'
+            }
+          ]
+        },
+        {
+          h: 'Contact us',
+          items: [
+            'Non-medical questions: reply to any text message or appointment reminder. Our staff responds Monday to Friday, 9:00 AM to 6:00 PM CST.',
+            'Medical questions go through your Patient Portal.'
+          ],
+          links: [
+            {
+              href: 'tel:+18889597299',
+              label: 'Call (888) 959-7299'
+            },
+            {
+              href: 'mailto:info@korbhealth.com',
+              label: 'Email info@korbhealth.com'
+            },
+            {
+              href: 'https://portal.kareo.com/app/new/login',
+              label: 'Open Patient Portal'
+            }
+          ]
+        }
+      ]
+    },
+
     welcome: {
       key: 'welcome',
       title: 'Welcome to KORB',

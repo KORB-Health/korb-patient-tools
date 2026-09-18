@@ -479,7 +479,35 @@
     '.hub-foot{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule);',
     'text-align:center;color:var(--ink2);font-size:13px;}',
 
-    '@media print{body{background:#fff!important;}.k-card{break-inside:avoid;}}'
+    '.k-note{background:#fff;border:1px solid var(--rule);border-left:5px solid var(--orange);',
+    'border-radius:10px;padding:15px 17px;margin:0 0 14px;}',
+    /* scoped to the title, not every strong: rich() emits <strong> for **bold**
+       inside the body text too, and display:block there split a sentence in half */
+    '.k-note .k-note-t{display:block;color:var(--navy);font-size:15px;',
+    'font-weight:800;margin-bottom:5px;}',
+    '.k-note p strong{color:var(--navy);}',
+    '.k-note p{margin:0;color:var(--ink2);font-size:14.5px;}',
+
+    '.k-prompt{background:#fff;border:1px solid var(--rule);border-radius:10px;',
+    'padding:15px 17px;display:flex;flex-direction:column;gap:9px;}',
+    '.k-prompt h3{margin:0;font-size:16px;font-weight:800;color:var(--navy);}',
+    '.k-prompt .k-why{margin:0;color:var(--ink2);font-size:13.5px;}',
+    '.k-prompt .k-text{margin:0;background:var(--panel);border:1px solid var(--rule);',
+    'border-radius:7px;padding:11px 13px;font-size:13.5px;line-height:1.5;color:var(--ink);}',
+    '.k-copy{align-self:flex-start;font:inherit;font-size:13.5px;font-weight:700;',
+    'background:var(--teal);color:var(--navy);border:2px solid var(--k-teal-ink);',
+    'border-radius:7px;padding:9px 16px;cursor:pointer;min-height:44px;}',
+    '.k-copy:hover{background:var(--k-teal-ink);color:#fff;}',
+    '.k-copy:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
+    '.k-copy.done{background:var(--navy);color:#fff;border-color:var(--navy);}',
+
+    '.k-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}',
+    '.k-tools a{font-size:14px;font-weight:700;color:var(--k-teal-ink);background:#fff;',
+    'border:1px solid var(--rule);border-radius:7px;padding:9px 14px;text-decoration:none;}',
+    '.k-tools a:hover{border-color:var(--teal);}',
+
+    '@media print{body{background:#fff!important;}.k-card{break-inside:avoid;}',
+    '.k-copy{display:none;}}'
   ].join('');
 
   function hubCard(l, primary) {
@@ -505,6 +533,26 @@
              sec.items.map(function (i) { return '<li>' + rich(i) + '</li>'; }).join('') +
              '</ul></div>';
       }
+      if (sec.callout) {
+        h += '<div class="k-note"><span class="k-note-t">' + esc(sec.callout.title) + '</span>' +
+             '<p>' + rich(sec.callout.text) + '</p></div>';
+      }
+      if (sec.prompts && sec.prompts.length) {
+        h += '<div class="hub-grid">' + sec.prompts.map(function (p, i) {
+          var pid = 'p' + (sec.h || '').replace(/\W+/g, '') + i;
+          return '<div class="k-prompt"><h3>' + esc(p.title) + '</h3>' +
+                 (p.why ? '<p class="k-why">' + esc(p.why) + '</p>' : '') +
+                 '<p class="k-text" id="' + pid + '">' + esc(p.text) + '</p>' +
+                 '<button type="button" class="k-copy" data-for="' + pid + '">Copy this prompt</button>' +
+                 '</div>';
+        }).join('') + '</div>';
+      }
+      if (sec.tools && sec.tools.length) {
+        h += '<div class="k-tools">' + sec.tools.map(function (t) {
+          return '<a href="' + esc(t.href) + '" target="_blank" rel="noopener">' +
+                 esc(t.label) + ' \u2197</a>';
+        }).join('') + '</div>';
+      }
       if (sec.links && sec.links.length) {
         /* two across only when there are an even number worth pairing; a lone
            card stretched half-width next to nothing looks like a mistake */
@@ -519,6 +567,49 @@
     if (hub.disclaimer) {
       h += '<p class="hub-foot">' + esc(hub.disclaimer) + '</p>';
     }
+
+    /* Copy-to-clipboard for the prompt cards.
+
+       Bound here rather than returned as a <script> in the HTML: the page
+       assigns this string with innerHTML, and a script inserted that way never
+       executes. The first version did exactly that and shipped buttons that did
+       nothing.
+
+       Delegated off the document so it does not matter when the markup lands,
+       and guarded so repeated renders bind once. Falls back to selecting the
+       text where the clipboard API is missing, which happens on an insecure
+       origin and in some in-app browsers. */
+    if (typeof document !== 'undefined' && !document.__korbCopyBound) {
+      document.__korbCopyBound = true;
+      document.addEventListener('click', function (e) {
+        var b = e.target && e.target.closest && e.target.closest('.k-copy');
+        if (!b) { return; }
+        var el = document.getElementById(b.getAttribute('data-for'));
+        if (!el) { return; }
+        function done() {
+          var was = b.textContent;
+          b.textContent = 'Copied';
+          b.classList.add('done');
+          setTimeout(function () { b.textContent = was; b.classList.remove('done'); }, 1600);
+        }
+        function selectIt() {
+          try {
+            var r = document.createRange();
+            r.selectNodeContents(el);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(r);
+            done();
+          } catch (x) { /* nothing sensible left to try */ }
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(el.textContent).then(done, selectIt);
+        } else {
+          selectIt();
+        }
+      });
+    }
+
     return h;
   }
 
