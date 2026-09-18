@@ -122,6 +122,30 @@ var KORB_PATIENT_ED = {
       'zones can shift your injection time by a few hours without a problem; if ' +
       'you will be off your usual schedule for several days, contact KORB.',
 
+    /* WHAT TO DO AT THE CHECKPOINT, and where the current rules are. One fact,
+       so it is written once.
+
+       It lived on the Semaglutide and Tirzepatide handouts as doc.travelNote
+       and nowhere else, so the Injection, Storage and Safety Guide - the
+       document a patient is actually sent before their first injection, and the
+       one whose whole last section is travel - said only that TSA "recommends
+       keeping the original pharmacy label visible" and gave them no link and
+       nothing to say to the officer. Don asked for the better wording on
+       2026-09-18 and it was already in the repo, on two handouts that are not
+       released to patients.
+
+       Every travel section renders this: the shared one, and the handouts that
+       override travel with their own text because their storage rules differ.
+       A patient carrying testosterone needs the checkpoint sentence as much as
+       one carrying semaglutide. */
+    travelScreening: {
+      text: 'TSA asks that you tell the officer at the start of screening that ' +
+            'you are carrying medically necessary liquids, and they may need to ' +
+            'be inspected separately. The current rules are at',
+      linkLabel: 'tsa.gov/travel/travel-tips',
+      href: 'https://www.tsa.gov/travel/travel-tips'
+    },
+
     injectionSafety: [
       'Use a new insulin needle and syringe for every injection. Do not reuse.',
       'Never mix peptides. Use a separate needle and syringe for each peptide and ' +
@@ -134,13 +158,31 @@ var KORB_PATIENT_ED = {
     contact: {
       operations: {
         title: 'Contact KORB Operations',
-        lines: ['Email: info@korbhealth.com', 'Phone: +1 (888) 959-7299',
-                'Hours: Mon–Fri, 9 AM–6 PM CT'],
+        /* STRUCTURED, BECAUSE THESE WERE PRINTED AND NOT REACHABLE.
+           'Email: info@korbhealth.com' was a string in a paragraph on every page
+           that renders this block. It read as contact information and none of it
+           was a link - no mailto:, no tel:, and the Patient Portal had no URL at
+           all. The lab page rendered one link in the whole document and it was
+           Print. Don, 2026-09-18: the contact information "doesn't stand out",
+           and on the lab page he could not find it.
+           value is what a patient reads, href is what a phone dials. */
+        ways: [
+          { label: 'Phone', value: '(888) 959-7299', href: 'tel:+18889597299' },
+          { label: 'Email', value: 'info@korbhealth.com', href: 'mailto:info@korbhealth.com' },
+          { label: 'Hours', value: 'Mon–Fri, 9 AM–6 PM CT' }
+        ],
         items: ['Questions about timing, storage or administration',
                 'Scheduling, billing and shipping']
       },
       portal: {
         title: 'Patient Portal — message your provider',
+        /* The URL the Welcome Letter has always used. It was on the designed PDF
+           and on no generated page, so a patient told to "use the Patient Portal"
+           was told to find it themselves. */
+        ways: [
+          { label: 'Portal', value: 'Sign in to the Patient Portal',
+            href: 'https://portal.kareo.com/app/new/login' }
+        ],
         items: ['Injection-site irritation or redness that does not resolve',
                 'Mild but persistent side effects',
                 'Questions about whether to continue therapy']
@@ -1483,8 +1525,44 @@ var KORB_PATIENT_ED = {
         {
           h: 'Book your appointment',
           paras: [
-            'Booking at Quest Diagnostics takes about a minute. Most Quest locations also accept walk-ins, though we recommend calling your nearest location first to confirm availability and hours.',
-            'You can also book through the MyQuest app, and view your results there once they are available.'
+            'Booking at Quest Diagnostics takes about a minute. Most Quest locations also accept walk-ins, though we recommend calling your nearest location first to confirm availability and hours.'
+          ],
+          /* RECOVERED FROM THE RETIRED PDF, not rewritten from memory.
+             KORB_Schedule_Your_Lab_Appointment.pdf was deleted on 2026-09-17
+             with the other 42. The HTML that replaced it kept the prose and
+             dropped every link in it, so the page told a patient to book at
+             Quest, to call their nearest location and to use the MyQuest app,
+             and gave them nothing to tap: the whole document rendered one link
+             and it was Print. Don asked for it back on 2026-09-18. The four
+             URLs below are the ones the PDF carried, read out of its link
+             annotations rather than retyped. */
+          links: [
+            {
+              href: 'https://appointment.questdiagnostics.com/',
+              label: 'Schedule my appointment',
+              note: 'Book your lab draw at Quest Diagnostics. It takes about a minute.'
+            },
+            {
+              href: 'https://appointment.questdiagnostics.com/find-location/as-location-finder',
+              label: 'Find a Quest location near me',
+              note: 'Search by address or ZIP code for the sites nearest you.'
+            }
+          ]
+        },
+        {
+          h: 'Schedule from your phone',
+          lead: 'You can also book through the MyQuest app, and view your results there once they are available.',
+          links: [
+            {
+              label: 'Download the MyQuest app',
+              note: 'free, from your phone’s app store',
+              choices: [
+                { href: 'https://apps.apple.com/us/app/myquest-for-patients/id748920931',
+                  label: 'iPhone (iOS)' },
+                { href: 'https://play.google.com/store/apps/details?id=com.myquest',
+                  label: 'Android' }
+              ]
+            }
           ]
         },
         {
@@ -2614,10 +2692,6 @@ var KORB_PATIENT_ED = {
          'remember, then resume your normal weekly schedule. If it has been 5 days or more, ' +
          'skip it and take your next dose on your regular day. Do not double up.']
       ],
-      travelNote:
-        'TSA asks that you tell the officer at the start of screening that you are carrying ' +
-        'medically necessary liquids, and they may need to be inspected separately. The current ' +
-        'rules are at tsa.gov/travel/travel-tips.',
       timeline: [
         ['Starting out', 'First few weeks',
          'Reduced appetite often begins here. Some patients notice mild nausea while their body adjusts.'],
@@ -2790,10 +2864,6 @@ var KORB_PATIENT_ED = {
          'remember, then resume your normal weekly schedule. If it has been 4 days or more, ' +
          'skip it and take your next dose on your regular day. Do not double up.']
       ],
-      travelNote:
-        'TSA asks that you tell the officer at the start of screening that you are carrying ' +
-        'medically necessary liquids, and they may need to be inspected separately. The current ' +
-        'rules are at tsa.gov/travel/travel-tips.',
       timeline: [
         ['Starting out', 'First few weeks',
          'Reduced appetite often begins here. Some patients notice mild nausea while their body adjusts.'],

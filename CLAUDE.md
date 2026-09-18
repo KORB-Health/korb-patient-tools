@@ -1330,3 +1330,70 @@ testosterone" was either already gone or never in it.
    row. `thead` is untouched, so no timeline or pricing table moved: measured at
    12 navy `thead` cells on the Semaglutide handout before and after, and 4
    navy `tbody` cells on the safety guide before and 0 after.
+
+22. ~~THE TSA WORDING EXISTED AND ONLY TWO HANDOUTS HAD IT.~~ **DONE 2026-09-18.**
+   The checkpoint sentence - tell the officer at the start of screening, the
+   liquids may be inspected separately, and the link to the current rules - was
+   `doc.travelNote` on the Semaglutide and Tirzepatide handouts and nowhere
+   else. Both are NOT released to patients. The Injection, Storage and Safety
+   Guide, which IS live, whose last section is travel, and which a patient is
+   sent before their first injection, said only that TSA "recommends keeping the
+   original pharmacy label visible" and gave them no link.
+
+   It is now `shared.travelScreening` and every travel section renders it,
+   including the handouts that override `travel` with their own text because
+   their storage rules differ - a patient carrying testosterone needs the
+   checkpoint sentence as much as one carrying semaglutide. **10 pages** carry
+   it. The link is a real anchor: `rich()` only does bold, so "the rules are at
+   tsa.gov/travel/travel-tips" as flat prose is something a patient retypes on a
+   phone at an airport.
+
+23. ~~THE CONTACT BLOCK PRINTED CONTACT DETAILS AND LINKED NONE OF THEM.~~
+   **DONE 2026-09-18.** `'Email: info@korbhealth.com'` was a STRING in a
+   paragraph. No `mailto:`, no `tel:`, and the Patient Portal had no URL at all
+   on any generated page, though the designed Welcome Letter PDF has always
+   carried it. The lab page rendered exactly one link in the whole document and
+   it was Print. Don could not find the contact information on it, and was
+   right: there was nothing to find.
+
+   **Three renderers had a private copy of this block** - `sharedBlock`,
+   `renderProgramBody` and the three-column grid in `renderBody` - which is the
+   same shape as the prescribing block before `korb-rx-block.js`. Restructuring
+   the data to `ways: [{label, value, href}]` broke two of the three silently:
+   they read `c.lines`, which no longer existed, so the contact details
+   DISAPPEARED from every handout and every program overview and the page still
+   rendered. Caught by diffing rendered text against a baseline, not by any
+   error. All three now call `ways()`. **17 pages** carry a working phone, email
+   and portal link.
+
+   Negative-tested both halves on both facts: one edit to the TSA href moved 10
+   pages, one edit to the phone href moved 17, and restoring each put them back.
+
+24. **The Quest lab page, recovered rather than rewritten.** DONE 2026-09-18.
+   `KORB_Schedule_Your_Lab_Appointment.pdf` was retired on 2026-09-17 with the
+   other 42. The HTML that replaced it kept the prose and dropped every link in
+   it, so the page told a patient to book at Quest, to call their nearest
+   location and to use the MyQuest app, and gave them nothing to tap.
+
+   The four URLs were read out of the retired PDF's link annotations rather than
+   retyped: the Quest booking page, the location finder, and the MyQuest listings
+   on the App Store and Google Play. **Do not take the rest of that PDF as a
+   model** - its running header says KORB Health Group, the MSO, which is the
+   fault open item 1b fixed.
+
+   **ONE CORRECTION TO THE BRIEF, and it decides what must not move.** The
+   Welcome Letter PDF does NOT link to this page. Its links go to
+   `KORB_Patient_Treatment_Schedule.html`, which carries its own Quest box - the
+   booking link and the MyQuest web link, hardcoded in that hand-built file. So
+   the URL to leave alone is the Treatment Schedule one, and Quest facts now
+   live in two places, not one. **Wiring that tool onto the data file is the
+   other half of this item and is not done.**
+
+25. **Should contact details be at the foot of every patient page?** Asked by
+   Don 2026-09-18. Recommendation: yes, and it is not yet built. Today the block
+   appears wherever a document happens to declare `shared: 'contact'`, which is
+   why it is mid-document on When to Contact and absent from several pages
+   entirely. A page a patient opens from a text message should end with how to
+   reach a human, in the same place every time, whatever the page was about.
+   The mechanism exists now - `ways()` renders it and every value is reachable -
+   so this is a decision about placement, not new plumbing.

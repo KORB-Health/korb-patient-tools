@@ -310,7 +310,7 @@
         if (!c) { return; }
         h += '<h3>' + esc(c.title) + '</h3>';
         if (c.items) { h += ul(c.items); }
-        if (c.lines) { h += paras(c.lines); }
+        h += ways(c.ways);
       });
       h += '<p>Phone and email are not appropriate for emergencies. When in doubt, ' +
            'go to urgent care or the emergency room.</p>';
@@ -439,13 +439,56 @@
     }).join('') + '</div>';
   }
 
+  /* The checkpoint sentence and the TSA link, from shared.travelScreening.
+
+     A live link rather than prose, because "the current rules are at
+     tsa.gov/travel/travel-tips" printed as flat text is a thing a patient has
+     to retype on a phone at an airport. rich() only does bold, so this is built
+     here rather than smuggled into the prose as markup a renderer would escape. */
+  function screening(sh) {
+    var t = sh && sh.travelScreening;
+    if (!t) { return ''; }
+    return '<p>' + esc(t.text) + ' ' +
+           '<a href="' + esc(t.href) + '" target="_blank" rel="noopener">' +
+           esc(t.linkLabel) + '</a>.</p>';
+  }
+
+  /* A way to reach a human, as a table rather than a paragraph.
+
+     .kv is the label/value table the rest of the patient set already uses, so
+     this needs no new rules and picks up the row treatment corrected on
+     2026-09-18. A value with an href is a link; Hours has none and stays text,
+     which is the whole point of storing value and href separately. */
+  function linkOrText(w) {
+    if (!w.href) { return esc(w.value); }
+    return '<a href="' + esc(w.href) + '"' +
+      (/^https?:/i.test(w.href) ? ' target="_blank" rel="noopener"' : '') +
+      '>' + esc(w.value) + '</a>';
+  }
+
+  function ways(list, inline) {
+    if (!list || !list.length) { return ''; }
+    /* inline: for the three-column contact grid, where a nested table would be
+       a table inside a cell of another table. Same values, same links. */
+    if (inline) {
+      return list.map(function (w) {
+        return '<p><strong>' + esc(w.label) + ':</strong> ' + linkOrText(w) + '</p>';
+      }).join('');
+    }
+    return '<table class="kv"><tbody>' + list.map(function (w) {
+      return '<tr><th>' + esc(w.label) + '</th><td>' + linkOrText(w) + '</td></tr>';
+    }).join('') + '</tbody></table>';
+  }
+
   function sharedBlock(DATA, name) {
     var sh = DATA.shared || {};
     if (name === 'storage') {
       if (!sh.storage) { return ''; }
       return cards(sh.storage.cards) + paras(sh.storage.notes);
     }
-    if (name === 'travel') { return sh.travel ? paras([sh.travel]) : ''; }
+    if (name === 'travel') {
+      return (sh.travel ? paras([sh.travel]) : '') + screening(sh);
+    }
     if (name === 'injectionSafety') { return ul(sh.injectionSafety); }
     if (name === 'contact') {
       if (!sh.contact) { return ''; }
@@ -453,7 +496,7 @@
         var c = sh.contact[k];
         if (!c) { return ''; }
         return '<h3>' + esc(c.title) + '</h3>' + (c.items ? ul(c.items) : '') +
-               (c.lines ? paras(c.lines) : '');
+               ways(c.ways);
       }).join('');
     }
     throw new Error('patient-ed-render: guide asks for shared block "' + name +
@@ -1068,7 +1111,7 @@
        itself on the first build. A handout whose storage differs states its own
        travel text too - the two belong together. */
     h += '<h2>Traveling with your medication</h2><p>' + esc(doc.travel || S.travel) + '</p>' +
-         (doc.travelNote ? '<p>' + esc(doc.travelNote) + '</p>' : '');
+         screening(S);
 
     if (doc.timeline) {
       h += '<h2>What to expect</h2><table class="grid"><thead><tr><th>Timeline</th>' +
@@ -1106,8 +1149,8 @@
     h += '<h2>When to contact KORB</h2>' +
          '<table class="grid"><thead><tr><th>' + esc(C.operations.title) + '</th><th>' +
          esc(C.portal.title) + '</th><th>' + esc(C.emergency.title) + '</th></tr></thead><tbody><tr>' +
-         '<td>' + ul(C.operations.items) + paras(C.operations.lines) + '</td>' +
-         '<td>' + ul(doc.portalItems || C.portal.items) + '</td>' +
+         '<td>' + ul(C.operations.items) + ways(C.operations.ways, true) + '</td>' +
+         '<td>' + ul(doc.portalItems || C.portal.items) + ways(C.portal.ways, true) + '</td>' +
          '<td>' + ul(C.emergency.items) + '</td>' +
          '</tr></tbody></table>' +
          '<p class="fine">' + esc(C.portalNote) + '</p>' +
