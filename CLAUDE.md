@@ -83,11 +83,17 @@ else:
 | Four program overviews | Foundation, Gateway, Longevity, Peak |
 | Five peptide handouts | BPC-157, CJC-1295/Ipamorelin, GHK-Cu, Sermorelin, Tesamorelin |
 
-**Open question, 2026-09-17.** This record says `KORB_Patient_Hub.html` is not
-released, and Don has said the patient education hub is with the website developer.
-Those may be two different things, the repo hub versus a page the developer is
-building from it. Whoever knows should reconcile this line; it is the only record and
-it currently contradicts what is happening.
+**`KORB_Patient_Hub.html` IS the patient education hub, and it IS the file with the
+website developer.** Don confirmed 2026-09-17; they are not two different things.
+It is still listed below as not released to patients, and both are true at once: the
+developer holds it, no patient has been sent it.
+
+**This matters more than it looks.** The hub links seven documents that this record
+says are NOT released: the Weight Loss, Men's Health and Women's Health program
+overviews, and the Anti-Aging, Hair Loss, Sexual Health and Skin Care handouts. The
+four handouts are linked from all four program sections, so nineteen links in total.
+Publish the hub as it stands and those seven go public with it. **Decide what happens
+to those links before the hub goes live**, whichever format they are in.
 
 **NOT released to patients.** All GLP-1 and weight loss, all add-ons, Men's Health,
 Women's Health, and `KORB_Patient_Hub.html`. In `Patient_Education/` that covers the
