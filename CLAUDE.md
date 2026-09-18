@@ -1381,13 +1381,13 @@ testosterone" was either already gone or never in it.
    model** - its running header says KORB Health Group, the MSO, which is the
    fault open item 1b fixed.
 
-   **ONE CORRECTION TO THE BRIEF, and it decides what must not move.** The
+   **ONE CORRECTION TO THE BRIEF, and it decided what must not move.** The
    Welcome Letter PDF does NOT link to this page. Its links go to
-   `KORB_Patient_Treatment_Schedule.html`, which carries its own Quest box - the
-   booking link and the MyQuest web link, hardcoded in that hand-built file. So
-   the URL to leave alone is the Treatment Schedule one, and Quest facts now
-   live in two places, not one. **Wiring that tool onto the data file is the
-   other half of this item and is not done.**
+   `KORB_Patient_Treatment_Schedule.html`. Don confirmed on 2026-09-18 that the
+   linked one is the one to keep, so that URL does not move.
+
+   **CLOSED 2026-09-18 by `korb-quest.js`.** Both pages read it and the facts
+   are written once. See item 29.
 
 25. **Should contact details be at the foot of every patient page?** Asked by
    Don 2026-09-18. Recommendation: yes, and it is not yet built. Today the block
@@ -1489,3 +1489,41 @@ testosterone" was either already gone or never in it.
    by replacing the exact literal block, with an assertion that it appears
    exactly twice. **Match a literal and count it; do not pattern-match across
    object boundaries in a 175KB data file.**
+
+29. ~~QUEST FACTS IN TWO PLACES.~~ **DONE 2026-09-18.** `korb-quest.js` is the
+   source of truth for where a patient books a lab draw and how they get the
+   MyQuest app. `KORB_Schedule_Your_Lab_Appointment.html` reads it through
+   `shared: 'quest'`, and `KORB_Patient_Treatment_Schedule.html` - the page the
+   Functional Health and Longevity welcome letter actually links to, and the one
+   Don said to keep - builds its lab box from it.
+
+   **A SEPARATE FILE, NOT `korb-patient-ed-data.js`.** The Treatment Schedule is
+   a tool a patient opens weekly on a phone and it already loads
+   `korb-pharmacies.js` and `korb-dosing-data.js`. Putting four URLs in the
+   patient-education file would have made it download **184KB of handout prose
+   to render one info box**. The repo's own rule, applied rather than dodged:
+   the problem is never too many files, it is the same fact in more than one.
+
+   **NEITHER SOURCE WAS COMPLETE, which is why this was a merge and not a move.**
+   The retired PDF had the location finder and both app store links, which the
+   tool lacked. The tool had the MyQuest web portal, which the PDF lacked. And
+   they **disagreed on the booking URL** - the tool linked `/as-home`, the PDF
+   and the page linked the root. Both return 403 to a scripted request, which is
+   bot blocking rather than a broken link, so they could not be told apart from
+   the outside. The root is kept because a root URL outlives a deep path, and
+   `bookAlternate` records the other so the choice is visible rather than lost.
+
+   `KORB_PATIENT_ED.hydrate(KORB_QUEST)` follows the `korb-pharmacies.js`
+   pattern: **korb-quest.js must load FIRST**, the data file throws by name if it
+   does not, and `check-pages.js` gained the dependency. Negative-tested both
+   halves - stripping the tag from one page reported it by name, and it also
+   caught `KORB_Patient_Hub.html`, which loads the patient data file and had no
+   idea about the new dependency. Module loads went 75 to 102.
+   A second negative test on the fact itself: one broken href in `korb-quest.js`
+   appeared on BOTH pages, and restoring it cleared both.
+
+   **`KORB_Patient_Treatment_Schedule.html` still says KORB Health Group**, the
+   MSO, in its byline and running header, on a live patient-facing document
+   giving clinical instruction. That is the open item 1b fault, which covered the
+   clinical set and never reached this hand-built tool. Not fixed here. Worth
+   doing next.

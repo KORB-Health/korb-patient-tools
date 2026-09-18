@@ -233,6 +233,7 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
 <div class="disc">This schedule is for personal reference only. Always follow your prescription label and pharmacy instructions. Contact KORB Operations for general questions, or use the Patient Portal for medical questions — not for emergencies. For emergencies call 911 or go to the nearest emergency room.</div>
 </div>
 
+<script src="korb-quest.js"></script>
 <script src="korb-pharmacies.js"></script>
 <script src="korb-dosing-data.js"></script>
 <script>
@@ -520,7 +521,31 @@ function build(){
   html+='<div class="sec">Lab Instructions</div>';
   html+='<div class="info-box navy"><strong>When:</strong> Your cycle labs are drawn during your lab draw week shown in the schedule above. Results are reviewed with your provider at your 16-week renewal visit, when your next cycle begins.</div>';
   html+='<div class="info-box teal"><strong>How to prepare:</strong> Labs should be done first thing in the morning, in a fasting state. Do not eat or drink anything except water for at least 8 hours beforehand.</div>';
-  html+='<div class="info-box amber"><strong>Where:</strong> Labs are performed at Quest Diagnostics. Call or go online to schedule your appointment — we recommend downloading the <strong>MyQuest</strong> app to schedule your draw and to review your results once they are ready.<br><br>Schedule an appointment: <a href="https://appointment.questdiagnostics.com/as-home" target="_blank" rel="noopener" style="color:var(--navy);text-decoration:underline;">appointment.questdiagnostics.com</a><br>MyQuest app / results: <a href="https://myquest.questdiagnostics.com/web/home" target="_blank" rel="noopener" style="color:var(--navy);text-decoration:underline;">myquest.questdiagnostics.com</a></div>';
+  /* QUEST FACTS COME FROM korb-quest.js. This box used to hardcode them, and it
+     disagreed with the lab-scheduling page on the booking URL - this page linked
+     /as-home, the page and the retired PDF linked the root - which is the drift
+     this repo exists to stop. Don confirmed on 2026-09-18 that THIS page is the
+     one to keep, because it is the one the Functional Health and Longevity
+     welcome letter links to; the facts it shows are now written once.
+     It throws by name rather than rendering a lab box with nothing to press. */
+  if (typeof KORB_QUEST === 'undefined') {
+    throw new Error('KORB_Patient_Treatment_Schedule: korb-quest.js must be loaded first.');
+  }
+  var QL = 'color:var(--navy);text-decoration:underline;';
+  html+='<div class="info-box amber"><strong>Where:</strong> Labs are performed at '
+    + KORB_QUEST.meta.vendor + '. ' + KORB_QUEST.walkIn
+    + ' We recommend downloading the <strong>MyQuest</strong> app to schedule your draw '
+    + 'and to review your results once they are ready.<br><br>'
+    + 'Schedule an appointment: <a href="' + KORB_QUEST.book.href + '" target="_blank" '
+    + 'rel="noopener" style="' + QL + '">' + KORB_QUEST.book.label + '</a><br>'
+    + 'Find a location: <a href="' + KORB_QUEST.findLocation.href + '" target="_blank" '
+    + 'rel="noopener" style="' + QL + '">' + KORB_QUEST.findLocation.label + '</a><br>'
+    + 'MyQuest app: <a href="' + KORB_QUEST.app.choices[0].href + '" target="_blank" '
+    + 'rel="noopener" style="' + QL + '">' + KORB_QUEST.app.choices[0].label + '</a>'
+    + ' &middot; <a href="' + KORB_QUEST.app.choices[1].href + '" target="_blank" '
+    + 'rel="noopener" style="' + QL + '">' + KORB_QUEST.app.choices[1].label + '</a><br>'
+    + 'Results online: <a href="' + KORB_QUEST.results.href + '" target="_blank" '
+    + 'rel="noopener" style="' + QL + '">' + KORB_QUEST.results.label + '</a></div>';
 
   // Medication education — auto columns, min 2 per row, full-width when 1
   html+='<div class="sec">About My Medications</div>';

@@ -47,6 +47,12 @@ const NEEDS = {
   'korb-mens-data.js': ['korb-pharmacies.js'],
   'korb-womens-data.js': ['korb-pharmacies.js'],
 
+  /* korb-patient-ed-data.js takes its Quest lab-scheduling facts from
+     korb-quest.js at load, the same way the program files take their pharmacy
+     footprints. Without it the lab page tells a patient to book a draw and
+     offers nothing to press, so the data file throws by name instead. */
+  'korb-patient-ed-data.js': ['korb-quest.js'],
+
   /* Render modules. */
   'provider-doc-render.js': ['korb-rx-block.js'],
   'fhl-doc-render.js': ['korb-rx-block.js', 'provider-doc-render.js'],

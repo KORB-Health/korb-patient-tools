@@ -339,12 +339,14 @@
 <script src="../korb-dosing-data.js"></script>
 
 
+<script src="../korb-quest.js"></script>
 <script src="../korb-patient-ed-data.js"></script>
 <script src="../patient-ed-render.js"></script>
 <script>
   (function () {
     var D = KORB_DOSING;
     if (D && D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
+    KORB_PATIENT_ED.hydrate(KORB_QUEST);
     var doc = KORB_PATIENT_ED.docs["cjc_ipamorelin"];
     var R = KORB_PATIENT_ED_DOCS;
     document.getElementById('doc').innerHTML =

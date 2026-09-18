@@ -533,6 +533,24 @@
       if (!sh.storage) { return ''; }
       return cards(sh.storage.cards) + paras(sh.storage.notes);
     }
+    /* Quest, from korb-quest.js through KORB_PATIENT_ED.hydrate. Throws by
+       name rather than rendering a lab page with nothing to press on it - a
+       page that tells a patient to book and then offers no way to is worse than
+       a page that refuses to load. */
+    if (name === 'quest') {
+      var Q = sh.quest;
+      if (!Q) {
+        throw new Error('patient-ed-render: shared.quest is empty. Load ' +
+          'korb-quest.js and call KORB_PATIENT_ED.hydrate(KORB_QUEST) before rendering.');
+      }
+      return links([Q.book, Q.findLocation]) +
+             (Q.walkIn ? paras([Q.walkIn]) : '') +
+             '<h2>Schedule from your phone</h2>' +
+             '<p>You can also book through the MyQuest app, and view your results ' +
+             'there once they are available.</p>' +
+             links([Q.app]);
+    }
+
     if (name === 'travel') {
       return (sh.travel ? paras([sh.travel]) : '') + screening(sh);
     }

@@ -243,12 +243,14 @@ ${/* A page may read a SECOND program's data. The GLP-1 welcome letter loads
       when a section starts reading that file and one that fails on a patient's
       phone. Declared in the data file, never inferred. */''}
 ${(doc.alsoLoad || []).map(k => `<script src="${t.up}${SOURCE_FILE[k]}"></script>`).join('\n')}
+<script src="${t.up}korb-quest.js"></script>
 <script src="${t.up}korb-patient-ed-data.js"></script>
 <script src="${t.up}patient-ed-render.js"></script>
 <script>
   (function () {
     var D = ${sourceKey(doc) ? SOURCE_GLOBAL[sourceKey(doc)] : 'null'};
     if (D && D.hydrate && !D.hydrated) { D.hydrate(KORB_PHARMACIES); }
+    KORB_PATIENT_ED.hydrate(KORB_QUEST);
     var doc = KORB_PATIENT_ED.${t.coll}[${JSON.stringify(t.key)}];
     var R = KORB_PATIENT_ED_DOCS;
     document.getElementById('doc').innerHTML =

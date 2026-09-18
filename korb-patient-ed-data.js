@@ -1515,45 +1515,14 @@ var KORB_PATIENT_ED = {
         {
           h: 'Book your appointment',
           paras: [
-            'Booking at Quest Diagnostics takes about a minute. Most Quest locations also accept walk-ins, though we recommend calling your nearest location first to confirm availability and hours.'
+            'Booking at Quest Diagnostics takes about a minute.'
           ],
-          /* RECOVERED FROM THE RETIRED PDF, not rewritten from memory.
-             KORB_Schedule_Your_Lab_Appointment.pdf was deleted on 2026-09-17
-             with the other 42. The HTML that replaced it kept the prose and
-             dropped every link in it, so the page told a patient to book at
-             Quest, to call their nearest location and to use the MyQuest app,
-             and gave them nothing to tap: the whole document rendered one link
-             and it was Print. Don asked for it back on 2026-09-18. The four
-             URLs below are the ones the PDF carried, read out of its link
-             annotations rather than retyped. */
-          links: [
-            {
-              href: 'https://appointment.questdiagnostics.com/',
-              label: 'Schedule my appointment',
-              note: 'Book your lab draw at Quest Diagnostics. It takes about a minute.'
-            },
-            {
-              href: 'https://appointment.questdiagnostics.com/find-location/as-location-finder',
-              label: 'Find a Quest location near me',
-              note: 'Search by address or ZIP code for the sites nearest you.'
-            }
-          ]
-        },
-        {
-          h: 'Schedule from your phone',
-          lead: 'You can also book through the MyQuest app, and view your results there once they are available.',
-          links: [
-            {
-              label: 'Download the MyQuest app',
-              note: 'free, from your phone’s app store',
-              choices: [
-                { href: 'https://apps.apple.com/us/app/myquest-for-patients/id748920931',
-                  label: 'iPhone (iOS)' },
-                { href: 'https://play.google.com/store/apps/details?id=com.myquest',
-                  label: 'Android' }
-              ]
-            }
-          ]
+          /* The URLs are in korb-quest.js, because KORB_Patient_Treatment_Schedule
+             .html needs the same four and is a weekly tool that has no business
+             downloading 184KB of handout prose to render one info box. That page
+             is the one the Functional Health and Longevity welcome letter links
+             to, and Don confirmed on 2026-09-18 it is the one to keep. */
+          shared: 'quest'
         },
         {
           h: 'How to prepare',
@@ -3152,5 +3121,19 @@ var KORB_PATIENT_ED = {
 
   }
 };
+
+/* Quest facts come from korb-quest.js, which must load FIRST. Throwing by name
+   beats rendering a lab page with no way to book on it: check-pages.js knows the
+   dependency and the build fails rather than shipping a page that tells a patient
+   to schedule and gives them nothing to press. */
+KORB_PATIENT_ED.hydrate = function (Q) {
+  if (!Q || !Q.book) {
+    throw new Error('korb-patient-ed-data.js: korb-quest.js must be loaded first.');
+  }
+  KORB_PATIENT_ED.shared.quest = Q;
+  KORB_PATIENT_ED.hydrated = true;
+  return KORB_PATIENT_ED;
+};
+KORB_PATIENT_ED.hydrated = false;
 
 if (typeof module !== 'undefined' && module.exports) { module.exports = KORB_PATIENT_ED; }
