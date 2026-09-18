@@ -966,8 +966,14 @@ var KORB_PATIENT_ED = {
           links: [
             {
               href: 'KORB_Patient_Ed_Sexual_Health.html',
-              label: 'KORB Rise, sexual health',
-              note: 'no lab work required'
+              /* No note. It carried "no lab work required" and its two siblings
+                 carried nothing, so one button in three had a caption hanging
+                 under it and the set read as cluttered rather than as a set.
+                 Don, 2026-09-18. Nothing is lost: the handout this opens says
+                 "There is no lab work and no scheduled follow-up for this
+                 add-on" in its body and again in its reminders. The button is a
+                 way in, not the place to state the fact. */
+              label: 'KORB Rise, sexual health'
             },
             {
               href: 'KORB_Patient_Ed_Hair_Loss.html',
