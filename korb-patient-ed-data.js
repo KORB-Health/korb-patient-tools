@@ -1232,7 +1232,15 @@ var KORB_PATIENT_ED = {
           lead: 'Watch the short video walkthrough before your first injection, then keep the written guide for storage, travel and sharps disposal.',
           links: [
             {
-              href: 'https://bit.ly/KORBSQInjection',
+              /* Vimeo, not bit.ly. The short link pointed at YouTube and Don does
+                 not control it - it was created when these documents lived on a
+                 personal GitHub under a different name, and a link nobody owns is
+                 a link that can change under you. YouTube also serves pre-roll
+                 ads to signed-out viewers, which is the thing this whole video
+                 move was about. The id lives in korb-video.js; this is the one
+                 place outside that file that needs it, because a welcome letter
+                 links OUT rather than embedding. */
+              href: 'https://vimeo.com/1228373201',
               label: 'Watch the Injection Video'
             },
             {
@@ -1463,7 +1471,15 @@ var KORB_PATIENT_ED = {
           lead: 'Watch our short video walkthrough before your first injection.',
           links: [
             {
-              href: 'https://bit.ly/KORBSQInjection',
+              /* Vimeo, not bit.ly. The short link pointed at YouTube and Don does
+                 not control it - it was created when these documents lived on a
+                 personal GitHub under a different name, and a link nobody owns is
+                 a link that can change under you. YouTube also serves pre-roll
+                 ads to signed-out viewers, which is the thing this whole video
+                 move was about. The id lives in korb-video.js; this is the one
+                 place outside that file that needs it, because a welcome letter
+                 links OUT rather than embedding. */
+              href: 'https://vimeo.com/1228373201',
               label: 'Watch the Injection Video'
             }
           ]

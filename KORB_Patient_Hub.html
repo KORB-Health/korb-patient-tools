@@ -215,6 +215,36 @@ button{font-family:inherit;cursor:pointer;}
 footer{background:#14172F;color:#9AA0C0;padding:36px 0;margin-top:60px;}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;}
 footer strong{color:#fff;}
+
+/* ---- THE FOUR HERO TILES -------------------------------------------------
+   They were inline-styled anchors with NO class, so no rule could reach them
+   and nothing happened on hover but the cursor changing shape. Don, 2026-09-19:
+   that is the only feedback there is, and he runs an oversized cursor for screen
+   sharing, so he sees MORE of that signal than a patient does - most people get
+   a small arrow becoming a small hand and miss it entirely.
+
+   People do not click things that do not look clickable. Four rules fix it:
+   lift, shadow, an arrow that says "this goes somewhere", and a focus ring so a
+   keyboard reaches it too. The tiles are already <a> elements, which is the part
+   that makes them reachable at all, so that half was already right.
+
+   Inline styles win over a stylesheet for anything they declare - these set
+   background and border-radius, and set neither transform nor box-shadow, so
+   these rules land. */
+.ptile{position:relative;display:block;
+  transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;}
+.ptile:hover{transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(33,39,91,.28);filter:brightness(1.07);}
+.ptile:active{transform:translateY(-1px);box-shadow:0 6px 14px rgba(33,39,91,.22);}
+.ptile:focus-visible{outline:3px solid #FBB040;outline-offset:3px;}
+.ptile::after{content:"→";position:absolute;right:16px;bottom:14px;
+  font-size:20px;color:#fff;opacity:0;transform:translateX(-6px);
+  transition:opacity .18s ease, transform .18s ease;}
+.ptile:hover::after,.ptile:focus-visible::after{opacity:.95;transform:translateX(0);}
+@media (prefers-reduced-motion:reduce){
+  .ptile,.ptile::after{transition:none;}
+  .ptile:hover{transform:none;}
+}
 </style>
 </head>
 <body>
@@ -246,20 +276,20 @@ footer strong{color:#fff;}
     </div>
     <div class="phase-ring-wrap">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:520px;">
-        <a href="#weightloss" style="text-decoration:none;background:linear-gradient(150deg,#00B2C3,#00838f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('weightloss');">
+        <a class="ptile" href="#weightloss" style="text-decoration:none;background:linear-gradient(150deg,#00B2C3,#00838f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('weightloss');">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7L2 14a3 3 0 0 0 6 0L5 7z"/><path d="M19 7l-3 7a3 3 0 0 0 6 0l-3-7z"/></svg>
           <div style="font-size:14.5px;font-weight:800;text-align:center;">Weight Loss</div>
         </a>
-        <a href="#menshealth" style="text-decoration:none;background:linear-gradient(150deg,#21275B,#141834);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('menshealth');">
+        <a class="ptile" href="#menshealth" style="text-decoration:none;background:linear-gradient(150deg,#21275B,#141834);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('menshealth');">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.2 9.8L20 4"/><path d="M14.5 4h5.5v5.5"/></svg>
           <div style="font-size:14.5px;font-weight:800;text-align:center;">Men's Health</div>
         </a>
         <div style="grid-column:1/-1;text-align:center;font-size:13px;font-weight:700;color:var(--mu);padding:2px 0;">Four programs, one place to manage them all</div>
-        <a href="#womenshealth" style="text-decoration:none;background:linear-gradient(150deg,#B0498B,#7c2f61);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('womenshealth');">
+        <a class="ptile" href="#womenshealth" style="text-decoration:none;background:linear-gradient(150deg,#B0498B,#7c2f61);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('womenshealth');">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg>
           <div style="font-size:14.5px;font-weight:800;text-align:center;">Women's Health</div>
         </a>
-        <a href="#longevity" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#d98f1f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('longevity');">
+        <a class="ptile" href="#longevity" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#d98f1f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('longevity');">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 15.5a3.5 3.5 0 1 1 0-7c2.5 0 4 2 5.5 3.5s3 3.5 5.5 3.5a3.5 3.5 0 1 0 0-7c-2.5 0-4 2-5.5 3.5s-3 3.5-5.5 3.5z"/></svg>
           <div style="font-size:14.5px;font-weight:800;text-align:center;">Longevity</div>
         </a>

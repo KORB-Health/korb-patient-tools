@@ -227,6 +227,33 @@ set. Worth reconciling, but not by moving them casually — they are live, so th
 URLs are in circulation.
 
 ---
+## THE PUBLIC PAGES CARRY NOTHING PATIENT-SPECIFIC
+
+Confirmed by Don 2026-09-19, and it governs everything served from this repo.
+
+**GitHub Pages is public and unauthenticated.** Every file here is reachable by
+anyone with the URL and by anything that crawls it. There is no login, there
+never will be, and the release record at the top of this file decides what is
+SENT - not what is reachable.
+
+So: **general patient education only.** Nothing patient-specific, ever. No PHI,
+no names, no identifiers, no chart content, no individual dosing, and **no
+pricing**. A page here explains what a programme is and how to take a medicine
+safely. It never says anything about one person, and it never quotes a number
+somebody pays.
+
+**Provider-facing clinical content is a separate question and is already
+handled**: the monographs and references carry Tebra fields and pharmacy detail
+because they are linked from the intranet, not sent to patients. That is a
+choice about audience, not about secrecy, and it does not license putting
+anything patient-specific on any page here.
+
+**This is the rule to check a new block against before writing it**, not after.
+From Monday 2026-09-22 these URLs go out by text message and in Operations
+email, so anything added to a patient page is a thing that gets sent.
+
+---
+
 ## Layout, and the one rule about it
 
 ```
