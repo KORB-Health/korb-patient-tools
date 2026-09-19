@@ -2116,3 +2116,83 @@ testosterone" was either already gone or never in it.
    Same lesson as the house standard's *verify by reading the rendered page*,
    in a new place: **an emoji is a font dependency, so check a new one by
    looking at it, and prefer one the page already renders.**
+
+46. ~~THE NAV PROGRAMME LINKS WERE HIDDEN ON EVERY PHONE.~~ **DONE 2026-09-19.**
+   Don asked whether the four programme links in the top tray are redundant,
+   since the hero shows the same four as tiles directly below them.
+
+   **They are not redundant, and the real fault was the opposite of the
+   question.** The tiles scroll away inside the first screen; the sticky nav is
+   the only thing that persists down a 12,700px desktop page and a 22,000px
+   phone page. But `@media (max-width:820px){.nav-links{display:none;}}` removed
+   them below 820px, which is every phone - **and from 2026-09-22 this page
+   arrives by text message.** A patient reading Women's Health had no way to
+   reach Longevity except scrolling the whole way back, and the single thing a
+   phone did show in the nav was Meal Ideas, the destination that matters least.
+
+   They scroll horizontally now. Guides and Meal ideas joined the same row, so
+   the top tray carries every destination on the page, and the separate
+   "Meal Ideas" CTA is gone - Don flagged that it and "Meal ideas with AI" at
+   the foot of every programme were one destination under two names.
+
+   **`display:none` is not a way of fitting something in.** It is how a
+   navigation requirement gets deleted without anyone deciding to delete it.
+
+47. **A FLEX ROW OVERFLOWS OFF ITS START EDGE, AND THE CHECK AGREED IT WAS
+   FINE.** With `justify-content:flex-end` on an overflowing flex row, the
+   overflow spills off the LEFT, and `scrollWidth` then **equals** `clientWidth`
+   - so the browser does not believe there is anything to scroll to and no
+   swipe will reach it. The four programme links were rendered, `display:block`,
+   and sitting at `left=-212` through `163`: present, visible to every query,
+   and unreachable by a patient.
+
+   The first check reported **"scrolls=false, last item not clipped"**. Both
+   true. Both about the wrong thing - it counted DOM anchors rather than
+   VISIBLE ones, so six items were found when two were on screen. Found by
+   screenshotting the rendered nav at 375px.
+
+   `margin-left:auto` instead: content stays left-aligned inside a box pushed
+   right, the overflow goes right, and it scrolls. Measured at 375px,
+   `clientW=196 scrollW=571`, nothing off the left, no page overflow; at 900px
+   and up it all fits with no scrolling.
+
+   **This is the fourth time on this page a measurement has been true and
+   irrelevant** - the centred button against the viewport (26), the first
+   `.wrap` instead of the document (31), the paired-video frame tops at zero
+   (36), and now this. The pattern in all four: **the check asked a question
+   the defect could answer correctly.** Ask what a PATIENT would see, then
+   measure that.
+
+48. ~~THE HERO SENDS PEOPLE TO THE PROGRAMMES, NOT PAST THEM.~~ **DONE
+   2026-09-19.** Don did not want a button there at all: the four programme
+   tiles beside it are the action, and a "Start Here" button competed with them
+   and pulled a patient toward the tools instead of the programme they came for.
+
+   The tagline "All we have is now" and the button are replaced by his quote,
+   centred, **held to about 46 characters a line** - centred ragged text is hard
+   to read when the line is long, which is item 43's lesson applied on purpose
+   rather than rediscovered.
+
+   **The attribution says KORB Health, not KORB Health Group.** Don wrote the
+   MSO's name. A PA-C describing clinical care - what we are doing and why -
+   signed by the MSO implies the MSO practises medicine, which it does not, and
+   it contradicts the footer on the same page, which says KORB Health Medical
+   Texas PA. The brand name is true and carries no entity claim. **Flagged to
+   Don; his call to change it either way.**
+
+   `.hero-ctas`, `.btn-primary` and both `.nav-cta` rules were deleted rather
+   than left behind. `#start` remains as an id on the welcome panel - a valid
+   anchor target that nothing currently links to, which is an orphan target
+   rather than a dead rule, and harmless.
+
+49. **THE BMI CALCULATOR IS NOT A PATIENT TOOL AND MUST NOT BE LINKED FROM THE
+   HUB.** Don suggested putting it in the top tray on 2026-09-19. Both files
+   live in `Provider_Reference/`, both are listed in RELEASE STATUS as out for
+   provider feedback and released to nobody, and item 19 records that the split
+   is deliberate: one patient-facing calculator, one provider one standalone on
+   the intranet with chart-copy controls.
+
+   **The patient one already exists and is already placed** - `proteinCalc()`
+   renders it inside the Weight Loss tools band, because protein targets are
+   part of that programme rather than general advice. Linking the provider file
+   would put an unreleased provider document one tap from a text message.
