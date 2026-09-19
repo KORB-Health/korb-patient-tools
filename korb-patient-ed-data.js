@@ -1319,6 +1319,11 @@ var KORB_PATIENT_ED = {
               text: 'Give me 10 bland, low-fat, easy-to-digest meal and snack ideas that still contain protein. Avoid fried, greasy, very sweet, and strongly spiced foods. Each should be quick to prepare and easy to eat in small amounts. List protein per serving. Do not give me medical or nutrition advice, just food ideas.'
             },
             {
+              title: 'Plant-based and still hitting protein',
+              why: 'Harder without meat or dairy, and harder again on a smaller appetite.',
+              text: 'I eat no meat, fish, dairy or eggs. Give me 10 plant-based meal and snack ideas that each contain at least 20 g of protein, built from whole foods such as beans, lentils, chickpeas, tofu, tempeh, edamame, seitan, nuts and seeds. Keep them small in volume where you can, since I fill up quickly. List the protein per serving, and mark any that combine two foods to make a complete protein. If I ate dairy and eggs as well, tell me which three would change and how. Do not give me medical or nutrition advice, just food ideas.'
+            },
+            {
               title: 'A week of simple dinners',
               why: 'Removes the daily decision, which is usually the hard part.',
               text: 'Plan 7 simple dinners for one week. Each should have at least 30 g of protein, use whole or minimally processed ingredients, and take under 30 minutes. Reuse ingredients across meals to reduce waste. Then give me a single consolidated grocery list organised by store section. Do not give me medical or nutrition advice, just recipes and a list.'
