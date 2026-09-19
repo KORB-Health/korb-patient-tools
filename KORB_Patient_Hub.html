@@ -255,7 +255,12 @@ footer strong{color:#fff;}
       top edge under the nav and sliced the programme icon in half. From Monday
       every one of these links arrives by text, so this is the first thing a
       patient sees. 104px clears the nav with room to breathe. */
-.psec{scroll-margin-top:104px;}
+.psec{scroll-margin-top:52px;}
+/* 52px, halved from 104 on 2026-09-19. At 104 the tail of the PREVIOUS section
+   was still on screen when a patient arrived from a text message - Don saw the
+   bottom of the welcome video under the nav on the Weight Loss link. Halving it
+   tucks the previous block up behind the sticky nav and puts the programme icon
+   and heading at the top of what a patient actually sees. */
 
 /* 2. ONE COLUMN WIDTH FOR EVERY PROGRAMME.
       Each section opens with a .wrap at 1140px and then everything after it -
@@ -377,6 +382,31 @@ footer strong{color:#fff;}
    actual navigation. An outline reads as available without competing. */
 .nav-cta{background:transparent;color:var(--navy);border:1.5px solid var(--navy);}
 .nav-cta:hover{background:var(--navy);color:#fff;}
+
+/* ==== GETTING STARTED CARDS, Don 2026-09-19 =============================
+   The buttons sat at whatever height the copy left them, so a row of cards had
+   its calls to action scattered down the grid - worst on the bottom two, where
+   one card carries two stacked buttons and its neighbour one.
+
+   The cards were already equal height per row; it was the CONTENT that was not
+   filling them. The column now stretches and the button block is pushed to the
+   bottom, so every card in a row ends on its button at the same line. */
+.res-card{align-items:stretch;}
+.res-card > div:last-child{display:flex;flex-direction:column;flex:1 1 auto;min-width:0;}
+.res-card > div:last-child > div:last-child{margin-top:auto !important;}
+/* !important because the button block carries an inline margin-top:8px, which
+   beat the rule and left the buttons exactly where they had always been. That
+   is the third time inline margins on this page have quietly won; if a spacing
+   rule here looks correct and does nothing, check for a style attribute. */
+
+/* CENTRED, as asked - but the card has to become a COLUMN to do it.
+   The first attempt just set text-align:center and left .res-card a flex ROW,
+   so the icon stayed pinned top-left while the copy centred around it and the
+   icon read as orphaned. If the content is centred the icon belongs above it.
+   Easy to revert: delete this block and the cards go back to icon-left with
+   ranged-left text. */
+.res-card{flex-direction:column;align-items:center;text-align:center;gap:10px;}
+.res-card > div:last-child{align-items:center;width:100%;}
 </style>
 </head>
 <body>

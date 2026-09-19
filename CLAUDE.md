@@ -1899,3 +1899,36 @@ testosterone" was either already gone or never in it.
    so nobody adds it for symmetry: **weight loss has no labs**, and women's
    health labs are mail-order, arranged by KORB on request - one patient asked in
    the last year. Not worth the clutter.
+
+37. ~~THE ARRIVAL GAP AND THE GETTING-STARTED CARDS.~~ **DONE 2026-09-19.**
+
+   **`scroll-margin-top` halved, 104px to 52px.** At 104 the TAIL of the
+   previous section was still on screen when a patient arrived from a text
+   message - Don saw the bottom of the welcome video sitting under the nav on the
+   Weight Loss link. At 52 the previous block tucks up behind the sticky nav
+   (measured: its bottom edge lands at 52, the nav bottom is 85) and the
+   programme icon and heading are the top of what a patient sees.
+
+   **The Getting Started buttons sat wherever the copy left them.** The cards
+   were already equal height per row; the CONTENT was not filling them. The
+   column stretches now and the button block is pushed to the bottom, so a row
+   ends on its buttons at one line. Worst case was the bottom row, where one card
+   carries two stacked buttons and its neighbour one.
+
+   **`margin-top:auto` did nothing until it got `!important`**, because the
+   button block carries an INLINE `margin-top:8px`. **That is the third time
+   inline margins on this page have silently beaten a rule** - after the section
+   spacing in item 35 and the paired-video offset in item 36. If a spacing rule
+   on this page looks right and changes nothing, check for a `style` attribute
+   before doubting the selector.
+
+   **Centred, which Don asked for, and it needed the card to become a COLUMN.**
+   The first attempt set `text-align:center` and left `.res-card` a flex ROW, so
+   the icon stayed pinned top-left while the copy centred around it and the icon
+   read as orphaned. Icon above the content now.
+
+   **On the record, because it is a judgement he may want to revisit**: I would
+   have left the paragraphs ranged left. Centred ragged text in a 259px column
+   is harder to read - the eye loses the left edge on every line - and headings
+   and buttons centre well where body copy generally does not. He asked, it is
+   his page, and it is one block of CSS to revert.
