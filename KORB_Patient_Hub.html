@@ -129,27 +129,11 @@ button{font-family:inherit;cursor:pointer;}
 .video-frame{border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;}
 .video-frame iframe{width:100%;height:100%;border:0;}
 
-/* ---- VIDEO POSTER -------------------------------------------------------
-   Replaces the Google Drive embeds, 2026-09-19. All seven were returning
-   "the limit has been hit for viewers who aren't signed in" to a signed-out
-   viewer, which is every patient, and the nine iframes took the page from
-   132ms to 7,696ms to load. Drive is not a video host.
-
-   A poster is a LINK, not a frame: nothing loads until a patient asks for it,
-   so it cannot be slow and it cannot show someone else's error message.
-   To restore a video, give it an href. -------------------------------------- */
-.vposter{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:10px;width:100%;height:100%;text-decoration:none;text-align:center;padding:18px;
-  box-sizing:border-box;background:linear-gradient(140deg,#21275B 0%,#2E3575 100%);color:#fff;}
-a.vposter:hover{background:linear-gradient(140deg,#2E3575 0%,#3A4290 100%);}
-a.vposter:focus-visible{outline:3px solid var(--teal,#00B2C3);outline-offset:-3px;}
-.vposter .vplay{display:flex;align-items:center;justify-content:center;
-  width:56px;height:56px;border-radius:50%;background:var(--teal,#00B2C3);color:#0E1236;
-  font-size:20px;line-height:1;padding-left:4px;box-sizing:border-box;}
-.vposter .vlabel{font-weight:700;font-size:15px;line-height:1.3;}
-.vposter .vnote{font-size:12.5px;opacity:.82;line-height:1.35;}
-.vposter.vsoon{background:#F2F1E6;color:var(--navy,#21275B);border:1px dashed #C9C6B0;}
-.vposter.vsoon .vlabel{font-weight:700;}
+/* The .vposter block that sat here was the 2026-09-18 stopgap after the Google
+   Drive embeds were pulled: a navy panel, a link for the injection video and a
+   dashed "coming soon" for the rest. korb-video.js replaced it on 2026-09-19
+   with the real thumbnails, so nothing referenced these rules any more.
+   Deleted rather than left: a dead rule is a decoy, same as a dead helper. */
 @media (max-width:760px){.video-block{grid-template-columns:1fr;}}
 
 /* ================= TOOLS ================= */
@@ -300,8 +284,7 @@ footer strong{color:#fff;}
       <h4>Welcome to KORB</h4>
       <p>A quick 60-second walkthrough of this page — your programs, your tools, and where to find help.</p>
     </div>
-    <div class="video-frame">
-      <div class="vposter vsoon"><span class="vlabel">Video coming soon</span><span class="vnote">Your provider can walk you through this at your visit.</span></div>
+    <div class="video-frame" data-korb-video="welcome_korb"></div>
     </div>
   </div>
 </div>
@@ -382,8 +365,7 @@ footer strong{color:#fff;}
         <h4>Your GLP-1 Initial Consultation</h4>
         <p>A short walkthrough of what to expect from your first visit, how dosing works, and what your provider will cover with you.</p>
       </div>
-      <div class="video-frame">
-        <div class="vposter vsoon"><span class="vlabel">Video coming soon</span><span class="vnote">Your provider can walk you through this at your visit.</span></div>
+      <div class="video-frame" data-korb-video="glp1_consult"></div>
       </div>
     </div>
 
@@ -393,9 +375,7 @@ footer strong{color:#fff;}
         <h4>How to Give Your Injection</h4>
         <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection — the same technique used across all KORB programs.</p>
       </div>
-      <div class="video-frame">
-        <a class="vposter" href="https://bit.ly/KORBSQInjection" target="_blank" rel="noopener"><span class="vplay" aria-hidden="true">&#9654;</span><span class="vlabel">Watch: How to Give Your Injection</span><span class="vnote">Opens on YouTube in a new tab</span></a>
-      </div>
+      <div class="video-frame" data-korb-video="injection"></div>
     </div>
   </div>
 </div>
@@ -417,8 +397,7 @@ footer strong{color:#fff;}
         <h4>Welcome to Men's Health</h4>
         <p>What to expect at your first visit, how TRT dosing works, and how often you'll check in with your provider.</p>
       </div>
-      <div class="video-frame">
-        <div class="vposter vsoon"><span class="vlabel">Video coming soon</span><span class="vnote">Your provider can walk you through this at your visit.</span></div>
+      <div class="video-frame" data-korb-video="mens"></div>
       </div>
     </div>
 
@@ -468,9 +447,7 @@ footer strong{color:#fff;}
         <h4>How to Give Your Injection</h4>
         <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection.</p>
       </div>
-      <div class="video-frame">
-        <a class="vposter" href="https://bit.ly/KORBSQInjection" target="_blank" rel="noopener"><span class="vplay" aria-hidden="true">&#9654;</span><span class="vlabel">Watch: How to Give Your Injection</span><span class="vnote">Opens on YouTube in a new tab</span></a>
-      </div>
+      <div class="video-frame" data-korb-video="injection"></div>
     </div>
     
   </div>
@@ -493,8 +470,7 @@ footer strong{color:#fff;}
         <h4>Welcome to Women's Health</h4>
         <p>What to expect at your first visit and how a hormone therapy plan gets built around you.</p>
       </div>
-      <div class="video-frame">
-        <div class="vposter vsoon"><span class="vlabel">Video coming soon</span><span class="vnote">Your provider can walk you through this at your visit.</span></div>
+      <div class="video-frame" data-korb-video="womens"></div>
       </div>
     </div>
 
@@ -558,8 +534,7 @@ footer strong{color:#fff;}
         <h4>Welcome to Functional Health &amp; Longevity</h4>
         <p>How the program works — from baseline labs to confirming your tier and your 16-week cycle.</p>
       </div>
-      <div class="video-frame">
-        <div class="vposter vsoon"><span class="vlabel">Video coming soon</span><span class="vnote">Your provider can walk you through this at your visit.</span></div>
+      <div class="video-frame" data-korb-video="fhl"></div>
       </div>
     </div>
 
@@ -642,9 +617,7 @@ footer strong{color:#fff;}
         <h4>How to Give Your Injection</h4>
         <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection — the same technique used for Sermorelin, CJC-1295/Ipamorelin, BPC-157, and Tesamorelin.</p>
       </div>
-      <div class="video-frame">
-        <a class="vposter" href="https://bit.ly/KORBSQInjection" target="_blank" rel="noopener"><span class="vplay" aria-hidden="true">&#9654;</span><span class="vlabel">Watch: How to Give Your Injection</span><span class="vnote">Opens on YouTube in a new tab</span></a>
-      </div>
+      <div class="video-frame" data-korb-video="injection"></div>
     </div>
   </div>
 </div>
@@ -715,6 +688,7 @@ footer strong{color:#fff;}
 </div>
 
 <script src="korb-quest.js"></script>
+<script src="korb-video.js"></script>
 <script src="korb-patient-ed-data.js"></script>
 <script>
 function calcProtein(){
@@ -838,8 +812,7 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
       <h4>How Quest Labs Work</h4>
       <p>A quick walkthrough of scheduling and completing your Quest lab draw — pairs with the guide above.</p>
     </div>
-    <div class="video-frame">
-      <div class="vposter vsoon"><span class="vlabel">Video coming soon</span><span class="vnote">Your provider can walk you through this at your visit.</span></div>
+    <div class="video-frame" data-korb-video="quest"></div>
     </div>
   </div>
 </div>
@@ -940,5 +913,16 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
   </div>
 </footer>
 
+<script>
+  /* The patient videos come from korb-video.js. The page loads a thumbnail per
+     video and creates a Vimeo player only when someone presses play - see the
+     note in that file about why nine iframes on arrival was unusable. */
+  (function () {
+    var st = document.createElement('style');
+    st.textContent = KORB_VIDEO.CSS;
+    document.head.appendChild(st);
+    KORB_VIDEO.mount(document);
+  }());
+</script>
 </body>
 </html>

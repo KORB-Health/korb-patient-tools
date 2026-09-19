@@ -1721,3 +1721,39 @@ testosterone" was either already gone or never in it.
    are a non-monetised channel (likely but not guaranteed by YouTube's terms),
    Vimeo, or **S3 plus CloudFront, which KORB already has under its AWS BAA** -
    no ads, no quota, no third party, and it fixes the load cost too.
+
+33. ~~THE SEVEN PATIENT VIDEOS MOVED TO VIMEO.~~ **DONE 2026-09-19.**
+   `korb-video.js` is the source of truth: which video, its Vimeo id, its label
+   and its thumbnail. Nine slots in `KORB_Patient_Hub.html` read it through
+   `data-korb-video="<key>"`, and the injection walkthrough fills three of them.
+
+   **ONE FILE BECAUSE THE NEXT MOVE IS CERTAIN.** Vimeo is a bridge - Don's
+   account on `don@systemslabstudio.com`, a Systems Lab Studio card, expected to
+   move to KORB-owned hosting when the website is built. Nine scattered embeds
+   is what made the Drive migration a hunt. This one is seven lines.
+
+   **THE FACADE.** The page loads a THUMBNAIL per video, lazily, and creates a
+   Vimeo player only on click. Nine players on arrival is what made the Drive
+   version unusable. Measured: **7,696ms with Drive, 226ms now**, and only 4 of
+   the 9 thumbnails are fetched on arrival - 46KB - because the rest are below
+   the fold and `loading="lazy"` means they cost nothing until scrolled to.
+
+   **Thumbnails are Vimeo's own**, read from its oEmbed API rather than made by
+   hand, and stored as a BASE url with the width appended. The first attempt
+   asked for 1280px stills and took the page to 3,426ms: 410KB of pixels for
+   frames that render 504px wide. At 640px it is 166KB.
+
+   **`file://` and localhost both refuse to play here, and that is this sandbox,
+   not the work.** Proven by a control test rather than assumed: loading
+   `player.vimeo.com/video/<id>` DIRECTLY, embedded in nothing, returns the same
+   "We couldn't verify the security of your connection" - so it is Vimeo's
+   anti-abuse refusing this environment's egress. The facade mechanism itself is
+   verified: 9 facades become 8, the iframe is created at 504x284 with the right
+   src. **PLAYBACK ITSELF IS UNVERIFIED FROM HERE and Don must click one on the
+   live site.**
+
+   Vimeo privacy is **Public** on all seven, Don's decision 2026-09-19: these go
+   out by text message and in Operations email, and Private would put a sign-in
+   wall in front of a patient.
+
+   The `.vposter` stopgap from 2026-09-18 is deleted rather than left behind.
