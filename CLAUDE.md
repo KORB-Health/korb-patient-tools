@@ -1648,3 +1648,36 @@ testosterone" was either already gone or never in it.
    Verified on all twelve at 1400px and 375px: desk present, panel present, no
    horizontal overflow, no JS errors, and **print stays white on every one** -
    confirmed by emulating print media, not by reading the media query.
+
+32. ~~THE PATIENT HUB'S NINE GOOGLE DRIVE VIDEOS WERE BROKEN FOR EVERY PATIENT.~~
+   **DONE 2026-09-19.** Seven distinct files, nine embeds. Opened signed-out in a
+   fresh context, **every one** returned *"Sign into your Google Account to
+   continue to play this video. The limit has been hit for viewers who aren't
+   signed in."* A patient has no KORB Google account, so a patient saw that.
+
+   **I CALLED THIS PROBABLY-FINE THE DAY BEFORE, ON A CURL 200.** curl fetched
+   the wrapper page, which returns 200 whether or not the player works. The HTTP
+   status of a Drive preview URL says nothing about whether the video plays.
+   **Load the thing a person loads.** Don was about to send this hub to every
+   patient after every visit.
+
+   **They were also the entire load cost.** Measured with the Drive requests
+   blocked and unblocked: **7,696ms to load with them, 132ms without**, and
+   `networkidle` never arrived inside 45 seconds. 58x slower to become usable, on
+   a desk connection. Drive is not a video host and throttles embedded playback
+   regardless of sharing.
+
+   Replaced with `.vposter`: a poster is a LINK, not a frame, so nothing loads
+   until a patient asks for it. Three of the nine are the injection video and
+   link to YouTube via `bit.ly/KORBSQInjection`, the link the generated patient
+   set has always used. The other six are honest dashed placeholders - **linking
+   to a video that shows Google's quota error is worse than saying it is coming**.
+   Result: 7,696ms to **190ms**, networkidle 703ms, zero console errors.
+
+   **Don's reason for using Drive was ads**, not preference: YouTube shows
+   pre-roll to viewers who are not signed in, and he moved two videos off YouTube
+   to avoid it. Recorded so it is not undone by someone who thinks Drive was a
+   mistake. There is no embed parameter that turns ads off. The ad-free routes
+   are a non-monetised channel (likely but not guaranteed by YouTube's terms),
+   Vimeo, or **S3 plus CloudFront, which KORB already has under its AWS BAA** -
+   no ads, no quota, no third party, and it fixes the load cost too.
