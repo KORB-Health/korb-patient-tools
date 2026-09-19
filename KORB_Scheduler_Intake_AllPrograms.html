@@ -2344,11 +2344,18 @@
 
     renderFHL();
 
-    /* FH&L carries a second consent block and a different heading. The block is
-       absent right now on purpose - see the comment where it used to be - so
-       this does nothing and the page shows the telehealth consent alone. When
-       the approved peptide consent is dropped in with id="fhlConsent", this
-       starts working with no further change. */
+    /* FH&L carries a second consent block and a different heading.
+
+       This comment used to say the block was "absent right now on purpose" and
+       that the toggle therefore did nothing. That stopped being true on
+       2026-09-14, when the approved peptide consent was transcribed in above,
+       and the comment sat here describing the old state until 2026-09-19.
+       A comment that describes a state the file has left is the same defect as
+       a stale document: it is read as current and it is not.
+
+       Verified by driving the form rather than reading it: wl, mh and wh each
+       show one consent box titled "Telehealth consent", and fhl shows two,
+       titled "Peptide and telehealth consents". */
     var fc=$('fhlConsent');
     if(fc){
       fc.classList.toggle('hidden', !isFHL());
