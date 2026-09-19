@@ -414,6 +414,20 @@ footer strong{color:#fff;}
    Matched to the 48 that was already above, rather than inventing a new number:
    40px of wrap padding plus the video block's own 8px inline margin. */
 .welcome-wrap{padding-bottom:48px;}
+
+/* THE TIER CARDS GO BACK TO ONE COLUMN.
+
+   The two-column rule was written for the full-width guide lists, where a link
+   was 1084px wide to carry thirty characters. Inside a Foundation / Gateway /
+   Peak card the container is only about 330px, so halving it gives ~150px and
+   "CJC-1295/Ipamorelin Guide" broke across three lines while its neighbour used
+   one. I over-applied my own fix: the problem was never "two columns are good",
+   it was "1084px is too wide". At 330px a single column IS a normal button.
+
+   Centred, matching the Getting Started cards. */
+.card-row .pcard .links{grid-template-columns:1fr;}
+.card-row .pcard .links a{justify-content:center;text-align:center;}
+.card-row .pcard .links a:first-child:nth-last-child(odd){grid-column:auto;}
 </style>
 </head>
 <body>
@@ -519,7 +533,7 @@ footer strong{color:#fff;}
       <div class="pcard accent-top" style="--accent:var(--wl)">
         <div class="eyebrow">What It Is</div>
         <h4>GLP-1 Medication Therapy</h4>
-        <p>Semaglutide or Tirzepatide, prescribed by your KORB provider and dispensed by a licensed U.S. pharmacy. Available as a weekly injection, or as a daily oral form &mdash; either a tablet or a dissolvable troche &mdash; depending on your plan.</p>
+        <p>Semaglutide or Tirzepatide, prescribed by your KORB provider and dispensed by a licensed U.S. pharmacy. Available as a weekly injection, or as a daily oral form, depending on your plan.</p>
       </div>
       <div class="pcard accent-top" style="--accent:var(--wl)">
         <div class="eyebrow">May Support</div>
@@ -691,7 +705,7 @@ footer strong{color:#fff;}
       <div class="pcard accent-top" style="--accent:var(--wh)">
         <div class="eyebrow">Base Program</div>
         <h4>Menopause Hormone Therapy</h4>
-        <p>Bioidentical hormone therapy (patch or cream) to ease hot flashes, sleep problems, mood changes, and other symptoms tied to hormone changes.</p>
+        <p>Bioidentical hormone therapy &mdash; patch, cream or oral &mdash; to ease hot flashes, sleep problems, mood changes, and other symptoms tied to hormone changes.</p>
       </div>
       <div class="pcard accent-top" style="--accent:var(--wh)">
         <div class="eyebrow">May Support</div>
