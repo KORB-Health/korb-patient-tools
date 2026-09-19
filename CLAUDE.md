@@ -1927,8 +1927,16 @@ testosterone" was either already gone or never in it.
    the icon stayed pinned top-left while the copy centred around it and the icon
    read as orphaned. Icon above the content now.
 
-   **On the record, because it is a judgement he may want to revisit**: I would
-   have left the paragraphs ranged left. Centred ragged text in a 259px column
-   is harder to read - the eye loses the left edge on every line - and headings
-   and buttons centre well where body copy generally does not. He asked, it is
-   his page, and it is one block of CSS to revert.
+   **I argued against centring the body copy and I was wrong.** The general rule
+   holds - centred ragged text is harder to read because the eye loses the left
+   edge on every line - but it is a rule about PARAGRAPHS, and these are two to
+   five line blurbs in a 259px card. At that length there is no left edge to
+   lose, the centred icon anchors each card, and the buttons landing on one line
+   reads as deliberate rather than tidy. Don asked for it, looked at it, and
+   asked whether I agreed. I do. Recorded so the next person does not
+   "correct" it back on the strength of a rule that does not apply at this
+   length.
+
+   The weakest of them is Good Sources of Protein, where a centred list of
+   values is harder to scan than a ranged-left one. If that one ever gets its
+   own treatment, range it left on its own rather than reverting the set.

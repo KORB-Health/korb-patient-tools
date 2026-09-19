@@ -407,6 +407,13 @@ footer strong{color:#fff;}
    ranged-left text. */
 .res-card{flex-direction:column;align-items:center;text-align:center;gap:10px;}
 .res-card > div:last-child{align-items:center;width:100%;}
+
+/* THE WELCOME VIDEO SAT ON THE RULE BELOW IT. Measured: 48px of clearance above
+   and 0 below - the wrap carries padding 40px 28px 0px, so the next section's
+   top border landed flush on the bottom of the video. Don spotted it.
+   Matched to the 48 that was already above, rather than inventing a new number:
+   40px of wrap padding plus the video block's own 8px inline margin. */
+.welcome-wrap{padding-bottom:48px;}
 </style>
 </head>
 <body>
@@ -469,7 +476,7 @@ footer strong{color:#fff;}
   </div>
 </div>
 
-<div class="wrap" style="padding-top:40px;">
+<div class="wrap welcome-wrap" style="padding-top:40px;">
   <div class="video-block">
     <div class="txt">
       <div class="eyebrow tag">New Here?</div>
