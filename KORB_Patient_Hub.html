@@ -136,12 +136,42 @@ button{font-family:inherit;cursor:pointer;}
    Deleted rather than left: a dead rule is a decoy, same as a dead helper. */
 @media (max-width:760px){.video-block{grid-template-columns:1fr;}}
 
-/* ================= TOOLS ================= */
-.tools-sec{background:var(--navy);padding:72px 0;color:#fff;}
-.tools-sec .sec-head h2{color:#fff;}
-.tools-sec .sec-head p{color:#B9C0E8;}
-.tools-sec .sec-head .eyebrow{color:var(--teal);}
-.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+/* ================= TOOLS =================
+   A NAVY BAND INSIDE EACH PROGRAMME, not a navy SECTION of its own.
+   The tools used to live in one band at the page foot, which is why every
+   .tool-card rule below is white-on-navy. Moving the cards onto the cream
+   programme sections would have made all of them unreadable, so the band
+   moved with them: same card styling, now scoped to the programme that
+   actually prescribes the tool. Don, 2026-09-19. */
+.sec-tools{background:var(--navy);color:#fff;border-radius:16px;padding:24px 24px 26px;}
+.sec-tools > .lbl{font-size:11.5px;font-weight:800;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:16px;align-items:stretch;}
+/* STRETCH, NOT START. The protein calculator is ~330px taller than the two
+   cards beside it, and align-items:start left that height as bare navy under
+   them - the same hole the old four-card band had. Stretched, the space sits
+   inside the cards where it reads as card, not as a gap in the band. */
+/* A PROGRAMME WITH ONE TOOL gets a full-width strip, not a narrow card
+   marooned in a wide navy band. Capping the card at 380px was the first try
+   and it left roughly 700px of empty navy beside it - the same hole the old
+   four-card grid had, in a new place. Text left, button right. */
+.sec-tools .tool-grid:has(> :only-child){grid-template-columns:1fr;}
+.sec-tools .tool-grid:has(> :only-child) > .tool-card{display:grid;
+  grid-template-columns:1fr auto;align-items:center;column-gap:24px;}
+/* EVERY CHILD IS PLACED, because a .tool-card has four of them - eyebrow,
+   title, description, button - and letting a two-column grid auto-place them
+   put the title in column 2 and the button underneath it. The first three
+   stack in column one; the button sits in column two across all of them. */
+.sec-tools .tool-grid:has(> :only-child) > .tool-card > *{grid-column:1;}
+.sec-tools .tool-grid:has(> :only-child) > .tool-card p{max-width:640px;}
+.sec-tools .tool-grid:has(> :only-child) > .tool-card > a.launch{
+  grid-column:2;grid-row:1 / -1;align-self:center;margin-top:0;}
+@media (max-width:700px){
+  .sec-tools .tool-grid:has(> :only-child) > .tool-card{grid-template-columns:1fr;}
+  .sec-tools .tool-grid:has(> :only-child) > .tool-card > a.launch{
+    grid-column:1;grid-row:auto;margin-top:16px;justify-self:start;}
+}
 .tool-card input,.tool-card select{max-width:100%;box-sizing:border-box;}
 .tool-card{min-width:0;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:20px;}
 .tool-card .tag{color:var(--teal);}
@@ -150,25 +180,18 @@ button{font-family:inherit;cursor:pointer;}
 .tool-card a.launch{display:inline-flex;gap:6px;margin-top:16px;background:var(--teal);color:var(--navy);font-size:12.5px;font-weight:800;padding:9px 18px;border-radius:24px;}
 @media (hover:hover){.tool-card a.launch:hover{background:#fff;}}
 
-/* ================= EMBEDDED TOOL (iframe) ================= */
-/* Deliberately boxed and NOT auto-height: a compact, roughly square preview
-   that scrolls internally (the iframe's own native scrollbar), so dropping
-   this into the Longevity section never makes the page itself several
-   screens longer. "Expand in new window" is the way to see the whole
-   thing full-size. */
-.tool-embed-card{background:#fff;border:1px solid var(--bd2);border-radius:16px;overflow:hidden;margin:24px 0;box-shadow:0 2px 10px rgba(20,31,66,.06);}
-.tool-embed-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 18px;border-bottom:1px solid var(--bd2);}
-.tool-embed-head h4{font-size:15.5px;color:var(--navy);font-weight:800;}
-.tool-embed-head p{font-size:12.3px;color:var(--mu);margin-top:4px;line-height:1.5;}
-.tool-embed-expand{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--navy);background:var(--cream);border:1px solid var(--bd2);border-radius:24px;padding:8px 14px;text-decoration:none;white-space:nowrap;transition:all .15s ease;}
-.tool-embed-expand:hover{background:var(--lg);color:#fff;border-color:var(--lg);}
-.tool-embed-frame-wrap{background:#F6F5F0;}
-.tool-embed-frame-wrap iframe{width:100%;height:540px;border:0;display:block;}
-.tool-embed-hint{padding:9px 18px;font-size:11.5px;color:var(--mu);text-align:center;border-top:1px solid var(--bd2);background:#fff;}
-
-/* ================= RESOURCES ================= */
-.res-sec{padding-top:72px;padding-bottom:72px;}   /* vertical only: .wrap owns the 28px sides */
-.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;}
+/* ================= RESOURCES =================
+   Same move as the tools: one "Getting Started" block at the page foot became
+   a "How your care works" row inside each programme. The four care cards are
+   deliberately REPEATED per programme rather than cross-referenced, for the
+   reason CLAUDE.md already gives about the FH&L provider references: a patient
+   in one programme needs that programme complete on its own. */
+.sec-res{margin-top:28px;}
+.sec-res > .lbl{font-size:11.5px;font-weight:800;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--navy);margin-bottom:14px;}
+.res-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;}
+.res-grid > .res-card{flex:1 1 200px;}
+@media (min-width:760px){.res-grid > .res-card{max-width:259px;}}
 .res-card{border:1px solid var(--bd2);border-radius:12px;padding:20px;display:flex;gap:13px;align-items:flex-start;}
 .res-icon{width:38px;height:38px;border-radius:10px;background:var(--lt);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex-shrink:0;}
 .res-card h4{font-size:13.5px;color:var(--navy);font-weight:800;}
@@ -273,7 +296,18 @@ footer strong{color:#fff;}
 .psec > .pcard,
 .psec > .addon-strip,
 .psec > .video-block,
-.psec > .tool-embed-card{max-width:1084px;margin-left:auto;margin-right:auto;}
+.psec > .sec-tools,
+.psec > .sec-res{max-width:1084px;width:calc(100% - 56px);margin-left:auto;margin-right:auto;}
+/* THE WIDTH IS THE OTHER HALF OF THIS RULE, and it was missing until
+   2026-09-19. max-width:1084 only does anything ABOVE 1140px. Below that the
+   .wrap keeps its 28px padding and these direct children of .psec had none, so
+   on a PHONE Weight Loss was inset 28px and Men's, Women's and Longevity ran
+   their card rows, product cards and add-on strips edge to edge. Measured at
+   375: three sections at left=0 w=375 against Weight Loss at left=28 w=319.
+   calc(100% - 56px) reproduces the wrap's gutter at every width and changes
+   nothing above 1140, where max-width already wins. The original fix was
+   checked at desktop only, which is the same wrong-reference mistake as
+   measuring a centred button against the viewport instead of its parent. */
 /* 1084, not 1140. .wrap is 1140 wide with 28px of padding, so its CONTENT spans
    1084 - and content is what these have to line up with. Setting 1140 here left
    the injection video 26px wider than every other video on the page, and adding
@@ -285,19 +319,13 @@ footer strong{color:#fff;}
       and real space, not a heavy band - the page should still read as one page. */
 .psec + .psec{border-top:1px solid var(--bd2,#E4E7F2);padding-top:56px;margin-top:56px;}
 
-/* 4. THE TOOLS GRID HAD A HOLE IN IT.
-      Three cards are about 212px tall and the protein calculator is 575px. In a
-      three-column grid the tall one wrapped onto its own row and left most of a
-      navy band empty. Don asked for the calculator in one column and the other
-      three stacked beside it: the calculator spans the full height, the three
-      tools stack, and the dead space goes. */
-@media (min-width:900px){
-  .tools-sec .tool-grid{grid-template-columns:1fr 1fr;align-items:start;}
-  .tools-sec .tool-card:nth-child(4){grid-column:1;grid-row:1 / span 3;}
-  .tools-sec .tool-card:nth-child(1){grid-column:2;grid-row:1;}
-  .tools-sec .tool-card:nth-child(2){grid-column:2;grid-row:2;}
-  .tools-sec .tool-card:nth-child(3){grid-column:2;grid-row:3;}
-}
+/* 4. THE TOOLS GRID HAD A HOLE IN IT, and the fix retired with the section.
+      Four cards in one band needed nth-child positioning to stop the 575px
+      protein calculator wrapping onto its own row. Split across programmes the
+      tallest band holds three, auto-fit gives them a column each at 900px+,
+      and align:start keeps their tops level. Nothing to position by hand.
+      The nth-child rules were DELETED rather than left pointing at a class
+      that no longer exists: a dead rule is a decoy, same as a dead helper. */
 
 /* ==== PAIRED VIDEOS + UNIFORM SPACING, Don 2026-09-19 ===================
 
@@ -440,7 +468,6 @@ footer strong{color:#fff;}
       <a href="#menshealth" onclick="return korbGo('menshealth');">Men's Health</a>
       <a href="#womenshealth" onclick="return korbGo('womenshealth');">Women's Health</a>
       <a href="#longevity" onclick="return korbGo('longevity');">Longevity</a>
-      <a href="#tools" onclick="return korbGo('tools');">My Tools</a>
     </div>
     <a class="nav-cta" href="#mealideas" onclick="return korbGo('mealideas');">Meal Ideas</a>
   </div>
@@ -454,7 +481,7 @@ footer strong{color:#fff;}
       <p class="lead">Your program guide, your dosing calendar, and your safety information — organized around what you're actually doing this week, not a filing cabinet of PDFs.</p>
       <p style="font-size:12.5px;color:var(--mu);font-weight:700;margin-top:10px;letter-spacing:.2px;">All we have is now — KORB Health</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#tools" onclick="return korbGo('tools');">Open My Tools</a>
+        <a class="btn btn-primary" href="#start" onclick="return korbGo('start');">Start Here</a>
       </div>
     </div>
     <div class="phase-ring-wrap">
@@ -490,7 +517,7 @@ footer strong{color:#fff;}
   </div>
 </div>
 
-<div class="wrap welcome-wrap" style="padding-top:40px;">
+<div class="wrap welcome-wrap" id="start" style="padding-top:40px;">
   <div class="video-block">
     <div class="txt">
       <div class="eyebrow tag">New Here?</div>
@@ -558,26 +585,98 @@ footer strong{color:#fff;}
       </div>
     </div>
 
-    <div class="pcard accent-top" style="--accent:var(--wl);margin-top:16px;">
-      <div class="eyebrow">Your Dose</div>
-      <h4>GLP-1 Dose &amp; Injection Guide</h4>
-      <p>See your exact injection volume and syringe fill for your medication, pharmacy, and dose.</p>
-      <div class="links">
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html">🧮 Open Dose Guide</a>
+    
+
+    
+
+    
+    <div class="sec-tools">
+      <div class="lbl">Your tools</div>
+      <div class="tool-grid">
+<div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
+        <h3>GLP-1 Dose &amp; Injection Guide</h3>
+        <p>See your exact injection volume and syringe fill for your medication, pharmacy, and dose.</p>
+        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html">Open Tool →</a>
+      </div>
+<div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
+        <h3>My Treatment Schedule</h3>
+        <p>Enter your start date and program to see your personalized week-by-week dosing calendar.</p>
+        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Patient_Treatment_Schedule.html">Open Tool →</a>
+      </div>
+<div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
+        <h3>Protein Target Calculator</h3>
+        <p>Based on the 2025-2030 USDA Dietary Guidelines (1.2&ndash;1.6 g per kg per day). A general reference, not personalized advice &mdash; ask your provider for individual guidance.</p>
+        <div style="margin-top:14px;">
+          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin-bottom:5px;">Weight</label>
+          <div style="display:flex;gap:8px;margin-bottom:10px;">
+            <input type="number" id="proteinWeight" placeholder="180" style="flex:1 1 0;min-width:0;width:100%;padding:10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:16px;">
+            <select id="proteinUnit" style="flex:0 0 74px;padding:10px 6px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:var(--navy);color:#fff;font-size:16px;">
+              <option value="lb">lb</option><option value="kg">kg</option>
+            </select>
+          </div>
+          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin-bottom:5px;">Height</label>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+            <input type="number" id="htFt" placeholder="5" style="flex:1 1 0;min-width:0;width:100%;padding:10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:16px;">
+            <span style="font-size:12px;color:#9FB0E0;flex:0 0 auto;">ft</span>
+            <input type="number" id="htIn" placeholder="10" style="flex:1 1 0;min-width:0;width:100%;padding:10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:16px;">
+            <span style="font-size:12px;color:#9FB0E0;flex:0 0 auto;">in</span>
+          </div>
+          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin:10px 0 5px;">Sex at birth</label>
+          <select id="proteinSex" style="width:100%;padding:9px 10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:var(--navy);color:#fff;font-size:16px;margin-bottom:10px;">
+            <option value="m">Male</option><option value="f">Female</option>
+          </select>
+          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin-bottom:5px;">Goal</label>
+          <select id="proteinGoal" style="width:100%;padding:9px 10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:var(--navy);color:#fff;font-size:16px;margin-bottom:12px;">
+            <option value="maintain">General health / maintenance</option>
+            <option value="loss">Active weight loss (preserve muscle)</option>
+          </select>
+          <button type="button" onclick="calcProtein()" style="width:100%;background:var(--teal);color:var(--navy);border:0;border-radius:24px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;min-height:46px;">Calculate</button>
+          <div id="proteinResult" style="margin-top:14px;"></div>
+          <div style="margin-top:12px;text-align:center;"><a href="https://cdn.realfood.gov/Daily%20Serving%20Sizes.pdf" target="_blank" rel="noopener" style="font-size:11.5px;color:#7FE3EC;text-decoration:underline;">Where these numbers come from &#8599;</a></div>
+        </div>
+      </div>
       </div>
     </div>
 
-    <div class="pcard accent-top" style="--accent:var(--wl);margin-top:16px;">
-      <div class="eyebrow">Always Accessible</div>
-      <h4>Safety &amp; Storage</h4>
-      <p>Quick links you shouldn't have to hunt for — available right here, no matter where you landed on this page.</p>
-      <div class="links">
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Injection Storage &amp; Safety</a>
-        <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 When to Contact KORB or ER</a>
+    <div class="sec-res">
+      <div class="lbl">Eating well on this program</div>
+      <div class="res-grid">
+<div class="res-card">
+      <div class="res-icon">🍽</div>
+      <div><h4>Daily Servings Guide</h4><p>How much of each food group to aim for in a day, from the 2025-2030 Dietary Guidelines: <b>protein 1.2&ndash;1.6 g per kg of body weight</b>, <b>3 servings of vegetables</b>, <b>2 servings of fruit</b>, and <b>2&ndash;4 servings of whole grains</b>.</p><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;"><a class="dl" target="_blank" href="https://cdn.realfood.gov/Daily%20Serving%20Sizes.pdf">📄 Daily Servings Guide</a><a class="dl" target="_blank" href="https://cdn.realfood.gov/DGA.pdf">📄 Full Dietary Guidelines</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">🥩</div>
+      <div><h4>Good Sources of Protein</h4><p>Chicken breast (3 oz): ~26g · Greek yogurt (1 cup): ~20g · Eggs (2 large): ~12g · Salmon (3 oz): ~22g · Cottage cheese (1 cup): ~25g · Lentils (1 cup): ~18g · Tofu (½ cup): ~10g · Whey protein (1 scoop): ~24g</p></div>
+    </div>
       </div>
     </div>
 
-    <div class="addon-strip" style="margin-top:20px;">
+    <div class="sec-res">
+      <div class="lbl">How your care works</div>
+      <div class="res-grid">
+<div class="res-card">
+      <div class="res-icon">❄</div>
+      <div><h4>Injection Storage &amp; Safety</h4><p>Storing and traveling with your medication.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Open guide</a></div></div>
+    </div>
+      <div class="res-card">
+      <div class="res-icon">🗑</div>
+      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">💊</div>
+      <div><h4>How Your Medication Is Prepared</h4><p>Your medication is compounded by a licensed 503A pharmacy — prepared to your specific prescription rather than mass-produced. Learn what that means, straight from the FDA.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers">📄 FDA: Compounding Q&amp;A</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">⚠</div>
+      <div><h4>When to Contact KORB or the ER</h4><p>What to call us about, what can wait, and the symptoms that mean go now.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 Open guide</a></div></div>
+    </div>
+      </div>
+    </div>
+<div class="addon-strip" style="margin-top:20px;">
       <div class="lbl">Optimize Your Weight Loss</div>
       <p style="font-size:12.5px;color:var(--mu);margin:-4px 0 12px;">These can be added alongside your program. Ask your provider if any are a fit for you.</p>
       
@@ -663,7 +762,41 @@ footer strong{color:#fff;}
       </div>
     </div>
 
-    <div class="addon-strip">
+    
+    <div class="sec-tools">
+      <div class="lbl">Your tools</div>
+      <div class="tool-grid">
+<div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
+        <h3>My Testosterone Tracker</h3>
+        <p>Log each injection, see when your next dose is due, rotate sites, and know when to discard your vial.</p>
+        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Testosterone_Tracker.html">Open Tool →</a>
+      </div>
+      </div>
+    </div>
+
+    <div class="sec-res">
+      <div class="lbl">How your care works</div>
+      <div class="res-grid">
+<div class="res-card">
+      <div class="res-icon">❄</div>
+      <div><h4>Injection Storage &amp; Safety</h4><p>Storing and traveling with your medication.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Open guide</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">🗓</div>
+      <div><h4>Quest Lab Ordering Guide</h4><p>How to schedule and complete your Quest lab draw.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_Schedule_Your_Lab_Appointment.html">📄 Open guide</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">🗑</div>
+      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
+    </div>
+      <div class="res-card">
+      <div class="res-icon">⚠</div>
+      <div><h4>When to Contact KORB or the ER</h4><p>What to call us about, what can wait, and the symptoms that mean go now.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 Open guide</a></div></div>
+    </div>
+      </div>
+    </div>
+<div class="addon-strip">
       <div class="lbl">Optimize Your Men's Health</div>
       <p style="font-size:12.5px;color:var(--mu);margin:-4px 0 12px;">These can be added alongside your program. Ask your provider if any are a fit for you.</p>
       
@@ -831,21 +964,53 @@ footer strong{color:#fff;}
       </div>
     </div>
 
-    <div class="tool-embed-card" id="peptideTrackerEmbed">
-      <div class="tool-embed-head">
-        <div>
-          <h4>My Peptide Tracker</h4>
-          <p>Track your doses right here, or open the full version.</p>
-        </div>
-        <a class="tool-embed-expand" href="KORB_Functional_Health_Tracker.html" target="_blank" rel="noopener">Expand ↗</a>
+    
+
+    
+    <div class="sec-tools">
+      <div class="lbl">Your tools</div>
+      <div class="tool-grid">
+<div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
+        <h3>My Treatment Schedule</h3>
+        <p>Enter your start date and program to see your personalized week-by-week dosing calendar.</p>
+        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Patient_Treatment_Schedule.html">Open Tool →</a>
       </div>
-      <div class="tool-embed-frame-wrap">
-        <iframe id="fhtFrame" src="KORB_Functional_Health_Tracker.html" title="My Peptide Tracker" loading="lazy"></iframe>
+<div class="tool-card">
+        <div class="eyebrow tag">Tool</div>
+        <h3>My Peptide Tracker</h3>
+        <p>Log each dose through your 16-week cycle, see what is due next, and add it to your calendar.</p>
+        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Functional_Health_Tracker.html">Open Tool →</a>
       </div>
-      <div class="tool-embed-hint">↕ Scroll inside the box above for more — or use Expand for the full-size version</div>
+      </div>
     </div>
 
-    <div class="addon-strip" style="margin-top:20px;">
+    <div class="sec-res">
+      <div class="lbl">How your care works</div>
+      <div class="res-grid">
+<div class="res-card">
+      <div class="res-icon">❄</div>
+      <div><h4>Injection Storage &amp; Safety</h4><p>Storing and traveling with your medication.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Open guide</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">🗓</div>
+      <div><h4>Quest Lab Ordering Guide</h4><p>How to schedule and complete your Quest lab draw.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_Schedule_Your_Lab_Appointment.html">📄 Open guide</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">🗑</div>
+      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">💊</div>
+      <div><h4>How Your Medication Is Prepared</h4><p>Your medication is compounded by a licensed 503A pharmacy — prepared to your specific prescription rather than mass-produced. Learn what that means, straight from the FDA.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers">📄 FDA: Compounding Q&amp;A</a></div></div>
+    </div>
+<div class="res-card">
+      <div class="res-icon">⚠</div>
+      <div><h4>When to Contact KORB or the ER</h4><p>What to call us about, what can wait, and the symptoms that mean go now.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 Open guide</a></div></div>
+    </div>
+      </div>
+    </div>
+<div class="addon-strip" style="margin-top:20px;">
       <div class="lbl">Optimize Your Longevity</div>
       <p style="font-size:12.5px;color:var(--mu);margin:-4px 0 12px;">These can be added alongside your program. Ask your provider if any are a fit for you.</p>
       
@@ -862,69 +1027,7 @@ footer strong{color:#fff;}
 </div>
 
 <!-- ============ TOOLS ============ -->
-<div class="tools-sec" id="tools">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="eyebrow">My Tools</div>
-      <h2>Built around your actual dates.</h2>
-      <p>Personalized to your program and your start date.</p>
-    </div>
-    <div class="tool-grid">
-      <div class="tool-card">
-        <div class="eyebrow tag">Tool</div>
-        <h3>My Treatment Schedule</h3>
-        <p>Enter your start date and program to see your personalized week-by-week dosing calendar.</p>
-        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Patient_Treatment_Schedule.html">Open Tool →</a>
-      </div>
-      <div class="tool-card">
-        <div class="eyebrow tag">Tool</div>
-        <h3>My Testosterone Tracker</h3>
-        <p>Log each injection, see when your next dose is due, rotate sites, and know when to discard your vial.</p>
-        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Testosterone_Tracker.html">Open Tool →</a>
-      </div>
-      <div class="tool-card">
-        <div class="eyebrow tag">Tool</div>
-        <h3>GLP-1 Dose &amp; Injection Guide</h3>
-        <p>See your exact injection volume and syringe fill for your medication, pharmacy, and dose.</p>
-        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html">Open Tool →</a>
-      </div>
 
-      <div class="tool-card">
-        <div class="eyebrow tag">Tool</div>
-        <h3>Protein Target Calculator</h3>
-        <p>Based on the 2025-2030 USDA Dietary Guidelines (1.2&ndash;1.6 g per kg per day). A general reference, not personalized advice &mdash; ask your provider for individual guidance.</p>
-        <div style="margin-top:14px;">
-          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin-bottom:5px;">Weight</label>
-          <div style="display:flex;gap:8px;margin-bottom:10px;">
-            <input type="number" id="proteinWeight" placeholder="180" style="flex:1 1 0;min-width:0;width:100%;padding:10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:16px;">
-            <select id="proteinUnit" style="flex:0 0 74px;padding:10px 6px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:var(--navy);color:#fff;font-size:16px;">
-              <option value="lb">lb</option><option value="kg">kg</option>
-            </select>
-          </div>
-          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin-bottom:5px;">Height</label>
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-            <input type="number" id="htFt" placeholder="5" style="flex:1 1 0;min-width:0;width:100%;padding:10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:16px;">
-            <span style="font-size:12px;color:#9FB0E0;flex:0 0 auto;">ft</span>
-            <input type="number" id="htIn" placeholder="10" style="flex:1 1 0;min-width:0;width:100%;padding:10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:16px;">
-            <span style="font-size:12px;color:#9FB0E0;flex:0 0 auto;">in</span>
-          </div>
-          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin:10px 0 5px;">Sex at birth</label>
-          <select id="proteinSex" style="width:100%;padding:9px 10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:var(--navy);color:#fff;font-size:16px;margin-bottom:10px;">
-            <option value="m">Male</option><option value="f">Female</option>
-          </select>
-          <label style="font-size:12px;font-weight:700;color:#fff;display:block;margin-bottom:5px;">Goal</label>
-          <select id="proteinGoal" style="width:100%;padding:9px 10px;border-radius:6px;border:1.5px solid rgba(255,255,255,.25);background:var(--navy);color:#fff;font-size:16px;margin-bottom:12px;">
-            <option value="maintain">General health / maintenance</option>
-            <option value="loss">Active weight loss (preserve muscle)</option>
-          </select>
-          <button type="button" onclick="calcProtein()" style="width:100%;background:var(--teal);color:var(--navy);border:0;border-radius:24px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;min-height:46px;">Calculate</button>
-          <div id="proteinResult" style="margin-top:14px;"></div>
-          <div style="margin-top:12px;text-align:center;"><a href="https://cdn.realfood.gov/Daily%20Serving%20Sizes.pdf" target="_blank" rel="noopener" style="font-size:11.5px;color:#7FE3EC;text-decoration:underline;">Where these numbers come from &#8599;</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script src="korb-quest.js"></script>
 <script src="korb-video.js"></script>
@@ -975,6 +1078,25 @@ function calcProtein(){
 /* In-page scrolling for hash links.
    Runs in the CAPTURE phase and cancels the event outright, so no other
    handler (including a preview harness) can act on it afterwards. */
+(function(){
+  // Every in-page link must resolve. Restructuring the page on 2026-09-19 left
+  // two buttons pointing at a section that had moved into the programmes, and
+  // nothing said so: korbGo() returns false on a miss and the click is eaten.
+  var bad = [];
+  document.addEventListener("DOMContentLoaded", function(){
+    var seen = {};
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function(a){
+      var id = a.getAttribute("href").slice(1);
+      if(!id || seen[id]) return;
+      seen[id] = 1;
+      if(!document.getElementById(id)) bad.push(id);
+    });
+    if(bad.length) console.error("KORB hub: dead in-page anchors -> " + bad.join(", "));
+    else console.log("KORB hub: every in-page anchor resolves (" +
+                     Object.keys(seen).length + " targets)");
+  });
+})();
+
 function korbGo(id){
   var el=document.getElementById(id);
   if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
@@ -1012,41 +1134,7 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
 </script>
 
 <!-- ============ RESOURCES ============ -->
-<div class="wrap res-sec">
-  <div class="sec-head">
-    <div class="eyebrow">Getting Started</div>
-    <h2>New here, or need a refresher?</h2>
-  </div>
-  <div class="res-grid">
-    
-    <div class="res-card">
-      <div class="res-icon">❄</div>
-      <div><h4>Injection Storage &amp; Safety</h4><p>Storing and traveling with your medication.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Open guide</a></div></div>
-    </div>
-    <div class="res-card">
-      <div class="res-icon">🗓</div>
-      <div><h4>Quest Lab Ordering Guide</h4><p>How to schedule and complete your Quest lab draw.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_Schedule_Your_Lab_Appointment.html">📄 Open guide</a></div></div>
-    </div>
-    <div class="res-card">
-      <div class="res-icon">🗑</div>
-      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
-    </div>
-    <div class="res-card">
-      <div class="res-icon">💊</div>
-      <div><h4>How Your Medication Is Prepared</h4><p>Your medication is compounded by a licensed 503A pharmacy — prepared to your specific prescription rather than mass-produced. Learn what that means, straight from the FDA.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers">📄 FDA: Compounding Q&amp;A</a></div></div>
-    </div>
-    <div class="res-card">
-      <div class="res-icon">🍽</div>
-      <div><h4>Daily Servings Guide</h4><p>How much of each food group to aim for in a day, from the 2025-2030 Dietary Guidelines: <b>protein 1.2&ndash;1.6 g per kg of body weight</b>, <b>3 servings of vegetables</b>, <b>2 servings of fruit</b>, and <b>2&ndash;4 servings of whole grains</b>.</p><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;"><a class="dl" target="_blank" href="https://cdn.realfood.gov/Daily%20Serving%20Sizes.pdf">📄 Daily Servings Guide</a><a class="dl" target="_blank" href="https://cdn.realfood.gov/DGA.pdf">📄 Full Dietary Guidelines</a></div></div>
-    </div>
-    <div class="res-card">
-      <div class="res-icon">🥩</div>
-      <div><h4>Good Sources of Protein</h4><p>Chicken breast (3 oz): ~26g · Greek yogurt (1 cup): ~20g · Eggs (2 large): ~12g · Salmon (3 oz): ~22g · Cottage cheese (1 cup): ~25g · Lentils (1 cup): ~18g · Tofu (½ cup): ~10g · Whey protein (1 scoop): ~24g</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://cdn.realfood.gov/Daily%20Serving%20Sizes.pdf">📄 See Daily Serving Targets</a></div></div>
-    </div>
-  </div>
 
-  
-  </div>
 </div>
 
 <!-- MEAL-IDEA PROMPTS ARE NOT WRITTEN HERE ANY MORE.
