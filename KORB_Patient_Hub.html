@@ -14,6 +14,8 @@
   --navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--orange:#FBB040;
   --lt:#E8F8FA;--bd:#E1E0D2;--bd2:#DADCE8;--mu:#6B6F84;--ink:#1D2140;
   --wl:#00B2C3;--mh:#21275B;--wh:#B0498B;--lg:#FBB040;
+  --sheet:#F7F5EC;   /* the band tint. LIGHTER than --cream, which is the
+                          accent 53 elements on this page are painted with */
   --shadow:0 18px 40px -12px rgba(33,39,91,.18);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -281,17 +283,24 @@ button{font-family:inherit;cursor:pointer;}
    they go to read what a programme is or what it costs. Making it compete
    with the programme's own guides would answer a question they are no
    longer asking. */
-.sitelink{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:700;
-  color:var(--mu);border-bottom:1px solid var(--bd);padding-bottom:1px;}
-@media (hover:hover){.sitelink:hover{color:var(--navy);border-color:var(--navy);}}
+.sitelink{display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+  min-height:38px;padding:9px 18px;border-radius:24px;
+  font-size:12.5px;font-weight:800;color:var(--navy);
+  background:#fff;border:1.5px solid var(--accent,var(--teal));}
+@media (hover:hover){.sitelink:hover{background:var(--accent,var(--teal));color:#fff;}}
 
 /* ===== THE END OF A PROGRAMME =================
    Don, 2026-09-19: a line across, then a button to the reference material and
    a button to the meal-idea prompts. The same two destinations from every
    programme, in the same place, so a patient learns them once instead of
    meeting seven reference cards inside each section. */
-.sec-jump{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
-  margin-top:32px;padding-top:26px;border-top:1px solid var(--bd2);}
+/* NO RULE ACROSS THE TOP. A line reads as the end of the section, and these
+   two buttons belong to the programme above them rather than separating it
+   from the next one. A bordered pill keeps them attached. */
+.sec-jump{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:12px;margin-top:26px;padding:14px 18px;background:#fff;
+  border:1px solid var(--bd2);border-radius:44px;}
+@media (max-width:520px){.sec-jump{border-radius:22px;}}
 .jbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;
   padding:11px 22px;border-radius:24px;font-size:13px;font-weight:800;
   color:var(--navy);background:var(--cream);border:1.5px solid var(--bd);
@@ -431,6 +440,7 @@ footer strong{color:#fff;}
 .psec > .addon-strip,
 .psec > .video-block,
 .psec > .sec-tools,
+.psec > .sec-jump,
 .psec > .sec-res{max-width:1084px;width:calc(100% - 56px);margin-left:auto;margin-right:auto;}
 /* THE WIDTH IS THE OTHER HALF OF THIS RULE, and it was missing until
    2026-09-19. max-width:1084 only does anything ABOVE 1140px. Below that the
@@ -451,7 +461,24 @@ footer strong{color:#fff;}
 /* 3. A VISIBLE END TO EACH PROGRAMME.
       They flowed into one another with nothing to say where one stopped. A rule
       and real space, not a heavy band - the page should still read as one page. */
-.psec + .psec{border-top:1px solid var(--bd2,#E4E7F2);padding-top:56px;margin-top:56px;}
+.psec + .psec{padding-top:56px;margin-top:0;}
+/* ALTERNATING FULL-BLEED BANDS, the pattern korbhealth.com already uses.
+   --sheet is lighter than --cream on purpose: --cream stays the accent for
+   add-on strips and buttons, so they still read when they sit on a band. */
+.psec{padding-bottom:56px;}
+/* EXPLICIT, not :nth-of-type(even). nth-of-type counts DIVS, not .psec, so it
+   alternates correctly today only because these four happen to be the only
+   divs in that run - insert one anywhere above and every band silently flips.
+   The class says which sections are tinted, and the load-time check below
+   asserts they still alternate. */
+.psec.band{background:var(--sheet);}
+.psec + .psec{border-top:1px solid rgba(33,39,91,.07);}
+
+/* Each programme lends its colour to the button that leaves for the website. */
+#weightloss{--accent:var(--wl);}
+#menshealth{--accent:var(--mh);}
+#womenshealth{--accent:var(--wh);}
+#longevity{--accent:var(--lg);}
 
 /* 4. THE TOOLS GRID HAD A HOLE IN IT, and the fix retired with the section.
       Four cards in one band needed nth-child positioning to stop the 575px
@@ -797,7 +824,7 @@ footer strong{color:#fff;}
 </div>
 
 <!-- ============ MEN'S HEALTH ============ -->
-<div class="psec" id="menshealth">
+<div class="psec band" id="menshealth">
   <div class="wrap">
     <div class="psec-head">
       <div class="psec-badge" style="background:var(--mh);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.2 9.8L20 4"/><path d="M14.5 4h5.5v5.5"/></svg></div>
@@ -957,7 +984,7 @@ footer strong{color:#fff;}
 </div>
 
 <!-- ============ LONGEVITY ============ -->
-<div class="psec" id="longevity">
+<div class="psec band" id="longevity">
   <div class="wrap">
     <div class="psec-head">
       <div class="psec-badge" style="background:var(--lg);"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 15.5a3.5 3.5 0 1 1 0-7c2.5 0 4 2 5.5 3.5s3 3.5 5.5 3.5a3.5 3.5 0 1 0 0-7c-2.5 0-4 2-5.5 3.5s-3 3.5-5.5 3.5z"/></svg></div>
@@ -1150,6 +1177,11 @@ function calcProtein(){
       seen[id] = 1;
       if(!document.getElementById(id)) bad.push(id);
     });
+    var secs = Array.prototype.map.call(document.querySelectorAll(".psec"),
+      function(e){ return e.classList.contains("band") ? 1 : 0; });
+    var alt = secs.every(function(v,i){ return i === 0 || v !== secs[i-1]; });
+    if(!alt) console.error("KORB hub: programme bands do not alternate -> " + secs.join(""));
+    else console.log("KORB hub: " + secs.length + " programme bands alternate");
     if(bad.length) console.error("KORB hub: dead in-page anchors -> " + bad.join(", "));
     else console.log("KORB hub: every in-page anchor resolves (" +
                      Object.keys(seen).length + " targets)");

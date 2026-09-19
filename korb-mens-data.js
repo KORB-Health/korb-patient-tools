@@ -36,9 +36,14 @@
    to Texas. korb-pharmacies.js v1.6 gained `only` on a program so it can narrow
    a footprint rather than subtract 37 states from it by hand.
 
-   VERIFIED 2026-09-16. Don confirmed the routing. Premier is in live use for
-   Texas patients today; Empower has accepted and approved test prescriptions for
-   California, with no live patient prescription sent there yet.
+   VERIFIED 2026-09-16, and CALIFORNIA UPGRADED 2026-09-19. Don confirmed the
+   routing. Premier is in live use for Texas patients today. Empower is LIVE for
+   California - Don confirmed 2026-09-19 that it is a yes rather than pending.
+   The 2026-09-16 wording said Empower had "accepted and approved test
+   prescriptions, with no live patient prescription sent there yet", which was
+   a statement about VOLUME and read as a statement about READINESS. Routing and
+   licensure were confirmed on 16 September and never changed; both states have
+   carried verified:true in korb-pharmacies.js since then.
 
    NOT COMPOUNDED, and this is the thing to get right. Testosterone cypionate
    200 mg/mL is a COMMERCIAL product that happens to be dispensed by a compounding
@@ -193,12 +198,20 @@ var KORB_MENS = {
       id: 'trt-pharmacy-licensure',
       question: 'TX to Premier and CA to Empower had never been verified against ' +
         'anything except the provider tool asserting it.',
-      answer: 'CONFIRMED. Both pharmacies are set up. Premier is in live use for ' +
-        'Texas patients today. Empower has accepted and approved test prescriptions ' +
-        'for California; no live patient prescription has gone there yet. ' +
-        'korb-pharmacies.js carries verified:true on both.',
+      answer: 'CONFIRMED. Both pharmacies are set up and both states are LIVE. ' +
+        'Premier is in live use for Texas patients today; Empower is live for ' +
+        'California. korb-pharmacies.js carries verified:true on both. ' +
+        'Testosterone is TEXAS AND CALIFORNIA ONLY - the two states where a KORB ' +
+        'provider holds the DEA registration for Schedule III.',
       decidedBy: 'Don Stevenson, PA-C',
-      decidedOn: '2026-09-16'
+      decidedOn: '2026-09-19',
+      supersedes: {
+        decidedOn: '2026-09-16',
+        answer: 'Empower has accepted and approved test prescriptions for ' +
+          'California; no live patient prescription has gone there yet.',
+        why: 'That sentence described how much the route had been USED and was ' +
+          'read as whether it was READY. The routing itself was never pending.'
+      }
     },
     {
       id: 'shbg-not-on-panel',

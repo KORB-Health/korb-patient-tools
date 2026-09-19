@@ -154,10 +154,11 @@ var KORB_PHARMACIES = {
           "suppliesKit": true,
           "suppliesKitNote": "Empower ships the injection kit with the vial - alcohol pads, syringes and both needles, counted to the injections the prescription covers. Premier does not, so the Tebra pharmacy note differs by PHARMACY, not by state.",
           "sourcedFrom": "KORB_Mens_Health_Provider_Tool.html, 2026-09-16",
-          "inUse": "Set up and accepting prescriptions. Test prescriptions were submitted and approved by Empower; no live patient prescription has gone there yet.",
+          "inUse": "LIVE for California. Don confirmed 2026-09-19 that Empower is a yes rather than pending. The earlier note read 'test prescriptions submitted and approved; no live patient prescription yet', which described VOLUME and was taken as READINESS - routing and licensure were verified on 2026-09-16 and never changed.",
           "verified": true,
           "verifiedBy": "Don Stevenson, PA-C",
-          "verifiedOn": "2026-09-16"
+          "verifiedOn": "2026-09-16",
+          "liveConfirmedOn": "2026-09-19"
         },
         "womens": {
           "status": "not-offered"
