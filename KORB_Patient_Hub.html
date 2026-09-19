@@ -299,7 +299,11 @@ button{font-family:inherit;cursor:pointer;}
    from the next one. A bordered pill keeps them attached. */
 .sec-jump{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
   gap:12px;margin-top:26px;padding:14px 18px;background:#fff;
-  border:1px solid var(--bd2);border-radius:44px;}
+  border:1.5px solid var(--accent,var(--bd2));border-radius:44px;}
+/* The ring takes the programme's own colour, the same one the website button
+   at the TOP of the section uses, so a programme opens and closes on the same
+   note. It also lifts the white pill off the cream band, which a hairline in
+   --bd2 did not do. */
 @media (max-width:520px){.sec-jump{border-radius:22px;}}
 .jbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;
   padding:11px 22px;border-radius:24px;font-size:13px;font-weight:800;
@@ -311,7 +315,7 @@ button{font-family:inherit;cursor:pointer;}
    One cream band at the foot rather than seven cards repeated inside every
    programme. The cream is the same desk colour the patient pages use, so the
    reference material reads as a different KIND of thing from a programme. */
-.res-sec{background:var(--cream);padding:64px 0 68px;margin-top:56px;}
+.res-sec{background:var(--cream);padding:64px 0 68px;}
 .res-sec,.ai-sec{scroll-margin-top:52px;}
 @media (max-width:860px){
   .psec,.res-sec,.ai-sec{scroll-margin-top:78px;}

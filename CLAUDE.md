@@ -2260,3 +2260,61 @@ testosterone" was either already gone or never in it.
    reads them. That letter is LIVE to patients, so editing a prompt edits a
    live document - worth knowing before treating the prompt list as hub copy.
    It is unsigned and has no probe, so nothing went stale.
+
+52. **STATE AVAILABILITY IS NOT ON THE HUB, AND IT NEEDS A GENERATOR FIRST.**
+   Raised by Don 2026-09-19. He wants the hub to state where each programme is
+   available, because the website's list is wrong and has stayed wrong for
+   weeks. **Deliberately not built yet, and this item is the reminder.**
+
+   **What the data actually says**, derived rather than typed:
+
+   | | |
+   |---|---|
+   | Testosterone, Men's AND Women's | **TX, CA** - the two states with the Schedule III DEA registration |
+   | FH&L | **31 open**, 18 closed |
+
+   **California is open for testosterone and CLOSED for peptides.** That single
+   fact is why a hand-typed list is dangerous here: it is the kind of thing a
+   person writing a state list from memory gets wrong.
+
+   **WHY NOT JUST TYPE IT.** `KORB_Patient_Hub.html` is hand-built and loads
+   only `korb-quest.js`, `korb-video.js` and `korb-patient-ed-data.js`. Typing
+   31 state codes into it is exactly the `KORB_GLP1_Dose_Guide.html` failure
+   this file opens with - a hand-kept list beside a data file, which went stale
+   in production and was caught by a person rather than a check.
+
+   **WHY NOT LOAD THE REAL FILES.** `korb-pharmacies.js` (45KB) plus
+   `korb-dosing-data.js` (99KB) plus `korb-mens-data.js` (65KB) is 209KB on a
+   page that currently loads 181KB, roughly doubling a payload for a phone
+   opened from a text message.
+
+   **THE SHAPE: a small generated `korb-states.js`**, exactly the move
+   `korb-quest.js` already made in item 29 and for the same reason.
+   - `build-states.js` derives the lists from `korb-pharmacies.js`,
+     `korb-dosing-data.js` and `korb-mens-data.js` and writes a few KB.
+   - `build-states.js --check` exits 1 on drift, like `build-embed.js --check`,
+     and joins the gate list in Verification discipline.
+   - The hub loads it and renders from it; `check-pages.js` gains the dependency.
+   - **Negative-test both halves**: change one state in a source file and the
+     check must name it; change nothing and it must pass.
+
+   Until that exists the hub says nothing about states, which is incomplete but
+   not wrong. **Incomplete is recoverable. A stale state list on a page a
+   patient is texted is not.**
+
+53. ~~A 56px WHITE STRIP BETWEEN THE LAST PROGRAMME AND THE REFERENCE BAND.~~
+   **DONE 2026-09-19.** Don spotted it. `.res-sec` carried `margin-top:56px`
+   from before the programme sections had backgrounds of their own, and **a
+   margin between two tinted bands shows the page behind it.** `.psec` already
+   carries `padding-bottom:56px`, so removing the margin closed the seam and
+   changed no spacing. Measured 56px before, 0px after.
+
+   **Once sections have backgrounds, space between them must be padding, not
+   margin.** A margin is a gap in the colour.
+
+54. ~~THE PROGRAMME OPENS AND CLOSES ON THE SAME NOTE.~~ **DONE 2026-09-19.**
+   The ring around the two jump buttons takes `--accent`, the programme's own
+   colour, which is the same one the website button at the TOP of the section
+   already uses. Teal, navy, pink, orange. A hairline in `--bd2` had also
+   failed to lift the white pill off the cream band, which is what Don was
+   seeing when he said the buttons did not show as well.
