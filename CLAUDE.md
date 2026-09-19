@@ -1613,7 +1613,36 @@ testosterone" was either already gone or never in it.
    the portability away for eight lines of chrome. It is the only copy and it
    says so in the file.
 
-   **Negative-tested, and the result is the honest one.** A colour changed in
+   **IT BROKE THE PATIENT HUB, which is the file the website developer holds.**
+   The first version painted `.wrap` directly, on the strength of a survey that
+   found every hand-built tool had a constrained, transparent `.wrap`. True of
+   eleven of them. On `KORB_Patient_Hub.html`, `.wrap` is a generic width limiter
+   used **thirteen times** - the nav, four resource sections, the AI section, the
+   safety block - so the rule painted thirteen stacked full-viewport cream boxes.
+   The page height went from 14,032px to 18,236px and Don saw an empty panel with
+   the nav floating in it. He reported it the next morning.
+
+   **THE CHECK CONFIRMED IT WAS FINE.** `verify2.js` read
+   `document.querySelector('.wrap')` - the FIRST one - confirmed its background,
+   its 44px targets and no overflow. Every assertion was true. **Not one of them
+   asked whether `.wrap` was the document or merely an element on it.** Same
+   family as the centring measurement that used the viewport instead of the
+   parent, two days earlier: a true measurement of the wrong thing.
+
+   Fixed 2026-09-19. The stylesheet is **opt-in**: `body.korb-sheet` and
+   `body.korb-sheet .wrap`. **A shared stylesheet must be asked for, not
+   inferred.** Nine tools opt in. The hub does not, because it is a full-width
+   landing page rather than a document. Both scheduler pages came back out too -
+   neither has a `<body>` tag to hang the class on, `KORB_Scheduler_Intake_
+   Prototype.html` is FROZEN for Lindsay's review and was restored byte for byte,
+   and its working twin stays structurally comparable to it.
+
+   The new check asks the question the old one did not: how many sheets were
+   painted, and does the sheet CONTAIN the page. Negative-tested against the real
+   bug - replanting the unconditional rule reports the hub at 13 painted sheets
+   and fails; restoring it passes 12 of 12.
+
+   **Negative-tested for single-source too.** A colour changed in
    `korb-page-chrome.css` moved **5 of 6** sampled pages, and the sixth was the
    standalone - which is the tradeoff demonstrated rather than asserted.
    Verified on all twelve at 1400px and 375px: desk present, panel present, no

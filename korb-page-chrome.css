@@ -29,11 +29,29 @@
    before, this file does nothing at all and does it silently.
    ============================================================================ */
 
-@media screen {
-  html { background: #ECE9D1; }          /* the desk */
-  body { background: #ECE9D1; }
+/* ---------------------------------------------------------------------------
+   OPT-IN, and this is the whole lesson of 2026-09-19.
 
-  .wrap {
+   The first version of this file painted `.wrap` directly, on the strength of a
+   survey that found every hand-built tool had a constrained, transparent .wrap.
+   True of eleven of them. On KORB_Patient_Hub.html, `.wrap` is a generic width
+   limiter used THIRTEEN times - the nav, four resource sections, the AI section,
+   the safety block - so the rule painted thirteen stacked full-viewport cream
+   boxes and the hub rendered as an empty panel with the nav floating in it.
+   That page is the one shared with the website developer.
+
+   The check missed it because it read `document.querySelector('.wrap')` - the
+   FIRST one - confirmed its background and measured no overflow. Every one of
+   those assertions was true. None of them asked whether .wrap was the document
+   or merely an element on it. A SHARED STYLESHEET MUST BE ASKED FOR, NOT
+   INFERRED, so a page now opts in with `class="korb-sheet"` on its <body> and a
+   page that does not say so is not touched.
+   --------------------------------------------------------------------------- */
+
+@media screen {
+  body.korb-sheet { background: #ECE9D1; }          /* the desk */
+
+  body.korb-sheet .wrap {
     background: #FBFAF6;                  /* the sheet */
     border-left: 1px solid #DEDBC4;
     border-right: 1px solid #DEDBC4;
