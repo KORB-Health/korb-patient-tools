@@ -60,9 +60,60 @@ file is served by Pages, and every file looks equally finished. A document being
 complete is not the same as it being released, and the repo cannot tell you which
 is which. This list can. Keep it current — it is the only record.
 
-This matters most for the Men's and Women's Health work coming next: those
-documents will exist, and render, and look exactly as published as the live ones,
-while not being released to anybody.
+---
+
+### EVERYTHING PATIENT-FACING IS RELEASED. Don, 2026-09-19.
+
+**This section said the opposite until today, and it was badly out of date.** It
+listed all GLP-1 and weight loss, all add-ons, Men's Health, Women's Health and
+the Patient Hub as NOT released. Don's ruling of 2026-09-19: **every program is
+live and every patient document is out there.** He was explicit that this had
+been true for a while and that the record simply never caught up.
+
+That makes it the fourth stale record found in two days, after the bridge-PDF
+instruction, the URL inventory count and the consent item. **This one was the most
+dangerous of the four**, because it is the record you are told to read before
+sending anyone a link, and it was telling you not to send things that were
+already sent.
+
+**LIVE TO PATIENTS — all of it.** The four FH&L program overviews and the five
+peptide handouts. The GLP-1 and weight loss set: Semaglutide, Tirzepatide and the
+Weight Loss Program Overview. Men's Health: the program overview and the
+Testosterone handout. Women's Health: the program overview and the Hormone
+Therapy handout. The add-on handouts: Anti-Aging, Hair Loss, Sexual Health, Skin
+Care. Start Here, Injection & Storage Safety, When to Contact KORB or the ER,
+Schedule Your Lab Appointment, and both Welcome Letters.
+
+**Don is re-reading all of them on 2026-09-19** before the provider rollout. If
+any single document on that list turns out not to be ready, it is that document
+that comes off the list - not the list that goes back to being wrong.
+
+### `KORB_Patient_Hub.html` — approved for direct use, 2026-09-18
+
+**Lindsay approved using it with patients now**, ahead of the website. The web
+developer has it and is aware of it, but Lindsay confirmed it is not a priority
+against their other projects: **weeks, months, or next year, depending on budget.**
+So the hub is not a thing waiting to be published - it is the thing being used,
+and the website replaces it whenever the website happens.
+
+The reason it matters enough to push without the website: **what patients
+currently find in the Circle community is not accurate.** The hub is.
+
+### Provider rollout — Monday 2026-09-22
+
+Don pushes the hub to providers on Monday, with:
+
+- a text-message template providers can send a patient, after asking, carrying a
+  clickable link
+- the same links to Operations, for the core emails that go out when a patient
+  asks about a programme
+
+**So from Monday the links leave this repo's control**, into text messages and
+marketing email. That is the thing to remember before renaming or moving any
+patient-facing file: a URL in a sent text cannot be corrected. See the note at
+the end of this section about the two root-level documents.
+
+---
 
 **`KORB_Welcome_Letter.pdf` is kept on purpose, for patients who already hold that
 URL.** It is the designed PDF with only its link annotations rewritten, by
@@ -92,37 +143,25 @@ be. `KORB_GLP1_Data_Review.pdf` is the one PDF left in the repo; it has no HTML 
 The "PDF version" link is gone from the pages and from all four builders that write
 it. Do not reintroduce it.
 
-**LIVE to patients** — the Functional Health & Longevity patient set, and nothing
-else:
+**The old LIVE list lived here** and named only the Functional Health &
+Longevity set. It is superseded by Don's ruling of 2026-09-19 at the top of this
+section: everything patient-facing is released.
 
-| | |
-|---|---|
-| Start Here | `Patient_Education/KORB_Start_Here_Guide.pdf` |
-| Welcome Letter | `KORB_Welcome_Letter.pdf` (repo root) |
-| Schedule Your Lab Appointment | `KORB_Schedule_Your_Lab_Appointment.pdf` (repo root) |
-| Injection & Storage Safety | `Patient_Education/KORB_Injection_Storage_Safety_Guide.pdf` |
-| When to Contact KORB or the ER | `Patient_Education/KORB_When_to_Contact_KORB_or_ER.pdf` |
-| Four program overviews | Foundation, Gateway, Longevity, Peak |
-| Five peptide handouts | BPC-157, CJC-1295/Ipamorelin, GHK-Cu, Sermorelin, Tesamorelin |
+**Two warnings that used to sit here are worth keeping, because they were right
+about the mechanism even though they were wrong about the status.**
 
-**`KORB_Patient_Hub.html` IS the patient education hub, and it IS the file with the
-website developer.** Don confirmed 2026-09-17; they are not two different things.
-It is still listed below as not released to patients, and both are true at once: the
-developer holds it, no patient has been sent it.
+The first: the hub links the Weight Loss, Men's Health and Women's Health program
+overviews and the four add-on handouts, the add-ons from all four program
+sections, so nineteen links in total. That used to be a reason NOT to publish the
+hub. It is now simply a description of what a patient reaches from it, and it is
+the reason the hub is worth pushing at all - **what a patient currently finds in
+the Circle community is not accurate, and the hub is.**
 
-**This matters more than it looks.** The hub links seven documents that this record
-says are NOT released: the Weight Loss, Men's Health and Women's Health program
-overviews, and the Anti-Aging, Hair Loss, Sexual Health and Skin Care handouts. The
-four handouts are linked from all four program sections, so nineteen links in total.
-Publish the hub as it stands and those seven go public with it. **Decide what happens
-to those links before the hub goes live**, whichever format they are in.
-
-**NOT released to patients.** All GLP-1 and weight loss, all add-ons, Men's Health,
-Women's Health, and `KORB_Patient_Hub.html`. In `Patient_Education/` that covers the
-Semaglutide, Tirzepatide, Testosterone, Hormone Therapy, Anti-Aging, Hair Loss,
-Sexual Health and Skin Care handouts, and the Weight Loss, Men's Health and Women's
-Health program overviews. They sit in the same folder as the live set, under the
-same naming convention, and look identical.
+The second: every patient document sits in the same folder under the same naming
+convention and looks identical whether it is released or not. That is still true,
+and it is still why this list has to be maintained by hand rather than inferred
+from the tree. **A document being complete has never been the same as it being
+released.** Today they happen to coincide. They will not next time.
 
 **Published to the provider team.** The Functional Health tools, the GLP-1 tools,
 and as of 2026-09-17 the Women's Health Clinical Reference, posted to the intranet
@@ -188,7 +227,6 @@ set. Worth reconciling, but not by moving them casually — they are live, so th
 URLs are in circulation.
 
 ---
-
 ## Layout, and the one rule about it
 
 ```
@@ -1335,7 +1373,9 @@ testosterone" was either already gone or never in it.
    The checkpoint sentence - tell the officer at the start of screening, the
    liquids may be inspected separately, and the link to the current rules - was
    `doc.travelNote` on the Semaglutide and Tirzepatide handouts and nowhere
-   else. Both are NOT released to patients. The Injection, Storage and Safety
+   else. Neither was believed to be released at the time - the release record
+   said so and the record was wrong, see the top of this file. The Injection,
+   Storage and Safety
    Guide, which IS live, whose last section is travel, and which a patient is
    sent before their first injection, said only that TSA "recommends keeping the
    original pharmacy label visible" and gave them no link.
