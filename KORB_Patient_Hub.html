@@ -289,6 +289,26 @@ button{font-family:inherit;cursor:pointer;}
   background:#fff;border:1.5px solid var(--accent,var(--teal));}
 @media (hover:hover){.sitelink:hover{background:var(--accent,var(--teal));color:#fff;}}
 
+/* ===== NOTHING CLICKABLE SITS THERE DOING NOTHING =====
+   Don spotted the logo and the View Guide button. A sweep of every a[href]
+   and button against every :hover selector in this stylesheet found four more
+   kinds, the nine video posters among them - the largest targets on the page,
+   and the ones where "is this a button?" matters most.
+   All are @media (hover:hover) so a touch device never sticks in a hover
+   state after a tap. */
+@media (hover:hover){
+  .nav-brand:hover{opacity:.72;}
+  .kv-facade:hover{filter:brightness(1.04);}
+  .kv-facade:hover .kv-still{transform:scale(1.015);}
+  .safety-inner a:hover{background:#A31C1C;}
+  .tool-card button:hover{filter:brightness(1.08);}
+  .tool-card a:not(.launch):hover{color:#fff;}
+  footer a:hover{opacity:.72;}
+}
+.nav-brand,.safety-inner a,.tool-card button,footer a{transition:all .15s ease;}
+.kv-facade,.kv-still{transition:filter .15s ease,transform .15s ease;}
+.kv-facade{overflow:hidden;}
+
 /* ===== THE END OF A PROGRAMME =================
    Don, 2026-09-19: a line across, then a button to the reference material and
    a button to the meal-idea prompts. The same two destinations from every
@@ -1274,6 +1294,15 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
       <div><h4>Good Sources of Protein</h4><p>Chicken breast (3 oz): ~26g · Greek yogurt (1 cup): ~20g · Eggs (2 large): ~12g · Salmon (3 oz): ~22g · Cottage cheese (1 cup): ~25g · Lentils (1 cup): ~18g · Tofu (½ cup): ~10g · Edamame (1 cup): ~18g · Tempeh (3 oz): ~17g · Black beans (1 cup): ~15g · Whey protein (1 scoop): ~24g</p><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;"><a class="dl" target="_blank" href="https://cdn.realfood.gov/DGA.pdf#page=3">📄 Protein guidance (USDA)</a><a class="dl" target="_blank" href="https://fdc.nal.usda.gov/">🔍 Look up any food</a></div></div>
     </div>
       <div class="res-card">
+      <div class="res-icon">💬</div>
+      <div><h4>KORB Circle Community</h4><p>A place to compare notes with other
+      KORB patients. It is a community rather than a clinical resource — for
+      anything about your own treatment, use the guides here or call us.</p>
+      <div style="margin-top:8px;"><a class="dl" target="_blank"
+      href="https://go.korbhealth.com/JoinKORBcirclecommunity">👥 Join the
+      community</a></div></div>
+    </div>
+    <div class="res-card">
       <div class="res-icon">⚠</div>
       <div><h4>When to Contact KORB or the ER</h4><p>What to call us about, what can wait, and the symptoms that mean go now.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 Open guide</a></div></div>
     </div>
