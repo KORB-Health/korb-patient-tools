@@ -143,11 +143,15 @@ button{font-family:inherit;cursor:pointer;}
    programme sections would have made all of them unreadable, so the band
    moved with them: same card styling, now scoped to the programme that
    actually prescribes the tool. Don, 2026-09-19. */
-.sec-tools{background:var(--navy);color:#fff;border-radius:16px;padding:24px 24px 26px;}
+.sec-tools{color:#fff;}
 .sec-tools > .lbl{font-size:11.5px;font-weight:800;letter-spacing:.6px;
-  text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+  text-transform:uppercase;color:var(--navy);margin-bottom:14px;}
 .tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:16px;align-items:stretch;}
+  gap:16px;align-items:start;}
+/* START, not stretch. Now that the navy is on the cards there is no panel to
+   leave a hole in, so a short tool beside the tall calculator is simply a
+   short card - which is what Don asked for: the tools on one side, the
+   calculator next to them. */
 /* STRETCH, NOT START. The protein calculator is ~330px taller than the two
    cards beside it, and align-items:start left that height as bare navy under
    them - the same hole the old four-card band had. Stretched, the space sits
@@ -173,7 +177,9 @@ button{font-family:inherit;cursor:pointer;}
     grid-column:1;grid-row:auto;margin-top:16px;justify-self:start;}
 }
 .tool-card input,.tool-card select{max-width:100%;box-sizing:border-box;}
-.tool-card{min-width:0;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:20px;}
+.tool-card{min-width:0;overflow:hidden;background:var(--navy);
+  border:1px solid var(--navy);border-radius:12px;padding:20px;
+  box-shadow:0 2px 10px rgba(20,31,66,.10);}
 .tool-card .tag{color:var(--teal);}
 .tool-card h3{font-size:16px;font-weight:800;margin-top:6px;}
 .tool-card p{font-size:12.5px;color:#C7CBE6;margin-top:6px;line-height:1.6;}
@@ -190,7 +196,7 @@ button{font-family:inherit;cursor:pointer;}
 .sec-res > .lbl{font-size:11.5px;font-weight:800;letter-spacing:.6px;
   text-transform:uppercase;color:var(--navy);margin-bottom:14px;}
 .res-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;}
-.res-grid > .res-card{flex:1 1 200px;}
+.res-grid > .res-card{flex:1 1 240px;}
 @media (min-width:760px){.res-grid > .res-card{max-width:259px;}}
 .res-card{border:1px solid var(--bd2);border-radius:12px;padding:20px;display:flex;gap:13px;align-items:flex-start;}
 .res-icon{width:38px;height:38px;border-radius:10px;background:var(--lt);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex-shrink:0;}
@@ -198,11 +204,50 @@ button{font-family:inherit;cursor:pointer;}
 .res-card p{font-size:12px;color:var(--mu);margin-top:3px;line-height:1.5;}
 
 
+/* ===== THE END OF A PROGRAMME =================
+   Don, 2026-09-19: a line across, then a button to the reference material and
+   a button to the meal-idea prompts. The same two destinations from every
+   programme, in the same place, so a patient learns them once instead of
+   meeting seven reference cards inside each section. */
+.sec-jump{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
+  margin-top:32px;padding-top:26px;border-top:1px solid var(--bd2);}
+.jbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;
+  padding:11px 22px;border-radius:24px;font-size:13px;font-weight:800;
+  color:var(--navy);background:var(--cream);border:1.5px solid var(--bd);
+  transition:all .15s ease;}
+@media (hover:hover){.jbtn:hover{background:var(--navy);border-color:var(--navy);color:#fff;}}
+
+/* ================= REFERENCE SECTION =================
+   One cream band at the foot rather than seven cards repeated inside every
+   programme. The cream is the same desk colour the patient pages use, so the
+   reference material reads as a different KIND of thing from a programme. */
+.res-sec{background:var(--cream);padding:64px 0 68px;margin-top:56px;}
+.res-sec,.ai-sec{scroll-margin-top:52px;}
+.res-sec .sec-head{margin-bottom:28px;}
+.res-sec .res-card{background:#fff;border-color:var(--bd);}
+
+/* A FULL-WIDTH CARD IS NOT A 259px CARD. Item 37 settled that centring the
+   body copy is right in a narrow reference card. These two are the width of
+   the page, and a centred ragged line that long is exactly what that rule
+   does not cover, so the copy inside them is capped and centred as a block. */
+.ai-sec > .wrap > .res-card > div:last-child{max-width:660px;margin:0 auto;}
+
 /* ================= AI PROMPTS ================= */
-.ai-sec{padding-top:64px;padding-bottom:8px;}
+.ai-sec{background:var(--navy);color:#fff;padding:64px 0 68px;}
+.ai-sec .sec-head h2{color:#fff;}
+.ai-sec .sec-head p{color:#B9C0E8;}
+.ai-sec .sec-head .eyebrow{color:var(--teal);}
+/* The two intro cards sit ON the navy, so they need their own surface -
+   inherited transparency would have dissolved them into the band, which is
+   the mistake the house standard already names for a prescribing block. */
+.ai-sec .res-card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);}
+.ai-sec .res-card h4{color:#fff;}
+.ai-sec .res-card p{color:#C7CBE6;}
+.ai-sec .res-icon{background:rgba(0,178,195,.18);color:var(--teal);}
+.ai-sec .res-card p b{color:#fff;}
 .ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:6px;}
-.pcard-ai{border:1px solid var(--bd2);border-radius:12px;padding:20px;background:#fff;display:flex;
- flex-direction:column;}
+.pcard-ai{border:1px solid var(--bd2);border-top:4px solid var(--teal);border-radius:12px;
+ padding:20px;background:#fff;display:flex;flex-direction:column;}
 .pcard-ai h4{font-size:14.5px;color:var(--navy);font-weight:800;}
 .pcard-ai .why{font-size:12px;color:var(--mu);margin-top:4px;line-height:1.55;}
 .ptext{background:var(--gb,#F8F9FA);border:1px solid var(--bd2);border-radius:10px;padding:12px 13px;
@@ -601,12 +646,6 @@ footer strong{color:#fff;}
       </div>
 <div class="tool-card">
         <div class="eyebrow tag">Tool</div>
-        <h3>My Treatment Schedule</h3>
-        <p>Enter your start date and program to see your personalized week-by-week dosing calendar.</p>
-        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Patient_Treatment_Schedule.html">Open Tool →</a>
-      </div>
-<div class="tool-card">
-        <div class="eyebrow tag">Tool</div>
         <h3>Protein Target Calculator</h3>
         <p>Based on the 2025-2030 USDA Dietary Guidelines (1.2&ndash;1.6 g per kg per day). A general reference, not personalized advice &mdash; ask your provider for individual guidance.</p>
         <div style="margin-top:14px;">
@@ -640,42 +679,6 @@ footer strong{color:#fff;}
       </div>
       </div>
     </div>
-
-    <div class="sec-res">
-      <div class="lbl">Eating well on this program</div>
-      <div class="res-grid">
-<div class="res-card">
-      <div class="res-icon">🍽</div>
-      <div><h4>Daily Servings Guide</h4><p>How much of each food group to aim for in a day, from the 2025-2030 Dietary Guidelines: <b>protein 1.2&ndash;1.6 g per kg of body weight</b>, <b>3 servings of vegetables</b>, <b>2 servings of fruit</b>, and <b>2&ndash;4 servings of whole grains</b>.</p><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;"><a class="dl" target="_blank" href="https://cdn.realfood.gov/Daily%20Serving%20Sizes.pdf">📄 Daily Servings Guide</a><a class="dl" target="_blank" href="https://cdn.realfood.gov/DGA.pdf">📄 Full Dietary Guidelines</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">🥩</div>
-      <div><h4>Good Sources of Protein</h4><p>Chicken breast (3 oz): ~26g · Greek yogurt (1 cup): ~20g · Eggs (2 large): ~12g · Salmon (3 oz): ~22g · Cottage cheese (1 cup): ~25g · Lentils (1 cup): ~18g · Tofu (½ cup): ~10g · Whey protein (1 scoop): ~24g</p></div>
-    </div>
-      </div>
-    </div>
-
-    <div class="sec-res">
-      <div class="lbl">How your care works</div>
-      <div class="res-grid">
-<div class="res-card">
-      <div class="res-icon">❄</div>
-      <div><h4>Injection Storage &amp; Safety</h4><p>Storing and traveling with your medication.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Open guide</a></div></div>
-    </div>
-      <div class="res-card">
-      <div class="res-icon">🗑</div>
-      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">💊</div>
-      <div><h4>How Your Medication Is Prepared</h4><p>Your medication is compounded by a licensed 503A pharmacy — prepared to your specific prescription rather than mass-produced. Learn what that means, straight from the FDA.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers">📄 FDA: Compounding Q&amp;A</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">⚠</div>
-      <div><h4>When to Contact KORB or the ER</h4><p>What to call us about, what can wait, and the symptoms that mean go now.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 Open guide</a></div></div>
-    </div>
-      </div>
-    </div>
 <div class="addon-strip" style="margin-top:20px;">
       <div class="lbl">Optimize Your Weight Loss</div>
       <p style="font-size:12.5px;color:var(--mu);margin:-4px 0 12px;">These can be added alongside your program. Ask your provider if any are a fit for you.</p>
@@ -687,6 +690,11 @@ footer strong{color:#fff;}
         <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Anti_Aging.html">&#128196; Anti-Aging Guide &mdash; NAD+ and Metformin</a>
       </div>
     </div>
+    <div class="sec-jump">
+      <a class="jbtn" href="#resources" onclick="return korbGo('resources');">&#128218; Guides &amp; safety</a>
+      <a class="jbtn" href="#mealideas" onclick="return korbGo('mealideas');">&#127869; Meal ideas with AI</a>
+    </div>
+
     
     </div>
 
@@ -761,41 +769,6 @@ footer strong{color:#fff;}
         <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Testosterone.html">📄 Testosterone Guide</a>
       </div>
     </div>
-
-    
-    <div class="sec-tools">
-      <div class="lbl">Your tools</div>
-      <div class="tool-grid">
-<div class="tool-card">
-        <div class="eyebrow tag">Tool</div>
-        <h3>My Testosterone Tracker</h3>
-        <p>Log each injection, see when your next dose is due, rotate sites, and know when to discard your vial.</p>
-        <a class="launch" href="https://korb-health.github.io/korb-patient-tools/KORB_Testosterone_Tracker.html">Open Tool →</a>
-      </div>
-      </div>
-    </div>
-
-    <div class="sec-res">
-      <div class="lbl">How your care works</div>
-      <div class="res-grid">
-<div class="res-card">
-      <div class="res-icon">❄</div>
-      <div><h4>Injection Storage &amp; Safety</h4><p>Storing and traveling with your medication.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Open guide</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">🗓</div>
-      <div><h4>Quest Lab Ordering Guide</h4><p>How to schedule and complete your Quest lab draw.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_Schedule_Your_Lab_Appointment.html">📄 Open guide</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">🗑</div>
-      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
-    </div>
-      <div class="res-card">
-      <div class="res-icon">⚠</div>
-      <div><h4>When to Contact KORB or the ER</h4><p>What to call us about, what can wait, and the symptoms that mean go now.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 Open guide</a></div></div>
-    </div>
-      </div>
-    </div>
 <div class="addon-strip">
       <div class="lbl">Optimize Your Men's Health</div>
       <p style="font-size:12.5px;color:var(--mu);margin:-4px 0 12px;">These can be added alongside your program. Ask your provider if any are a fit for you.</p>
@@ -807,6 +780,11 @@ footer strong{color:#fff;}
         <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Anti_Aging.html">&#128196; Anti-Aging Guide &mdash; NAD+ and Metformin</a>
       </div>
     </div>
+    <div class="sec-jump">
+      <a class="jbtn" href="#resources" onclick="return korbGo('resources');">&#128218; Guides &amp; safety</a>
+      <a class="jbtn" href="#mealideas" onclick="return korbGo('mealideas');">&#127869; Meal ideas with AI</a>
+    </div>
+
 
     
     
@@ -873,6 +851,11 @@ footer strong{color:#fff;}
         <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Anti_Aging.html">&#128196; Anti-Aging Guide &mdash; NAD+ and Metformin</a>
       </div>
     </div>
+    <div class="sec-jump">
+      <a class="jbtn" href="#resources" onclick="return korbGo('resources');">&#128218; Guides &amp; safety</a>
+      <a class="jbtn" href="#mealideas" onclick="return korbGo('mealideas');">&#127869; Meal ideas with AI</a>
+    </div>
+
     
   </div>
 </div>
@@ -984,32 +967,6 @@ footer strong{color:#fff;}
       </div>
       </div>
     </div>
-
-    <div class="sec-res">
-      <div class="lbl">How your care works</div>
-      <div class="res-grid">
-<div class="res-card">
-      <div class="res-icon">❄</div>
-      <div><h4>Injection Storage &amp; Safety</h4><p>Storing and traveling with your medication.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Open guide</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">🗓</div>
-      <div><h4>Quest Lab Ordering Guide</h4><p>How to schedule and complete your Quest lab draw.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_Schedule_Your_Lab_Appointment.html">📄 Open guide</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">🗑</div>
-      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">💊</div>
-      <div><h4>How Your Medication Is Prepared</h4><p>Your medication is compounded by a licensed 503A pharmacy — prepared to your specific prescription rather than mass-produced. Learn what that means, straight from the FDA.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers">📄 FDA: Compounding Q&amp;A</a></div></div>
-    </div>
-<div class="res-card">
-      <div class="res-icon">⚠</div>
-      <div><h4>When to Contact KORB or the ER</h4><p>What to call us about, what can wait, and the symptoms that mean go now.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 Open guide</a></div></div>
-    </div>
-      </div>
-    </div>
 <div class="addon-strip" style="margin-top:20px;">
       <div class="lbl">Optimize Your Longevity</div>
       <p style="font-size:12.5px;color:var(--mu);margin:-4px 0 12px;">These can be added alongside your program. Ask your provider if any are a fit for you.</p>
@@ -1021,6 +978,11 @@ footer strong{color:#fff;}
         <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Anti_Aging.html">&#128196; Anti-Aging Guide &mdash; NAD+ and Metformin</a>
       </div>
     </div>
+    <div class="sec-jump">
+      <a class="jbtn" href="#resources" onclick="return korbGo('resources');">&#128218; Guides &amp; safety</a>
+      <a class="jbtn" href="#mealideas" onclick="return korbGo('mealideas');">&#127869; Meal ideas with AI</a>
+    </div>
+
 
     
   </div>
@@ -1146,7 +1108,48 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
      have kept showing six. It now renders KORB_PATIENT_ED.guides.glp1_welcome,
      so both surfaces show the same prompts because they ARE the same prompts.
      Add a prompt to the data file and it appears in both. -->
-<div class="wrap ai-sec" id="mealideas">
+<div class="res-sec" id="resources">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Reference</div>
+      <h2>Guides, safety and everyday questions.</h2>
+      <p>The things worth knowing whatever program you are on - storing your medication, traveling with it, booking a lab draw, and who to call.</p>
+    </div>
+    <div class="res-grid">
+      <div class="res-card">
+      <div class="res-icon">❄</div>
+      <div><h4>Injection Storage &amp; Safety</h4><p>Storing and traveling with your medication.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Injection_Storage_Safety_Guide.html">📄 Open guide</a></div></div>
+    </div>
+      <div class="res-card">
+      <div class="res-icon">💊</div>
+      <div><h4>How Your Medication Is Prepared</h4><p>Your medication is compounded by a licensed 503A pharmacy — prepared to your specific prescription rather than mass-produced. Learn what that means, straight from the FDA.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers">📄 FDA: Compounding Q&amp;A</a></div></div>
+    </div>
+      <div class="res-card">
+      <div class="res-icon">🗑</div>
+      <div><h4>Sharps Disposal Locator</h4><p>Find a needle drop-off or mail-back site near you by ZIP code — from SafeNeedleDisposal.org, the FDA-recognized resource for at-home sharps disposal.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://safeneedledisposal.org/">🔍 Find a Location</a></div></div>
+    </div>
+      <div class="res-card">
+      <div class="res-icon">🗓</div>
+      <div><h4>Quest Lab Ordering Guide</h4><p>How to schedule and complete your Quest lab draw.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/KORB_Schedule_Your_Lab_Appointment.html">📄 Open guide</a></div></div>
+    </div>
+      <div class="res-card">
+      <div class="res-icon">🍽</div>
+      <div><h4>Daily Servings Guide</h4><p>How much of each food group to aim for in a day, from the 2025-2030 Dietary Guidelines: <b>protein 1.2&ndash;1.6 g per kg of body weight</b>, <b>3 servings of vegetables</b>, <b>2 servings of fruit</b>, and <b>2&ndash;4 servings of whole grains</b>.</p><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;"><a class="dl" target="_blank" href="https://cdn.realfood.gov/Daily%20Serving%20Sizes.pdf">📄 Daily Servings Guide</a><a class="dl" target="_blank" href="https://cdn.realfood.gov/DGA.pdf">📄 Full Dietary Guidelines</a></div></div>
+    </div>
+      <div class="res-card">
+      <div class="res-icon">🥩</div>
+      <div><h4>Good Sources of Protein</h4><p>Chicken breast (3 oz): ~26g · Greek yogurt (1 cup): ~20g · Eggs (2 large): ~12g · Salmon (3 oz): ~22g · Cottage cheese (1 cup): ~25g · Lentils (1 cup): ~18g · Tofu (½ cup): ~10g · Whey protein (1 scoop): ~24g</p></div>
+    </div>
+      <div class="res-card">
+      <div class="res-icon">⚠</div>
+      <div><h4>When to Contact KORB or the ER</h4><p>What to call us about, what can wait, and the symptoms that mean go now.</p><div style="margin-top:8px;"><a class="dl" target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">📄 Open guide</a></div></div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="ai-sec" id="mealideas">
+  <div class="wrap">
   <div class="sec-head">
     <div class="eyebrow">Try This</div>
     <h2>Use an AI assistant for meal ideas.</h2>
@@ -1216,6 +1219,8 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
   }
 }());
 </script>
+
+</div>
 
 <div class="wrap safety">
   <span class="eyebrow">Always Available</span>
