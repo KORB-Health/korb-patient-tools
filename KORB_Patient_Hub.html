@@ -245,6 +245,54 @@ footer strong{color:#fff;}
   .ptile,.ptile::after{transition:none;}
   .ptile:hover{transform:none;}
 }
+
+/* ==== HUB CONSISTENCY PASS, Don 2026-09-19 ==============================
+   Four things he could see and one he could not. */
+
+/* 1. THE ANCHOR LANDED ON THE HEADING, NOT THE SECTION.
+      The nav is sticky and 85px tall, and the sections had scroll-margin-top:0,
+      so jumping to #menshealth from a provider's text message put the section's
+      top edge under the nav and sliced the programme icon in half. From Monday
+      every one of these links arrives by text, so this is the first thing a
+      patient sees. 104px clears the nav with room to breathe. */
+.psec{scroll-margin-top:104px;}
+
+/* 2. ONE COLUMN WIDTH FOR EVERY PROGRAMME.
+      Each section opens with a .wrap at 1140px and then everything after it -
+      card rows, product cards, add-on strips, the injection video - sat loose in
+      .psec at the full 1280 and ran to the page edges. Weight Loss kept its
+      content inside the wrap and the other three did not, which is exactly the
+      "middle programmes go wider" Don described. Constrained here rather than
+      by re-parenting the markup: same result, nothing moves. */
+.psec > .card-row,
+.psec > .pcard,
+.psec > .addon-strip,
+.psec > .video-block,
+.psec > .tool-embed-card{max-width:1084px;margin-left:auto;margin-right:auto;}
+/* 1084, not 1140. .wrap is 1140 wide with 28px of padding, so its CONTENT spans
+   1084 - and content is what these have to line up with. Setting 1140 here left
+   the injection video 26px wider than every other video on the page, and adding
+   padding to compensate made it wider still, because the block already carries
+   26px of its own. Measured, not reasoned: every video frame is now 504. */
+
+/* 3. A VISIBLE END TO EACH PROGRAMME.
+      They flowed into one another with nothing to say where one stopped. A rule
+      and real space, not a heavy band - the page should still read as one page. */
+.psec + .psec{border-top:1px solid var(--bd2,#E4E7F2);padding-top:56px;margin-top:56px;}
+
+/* 4. THE TOOLS GRID HAD A HOLE IN IT.
+      Three cards are about 212px tall and the protein calculator is 575px. In a
+      three-column grid the tall one wrapped onto its own row and left most of a
+      navy band empty. Don asked for the calculator in one column and the other
+      three stacked beside it: the calculator spans the full height, the three
+      tools stack, and the dead space goes. */
+@media (min-width:900px){
+  .tools-sec .tool-grid{grid-template-columns:1fr 1fr;align-items:start;}
+  .tools-sec .tool-card:nth-child(4){grid-column:1;grid-row:1 / span 3;}
+  .tools-sec .tool-card:nth-child(1){grid-column:2;grid-row:1;}
+  .tools-sec .tool-card:nth-child(2){grid-column:2;grid-row:2;}
+  .tools-sec .tool-card:nth-child(3){grid-column:2;grid-row:3;}
+}
 </style>
 </head>
 <body>
@@ -329,6 +377,22 @@ footer strong{color:#fff;}
         <p>Medically-guided weight loss using GLP-1 medication, matched to your goals and monitored by your provider.</p>
       </div>
     </div>
+<div class="video-block">
+      <div class="txt">
+        <div class="eyebrow tag">Watch First</div>
+        <h4>Your GLP-1 Initial Consultation</h4>
+        <p>A short walkthrough of what to expect from your first visit, how dosing works, and what your provider will cover with you.</p>
+      </div>
+      <div class="video-frame" data-korb-video="glp1_consult"></div>
+      </div>
+<div class="video-block" style="margin-top:16px;">
+      <div class="txt">
+        <div class="eyebrow tag">Before Your First Dose</div>
+        <h4>How to Give Your Injection</h4>
+        <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection — the same technique used across all KORB programs.</p>
+      </div>
+      <div class="video-frame" data-korb-video="injection"></div>
+    </div>
 
     <div class="card-row">
       <div class="pcard accent-top" style="--accent:var(--wl)">
@@ -389,24 +453,10 @@ footer strong{color:#fff;}
         <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_Anti_Aging.html">&#128196; Anti-Aging Guide &mdash; NAD+ and Metformin</a>
       </div>
     </div>
-    <div class="video-block">
-      <div class="txt">
-        <div class="eyebrow tag">Watch First</div>
-        <h4>Your GLP-1 Initial Consultation</h4>
-        <p>A short walkthrough of what to expect from your first visit, how dosing works, and what your provider will cover with you.</p>
-      </div>
-      <div class="video-frame" data-korb-video="glp1_consult"></div>
-      </div>
+    
     </div>
 
-    <div class="video-block" style="margin-top:16px;">
-      <div class="txt">
-        <div class="eyebrow tag">Before Your First Dose</div>
-        <h4>How to Give Your Injection</h4>
-        <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection — the same technique used across all KORB programs.</p>
-      </div>
-      <div class="video-frame" data-korb-video="injection"></div>
-    </div>
+    
   </div>
 </div>
 
@@ -420,8 +470,7 @@ footer strong{color:#fff;}
         <p>Hormone-guided care built around how you're actually feeling — energy, strength, and confidence.</p>
       </div>
     </div>
-
-    <div class="video-block" style="margin-bottom:24px;">
+<div class="video-block" style="margin-bottom:24px;">
       <div class="txt">
         <div class="eyebrow tag">Watch First</div>
         <h4>Welcome to Men's Health</h4>
@@ -429,6 +478,16 @@ footer strong{color:#fff;}
       </div>
       <div class="video-frame" data-korb-video="mens"></div>
       </div>
+<div class="video-block" style="margin-top:20px;">
+      <div class="txt">
+        <div class="eyebrow tag">Before Your First Dose</div>
+        <h4>How to Give Your Injection</h4>
+        <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection.</p>
+      </div>
+      <div class="video-frame" data-korb-video="injection"></div>
+    </div>
+
+    
     </div>
 
     <div class="card-row">
@@ -471,14 +530,7 @@ footer strong{color:#fff;}
       </div>
     </div>
 
-    <div class="video-block" style="margin-top:20px;">
-      <div class="txt">
-        <div class="eyebrow tag">Before Your First Dose</div>
-        <h4>How to Give Your Injection</h4>
-        <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection.</p>
-      </div>
-      <div class="video-frame" data-korb-video="injection"></div>
-    </div>
+    
     
   </div>
 </div>
@@ -557,8 +609,7 @@ footer strong{color:#fff;}
         <p>Physician-guided peptide therapy in 16-week cycles, matched to your labs and your goals.</p>
       </div>
     </div>
-
-    <div class="video-block" style="margin-bottom:24px;">
+<div class="video-block" style="margin-bottom:24px;">
       <div class="txt">
         <div class="eyebrow tag">Watch First</div>
         <h4>Welcome to Functional Health &amp; Longevity</h4>
@@ -566,6 +617,16 @@ footer strong{color:#fff;}
       </div>
       <div class="video-frame" data-korb-video="fhl"></div>
       </div>
+<div class="video-block" style="margin-top:20px;">
+      <div class="txt">
+        <div class="eyebrow tag">Before Your First Dose</div>
+        <h4>How to Give Your Injection</h4>
+        <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection — the same technique used for Sermorelin, CJC-1295/Ipamorelin, BPC-157, and Tesamorelin.</p>
+      </div>
+      <div class="video-frame" data-korb-video="injection"></div>
+    </div>
+
+    
     </div>
 
     <div class="pcard accent-top" style="--accent:var(--lg);margin-bottom:20px;">
@@ -641,14 +702,7 @@ footer strong{color:#fff;}
       </div>
     </div>
 
-    <div class="video-block" style="margin-top:20px;">
-      <div class="txt">
-        <div class="eyebrow tag">Before Your First Dose</div>
-        <h4>How to Give Your Injection</h4>
-        <p>A step-by-step walkthrough of a safe, comfortable subcutaneous injection — the same technique used for Sermorelin, CJC-1295/Ipamorelin, BPC-157, and Tesamorelin.</p>
-      </div>
-      <div class="video-frame" data-korb-video="injection"></div>
-    </div>
+    
   </div>
 </div>
 

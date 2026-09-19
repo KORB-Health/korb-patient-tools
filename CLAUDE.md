@@ -1784,3 +1784,43 @@ testosterone" was either already gone or never in it.
    wall in front of a patient.
 
    The `.vposter` stopgap from 2026-09-18 is deleted rather than left behind.
+
+34. ~~THE HUB WAS INCONSISTENT DOWN THE PAGE.~~ **DONE 2026-09-19.** Five things
+   Don could see reading it, and every one had the same root: **each programme
+   section opens with a `.wrap` at 1140px and everything after it sat loose in
+   `.psec` at the full 1280.** Weight Loss kept its content inside the wrap; the
+   other three did not, which is exactly the "middle programmes go out to the
+   page edges" he described.
+
+   **THE ANCHOR CUT THE PROGRAMME ICON IN HALF.** The nav is sticky and 85px
+   tall and the sections had `scroll-margin-top: 0`, so arriving at `#menshealth`
+   put the section's top edge under the nav. **From Monday every one of these
+   links arrives by text message**, so that was the first thing a patient would
+   see. `scroll-margin-top: 104px` on `.psec`.
+
+   **One column width.** `.psec > .card-row, .pcard, .addon-strip, .video-block,
+   .tool-embed-card` are capped at **1084px**, not 1140 - `.wrap` is 1140 with
+   28px of padding, so its CONTENT is 1084, and content is what these line up
+   with. Two wrong answers first: 1140 left the injection video 26px wide, and
+   adding padding to compensate made it wider still because the block already
+   carries 26px of its own. **Measured to 504px on every video frame rather than
+   reasoned about.**
+
+   **The programme video was last in Weight Loss and first in Men's Health.**
+   Every section now reads heading, programme video, injection video, content.
+   The injection blocks also moved INSIDE the wrap, which is what made them
+   render wider than every other video. Done by balanced-div surgery on the
+   markup rather than a CSS `order` trick, so the reading order matches the
+   visual order for a screen reader too.
+
+   **The tools grid had a hole in it.** Three cards are ~212px tall and the
+   protein calculator is 555px, so in a three-column grid it wrapped onto its own
+   row and left most of a navy band empty. Now two columns: the calculator spans
+   the full height on the left, the three tools stack on the right. Grid height
+   803px to 608px.
+
+   **A visible end to each programme**: `.psec + .psec` takes a hairline rule and
+   56px either side. They flowed into one another with nothing to mark the join.
+
+   Verified after: 9 videos, 9 facades, injection in exactly 3 sections, every
+   frame 504px, no horizontal overflow, no JS errors, **176ms**.
