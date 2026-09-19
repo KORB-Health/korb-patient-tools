@@ -1951,11 +1951,14 @@ testosterone" was either already gone or never in it.
    belonging to no programme in particular. Each programme now carries
    `.sec-tools` and `.sec-res` of its own; both old sections are gone.
 
-   **THE CARE CARDS ARE DELIBERATELY REPEATED, not cross-referenced.** Injection
-   Storage, Sharps, When to Contact and the rest render once per programme. Same
-   reasoning this file already gives for the FH&L provider references: a patient
-   in one programme needs that programme complete on its own page, not a pointer
-   to another one.
+   ~~**THE CARE CARDS ARE DELIBERATELY REPEATED, not cross-referenced.**~~
+   **REVERSED THE SAME DAY. See item 41.** The argument was the one this file
+   makes for the FH&L provider references - a patient in one programme needs
+   that programme complete on its own page - and it does not transfer. A
+   provider reference is a document somebody reads end to end; a hub is a page
+   somebody scans for one thing. Repeating seven cards inside three programmes
+   put a wall of small print between a patient and the add-ons. **The tools half
+   of this item stands. The resources half was undone.**
 
    **THE NAVY BAND TRAVELLED WITH THE CARDS.** Every `.tool-card` rule is
    white-on-navy because the tools used to live in one dark section. Dropping
@@ -2024,3 +2027,92 @@ testosterone" was either already gone or never in it.
    Same family as the checks in "Known failure": the thing being relied on is
    never asked whether it exists. `check-pages.js` asks whether a page's SCRIPTS
    resolve; nothing asked whether its own LINKS do.
+
+41. ~~ONE REFERENCE SECTION, AND TWO TOOLS IN THE WRONG PROGRAMME.~~ **DONE
+   2026-09-19**, hours after item 38, because Don read the rendered page.
+
+   **THE RESOURCES HALF OF ITEM 38 WAS WRONG AND IS REVERSED.** Seven cards
+   inside each of three programmes is clutter, and it pushed what a patient came
+   for further down every section. The reference cards are back in ONE cream
+   band at the foot, `#resources`, ordered medication and safety, then labs,
+   then food, then who to call - the old order was an artefact of the collection
+   walk, so the section opened on Daily Servings.
+
+   **The tools half stands.** Tools stay inside their programme. What replaced
+   the inlined cards is a `.sec-jump` strip closing every programme: a rule
+   across and two buttons, Guides & safety and Meal ideas with AI. Same two
+   destinations from all four programmes, so a patient learns them once.
+
+   **WHY THE ITEM-38 ARGUMENT DID NOT TRANSFER, since it is a good argument in
+   its own place.** A provider reference is a document somebody reads end to
+   end, so completeness beats brevity and repetition is correct. A hub is a page
+   somebody SCANS for one thing. Completeness on a scanned page is noise. **Ask
+   which of those two a page is before reaching for that rule.**
+
+   **`KORB_Patient_Treatment_Schedule.html` IS A FUNCTIONAL HEALTH TOOL AND I
+   PUT IT IN WEIGHT LOSS.** Don caught it. Confirmed rather than conceded: it
+   loads `korb-dosing-data.js`, the FH&L peptide file, and its pickers are
+   programme, agent, peptide dose and pharmacy. Nothing in it serves a GLP-1
+   patient. **Which data file a tool loads is what decides which programme it
+   belongs to**, and that is checkable in one grep - worth doing before placing
+   any tool.
+
+   Checked at the same time, because Don asked, that it is not the same tool as
+   `KORB_Functional_Health_Tracker.html`. It is not: the Schedule is programme,
+   pharmacy and start date; the Tracker logs each dose through the 16-week cycle
+   and exports a calendar. Both FH&L, both now in Longevity.
+
+   **The Testosterone Tracker came out entirely**, Don's call - clutter and
+   confusing for now, add it back if it earns a place. That emptied Men's
+   Health's tools band, so the band went with it rather than standing as a
+   heading with nothing under it.
+
+42. ~~THE NAVY PANEL BECOMES NAVY CARDS.~~ **DONE 2026-09-19.** A panel has to
+   be as tall as the tallest card in it. The 575px protein calculator left about
+   440px of bare navy beside a 136px tool card.
+
+   **That hole has now been designed around three times** - the four-card
+   nth-child grid in item 34, the single-tool strip in item 38, and this.
+   Painting each CARD instead of the panel behind them removes it rather than
+   arranging around it, and cards of different heights stop being a problem at
+   all. `align-items:start`, and Weight Loss reads as Don asked: the tool on the
+   left, the calculator next to it, nothing empty.
+
+   **When the same defect needs a third workaround, the workaround is not the
+   fix.**
+
+43. ~~THE PAGE WENT WHITE AT THE BOTTOM.~~ **DONE 2026-09-19.** Don: everything
+   above has colour and the AI section "just kind of goes very stale and mostly
+   white". It was the only full section on the page with no band behind it and
+   no accent on anything in it. The reference band takes cream, the AI section
+   takes navy, and `.pcard-ai` takes the same teal accent-top the programme
+   cards already use, so nothing new was invented.
+
+   **A FULL-WIDTH CARD IS NOT A 259px CARD.** Item 37 settled that centring the
+   body copy is right in a narrow reference card, because at that width there is
+   no left edge to lose. The two intro cards in the AI section are the width of
+   the page, and the same rule set a centred ragged paragraph 1040px wide -
+   which is precisely the case the general rule is about. Capped at 660px.
+   **A rule settled at one size is not a rule until it is checked at the other.**
+
+44. ~~NEW ANCHORS NEED `scroll-margin-top` TOO.~~ **DONE 2026-09-19.**
+   `#resources` and `#mealideas` are not `.psec`, so they did not inherit the
+   52px that items 34 and 37 settled, and the jump buttons added in the same
+   commit would have landed both headings under the 85px sticky nav. Caught
+   before shipping by driving `korbGo()` for every anchor and comparing the
+   heading's top against the nav height: all six arrive clear.
+
+   **Adding an anchor to this page is adding a scroll-margin-top.** The defect
+   is invisible in the markup and only shows when somebody presses the button.
+
+45. **A GLYPH THAT FALLS BACK CAN MEAN THE OPPOSITE.** The Meal ideas button
+   used U+1F373, a frying pan. Chromium here has no glyph for it and fell back
+   to a **MAGNIFYING GLASS** - a search icon on a button that jumps to recipes.
+   Swapped for U+1F37D, which this page already renders correctly on the Daily
+   Servings card.
+
+   **The DOM said the right thing the whole time.** `innerText` returned the pan
+   and only a zoomed screenshot of the rendered button showed the magnifier.
+   Same lesson as the house standard's *verify by reading the rendered page*,
+   in a new place: **an emoji is a font dependency, so check a new one by
+   looking at it, and prefer one the page already renders.**
