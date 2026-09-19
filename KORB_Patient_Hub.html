@@ -33,9 +33,33 @@ button{font-family:inherit;cursor:pointer;}
 .nav-brand .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);}
 .nav-links{display:flex;gap:24px;font-size:13.5px;font-weight:600;color:#4A4E66;}
 .nav-links a:hover{color:var(--teal);}
-.nav-cta{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:10px 18px;border-radius:24px;}
-@media (hover:hover){.nav-cta:hover{background:var(--teal);}}
-@media (max-width:820px){.nav-links{display:none;}}
+/* NO display:none HERE ANY MORE. The four programme links used to vanish
+   below 820px, which is every phone. They scroll horizontally instead: the
+   row is the only persistent wayfinding once the hero tiles are off screen,
+   and hiding it is not a way of fitting it in. */
+.nav-brand{flex-shrink:0;}
+.nav-links{flex:0 1 auto;margin-left:auto;min-width:0;
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;}
+/* margin-left:auto, NOT justify-content:flex-end. With flex-end an overflowing
+   flex row spills off its START edge, and scrollWidth then EQUALS clientWidth -
+   so the four programme links sat at left=-212 to 163, off the screen, and the
+   browser did not believe there was anything to scroll to. The first check
+   agreed: "scrolls=false, last item not clipped". Both true, both about the
+   wrong thing. Pushing the box right with a margin keeps the content
+   left-aligned inside it, so the overflow goes right and scrolls normally. */
+.nav-links::-webkit-scrollbar{display:none;}
+.nav-links > a{white-space:nowrap;}
+/* Guides and Meal ideas sit in the same row as the programmes, so the top
+   tray carries every destination on the page. Pill-shaped to say they are a
+   different KIND of place - reference rather than programme. */
+.nav-jump{display:inline-flex;align-items:center;color:var(--navy);font-weight:800;
+  background:var(--cream);border:1.5px solid var(--bd);border-radius:24px;padding:7px 14px;}
+@media (hover:hover){.nav-jump:hover{background:var(--navy);color:#fff;border-color:var(--navy);}}
+@media (max-width:1000px){
+  .nav .wrap{gap:12px;padding:12px 16px;}
+  .nav-links{gap:14px;font-size:12.5px;}
+  .nav-jump{padding:6px 12px;}
+}
 
 /* ================= HERO ================= */
 .hero{background:linear-gradient(180deg,#fff 0%,var(--cream) 100%);padding:64px 0 56px;overflow:hidden;position:relative;}
@@ -45,7 +69,17 @@ button{font-family:inherit;cursor:pointer;}
 .hero-eyebrow{color:var(--teal);}
 .hero h1{font-size:clamp(30px,4vw,46px);color:var(--navy);line-height:1.12;font-weight:800;margin-top:10px;}
 .hero p.lead{font-size:16px;color:#454965;max-width:480px;margin-top:16px;}
-.hero-ctas{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;}
+/* .hero-ctas went with the Start Here button - nothing renders one now.
+   A MEASURE, NOT A COLUMN. Centred ragged text is hard to read when the line
+   is long, which is the lesson from the AI intro cards, so the quote is held
+   to about 46 characters a line and centred as a block. */
+.hero-quote{margin:28px auto 0;max-width:460px;text-align:center;
+  border-top:1px solid var(--bd);padding-top:22px;}
+.hero-quote p{font-size:14.5px;line-height:1.72;color:#3A3E5C;font-style:italic;}
+.hero-quote cite{display:block;margin-top:15px;font-style:normal;
+  font-size:12.5px;font-weight:800;color:var(--navy);}
+.hero-quote cite span{display:block;margin-top:3px;
+  font-size:11.5px;font-weight:600;color:var(--mu);}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:24px;font-weight:700;font-size:14px;}
 .btn-primary{background:var(--navy);color:#fff;}
 .btn-primary:hover{background:var(--teal);}
@@ -453,8 +487,6 @@ footer strong{color:#fff;}
 /* THE MEAL IDEAS BUTTON DOMINATED THE NAV. It was the only filled navy element
    up there, so it outweighed the four programme links beside it - which are the
    actual navigation. An outline reads as available without competing. */
-.nav-cta{background:transparent;color:var(--navy);border:1.5px solid var(--navy);}
-.nav-cta:hover{background:var(--navy);color:#fff;}
 
 /* ==== GETTING STARTED CARDS, Don 2026-09-19 =============================
    The buttons sat at whatever height the copy left them, so a row of cards had
@@ -513,8 +545,9 @@ footer strong{color:#fff;}
       <a href="#menshealth" onclick="return korbGo('menshealth');">Men's Health</a>
       <a href="#womenshealth" onclick="return korbGo('womenshealth');">Women's Health</a>
       <a href="#longevity" onclick="return korbGo('longevity');">Longevity</a>
+      <a class="nav-jump" href="#resources" onclick="return korbGo('resources');">Guides</a>
+      <a class="nav-jump" href="#mealideas" onclick="return korbGo('mealideas');">Meal ideas</a>
     </div>
-    <a class="nav-cta" href="#mealideas" onclick="return korbGo('mealideas');">Meal Ideas</a>
   </div>
 </div>
 
@@ -524,10 +557,13 @@ footer strong{color:#fff;}
       <div class="eyebrow hero-eyebrow">Patient Resources</div>
       <h1>Everything about your care, in one place.</h1>
       <p class="lead">Your program guide, your dosing calendar, and your safety information — organized around what you're actually doing this week, not a filing cabinet of PDFs.</p>
-      <p style="font-size:12.5px;color:var(--mu);font-weight:700;margin-top:10px;letter-spacing:.2px;">All we have is now — KORB Health</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="#start" onclick="return korbGo('start');">Start Here</a>
-      </div>
+      <blockquote class="hero-quote">
+        <p>&ldquo;You should leave your appointment understanding what we&rsquo;re doing,
+        why we&rsquo;re doing it, and what comes next. If the plan doesn&rsquo;t fit your
+        life, we need to talk about that too. That&rsquo;s the standard I want us to hold
+        at KORB.&rdquo;</p>
+        <cite>Don Stevenson, PA-C<span>Director of Clinical Operations, KORB Health</span></cite>
+      </blockquote>
     </div>
     <div class="phase-ring-wrap">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:520px;">
