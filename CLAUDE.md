@@ -2196,3 +2196,67 @@ testosterone" was either already gone or never in it.
    renders it inside the Weight Loss tools band, because protein targets are
    part of that programme rather than general advice. Linking the provider file
    would put an unreleased provider document one tap from a text message.
+
+50. ~~A LINK'S DESCRIPTION WAS WRITTEN FROM ITS FILENAME.~~ **DONE 2026-09-19.**
+   Don asked whether the descriptions on the two food cards match what the links
+   actually open. They did not, and nobody had checked - the copy was written
+   from what `Daily Serving Sizes.pdf` and `DGA.pdf` sound like.
+
+   **Checked by downloading and reading all three**, not by reasoning about
+   names. `pypdf` is not a repo dependency; it was installed ad hoc for this.
+
+   | link | what it actually is |
+   |---|---|
+   | `cdn.realfood.gov/Daily%20Serving%20Sizes.pdf` | *Daily Servings by Calorie Level*, 3pp. A table across **twelve** calorie levels, 1,000 to 3,200 |
+   | `cdn.realfood.gov/DGA.pdf` | *Dietary Guidelines for Americans, 2025-2030*, 10pp. Page 3 is the protein page |
+   | `nal.usda.gov/.../Protein.pdf` | A 2019 **database dump**, 20pp, unformatted. See below |
+
+   **The servings card printed one column of a twelve-column table as universal
+   fact.** "3 servings of vegetables" is the 2,000-calorie figure; the real
+   range is 1.5 to 4.5. Fruit runs 1 to 2.5, whole grains 1-2 to 3-6.
+
+   **It also credited that PDF with the 1.2-1.6 g/kg protein goal, which is not
+   in it.** That sentence is in the Dietary Guidelines, verbatim: *"Protein
+   serving goals: 1.2-1.6 grams of protein per kilogram of body weight per
+   day."* So the protein calculator, which cites the Dietary Guidelines, was
+   right all along - only the servings card attributed it to the wrong
+   document. **A number can be correct and still be sourced to the wrong
+   place, and the wrong citation is what a patient would check.**
+
+   **The USDA `Protein.pdf` is not usable and its age is not the reason.** Don
+   asked for something newer than 2018 - it is actually 2019, authored inside
+   ARS, and it is a raw extract from the food composition database ranked by
+   protein per measure. Twenty pages, no headings, and entries including
+   *chocolate mousse*, *confectioner's peanut butter coating* and *raw pig's
+   feet* presented alongside chicken breast. **Not a handout at any date.** The
+   maintained version of that same data is FoodData Central, which is live and
+   searchable, so the card links there instead.
+
+   **MyPlate is no longer a destination.** `myplate.gov/eat-healthy/protein-
+   foods` returns 403 to a fetch and the site now redirects to RealFood.gov.
+   Do not link MyPlate deep pages.
+
+   **Ask what a PDF contains before describing it**, and prefer a page number
+   over a promise: `DGA.pdf#page=3` lands on the protein page in viewers that
+   support it and harmlessly opens page 1 in those that do not.
+
+51. ~~A CARD CALLED GOOD SOURCES OF PROTEIN WAS THREE-QUARTERS ANIMAL.~~
+   **DONE 2026-09-19.** Six of the eight entries were meat, fish, dairy or
+   whey, so a patient who eats no animal products had two usable lines out of
+   eight, on the one card written to answer their question. Edamame, tempeh and
+   black beans added - five plant sources of eleven now. The Dietary Guidelines
+   name beans, peas, lentils, legumes, nuts, seeds and soy in the same breath
+   as the animal sources, so this is following the source the card cites.
+
+   **A plant-based prompt was added for the same reason**, raised by Don on
+   behalf of a colleague who has asked more than once. It is the prompt set's
+   real gap rather than a nicety: appetite drops on a GLP-1 while plant protein
+   is less dense per calorie, so the patient with the hardest job hitting a
+   protein target had no prompt written for them. One prompt covers both diets
+   - it asks for vegan ideas, then asks which three would change if the reader
+   does eat dairy and eggs.
+
+   **THE PROMPTS LIVE ON `KORB_GLP1_Welcome_Letter`, NOT ON THE HUB.** The hub
+   reads them. That letter is LIVE to patients, so editing a prompt edits a
+   live document - worth knowing before treating the prompt list as hub copy.
+   It is unsigned and has no probe, so nothing went stale.
