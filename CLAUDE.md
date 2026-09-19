@@ -1861,3 +1861,41 @@ testosterone" was either already gone or never in it.
    was written when the video sat under a lab guide at the foot of the page.
    Moving a block and leaving its copy describing the old neighbours is the same
    defect as a stale comment.
+
+36. ~~THE PAIRED VIDEOS DID NOT LINE UP.~~ **DONE 2026-09-19.** The two halves
+   carry different amounts of copy, so the stills started at different heights
+   and one card ran taller. Don asked for it, and suggested a spacer above the
+   shorter one.
+
+   **A spacer would have been wrong, and measuring showed why: the error runs in
+   BOTH directions.** Men's Health had the injection blurb one line SHORTER than
+   the labs blurb; Functional Health had it one line LONGER. A hand-tuned value
+   would need to differ per section and would break the next time anybody edited
+   a sentence. So the text block absorbs the difference instead - `align-items:
+   stretch` plus `flex:1` on `.txt` - and the still is pushed to the bottom of
+   each card. Same-size stills pinned to the bottom line up at the top too, and
+   it holds however the copy changes.
+
+   **Three wrong turns on the way, all caught by looking rather than reasoning:**
+
+   - `flex:1` on the text collapsed `.video-frame` to zero height, because it
+     derives its height from `aspect-ratio` and a flex item with no basis will
+     happily give that up. **Both videos vanished** and the cards shrank to
+     176px. The numbers still said the frame TOPS matched, which they did - at
+     zero. `flex:0 0 auto` on the frame.
+   - `height:100%` then equalised the cards and pushed the mismatch into the
+     frames instead. **That was treating the symptom**, and it is worth noticing
+     that it looked like progress.
+   - The real cause was upstream and invisible from inside: each card carries an
+     **INLINE `margin-top`, 24px on one and 20px on the other**, left from when
+     they were standalone blocks in the page flow. 24 minus 20 is the 4px. The
+     uniform-spacing reset from item 35 did not reach them because it is scoped
+     to direct children of `.psec`, and these now sit inside `.video-pair`.
+
+   Verified to the sub-pixel: card tops, card heights, frame tops and frame
+   bottoms all identical in both pairs.
+
+   **No Quest video in Weight Loss or Women's Health**, Don 2026-09-19, recorded
+   so nobody adds it for symmetry: **weight loss has no labs**, and women's
+   health labs are mail-order, arranged by KORB on request - one patient asked in
+   the last year. Not worth the clutter.

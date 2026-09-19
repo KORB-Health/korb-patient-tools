@@ -305,8 +305,37 @@ footer strong{color:#fff;}
    Each half stacks its text ABOVE its still rather than beside it. The
    side-by-side block is a two-column grid at full width; halve it and the
    text column has nowhere to go. */
-.video-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-.video-pair .video-block{grid-template-columns:1fr;}
+.video-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;}
+
+/* THE TWO HALVES HAVE DIFFERENT AMOUNTS OF TEXT, so the stills started at
+   different heights and one card ran taller. Measured: Men's Health had the
+   injection blurb ONE line shorter than the labs blurb, and Functional Health
+   had it ONE LINE LONGER - the error runs both ways, so a hand-tuned spacer
+   would need a different value per section and would break the next time
+   anybody edits a sentence.
+
+   Instead the text area absorbs the difference. align-items:stretch makes both
+   cards the height of the taller one, the .txt block grows to fill whatever is
+   left, and the still is pushed to the bottom of each. Since the two stills are
+   the same size, pinning both to the bottom lines up their tops as well. It
+   stays aligned however the copy changes. */
+.video-pair .video-block{grid-template-columns:1fr;display:flex;flex-direction:column;}
+.video-pair .video-block .txt{flex:1 1 auto;}
+/* The frame derives its height from aspect-ratio:16/9, and a flex item with no
+   explicit basis will happily collapse that to nothing - which is exactly what
+   happened on the first attempt: the cards shrank to 176px and both videos
+   vanished off the page. flex:0 0 auto tells it to keep its own height. */
+.video-pair .video-block .video-frame{flex:0 0 auto;width:100%;}
+/* The two halves sat 4px apart and nothing INSIDE them differed - the text
+   blocks measured 123.58px in both. The cause was upstream: each card carries an
+   INLINE margin-top, 24px on one and 20px on the other, left over from when they
+   were standalone blocks in the page flow. 24 minus 20 is the 4px.
+
+   The earlier fix here forced height:100% on both, which equalised the cards and
+   pushed the mismatch into the frames instead - treating the symptom. Zeroing
+   the inherited margins is the actual fix; height:100% stays because it makes
+   the row behaviour explicit rather than inherited. */
+.video-pair > *{margin:0 !important;height:100%;box-sizing:border-box;}
 @media (max-width:860px){.video-pair{grid-template-columns:1fr;}}
 
 /* UNIFORM VERTICAL RHYTHM.
