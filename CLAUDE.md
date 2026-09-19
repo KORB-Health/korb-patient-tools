@@ -1940,3 +1940,87 @@ testosterone" was either already gone or never in it.
    The weakest of them is Good Sources of Protein, where a centred list of
    values is harder to scan than a ranged-left one. If that one ever gets its
    own treatment, range it left on its own rather than reverting the set.
+
+38. ~~NOTHING PATIENT-FACING IS ORPHANED AT THE PAGE FOOT.~~ **DONE 2026-09-19**,
+   Don's call: move the tools and the resource cards into the programme they
+   belong to "instead of having to continue to mess with it later."
+
+   The navy `.tools-sec` band and the `.res-sec` "Getting Started" row both sat
+   BELOW all four programmes. A Men's Health patient scrolled past Weight Loss
+   and Longevity to reach his tracker, and the page ended in a pile of cards
+   belonging to no programme in particular. Each programme now carries
+   `.sec-tools` and `.sec-res` of its own; both old sections are gone.
+
+   **THE CARE CARDS ARE DELIBERATELY REPEATED, not cross-referenced.** Injection
+   Storage, Sharps, When to Contact and the rest render once per programme. Same
+   reasoning this file already gives for the FH&L provider references: a patient
+   in one programme needs that programme complete on its own page, not a pointer
+   to another one.
+
+   **THE NAVY BAND TRAVELLED WITH THE CARDS.** Every `.tool-card` rule is
+   white-on-navy because the tools used to live in one dark section. Dropping
+   those cards onto the cream programme sections would have made all of them
+   unreadable. The band moved too, scoped per programme.
+
+   **FIVE OVERLAPS, RESOLVED RATHER THAN DUPLICATED.** A straight move would
+   have put two routes to one page inside one section. Found by comparing each
+   section's existing hrefs against the destinations being moved, BEFORE moving
+   anything - Weight Loss already linked two of them.
+   - "Your Dose" deleted: a verbatim duplicate of the Dose Guide tool card.
+   - "Safety & Storage" deleted: Injection Storage is in the resources row now,
+     and **When to Contact, which only Weight Loss carried, became a care card
+     in every programme.** Deleting the card without noticing that would have
+     quietly narrowed a live safety document to one programme.
+   - Good Sources of Protein lost its button: same PDF as the Daily Servings
+     card now beside it.
+   - **The Quest lab card is out of Weight Loss.** No labs in that programme,
+     which is why the Quest video went to Men's Health and Longevity only.
+   - **The 503A compounding card is out of Men's Health.** Testosterone
+     cypionate is a COMMERCIAL product dispensed by a compounding pharmacy, not
+     a compounded one, and open item 6 is explicit that the word compounded
+     appears nowhere provider-facing for it. The card told a Men's Health
+     patient the opposite of what the reference and the provider tool say.
+
+   The 660px embedded Peptide Tracker is a tool card now. It was the only tool a
+   patient met as an iframe, it set the Longevity section's height by itself,
+   and it rendered the tool's own chrome inside ours.
+
+39. **THE PROGRAMME COLUMN ONLY HELD ABOVE 1140px.** Found 2026-09-19 while
+   measuring the new bands, and it is a defect they inherited rather than caused.
+
+   Open item at "2. ONE COLUMN WIDTH FOR EVERY PROGRAMME" capped the direct
+   children of `.psec` at `max-width:1084px`. **That does nothing below 1140**,
+   because it is a maximum and the viewport is already smaller. The `.wrap`
+   keeps its 28px padding at every width; these blocks had none. So on a PHONE,
+   Weight Loss was inset 28px and Men's, Women's and Longevity ran their card
+   rows, product cards and add-on strips edge to edge. Measured at 375: three
+   sections at `left=0 w=375` against Weight Loss at `left=28 w=319`.
+
+   `width:calc(100% - 56px)` beside the max-width reproduces the wrap's gutter
+   at every width and changes nothing above 1140, where max-width already wins.
+   Every block in all four programmes now measures 28/319 at 375, 28/844 at 900
+   and 98/1084 at 1280, with no exception.
+
+   **Negative-tested both halves.** Width removed: three sections drop back to
+   left=0. Width restored: all four read 28.
+
+   **The original fix was verified at desktop only**, which is why a rule that
+   works at one width read as a rule that works. Same wrong-reference mistake as
+   measuring a centred button against the viewport instead of its parent, in
+   item 26. **A layout rule is not checked until it is checked at phone width.**
+
+40. ~~A DEAD IN-PAGE ANCHOR IS SILENT.~~ **DONE 2026-09-19.** The nav entry
+   "My Tools" and the hero's only button both pointed at `#tools`, which the
+   restructure removed. `korbGo()` does `getElementById` and returns false on a
+   miss, so **both were dead clicks that reported nothing** - no error, no
+   scroll, a page that looks perfectly fine and a button that does nothing when
+   a patient presses it.
+
+   The nav entry is gone, the tools being inside each programme now, and the
+   hero button opens the welcome video instead. `KORB_Patient_Hub.html` gained a
+   load-time check that every `a[href^="#"]` resolves, logging the count on
+   success and naming the broken ones on failure. It currently reports 6 targets.
+
+   Same family as the checks in "Known failure": the thing being relied on is
+   never asked whether it exists. `check-pages.js` asks whether a page's SCRIPTS
+   resolve; nothing asked whether its own LINKS do.
