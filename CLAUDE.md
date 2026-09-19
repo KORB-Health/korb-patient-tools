@@ -1824,3 +1824,40 @@ testosterone" was either already gone or never in it.
 
    Verified after: 9 videos, 9 facades, injection in exactly 3 sections, every
    frame 504px, no horizontal overflow, no JS errors, **176ms**.
+
+35. ~~LABS AND INJECTION SIDE BY SIDE, AND ONE VERTICAL RHYTHM.~~ **DONE
+   2026-09-19.**
+
+   **The Quest video moved into Men's Health and Functional Health & Longevity
+   and off the page foot.** Don's ordering and it is the right way round: **labs
+   on the LEFT, injection on the RIGHT**, because a patient orders labs before
+   they ever draw up a dose, so the page reads in the order they will live it.
+   Both programmes require labs before starting. Weight Loss keeps the injection
+   video alone - he named those two. `.video-pair` stacks the text ABOVE the
+   still in each half; the block is a two-column grid at full width and halving
+   it leaves the text column nowhere to go.
+
+   **The spacing was an accident, not a rhythm.** Measured before touching it:
+   gaps between blocks in a single section ran **0, 8, 16, 20, 24 and 36px**, and
+   two blocks were literally touching. Now one value, 28px, everywhere - verified
+   as a single distinct gap across all four programmes. It needs `!important`
+   because these blocks carry INLINE margins that beat a stylesheet, and it is
+   scoped to direct children so nothing nested inside a card is touched.
+
+   **The wide buttons and the scrolling were the same bug.** Every guide link
+   rendered **1040px across to carry about thirty characters**, because `.links`
+   is a single-column flex stack at section width. Two columns halves the width
+   AND halves the height of every list: **page height 13,925px to 13,127px**, and
+   a link is now 515px. Single column again under 760px, where full width is
+   right. A list with an ODD number of items spans its first item across both
+   columns, so the leftover lands at the top as a feature row rather than at the
+   bottom as a hole.
+
+   **The Meal Ideas button dominated the nav** because it was the only filled
+   navy element up there, outweighing the four programme links beside it - which
+   are the actual navigation. Outline now, filling on hover.
+
+   **The Quest copy said "pairs with the guide above" and no longer does.** It
+   was written when the video sat under a lab guide at the foot of the page.
+   Moving a block and leaving its copy describing the old neighbours is the same
+   defect as a stale comment.

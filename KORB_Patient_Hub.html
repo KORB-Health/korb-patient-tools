@@ -293,6 +293,61 @@ footer strong{color:#fff;}
   .tools-sec .tool-card:nth-child(2){grid-column:2;grid-row:2;}
   .tools-sec .tool-card:nth-child(3){grid-column:2;grid-row:3;}
 }
+
+/* ==== PAIRED VIDEOS + UNIFORM SPACING, Don 2026-09-19 ===================
+
+   LABS LEFT, INJECTION RIGHT, in Men's Health and Functional Health &
+   Longevity. Don's reasoning and it is the right way round: a patient orders
+   labs before they ever draw up a dose, so the page should read in the order
+   they will live it. Weight Loss keeps the injection video on its own - he
+   named these two programmes, both of which require labs before starting.
+
+   Each half stacks its text ABOVE its still rather than beside it. The
+   side-by-side block is a two-column grid at full width; halve it and the
+   text column has nowhere to go. */
+.video-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+.video-pair .video-block{grid-template-columns:1fr;}
+@media (max-width:860px){.video-pair{grid-template-columns:1fr;}}
+
+/* UNIFORM VERTICAL RHYTHM.
+   Measured before touching it: the gaps between blocks ran 0, 8, 16, 20, 24 and
+   36px down the same section. Two blocks were literally touching. Every block
+   is reset to zero and given one gap, so the page has a rhythm instead of an
+   accident. 28px, which is the busiest value already in use plus a little air. */
+.psec > *, .psec > .wrap > *{margin-top:0 !important;margin-bottom:0 !important;}
+.psec > * + *, .psec > .wrap > * + *{margin-top:28px !important;}
+/* !important because these blocks carry INLINE margin-top - 16px, 20px, 24px -
+   and an inline style beats a stylesheet. This is the case the keyword exists
+   for. It is scoped to DIRECT children of a section or its wrap, so margins on
+   anything nested inside a card are left alone. */
+
+/* ==== TWO COLUMNS, Don 2026-09-19 =======================================
+
+   THE WIDE BUTTONS. Every guide link rendered 1040px across to carry about
+   thirty characters, because .links is a single-column flex stack at full
+   section width. On a phone that is fine; on a desktop it is a button the width
+   of the page and it stops reading as a button at all. Don called it and he is
+   right.
+
+   Two columns halves the width AND halves the height of every list, which is
+   the same fix for "patients have to scroll so much". One rule, both problems.
+   Back to a single column under 760px, where full width is correct. */
+.pcard .links, .addon-strip .links{display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;align-content:start;}
+@media (max-width:760px){
+  .pcard .links, .addon-strip .links{grid-template-columns:1fr;}
+}
+
+/* An odd number of links leaves a hole at the end of the grid. The first item
+   spans both columns instead, so the gap lands at the TOP as a deliberate
+   feature row rather than at the bottom as a mistake. */
+.pcard .links > a:first-child:nth-last-child(odd){grid-column:1 / -1;}
+
+/* THE MEAL IDEAS BUTTON DOMINATED THE NAV. It was the only filled navy element
+   up there, so it outweighed the four programme links beside it - which are the
+   actual navigation. An outline reads as available without competing. */
+.nav-cta{background:transparent;color:var(--navy);border:1.5px solid var(--navy);}
+.nav-cta:hover{background:var(--navy);color:#fff;}
 </style>
 </head>
 <body>
@@ -478,6 +533,15 @@ footer strong{color:#fff;}
       </div>
       <div class="video-frame" data-korb-video="mens"></div>
       </div>
+<div class="video-pair">
+<div class="video-block" style="margin-top:24px;">
+    <div class="txt">
+      <div class="eyebrow tag">First step</div>
+      <h4>How Quest Labs Work</h4>
+      <p>A quick walkthrough of booking your Quest draw and what to expect on the day.</p>
+    </div>
+    <div class="video-frame" data-korb-video="quest"></div>
+    </div>
 <div class="video-block" style="margin-top:20px;">
       <div class="txt">
         <div class="eyebrow tag">Before Your First Dose</div>
@@ -486,6 +550,7 @@ footer strong{color:#fff;}
       </div>
       <div class="video-frame" data-korb-video="injection"></div>
     </div>
+</div>
 
     
     </div>
@@ -617,6 +682,15 @@ footer strong{color:#fff;}
       </div>
       <div class="video-frame" data-korb-video="fhl"></div>
       </div>
+<div class="video-pair">
+<div class="video-block" style="margin-top:24px;">
+    <div class="txt">
+      <div class="eyebrow tag">First step</div>
+      <h4>How Quest Labs Work</h4>
+      <p>A quick walkthrough of booking your Quest draw and what to expect on the day.</p>
+    </div>
+    <div class="video-frame" data-korb-video="quest"></div>
+    </div>
 <div class="video-block" style="margin-top:20px;">
       <div class="txt">
         <div class="eyebrow tag">Before Your First Dose</div>
@@ -625,6 +699,7 @@ footer strong{color:#fff;}
       </div>
       <div class="video-frame" data-korb-video="injection"></div>
     </div>
+</div>
 
     
     </div>
@@ -890,14 +965,7 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
     </div>
   </div>
 
-  <div class="video-block" style="margin-top:24px;">
-    <div class="txt">
-      <div class="eyebrow tag">Watch First</div>
-      <h4>How Quest Labs Work</h4>
-      <p>A quick walkthrough of scheduling and completing your Quest lab draw — pairs with the guide above.</p>
-    </div>
-    <div class="video-frame" data-korb-video="quest"></div>
-    </div>
+  
   </div>
 </div>
 
