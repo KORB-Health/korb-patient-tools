@@ -62,6 +62,59 @@ is which. This list can. Keep it current — it is the only record.
 
 ---
 
+### Every patient-facing page, one line each
+
+Built from `git ls-files` on 2026-09-19, so it lists what is actually published
+rather than what anyone remembers publishing. **Released means released to
+patients.** Provider intranet publication is a separate axis and is further down.
+
+Don asked for this on 2026-09-19 after checking the hub and three program
+overviews against his own artifact tracker and finding them marked not released
+there. They were already released here. The prose below said so and was too long
+to check a single document against, which is the whole reason this table exists.
+
+| Page | Released to patients |
+|---|---|
+| `Patient_Education/KORB_Foundation_Program_Overview.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Gateway_Program_Overview.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Longevity_Program_Overview.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_MensHealth_Program_Overview.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Peak_Program_Overview.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_WeightLoss_Program_Overview.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_WomensHealth_Program_Overview.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Injection_Storage_Safety_Guide.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Anti_Aging.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_BPC157.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_CJC_Ipamorelin.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_GHK_Cu.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Hair_Loss.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_HormoneTherapy.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Semaglutide.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Sermorelin.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Sexual_Health.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Skin_Care.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Tesamorelin.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Testosterone.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Patient_Ed_Tirzepatide.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Start_Here_Guide.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_When_to_Contact_KORB_or_ER.html` | **Yes**, 2026-09-19 |
+| `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
+| `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
+| `KORB_Lab_Interpretation_Tool.html` | **Yes**, 2026-09-19 |
+| `KORB_Patient_Hub.html` | **Yes**, 2026-09-19 |
+| `KORB_Patient_Treatment_Schedule.html` | **Yes**, 2026-09-19 |
+| `KORB_Schedule_Your_Lab_Appointment.html` | **Yes**, 2026-09-19 |
+| `KORB_Testosterone_Tracker.html` | **Yes**, 2026-09-19 |
+| `KORB_Welcome_Letter.html` | **Retired** 2026-09-19, redirects to the hub |
+| `KORB_GLP1_Welcome_Letter.html` | **Retired** 2026-09-19, redirects to the hub |
+| `KORB_Welcome_Letter.pdf` | **Retired** 2026-09-19. No longer sent; still served for patients holding the link |
+| `KORB_Scheduler_Intake_Prototype.html` | **No.** Frozen for Lindsay's review. Do not modify |
+| `KORB_Scheduler_Intake_AllPrograms.html` | **No.** In build. Not a patient link yet |
+
+35 rows: 34 published pages and 1 PDF. If a file exists and is not on this list, the
+list is wrong, not the file.
+
+---
 ### EVERYTHING PATIENT-FACING IS RELEASED. Don, 2026-09-19.
 
 **This section said the opposite until today, and it was badly out of date.** It
