@@ -211,13 +211,14 @@ var KORB_DOSING = {
   },
 
   meta: {
-    version: '2.13',
+    version: '2.14',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-09-20 (v2.14): SYRINGE COUNT MOVED, NO DOSE OR AGENT CHANGE. The count moved from Pharmacy Instructions to the FRONT of Patient Instructions on all twelve Premier peptide entries. The pharmacy has been missing it where it sat and shipping one pack of 10 against prescriptions calling for far more; they read the patient sig while filling and strip the prefix by hand, so the front of that line is where it is actually seen. Requested by the pharmacy, relayed by Don Stevenson, PA-C. Counts are unchanged and all twelve fit the 140-character cap, the longest being sermorelin at 124. THE TWO GREENWICH TESAMORELIN ENTRIES ARE DELIBERATELY UNTOUCHED: theirs reads DISPENSE 100-UNIT SYRINGES and is a syringe SIZE instruction, not a count - the 67-unit dose exceeds a 50-unit syringe - so prefixing a quantity would have destroyed the reason it is there.',
       '2026-09-15 (v2.13): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing sign-off register, plus rx-signoff.js which reports and computes it. FH&L had no sign-off mechanism of any kind. The monograph fingerprint in korb-glp1-data.js is untouched and stays separate: it covers clinical writing, this covers the Tebra fields and charge codes, and merging them would mean a hyphen fix in a sig expiring a contraindication sign-off. Records hold a fingerprint of the document as signed rather than a boolean, so a change after sign-off shows as STALE instead of being invisible.',
       '2026-09-15 (v2.12): NO CLINICAL CONTENT CHANGE. Open item 4. This file no longer types a pharmacy footprint. states.premierRouting is empty in source and filled at load by hydrate() from korb-pharmacies.js, which is now the only place a pharmacy state list is written - the same wiring korb-glp1-data.js took in v2.21 under open item 3. WHAT DID NOT MOVE, and the distinction is the whole point: unavailable, unavailableNoShip, unavailableNoPharmacy and unavailableLabWorkflow all stay here. Those are program decisions about where KORB offers Functional Health & Longevity, not facts about where a pharmacy is licensed, and only 8 of the 18 closed states are closed for a pharmacy reason at all. MISSISSIPPI is the case that made this worth doing. The typed list held 37 states, the shared footprint holds 38, and the one difference was MS, removed from premierRouting on 2026-08-24 when MS left the FH&L offering. Premier is licensed to ship peptides to MS and always was; a program decision had been written into a pharmacy list. MS is back in the footprint and still blocked through unavailableNoShip. NOTHING A PROVIDER SEES CHANGES, and that was measured rather than assumed: premierRouting minus unavailable is the same 31 states before and after. requireHydrated() throws by name if korb-pharmacies.js was not loaded first, because an empty footprint reads as "Premier ships nowhere" and would silently route every FH&L patient to Greenwich. Negative-tested: loading this file alone leaves hydrated false and makes requireHydrated() throw; build-fhl-docs.js refuses to build and the live pages refuse to render. The script tag was added to the four generated FH&L references, to the three live root tools, and to check-pages.js, which failed on all four generated pages before the rebuild and passes after.',
       '2026-09-14 (v2.9): CLINICAL CONTENT CHANGED - GREENWICH BPC-157 FAVORITE NAME CORRECTED. The Greenwich entry was named "0.6 MG", which is 600 mcg. The dose is 500 mcg and always was: agents.bpc157.dose already read "500 mcg" and Premier already named it "500 mcg", so the Greenwich favorite name was the only place stating 600. Confirmed by Don 2026-09-14: BPC-157 is 500 mcg only. Two strings changed, the label and the Name field. Nothing else in the Greenwich record encoded 600 - Patient Instructions is the standard Greenwich "as directed by provider" line and quantity 10 ml is the vial size, both unchanged, as is the Drug Formulation string "KBH   BPC-157 3mg/mL" with its three spaces. This closes the last disagreement found by the cross-pharmacy dose audit: all twelve agents now state the same dose in both pharmacy names.',
@@ -472,9 +473,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT SERMORELIN 20 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT SERMORELIN 20 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -510,9 +511,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT SERMORELIN 30 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT SERMORELIN 30 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -548,9 +549,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT SERMORELIN 40 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT SERMORELIN 40 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -586,9 +587,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT SERMORELIN 50 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT SERMORELIN 50 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -624,9 +625,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '56', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT 13 UNITS SUBCUTANEOUSLY ONCE DAILY', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 60 INSULIN SYRINGES. INJECT 13 UNITS SUBCUTANEOUSLY ONCE DAILY', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 60 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -678,9 +679,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT 5 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT 5 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -716,9 +717,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT 7.5 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT 7.5 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -754,9 +755,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT 10 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT 10 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -792,9 +793,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '28', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT 20 UNITS SUBCUTANEOUSLY THREE TIMES WEEKLY IN THE EVENING', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 20 INSULIN SYRINGES. INJECT 20 UNITS SUBCUTANEOUSLY THREE TIMES WEEKLY IN THE EVENING', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 20 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -842,9 +843,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT 20 UNITS SUBCUTANEOUSLY IN THE EVENING, 6 DAYS ON 1 DAY OFF', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT 20 UNITS SUBCUTANEOUSLY IN THE EVENING, 6 DAYS ON 1 DAY OFF', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -880,9 +881,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT 30 UNITS SUBCUTANEOUSLY IN THE EVENING, 6 DAYS ON 1 DAY OFF', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT 30 UNITS SUBCUTANEOUSLY IN THE EVENING, 6 DAYS ON 1 DAY OFF', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
@@ -918,9 +919,9 @@ var KORB_DOSING = {
         { field: 'Unit', val: 'ml', copy: true },
         { field: 'Refill', val: '0', copy: true },
         { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'INJECT 40 UNITS SUBCUTANEOUSLY IN THE EVENING, 6 DAYS ON 1 DAY OFF', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT 40 UNITS SUBCUTANEOUSLY IN THE EVENING, 6 DAYS ON 1 DAY OFF', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. Dispense 80 insulin syringes.', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
     greenwich: {
