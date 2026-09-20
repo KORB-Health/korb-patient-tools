@@ -1127,7 +1127,7 @@ var KORB_PATIENT_ED = {
             {
               href: 'KORB_When_to_Contact_KORB_or_ER.html',
               label: 'When to Contact KORB or the ER',
-              note: 'keep this one to hand'
+              note: 'keep this one handy'
             }
           ],
           after: [
@@ -1644,7 +1644,7 @@ var KORB_PATIENT_ED = {
       title: 'When to Contact KORB or the ER',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
-        'Keep this one to hand. It covers who to contact, for what, and what counts as an emergency rather than a message.'
+        'Keep this one handy. It covers who to contact, for what, and what counts as an emergency rather than a message.'
       ],
       sections: [
         {
