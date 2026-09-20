@@ -783,7 +783,7 @@ var KORB_PATIENT_ED = {
       title: 'Sexual Health',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and to KORB Electric**, because both contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
+        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise, to PERFORM and to KORB Electric**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
       ],
       sections: [
         {
@@ -808,7 +808,7 @@ var KORB_PATIENT_ED = {
           ],
           after: [
             'Start with half a troche. If that is not enough, your provider may tell you to increase to a full one. Do not take more than one troche in a 24-hour period unless your provider specifically tells you to.',
-            'If you live in a state we serve through a different pharmacy you may receive PERFORM instead. It is the same idea in a fast-dissolving tablet, taken 30 minutes before sexual activity. It does not contain L-Arginine, so headache may be a little more noticeable.'
+            'If you live in a state we serve through a different pharmacy you may receive PERFORM instead. It contains sildenafil and tadalafil, the same two actives that do the main work in KORB Rise, in a fast-dissolving tablet taken 30 minutes before sexual activity. It does not contain L-Arginine or oxytocin, so headache may be a little more noticeable. **The nitrate warning at the top of this page applies to PERFORM as well.** Your strength may differ from KORB Rise, so follow your own label rather than anything you were told about the other product.'
           ]
         },
         {
@@ -822,12 +822,17 @@ var KORB_PATIENT_ED = {
              whole body", which reads as a reason the warning above does not
              apply to her. It contains sildenafil, the Viagra active.
 
-             TWO FORMULATIONS, because the pharmacies compound it differently:
-             Premier is sildenafil 1.5% / theophylline 3% / L-arginine 6%,
-             FarmaKeio is sildenafil 2% / arginine HCl 6% / DHEA 1%. Both are
-             sildenafil plus arginine, so the handout says that and sends her to
-             her label for the rest rather than printing one pharmacy's recipe as
-             if it were everyone's. */
+             TWO FORMULATIONS, because the pharmacies compound it differently.
+             Both are sildenafil plus arginine; the third active differs. The
+             handout names the actives and sends her to her label for the rest.
+
+             NO STRENGTHS ANYWHERE IN THIS FILE, and that is a rule rather than an
+             oversight. Don, 2026-09-19: patients should know what is in a product
+             and not what the numbers are. Numbers invite comparison between
+             products, they go stale when a formulation changes, and this file is
+             served from a public no-login URL where a competitor reads it as
+             easily as a patient. Strengths live in korb-addons-data.js for
+             providers. Do not copy them here. */
           h: 'For women: KORB Electric',
           paras: [
             'KORB Electric is a topical gel applied directly to the clitoris about 30 minutes before sexual activity, where it increases blood flow to the tissue it is applied to.',
