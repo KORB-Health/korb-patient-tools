@@ -306,7 +306,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.22',
+    version: '2.23',
     created: '2026-08-06',
     lastUpdated: '2026-09-13',
     owner: 'Director of Clinical Operations',
@@ -326,6 +326,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-20 (v2.23): SUPPLY CHANGE, NO DOSE OR ROUTING CHANGE. Belmar tirzepatide 12.5 mg and 15 mg now ask for TWO packs of insulin syringes on the 8-WEEK supply only. Belmar is 10 mg/mL, so those two doses are 1.25 mL and 1.5 mL - over a 1 mL syringe, so each dose is two injections. At two syringes a dose the 4-week supply needs 8 and fits one pack; the 8-week needs 16 and does not. They are the only doses over 100 units in ANY Belmar product, so semaglutide is unaffected, and Premier and FarmaKeio tirzepatide are 18 mg/mL whose top doses are 89 and 83 units - one syringe throughout. 10 mg is deliberately LEFT at one pack: it is exactly 100 units, one full syringe, and splitting it would make a patient give two shots and KORB buy a second pack. Don Stevenson, PA-C, 2026-09-20.',
       '2026-09-15 (v2.22): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing sign-off register, plus rx-signoff.js which reports and computes it. Nothing on the 10 GLP-1 documents had ever been signed: the monograph records date from 2026-09-06 and correctly still read current, because the monograph had not changed - but the prescribing blocks corrected over 13-15 September were covered by no record at all. The monograph fingerprint in korb-glp1-data.js is untouched and stays separate: it covers clinical writing, this covers the Tebra fields and charge codes, and merging them would mean a hyphen fix in a sig expiring a contraindication sign-off. Records hold a fingerprint of the document as signed rather than a boolean, so a change after sign-off shows as STALE instead of being invisible.',
       '2026-09-14 (v2.19): SPELLING ONLY, NO CLINICAL OR DOSE CHANGE. "L-Carnatine" corrected to "L-Carnitine" in all 7 Belmar tirzepatide strings: one display `formulation` and six `drugFormulation`. v2.18 left these alone on the reasoning that drugFormulation is the Tebra field a pharmacy matches against, and this repo keeps Greenwich formulation strings byte-identical for exactly that reason. Don confirmed 2026-09-14 that the exact-match constraint is GREENWICH ONLY - Greenwich matches on the compounded name and will flag a difference; Belmar does not. So the caution was right to raise and wrong to keep. No dose, quantity, unit, days supply or instruction changed, and no Greenwich string was touched.',
       '2026-09-14 (v2.18): NO CLINICAL CHANGE TO ANY DOSE. Two facts that lived only inside KORB_GLP1_Dose_Guide.html were moved here so that page can be derived rather than typed, which is open item 5. Added `additive` to the seven compounded injectables - the vitamin or amino acid each product carries, which the guide had been typing in its own table. Added per-dose `conc` to the five belmar_sema doses, because Belmar supplies semaglutide at two concentrations by dose band and this file held only the sentence "two concentrations by dose band" while the guide held the actual numbers. Every mg, unit count and 4- and 8-week vial string is byte-identical to v2.17: verified by rendering all 48 medication/pharmacy/dose combinations of the Dose Guide before and after, 48 of 48 identical apart from the concentration line, which now reads from `formulation` here instead of a separate typed string. NOT CHANGED, deliberately: "L-Carnatine" appears 7 times, once as display `formulation` and six times as `drugFormulation`. The latter is the Tebra field Belmar matches against, and this repo already keeps Greenwich formulation strings byte-identical for that reason, so correcting the spelling needs Belmar to confirm first. Raised with Don 2026-09-14 and ANSWERED in v2.19: Belmar does not require an exact match, that constraint is Greenwich only.',
@@ -3150,7 +3151,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
+            ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include two packs of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
@@ -3202,7 +3203,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
+            ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include two packs of insulin syringes) Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
