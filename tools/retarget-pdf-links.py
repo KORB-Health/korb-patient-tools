@@ -12,6 +12,8 @@ Why this exists rather than regenerating the document:
   designed, with working destinations.
 
 Rules applied, in order:
+  0. exact swaps from EXACT below, for a link that cannot be fixed at its own
+     source because KORB does not own the thing it points through
   1. pacstevenson.github.io  ->  korb-health.github.io   (the July repo migration)
   2. .../korb-patient-tools/....pdf  ->  the same path as .html
      (only for paths this repo actually publishes as .html; anything else is
@@ -33,9 +35,38 @@ except ImportError:
 OLD_BASE = "https://pacstevenson.github.io/korb-patient-tools/"
 NEW_BASE = "https://korb-health.github.io/korb-patient-tools/"
 
+# Rule 0: exact swaps.
+#
+# Normally a short link is the thing you repoint, and no document changes. That
+# is not available here. bit.ly/KORBSQInjection went to YouTube, and Don does
+# not control it: it was created when these documents lived on a personal
+# GitHub under a different name. A link nobody owns is a link that can change
+# under you, so it is replaced where it sits rather than followed.
+#
+# YouTube also serves pre-roll ads to signed-out viewers, which is every
+# patient, and no embed parameter turns that off. That is the reason the seven
+# patient videos moved to Vimeo on 2026-09-19.
+#
+# THE ID IS NOT OWNED HERE. It is KORB_VIDEO.videos.injection.id in
+# korb-video.js. This file and korb-patient-ed-data.js are the only two places
+# outside it that carry a video id, both because the welcome letter links OUT
+# to the video instead of embedding it. Vimeo is an interim host and the next
+# move is expected, so when it happens these two change with korb-video.js.
+#
+# A PDF ALREADY SAVED TO A PATIENT'S DISK CANNOT BE REACHED BY THIS TOOL. It
+# only fixes the copy served from the live URL. That is the argument for the
+# letter eventually pointing at a KORB-owned page that embeds the video, so a
+# host change never has to reach the document again.
+EXACT = {
+    "https://bit.ly/KORBSQInjection": "https://vimeo.com/1228373201",
+}
+
 
 def retarget(uri, repo, report):
     original = uri
+
+    if uri in EXACT:
+        return EXACT[uri], True
 
     if uri.startswith(OLD_BASE):
         uri = NEW_BASE + uri[len(OLD_BASE):]
