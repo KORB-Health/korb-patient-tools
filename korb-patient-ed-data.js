@@ -308,11 +308,11 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines your exact schedule and add-ons. If you have questions, contact KORB by phone or email.',
       what: [
-        'Gateway is KORB\'s staggered two-medication tier within the Functional Health and Longevity Program. Unlike Foundation\'s single-agent model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day.',
+        'Gateway is KORB\'s staggered two-medication tier within the Functional Health and Longevity Program. Unlike Foundation\'s single-agent model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day. An optional GHK-Cu add-on is available on Gateway if your provider prescribes it.',
         'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
       ],
       agentsHeading: 'How your Gateway combination works',
-      agentsLead: 'Two agents, started at different points in the cycle by design. Your Treatment Schedule shows your exact dates.',
+      agentsLead: 'Two agents started at different points in the cycle by design, plus one optional add-on. Your Treatment Schedule shows your exact dates.',
       agents: [
         {
           key: 'sermorelin',
@@ -323,6 +323,11 @@ var KORB_PATIENT_ED = {
           key: 'bpc157',
           context: 'gatewayPeakBase',
           text: 'Added after Sermorelin is already under way, not on your start date. Injected daily.'
+        },
+        {
+          key: 'ghkcu',
+          context: 'optionalAddon',
+          text: 'An optional add-on, included only if your provider prescribes it.'
         }
       ],
       note: {
@@ -349,6 +354,7 @@ var KORB_PATIENT_ED = {
       safety: [
         'Use your Gateway agents only as prescribed. Do not change your dose, course length or schedule without provider direction.',
         'Keep the stagger. Do not start both agents on the same day.',
+        'GHK-Cu is an add-on only if your provider prescribed it. Do not add it yourself.',
         'This program is not appropriate during active malignancy or pregnancy.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
         'Your prescription label is the authoritative source for your dose and directions.',
@@ -357,6 +363,7 @@ var KORB_PATIENT_ED = {
       ],
       keyReminders: [
         'Gateway is two agents on a fixed staggered schedule, not two agents started together.',
+        'GHK-Cu is optional and only included if prescribed.',
         'Your provider sets your schedule. This guide is a general orientation, not personalized medical advice.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
         'For current program pricing, contact KORB Operations or ask your provider.'
@@ -460,8 +467,12 @@ var KORB_PATIENT_ED = {
           text: 'The single-agent tier. One peptide is active at a time, chosen by your provider from Sermorelin, CJC-1295 / Ipamorelin or BPC-157. Agents are never combined, though you may switch at a follow-up.'
         },
         {
+          /* GHK-Cu on Gateway is not new. korb-dosing-data.js has had Gateway at
+             optionalAddon: 'ghkcu' alongside both Peak pathways, and Foundation
+             at null with the comment "GHK-Cu is never a Foundation option". Only
+             the patient documents left it out. Don, 2026-09-19. */
           name: 'Gateway',
-          text: 'The staggered two-medication tier. Sermorelin with BPC-157 added later in the cycle rather than on the same day.'
+          text: 'The staggered two-medication tier. Sermorelin with BPC-157 added later in the cycle rather than on the same day, and an optional GHK-Cu add-on.'
         },
         {
           name: 'Peak Performance',
