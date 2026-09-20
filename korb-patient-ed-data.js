@@ -103,7 +103,14 @@ var KORB_PATIENT_ED = {
         ['Discard at 28 days', 'Write the open date on the vial']
       ],
       notes: [
-        'Before first use: refrigerate, protect from light, do not freeze or shake.',
+        /* NOT "before first use". Don, 2026-09-19: read plainly, it says the
+           fridge matters up to the first dose, which is the opposite of the
+           point and the reading a patient with a box on the counter will take.
+           The cold chain starts when the package does. Paired with "After
+           opening" below, the two notes now split on the right event. */
+        'From the day it arrives: keep it refrigerated, protect it from light, ' +
+        'and do not freeze or shake it. Refrigeration starts when your package ' +
+        'does, not when you take your first dose.',
         'After opening: write the open date on your vial and discard 28 days after ' +
         'first use, even if medication remains. If your label shows an earlier ' +
         'beyond-use date, follow the earlier one.',
@@ -212,9 +219,12 @@ var KORB_PATIENT_ED = {
       },
       portalNote:
         'The Patient Portal is the only HIPAA-compliant way to message your ' +
-        'provider directly. Providers check portal messages once per day on their ' +
-        'clinic days. For anything that does not need your provider’s direct ' +
-        'medical judgment, contact KORB Operations by phone or email instead.',
+        'provider directly. Providers check portal messages at least once per day ' +
+        'on their clinic days, so a message sent on a day your provider is not in ' +
+        'clinic is not read until the next one. If you are not sure which days ' +
+        'those are, ask at your next visit. For anything that does not need your ' +
+        'provider’s direct medical judgment, contact KORB Operations by phone or ' +
+        'email instead.',
       emergencyNote:
         'Phone and email are not appropriate for emergencies. When in doubt, go to ' +
         'urgent care or the emergency room.'
