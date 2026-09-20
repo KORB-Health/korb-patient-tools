@@ -2979,18 +2979,33 @@ var KORB_PATIENT_ED = {
       extraSections: [
         {
           h: 'How to give your injection',
-          callout: 'Your medication is a thick oil. It comes with a Luer lock syringe and two ' +
-                   'separate needles: a wider one to draw the medication out of the vial, and a ' +
-                   'finer one to inject with. Use both. The oil will not draw properly through ' +
-                   'the fine needle, and drawing with the injecting needle dulls it and makes ' +
-                   'the injection hurt more.',
+          /* "Wider" and "finer" are not KORB vocabulary and a patient holding two
+             identical-looking packets cannot act on them. Don, 2026-09-19. The
+             data file has named these by job since it was written -
+             routes.*.drawNeedle and routes.*.injectNeedle in korb-mens-data.js -
+             so the handout now uses the same two names.
+
+             NO GAUGE NUMBERS, deliberately. They differ by route (23G draws for
+             all three; the injection needle is 25G for IM and 27G for SQ), so a
+             printed pair would be wrong for somebody. The gauge RULE is worth
+             teaching instead, because it runs backwards and a patient reasonably
+             assumes the bigger number is the bigger needle. */
+          callout: 'Your medication is a thick oil, and it comes with a Luer lock syringe and ' +
+                   'two separate needles that do different jobs. The **draw-up needle** is the ' +
+                   'thicker of the two and is the only one that will pull the oil out of the ' +
+                   'vial. The **injection needle** is thinner and is the one that goes into ' +
+                   'you. Use both, every time. The oil will barely move through the injection ' +
+                   'needle, and drawing through it blunts the tip and makes the injection hurt ' +
+                   'more. If you are not sure which is which, check the gauge number on the ' +
+                   'packet: the numbering runs backwards, so the **lower** number is your ' +
+                   'draw-up needle and the **higher** number is your injection needle.',
           table: {
             head: ['Step', 'What to do'],
             rows: [
               ['1', 'Wash your hands. Set out your syringe, both needles, alcohol pads and your vial.'],
               ['2', 'Wipe the top of the vial with an alcohol pad and let it dry.'],
-              ['3', 'Attach the wider needle. Draw up the exact amount on your prescription label.'],
-              ['4', 'Remove that needle and attach the finer needle. Do not draw through the fine needle.'],
+              ['3', 'Attach the draw-up needle. Draw up the exact amount on your prescription label.'],
+              ['4', 'Take the draw-up needle off and attach the injection needle. Never draw up through the injection needle.'],
               ['5', 'Clean your injection site with a fresh alcohol pad and let it dry.'],
               ['6', 'Inject, then dispose of the needles and syringe in a sharps container immediately.']
             ]
@@ -3118,7 +3133,7 @@ var KORB_PATIENT_ED = {
       safety: [
         'Use testosterone only as prescribed. Never change your dose, timing or route without provider direction.',
         'Use a new syringe and new needles for every injection. Never reuse or share them.',
-        'Draw up with the wider needle and inject with the finer one.',
+        'Draw up with the draw-up needle and inject with the injection needle. Never draw up through the injection needle.',
         'Do not share this medication with anyone. It is a controlled substance and sharing it is illegal.',
         'Get your labs drawn at trough, on an injection day before your dose.',
         'Tell your provider if you are planning to father children.'
@@ -3130,7 +3145,7 @@ var KORB_PATIENT_ED = {
         'that feels severe or unsafe. Do not wait to hear back from KORB.',
 
       keyReminders: [
-        'Draw up with the wider needle, then switch to the finer needle to inject.',
+        'Draw up with the draw-up needle, then switch to the injection needle to inject.',
         'Rotate your injection site every single time.',
         'Get labs drawn on an injection day, before your dose.',
         'Your refill date is set by your last fill date. Early requests will not move it up.',

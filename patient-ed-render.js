@@ -1213,7 +1213,13 @@
              }).join('') + '</tbody></table>';
       }
       if (sec.ul) h += ul(sec.ul);
-      if (sec.callout) h += '<div class="callout"><p>' + esc(sec.callout) + '</p></div>';
+      /* rich(), not esc(). Every other text field in these documents runs through
+         rich() so **like this** reads as bold, and this one did not: a callout
+         written with the same convention printed its asterisks to the patient.
+         Caught on the testosterone handout 2026-09-19, before it shipped, by
+         rendering the page rather than trusting the edit. rich() escapes first,
+         so this adds no injection surface. */
+      if (sec.callout) h += '<div class="callout"><p>' + rich(sec.callout) + '</p></div>';
       if (sec.warn) h += '<div class="callout warn"><p>' + esc(sec.warn) + '</p></div>';
     });
 

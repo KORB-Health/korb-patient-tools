@@ -335,8 +335,9 @@ var KORB_MENS = {
 
   /* Two needles, always. The one instruction most likely to be dropped in a
      rewrite and the one that makes the injection possible. */
-  technique: 'Testosterone cypionate is a viscous oil: draw up with the wider ' +
-    'needle, then change to the finer needle to inject. Do not use insulin ' +
+  technique: 'Testosterone cypionate is a viscous oil: draw up with the draw-up ' +
+    'needle, then change to the injection needle to inject. Gauges are per route ' +
+    'in routes.*.drawNeedle and routes.*.injectNeedle. Do not use insulin ' +
     'syringes, which have a fixed needle and are marked in units. All volumes ' +
     'are read in mL on a Luer lock barrel.',
 
