@@ -1332,7 +1332,10 @@ var KORB_PATIENT_ED = {
     contact: {
       key: 'contact',
       file: 'Patient_Education/KORB_When_to_Contact_KORB_or_ER',
-      program: 'Functional Health & Longevity',
+      /* Every program contacts KORB the same way and the emergency list is not
+         program-specific. Don, 2026-09-19, same correction as the lab page and
+         the injection guide. */
+      program: 'All Programs',
       title: 'When to Contact KORB or the ER',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
@@ -1344,14 +1347,26 @@ var KORB_PATIENT_ED = {
           shared: 'contact'
         },
         {
+          /* ASK ONLY FOR WHAT KORB DOES NOT ALREADY HAVE. Don, 2026-09-19: a
+             message through the portal already carries the patient's name, and
+             the prescription and schedule are on file. What is not on file is
+             what actually went in and when. The old list asked for the name,
+             the prescribed dose and the therapy start date - three things the
+             chart already answers - and it did not ask for the one injection
+             the patient is calling about. */
           h: 'What to include in your message',
-          lead: 'Including these first saves a round of questions and gets you an answer faster.',
+          lead: 'Your name reaches us with the message, and we have your prescription on file. What we do not have is what you actually took and when, so start with these.',
+          /* NOT "injected". This document now serves all four programs, and
+             Women's Health hormone therapy is patches, creams and capsules -
+             nothing in that program is injected. Asking a woman on a patch how
+             much she injected reads as a document written for somebody else.
+             Same correction as "never mix peptides" on the injection guide. */
           items: [
-            'Your full name and the name of your medication.',
-            'The dose and schedule you are using.',
-            'When you started therapy.',
+            'Which product you took.',
+            'How much you actually took.',
+            'When your last dose was.',
             'What you are experiencing, and when it started.',
-            'Anything you have already tried.'
+            'Anything you have already tried, and anything else you think matters.'
           ]
         },
         {
@@ -1385,7 +1400,7 @@ var KORB_PATIENT_ED = {
       keyReminders: [
         'Phone and email are business hours only and are not for emergencies.',
         'Trouble breathing or swelling of the face, lips, tongue or throat is an emergency. Call 911.',
-        'Include your medication, dose and start date in any message, so your provider can answer in one reply.'
+        'Tell us which product you took, how much, and when, so your provider can answer in one reply.'
       ]
     }
   },
