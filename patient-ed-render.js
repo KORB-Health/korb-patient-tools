@@ -293,6 +293,19 @@
       h += '<p><strong>' + esc(prog.note.label) + '</strong> ' + esc(prog.note.text) + '</p>';
     }
 
+    /* OPTIMIZATION PRODUCTS. The guide-shaped overviews (Weight Loss, Men's
+       Health, Women's Health) carry these in a `sections` entry, which this
+       renderer has no concept of. Rather than teach it sections, programs
+       declare `optimization` and get the same block in the same place, before
+       Pricing. Added 2026-09-19 so the Functional Health and Longevity overview
+       could list them at all: it was one of three overviews that never did. */
+    if (prog.optimization) {
+      h += '<h2>' + esc(prog.optimization.heading || 'Additional optimization products') + '</h2>';
+      if (prog.optimization.lead) { h += '<p>' + esc(prog.optimization.lead) + '</p>'; }
+      if (prog.optimization.links) { h += links(prog.optimization.links); }
+      if (prog.optimization.after) { h += paras(prog.optimization.after); }
+    }
+
     h += '<p><strong>Pricing.</strong> ' + esc(prog.pricing) + '</p>';
 
     h += '<h2>How your ' + (prog.cycleWeeks || 16) + '-week cycle works</h2>' + ul(prog.cycle);

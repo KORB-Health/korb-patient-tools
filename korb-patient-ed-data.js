@@ -489,6 +489,25 @@ var KORB_PATIENT_ED = {
           text: 'The performance and body-composition tier. Two pathways, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.'
         }
       ],
+      /* These were missing from this overview entirely, and from Weight Loss and
+         Women's Health. Only Men's Health listed them. Don, 2026-09-19, and his
+         word for them is optimization products, not add-ons: GHK-Cu above is an
+         add-on INSIDE a tier, and these are separate prescriptions that run
+         alongside any program. Two different things that were sharing a name. */
+      optimization: {
+        heading: 'Additional optimization products',
+        lead: 'Optional products your provider can prescribe alongside your program. They are separate from your program medication, none of them replaces any part of it, and your provider decides whether any are right for you.',
+        links: [
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-aging, NAD+ and metformin' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair loss treatment' },
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual health, KORB Rise for men and KORB Electric for women' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin care' }
+        ],
+        after: [
+          '**Do not take KORB Rise if you take nitrates for chest pain.** The combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+        ]
+      },
       pricing: 'For current pricing on any tier, contact KORB Operations or ask your provider at your visit.',
       cycle: [
         'Baseline visit, labs only. No prescription is sent at your first visit.',
@@ -928,6 +947,20 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
+          h: 'Additional optimization products',
+          lead: 'Optional products your provider can prescribe alongside your program. They are separate from your program medication, none of them replaces any part of it, and your provider decides whether any are right for you.',
+          links: [
+            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-aging, NAD+ and metformin' },
+            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair loss treatment' },
+            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual health, KORB Rise for men and KORB Electric for women' },
+            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin care' }
+          ],
+          after: [
+            '**Do not take KORB Rise if you take nitrates for chest pain.** The combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+            '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+          ]
+        },
+        {
           h: 'Pricing',
           paras: [
             'For current Weight Loss Program pricing, contact KORB Operations or ask your provider at your visit.'
@@ -958,7 +991,7 @@ var KORB_PATIENT_ED = {
       title: 'Men\'s Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
-        'KORB\'s Men\'s Health Program is built around how you actually feel. The main program is Testosterone Replacement Therapy for men with lab-confirmed low testosterone and symptoms that go with it. Three optional add-ons are available alongside it: KORB Rise for sexual health, a hair loss treatment, and skin care.',
+        'KORB\'s Men\'s Health Program is built around how you actually feel. The main program is Testosterone Replacement Therapy for men with lab-confirmed low testosterone and symptoms that go with it. Four optional optimization products are available alongside it: KORB Rise for sexual health, hair loss treatment, skin care, and anti-aging.',
         'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss and Metabolic Health, or with Functional Health and Longevity. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
       ],
       sections: [
@@ -991,7 +1024,13 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
-          h: 'Add-ons available alongside',
+          /* "Optimization products", not "add-ons". Don, 2026-09-19: add-on is
+             already the name of GHK-Cu inside an FH&L tier, and these are separate
+             prescriptions that run alongside any program. Anti-aging was missing
+             here although its own handout says it can be added to any KORB
+             program, so this overview offered three of the four. */
+          h: 'Additional optimization products',
+          lead: 'Optional products your provider can prescribe alongside your program. They are separate from your program medication, none of them replaces any part of it, and your provider decides whether any are right for you.',
           links: [
             {
               href: 'KORB_Patient_Ed_Sexual_Health.html',
@@ -1006,11 +1045,17 @@ var KORB_PATIENT_ED = {
             },
             {
               href: 'KORB_Patient_Ed_Hair_Loss.html',
-              label: 'Hair loss treatment'
+              /* Named for men. The handout carries both columns and they are
+                 different drugs: finasteride for men, spironolactone for women. */
+              label: 'Hair loss treatment for men'
             },
             {
               href: 'KORB_Patient_Ed_Skin_Care.html',
               label: 'Skin care'
+            },
+            {
+              href: 'KORB_Patient_Ed_Anti_Aging.html',
+              label: 'Anti-aging, NAD+ and metformin'
             }
           ],
           after: [
@@ -1092,6 +1137,23 @@ var KORB_PATIENT_ED = {
           h: 'How your treatment is adjusted',
           paras: [
             'This program is guided by how you feel, not by a lab number. There is no blood test that tells us the right dose for you, so your provider adjusts based on your symptoms and how you are responding.'
+          ]
+        },
+        {
+          /* Women's Health had no optimization section at all. Every product is
+             named for women here: KORB Electric rather than KORB Rise, and the
+             women's hair loss treatment, which is spironolactone and not the
+             men's finasteride. Getting that one wrong is not a wording problem. */
+          h: 'Additional optimization products',
+          lead: 'Optional products your provider can prescribe alongside your program. They are separate from your program medication, none of them replaces any part of it, and your provider decides whether any are right for you.',
+          links: [
+            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'KORB Electric, sexual health' },
+            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair loss treatment for women' },
+            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin care' },
+            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-aging, NAD+ and metformin' }
+          ],
+          after: [
+            '**Never take a hair loss prescription that was written for a man.** Yours is spironolactone. The men’s pill is finasteride, and finasteride can cause serious birth defects if it is taken by a woman who is or could become pregnant. Never take, share or borrow a partner’s prescription.'
           ]
         },
         {
