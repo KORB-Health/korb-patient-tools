@@ -1258,7 +1258,11 @@
     }
 
     if (doc.labs) {
-      h += '<h2>Lab monitoring</h2><p>' + esc(doc.labs.lead) + '</p>' + ul(doc.labs.items) +
+      /* "Lab monitoring" is the right heading for a handout whose program
+         monitors labs, and the wrong one for a program that orders none: it
+         promises monitoring above a paragraph saying there is none. Overridable
+         per handout since 2026-09-19, default unchanged. */
+      h += '<h2>' + esc(doc.labs.heading || 'Lab monitoring') + '</h2><p>' + esc(doc.labs.lead) + '</p>' + ul(doc.labs.items) +
            '<p>' + esc(doc.labs.after) + '</p>';
     }
 

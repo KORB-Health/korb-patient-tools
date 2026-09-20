@@ -997,6 +997,17 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
+          /* Said on the program document as well as the two handouts. A patient
+             reading the overview to find out what the program involves should
+             not have to open a molecule handout to learn that no labs are part
+             of it. Don, 2026-09-19. */
+          h: 'Labs',
+          paras: [
+            'KORB does not order labs for this program. There is no baseline draw and no scheduled draw at any point in your weight loss treatment with us.',
+            'If you want lab work, or another clinician has told you that you need it, that is a conversation to have with your primary care provider. Some other KORB programs do require lab work; this one does not, and that is deliberate.'
+          ]
+        },
+        {
           h: 'If you are also managing diabetes',
           paras: [
             'If you are managing diabetes or pre-diabetes, KORB can continue to provide your GLP-1 medication, but you should continue your diabetes care, including any related lab monitoring, with the clinician who manages it. That may be your primary care provider, an endocrinologist or another specialist.'
@@ -2614,16 +2625,29 @@ var KORB_PATIENT_ED = {
         'Uncontrolled diabetic retinopathy (primarily relevant in type 2 diabetes)':
           'Uncontrolled diabetic eye disease (retinopathy), which mainly applies if you have type 2 diabetes'
       },
+      /* KORB ORDERS NO LABS FOR GLP-1. Don, 2026-09-19, and the distinction is
+         the whole point: this said "routine labs are not required" and then
+         offered "if your KORB provider has an individual clinical reason to
+         order labs for you". Read together that is a program with no scheduled
+         draw but a door left open, and a patient could reasonably expect KORB
+         to order bloodwork on request. KORB does not order labs for this
+         program at all. Lab work is a conversation with the patient's primary
+         care provider. Heading is "Labs" rather than "Lab monitoring" for the
+         same reason: nothing here is monitored. */
       labs: {
-        lead: 'Routine labs are not required to participate in this program.',
+        heading: 'Labs',
+        lead: 'KORB does not order labs for this program.',
         items: [
+          'There is no baseline draw and no scheduled draw at any point in your weight loss ' +
+          'treatment with KORB.',
           'If you are also managing diabetes or pre-diabetes, continue that care, including ' +
           'any related labs, with the clinician who manages it, whether that is your primary ' +
           'care provider, an endocrinologist or another specialist, alongside your KORB visits.',
-          'If your KORB provider has an individual clinical reason to order labs for you, they ' +
-          'will explain why and what to expect.'
+          'If you want lab work, or another clinician has told you that you need it, that is a ' +
+          'conversation to have with your primary care provider. KORB does not order it for you.'
         ],
-        after: 'There is no routine draw scheduled for this program.'
+        after: 'This is deliberate rather than an omission. Some other KORB programs require ' +
+               'lab work before and during treatment. The weight loss program does not.'
       },
       safety: [
         'Use Semaglutide only as prescribed. Do not change your dose, schedule or route without provider direction.',
@@ -2641,7 +2665,7 @@ var KORB_PATIENT_ED = {
         'Dose increases happen only under provider direction. Never increase on your own.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
-        'Routine labs are not required for this program.',
+        'KORB does not order labs for this program. Lab work is a conversation with your primary care provider.',
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
@@ -2786,16 +2810,29 @@ var KORB_PATIENT_ED = {
         'Uncontrolled diabetic retinopathy (primarily relevant in type 2 diabetes)':
           'Uncontrolled diabetic eye disease (retinopathy), which mainly applies if you have type 2 diabetes'
       },
+      /* KORB ORDERS NO LABS FOR GLP-1. Don, 2026-09-19, and the distinction is
+         the whole point: this said "routine labs are not required" and then
+         offered "if your KORB provider has an individual clinical reason to
+         order labs for you". Read together that is a program with no scheduled
+         draw but a door left open, and a patient could reasonably expect KORB
+         to order bloodwork on request. KORB does not order labs for this
+         program at all. Lab work is a conversation with the patient's primary
+         care provider. Heading is "Labs" rather than "Lab monitoring" for the
+         same reason: nothing here is monitored. */
       labs: {
-        lead: 'Routine labs are not required to participate in this program.',
+        heading: 'Labs',
+        lead: 'KORB does not order labs for this program.',
         items: [
+          'There is no baseline draw and no scheduled draw at any point in your weight loss ' +
+          'treatment with KORB.',
           'If you are also managing diabetes or pre-diabetes, continue that care, including ' +
           'any related labs, with the clinician who manages it, whether that is your primary ' +
           'care provider, an endocrinologist or another specialist, alongside your KORB visits.',
-          'If your KORB provider has an individual clinical reason to order labs for you, they ' +
-          'will explain why and what to expect.'
+          'If you want lab work, or another clinician has told you that you need it, that is a ' +
+          'conversation to have with your primary care provider. KORB does not order it for you.'
         ],
-        after: 'There is no routine draw scheduled for this program.'
+        after: 'This is deliberate rather than an omission. Some other KORB programs require ' +
+               'lab work before and during treatment. The weight loss program does not.'
       },
       safety: [
         'Use Tirzepatide only as prescribed. Do not change your dose, schedule or route without provider direction.',
@@ -2813,7 +2850,7 @@ var KORB_PATIENT_ED = {
         'Dose increases happen only under provider direction. Never increase on your own.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
-        'Routine labs are not required for this program.',
+        'KORB does not order labs for this program. Lab work is a conversation with your primary care provider.',
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
