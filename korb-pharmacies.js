@@ -856,6 +856,30 @@ var KORB_PHARMACIES = {
      in the state file, and because SEVEN pages were each typing their own copy
      of this map - see open item 12. A name is low-stakes until one of them
      spells a state differently from the others on a clinical document. */
+  /* SUPPLIES. Shared because it is true of every pharmacy, and it lives here
+     because korb-glp1-data.js and korb-dosing-data.js both load this file.
+
+     A PACK IS TEN SYRINGES. Don Stevenson, PA-C, 2026-09-20, all pharmacies.
+     Until today this number existed nowhere in the repo - the phrase "pack of
+     insulin syringes" appeared 23 times and no file said what a pack was, so
+     the rule below could only be applied from memory.
+
+     HOW MANY PACKS A PRESCRIPTION NEEDS:
+       syringesPerDose = ceil(units / syringeCapacityUnits)
+       syringes        = syringesPerDose * doses in the supply
+       packs           = ceil(syringes / insulinSyringePack)
+
+     That reproduces the 2026-09-20 decision exactly. Belmar tirzepatide is
+     10 mg/mL, so 12.5 mg and 15 mg are 125 and 150 units - two syringes a
+     dose. The 4-week supply needs 8, which is one pack; the 8-week needs 16,
+     which is two. Every other dose in every product needs one. */
+  supplies: {
+    insulinSyringePack: 10,
+    syringeCapacityUnits: 100,
+    setBy: "Don Stevenson, PA-C",
+    setOn: "2026-09-20"
+  },
+
   stateNames: {
     AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
     CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
