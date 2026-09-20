@@ -319,9 +319,28 @@
     L.push('');
     L.push('QUANTITY');
 
-    // Belmar ships syringes; it is in every Belmar sig.
-    var syringes = /\(Include one pack of insulin syringes\)/i.test(supply.ptInstructions || '');
-    L.push(vialProse(vials) + (syringes ? ', plus one pack of insulin syringes' : '') + '.');
+    // HOW MANY PACKS IS DERIVED, not read out of the sig's prose.
+    // This used to test for the literal string "(Include one pack of insulin
+    // syringes)". On 2026-09-20 Belmar tirzepatide 12.5 mg and 15 mg went to
+    // TWO packs on the 8-week supply, the test stopped matching, and this
+    // message silently dropped the syringe line altogether - for exactly the
+    // two doses that need the most syringes. Whether syringes ship is read
+    // from the sig; HOW MANY comes from the shared rule, which is the same
+    // one the sig follows, so the two cannot disagree.
+    if (!window.KORB_PHARMACIES || !KORB_PHARMACIES.supplies) {
+      throw new Error('korb-pharmacies.js must load before this page: ' +
+        'KORB_PHARMACIES.supplies carries the syringe pack size.');
+    }
+    var sup      = KORB_PHARMACIES.supplies;
+    var ships    = /packs? of insulin syringes/i.test(supply.ptInstructions || '');
+    var packs    = Math.ceil(Math.ceil(dose.units / sup.syringeCapacityUnits) *
+                             weeks / sup.insulinSyringePack);
+    var packWord = (packs === 1 ? 'one pack' : (packs === 2 ? 'two packs' : packs + ' packs'));
+    L.push(vialProse(vials) + (ships ? ', plus ' + packWord + ' of insulin syringes' : '') + '.');
+    if (ships && packs > 1) {
+      L.push('Each weekly dose is ' + Math.ceil(dose.units / sup.syringeCapacityUnits) +
+             ' injections, because one syringe does not hold the full amount.');
+    }
     if (n > 1) L.push('Tell us right away if your shipment is missing a vial.');
     L.push('');
 
