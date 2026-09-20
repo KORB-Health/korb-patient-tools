@@ -154,11 +154,12 @@ var KORB_PATIENT_ED = {
 
     injectionSafety: [
       'Use a new insulin needle and syringe for every injection. Do not reuse.',
-      'Never mix peptides. Use a separate needle and syringe for each peptide and ' +
-      'each injection; do not combine them into one syringe.',
-      'Follow your state or local rules for sharps disposal. Use an FDA-cleared ' +
-      'sharps container, and do not put used needles or syringes in household ' +
-      'trash unless your local guidance specifically allows it.'
+      'Never combine two medications in one syringe. Use a separate needle and ' +
+      'syringe for each medication and each injection.',
+      'Put used needles and syringes straight into a rigid, puncture-resistant ' +
+      'container. Sharps rules are set locally and vary by state and by city, so ' +
+      'follow the ones where you live, and do not put needles or syringes loose ' +
+      'in household trash unless your local guidance specifically allows it.'
     ],
 
     contact: {
@@ -1243,7 +1244,10 @@ var KORB_PATIENT_ED = {
     injection: {
       key: 'injection',
       file: 'Patient_Education/KORB_Injection_Storage_Safety_Guide',
-      program: 'Functional Health & Longevity',
+      /* NOT an FH&L document. GLP-1 and weight loss use it, Men's Health uses
+         it, and the technique is the same subcutaneous injection in all three.
+         Don, 2026-09-19. Same correction as the lab page. */
+      program: 'All Programs',
       title: 'Injection, Storage and Safety Guide',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
@@ -1255,9 +1259,9 @@ var KORB_PATIENT_ED = {
           lead: 'Have these ready before you start.',
           items: [
             'Your medication, taken out of the fridge.',
-            'Alcohol swabs.',
+            'Alcohol pads.',
             'A new insulin needle and syringe.',
-            'An FDA-cleared sharps container.',
+            'A rigid, puncture-resistant container for the used needle and syringe.',
             'A clean surface and good lighting.'
           ]
         },
@@ -1268,7 +1272,7 @@ var KORB_PATIENT_ED = {
             'The solution is cloudy or discolored, or has particles in it.',
             'The vial is cracked or damaged.',
             'The vial is past 28 days from first use, or past the beyond-use date on your label.',
-            'The medication has been frozen, or left somewhere hot.'
+            'The medication has been frozen, or has been left in heat above 86°F (30°C).'
           ]
         },
         {
@@ -1278,6 +1282,25 @@ var KORB_PATIENT_ED = {
         {
           h: 'Injection safety',
           shared: 'injectionSafety'
+        },
+        {
+          /* Don, 2026-09-19: sharps disposal is the patient's responsibility and
+             it is set locally, so the job of this document is to say that plainly
+             and hand them the lookup - not to imply KORB requires a particular
+             product. SafeNeedleDisposal.org is the same source the hub already
+             uses for this. */
+          h: 'Sharps disposal',
+          paras: [
+            'Used needles and syringes go straight into something rigid and puncture-resistant. Never loose into household trash, and never into recycling.',
+            'What counts as an acceptable container, and how you get rid of it once it is full, is decided where you live and varies by state and by city. Some areas have drop-off sites, some run mail-back programs, some allow a sealed heavy-duty household container. Looking up your own area is the only way to get this right, and it is yours to do.'
+          ],
+          links: [
+            {
+              href: 'https://safeneedledisposal.org/',
+              label: 'Find sharps disposal near you',
+              note: 'search by ZIP code, from SafeNeedleDisposal.org'
+            }
+          ]
         },
         {
           h: 'Injection technique',
@@ -1299,10 +1322,10 @@ var KORB_PATIENT_ED = {
         }
       ],
       keyReminders: [
-        'A new needle and syringe every time. Never reuse, and never mix two peptides in one syringe.',
+        'A new needle and syringe every time. Never reuse, and never combine two medications in one syringe.',
         'Write the open date on the vial and discard 28 days after first use, or earlier if your label says so.',
         'Your prescription label is the authoritative source for your dose and directions.',
-        'Follow your state or local rules for sharps disposal.'
+        'Sharps rules are local and they are yours to look up. Find what your area requires and dispose of needles and syringes that way.'
       ]
     },
 
@@ -2660,11 +2683,11 @@ var KORB_PATIENT_ED = {
           table: {
             head: ['Step', 'What to do'],
             rows: [
-              ['1', 'Wash your hands. Set out your syringe, both needles, alcohol swabs and your vial.'],
-              ['2', 'Wipe the top of the vial with an alcohol swab and let it dry.'],
+              ['1', 'Wash your hands. Set out your syringe, both needles, alcohol pads and your vial.'],
+              ['2', 'Wipe the top of the vial with an alcohol pad and let it dry.'],
               ['3', 'Attach the wider needle. Draw up the exact amount on your prescription label.'],
               ['4', 'Remove that needle and attach the finer needle. Do not draw through the fine needle.'],
-              ['5', 'Clean your injection site with a fresh alcohol swab and let it dry.'],
+              ['5', 'Clean your injection site with a fresh alcohol pad and let it dry.'],
               ['6', 'Inject, then dispose of the needles and syringe in a sharps container immediately.']
             ]
           },
