@@ -495,13 +495,17 @@ var KORB_PATIENT_ED = {
          add-on INSIDE a tier, and these are separate prescriptions that run
          alongside any program. Two different things that were sharing a name. */
       optimization: {
-        heading: 'Additional optimization products',
-        lead: 'Optional products your provider can prescribe alongside your program. They are separate from your program medication, none of them replaces any part of it, and your provider decides whether any are right for you.',
+        /* NAMED AS THE HUB NAMES IT. The hub calls this strip "Optimize Your
+           <Program>" in all four sections and the patient meets it there first,
+           so the overview uses the same words and the same four buttons in the
+           same order. Don, 2026-09-19. */
+        heading: 'Optimize Your Longevity',
+        lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
         links: [
-          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-aging, NAD+ and metformin' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair loss treatment' },
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual health, KORB Rise for men and KORB Electric for women' },
-          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin care' }
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise if you take nitrates for chest pain.** The combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
@@ -947,13 +951,13 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
-          h: 'Additional optimization products',
-          lead: 'Optional products your provider can prescribe alongside your program. They are separate from your program medication, none of them replaces any part of it, and your provider decides whether any are right for you.',
+          h: 'Optimize Your Weight Loss',
+          lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
-            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-aging, NAD+ and metformin' },
-            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair loss treatment' },
-            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual health, KORB Rise for men and KORB Electric for women' },
-            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin care' }
+            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
+            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
           ],
           after: [
             '**Do not take KORB Rise if you take nitrates for chest pain.** The combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
@@ -1029,8 +1033,8 @@ var KORB_PATIENT_ED = {
              prescriptions that run alongside any program. Anti-aging was missing
              here although its own handout says it can be added to any KORB
              program, so this overview offered three of the four. */
-          h: 'Additional optimization products',
-          lead: 'Optional products your provider can prescribe alongside your program. They are separate from your program medication, none of them replaces any part of it, and your provider decides whether any are right for you.',
+          h: 'Optimize Your Men’s Health',
+          lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
             {
               href: 'KORB_Patient_Ed_Sexual_Health.html',
@@ -1041,21 +1045,21 @@ var KORB_PATIENT_ED = {
                  "There is no lab work and no scheduled follow-up for this
                  add-on" in its body and again in its reminders. The button is a
                  way in, not the place to state the fact. */
-              label: 'KORB Rise, sexual health'
+              label: 'Sexual Health Guide, KORB Rise'
             },
             {
               href: 'KORB_Patient_Ed_Hair_Loss.html',
               /* Named for men. The handout carries both columns and they are
                  different drugs: finasteride for men, spironolactone for women. */
-              label: 'Hair loss treatment for men'
+              label: 'Hair Loss Guide for men, pill or topical'
             },
             {
               href: 'KORB_Patient_Ed_Skin_Care.html',
-              label: 'Skin care'
+              label: 'Skin Care Guide, topical'
             },
             {
               href: 'KORB_Patient_Ed_Anti_Aging.html',
-              label: 'Anti-aging, NAD+ and metformin'
+              label: 'Anti-Aging Guide, NAD+ and metformin'
             }
           ],
           after: [
@@ -1144,13 +1148,13 @@ var KORB_PATIENT_ED = {
              named for women here: KORB Electric rather than KORB Rise, and the
              women's hair loss treatment, which is spironolactone and not the
              men's finasteride. Getting that one wrong is not a wording problem. */
-          h: 'Additional optimization products',
-          lead: 'Optional products your provider can prescribe alongside your program. They are separate from your program medication, none of them replaces any part of it, and your provider decides whether any are right for you.',
+          h: 'Optimize Your Women’s Health',
+          lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
-            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'KORB Electric, sexual health' },
-            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair loss treatment for women' },
-            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin care' },
-            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-aging, NAD+ and metformin' }
+            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Electric' },
+            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide for women, pill or topical' },
+            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
+            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
           ],
           after: [
             '**Never take a hair loss prescription that was written for a man.** Yours is spironolactone. The men’s pill is finasteride, and finasteride can cause serious birth defects if it is taken by a woman who is or could become pregnant. Never take, share or borrow a partner’s prescription.'
