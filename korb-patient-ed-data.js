@@ -1648,8 +1648,9 @@ var KORB_PATIENT_ED = {
 
       facts: {
         how: 'Patch, cream or capsule, depending on which hormones you are prescribed',
-        timing: 'Follow your label. Progesterone capsules are taken at night; ' +
-                'creams and patches are applied at the same time each day.',
+        timing: 'Follow your label. Progesterone capsules are taken at night, ' +
+                'creams are applied at the same time each day, and a patch is ' +
+                'changed on its scheduled day or days rather than applied daily.',
         schedule: 'As stated on your prescription label'
       },
 
@@ -1693,7 +1694,8 @@ var KORB_PATIENT_ED = {
               ['Estradiol',
                'The main estrogen. Treats hot flashes, night sweats, sleep and ' +
                'vaginal dryness, and supports bone.',
-               'A patch changed once a week, or a cream you apply daily.'],
+               'A patch changed once or twice a week depending on which one you ' +
+               'are prescribed, or a cream you apply daily.'],
               ['Progesterone',
                'Protects the lining of the uterus, and helps sleep.',
                'A capsule taken at night.'],
@@ -1748,9 +1750,25 @@ var KORB_PATIENT_ED = {
           /* Same shape as the cream section above - a lead line, a numbered
              table, then the one rule worth pulling out. It was three loose
              paragraphs and read as an afterthought beside the cream steps. */
+          /* TWO PRESENTATIONS, NOT ONE. korb-womens-data.js patchGuidance has
+             said so since v1.1 on 2026-09-17, when the twice-weekly estradiol
+             patch was added at all five strengths: "supplied in TWO
+             presentations, ONCE weekly and TWICE weekly... the two differ in
+             quantity and in patient instructions." This handout kept saying
+             once a week. Don, 2026-09-19.
+
+             The patient-facing consequence is the change day. A woman on the
+             twice-weekly patch reading "change it on the SAME day each week"
+             wears each patch twice as long as she should. Sourcing and box
+             sizes stay in the clinical data; what she needs is which one she
+             has and when to change it. */
           p: [
-            'A patch is changed once a week and worn continuously in between, ' +
-            'including in the shower.'
+            'There are two estradiol patches and they are not interchangeable. ' +
+            'One is changed once a week and the other twice a week. Your ' +
+            'prescription label tells you which you were given, and it is worth ' +
+            'checking rather than assuming, because the patches themselves look ' +
+            'alike. Either way it is worn continuously in between, including in ' +
+            'the shower.'
           ],
           table: {
             head: ['Step', 'What to do'],
@@ -1763,12 +1781,16 @@ var KORB_PATIENT_ED = {
                     'edges seal.'],
               ['4', 'Leave it on until your change day. It is fine to shower, ' +
                     'bathe and swim with it on.'],
-              ['5', 'Change it on the SAME day each week, and put the new one on ' +
-                    'a slightly different spot.']
+              ['5', 'Change it on your scheduled change day, and put the new one ' +
+                    'on a slightly different spot. Keep the same day every week ' +
+                    'on the once-weekly patch, or the same two days every week ' +
+                    'on the twice-weekly one, for example every Sunday and ' +
+                    'Wednesday.']
             ]
           },
-          callout: 'If a patch falls off, put a new one on straight away and keep ' +
-            'your usual change day. Do not wait, and do not double up.'
+          callout: 'If a patch falls off, put a new one on straight away and stay ' +
+            'on your usual change schedule. Do not wait for your next change ' +
+            'day, and do not double up.'
         }
       ],
 
@@ -1794,7 +1816,8 @@ var KORB_PATIENT_ED = {
         'Patches and capsules need no cold storage at all; if your cream came ' +
         'with instructions to keep it refrigerated, take a small insulated bag. ' +
         'If you are crossing time ' +
-        'zones, keep your patch change day and your nightly capsule on your home ' +
+        'zones, keep your patch change day or days and your nightly capsule on your ' +
+        'home ' +
         'schedule until you are settled.',
 
       common: [
