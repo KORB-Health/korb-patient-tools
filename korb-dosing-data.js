@@ -170,43 +170,84 @@ var KORB_DOSING = {
        - "Tesamorelin 1, 1.5, 2 mg" under "Dose ladder - Tesamorelin", where
        both had previously carried a strength twice. */
       "fhl:peakB": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-15",
-        "dataVersion": "2.13",
-        "fingerprint": "fp-fded1e3c-23457",
-        "blocks": 10,
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
-      },
+      "signedBy": "Donald Stevenson, PA-C",
+      "role": "Director of Clinical Operations and Lead Provider",
+      "date": "2026-09-20",
+      "dataVersion": "2.14",
+      "fingerprint": "fp-3b96cb3c-23457",
+      "blocks": 10,
+      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+      "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+      "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-15",
+          "dataVersion": "2.13",
+          "fingerprint": "fp-fded1e3c-23457",
+          "blocks": 10,
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        }
+    },
       "fhl:peakA": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-15",
-        "dataVersion": "2.13",
-        "fingerprint": "fp-d2d5fd02-23521",
-        "blocks": 10,
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
-      },
+      "signedBy": "Donald Stevenson, PA-C",
+      "role": "Director of Clinical Operations and Lead Provider",
+      "date": "2026-09-20",
+      "dataVersion": "2.14",
+      "fingerprint": "fp-e4d99efc-23521",
+      "blocks": 10,
+      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+      "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+      "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-15",
+          "dataVersion": "2.13",
+          "fingerprint": "fp-d2d5fd02-23521",
+          "blocks": 10,
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        }
+    },
       "fhl:gateway": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-15",
-        "dataVersion": "2.13",
-        "fingerprint": "fp-651fd946-28165",
-        "blocks": 12,
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
-      },
+      "signedBy": "Donald Stevenson, PA-C",
+      "role": "Director of Clinical Operations and Lead Provider",
+      "date": "2026-09-20",
+      "dataVersion": "2.14",
+      "fingerprint": "fp-b560d5c4-28165",
+      "blocks": 12,
+      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+      "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+      "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-15",
+          "dataVersion": "2.13",
+          "fingerprint": "fp-651fd946-28165",
+          "blocks": 12,
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        }
+    },
       "fhl:foundation": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-15",
-        "dataVersion": "2.13",
-        "fingerprint": "fp-ddf4892c-33170",
-        "blocks": 14,
-        "document": "Foundation",
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-        "note": "Approved 2026-09-15 after the duplicated doses in headings were fixed, pricing moved to the top, and the Foundation charge codes were corrected to FndnPeptideP02 / FndnPeptide002: \"Perfect.\""
-      },
+      "signedBy": "Donald Stevenson, PA-C",
+      "role": "Director of Clinical Operations and Lead Provider",
+      "date": "2026-09-20",
+      "dataVersion": "2.14",
+      "fingerprint": "fp-d09fe8ba-33170",
+      "blocks": 14,
+      "document": "Foundation",
+      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+      "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+      "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-15",
+          "dataVersion": "2.13",
+          "fingerprint": "fp-ddf4892c-33170",
+          "blocks": 14,
+          "document": "Foundation",
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+          "note": "Approved 2026-09-15 after the duplicated doses in headings were fixed, pricing moved to the top, and the Foundation charge codes were corrected to FndnPeptideP02 / FndnPeptide002: \"Perfect.\""
+        }
+    },
     }
   },
 
