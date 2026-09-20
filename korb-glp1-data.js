@@ -253,16 +253,27 @@ var KORB_GLP1 = {
         "note": "Approved 2026-09-15 after the LillyDirect dispensing address, the four-state limit, the brand headers and the select-only drug field were added: \"lets just leave as it is\"."
       },
       "glp1:belmar_tirz": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-15",
-        "dataVersion": "2.22",
-        "fingerprint": "fp-804eb133-30824",
-        "blocks": 12,
-        "document": "Belmar \u2014 Tirzepatide",
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-        "note": "Approved 2026-09-15 after the copy buttons were made one size, the Tebra character caps were checked, and the FITTirz corporate codes CP2/CP3/CP4 were removed: \"Looks great.\""
-      },
+      "signedBy": "Donald Stevenson, PA-C",
+      "role": "Director of Clinical Operations and Lead Provider",
+      "date": "2026-09-20",
+      "dataVersion": "2.23",
+      "fingerprint": "fp-6b45f2e3-30828",
+      "blocks": 12,
+      "document": "Belmar — Tirzepatide",
+      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+      "note": "Re-signed after the 2026-09-20 syringe change. 12.5 mg and 15 mg now ask for TWO packs of insulin syringes on the 8-WEEK supply only: at 10 mg/mL those doses are 1.25 mL and 1.5 mL, so each is two injections, and at two syringes a dose the 8-week supply needs 16 where a pack is 10. The 4-week instructions and the 10 mg rung are unchanged. Don confirmed the wording 2026-09-20: \"Yes that's right\".",
+      "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-15",
+          "dataVersion": "2.22",
+          "fingerprint": "fp-804eb133-30824",
+          "blocks": 12,
+          "document": "Belmar \u2014 Tirzepatide",
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+          "note": "Approved 2026-09-15 after the copy buttons were made one size, the Tebra character caps were checked, and the FITTirz corporate codes CP2/CP3/CP4 were removed: \"Looks great.\""
+        }
+    },
       "glp1:wegovy": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
