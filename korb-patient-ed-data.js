@@ -2567,10 +2567,46 @@ var KORB_PATIENT_ED = {
          'Even if you feel ready or your symptoms are mild. Increasing too quickly raises the ' +
          'risk of nausea and other side effects. If a dose is not well tolerated, tell your ' +
          'provider; they may extend that step before increasing further.'],
+        /* FIVE DAYS, AND IT IS MEANT TO DIFFER FROM THE OTHER MOLECULE. Checked
+           against the labels on DailyMed, 2026-09-19, because Don suspected the
+           mismatch with tirzepatide's 4 days was an error. It is not.
+
+             Ozempic    semaglutide   within 5 days after the missed dose
+             Wegovy     semaglutide   take it if the next dose is more than 2
+                                      days away, which on a weekly schedule is
+                                      the same 5-day window counted backwards
+             Mounjaro   tirzepatide   within 4 days (96 hours)
+             Zepbound   tirzepatide   within 4 days (96 hours)
+
+           Both semaglutide labels say 5, both tirzepatide labels say 4. The
+           basis is pharmacokinetic: semaglutide's elimination half-life is about
+           1 week, tirzepatide's about 5 days, so semaglutide tolerates a later
+           catch-up without stacking onto the next dose. Don's ruling 2026-09-19:
+           keep the manufacturer numbers. **Do not harmonise these to one number.** */
         ['If you miss a dose',
          'If it has been less than 5 days since your missed dose, inject as soon as you ' +
          'remember, then resume your normal weekly schedule. If it has been 5 days or more, ' +
-         'skip it and take your next dose on your regular day. Do not double up.']
+         'skip it and take your next dose on your regular day. Do not double up.'],
+        /* MISSING SEVERAL WEEKS IS A DIFFERENT QUESTION FROM MISSING ONE, and
+           until 2026-09-19 neither handout answered it. A patient who missed
+           three weeks read the row above, "skip it and take your next dose on
+           your regular day", and resumed at full dose. That is the common route
+           to severe nausea and vomiting, and it is far likelier to happen than
+           anyone agonising over day 4 against day 5.
+
+           SOURCE. The Wegovy label states it: 2 or more consecutive missed
+           injections, reinitiate dose escalation at a lower dosage to reduce GI
+           adverse reactions. The Mounjaro and Zepbound labels are silent on it,
+           and Ozempic does not address it either, so for tirzepatide this is
+           KORB's own instruction on the same tolerance logic rather than a
+           quotation. Don's ruling, 2026-09-19: same wording on both, and it
+           routes to the provider rather than naming a dose, because the restart
+           dose is a clinical decision and the step schedule differs by pharmacy. */
+        ['If you miss two or more weeks in a row',
+         'Contact KORB before your next injection rather than picking up where you left off. ' +
+         'Tolerance fades during a gap, and going straight back to the dose you were on is the ' +
+         'most common reason patients get severe nausea and vomiting. Your provider may restart ' +
+         'you at a lower dose and build back up. Do not resume on your own.']
       ],
       timeline: [
         ['Starting out', 'First few weeks',
@@ -2752,10 +2788,46 @@ var KORB_PATIENT_ED = {
          'Even if you feel ready or your symptoms are mild. Increasing too quickly raises the ' +
          'risk of nausea and other side effects. If a dose is not well tolerated, tell your ' +
          'provider; they may extend that step before increasing further.'],
+        /* FOUR DAYS, AND IT IS MEANT TO DIFFER FROM THE OTHER MOLECULE. Checked
+           against the labels on DailyMed, 2026-09-19, because Don suspected the
+           mismatch with semaglutide's 5 days was an error. It is not.
+
+             Ozempic    semaglutide   within 5 days after the missed dose
+             Wegovy     semaglutide   take it if the next dose is more than 2
+                                      days away, which on a weekly schedule is
+                                      the same 5-day window counted backwards
+             Mounjaro   tirzepatide   within 4 days (96 hours)
+             Zepbound   tirzepatide   within 4 days (96 hours)
+
+           Both semaglutide labels say 5, both tirzepatide labels say 4. The
+           basis is pharmacokinetic: semaglutide's elimination half-life is about
+           1 week, tirzepatide's about 5 days, so semaglutide tolerates a later
+           catch-up without stacking onto the next dose. Don's ruling 2026-09-19:
+           keep the manufacturer numbers. **Do not harmonise these to one number.** */
         ['If you miss a dose',
          'If it has been less than 4 days since your missed dose, inject as soon as you ' +
          'remember, then resume your normal weekly schedule. If it has been 4 days or more, ' +
-         'skip it and take your next dose on your regular day. Do not double up.']
+         'skip it and take your next dose on your regular day. Do not double up.'],
+        /* MISSING SEVERAL WEEKS IS A DIFFERENT QUESTION FROM MISSING ONE, and
+           until 2026-09-19 neither handout answered it. A patient who missed
+           three weeks read the row above, "skip it and take your next dose on
+           your regular day", and resumed at full dose. That is the common route
+           to severe nausea and vomiting, and it is far likelier to happen than
+           anyone agonising over day 4 against day 5.
+
+           SOURCE. The Wegovy label states it: 2 or more consecutive missed
+           injections, reinitiate dose escalation at a lower dosage to reduce GI
+           adverse reactions. The Mounjaro and Zepbound labels are silent on it,
+           and Ozempic does not address it either, so for tirzepatide this is
+           KORB's own instruction on the same tolerance logic rather than a
+           quotation. Don's ruling, 2026-09-19: same wording on both, and it
+           routes to the provider rather than naming a dose, because the restart
+           dose is a clinical decision and the step schedule differs by pharmacy. */
+        ['If you miss two or more weeks in a row',
+         'Contact KORB before your next injection rather than picking up where you left off. ' +
+         'Tolerance fades during a gap, and going straight back to the dose you were on is the ' +
+         'most common reason patients get severe nausea and vomiting. Your provider may restart ' +
+         'you at a lower dose and build back up. Do not resume on your own.']
       ],
       timeline: [
         ['Starting out', 'First few weeks',
