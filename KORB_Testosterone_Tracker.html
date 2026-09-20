@@ -346,7 +346,7 @@ function render(){
   if(nd){
     h+='<div class="box teal"><b>Lab reminder.</b> When your labs are due, get your blood drawn on an '+
        'injection day <b>before</b> you take that dose. Your next injection day is '+fmtLong(nd)+
-       '. Drawing after a dose makes your level read high. Results can take up to a week, so do not leave '+
+       '. Drawing after a dose makes your level read high. Results can take up to a week from the day you are drawn, so do not leave '+
        'the draw to the last few days.</div>';
   }
   if(state.vialDate && toDiscard<0){

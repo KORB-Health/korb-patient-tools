@@ -82,13 +82,26 @@ Weight Loss Program Overview. Men's Health: the program overview and the
 Testosterone handout. Women's Health: the program overview and the Hormone
 Therapy handout. The add-on handouts: Anti-Aging, Hair Loss, Sexual Health, Skin
 Care. Start Here, Injection & Storage Safety, When to Contact KORB or the ER,
-Schedule Your Lab Appointment, and both Welcome Letters.
+Schedule Your Lab Appointment. **Both Welcome Letters were retired on
+2026-09-19** - see below.
 
 **Don is re-reading all of them on 2026-09-19** before the provider rollout. If
 any single document on that list turns out not to be ready, it is that document
 that comes off the list - not the list that goes back to being wrong.
 
-### `KORB_Patient_Hub.html` — approved for direct use, 2026-09-18
+### `KORB_Patient_Hub.html` — RELEASED AND LIVE, 2026-09-19
+
+**It is sent, not pending.** Don has already sent it to two providers and to
+Luis in Operations, and from Monday 2026-09-22 it is what every patient is
+pointed at. Anything that still calls this unreleased is wrong: Don asked on
+2026-09-19 for the record to say released and live, and marked it complete on
+his own artifact tracker.
+
+**This is now the destination for retired patient documents.** Both welcome
+letters redirect here. Before retiring or renaming anything else patient-facing,
+assume the hub is where it should point.
+
+### Approved for direct use, 2026-09-18
 
 **Lindsay approved using it with patients now**, ahead of the website. The web
 developer has it and is aware of it, but Lindsay confirmed it is not a priority
@@ -115,7 +128,31 @@ the end of this section about the two root-level documents.
 
 ---
 
-**`KORB_Welcome_Letter.pdf` is kept on purpose, for patients who already hold that
+**Retired 2026-09-19 — both welcome letters.** Don's decision. `KORB_Welcome_Letter.html`
+(Functional Health & Longevity) and `KORB_GLP1_Welcome_Letter.html` are now redirects to
+`KORB_Patient_Hub.html`, and their entries are **removed from `korb-patient-ed-data.js`**.
+
+The removal is the part that matters. `build-patient-ed.js` writes a page for every key
+in that file, so a redirect with the data entry left in place survives exactly until the
+next build regenerates a letter over it. A retired page has no entry. Git has the content.
+
+Neither was deleted, because both URLs were handed out. Same rule as
+`Provider_Reference/KORB_GLP1_Provider_Tool.html` and the bridge PDF.
+
+Don's reason: from Monday the patient-facing send is a text snippet with a dropdown for
+the program, linking into that program's section of the hub. The hub carries the same
+information, shows a patient the other programs they might want, and is one place to
+update instead of three. The GLP-1 letter was written but, per Don, never actually used.
+
+**`KORB_Welcome_Letter.pdf`: no longer sent, still served.** Don retired it on
+2026-09-19 in the sense that it is not going out to patients any more. The FILE is
+deliberately still published, for the same reason it became a bridge in the first place:
+that URL is in patients' inboxes and cannot be recalled, and a 404 is worse than an
+unmaintained page. Every button in it still opens a live document - it never linked to
+either welcome letter - and its injection button was repointed off YouTube to Vimeo on
+2026-09-19. **Delete it only on an explicit instruction that accepts the 404.**
+
+**`KORB_Welcome_Letter.pdf` was kept on purpose, for patients who already hold that
 URL.** It is the designed PDF with only its link annotations rewritten, by
 `tools/retarget-pdf-links.py`, so what a patient sees is byte-for-byte the page that was
 designed and every button now opens the live `.html`.
@@ -135,6 +172,19 @@ pharmacy, state or dosing change reaches the reader on their next page load. The
 stored PDF was a second copy that drifted, and it is how 14 of the 16 patient
 documents kept naming KORB Health Group, the MSO, on clinical instruction long after
 the HTML byline had been corrected to KORB Health Medical Texas PA.
+
+**THE SHELL IS LIVE ONLY FROM THE TITLE BAND DOWN.** Found on 2026-09-19 by
+changing `program:` on the lab page, reloading, and seeing the old value.
+`build-patient-ed.js` BAKES the `<title>`, the masthead logo, the `<h1>`, the
+`.sub` subtitle that carries the program name, and the byline into the shell at
+build time. Only the BODY is rendered from the data file in the browser.
+
+So "a change to the data file reaches the reader on their next page load" is
+true of the prose and false of the program name, the title and the byline -
+which are exactly the fields that named the MSO instead of the PA. **Change one
+of those four and you must rebuild that page**, `node build-patient-ed.js <key>`,
+or the data and the page disagree with no sign that they do. The byline drift
+that retiring the PDFs was supposed to fix can still happen here.
 
 **If anyone needs a file, press Print.** Every page has the button and it builds a PDF
 from current data at that moment, which is what the stored file was only pretending to

@@ -258,7 +258,7 @@ var KORB_MENS = {
                  'it. Earlier is what triggers the too-early callback.',
     labLeadDays: 14,
     labLeadWhy: 'Order labs 14 days before the next visit. Results can take a ' +
-                'week, so the draw must not be left to the final days.',
+                'week from the draw, so it must not be left to the final days.',
     maxDays: 90,
     maxDaysWhy: 'Nothing is dispensed or scheduled beyond 90 days. At 120 and ' +
                 '144 mg per week the vial physically outlasts 90 days and the ' +

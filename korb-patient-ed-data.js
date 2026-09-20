@@ -273,7 +273,7 @@ var KORB_PATIENT_ED = {
       ],
       labs: [
         'Baseline labs are required before you start. A lab order is placed at the beginning of each 16-week cycle for a draw at Quest Diagnostics.',
-        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week, and your visit may need to be rescheduled if they are not in yet.'
+        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
         'Use your Foundation agent only as prescribed. Do not change your dose, course length or schedule without provider direction.',
@@ -336,7 +336,7 @@ var KORB_PATIENT_ED = {
       ],
       labs: [
         'Baseline labs are required before you start. A lab order is placed at the beginning of each 16-week cycle for a draw at Quest Diagnostics.',
-        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week, and your visit may need to be rescheduled if they are not in yet.'
+        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
         'Use your Gateway agents only as prescribed. Do not change your dose, course length or schedule without provider direction.',
@@ -412,7 +412,7 @@ var KORB_PATIENT_ED = {
       ],
       labs: [
         'Baseline labs are required before you start. A lab order is placed at the beginning of each 16-week cycle for a draw at Quest Diagnostics.',
-        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week, and your visit may need to be rescheduled if they are not in yet.'
+        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
         'Use your Peak agents only as prescribed. Do not change your dose, course length or schedule without provider direction.',
@@ -475,7 +475,7 @@ var KORB_PATIENT_ED = {
       ],
       labs: [
         'Baseline labs are required before you start. A lab order is placed at the beginning of each 16-week cycle for a draw at Quest Diagnostics.',
-        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week, and your visit may need to be rescheduled if they are not in yet.'
+        'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
         'Use your medication only as prescribed. Do not change your dose, course length or schedule without provider direction.',
@@ -1171,367 +1171,36 @@ var KORB_PATIENT_ED = {
       ]
     },
 
-    glp1_welcome: {
-      key: 'glp1_welcome',
-      hub: true,
-      alsoLoad: ['glp1'],
-      file: 'KORB_GLP1_Welcome_Letter',
-      title: 'Welcome to KORB',
-      root: true,
-      sub: 'Weight Loss & Metabolic Health',
-      disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If you have questions, contact KORB.',
-      intro: [
-        'We are glad you are here. This is your starting point for the KORB Weight Loss and Metabolic Health Program.',
-        'Your provider selects your medication and your starting dose, and adjusts it at your follow-up visits. Everything below helps you get oriented, learn how the injections work, and know how to reach us.'
-      ],
-      sections: [
-        {
-          h: 'Start here every week',
-          primary: true,
-          links: [
-            {
-              href: 'KORB_Patient_Treatment_Schedule.html',
-              label: 'Open Treatment Schedule',
-              note: 'Your personalized schedule: visit checkpoints, lab timing and program milestones, all in one place.'
-            },
-            {
-              href: 'KORB_GLP1_Dose_Guide.html',
-              label: 'Open My Dose & Injection Guide',
-              note: 'How much to draw up for your dose and your pharmacy, week by week.'
-            }
-          ]
-        },
-        {
-          h: 'Getting started',
-          lead: 'New to the program? This covers what the medication is, how it is prepared, and what your first few months look like.',
-          links: [
-            {
-              href: 'Patient_Education/KORB_WeightLoss_Program_Overview.html',
-              label: 'Weight Loss Program Overview'
-            }
-          ]
-        },
-        {
-          h: 'Your medication guide',
-          lead: 'Once your provider confirms your medication, open the matching guide for how it works, how to use it, what to expect and how to store it.',
-          links: [
-            {
-              href: 'Patient_Education/KORB_Patient_Ed_Semaglutide.html',
-              label: 'Semaglutide',
-              note: 'Once-weekly injection. Dose increases roughly every 4 weeks as tolerated.'
-            },
-            {
-              href: 'Patient_Education/KORB_Patient_Ed_Tirzepatide.html',
-              label: 'Tirzepatide',
-              note: 'Once-weekly injection, works on two hormone pathways rather than one.'
-            }
-          ]
-        },
-        {
-          h: 'How to give your injections',
-          lead: 'Watch the short video walkthrough before your first injection, then keep the written guide for storage, travel and sharps disposal.',
-          links: [
-            {
-              /* Vimeo, not bit.ly. The short link pointed at YouTube and Don does
-                 not control it - it was created when these documents lived on a
-                 personal GitHub under a different name, and a link nobody owns is
-                 a link that can change under you. YouTube also serves pre-roll
-                 ads to signed-out viewers, which is the thing this whole video
-                 move was about. The id lives in korb-video.js; this is the one
-                 place outside that file that needs it, because a welcome letter
-                 links OUT rather than embedding. */
-              href: 'https://vimeo.com/1228373201',
-              label: 'Watch the Injection Video'
-            },
-            {
-              href: 'Patient_Education/KORB_Injection_Storage_Safety_Guide.html',
-              label: 'Injection, Storage and Safety Guide'
-            }
-          ]
-        },
-        {
-          h: 'Protein is the thing to get right',
-          callout: {
-            title: 'Why this matters more on a GLP-1 than off one',
-            text: 'These medications work by reducing appetite, so you will eat less without trying to. The risk is that you lose muscle along with fat. **Protein and resistance training are what protect muscle**, and protein is the one that is easy to miss when you are not hungry. Work out your daily target, then use the ideas below to hit it.'
-          },
-          /* The calculator itself, not a link to one.
+    /* BOTH WELCOME LETTERS WERE RETIRED HERE ON 2026-09-19, by Don.
+       `glp1_welcome` (KORB_GLP1_Welcome_Letter) and `welcome`
+       (KORB_Welcome_Letter, the Functional Health & Longevity one) stood here.
+       Git has them.
 
-             This used to point at Provider_Reference/KORB_BMI_Protein_Calculator_
-             standalone.html - the PROVIDER tool, which carries "Copy into the
-             chart" and other charting affordances that have no meaning for a
-             patient and should not be on a patient-facing page at all. The
-             patient calculator already existed, embedded in KORB_Patient_Hub.html.
-             That is the one rendered here. Don caught the swap on 2026-09-18. */
-          embed: 'protein'
-        },
-        /* The assistant list sits ABOVE the prompts, not below them. A patient
-           who has never used one of these tools needs somewhere to paste before
-           a prompt to paste is worth anything; at the bottom of six long cards
-           most of them never reached it. Don, 2026-09-18. */
-        {
-          h: 'Pick a free AI assistant',
-          lead: 'Any of these will handle the prompts below, and all of them have a free version. KORB does not endorse or have any relationship with any of them. Pick whichever you already use or like the look of. Open one in a new tab, then come back for a prompt.',
-          tools: [
-            {
-              href: 'https://chat.openai.com',
-              label: 'ChatGPT'
-            },
-            {
-              href: 'https://claude.ai',
-              label: 'Claude'
-            },
-            {
-              href: 'https://gemini.google.com',
-              label: 'Google Gemini'
-            },
-            {
-              href: 'https://copilot.microsoft.com',
-              label: 'Microsoft Copilot'
-            },
-            {
-              href: 'https://www.perplexity.ai',
-              label: 'Perplexity'
-            }
-          ]
-        },
-        {
-          h: 'Prompts to paste in',
-          lead: 'Copy any prompt below and paste it into the assistant you picked. Nothing to sign up for, and you can keep asking follow-up questions in plain language until you get something you would actually eat, for example "make these dairy free" or "I do not like fish".',
-          callout: {
-            title: 'Before you use these',
-            text: 'The answers come from the AI assistant, not from KORB, and AI tools do sometimes get things wrong. Treat the results as ideas to consider, not instructions. **Do not type your medical conditions, medications or other health details into these tools.** The prompts are written so you do not need to. If you are thinking about a real change to how you eat, bring it to your provider first.'
-          },
-          prompts: [
-            {
-              title: 'High-protein breakfasts',
-              why: 'Breakfast is the meal most people skip once appetite drops.',
-              text: 'Give me 10 high-protein breakfast ideas using whole, minimally processed foods. Each should have at least 25 g of protein and no more than six ingredients. Keep them low in fat, since heavy or greasy meals can cause nausea. List the protein content per serving. Do not give me medical or nutrition advice, just food ideas.'
-            },
-            {
-              title: 'Small meals that still hit protein',
-              why: 'For when you fill up after a few bites but still need the protein.',
-              text: 'I get full very quickly and can only eat small portions. Give me 10 meal ideas that are small in volume but high in protein, at least 25 g each. Prioritise protein density over portion size. Keep them simple to prepare. List protein per serving. Do not give me medical or nutrition advice, just food ideas.'
-            },
-            {
-              title: 'Gentle food for a queasy day',
-              why: 'For the day or two after a dose increase.',
-              text: 'Give me 10 bland, low-fat, easy-to-digest meal and snack ideas that still contain protein. Avoid fried, greasy, very sweet, and strongly spiced foods. Each should be quick to prepare and easy to eat in small amounts. List protein per serving. Do not give me medical or nutrition advice, just food ideas.'
-            },
-            {
-              title: 'Plant-based and still hitting protein',
-              why: 'Harder without meat or dairy, and harder again on a smaller appetite.',
-              text: 'I eat no meat, fish, dairy or eggs. Give me 10 plant-based meal and snack ideas that each contain at least 20 g of protein, built from whole foods such as beans, lentils, chickpeas, tofu, tempeh, edamame, seitan, nuts and seeds. Keep them small in volume where you can, since I fill up quickly. List the protein per serving, and mark any that combine two foods to make a complete protein. If I ate dairy and eggs as well, tell me which three would change and how. Do not give me medical or nutrition advice, just food ideas.'
-            },
-            {
-              title: 'A week of simple dinners',
-              why: 'Removes the daily decision, which is usually the hard part.',
-              text: 'Plan 7 simple dinners for one week. Each should have at least 30 g of protein, use whole or minimally processed ingredients, and take under 30 minutes. Reuse ingredients across meals to reduce waste. Then give me a single consolidated grocery list organised by store section. Do not give me medical or nutrition advice, just recipes and a list.'
-            },
-            {
-              title: 'Ordering when you eat out',
-              why: 'Restaurant portions are large and often high in fat.',
-              text: 'I am eating at a [TYPE OF RESTAURANT]. Suggest 8 protein-forward things I could order that are not fried or heavy in cream and oil, and that work as a smaller portion. For each, note roughly how much protein it has and one simple modification to ask for. Do not give me medical or nutrition advice, just ordering suggestions.'
-            },
-            {
-              title: 'Look up the protein in what you already eat',
-              why: 'So you are working from numbers rather than guessing at them.',
-              text: 'Build me a reference table of the protein content of common everyday foods. Cover meat, poultry, fish, eggs, dairy, beans and pulses, soy, grains and nuts. For each one give a normal portion size both in grams and as a household measure such as a cup, a slice or a palm, and the grams of protein in that portion. Sort it from most protein per portion to least. Then add a short list of the ten that give the most protein for the smallest amount of food. Do not give me medical or nutrition advice, just the table.'
-            },
-            {
-              title: 'A protein checklist for a working week',
-              why: 'For eating at a desk, on a job site, or between appointments.',
-              text: 'Give me a one-page checklist of high-protein foods that need no cooking, or under five minutes of preparation, for someone who works full time and eats at least one meal away from home. Split it into three groups: keep at home, take with you, and buy while you are out. Every item should have at least 15 g of protein in a normal portion, and you should note the portion size and the protein for each one. Keep it short enough to print and stick on a fridge. Do not give me medical or nutrition advice, just the list.'
-            },
-            {
-              title: 'Compare tracking apps yourself',
-              why: 'So you pick a tool, rather than being pointed at one.',
-              text: 'Compare the most widely used free food and protein tracking apps available today. For each, tell me: what it costs, whether the free version is genuinely usable, how easy it is to log protein specifically, and what data it collects about me. Present it as a table and tell me which is best for someone focused mainly on hitting a daily protein target. Give me the trade-offs, not a single recommendation.'
-            }
-          ]
-        },
-        {
-          h: 'Safety and support',
-          links: [
-            {
-              href: 'Patient_Education/KORB_When_to_Contact_KORB_or_ER.html',
-              label: 'When to Contact KORB or the ER',
-              note: 'What to message about, and what is an emergency. Worth reading once before you need it.'
-            }
-          ]
-        },
-        {
-          h: 'Contact us',
-          items: [
-            'Non-medical questions: reply to any text message or appointment reminder. Our staff responds Monday to Friday, 9:00 AM to 6:00 PM CST.',
-            'Medical questions go through your Patient Portal.'
-          ],
-          /* Filled from shared.contact rather than typed. Both welcome letters
-             carried their own copy of the phone number, the email address and
-             the portal URL, beside the shared block that holds the same three
-             facts for the other 24 pages. A second copy of a phone number is a
-             second thing to update when it changes. */
-          shared: 'contact'
-        }
-      ]
-    },
+       WHY THEY ARE GONE FROM THE DATA AND NOT JUST UNLINKED. build-patient-ed.js
+       writes a page for every key in these collections. Leaving the entries and
+       putting a redirect at the .html would have worked exactly until the next
+       build overwrote the redirect with a regenerated letter. A retired page has
+       no entry.
 
-    welcome: {
-      key: 'welcome',
-      hub: true,
-      file: 'KORB_Welcome_Letter',
-      title: 'Welcome to KORB',
-      root: true,
-      disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If you have questions, contact KORB.',
-      intro: [
-        'We are glad you are here. This is your starting point for the KORB Functional Health and Longevity Program.',
-        'At your first visit you complete your baseline labs. Your provider reviews those results and confirms your program and medication plan afterwards. Everything below helps you get oriented in the meantime.'
-      ],
-      sections: [
-        {
-          h: 'Start here every week',
-          primary: true,
-          links: [
-            {
-              href: 'KORB_Patient_Treatment_Schedule.html',
-              label: 'Open Treatment Schedule',
-              note: 'Your personalized schedule: visit checkpoints, lab timing and program milestones, all in one place.'
-            },
-            {
-              href: 'KORB_Functional_Health_Tracker.html',
-              label: 'Open My Peptide Tracker',
-              note: 'Track your doses day to day and see where you are in your cycle.'
-            }
-          ]
-        },
-        {
-          h: 'Getting started',
-          lead: 'New to the program? Start here for a quick overview of what to expect in your first cycle.',
-          links: [
-            {
-              href: 'Patient_Education/KORB_Start_Here_Guide.html',
-              label: 'Open the Start Here Guide'
-            }
-          ]
-        },
-        {
-          h: 'Program overview',
-          lead: 'Want the bigger picture of how the Functional Health and Longevity Program works? This covers the program structure. Your provider will confirm which tier fits your goals once your labs are back.',
-          links: [
-            {
-              href: 'Patient_Education/KORB_Longevity_Program_Overview.html',
-              label: 'Longevity Program Overview'
-            }
-          ]
-        },
-        {
-          h: 'Your program tiers',
-          lead: 'Each tier is structured differently. Once your provider confirms your tier, open the matching overview below.',
-          /* pick one of three, so a compact list rather than three full cards */
-          as: 'list',
-          links: [
-            {
-              href: 'Patient_Education/KORB_Foundation_Program_Overview.html',
-              label: 'Foundation'
-            },
-            {
-              href: 'Patient_Education/KORB_Gateway_Program_Overview.html',
-              label: 'Gateway'
-            },
-            {
-              href: 'Patient_Education/KORB_Peak_Program_Overview.html',
-              label: 'Peak Performance'
-            }
-          ]
-        },
-        {
-          h: 'Your medication guides',
-          lead: 'Once your provider confirms your medication, open the matching guide below for how it works, how to use it, and what to expect.',
-          as: 'list',
-          links: [
-            {
-              href: 'Patient_Education/KORB_Patient_Ed_Sermorelin.html',
-              label: 'Sermorelin'
-            },
-            {
-              href: 'Patient_Education/KORB_Patient_Ed_CJC_Ipamorelin.html',
-              label: 'CJC-1295 / Ipamorelin'
-            },
-            {
-              href: 'Patient_Education/KORB_Patient_Ed_BPC157.html',
-              label: 'BPC-157'
-            },
-            {
-              href: 'Patient_Education/KORB_Patient_Ed_Tesamorelin.html',
-              label: 'Tesamorelin'
-            },
-            {
-              href: 'Patient_Education/KORB_Patient_Ed_GHK_Cu.html',
-              label: 'GHK-Cu (Add-On)'
-            }
-          ]
-        },
-        {
-          h: 'How to give your injections',
-          lead: 'Watch our short video walkthrough before your first injection.',
-          links: [
-            {
-              /* Vimeo, not bit.ly. The short link pointed at YouTube and Don does
-                 not control it - it was created when these documents lived on a
-                 personal GitHub under a different name, and a link nobody owns is
-                 a link that can change under you. YouTube also serves pre-roll
-                 ads to signed-out viewers, which is the thing this whole video
-                 move was about. The id lives in korb-video.js; this is the one
-                 place outside that file that needs it, because a welcome letter
-                 links OUT rather than embedding. */
-              href: 'https://vimeo.com/1228373201',
-              label: 'Watch the Injection Video'
-            }
-          ]
-        },
-        {
-          h: 'Safety and support',
-          links: [
-            {
-              href: 'Patient_Education/KORB_Injection_Storage_Safety_Guide.html',
-              label: 'Injection, Storage and Safety Guide'
-            },
-            {
-              href: 'Patient_Education/KORB_When_to_Contact_KORB_or_ER.html',
-              label: 'When to Contact KORB or the ER'
-            }
-          ]
-        },
-        {
-          h: 'Join our community',
-          lead: 'Connect with others on the program and find extra support along the way.',
-          links: [
-            {
-              href: 'https://go.korbhealth.com/JoinKORBcirclecommunity',
-              label: 'Join the KORB Circle Community'
-            }
-          ]
-        },
-        {
-          h: 'Contact us',
-          items: [
-            'Non-medical questions: reply to any text message or appointment reminder. Our staff responds Monday to Friday, 9:00 AM to 6:00 PM CST.',
-            'Medical questions go through your Patient Portal.'
-          ],
-          /* Filled from shared.contact rather than typed. Both welcome letters
-             carried their own copy of the phone number, the email address and
-             the portal URL, beside the shared block that holds the same three
-             facts for the other 24 pages. A second copy of a phone number is a
-             second thing to update when it changes. */
-          shared: 'contact'
-        }
-      ]
-    },
+       WHY THEY WERE RETIRED. From Monday 2026-09-22 patients are sent to
+       KORB_Patient_Hub.html by a text snippet with a per-program dropdown, not
+       to a letter. The hub carries the same information, shows a patient the
+       other programs they may want, and is one place to update instead of
+       three. The GLP-1 letter was written and, per Don, never actually used.
+
+       THE TWO .html FILES ARE STILL PUBLISHED, as redirects to the hub. They
+       are NOT deleted, for the same reason KORB_GLP1_Provider_Tool.html was not:
+       those URLs were handed out. Same rule as the bridge PDF. */
 
     labs: {
       key: 'labs',
       file: 'KORB_Schedule_Your_Lab_Appointment',
-      program: 'Functional Health & Longevity',
+      /* NOT a program document. Men's Health uses this same page for its
+         baseline and trough draws, and it sits in the hub's cross-program
+         reference row beside sharps disposal and the compounding Q&A. It said
+         Functional Health & Longevity because that is who it was written for
+         first. Don, 2026-09-19. */
+      program: 'All Programs',
       title: 'Schedule Your Quest Lab Appointment',
       root: true,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
@@ -1564,7 +1233,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'What happens next',
           paras: [
-            'Results usually take about a week. Once we have received and reviewed them, our team contacts you to schedule your follow-up appointment and discuss next steps.',
+            'Results usually take about a week from the day your blood is drawn. The clock starts at your draw, not when your order was placed and not when you booked. Once we have received and reviewed them, our team contacts you to schedule your follow-up appointment and discuss next steps.',
             'If your results are not back in time, your follow-up visit may need to be rescheduled. Completing your draw in the window you were given is what prevents that.'
           ]
         },
