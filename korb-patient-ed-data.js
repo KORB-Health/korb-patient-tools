@@ -276,6 +276,25 @@ var KORB_PATIENT_ED = {
         label: 'One agent at a time.',
         text: 'Foundation never combines two agents simultaneously. At each 16-week follow-up you and your provider may continue your current agent or switch to a different one. See the Patient Education handout for your specific agent for full dosing, timing and storage instructions.'
       },
+      /* THE SAME FOUR PRODUCTS THE HUB SHOWS, on the tier documents too. Don,
+         2026-09-19: visibility is the point, a patient who never sees them never
+         asks. The lead says "not part of your peptide protocol" on purpose,
+         because Gateway and Peak already use the word add-on for GHK-Cu, which
+         IS part of the protocol. Two different things, one page. */
+      optimization: {
+        heading: 'Optimize Your Longevity',
+        lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
+        links: [
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+        ],
+        after: [
+          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+        ]
+      },
       pricing: 'For current Foundation Program pricing, contact KORB Operations or ask your provider at your visit.',
       cycle: [
         'Baseline visit, labs only. No prescription is sent at your first visit.',
@@ -343,6 +362,25 @@ var KORB_PATIENT_ED = {
       note: {
         label: 'Staggered by design.',
         text: 'The two agents start at different times on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together to catch up, and do not change the order.'
+      },
+      /* THE SAME FOUR PRODUCTS THE HUB SHOWS, on the tier documents too. Don,
+         2026-09-19: visibility is the point, a patient who never sees them never
+         asks. The lead says "not part of your peptide protocol" on purpose,
+         because Gateway and Peak already use the word add-on for GHK-Cu, which
+         IS part of the protocol. Two different things, one page. */
+      optimization: {
+        heading: 'Optimize Your Longevity',
+        lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
+        links: [
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+        ],
+        after: [
+          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+        ]
       },
       pricing: 'For current Gateway Program pricing, contact KORB Operations or ask your provider at your visit.',
       cycle: [
@@ -421,6 +459,25 @@ var KORB_PATIENT_ED = {
       note: {
         label: 'Staggered by design.',
         text: 'Your agents start at different points in the cycle on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together and do not change the order.'
+      },
+      /* THE SAME FOUR PRODUCTS THE HUB SHOWS, on the tier documents too. Don,
+         2026-09-19: visibility is the point, a patient who never sees them never
+         asks. The lead says "not part of your peptide protocol" on purpose,
+         because Gateway and Peak already use the word add-on for GHK-Cu, which
+         IS part of the protocol. Two different things, one page. */
+      optimization: {
+        heading: 'Optimize Your Longevity',
+        lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
+        links: [
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+        ],
+        after: [
+          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+        ]
       },
       pricing: 'For current Peak Performance Program pricing, contact KORB Operations or ask your provider at your visit.',
       cycle: [
@@ -508,7 +565,7 @@ var KORB_PATIENT_ED = {
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
-          '**Do not take KORB Rise if you take nitrates for chest pain.** The combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
           '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
@@ -726,7 +783,7 @@ var KORB_PATIENT_ED = {
       title: 'Sexual Health',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        '**Do not use these medications if you take nitrates for chest pain.** Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with this treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
+        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and to KORB Electric**, because both contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
       ],
       sections: [
         {
@@ -755,9 +812,27 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
+          /* INGREDIENTS AND THE NITRATE WARNING. Don, 2026-09-19, confirming that
+             the warning applies to KORB Electric too, and he had not realised the
+             actives were never listed. korb-addons-data.js has carried
+             nitrate: true on BOTH KORB Electric formulations all along; the
+             patient handout named the actives for KORB Rise and not for this.
+
+             Worse than silent: it said Electric works "rather than acting on the
+             whole body", which reads as a reason the warning above does not
+             apply to her. It contains sildenafil, the Viagra active.
+
+             TWO FORMULATIONS, because the pharmacies compound it differently:
+             Premier is sildenafil 1.5% / theophylline 3% / L-arginine 6%,
+             FarmaKeio is sildenafil 2% / arginine HCl 6% / DHEA 1%. Both are
+             sildenafil plus arginine, so the handout says that and sends her to
+             her label for the rest rather than printing one pharmacy's recipe as
+             if it were everyone's. */
           h: 'For women: KORB Electric',
           paras: [
-            'KORB Electric is a topical gel applied directly to the clitoris about 30 minutes before sexual activity. It works by increasing local blood flow rather than acting on the whole body.',
+            'KORB Electric is a topical gel applied directly to the clitoris about 30 minutes before sexual activity, where it increases blood flow to the tissue it is applied to.',
+            '**It contains sildenafil, the same active ingredient as Viagra**, along with L-arginine. Depending on which pharmacy fills your prescription it also contains either theophylline or DHEA. Your label names your exact formulation.',
+            '**The nitrate warning at the top of this page applies to KORB Electric.** Applying it to the skin rather than swallowing it does not remove that risk. If you take nitroglycerin, isosorbide or any similar heart medication, even rarely, do not use KORB Electric and tell your provider.',
             'Apply one to two clicks from the applicator. Wash your hands before and after. One bottle covers roughly 20 uses.'
           ]
         },
@@ -960,7 +1035,7 @@ var KORB_PATIENT_ED = {
             { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
           ],
           after: [
-            '**Do not take KORB Rise if you take nitrates for chest pain.** The combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+            '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
             '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
           ]
         },
@@ -1063,7 +1138,7 @@ var KORB_PATIENT_ED = {
             }
           ],
           after: [
-            '**Do not take KORB Rise if you take nitrates for chest pain.** The combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.'
+            '**Do not take KORB Rise if you take nitrates for chest pain.** It contains sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.'
           ]
         },
         {
@@ -1157,6 +1232,7 @@ var KORB_PATIENT_ED = {
             { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
           ],
           after: [
+            '**Do not use KORB Electric if you take nitrates for chest pain.** It contains sildenafil, the same active as Viagra, and applying it to the skin rather than swallowing it does not remove the risk: the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
             '**Never take a hair loss prescription that was written for a man.** Yours is spironolactone. The men’s pill is finasteride, and finasteride can cause serious birth defects if it is taken by a woman who is or could become pregnant. Never take, share or borrow a partner’s prescription.'
           ]
         },
