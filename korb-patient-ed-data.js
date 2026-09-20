@@ -190,8 +190,15 @@ var KORB_PATIENT_ED = {
           { label: 'Portal', value: 'Sign in to the Patient Portal',
             href: 'https://portal.kareo.com/app/new/login' }
         ],
-        items: ['Injection-site irritation or redness that does not resolve',
-                'Mild but persistent side effects',
+        /* NOT "injection-site". This renders on the When to Contact guide, which
+           serves all four programs: Women's Health is patches, creams and
+           capsules, and gut health will add more oral products. Naming only
+           injections tells every other patient their side effects are not the
+           kind KORB wants to hear about. Don, 2026-09-19. */
+        items: ['Localized irritation, redness or soreness that does not resolve, ' +
+                'wherever you inject or apply your medication',
+                'Nausea, digestive upset or appetite changes that are not settling',
+                'Mild but persistent side effects of any kind',
                 'Questions about whether to continue therapy']
       },
       emergency: {
@@ -566,8 +573,8 @@ var KORB_PATIENT_ED = {
               'Can indicate blood sugar dipping. Have something to eat and tell your provider.'
             ],
             [
-              'Injection site soreness or redness',
-              'Rotate sites and use new equipment each time.'
+              'Injection site soreness or redness (NAD+)',
+              'Rotate sites and use new equipment each time. Metformin is taken by mouth and has no injection site.'
             ]
           ],
           after: [
@@ -1244,10 +1251,14 @@ var KORB_PATIENT_ED = {
     injection: {
       key: 'injection',
       file: 'Patient_Education/KORB_Injection_Storage_Safety_Guide',
-      /* NOT an FH&L document. GLP-1 and weight loss use it, Men's Health uses
-         it, and the technique is the same subcutaneous injection in all three.
-         Don, 2026-09-19. Same correction as the lab page. */
-      program: 'All Programs',
+      /* NOT an FH&L document, and NOT an all-programs one either. GLP-1, weight
+         loss and Men's Health all use it and the technique is the same
+         subcutaneous injection in all three. Women's Health is patches, creams
+         and capsules and none of this applies to it, and gut health will add
+         oral products. It said All Programs for part of 2026-09-19, which told
+         a woman on a patch that a syringe document was written for her.
+         A document about injecting says who injects. */
+      program: 'All injectable programs',
       title: 'Injection, Storage and Safety Guide',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
@@ -1372,8 +1383,9 @@ var KORB_PATIENT_ED = {
         {
           h: 'Not an emergency, but worth a message',
           items: [
-            'Mild side effects that are not urgent.',
-            'Injection-site irritation or redness that does not resolve.',
+            'Mild side effects that are not urgent, whatever form your medication takes.',
+            'Localized irritation, redness or soreness that does not resolve, wherever you inject or apply your medication.',
+            'Nausea, digestive upset or appetite changes that are not settling.',
             'Sleep changes, flushing, or a mild rash or itching.',
             'Questions about whether to continue therapy.',
             'A concern that therapy is not helping.',
