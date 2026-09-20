@@ -286,13 +286,13 @@ var KORB_PATIENT_ED = {
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
           { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
           { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
-          '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+          '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
       pricing: 'For current Foundation Program pricing, contact KORB Operations or ask your provider at your visit.',
@@ -373,13 +373,13 @@ var KORB_PATIENT_ED = {
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
           { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
           { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
-          '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+          '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
       pricing: 'For current Gateway Program pricing, contact KORB Operations or ask your provider at your visit.',
@@ -470,13 +470,13 @@ var KORB_PATIENT_ED = {
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
           { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
           { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
-          '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+          '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
       pricing: 'For current Peak Performance Program pricing, contact KORB Operations or ask your provider at your visit.',
@@ -560,13 +560,13 @@ var KORB_PATIENT_ED = {
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
         links: [
           { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
           { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
-          '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+          '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
       pricing: 'For current pricing on any tier, contact KORB Operations or ask your provider at your visit.',
@@ -699,23 +699,25 @@ var KORB_PATIENT_ED = {
       title: 'Hair Loss Treatment',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        'Hair loss treatment comes as a once-daily pill, a once-daily topical you apply to your scalp, or both together. Your provider chooses based on your pattern of loss, your health history and your preference.'
+        'Hair loss treatment comes as a once-daily tablet, a once-daily topical you apply to your scalp, or both together. Your provider chooses based on your pattern of loss, your health history and your preference.'
       ],
       sections: [
         {
           h: 'What you may be prescribed',
+          /* ONE ROUTE PER ROW. Don, 2026-09-19: two rows each carrying both an
+             oral and a topical read as a run-on, and "Pill:" is not the word.
+             It is oral. Four rows, oral before topical, so a woman finds her two
+             lines together and never reads across a men's entry to get there. */
           cards: [
-            [
-              'Men',
-              'Pill: finasteride. Topical: minoxidil with finasteride and tretinoin.'
-            ],
-            [
-              'Women',
-              'Pill: spironolactone. Topical: minoxidil with spironolactone and latanoprost.'
-            ]
+            ['Men, oral', 'Finasteride, taken once daily.'],
+            ['Men, topical',
+             'Minoxidil with finasteride and tretinoin, applied to the scalp once daily.'],
+            ['Women, oral', 'Spironolactone, taken once daily.'],
+            ['Women, topical',
+             'Minoxidil with spironolactone and latanoprost, applied to the scalp once daily.']
           ],
           after: [
-            'These are not interchangeable between people. **The men\'s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects.** Never take, share or borrow someone else\'s prescription, including a partner\'s.'
+            'These are not interchangeable between people. **The men\'s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects.** Never take, share or borrow someone else\'s prescription, including a partner\'s.'
           ]
         },
         {
@@ -754,7 +756,7 @@ var KORB_PATIENT_ED = {
               'Uncommon but real. Tell your provider rather than stopping on your own.'
             ],
             [
-              'Breast tenderness or swelling (either pill)',
+              'Breast tenderness or swelling (either oral treatment)',
               'Tell your provider.'
             ],
             [
@@ -1046,13 +1048,13 @@ var KORB_PATIENT_ED = {
           lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
             { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
-            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, pill or topical' },
+            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
             { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
             { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
           ],
           after: [
             '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
-            '**Hair loss prescriptions are not interchangeable between people.** The men’s pill, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
+            '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
           ]
         },
         {
@@ -1142,7 +1144,7 @@ var KORB_PATIENT_ED = {
               href: 'KORB_Patient_Ed_Hair_Loss.html',
               /* Named for men. The handout carries both columns and they are
                  different drugs: finasteride for men, spironolactone for women. */
-              label: 'Hair Loss Guide for men, pill or topical'
+              label: 'Hair Loss Guide for men, oral or topical'
             },
             {
               href: 'KORB_Patient_Ed_Skin_Care.html',
@@ -1243,13 +1245,13 @@ var KORB_PATIENT_ED = {
           lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
             { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Electric' },
-            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide for women, pill or topical' },
+            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide for women, oral or topical' },
             { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
             { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
           ],
           after: [
             '**Do not use KORB Electric if you take nitrates for chest pain.** It contains sildenafil, the same active as Viagra, and applying it to the skin rather than swallowing it does not remove the risk: the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
-            '**Never take a hair loss prescription that was written for a man.** Yours is spironolactone. The men’s pill is finasteride, and finasteride can cause serious birth defects if it is taken by a woman who is or could become pregnant. Never take, share or borrow a partner’s prescription.'
+            '**Never take a hair loss prescription that was written for a man.** Yours is spironolactone. The men’s oral treatment is finasteride, and finasteride can cause serious birth defects if it is taken by a woman who is or could become pregnant. Never take, share or borrow a partner’s prescription.'
           ]
         },
         {
