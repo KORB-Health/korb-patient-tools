@@ -43,13 +43,22 @@ var KORB_PATIENT_ED = {
   artifactSignoff: {
     records: {
       "handout:testosterone": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-17",
-        "fingerprint": "fp-982b0eb4-11974",
-        "covers": "11509 characters, 17 headings",
-        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
-      },
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-21",
+          "fingerprint": "fp-54025f00-12865",
+          "covers": "12380 characters, 18 headings",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-21 and approved: \"that Testosterone hand out is good now.\" DON FOUND A DEFECT ON THE FIRST READ AND IT IS WHY THIS SIGNATURE EXISTS. Under Safety reminders the handout carried the shared line 'Use a new insulin needle and syringe for every injection', appended directly beneath this handout's own correct sentence, so a patient was told both. Testosterone cypionate is a thick oil drawn with a draw-up needle and given through an injection needle on a Luer lock syringe; an insulin syringe has a fixed needle and is marked in units. The device sentence is now shared.injectionSafetyDevice and this handout declares ownInjectionDevice. Also covered by this reading: the needle renaming to draw-up and injection needle, and the gauge rule.",
+          "superseded": {
+                  "signedBy": "Donald Stevenson, PA-C",
+                  "role": "Director of Clinical Operations and Lead Provider",
+                  "date": "2026-09-17",
+                  "fingerprint": "fp-982b0eb4-11974",
+                  "covers": "11509 characters, 17 headings",
+                  "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+                }
+        },
       "handout:hormonetherapy": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
