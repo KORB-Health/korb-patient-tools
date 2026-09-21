@@ -352,10 +352,43 @@ function sectionDirections(doc) {
   return '<h2>Directions given to the patient</h2>' +
          '<table class="grid"><thead><tr><th>Agent</th><th>Pharmacy</th><th>Direction</th></tr></thead><tbody>' +
          rows.join('') + '</tbody></table>' +
-         '<div class="callout"><h3>The rest day is not a fixed weekday</h3>' +
-         '<p>The protocol is 6 days on, 1 day off. The specific weekday is a recommendation for ease of patient recall, not a clinical requirement. ' +
-         'The patient’s tracker derives their rest day from their own start date, so a patient starting on a Wednesday rests Tuesday. ' +
-         'Do not tell a patient their rest day is Sunday.</p></div>';
+         restDayCallout(doc);
+}
+
+/* THE CADENCE CALLOUT NAMES ITS AGENTS.
+   It used to open "The protocol is 6 days on, 1 day off" on every FH&L
+   reference, printed directly under a directions table that says BPC-157 is
+   "once daily". The document contradicted itself on one screen, and a
+   Foundation patient on BPC-157 alone was told by the tracker to take a rest
+   day. Don, 2026-09-21: BPC-157 is always daily.
+
+   Derived from agents.<key>.cadence in korb-dosing-data.js, so a document can
+   no longer state a schedule its own table disagrees with. */
+function restDayCallout(doc) {
+  const rest = [], daily = [];
+  agentKeys(doc).forEach(function (r) {
+    const a = K.agents[r.key] || {};
+    const label = agentTitle(r.key).replace(/\s+\d.*$/, '');
+    if (a.cadence === 'sixOnOneOff' && rest.indexOf(label) < 0) rest.push(label);
+    if (a.cadence === 'daily' && daily.indexOf(label) < 0) daily.push(label);
+  });
+  let out = '';
+  if (rest.length) {
+    out += '<div class="callout"><h3>The rest day is not a fixed weekday</h3>' +
+           '<p>' + esc(rest.join(' and ')) + (rest.length > 1 ? ' run' : ' runs') +
+           ' 6 days on, 1 day off. The specific weekday is a ' +
+           'recommendation for ease of patient recall, not a clinical requirement. ' +
+           'The patient’s tracker derives their rest day from their own start date, so a ' +
+           'patient starting on a Wednesday rests Tuesday. ' +
+           'Do not tell a patient their rest day is Sunday.</p></div>';
+  }
+  if (daily.length) {
+    out += '<div class="callout"><h3>' + esc(daily.join(' and ')) + ' has no rest day</h3>' +
+           '<p>' + esc(daily.join(' and ')) + ' is taken every day, including weekends, for the ' +
+           'length of the course, in every program. It does not follow the 6 days on, 1 day off ' +
+           'pattern. Do not give a patient on it a rest day.</p></div>';
+  }
+  return out;
 }
 
 /* Which agents actually trip a pharmacy's 100-unit callout, worked out from

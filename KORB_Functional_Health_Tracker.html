@@ -298,10 +298,20 @@ function fail(msg){
 }
 
 // ── Cadence: how often each agent family is dosed ───────────────────────────
+// Cadence comes from korb-dosing-data.js, never from a list typed here. This
+// function used to hardcode it, which was correct but unverifiable, and the
+// banner below did not consult it at all - so a Foundation BPC-157 patient was
+// told "the protocol is 6 days on, 1 day off" while this same function
+// correctly marked BPC-157 due every day. Don flagged it 2026-09-21 after a
+// patient asked.
 function cadenceFor(key){
-  if(key === 'bpc157') return 'daily';
-  if(key === 'ghkcu') return 'weeklyTally3';
-  return 'sixOnOneOff'; // sermorelin*, cjcipam*, tesamorelin*
+  var a = window.KORB_DOSING && KORB_DOSING.agents[key];
+  if(!a || !a.cadence){
+    if(window.console) console.error('KORB tracker: no cadence declared for ' + key);
+    return 'unknown';
+  }
+  // This tool tracks GHK-Cu as a weekly tally rather than per day.
+  return (a.cadence === 'threeWeekly') ? 'weeklyTally3' : a.cadence;
 }
 
 // Pull the unit count out of an instruction sentence, e.g.
@@ -567,7 +577,11 @@ function isDueOnDate(agentKey, date){
   var cad = cadenceFor(agentKey);
   if(cad === 'daily') return true;
   if(cad === 'sixOnOneOff') return date.getDay() !== offWeekday();
-  return false; // weeklyTally3 handled separately, not per-day
+  if(cad === 'weeklyTally3') return false; // handled as a weekly tally, not per-day
+  // Unknown cadence: show the dose rather than hide it, and let the console
+  // error above say why. Hiding a dose a patient was prescribed is the worse
+  // failure of the two.
+  return true;
 }
 
 function weekActiveAgents(weekNum){
@@ -592,11 +606,38 @@ function renderAll(){
   document.getElementById('pctLbl').textContent = pct + '%';
   document.getElementById('progFill').style.width = Math.max(0,Math.min(100,pct)) + '%';
 
+  /* THE REST-DAY SENTENCE IS PER AGENT, NOT PER PROGRAM.
+     It used to be printed unconditionally, so a Foundation patient on BPC-157
+     alone - which is daily in every program - was given a named rest day and
+     told the protocol was 6 days on, 1 day off. The calendar below was right
+     the whole time; only this sentence was wrong. Approved by Don 2026-09-21.
+
+     Built from the agents this patient is actually on, so it cannot drift from
+     what the rest of the tracker shows. */
   var cs = document.getElementById('cycleSub');
   if(cs){
-    cs.innerHTML = 'Tap a week to see every dose day. Tap a day to mark it done.<br>' +
-      '<span style="color:var(--navy);font-weight:700;">Your rest day is ' + offWeekdayName() + '</span>' +
-      ', set from your start date. The protocol is 6 days on, 1 day off. The specific day is a recommendation, not a requirement, so ask KORB if a different day suits you better.';
+    var restAgents = [], dailyAgents = [];
+    state.agents.forEach(function(a){
+      var lbl = (KORB_DOSING.agents[a.key] || {}).label || a.key;
+      var cad = cadenceFor(a.key);
+      if(cad === 'sixOnOneOff' && restAgents.indexOf(lbl) < 0) restAgents.push(lbl);
+      if(cad === 'daily' && dailyAgents.indexOf(lbl) < 0) dailyAgents.push(lbl);
+    });
+    var parts = ['Tap a week to see every dose day. Tap a day to mark it done.<br>'];
+    if(restAgents.length){
+      parts.push('<span style="color:var(--navy);font-weight:700;">Your ' +
+        restAgents.join(' and ') + ' rest day is ' + offWeekdayName() + '</span>' +
+        ', set from your start date. That is 6 days on, 1 day off. The specific day ' +
+        'is a recommendation, not a requirement, so ask KORB if a different day ' +
+        'suits you better.');
+    }
+    if(dailyAgents.length){
+      parts.push((restAgents.length ? ' ' : '') +
+        '<span style="color:var(--navy);font-weight:700;">' +
+        dailyAgents.join(' and ') + ' is taken every day, including weekends</span>' +
+        ', for the length of your course. There is no rest day for it.');
+    }
+    cs.innerHTML = parts.join('');
   }
 
   renderToday(today, dayIndex);
@@ -635,7 +676,14 @@ function renderToday(today, dayIndex){
     var msg = 'No injections scheduled for today.';
     var inWashout = weekActiveAgents(weekNum).length === 0;
     if(inWashout) msg = "You're in a washout week — no medication this week.";
-    else if(today.getDay() === offWeekday()) msg = "It's " + offWeekdayName() + " — your scheduled day off for this cycle.";
+    /* Only call it a rest day if the patient actually HAS a 6-on/1-off agent.
+       A BPC-157-only patient never reaches this line today, because BPC-157 is
+       due every day, but the guard is the point: nothing here should name a
+       rest day without checking that one exists. */
+    else if(today.getDay() === offWeekday() &&
+            weekActiveAgents(weekNum).some(function(a){ return cadenceFor(a.key) === 'sixOnOneOff'; })){
+      msg = "It's " + offWeekdayName() + " — your scheduled day off for this cycle.";
+    }
     list.innerHTML = '<div class="no-doses">' + msg + '</div>';
     return;
   }

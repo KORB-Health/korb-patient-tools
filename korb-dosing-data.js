@@ -1059,6 +1059,8 @@ var KORB_DOSING = {
     sermorelin: {
       label: 'Sermorelin', dose: '200 mcg', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1066,6 +1068,8 @@ var KORB_DOSING = {
     sermorelin300: {
       label: 'Sermorelin', dose: '300 mcg', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1073,6 +1077,8 @@ var KORB_DOSING = {
     sermorelin400: {
       label: 'Sermorelin', dose: '400 mcg', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1080,6 +1086,8 @@ var KORB_DOSING = {
     sermorelin500: {
       label: 'Sermorelin', dose: '500 mcg', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1098,6 +1106,8 @@ var KORB_DOSING = {
       // add-on — only GHK-Cu is optional. Unchanged by the above: still a 6-week
       // course, starting Week 3 (2 weeks after the primary agent), through Week 8.
       onWeeksGatewayPeakBase: [3, 8],
+      cadence: 'daily',
+
       schedule: 'Every day (7 days a week)', timing: 'Any consistent time · No food restriction',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: 'daily', pillBg: '#1D7A35'
@@ -1105,6 +1115,8 @@ var KORB_DOSING = {
     cjcipam: {
       label: 'CJC-1295 / Ipamorelin', dose: '100 mcg CJC-1295 / 100 mcg Ipamorelin', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1112,6 +1124,8 @@ var KORB_DOSING = {
     cjcipam150: {
       label: 'CJC-1295 / Ipamorelin', dose: '150 mcg CJC-1295 / 150 mcg Ipamorelin', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1119,6 +1133,8 @@ var KORB_DOSING = {
     cjcipam200: {
       label: 'CJC-1295 / Ipamorelin', dose: '200 mcg CJC-1295 / 200 mcg Ipamorelin', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1126,6 +1142,8 @@ var KORB_DOSING = {
     ghkcu: {
       label: 'GHK-Cu', dose: '2 mg', color: '#4A148C',
       onWeeksOptionalAddon: [5, 8],   // Gateway/Peak optional add-on only — never Foundation. This is the ONLY true optional add-on in the program structure.
+      cadence: 'threeWeekly',
+
       schedule: '3 times per week (evenings)', timing: 'Evening · Choose consistent days (e.g. Mon / Wed / Fri)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '3×/week', pillBg: '#6A1B9A'
@@ -1133,6 +1151,8 @@ var KORB_DOSING = {
     tesamorelin1mg: {
       label: 'Tesamorelin 1 mg', dose: '1 mg', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1140,6 +1160,8 @@ var KORB_DOSING = {
     tesamorelin15mg: {
       label: 'Tesamorelin 1.5 mg', dose: '1.5 mg', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1147,6 +1169,8 @@ var KORB_DOSING = {
     tesamorelin2mg: {
       label: 'Tesamorelin 2 mg', dose: '2 mg', color: '#21275B',
       onWeeksFoundation: [1, 12],
+      cadence: 'sixOnOneOff',
+
       schedule: '6 days on, 1 day off', timing: 'Bedtime · Empty stomach (2+ hrs after eating)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '6 on / 1 off', pillBg: '#21275B'
@@ -1652,6 +1676,40 @@ KORB_DOSING.selfCheck = function(){
       if (!opts[fam]) {
         problems.push('FOUNDATION ' + fam + ': foundationAgents declares a titration ' +
                       'ladder but programs.foundation.primaryDoseOptions offers none');
+      }
+    });
+  })();
+
+  /* CADENCE. Added 2026-09-21 after a Foundation BPC-157 patient was shown
+     "the protocol is 6 days on, 1 day off" on the Functional Health Tracker.
+     BPC-157 is daily in every program and always has been; the data said so
+     and two display layers said otherwise, one from a hand-typed list and one
+     from a blanket sentence.
+
+     cadence is the machine-readable fact. schedule is the prose a patient
+     reads. They describe the same thing, so this asserts they agree - a
+     cadence that drifts from its own schedule string is how this class of
+     defect starts. */
+  (function(){
+    var EXPECT = {
+      sixOnOneOff: '6 days on, 1 day off',
+      daily:       'Every day (7 days a week)',
+      threeWeekly: '3 times per week (evenings)'
+    };
+    Object.keys(KORB_DOSING.agents).forEach(function(k){
+      var a = KORB_DOSING.agents[k];
+      if (!a.cadence) {
+        problems.push('CADENCE ' + k + ': no cadence declared. Every agent needs ' +
+                      'one - a display layer that cannot ask will guess.');
+        return;
+      }
+      if (!EXPECT.hasOwnProperty(a.cadence)) {
+        problems.push('CADENCE ' + k + ': unknown cadence "' + a.cadence + '"');
+        return;
+      }
+      if (a.schedule !== EXPECT[a.cadence]) {
+        problems.push('CADENCE ' + k + ': cadence "' + a.cadence + '" expects schedule "' +
+                      EXPECT[a.cadence] + '" but the agent says "' + a.schedule + '"');
       }
     });
   })();
