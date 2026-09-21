@@ -526,11 +526,27 @@ function renderPricing(){
   var refLabel = (ref === 'partner') ? 'Corporate Partner' : 'Website';
   var b = PRICING.baseline;
 
-  // Resolve the Foundation agent's code (Foundation bills per agent, not one flat code).
+  /* FOUNDATION BILLS ONE CODE FOR THE WHOLE PROGRAM. Don, 2026-09-15: the
+     charge does not depend on which of BPC-157, Sermorelin or CJC is
+     prescribed, and pricing.foundation.codeByAgent was removed from
+     korb-dosing-data.js that day in favour of a single pricing.foundation.code.
+
+     This function was not updated with it. It kept reading codeByAgent, which
+     is undefined, so it threw - and because it is called from renderPricing()
+     inside build(), the exception aborted the whole render: selecting
+     Foundation produced NO prescribing grid and NO schedule, silently. Found
+     2026-09-21 while auditing BPC-157 and fixed the same day.
+
+     The comment that used to sit here said Foundation bills per agent, which
+     is the opposite of the rule - the same wrong sentence the data file
+     records having removed. */
   function foundationCode(){
-    var agentSel = document.getElementById('selFdnAgent') ? document.getElementById('selFdnAgent').value : '';
-    var entry = PRICING.foundation.codeByAgent[agentSel];
-    return entry ? entry[ref] : 'Select an agent above';
+    var c = PRICING.foundation && PRICING.foundation.code;
+    if (!c || !c[ref]) {
+      if (window.console) console.error('KORB reference: no Foundation charge code for "' + ref + '"');
+      return 'Not available';
+    }
+    return c[ref];
   }
 
   if (visitType === 'initial') {
