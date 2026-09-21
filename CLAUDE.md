@@ -296,6 +296,20 @@ including the Women's Health patient handout.
 **Out for provider feedback** — not yet either way.
 `Provider_Reference/KORB_BMI_Protein_Calculator.html` and its `_standalone` twin.
 
+**NOT published, and deliberately so.**
+`Provider_Reference/KORB_Mens_Health_Dose_Routing.html`, built 2026-09-21. One
+decision rendered from `KORB_MENS.doseRouting` - twice weekly to three times
+weekly - as a prototype of the decision-tree pattern Robin proposed for gut
+health on 2026-09-18. Unsigned, not on the intranet, and it prescribes nothing.
+
+**It exists to show a gap, not to route a patient.** Three of the four criteria
+in the protocol cannot be applied as written: none carries a threshold, two are
+trends against a prior draw with no stated size, and low SHBG needs a lab that
+is NOT on the KORB TRT panel. The page disables what it cannot evaluate and
+prints the open questions rather than picking numbers. **Do not add a threshold
+to this page or to the data to make it look finished** - they are Don's and
+Robin's to decide, and they land in `doseRouting` as a recorded ruling.
+
 **Retired 2026-09-17.** `Provider_Reference/KORB_GLP1_Provider_Tool.html` is now a
 redirect to `KORB_GLP1_Provider_Reference.html`. It was NOT deleted, because the URL
 was on the intranet that day.

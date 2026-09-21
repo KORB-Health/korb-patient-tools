@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Men's Health — Dose Routing | KORB Health</title>
+
+<!-- ===========================================================================
+     ONE DECISION, RENDERED FROM SIGNED DATA.
+
+     Built 2026-09-21. Robin proposed a provider decision tree for gut health on
+     2026-09-18; Don asked to prove the shape first on a programme whose rules
+     already exist and are signed, rather than invent clinical content to have
+     something to demonstrate. Men's Health was chosen because it is the only
+     programme carrying real routing criteria with a written source.
+
+     THE RULES ARE NOT IN THIS FILE. Every criterion, every "is it on the panel",
+     every open question is read from KORB_MENS.doseRouting in korb-mens-data.js
+     at page load. That is the whole point: a threshold typed into a page is the
+     KORB_GLP1_Dose_Guide.html failure with prescribing consequences, and this
+     page is deliberately incapable of stating a clinical value of its own.
+
+     THIS TOOL SHOWS WHAT IT CANNOT ANSWER. Three of the four criteria have no
+     threshold in the protocol and one of them cannot be evaluated at all on the
+     standard panel. A decision tree that quietly picked numbers would hide that;
+     this one puts it on screen, because the gap is the finding.
+
+     NOT RELEASED. Not on the intranet, not signed, and it prescribes nothing.
+     =========================================================================== -->
+
+<style>
+  :root{
+    --navy:#21275B; --teal:#00B2C3; --cream:#ECE9D1; --orange:#FBB040;
+    --ink:#1A1D33; --ink2:#4A4F6B; --ink3:#767B94;
+    --rule:#D5D5CC; --panel:#F5F5F1; --sheet:#FBFAF6;
+    --ok:#1B6349; --okbg:#EEF5F1;
+    --warn:#8A5A00; --warnbg:#FDF4E3;
+    --stop:#A32A20; --stopbg:#FBEDEC;
+    --sans:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);
+       font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px 64px}
+
+  .band{background:var(--navy);color:#fff;margin:0 -22px 0;padding:24px 22px 20px}
+  .eyebrow{color:var(--teal);font-size:11.5px;font-weight:700;letter-spacing:.13em;
+           text-transform:uppercase;margin:0 0 6px}
+  h1{font-size:25px;font-weight:800;margin:0 0 6px;line-height:1.16}
+  .band p{margin:0;color:var(--cream);font-size:14px;max-width:60ch}
+
+  .flag{background:var(--warnbg);border:1px solid #E8D4A8;border-left:4px solid var(--orange);
+        border-radius:8px;padding:12px 15px;margin:18px 0 0}
+  .flag b{color:var(--warn)}
+  .flag p{margin:4px 0 0;font-size:13.5px;color:var(--ink2)}
+
+  h2{font-size:13px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+     color:var(--navy);margin:30px 0 4px}
+  .lead{margin:0 0 14px;color:var(--ink2);font-size:13.5px}
+
+  .q{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:16px 18px}
+  .q h3{margin:0 0 3px;font-size:17px;font-weight:800}
+  .q .src{margin:0 0 14px;font-size:12px;color:var(--ink3)}
+
+  .crit{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--rule)}
+  .crit:first-of-type{border-top:0}
+  .crit input{width:20px;height:20px;margin-top:2px;accent-color:var(--teal);cursor:pointer;flex:0 0 auto}
+  .crit input:disabled{cursor:not-allowed;opacity:.45}
+  .crit .body{min-width:0;flex:1}
+  .crit .lab{font-weight:700;font-size:15px;margin:0}
+  .crit .meta{margin:3px 0 0;font-size:12.5px;color:var(--ink2)}
+  .crit .why{margin:6px 0 0;font-size:12.5px;padding:7px 10px;border-radius:6px}
+  .why.block{background:var(--stopbg);color:var(--stop)}
+  .why.trend{background:var(--warnbg);color:var(--warn)}
+  .tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;
+       text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:7px;vertical-align:2px}
+  .tag.panel{background:var(--okbg);color:var(--ok)}
+  .tag.addon{background:var(--stopbg);color:var(--stop)}
+  .tag.sym{background:var(--panel);color:var(--ink2)}
+
+  .out{margin-top:16px;border-radius:9px;padding:14px 16px;border:1px solid var(--rule);background:#fff}
+  .out.go{background:var(--okbg);border-color:#BEDCCC}
+  .out .k{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);margin:0 0 4px}
+  .out .v{font-size:17px;font-weight:800;margin:0}
+  .out .n{margin:7px 0 0;font-size:13px;color:var(--ink2)}
+
+  ul{margin:8px 0 0;padding-left:20px}
+  li{margin:0 0 7px;font-size:14px}
+  .oq{background:var(--stopbg);border:1px solid #EBC9C5;border-radius:9px;padding:14px 17px}
+  .oq h3{margin:0 0 2px;font-size:14px;font-weight:800;color:var(--stop)}
+  .oq p{margin:0;font-size:13px;color:var(--ink2)}
+  .oq li{color:var(--ink)}
+
+  .fail{background:var(--stopbg);border:1px solid var(--stop);border-radius:8px;
+        padding:14px 16px;margin:20px 0;color:var(--stop);font-size:14px}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--rule);
+         font-size:12px;color:var(--ink3)}
+  @media print{.band{background:#fff;color:#000}.band p,.eyebrow{color:#444}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="band">
+    <p class="eyebrow">KORB Health &middot; Men's Health &middot; Provider tool</p>
+    <h1>Dose routing: twice weekly to three times weekly</h1>
+    <p>One decision, rendered from the signed protocol. Prototype for the decision-tree pattern &mdash; not released, not on the intranet, and it prescribes nothing.</p>
+  </div>
+
+  <div id="err"></div>
+  <div id="app"></div>
+
+  <footer>
+    Every rule, threshold and open question on this page is read from
+    <code>KORB_MENS.doseRouting</code> in <code>korb-mens-data.js</code> at page load.
+    This file states no clinical value of its own.
+    &nbsp;&middot;&nbsp; KORB Health Medical Texas PA
+  </footer>
+</div>
+
+<script src="../korb-pharmacies.js"></script>
+<script src="../korb-mens-data.js"></script>
+<script>
+(function () {
+  var app = document.getElementById('app');
+  var err = document.getElementById('err');
+
+  if (!window.KORB_MENS || !KORB_MENS.doseRouting) {
+    err.innerHTML = '<div class="fail"><b>Could not load the routing rules.</b><br>' +
+      'This page needs korb-pharmacies.js and korb-mens-data.js, in that order. ' +
+      'It refuses to render rather than show a decision built from nothing.</div>';
+    return;
+  }
+
+  var R = KORB_MENS.doseRouting;
+  var routes = KORB_MENS.routes || {};
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+
+  /* A criterion is UNUSABLE when the protocol gives no way to evaluate it today:
+     its lab is not ordered, or it is a trend with no prior draw to compare.
+     Shown, never hidden - the gap is the finding. */
+  function unusable(c) {
+    if (c.blocked) return c.blocked;
+    if (c.needsPrior) return 'This is a trend against the patient’s own prior draw, ' +
+      'not a number. It cannot be applied at baseline, and the protocol does not say ' +
+      'how much of a rise counts.';
+    return null;
+  }
+
+  var from = routes[R.from] || {}, to = routes[R.to] || {};
+
+  var h = '';
+  h += '<div class="flag"><b>Three of these four criteria cannot be applied as written.</b>' +
+       '<p>The protocol states no threshold for any of them, and one needs a lab that is ' +
+       'not on the KORB TRT panel. That is what this page is for: a branch cannot be drawn ' +
+       'without saying where its value comes from.</p></div>';
+
+  h += '<h2>The decision</h2>';
+  h += '<div class="q"><h3>' + esc(R.question) + '</h3>' +
+       '<p class="src">Source: ' + esc(R.source) +
+       (R.rule === 'any' ? ' &middot; any one criterion is sufficient' : '') + '</p>';
+
+  R.criteria.forEach(function (c, i) {
+    var u = unusable(c);
+    var tag = c.kind === 'symptom'
+      ? '<span class="tag sym">Symptom</span>'
+      : (c.onStandardPanel
+          ? '<span class="tag panel">On the panel</span>'
+          : '<span class="tag addon">Add-on lab</span>');
+
+    var meta = [];
+    if (c.lab) meta.push(esc(c.lab));
+    if (c.quest) meta.push('Quest ' + esc(c.quest));
+    if (c.addOn) meta.push('Quest ' + esc(c.addOn.quest) + ' &middot; ' + esc(c.addOn.price));
+    meta.push(c.threshold == null ? '<b>no threshold in the protocol</b>' : 'threshold ' + esc(c.threshold));
+
+    h += '<div class="crit">' +
+         '<input type="checkbox" id="c-' + esc(c.id) + '" data-id="' + esc(c.id) + '"' +
+           (u ? ' disabled' : '') + '>' +
+         '<div class="body">' +
+           '<p class="lab"><label for="c-' + esc(c.id) + '">' + esc(c.label) + '</label>' + tag + '</p>' +
+           '<p class="meta">' + meta.join(' &middot; ') + '</p>' +
+           (u ? '<p class="why ' + (c.blocked ? 'block' : 'trend') + '">' + esc(u) + '</p>' : '') +
+           (c.note && !u ? '<p class="meta">' + esc(c.note) + '</p>' : '') +
+           (c.note && u ? '<p class="meta">' + esc(c.note) + '</p>' : '') +
+         '</div></div>';
+  });
+
+  h += '<div class="out" id="out"></div></div>';
+
+  h += '<h2>What the protocol says about the destination</h2>';
+  h += '<p class="lead">' + esc(to.secondLineNote || '') + '</p>';
+
+  h += '<h2>Open questions</h2>';
+  h += '<div class="oq"><h3>These are for Don and Robin, not for code</h3>' +
+       '<p>Listed here so the tool shows them rather than papering over them.</p><ul>' +
+       R.openQuestions.map(function (q) { return '<li>' + esc(q) + '</li>'; }).join('') +
+       '</ul></div>';
+
+  app.innerHTML = h;
+
+  function render() {
+    var any = false;
+    R.criteria.forEach(function (c) {
+      var el = document.getElementById('c-' + c.id);
+      if (el && el.checked) any = true;
+    });
+    var out = document.getElementById('out');
+    if (any) {
+      out.className = 'out go';
+      out.innerHTML = '<p class="k">Routes to</p><p class="v">' + esc(to.label || R.to) + '</p>' +
+        '<p class="n">' + esc(R.documentation) +
+        (R.notAStartingRegimen ? ' This is not a starting regimen.' : '') + '</p>';
+    } else {
+      out.className = 'out';
+      out.innerHTML = '<p class="k">Stays on</p><p class="v">' + esc(from.label || R.from) + '</p>' +
+        '<p class="n">No criterion met. Tick one above to see where it routes.</p>';
+    }
+  }
+  app.addEventListener('change', render);
+  render();
+})();
+</script>
+</body>
+</html>

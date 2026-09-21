@@ -342,6 +342,104 @@ var KORB_MENS = {
     }
   },
 
+  /* ── DOSE ROUTING ──────────────────────────────────────────────────────────
+     ONE decision, written as data so a tool can render it and nobody can type a
+     threshold into a page. Added 2026-09-21, after Robin proposed a provider
+     decision tree for gut health on 2026-09-18 and Don asked to prove the shape
+     on a programme whose rules already exist and are signed.
+
+     THIS BLOCK STATES WHAT IS MISSING RATHER THAN FILLING IT IN. Every criterion
+     below is copied from routes.sq3.secondLineNote, which is the protocol. Not
+     one of the four carries a number, and one of them cannot be evaluated at all
+     on the standard panel. A decision tree is the thing that makes that visible,
+     because a branch cannot be drawn without saying where its value comes from.
+
+     `threshold: null` means the protocol does not state one. Do not invent it
+     here: it is a clinical judgement and it belongs to Don and Robin, recorded
+     the same way every other ruling in this file is. */
+  doseRouting: {
+    question: 'Should this patient move from SQ twice weekly to SQ three times weekly?',
+    from: 'sq2',
+    to: 'sq3',
+    source: 'routes.sq3.secondLineNote, Mens Health protocol 2026-02-10',
+    rule: 'any',   /* the note reads "low SHBG, trough symptoms, or rising
+                      estradiol or hematocrit" - any ONE is sufficient */
+    notAStartingRegimen: true,
+    documentation: 'Document the reason for the frequency in the note.',
+
+    criteria: [
+      {
+        id: 'shbg',
+        label: 'Low SHBG',
+        kind: 'lab',
+        lab: 'Sex Hormone-Binding Globulin (SHBG)',
+        onStandardPanel: false,
+        addOn: { quest: '30740', code: 'KLAB30740', price: '$105' },
+        threshold: null,
+        comparison: 'absolute',
+        /* THE GAP THIS WHOLE EXERCISE FOUND, and it was already written down in
+           decisions as 'shbg-not-on-panel'. A provider following the protocol
+           cannot apply this criterion, because the number is not ordered. */
+        blocked: 'SHBG is an add-on lab and is not on the KORB TRT panel. A ' +
+                 'provider who has not ordered it separately has no value to judge.'
+      },
+      {
+        id: 'trough',
+        label: 'Trough symptoms',
+        kind: 'symptom',
+        onStandardPanel: null,
+        threshold: null,
+        comparison: 'clinical',
+        note: 'Reported by the patient, not a lab. Draw testosterone at trough ' +
+              'on an injection day before the dose, per labPanel.timing - a peak ' +
+              'draw hides a symptomatic trough.'
+      },
+      {
+        id: 'estradiol',
+        label: 'Rising estradiol',
+        kind: 'lab',
+        lab: 'Estradiol',
+        onStandardPanel: true,
+        quest: '4021',
+        threshold: null,
+        comparison: 'trend',
+        /* "Rising" is a comparison against this patient's own prior draw, not a
+           number. So the criterion needs TWO results, which means it cannot be
+           applied at baseline at all. */
+        needsPrior: true
+      },
+      {
+        id: 'hematocrit',
+        label: 'Rising hematocrit',
+        kind: 'lab',
+        lab: 'Hematocrit (from CBC)',
+        onStandardPanel: true,
+        quest: '1759',
+        threshold: null,
+        comparison: 'trend',
+        needsPrior: true,
+        note: 'Separate from the eligibility gate. Hct above 52 is a hold and ' +
+              'manage - donate or draw, then resume - and not a permanent ' +
+              'exclusion. Don, 2026-09-17.'
+      }
+    ],
+
+    /* Every one of these is a question for Don and Robin, not a defect to fix in
+       code. They are listed here so the tool can show them rather than paper
+       over them, and so the next person does not quietly invent an answer. */
+    openQuestions: [
+      'What SHBG value is "low"? The protocol gives no number.',
+      'Should SHBG join the standard TRT panel? It is the only criterion here ' +
+        'that cannot be evaluated without a separate order, and it costs $105. ' +
+        'Already raised as decisions.shbg-not-on-panel and left open.',
+      'How much of a rise in estradiol or hematocrit counts? Both are trends ' +
+        'against the patients own prior draw, so neither can be applied at ' +
+        'baseline.',
+      'Is any one criterion really sufficient, or do some combinations matter ' +
+        'more than others? The note reads as "any", which is how this is coded.'
+    ]
+  },
+
   /* Two needles, always. The one instruction most likely to be dropped in a
      rewrite and the one that makes the injection possible. */
   technique: 'Testosterone cypionate is a viscous oil: draw up with the draw-up ' +
