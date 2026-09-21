@@ -180,16 +180,33 @@ require('child_process')
     });
   });
 
-/* The handouts are uniform - static renders with no controls - so they are
-   generated from the directory rather than typed, for the same reason. */
+/* EVERY page in Patient_Education, not only the ones called KORB_Patient_Ed_*.
+
+   excluded() drops the whole folder saying "handout - listed separately below",
+   and this block is the "below". Until 2026-09-21 it matched KORB_Patient_Ed_*
+   ONLY, so the seven programme overviews, the Start Here Guide, the Injection,
+   Storage and Safety Guide and the When to Contact guide fell through the gap
+   between the two and appeared in NO register at all. Not unsigned - absent
+   from the denominator, which is the failure this register was rebuilt to stop
+   on 2026-09-17 and which had quietly recurred in a new place.
+
+   Found when Don approved the testosterone callout on the Injection, Storage
+   and Safety Guide and there was nothing to record it against.
+
+   All of them are static renders with no controls, so they fingerprint the
+   same way. Only the key prefix differs, so a handout signature and a guide
+   signature cannot be confused for one another. */
 fs.readdirSync(path.join(ROOT, 'Patient_Education'))
-  .filter(function (f) { return /^KORB_Patient_Ed_.*\.html$/.test(f); })
+  .filter(function (f) { return /\.html$/.test(f); })
   .sort()
   .forEach(function (f) {
-    const id = f.replace(/^KORB_Patient_Ed_/, '').replace(/\.html$/, '');
+    const isHandout = /^KORB_Patient_Ed_/.test(f);
+    const id = f.replace(/^KORB_Patient_Ed_/, '').replace(/^KORB_/, '').replace(/\.html$/, '');
     ARTIFACTS.push({
-      key: 'handout:' + id.toLowerCase(), kind: 'handout', probe: 'static',
-      label: 'Patient handout - ' + id,
+      key: (isHandout ? 'handout:' : 'page:') + id.toLowerCase(),
+      kind: 'handout',
+      probe: 'static',
+      label: (isHandout ? 'Patient handout - ' : 'Patient page - ') + id,
       file: 'Patient_Education/' + f,
       records: { file: 'korb-patient-ed-data.js', global: 'KORB_PATIENT_ED' }
     });

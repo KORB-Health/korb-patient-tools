@@ -42,6 +42,195 @@ var KORB_PATIENT_ED = {
      patients can actually see, and a signature here does not move it. */
   artifactSignoff: {
     records: {
+      "page:foundation_program_overview": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-c618be0b-6499",
+        "covers": "6140 characters, 13 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "page:gateway_program_overview": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-5550a518-6091",
+        "covers": "5751 characters, 13 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "page:injection_storage_safety_guide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-21",
+        "fingerprint": "fp-865b338b-6138",
+        "covers": "5730 characters, 12 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients, including the testosterone callout added the same day.",
+        "note": "Signed 2026-09-21 after the testosterone callout was added at Don's request. The page is written for insulin-syringe patients and never said so, so a Men's Health patient was being told to use the wrong device. The callout names the draw-up needle and the injection needle, says never to draw up through the injection needle, and confirms that the rest of the page applies unchanged. Don, 2026-09-21: read it that afternoon and confirmed it was good. This page could not be signed before today because the register could not see it."
+      },
+      "page:longevity_program_overview": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-e682b48b-5927",
+        "covers": "5518 characters, 13 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "page:menshealth_program_overview": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-31acc47a-3420",
+        "covers": "3192 characters, 6 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "page:peak_program_overview": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-742b8ef5-6382",
+        "covers": "5936 characters, 15 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "page:start_here_guide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-64bd476d-3380",
+        "covers": "3129 characters, 7 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "page:weightloss_program_overview": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-60cb3a90-4949",
+        "covers": "4635 characters, 10 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "page:when_to_contact_korb_or_er": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-4f97b920-3341",
+        "covers": "2955 characters, 9 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "page:womenshealth_program_overview": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-42a82329-4415",
+        "covers": "4118 characters, 9 headings",
+        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+      },
+      "handout:anti_aging": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-7d258f21-4431",
+        "covers": "4281 characters, 6 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:bpc157": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-c7ea2b97-9151",
+        "covers": "8728 characters, 16 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:cjc_ipamorelin": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-db49cab3-10293",
+        "covers": "9768 characters, 18 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:ghk_cu": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-6853e060-10105",
+        "covers": "9605 characters, 18 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:hair_loss": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-ae9ff1f8-3722",
+        "covers": "3489 characters, 7 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:semaglutide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-45b0129c-14243",
+        "covers": "13608 characters, 22 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:sermorelin": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-ad920930-10553",
+        "covers": "10095 characters, 17 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:sexual_health": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-191275c6-5484",
+        "covers": "5264 characters, 8 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:skin_care": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-332a2641-3381",
+        "covers": "3171 characters, 7 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:tesamorelin": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-7ab398c0-10894",
+        "covers": "10403 characters, 18 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
+      "handout:tirzepatide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-20",
+        "fingerprint": "fp-834d23a8-14238",
+        "covers": "13603 characters, 22 headings",
+        "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+      },
       "handout:testosterone": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
