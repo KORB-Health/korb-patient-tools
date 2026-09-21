@@ -110,8 +110,9 @@ to check a single document against, which is the whole reason this table exists.
 | `KORB_Welcome_Letter.pdf` | **Retired** 2026-09-19. No longer sent; still served for patients holding the link |
 | `KORB_Scheduler_Intake_Prototype.html` | **No.** Frozen for Lindsay's review. Do not modify |
 | `KORB_Scheduler_Intake_AllPrograms.html` | **No.** In build. Not a patient link yet |
+| `404.html` | **Served**, 2026-09-21. Not a link anyone is sent - GitHub Pages shows it for any missing path |
 
-35 rows: 34 published pages and 1 PDF. If a file exists and is not on this list, the
+36 rows: 34 published pages, 1 PDF and the 404 page. If a file exists and is not on this list, the
 list is wrong, not the file.
 
 ---
@@ -852,6 +853,16 @@ This repo has real self-checks. Use them, and prove they have teeth.
   the more interesting one: dropping CA from the Schedule III states reported STALE
   while still showing 46 blocks, which is the proof that the routing half has teeth
   and not merely the blocks.
+- `node check-404.js` — `404.html` is deliberately self-contained, so it holds a
+  SECOND copy of the contact details. This asserts they still match
+  `shared.contact` in `korb-patient-ed-data.js`, that every url in it is
+  absolute, and that it loads no script or stylesheet. Negative-tested three
+  ways on 2026-09-21: a changed phone number, one url made relative, and a
+  planted script tag each fail it by name.
+  **Why that page may not use a relative url.** Pages serves it for ANY missing
+  path, so `KORB_Patient_Hub.html` resolves against `/Patient_Education/` for a
+  patient who missed a guide and against the root for one who missed a tool. It
+  would work at one depth and break at another, in the one place nobody looks.
 - `KORB_PHARMACIES.selfCheck()` — currently passes, but only validates itself. It
   cannot see `korb-glp1-data.js`. See Open work.
 
