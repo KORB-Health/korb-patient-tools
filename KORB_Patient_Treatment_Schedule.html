@@ -179,11 +179,15 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
     </div>
     <div class="cg" id="fdnGroup" style="display:none;">
       <label for="selAgent">My Medication</label>
-      <select id="selAgent" onchange="build()">
+      <select id="selAgent" onchange="onFoundationAgentChange()">
         <option value="sermorelin">Sermorelin</option>
         <option value="bpc157">BPC-157</option>
         <option value="cjcipam">CJC-1295 / Ipamorelin</option>
       </select>
+    </div>
+    <div class="cg" id="fdnDoseGroup" style="display:none;">
+      <label id="fdnDoseLbl" for="selFdnDose">My Dose</label>
+      <select id="selFdnDose" onchange="build()"></select>
     </div>
     <div class="cg" id="gwSermDoseGroup" style="display:none;">
       <label for="selGwSermDose">My Sermorelin Dose</label>
@@ -375,9 +379,40 @@ function syringeCapacity(pk,units){
   return 50;
 }
 
+// ── Foundation: agent → dose ladder ─────────────────────────────────────────
+// Foundation titrates, decided by Don 2026-09-05: sermorelin 200/300/400 and
+// CJC-1295/Ipamorelin 100/150/200. Sermorelin 500 mcg is deliberately NOT in
+// Foundation - it is a margin ceiling rather than a clinical one, and a patient
+// who needs 500 moves to Gateway. BPC-157 is 500 mcg in every program and has
+// no ladder, so its picker stays hidden.
+//
+// Read from korb-dosing-data.js, never typed here. Foundation's
+// primaryDoseOptions is an object keyed by agent, unlike the flat array the
+// other three programs carry, because Foundation is the one program where the
+// provider picks which agent the patient is on.
+function fillFoundationDoses(){
+  var grp=document.getElementById('fdnDoseGroup');
+  var sel=document.getElementById('selFdnDose');
+  var agent=document.getElementById('selAgent').value;
+  sel.innerHTML='';
+  var opts=(KORB_DOSING.programs.foundation.primaryDoseOptions||{})[agent];
+  if(!opts||!opts.length){ grp.style.display='none'; return; }
+  document.getElementById('fdnDoseLbl').textContent='My '+AGENTS[agent].label+' Dose';
+  opts.forEach(function(d){
+    var o=document.createElement('option');
+    o.value=d; o.textContent=d+' mcg';
+    sel.appendChild(o);
+  });
+  grp.style.display='';
+}
+
+function onFoundationAgentChange(){ fillFoundationDoses(); build(); }
+
 function onProgramChange(){
   var prog=document.getElementById('selProgram').value;
   document.getElementById('fdnGroup').style.display=(prog==='foundation')?'':'none';
+  if(prog==='foundation'){ fillFoundationDoses(); }
+  else { document.getElementById('fdnDoseGroup').style.display='none'; }
   document.getElementById('gwSermDoseGroup').style.display=(prog==='gateway')?'':'none';
   document.getElementById('peakCjcDoseGroup').style.display=(prog==='peakA')?'':'none';
   document.getElementById('tesaGroup').style.display=(prog==='peakB')?'':'none';
@@ -413,7 +448,11 @@ function build(){
   // Resolve agent keys
   var agentKeys=[];
   if(prog==='foundation'){
-    agentKeys=[document.getElementById('selAgent').value];
+    var fdnAgent=document.getElementById('selAgent').value;
+    var fdnDose=document.getElementById('selFdnDose').value;
+    // resolvePrimaryKey is the shared rule in korb-dosing-data.js. No dose
+    // selected (BPC-157, which has no ladder) resolves to the base key.
+    agentKeys=[fdnDose?KORB_DOSING.resolvePrimaryKey(fdnAgent,fdnDose):fdnAgent];
   } else if(prog==='gateway'){
     var sermDose=document.getElementById('selGwSermDose').value;
     var sermKey=(sermDose==='200')?'sermorelin':'sermorelin'+sermDose;

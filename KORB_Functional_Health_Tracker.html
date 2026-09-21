@@ -196,7 +196,7 @@
 
     <div id="agentPickWrap" style="display:none;">
       <label id="agentPickLbl" for="selAgent">My medication</label>
-      <select id="selAgent"></select>
+      <select id="selAgent" onchange="onFoundationAgentChange()"></select>
     </div>
 
     <div id="dosePickWrap" style="display:none;">
@@ -388,6 +388,9 @@ function onProgramChange(){
       opt.value = k; opt.textContent = KORB_DOSING.agents[k].label;
       agentSel.appendChild(opt);
     });
+    // Foundation titrates too. The ladder depends on WHICH agent was chosen, so
+    // the dose picker is filled from the agent, not from the program.
+    onFoundationAgentChange();
   } else {
     var famLabel = prog === 'gateway' ? 'Sermorelin' : (prog === 'peakA' ? 'CJC-1295 / Ipamorelin' : 'Tesamorelin');
     document.getElementById('dosePickLbl').textContent = famLabel + ' dose';
@@ -400,6 +403,34 @@ function onProgramChange(){
     });
     ghkRow.style.display = 'flex';
   }
+}
+
+// ── Foundation: agent → dose ladder ─────────────────────────────────────────
+// Foundation carries a titration ladder per agent, added 2026-09-05 by Don's
+// decision: sermorelin 200/300/400 and CJC 100/150/200. Sermorelin 500 is
+// deliberately absent - it is a margin ceiling, not a clinical one, and a
+// patient who needs it moves to Gateway. BPC-157 is 500 mcg in every program
+// and has no ladder, so its picker stays hidden.
+//
+// The options are READ FROM THE DATA FILE, never typed here. Foundation's
+// primaryDoseOptions is an object keyed by agent, where the other three
+// programs carry a flat array, because Foundation is the one program where the
+// provider picks which agent the patient is on.
+function onFoundationAgentChange(){
+  var doseWrap = document.getElementById('dosePickWrap');
+  var doseSel  = document.getElementById('selDose');
+  var agent    = document.getElementById('selAgent').value;
+  doseSel.innerHTML = '';
+  var opts = (KORB_DOSING.programs.foundation.primaryDoseOptions || {})[agent];
+  if(!opts || !opts.length){ doseWrap.style.display = 'none'; return; }
+  document.getElementById('dosePickLbl').textContent =
+    KORB_DOSING.agents[agent].label + ' dose';
+  opts.forEach(function(d){
+    var opt = document.createElement('option');
+    opt.value = d; opt.textContent = d + ' mcg';
+    doseSel.appendChild(opt);
+  });
+  doseWrap.style.display = 'block';
 }
 
 // ── Build the full agent list for the selected program ──────────────────────
@@ -432,7 +463,13 @@ function buildState(sel){
   var agents = [];
   if(sel.prog === 'foundation'){
     if(!sel.agent) return null;
-    agents.push({ key: sel.agent, weeks: KORB_DOSING.getActiveWeeks(sel.agent, 'foundation') });
+    // A saved selection made before Foundation had a dose picker carries no
+    // dose. Fall back to the base agent key, which IS the starting dose, so an
+    // existing patient's tracker and their check-off history survive untouched.
+    var fdnKey = sel.dose
+      ? KORB_DOSING.resolvePrimaryKey(sel.agent, sel.dose)
+      : sel.agent;
+    agents.push({ key: fdnKey, weeks: KORB_DOSING.getActiveWeeks(fdnKey, 'foundation') });
   } else {
     if(!sel.dose) return null;
     var P = KORB_DOSING.programs[sel.prog];
