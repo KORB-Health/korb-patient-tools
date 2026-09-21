@@ -79,6 +79,105 @@ var KORB_PATIENT_ED = {
      eight chances to miss one. */
   shared: {
 
+    /* MEAL-IDEA PROMPTS. Moved here 2026-09-21 because the Patient Hub was
+       rendering an EMPTY "Use an AI assistant for meal ideas" section on a
+       live public page.
+
+       They used to live inside guides.glp1_welcome. That entry was deleted on
+       2026-09-19 when both welcome letters were retired, and the hub reads the
+       prompts from the data file rather than typing its own copy - which is
+       correct, and is why deleting the letter silently emptied the hub. The
+       hub's loader did `if (!G) return;`, so it failed without a sound.
+
+       THEY LIVE IN `shared` AND NOT IN `guides` ON PURPOSE. build-patient-ed.js
+       walks docs, programs and guides and writes a PAGE for every key it finds.
+       A guides entry here would regenerate a welcome letter over the redirect
+       that replaced it, which is the exact trap the retirement note describes.
+       shared is not walked, so this is data without a page. */
+    mealIdeas: {
+          "prompts": {
+                "h": "Prompts to paste in",
+                "lead": "Copy any prompt below and paste it into the assistant you picked. Nothing to sign up for, and you can keep asking follow-up questions in plain language until you get something you would actually eat, for example \"make these dairy free\" or \"I do not like fish\".",
+                "callout": {
+                      "title": "Before you use these",
+                      "text": "The answers come from the AI assistant, not from KORB, and AI tools do sometimes get things wrong. Treat the results as ideas to consider, not instructions. **Do not type your medical conditions, medications or other health details into these tools.** The prompts are written so you do not need to. If you are thinking about a real change to how you eat, bring it to your provider first."
+                },
+                "prompts": [
+                      {
+                            "title": "High-protein breakfasts",
+                            "why": "Breakfast is the meal most people skip once appetite drops.",
+                            "text": "Give me 10 high-protein breakfast ideas using whole, minimally processed foods. Each should have at least 25 g of protein and no more than six ingredients. Keep them low in fat, since heavy or greasy meals can cause nausea. List the protein content per serving. Do not give me medical or nutrition advice, just food ideas."
+                      },
+                      {
+                            "title": "Small meals that still hit protein",
+                            "why": "For when you fill up after a few bites but still need the protein.",
+                            "text": "I get full very quickly and can only eat small portions. Give me 10 meal ideas that are small in volume but high in protein, at least 25 g each. Prioritise protein density over portion size. Keep them simple to prepare. List protein per serving. Do not give me medical or nutrition advice, just food ideas."
+                      },
+                      {
+                            "title": "Gentle food for a queasy day",
+                            "why": "For the day or two after a dose increase.",
+                            "text": "Give me 10 bland, low-fat, easy-to-digest meal and snack ideas that still contain protein. Avoid fried, greasy, very sweet, and strongly spiced foods. Each should be quick to prepare and easy to eat in small amounts. List protein per serving. Do not give me medical or nutrition advice, just food ideas."
+                      },
+                      {
+                            "title": "Plant-based and still hitting protein",
+                            "why": "Harder without meat or dairy, and harder again on a smaller appetite.",
+                            "text": "I eat no meat, fish, dairy or eggs. Give me 10 plant-based meal and snack ideas that each contain at least 20 g of protein, built from whole foods such as beans, lentils, chickpeas, tofu, tempeh, edamame, seitan, nuts and seeds. Keep them small in volume where you can, since I fill up quickly. List the protein per serving, and mark any that combine two foods to make a complete protein. If I ate dairy and eggs as well, tell me which three would change and how. Do not give me medical or nutrition advice, just food ideas."
+                      },
+                      {
+                            "title": "A week of simple dinners",
+                            "why": "Removes the daily decision, which is usually the hard part.",
+                            "text": "Plan 7 simple dinners for one week. Each should have at least 30 g of protein, use whole or minimally processed ingredients, and take under 30 minutes. Reuse ingredients across meals to reduce waste. Then give me a single consolidated grocery list organised by store section. Do not give me medical or nutrition advice, just recipes and a list."
+                      },
+                      {
+                            "title": "Ordering when you eat out",
+                            "why": "Restaurant portions are large and often high in fat.",
+                            "text": "I am eating at a [TYPE OF RESTAURANT]. Suggest 8 protein-forward things I could order that are not fried or heavy in cream and oil, and that work as a smaller portion. For each, note roughly how much protein it has and one simple modification to ask for. Do not give me medical or nutrition advice, just ordering suggestions."
+                      },
+                      {
+                            "title": "Look up the protein in what you already eat",
+                            "why": "So you are working from numbers rather than guessing at them.",
+                            "text": "Build me a reference table of the protein content of common everyday foods. Cover meat, poultry, fish, eggs, dairy, beans and pulses, soy, grains and nuts. For each one give a normal portion size both in grams and as a household measure such as a cup, a slice or a palm, and the grams of protein in that portion. Sort it from most protein per portion to least. Then add a short list of the ten that give the most protein for the smallest amount of food. Do not give me medical or nutrition advice, just the table."
+                      },
+                      {
+                            "title": "A protein checklist for a working week",
+                            "why": "For eating at a desk, on a job site, or between appointments.",
+                            "text": "Give me a one-page checklist of high-protein foods that need no cooking, or under five minutes of preparation, for someone who works full time and eats at least one meal away from home. Split it into three groups: keep at home, take with you, and buy while you are out. Every item should have at least 15 g of protein in a normal portion, and you should note the portion size and the protein for each one. Keep it short enough to print and stick on a fridge. Do not give me medical or nutrition advice, just the list."
+                      },
+                      {
+                            "title": "Compare tracking apps yourself",
+                            "why": "So you pick a tool, rather than being pointed at one.",
+                            "text": "Compare the most widely used free food and protein tracking apps available today. For each, tell me: what it costs, whether the free version is genuinely usable, how easy it is to log protein specifically, and what data it collects about me. Present it as a table and tell me which is best for someone focused mainly on hitting a daily protein target. Give me the trade-offs, not a single recommendation."
+                      }
+                ]
+          },
+          "tools": {
+                "h": "Pick a free AI assistant",
+                "lead": "Any of these will handle the prompts below, and all of them have a free version. KORB does not endorse or have any relationship with any of them. Pick whichever you already use or like the look of. Open one in a new tab, then come back for a prompt.",
+                "tools": [
+                      {
+                            "href": "https://chat.openai.com",
+                            "label": "ChatGPT"
+                      },
+                      {
+                            "href": "https://claude.ai",
+                            "label": "Claude"
+                      },
+                      {
+                            "href": "https://gemini.google.com",
+                            "label": "Google Gemini"
+                      },
+                      {
+                            "href": "https://copilot.microsoft.com",
+                            "label": "Microsoft Copilot"
+                      },
+                      {
+                            "href": "https://www.perplexity.ai",
+                            "label": "Perplexity"
+                      }
+                ]
+          }
+    },
+
     authoritySource:
       'Your prescription label, or the instructions given to you by your KORB ' +
       'clinical provider, is the authoritative source for your dose and ' +

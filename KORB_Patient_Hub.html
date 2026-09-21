@@ -1340,8 +1340,31 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
 
 <script>
 (function () {
-  var G = window.KORB_PATIENT_ED && KORB_PATIENT_ED.guides && KORB_PATIENT_ED.guides.glp1_welcome;
-  if (!G) { return; }
+  /* READ FROM shared.mealIdeas, NOT from a guides entry.
+     This used to read guides.glp1_welcome. That entry was deleted on
+     2026-09-19 when the welcome letters were retired, and this section went
+     blank on a live public page until Don spotted it on 2026-09-21. The data
+     now lives in shared, which nothing retires and no builder turns into a
+     page. */
+  var M = window.KORB_PATIENT_ED && KORB_PATIENT_ED.shared && KORB_PATIENT_ED.shared.mealIdeas;
+  if (!M) {
+    /* FAIL LOUDLY. The previous version returned silently, so the section
+       rendered its heading and two empty frames and looked merely unfinished.
+       A patient-facing block with no content must say so. */
+    var sec = document.getElementById('mealideas');
+    if (sec) {
+      var lead = document.getElementById('aiLead');
+      if (lead) {
+        lead.innerHTML = 'These prompts could not be loaded. Please tell KORB ' +
+          'so we can fix it, and call us if you need help in the meantime.';
+      }
+    }
+    if (window.console) {
+      console.error('KORB hub: KORB_PATIENT_ED.shared.mealIdeas is missing. ' +
+                    'The meal-idea section cannot render.');
+    }
+    return;
+  }
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -1349,9 +1372,7 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
   }
   /* the data marks emphasis as **bold**, the same convention rich() reads */
   function rich(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
-  function sec(name) {
-    return (G.sections || []).filter(function (x) { return x[name]; })[0];
-  }
+  function sec(name) { return M[name]; }
   function set(id, html) { var e = document.getElementById(id); if (e) { e.innerHTML = html; } }
 
   var prompts = sec('prompts'), tools = sec('tools');
