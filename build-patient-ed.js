@@ -182,6 +182,41 @@ function hubMasthead() {
    which changes the depth of every script tag. */
 const COLLECTIONS = ['docs', 'programs', 'guides'];
 
+/* AUTHORING RULES ARE ENFORCED HERE, NOT IN THE RENDERER.
+
+   A guide section key that renderGuideBody does not know renders nothing at
+   all. `callout` was written into the Injection, Storage and Safety Guide on
+   2026-09-21 and simply did not appear: no error, no empty box, the page built
+   and would have shipped without it.
+
+   The first attempt at a guard threw inside renderGuideBody. These pages render
+   in the BROWSER, so it threw at the PATIENT - the page came back with a body
+   length of zero, a white screen. Proven by planting a bad key and loading the
+   page, not reasoned about. The renderer logs now, and the failure lives here,
+   where it costs a build and not a reader. */
+function checkGuideKeys() {
+  const known = R.GUIDE_KEYS;
+  if (!known) { throw new Error('patient-ed-render.js does not export GUIDE_KEYS'); }
+  const bad = [];
+  Object.keys(DATA.guides || {}).forEach(key => {
+    const g = DATA.guides[key];
+    if (g.hub) { return; }   // renderHubBody has its own shape
+    (g.sections || []).forEach(sec => {
+      Object.keys(sec).forEach(k => {
+        if (known.indexOf(k) === -1) {
+          bad.push('guides.' + key + ' section "' + (sec.h || '?') + '" has key "' + k +
+                   '", which renderGuideBody does not render. It would disappear silently.');
+        }
+      });
+    });
+  });
+  if (bad.length) {
+    bad.forEach(b => console.error('build-patient-ed: ' + b));
+    process.exit(1);
+  }
+}
+checkGuideKeys();
+
 function targets(want) {
   const out = [];
   COLLECTIONS.forEach(coll => {

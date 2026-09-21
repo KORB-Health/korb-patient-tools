@@ -1597,7 +1597,35 @@ var KORB_PATIENT_ED = {
         },
         {
           h: 'Injection safety',
-          shared: 'injectionSafety'
+          shared: 'injectionSafety',
+          /* THIS GUIDE IS WRITTEN FOR AN INSULIN SYRINGE, and until 2026-09-21
+             it never said so. It goes to every patient before a first
+             injection, it names no programme, and it mentions testosterone,
+             intramuscular injection and the draw-up needle nowhere - so a Men's
+             Health patient reading it was told to use a device that is wrong
+             for what he has been sent.
+
+             Don asked for a callout rather than a rewrite, on 2026-09-21, and
+             that is the right shape: the peptide and GLP-1 instructions are
+             correct for the large majority who receive this, and testosterone
+             needs one clear exception plus a pointer to the handout that has
+             its full steps. Same reasoning as the Testosterone handout keeping
+             its own device sentence.
+
+             NO GAUGE NUMBERS here either - they differ by route, and the
+             handout teaches the rule. */
+          callout: {
+            title: 'If you are on testosterone, your equipment is different',
+            text: 'Testosterone is a thick oil and is **not** given with an insulin ' +
+                  'syringe. It comes with a Luer lock syringe and **two** separate ' +
+                  'needles: a **draw-up needle** to pull the medication out of the ' +
+                  'vial, and a thinner **injection needle** to inject with. Use both, ' +
+                  'every time, and never draw up through the injection needle. ' +
+                  'Everything else on this page - not reusing anything, never ' +
+                  'combining two medications, and how to dispose of sharps - applies ' +
+                  'to you exactly as written. Your Testosterone guide has the full ' +
+                  'step-by-step, and your KORB provider will go through it with you.'
+          }
         },
         {
           /* Don, 2026-09-19: sharps disposal is the patient's responsibility and

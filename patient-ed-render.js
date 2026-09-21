@@ -582,7 +582,15 @@
     if (name === 'travel') {
       return (sh.travel ? paras([sh.travel]) : '') + screening(sh);
     }
-    if (name === 'injectionSafety') { return ul(sh.injectionSafety); }
+    /* The shared "Injection safety" SECTION keeps the device sentence. Only a
+       per-handout safety LIST drops it, and only for a handout that states its
+       own device. Splitting injectionSafetyDevice out on 2026-09-21 removed it
+       from here by accident, which took the "use a new insulin needle and
+       syringe" instruction off the Injection, Storage and Safety Guide - the
+       one page whose job is to say it. Caught the same day by rendering. */
+    if (name === 'injectionSafety') {
+      return ul([sh.injectionSafetyDevice].concat(sh.injectionSafety));
+    }
     if (name === 'contact') {
       if (!sh.contact) { return ''; }
       return ['operations', 'portal', 'emergency'].map(function (k) {
@@ -1129,12 +1137,33 @@
     return h;
   }
 
+  /* The keys renderGuideBody knows how to render. Shared with
+     build-patient-ed.js so the authoring rule is stated once. */
+  var GUIDE_KEYS = ['h','lead','paras','cards','items','links','shared','after','callout'];
+
   function renderGuideBody(DATA, DOSING, guide) {
     var h = '';
     if (guide.disclaimer) { h += '<p class="lede">' + esc(guide.disclaimer) + '</p>'; }
     if (guide.intro) { h += paras(guide.intro); }
 
+    /* THIS DOES NOT THROW, AND THAT IS THE POINT.
+
+       A first version of this guard threw on an unrecognised key. These guides
+       render in the BROWSER, not at build time, so it threw at the PATIENT: the
+       page came back with a body length of ZERO - a white screen, no content,
+       no error guard. Caught by planting a bad key and loading the page. A
+       dropped section is bad; a blank patient page is worse, and a renderer is
+       the wrong place to enforce authoring rules.
+
+       It logs instead, and build-patient-ed.js makes the same check a BUILD
+       failure, where it costs a developer and not a patient. */
     (guide.sections || []).forEach(function (sec) {
+      Object.keys(sec).forEach(function (k) {
+        if (GUIDE_KEYS.indexOf(k) === -1 && window.console) {
+          console.error('patient-ed-render: guide section "' + (sec.h || '?') +
+            '" has key "' + k + '", which renderGuideBody does not render.');
+        }
+      });
       if (sec.h) { h += '<h2>' + esc(sec.h) + '</h2>'; }
       if (sec.lead) { h += '<p>' + rich(sec.lead) + '</p>'; }
       if (sec.paras) { h += paras(sec.paras); }
@@ -1142,6 +1171,18 @@
       if (sec.items) { h += ul(sec.items); }
       if (sec.links) { h += links(sec.links); }
       if (sec.shared) { h += sharedBlock(DATA, sec.shared); }
+      /* After the shared list, so an exception reads as an exception to the
+         rules above it rather than as a heading for them. */
+      /* .callout, NOT .k-note. `.k-note` is declared inside HUB_CSS, which only
+         hub pages emit, so a guide rendered it as unstyled body text - the
+         title was a plain sentence and the box was not there at all. Caught by
+         screenshotting the rendered page; the DOM and the text content were
+         both perfectly correct. `.callout` is the treatment the rest of the
+         patient and provider set already uses. */
+      if (sec.callout) {
+        h += '<div class="callout"><h3>' + esc(sec.callout.title) + '</h3>' +
+             '<p>' + rich(sec.callout.text) + '</p></div>';
+      }
       if (sec.after) { h += paras(sec.after); }
     });
 
@@ -1311,5 +1352,8 @@
 
   return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, renderHubBody: renderHubBody, agentFacts: agentFacts,
            contraindications: contraindications,
-           CSS: CSS, CHOICE_CSS: CHOICE_CSS, LOGO_URI: LOGO_URI };
+           CSS: CSS, CHOICE_CSS: CHOICE_CSS, LOGO_URI: LOGO_URI,
+           /* Exported so build-patient-ed.js enforces the same list rather than
+              keeping its own copy of it. */
+           GUIDE_KEYS: GUIDE_KEYS };
 }));
