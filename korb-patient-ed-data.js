@@ -51,13 +51,22 @@ var KORB_PATIENT_ED = {
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
       },
       "handout:hormonetherapy": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-17",
-        "fingerprint": "fp-174b6821-11389",
-        "covers": "10869 characters, 17 headings",
-        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
-      }
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-21",
+          "fingerprint": "fp-6b671e2f-12372",
+          "covers": "11832 characters, 18 headings",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: the estradiol patch is now stated as TWO patches that are not interchangeable, one changed once a week and one twice a week, with the label telling the patient which. Don: \"hormone therapy is good.\"",
+          "superseded": {
+                  "signedBy": "Donald Stevenson, PA-C",
+                  "role": "Director of Clinical Operations and Lead Provider",
+                  "date": "2026-09-17",
+                  "fingerprint": "fp-174b6821-11389",
+                  "covers": "10869 characters, 17 headings",
+                  "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+                }
+        }
     }
   },
 
@@ -258,8 +267,24 @@ var KORB_PATIENT_ED = {
       href: 'https://www.tsa.gov/travel/travel-tips'
     },
 
+    /* THE DEVICE LINE IS SEPARATE FROM THE UNIVERSAL RULES, split 2026-09-21.
+
+       "Use a new insulin needle and syringe" is correct for the peptides and
+       the GLP-1s, which really are supplied with insulin syringes. It is WRONG
+       for testosterone: that is a thick oil drawn with a draw-up needle and
+       given through an injection needle on a Luer lock syringe, and an insulin
+       syringe has a fixed needle and is marked in units. KORB_Mens_Health_
+       Provider_Tool.html already tells providers not to use one.
+
+       Don caught it on the Testosterone handout on 2026-09-21, in the Safety
+       reminders list, where the shared line was appended UNDER that handout's
+       own correct sentence - so the page told a patient both things.
+
+       Not combining medications and disposing of sharps are true of every
+       injection and stay shared. Only the device sentence is per handout. */
+    injectionSafetyDevice: 'Use a new insulin needle and syringe for every injection. Do not reuse.',
+
     injectionSafety: [
-      'Use a new insulin needle and syringe for every injection. Do not reuse.',
       'Never combine two medications in one syringe. Use a separate needle and ' +
       'syringe for each medication and each injection.',
       'Put used needles and syringes straight into a rigid, puncture-resistant ' +
@@ -3254,6 +3279,10 @@ var KORB_PATIENT_ED = {
                'few days risks your results not being ready, which can delay your visit and your refill.'
       },
 
+      /* Testosterone is not given with an insulin syringe. This handout states
+         the device itself, two lines down, so the shared insulin sentence is not
+         appended. Don, 2026-09-21. */
+      ownInjectionDevice: true,
       safety: [
         'Use testosterone only as prescribed. Never change your dose, timing or route without provider direction.',
         'Use a new syringe and new needles for every injection. Never reuse or share them.',

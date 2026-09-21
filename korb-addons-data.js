@@ -155,14 +155,23 @@ var KORB_ADDONS = {
   artifactSignoff: {
     records: {
       "tool:addons": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-17",
-        "fingerprint": "fp-dedb8d10-30710",
-        "covers": "51 states, 25 prescribing blocks",
-        "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-        "note": "Approved 2026-09-17 after the afternoon's rebuild: the panel layout, gender gating the programme, category-then-product selection, the strength selector, and nine products moved to Tebra Standard prescriptions. Don: \"we just sent time on this afternoon working on so it is good.\""
-      }
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-21",
+          "fingerprint": "fp-0d47f553-30714",
+          "covers": "51 states, 25 prescribing blocks",
+          "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+          "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: the shared plan note, added the same day it was signed and not covered by that signature. Don: the plan note reads the same as the others, good to go.",
+          "superseded": {
+                  "signedBy": "Donald Stevenson, PA-C",
+                  "role": "Director of Clinical Operations and Lead Provider",
+                  "date": "2026-09-17",
+                  "fingerprint": "fp-dedb8d10-30710",
+                  "covers": "51 states, 25 prescribing blocks",
+                  "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+                  "note": "Approved 2026-09-17 after the afternoon's rebuild: the panel layout, gender gating the programme, category-then-product selection, the strength selector, and nine products moved to Tebra Standard prescriptions. Don: \"we just sent time on this afternoon working on so it is good.\""
+                }
+        }
     }
   },
 

@@ -1276,8 +1276,16 @@
        disposal - is appended to every handout. On Hormone Therapy there is
        nothing to inject and it read as though there were. A handout says so with
        noInjectionSafety rather than the block being dropped for everyone. */
+    /* The DEVICE sentence is only added for handouts that use an insulin
+       syringe. A handout whose device differs says so with ownInjectionDevice
+       and supplies its own line in doc.safety - the Testosterone handout
+       already did, and was getting the insulin sentence appended underneath
+       its own correct one. */
+    var injSafety = doc.noInjectionSafety ? []
+      : (doc.ownInjectionDevice ? S.injectionSafety
+                                : [S.injectionSafetyDevice].concat(S.injectionSafety));
     h += '<h2>Safety reminders</h2>' +
-         ul((doc.safety || []).concat(doc.noInjectionSafety ? [] : S.injectionSafety));
+         ul((doc.safety || []).concat(injSafety));
 
     /* WHICH problem goes to whom, kept - a handout is where a patient is when
        they notice a side effect, and the three-way split is clinical content.
