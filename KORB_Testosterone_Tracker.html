@@ -27,6 +27,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,san
 @media(min-width:600px){.grid{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));}}
 
 .f{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.f.full{grid-column:1/-1;}
 .f label{font-size:12.5px;font-weight:700;color:var(--navy);}
 /* 16px prevents iOS auto-zoom on focus; 46px is a comfortable touch target */
 .f select,.f input{width:100%;max-width:100%;min-height:46px;padding:10px 12px;
@@ -36,7 +37,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,san
 .f select{background-image:linear-gradient(45deg,transparent 50%,var(--navy) 50%),
  linear-gradient(135deg,var(--navy) 50%,transparent 50%);
  background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;
- background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:36px;}
+ background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:28px;}
 
 /* WEEK GRID. Don, 2026-09-21: a flat date-and-site log meant reading down a
    column of dates and doing the arithmetic to see whether a given week got its
@@ -140,12 +141,19 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
   <div class="sec">My Schedule</div>
   <div class="panel">
     <div class="grid">
-      <div class="f">
-        <label for="route">How I inject</label>
+      <div class="f full">
+        <label for="route">How often I inject</label>
+        <!-- FREQUENCY FIRST, and not a style choice. Measured 2026-09-21 at 320px
+             wide: "Under the skin, three times a week" needs 243px of a 213px
+             box, so it truncated, and beside "Under the skin, twice a week" the
+             two options read as the same thing. The words that tell them apart
+             were the words being cut off, on the field that drives every count
+             in this tracker. Leading with the frequency means the part that
+             matters survives any truncation; .full gives it the whole row. -->
         <select id="route">
-          <option value="im1">Into the muscle, once a week</option>
-          <option value="sq2">Under the skin, twice a week</option>
-          <option value="sq3">Under the skin, three times a week</option>
+          <option value="im1">Once a week, into the muscle</option>
+          <option value="sq2">Twice a week, under the skin</option>
+          <option value="sq3">3 times a week, under the skin</option>
         </select>
       </div>
       <div class="f">
@@ -195,7 +203,16 @@ var DAYNAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
    as a standing reminder on the dashboard and in the Injection, Storage and
    Safety Guide, which is where the technique belongs. What is gone is the
    RECORD of it, not the instruction. */
-var WEEKS_BACK = 11;     // twelve weeks on screen, matching the 12-week follow-up interval
+/* THE GRID RUNS FORWARD FROM THE VIAL, not backward from today. The first
+   version counted twelve weeks back from the current week, so a man who opened
+   his vial on 7 September was shown July and August as empty rows. Don caught
+   it 2026-09-21. The vial IS the cycle: it is discarded 90 days after opening
+   and the follow-up visit sits at the same point, so week 1 is the week the
+   vial was opened and the grid ends at the discard week, or at this week if
+   treatment has run past it. Same shape as the 16-week cycle in
+   KORB_Functional_Health_Tracker.html, which always ran forward from a start
+   date. */
+var MAX_WEEKS = 30;      // a guard, not a design: nothing sane reaches it
 var NEEDED = {im1:1, sq2:2, sq3:3};
 
 /* log entries are now { date } only. A pre-2026-09-21 saved state carries
@@ -412,17 +429,30 @@ function renderWeeks(){
   }
   var t=today(), thisWeek=weekStart(t), need=NEEDED[state.route];
 
-  /* Newest week first: the reason to open this is to tick today off. */
-  var weeks=[];
-  for(var w=0; w<=WEEKS_BACK; w++){ weeks.push(addD(thisWeek, -7*w)); }
+  /* Week 1 is the week the vial was opened. Failing that, the week of the first
+     dose ever logged. Failing that, this week. */
+  var anchorDate = state.vialDate ? parseD(state.vialDate)
+                 : (state.log.length ? parseD(state.log[state.log.length-1].date) : t);
+  var first = weekStart(anchorDate);
+
+  /* Run to the discard week, and past it to this week if treatment continued. */
+  var lastByVial = state.vialDate ? weekStart(addD(parseD(state.vialDate), DISCARD_DAYS)) : thisWeek;
+  var last = lastByVial.getTime() > thisWeek.getTime() ? lastByVial : thisWeek;
+
+  var weeks=[], cur=first, n=0;
+  while(cur.getTime() <= last.getTime() && n < MAX_WEEKS){ weeks.push(cur); cur=addD(cur,7); n++; }
+  if(!weeks.length) weeks.push(thisWeek);
+  var numbered = !!state.vialDate;   // "Week 3" only means something against the vial
 
   var html='', group=null, rows='', gDoses=0, gOn=0, gWeeks=0;
 
   function flush(){
     if(!group) return;
     var label=MONTHS[group.getMonth()]+' '+group.getFullYear();
-    var summary=gDoses+' dose'+(gDoses===1?'':'s')+' &middot; '+gOn+' of '+gWeeks+' week'+
-                (gWeeks===1?'':'s')+' on target';
+    var summary = gWeeks
+      ? gDoses+' dose'+(gDoses===1?'':'s')+' &middot; '+gOn+' of '+gWeeks+' week'+
+        (gWeeks===1?'':'s')+' on target'
+      : 'still to come';
     html+='<div class="mgroup"><div class="mhead"><span>'+label+'</span>'+
           '<span class="ms'+(gOn===gWeeks?' on':'')+'">'+summary+'</span></div>'+rows+'</div>';
     rows=''; gDoses=0; gOn=0; gWeeks=0;
@@ -433,8 +463,13 @@ function renderWeeks(){
     if(!group || key.getTime()!==group.getTime()){ flush(); group=key; }
 
     var n=weekCount(ws), isNow=ws.getTime()===thisWeek.getTime();
-    var cls='wkrow'+(isNow?' now':'')+(n>=need?' on':(n>0?' short':''));
+    var future=ws.getTime()>thisWeek.getTime();
+    /* A week that has not happened yet is not "short", it is just empty. */
+    var cls='wkrow'+(isNow?' now':'')+(n>=need?' on':(n>0?' short':(future?'':' short')));
+    if(!n && !future && !isNow) cls='wkrow short';
+    if(future) cls='wkrow';
     var cnt='<span class="wkc'+(n>=need?' on':'')+'">'+n+' of '+need+'</span>';
+    var wkNo = numbered ? Math.round((ws-first)/604800000)+1 : 0;
 
     var cells='';
     for(var i=0;i<7;i++){
@@ -451,15 +486,20 @@ function renderWeeks(){
     }
 
     rows+='<div class="'+cls+'"><div class="wktop">'+
-          '<span class="wkd">'+fmt(ws)+' &ndash; '+fmt(addD(ws,6))+
+          '<span class="wkd">'+(wkNo?'Week '+wkNo+' &middot; ':'')+fmt(ws)+' &ndash; '+fmt(addD(ws,6))+
           (isNow?'<span class="nb">this week</span>':'')+'</span>'+cnt+'</div>'+
           '<div class="cells">'+cells+'</div></div>';
 
-    gDoses+=n; gWeeks++; if(n>=need) gOn++;
+    if(!future){ gDoses+=n; gWeeks++; if(n>=need) gOn++; }
   });
   flush();
 
-  el.innerHTML=html+'<div style="font-size:11px;color:var(--mu);margin:2px 2px 0;">'+
+  var lead = numbered
+    ? 'Week 1 is the week you opened your vial, '+fmtLong(parseD(state.vialDate))+
+      '. The grid runs to your discard date.'
+    : 'Add the date you opened your vial above and these weeks will be numbered from it.';
+  el.innerHTML='<div style="font-size:11.5px;color:var(--mu);margin:0 2px 11px;">'+lead+'</div>'+
+    html+'<div style="font-size:11px;color:var(--mu);margin:2px 2px 0;">'+
     'Tap a day to mark it done, tap again to undo. Teal is an injection day you have taken; '+
     'amber is a dose taken on a day that is not in your schedule, which still counts toward the week.</div>';
 }
