@@ -68,7 +68,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,san
 .cell.tap{cursor:pointer;}
 .cell.sched{border-color:var(--teal);color:var(--navy);background:#fff;}
 .cell.done{background:var(--teal);border-color:var(--teal);color:#fff;}
-.cell.extra{background:var(--amber);border-color:var(--amberbd);color:var(--navy);}
+/* NO "WRONG DAY" COLOUR. A dose used to render amber when it landed off the
+   scheduled day, which read as a reprimand for something that is clinically
+   fine. On a twice-weekly schedule a day either side covers six of the seven
+   days, so a tolerance rule would have been theatre. The outline shows the
+   plan, the fill shows what happened, and the week count is the measure.
+   Don, 2026-09-21. */
 .cell.td{box-shadow:inset 0 0 0 2px var(--navy);}
 .cell.future{opacity:.4;}
 .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--mu);margin:2px 2px 14px;}
@@ -76,7 +81,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,san
  vertical-align:-1px;border:1.5px solid var(--bd);}
 .legend i.s{border-color:var(--teal);background:#fff;}
 .legend i.d{background:var(--teal);border-color:var(--teal);}
-.legend i.e{background:var(--amber);border-color:var(--amberbd);}
+.mark{margin:-6px 0 14px;}
+.mark button{width:100%;min-height:50px;border:0;border-radius:24px;font-family:inherit;
+ font-size:15.5px;font-weight:800;cursor:pointer;background:var(--teal);color:var(--navy);}
+.mark button.undo{background:#fff;border:1.5px solid var(--green);color:var(--green);}
+.mark button:active{opacity:.85;}
+.mark .mh{font-size:11px;color:var(--mu);text-align:center;margin-top:6px;}
+
+.syr{background:var(--gb);border:1px solid var(--bd);border-radius:10px;padding:13px 14px;margin-bottom:16px;}
+.syr .sc{font-size:13px;color:var(--navy);line-height:1.5;margin-bottom:4px;}
+.syr .sn{font-size:11px;color:var(--mu);margin-top:7px;line-height:1.5;}
 
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:6px;}
 .day{min-height:46px;padding:6px 2px;border:1.5px solid var(--bd);border-radius:8px;background:#fff;
@@ -177,12 +191,13 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
   </div>
 
   <div id="dash"></div>
+  <div class="mark" id="mark"></div>
+  <div id="syringe"></div>
 
   <div class="sec">My Injection Weeks</div>
   <div class="legend">
-    <span><i class="s"></i>injection day</span>
-    <span><i class="d"></i>done</span>
-    <span><i class="e"></i>done, a different day</span>
+    <span><i class="s"></i>an injection day</span>
+    <span><i class="d"></i>dose taken</span>
   </div>
   <div id="weeks"></div>
 
@@ -342,13 +357,16 @@ function render(){
   var dash=document.getElementById("dash");
   if(!state.dose || !state.days.length){
     dash.innerHTML='<div class="empty">Set your schedule above to see your next dose.</div>';
-    renderWeeks(); return;
+    renderMark(); renderSyringe(); renderWeeks(); return;
   }
 
   var h="", nd=nextDue(), t=today();
   if(nd){
     var dd=diffD(t,nd), cls="", k="Next dose due", big=fmt(nd), sub="";
-    if(dd<0){ cls="over"; k="Dose overdue"; sub=Math.abs(dd)+" day"+(Math.abs(dd)===1?"":"s")+" ago"; }
+    /* One day late is not a problem worth a red banner on a twice-weekly
+       schedule, so it stays amber and says so. Two or more is worth flagging. */
+    if(dd===-1){ cls="today"; k="Dose was due yesterday"; big="Yesterday"; sub="A day either side is fine. Take it when you can."; }
+    else if(dd<0){ cls="over"; k="Dose overdue"; sub=Math.abs(dd)+" days ago. Take it when you can and carry on with your usual days."; }
     else if(dd===0){ cls="today"; k="Dose due today"; big="Today"; sub=fmtLong(nd); }
     else if(dd===1){ cls="due"; sub="Tomorrow"; }
     else { cls=""; sub="in "+dd+" days"; }
@@ -405,7 +423,75 @@ function render(){
      'harder. This tracker does not record where you injected; the Injection, Storage and Safety '+
      'Guide covers the technique.</div>';
   dash.innerHTML=h;
-  renderWeeks();
+  renderMark(); renderSyringe(); renderWeeks();
+}
+
+/* ---------- the syringe ----------
+   NOT the insulin-syringe graphic in KORB_Functional_Health_Tracker.html and
+   KORB_GLP1_Dose_Guide.html. Those barrels are marked in UNITS, and testosterone
+   is not given on one: korb-mens-data.js technique says "Do not use insulin
+   syringes, which have a fixed needle and are marked in units. All volumes are
+   read in mL on a Luer lock barrel", and the handout was corrected to say so on
+   2026-09-21. Reusing that drawing here would have put a patient on the wrong
+   syringe, so this one is marked in mL.
+
+   Barrel size follows korb-mens-data.js routes.*.syringe: 3 mL Luer lock for
+   IM once weekly, 1 mL Luer lock for both SQ schedules. This tool is hand-built
+   with no data file, so that mapping is duplicated here rather than read. If
+   the routes change there, change them here. */
+var BARREL = { im1:3, sq2:1, sq3:1 };
+
+function mlSyringeSVG(ml, cap){
+  ml = Math.max(0, Math.min(cap, parseFloat(ml)||0));
+  var bx=58, bw=196, by=16, bh=24;
+  var w = bx + (ml/cap)*bw;
+  var minor = cap===1 ? 0.05 : 0.1;
+  var major = cap===1 ? 0.1  : 0.5;
+  var labelEvery = cap===1 ? 0.2 : 0.5;
+  var s='<svg viewBox="0 0 300 60" style="width:100%;max-width:290px;height:auto;display:block;margin:4px auto 0;" role="img" aria-label="Syringe drawn to '+ml+' millilitres on a '+cap+' millilitre barrel">';
+  /* the needle is separate on a Luer lock, which is the whole point of the
+     draw-up needle and the injection needle being two different things */
+  s+='<line x1="4" y1="28" x2="30" y2="28" stroke="#8A8F98" stroke-width="2"/>';
+  s+='<circle cx="33" cy="28" r="3.5" fill="#fff" stroke="#8A8F98" stroke-width="1.2"/>';
+  s+='<path d="M37 26 L'+bx+' '+by+' L'+bx+' '+(by+bh)+' L37 30 Z" fill="#fff" stroke="#8A8F98" stroke-width="1"/>';
+  s+='<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="3" fill="#fff" stroke="#8A8F98" stroke-width="1.5"/>';
+  s+='<rect x="'+bx+'" y="'+by+'" width="'+Math.max(0,(w+1)-bx)+'" height="'+bh+'" fill="#00B2C3" opacity="0.30"/>';
+  for(var u=0; u<=cap+1e-9; u+=minor){
+    var x = bx + (u/cap)*bw;
+    var isMajor = Math.abs((u/major)-Math.round(u/major)) < 1e-6;
+    s+='<line x1="'+x.toFixed(2)+'" y1="'+by+'" x2="'+x.toFixed(2)+'" y2="'+(by+(isMajor?9:5))+'" stroke="#5A6070" stroke-width="1"/>';
+    var lbl = Math.abs((u/labelEvery)-Math.round(u/labelEvery)) < 1e-6;
+    if(lbl) s+='<text x="'+x.toFixed(2)+'" y="'+(by-4)+'" font-size="7" text-anchor="middle" fill="#5A6070" font-family="Arial,sans-serif">'+(+u.toFixed(2))+'</text>';
+  }
+  s+='<rect x="'+(w+1)+'" y="'+(by+1)+'" width="7" height="'+(bh-2)+'" fill="#21275B"/>';
+  var rodEnd = bx+bw+22;
+  s+='<rect x="'+(w+8)+'" y="'+(by+bh/2-2)+'" width="'+Math.max(0,rodEnd-(w+8))+'" height="4" fill="#C6CAD2"/>';
+  s+='<rect x="'+rodEnd+'" y="'+(by-5)+'" width="10" height="'+(bh+10)+'" rx="2" fill="#EEF0F7" stroke="#8A8F98" stroke-width="1"/>';
+  s+='</svg>';
+  return s;
+}
+
+function renderSyringe(){
+  var el=document.getElementById("syringe");
+  if(!state.dose){ el.innerHTML=""; return; }
+  var cap=BARREL[state.route]||1;
+  el.innerHTML='<div class="syr">'+
+    '<div class="sc">Draw to <b>'+state.dose+' mL</b> on your '+cap+' mL Luer lock syringe.</div>'+
+    mlSyringeSVG(state.dose, cap)+
+    '<div class="sn">Read the mL marks on the barrel, not units. Your prescription label is the '+
+    'authoritative source for your dose. Draw up with the draw-up needle, then change to the '+
+    'injection needle.</div>'+
+  '</div>';
+}
+
+/* ---------- mark today from the top ---------- */
+function renderMark(){
+  var el=document.getElementById("mark");
+  if(!state.days.length || !state.dose){ el.innerHTML=""; return; }
+  var ts=iso(today()), done=isDone(ts);
+  el.innerHTML='<button type="button" class="'+(done?'undo':'')+'" onclick="toggleDose(\'' + ts + '\')">'+
+    (done?'✓ Logged for today':'Mark today done')+'</button>'+
+    '<div class="mh">'+(done?'Tap again to undo.':'You can also tap any day in the grid below.')+'</div>';
 }
 
 /* ---------- the week grid ---------- */
@@ -478,7 +564,7 @@ function renderWeeks(){
       var done=isDone(ds);
       var future=ds>iso(t);
       var c='cell'+(future?' future':' tap')+(sched?' sched':'')+
-            (done?(sched?' done':' extra'):'')+(ds===iso(t)?' td':'');
+            (done?' done':'')+(ds===iso(t)?' td':'');
       cells+='<button type="button" class="'+c+'"'+
              (future?' disabled aria-disabled="true"':' onclick="toggleDose(\'' + ds + '\')"')+
              ' aria-label="'+fmtLong(d)+(done?', done':'')+'">'+
@@ -500,8 +586,10 @@ function renderWeeks(){
     : 'Add the date you opened your vial above and these weeks will be numbered from it.';
   el.innerHTML='<div style="font-size:11.5px;color:var(--mu);margin:0 2px 11px;">'+lead+'</div>'+
     html+'<div style="font-size:11px;color:var(--mu);margin:2px 2px 0;">'+
-    'Tap a day to mark it done, tap again to undo. Teal is an injection day you have taken; '+
-    'amber is a dose taken on a day that is not in your schedule, which still counts toward the week.</div>';
+    'Tap a day to mark it done, tap again to undo. The outlined days are the ones you picked; '+
+    'a filled day is a dose you took. <b>A day either side is fine</b> - if you travel or your week '+
+    'moves around, take it when you can and it still counts. What matters is the number of doses in '+
+    'the week, not which days they landed on.</div>';
 }
 
 /* ---------- init ---------- */
