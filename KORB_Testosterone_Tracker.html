@@ -38,6 +38,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,san
  background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;
  background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:36px;}
 
+/* WEEK GRID. Don, 2026-09-21: a flat date-and-site log meant reading down a
+   column of dates and doing the arithmetic to see whether a given week got its
+   two. The unit a TRT patient and his provider care about is the WEEK, so the
+   week is the row and the count sits on the row. Same shape as the day grid in
+   KORB_Functional_Health_Tracker.html, which already worked this way. */
+.mgroup{margin-bottom:18px;}
+.mhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:13px;
+ font-weight:800;color:var(--navy);padding:0 2px 7px;border-bottom:1.5px solid var(--bd);margin-bottom:9px;}
+.mhead .ms{font-size:11.5px;font-weight:700;color:var(--mu);flex:0 0 auto;text-align:right;}
+.mhead .ms.on{color:var(--green);}
+.wkrow{background:#fff;border:1px solid var(--bd);border-left:4px solid var(--bd);
+ border-radius:8px;padding:9px 11px;margin-bottom:7px;}
+.wkrow.on{border-left-color:var(--green);}
+.wkrow.short{border-left-color:var(--amberbd);}
+.wkrow.now{border-left-color:var(--teal);background:var(--lt);}
+.wktop{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:7px;}
+.wkd{font-size:12px;font-weight:700;color:var(--navy);}
+.wkd .nb{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:9px;background:var(--teal);
+ color:var(--navy);font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
+.wkc{font-size:11.5px;font-weight:800;color:var(--mu);flex:0 0 auto;}
+.wkc.on{color:var(--green);}
+.cells{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cell{min-height:42px;border:1.5px solid #EDEFF2;border-radius:6px;background:#FCFCFD;display:flex;
+ flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:11px;font-weight:700;
+ color:#B9BFCC;font-family:inherit;padding:2px;}
+.cell .dn{font-size:9px;font-weight:700;letter-spacing:.02em;}
+.cell.tap{cursor:pointer;}
+.cell.sched{border-color:var(--teal);color:var(--navy);background:#fff;}
+.cell.done{background:var(--teal);border-color:var(--teal);color:#fff;}
+.cell.extra{background:var(--amber);border-color:var(--amberbd);color:var(--navy);}
+.cell.td{box-shadow:inset 0 0 0 2px var(--navy);}
+.cell.future{opacity:.4;}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--mu);margin:2px 2px 14px;}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:4px;
+ vertical-align:-1px;border:1.5px solid var(--bd);}
+.legend i.s{border-color:var(--teal);background:#fff;}
+.legend i.d{background:var(--teal);border-color:var(--teal);}
+.legend i.e{background:var(--amber);border-color:var(--amberbd);}
+
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:6px;}
 .day{min-height:46px;padding:6px 2px;border:1.5px solid var(--bd);border-radius:8px;background:#fff;
  font-size:12.5px;font-weight:700;color:var(--mu);cursor:pointer;text-align:center;font-family:inherit;}
@@ -131,25 +170,13 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 
   <div id="dash"></div>
 
-  <div class="sec">Log an Injection</div>
-  <div class="panel">
-    <div class="grid">
-      <div class="f">
-        <label for="logDate">Date</label>
-        <input type="date" id="logDate">
-      </div>
-      <div class="f">
-        <label for="logSite">Where I injected</label>
-        <select id="logSite"></select>
-      </div>
-    </div>
-    <div style="margin-top:12px;">
-      <button class="btn wide" onclick="logDose()">Log this injection</button>
-    </div>
+  <div class="sec">My Injection Weeks</div>
+  <div class="legend">
+    <span><i class="s"></i>injection day</span>
+    <span><i class="d"></i>done</span>
+    <span><i class="e"></i>done, a different day</span>
   </div>
-
-  <div class="sec">My Injection History</div>
-  <div id="history"></div>
+  <div id="weeks"></div>
 
   <footer>
     For KORB patient education only. Do not share or reproduce.<br>
@@ -162,12 +189,18 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 var VIAL_ML = 10.0;
 var DISCARD_DAYS = 90;   // medication is discarded 90 days after the vial is opened
 var DAYNAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-var SITES = {
-  sq: ["Abdomen — left","Abdomen — right","Thigh — left","Thigh — right","Upper buttock — left","Upper buttock — right"],
-  im: ["Glute — left","Glute — right","Shoulder — left","Shoulder — right","Outer thigh — left","Outer thigh — right"]
-};
+/* NO SITE TRACKING. Don, 2026-09-21: the tracker asked where each injection
+   went and logged it, which is a second thing to remember at the moment a
+   patient just wants to tick the dose off. Rotation still matters, so it stays
+   as a standing reminder on the dashboard and in the Injection, Storage and
+   Safety Guide, which is where the technique belongs. What is gone is the
+   RECORD of it, not the instruction. */
+var WEEKS_BACK = 11;     // twelve weeks on screen, matching the 12-week follow-up interval
 var NEEDED = {im1:1, sq2:2, sq3:3};
 
+/* log entries are now { date } only. A pre-2026-09-21 saved state carries
+   { date, site }; site is dropped on load rather than the entry, so nobody
+   loses the dates they had already recorded. */
 var state = { route:"sq2", dose:null, vialDate:null, days:[], log:[] };
 var canPersist = true;
 
@@ -180,7 +213,16 @@ function save(){
 function load(){
   try{
     var raw = localStorage.getItem("korb_trt_tracker");
-    if(raw){ var p=JSON.parse(raw); if(p && typeof p==="object") state=Object.assign(state,p); }
+    if(raw){
+      var p=JSON.parse(raw);
+      if(p && typeof p==="object") state=Object.assign(state,p);
+      if(Array.isArray(state.log)){
+        var seen={};
+        state.log = state.log
+          .filter(function(e){ return e && e.date && !seen[e.date] && (seen[e.date]=1); })
+          .map(function(e){ return { date:e.date }; });
+      }
+    }
   }catch(e){ canPersist=false; }
 }
 function noteStorage(){
@@ -220,25 +262,6 @@ function toggleDay(i){
   state.days.sort(function(a,b){return a-b;});
   buildDayPicker();
 }
-function buildSites(){
-  var kind = state.route==="im1" ? "im" : "sq";
-  var sel=document.getElementById("logSite"); sel.innerHTML="";
-  SITES[kind].forEach(function(s){ var o=document.createElement("option"); o.value=s; o.textContent=s; sel.appendChild(o); });
-  var sug=suggestSite();
-  if(sug) sel.value=sug;
-}
-function suggestSite(){
-  var kind = state.route==="im1" ? "im" : "sq";
-  var list = SITES[kind], used = state.log.map(function(e){return e.site;});
-  for(var i=0;i<list.length;i++){ if(used.indexOf(list[i])===-1) return list[i]; }
-  // all used: pick the one used longest ago
-  var best=null, bestIdx=-1;
-  list.forEach(function(s){
-    var idx = used.indexOf(s); // log is newest-first
-    if(idx > bestIdx){ bestIdx=idx; best=s; }
-  });
-  return best;
-}
 function saveSetup(){
   var d=parseFloat(document.getElementById("dose").value);
   state.route=document.getElementById("route").value;
@@ -249,7 +272,7 @@ function saveSetup(){
     alert("Please pick exactly "+need+" injection day"+(need>1?"s":"")+" for your schedule.");
     return;
   }
-  save(); buildSites(); render();
+  save(); render();
 }
 function resetAll(){
   if(!confirm("Clear your schedule and all logged injections? This cannot be undone.")) return;
@@ -258,29 +281,24 @@ function resetAll(){
   document.getElementById("dose").value="";
   document.getElementById("vialDate").value="";
   document.getElementById("route").value="sq2";
-  buildDayPicker(); buildSites(); render();
+  buildDayPicker(); render();
 }
 
-/* ---------- logging ---------- */
-function logDose(){
-  var ds=document.getElementById("logDate").value;
-  if(!ds){ alert("Pick the date you injected."); return; }
-  var site=document.getElementById("logSite").value;
-  if(state.log.some(function(e){ return e.date===ds && e.site===site; })){
-    alert("You already logged an injection at that site on that date.");
-    return;
-  }
-  var sameDay=state.log.filter(function(e){ return e.date===ds; });
-  if(sameDay.length && !confirm("You already logged an injection on "+fmtLong(parseD(ds))+
-     ". Most schedules are one injection per day. Add another anyway?")) return;
-  state.log.push({date:ds, site:site});
-  state.log.sort(function(a,b){ return a.date<b.date?1:-1; });
-  save(); buildSites(); render();
-  document.getElementById("logDate").value="";
+/* ---------- logging: one tap on a day ---------- */
+function isDone(isoDate){
+  return state.log.some(function(e){ return e.date===isoDate; });
 }
-function delDose(i){
-  if(!confirm("Remove this entry?")) return;
-  state.log.splice(i,1); save(); buildSites(); render();
+/* Tapping a done day clears it, so a mis-tap costs one tap to undo rather than
+   a confirm dialog. Future days are not tappable: a tracker that lets you tick
+   next Thursday is not a record of anything. */
+function toggleDose(isoDate){
+  if(isoDate > iso(today())) return;
+  var i = -1;
+  state.log.forEach(function(e,k){ if(e.date===isoDate) i=k; });
+  if(i>-1) state.log.splice(i,1);
+  else state.log.push({date:isoDate});
+  state.log.sort(function(a,b){ return a.date<b.date?1:-1; });
+  save(); render();
 }
 
 /* ---------- schedule math ---------- */
@@ -307,7 +325,7 @@ function render(){
   var dash=document.getElementById("dash");
   if(!state.dose || !state.days.length){
     dash.innerHTML='<div class="empty">Set your schedule above to see your next dose.</div>';
-    renderHistory(); return;
+    renderWeeks(); return;
   }
 
   var h="", nd=nextDue(), t=today();
@@ -325,11 +343,12 @@ function render(){
     var last=parseD(state.log[0].date), ago=diffD(last,t);
     h+='<div class="c"><div class="k">Last injection</div><div class="v">'+fmt(last)+'</div><div class="s">'+
        (ago===0?"today":ago===1?"yesterday":ago+" days ago")+'</div></div>';
-    h+='<div class="c"><div class="k">Last site</div><div class="v" style="font-size:12.5px;">'+state.log[0].site+'</div></div>';
+    var wk = weekCount(weekStart(t));
+    h+='<div class="c"><div class="k">This week</div><div class="v">'+wk+' of '+NEEDED[state.route]+'</div>'+
+       '<div class="s">'+(wk>=NEEDED[state.route]?'on schedule':'doses logged')+'</div></div>';
   } else {
     h+='<div class="c"><div class="k">Last injection</div><div class="v" style="font-size:13px;">None yet</div></div>';
   }
-  h+='<div class="c"><div class="k">Next site to use</div><div class="v" style="font-size:12.5px;">'+(suggestSite()||"—")+'</div><div class="s">rotate every time</div></div>';
 
   var used=state.log.length*state.dose, left=VIAL_ML-used;
   var discardOn=null, toDiscard=null;
@@ -364,35 +383,97 @@ function render(){
   } else if(state.vialDate && left<=0){
     h+='<div class="box red"><b>Your vial should be empty.</b> Contact KORB if you have not received your refill.</div>';
   }
+  h+='<div class="box teal"><b>Rotate your site every time.</b> Move at least an inch or two from '+
+     'your last one. Injecting into the same spot builds scar tissue and makes later injections '+
+     'harder. This tracker does not record where you injected; the Injection, Storage and Safety '+
+     'Guide covers the technique.</div>';
   dash.innerHTML=h;
-  renderHistory();
+  renderWeeks();
 }
 
-function renderHistory(){
-  var el=document.getElementById("history");
-  if(!state.log.length){ el.innerHTML='<div class="empty">No injections logged yet.</div>'; return; }
-  var h='<table class="log"><thead><tr><th>Date</th><th>Site</th><th></th></tr></thead><tbody>';
-  state.log.forEach(function(e,i){
-    h+='<tr><td>'+fmtLong(parseD(e.date))+'</td><td>'+e.site+'</td>'+
-       '<td class="x"><a onclick="delDose('+i+')">remove</a></td></tr>';
+/* ---------- the week grid ---------- */
+var MONTHS=["January","February","March","April","May","June","July","August",
+            "September","October","November","December"];
+
+/* Weeks run Sunday to Saturday, the same basis as the injection-day picker, so
+   a week on this grid is the same week the patient chose his days in. */
+function weekStart(d){ var r=new Date(d.getTime()); r.setDate(r.getDate()-r.getDay()); return r; }
+function weekCount(ws){
+  var n=0;
+  for(var i=0;i<7;i++){ if(isDone(iso(addD(ws,i)))) n++; }
+  return n;
+}
+
+function renderWeeks(){
+  var el=document.getElementById("weeks");
+  if(!state.days.length){
+    el.innerHTML='<div class="empty">Set your schedule above and your weeks will appear here.</div>';
+    return;
+  }
+  var t=today(), thisWeek=weekStart(t), need=NEEDED[state.route];
+
+  /* Newest week first: the reason to open this is to tick today off. */
+  var weeks=[];
+  for(var w=0; w<=WEEKS_BACK; w++){ weeks.push(addD(thisWeek, -7*w)); }
+
+  var html='', group=null, rows='', gDoses=0, gOn=0, gWeeks=0;
+
+  function flush(){
+    if(!group) return;
+    var label=MONTHS[group.getMonth()]+' '+group.getFullYear();
+    var summary=gDoses+' dose'+(gDoses===1?'':'s')+' &middot; '+gOn+' of '+gWeeks+' week'+
+                (gWeeks===1?'':'s')+' on target';
+    html+='<div class="mgroup"><div class="mhead"><span>'+label+'</span>'+
+          '<span class="ms'+(gOn===gWeeks?' on':'')+'">'+summary+'</span></div>'+rows+'</div>';
+    rows=''; gDoses=0; gOn=0; gWeeks=0;
+  }
+
+  weeks.forEach(function(ws){
+    var key=new Date(ws.getFullYear(), ws.getMonth(), 1);
+    if(!group || key.getTime()!==group.getTime()){ flush(); group=key; }
+
+    var n=weekCount(ws), isNow=ws.getTime()===thisWeek.getTime();
+    var cls='wkrow'+(isNow?' now':'')+(n>=need?' on':(n>0?' short':''));
+    var cnt='<span class="wkc'+(n>=need?' on':'')+'">'+n+' of '+need+'</span>';
+
+    var cells='';
+    for(var i=0;i<7;i++){
+      var d=addD(ws,i), ds=iso(d);
+      var sched=state.days.indexOf(d.getDay())>-1;
+      var done=isDone(ds);
+      var future=ds>iso(t);
+      var c='cell'+(future?' future':' tap')+(sched?' sched':'')+
+            (done?(sched?' done':' extra'):'')+(ds===iso(t)?' td':'');
+      cells+='<button type="button" class="'+c+'"'+
+             (future?' disabled aria-disabled="true"':' onclick="toggleDose(\'' + ds + '\')"')+
+             ' aria-label="'+fmtLong(d)+(done?', done':'')+'">'+
+             '<span class="dn">'+DAYNAMES[i]+'</span><span>'+(done?'✓':d.getDate())+'</span></button>';
+    }
+
+    rows+='<div class="'+cls+'"><div class="wktop">'+
+          '<span class="wkd">'+fmt(ws)+' &ndash; '+fmt(addD(ws,6))+
+          (isNow?'<span class="nb">this week</span>':'')+'</span>'+cnt+'</div>'+
+          '<div class="cells">'+cells+'</div></div>';
+
+    gDoses+=n; gWeeks++; if(n>=need) gOn++;
   });
-  h+='</tbody></table>';
-  h+='<div style="font-size:11px;color:var(--mu);margin-top:9px;">'+state.log.length+
-     ' injection'+(state.log.length===1?"":"s")+' logged.</div>';
-  el.innerHTML=h;
+  flush();
+
+  el.innerHTML=html+'<div style="font-size:11px;color:var(--mu);margin:2px 2px 0;">'+
+    'Tap a day to mark it done, tap again to undo. Teal is an injection day you have taken; '+
+    'amber is a dose taken on a day that is not in your schedule, which still counts toward the week.</div>';
 }
 
 /* ---------- init ---------- */
 document.getElementById("route").addEventListener("change", function(){
-  state.route=this.value; state.days=[]; buildDayPicker(); buildSites();
+  state.route=this.value; state.days=[]; buildDayPicker(); render();
 });
 load();
 noteStorage();
 document.getElementById("route").value=state.route;
 if(state.dose) document.getElementById("dose").value=state.dose;
 if(state.vialDate) document.getElementById("vialDate").value=state.vialDate;
-document.getElementById("logDate").value=iso(today());
-buildDayPicker(); buildSites(); render();
+buildDayPicker(); render();
 </script>
 </body>
 </html>
