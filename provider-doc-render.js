@@ -66,6 +66,17 @@ const CSS = RXB.CSS + `
         --stop:#A32A20;--stopbg:#FBEDEC;
         --sans:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;}
   *{box-sizing:border-box;}
+
+  /* iOS DATA DETECTORS, second line of defence. The format-detection meta in
+     the builders asks Safari not to guess; iOS honours telephone=no reliably
+     and address=no inconsistently, so anything that still slips through is
+     forced back to looking like the text it is. Don found dotted underlines
+     under the Quest codes on an iPad Air and tapping one opened Google Maps.
+     A five-digit lab code is ZIP-shaped, so a table of them is the worst case.
+     This kills the styling; the meta is what stops the link. */
+  a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !important;
+    font-size:inherit !important;font-family:inherit !important;font-weight:inherit !important;
+    line-height:inherit !important;pointer-events:none !important;}
   body{margin:0;font-family:var(--sans);font-weight:400;font-size:9.4pt;
        line-height:1.52;color:var(--ink);}
 

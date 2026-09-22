@@ -118,6 +118,15 @@ function shell(doc) {
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- iOS DATA DETECTORS OFF. Don, on an iPad Air, 2026-09-21: the Quest codes in
+     the lab table carried dotted underlines and tapping one opened Google Maps.
+     Nothing in this repo underlined them - Safari on iOS reads a bare number
+     like 10231 or 6399 as an address and silently turns it into a Maps link.
+     Desktop Safari and Chrome do not, which is why it was invisible here.
+     A five-digit Quest code is exactly ZIP-shaped, so a clinical document full
+     of them is the worst case for this. An explicit <a href="tel:"> is
+     unaffected; this only stops the guessing. -->
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
 <title>${R.esc(doc.title)} — FH&amp;L Provider Reference</title>
 <style>
 ${R.CSS}
