@@ -1031,17 +1031,25 @@ var KORB_PATIENT_ED = {
       ],
       sections: [
         {
-          h: 'What you may be prescribed',
           /* ONE ROUTE PER ROW. Don, 2026-09-19: two rows each carrying both an
              oral and a topical read as a run-on, and "Pill:" is not the word.
-             It is oral. Four rows, oral before topical, so a woman finds her two
-             lines together and never reads across a men's entry to get there. */
+             It is oral. Oral before topical.
+             TWO SECTIONS, 2026-09-22 (Kris Mulkey's review): the men's and
+             women's treatments are different drugs, and a patient should find
+             theirs under a heading, the way the Sexual Health guide does, rather
+             than by reading row labels in one mixed table. */
+          h: 'For men: what you may be prescribed',
           cards: [
-            ['Men, oral', 'Finasteride, taken once daily.'],
-            ['Men, topical',
-             'Minoxidil with finasteride and tretinoin, applied to the scalp once daily.'],
-            ['Women, oral', 'Spironolactone, taken once daily.'],
-            ['Women, topical',
+            ['Oral', 'Finasteride, taken once daily.'],
+            ['Topical',
+             'Minoxidil with finasteride and tretinoin, applied to the scalp once daily.']
+          ]
+        },
+        {
+          h: 'For women: what you may be prescribed',
+          cards: [
+            ['Oral', 'Spironolactone, taken once daily.'],
+            ['Topical',
              'Minoxidil with spironolactone and latanoprost, applied to the scalp once daily.']
           ],
           after: [
@@ -2918,7 +2926,7 @@ var KORB_PATIENT_ED = {
         'Semaglutide is a GLP-1 (glucagon-like peptide-1) receptor agonist. It mimics a ' +
         'natural gut hormone that slows digestion, reduces appetite and helps you feel ' +
         'fuller longer after eating.',
-        'Your semaglutide is prepared for you by a licensed U.S. compounding pharmacy, ' +
+        'Your semaglutide treatment is prepared by a licensed U.S. compounding pharmacy, ' +
         'which prepares each prescription to your provider\u2019s specifications rather than ' +
         'mass-producing it. Because the FDA reviews mass-manufactured products rather than ' +
         'individual prescriptions, compounded preparations are not FDA-approved. The active ' +
@@ -2951,7 +2959,7 @@ var KORB_PATIENT_ED = {
               'If you want a plan built around your own needs, a registered dietitian is the ' +
               'right person to see, and your provider can talk through whether that would help you.',
         items: [
-          'Prioritize protein at each meal. It helps preserve muscle while you lose weight.',
+          'Prioritize protein at each meal. It helps preserve muscle while you lose weight. [Find your daily protein target](https://korb-health.github.io/korb-patient-tools/KORB_Patient_Hub.html#protein-calculator) on the Patient Hub.',
           'Eat slowly and stop when you feel satisfied rather than full. Semaglutide slows ' +
           'digestion, so it takes longer to feel full and it is easy to overeat before your ' +
           'body catches up.',
@@ -3036,8 +3044,10 @@ var KORB_PATIENT_ED = {
          'Most patients remain on a steady dose long-term to sustain results.']
       ],
       timelineNote:
-        'Do not compare your response to others. Response is highly individual and depends ' +
-        'on starting weight, metabolism, diet, activity and other factors.',
+        'Response is highly individual and depends on starting weight, metabolism, diet, ' +
+        'activity and other factors, so do not compare yours to anyone else\'s. The ' +
+        'medication supports weight loss rather than working on its own: it works best ' +
+        'alongside healthy eating and activity, not in place of them.',
       common: [
         ['Nausea, vomiting or diarrhea',
          'Common, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
@@ -3140,7 +3150,7 @@ var KORB_PATIENT_ED = {
         'receptor agonist. It works through two separate gut hormone pathways rather than ' +
         'one, which slows digestion and reduces appetite, often more strongly than a ' +
         'single-pathway medication for some patients.',
-        'Your tirzepatide is prepared for you by a licensed U.S. compounding pharmacy, which ' +
+        'Your tirzepatide treatment is prepared by a licensed U.S. compounding pharmacy, which ' +
         'prepares each prescription to your provider\u2019s specifications rather than ' +
         'mass-producing it. Because the FDA reviews mass-manufactured products rather than ' +
         'individual prescriptions, compounded preparations are not FDA-approved. The active ' +
@@ -3172,7 +3182,7 @@ var KORB_PATIENT_ED = {
               'If you want a plan built around your own needs, a registered dietitian is the ' +
               'right person to see, and your provider can talk through whether that would help you.',
         items: [
-          'Prioritize protein at each meal. It helps preserve muscle while you lose weight.',
+          'Prioritize protein at each meal. It helps preserve muscle while you lose weight. [Find your daily protein target](https://korb-health.github.io/korb-patient-tools/KORB_Patient_Hub.html#protein-calculator) on the Patient Hub.',
           'Eat slowly and stop when you feel satisfied rather than full. Tirzepatide slows ' +
           'digestion, so it takes longer to feel full and it is easy to overeat before your ' +
           'body catches up.',
@@ -3257,8 +3267,10 @@ var KORB_PATIENT_ED = {
          'Most patients remain on a steady dose long-term to sustain results.']
       ],
       timelineNote:
-        'Do not compare your response to others. Response is highly individual and depends ' +
-        'on starting weight, metabolism, diet, activity and other factors.',
+        'Response is highly individual and depends on starting weight, metabolism, diet, ' +
+        'activity and other factors, so do not compare yours to anyone else\'s. The ' +
+        'medication supports weight loss rather than working on its own: it works best ' +
+        'alongside healthy eating and activity, not in place of them.',
       common: [
         ['Nausea, vomiting or diarrhea',
          'Common, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
