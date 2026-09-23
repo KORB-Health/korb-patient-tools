@@ -1062,7 +1062,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Give it three to six months',
           paras: [
-            'This is the single most important thing to understand before you start. Hair grows slowly, and these treatments work by protecting the hair you have and improving the quality of new growth. Most people see no visible change for the first three months, and the clearest results appear between three and six months.',
+            'This is the single most important thing to understand before you start. Hair grows slowly, and these treatments aim to protect the hair you have and support new growth. Most people see no visible change for the first three months. If there is a change, it usually shows between three and six months.',
             'Some people notice increased shedding in the first few weeks. That is usually a normal part of your hair\u2019s growth cycle resetting and not a sign the treatment is failing. Stopping early is the most common reason treatment does not work. If you stop, any gains will gradually reverse.'
           ]
         },
@@ -1279,7 +1279,7 @@ var KORB_PATIENT_ED = {
           h: 'What to expect',
           paras: [
             'Skin often looks slightly worse before it looks better. Dryness, flaking and mild redness in the first few weeks are expected as your skin adjusts. Acne can briefly flare as blocked pores clear.',
-            'If irritation is uncomfortable, tell your provider. Often the answer is to use it every other night for a while rather than stopping altogether. Most people see steady improvement over six to twelve weeks.'
+            'If irritation is uncomfortable, tell your provider. Often the answer is to use it every other night for a while rather than stopping altogether. If your skin responds, it usually shows over six to twelve weeks.'
           ]
         },
         {
@@ -1332,9 +1332,10 @@ var KORB_PATIENT_ED = {
            2026-09-22: what the program treats, then why people come, before any
            medicine is named. The last sentence of the second paragraph is her
            expectations point: medication is a tool, not a substitute for habits. */
-        'KORB\'s Weight Loss & Metabolic Health Program is medical treatment for adults whose weight is affecting their health. Treatment is a GLP-1 medication (one that copies a natural gut hormone that controls appetite and fullness), semaglutide or tirzepatide, prescribed by a licensed KORB provider and dispensed by a licensed US pharmacy.',
+        'KORB\'s Weight Loss & Metabolic Health Program is medical care for adults whose weight is affecting their health. Treatment is a GLP-1 medication (one that copies a natural gut hormone that controls appetite and fullness), semaglutide or tirzepatide, prescribed by a licensed KORB provider and dispensed by a licensed US pharmacy.',
         'Most people come to us after diet and exercise alone have not been enough, or because their weight has started to affect their blood pressure, blood sugar, sleep, joints or energy. You do not need to have tried every diet first. Medication works best alongside nutrition and activity changes, not in place of them.',
-        'Your provider selects your medication and starting dose based on your goals and health history, and adjusts your plan at regular follow-up visits.'
+        'Your provider selects your medication and starting dose based on your goals and health history, and adjusts your plan at regular follow-up visits.',
+        'Drink regularly while you are on treatment, because eating less and any stomach upset can leave you low on fluids. Your Semaglutide or Tirzepatide guide shows how much, spread through the day.'
       ],
       sections: [
         {
@@ -1366,7 +1367,7 @@ var KORB_PATIENT_ED = {
           cards: [
             [
               'Semaglutide',
-              'A GLP-1 medication, which copies a natural gut hormone. Slows digestion and reduces appetite, which supports gradual, sustained weight loss. Injected once weekly, starting low and increasing every 4 weeks as tolerated.'
+              'A GLP-1 medication, which copies a natural gut hormone. Slows digestion and reduces appetite. Injected once weekly, starting low and increasing every 4 weeks as tolerated.'
             ],
             [
               'Tirzepatide',
@@ -1437,7 +1438,7 @@ var KORB_PATIENT_ED = {
         /* Women's Health opening shape, 2026-09-22. The reasons men come were
            two sections down, in the testosterone section; they open the page now
            and are no longer repeated there. */
-        'KORB\'s Men\'s Health Program treats low testosterone in adult men. Treatment is testosterone replacement therapy (TRT), started only after lab work confirms your levels are low, and prescribed and monitored by a licensed KORB provider.',
+        'KORB\'s Men\'s Health Program is care for adult men with low testosterone. Treatment is testosterone replacement therapy (TRT), started only after lab work confirms your levels are low, and prescribed and monitored by a licensed KORB provider.',
         'Most men come to us for ongoing fatigue, reduced strength or muscle, more body fat, low sex drive, low mood or motivation, or slow recovery from exercise. You do not need to have all of them. What matters is how you feel and what your labs show.',
         'Four optional optimization products are available alongside it: KORB Rise, a sexual health treatment for men; hair loss treatment; skin care; and anti-aging.',
         'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss & Metabolic Health, or with Functional Health & Longevity. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
@@ -1446,7 +1447,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Testosterone Replacement Therapy',
           paras: [
-            'Testosterone naturally declines with age. When levels fall low enough to cause symptoms, replacing it can help.'
+            'Testosterone naturally declines with age. When levels fall low enough to cause symptoms, your provider may recommend replacing it.'
           ],
           cards: [
             [
@@ -1532,7 +1533,7 @@ var KORB_PATIENT_ED = {
       title: 'Women\'s Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
-        'KORB\'s Women\'s Health Program treats the symptoms of perimenopause, menopause and the years after. Treatment is hormone therapy, matched to your symptoms and your health history, and prescribed by a licensed KORB provider.',
+        'KORB\'s Women\'s Health Program is care for the symptoms of perimenopause, menopause and the years after. Treatment is hormone therapy, matched to your symptoms and your health history, and prescribed by a licensed KORB provider.',
         'Most women come to us for hot flashes, night sweats, disrupted sleep, mood changes, vaginal dryness or painful intercourse, low libido, or the mental fog that often comes with this stage. You do not need to have all of them, and you do not need to wait until they are severe.'
       ],
       sections: [
@@ -1559,15 +1560,15 @@ var KORB_PATIENT_ED = {
           cards: [
             [
               'Estradiol',
-              'The main treatment for hot flashes, night sweats, sleep and vaginal dryness. Comes as a skin patch or cream.'
+              'The main hormone used for hot flashes, night sweats, sleep and vaginal dryness. Comes as a skin patch or cream.'
             ],
             [
               'Progesterone',
-              'Protects the uterus when you take estrogen. Also helps sleep and mood. A capsule taken at night.'
+              'Protects the uterus when you take estrogen. A capsule taken at night, because it can make you drowsy.'
             ],
             [
               'Testosterone',
-              'Supports libido, energy, mood and muscle strength. A cream.'
+              'Used for libido, energy, mood and muscle strength. A cream.'
             ]
           ],
           after: [
@@ -2098,15 +2099,15 @@ var KORB_PATIENT_ED = {
             head: ['Hormone', 'What it is for', 'How you take it'],
             rows: [
               ['Estradiol',
-               'The main estrogen. Treats hot flashes, night sweats, sleep and ' +
-               'vaginal dryness, and supports bone.',
+               'The main estrogen. Used for hot flashes, night sweats, sleep and ' +
+               'vaginal dryness, and for bone health.',
                'A patch changed once or twice a week depending on which one you ' +
                'are prescribed, or a cream you apply daily.'],
               ['Progesterone',
                'Protects the lining of the uterus, and helps sleep.',
                'A capsule taken at night.'],
               ['Testosterone',
-               'Supports libido, energy, mood and muscle. Women make it too, and ' +
+               'Used for libido, energy, mood and muscle. Women make it too, and ' +
                'it falls at menopause.',
                'A cream you apply daily. Available in Texas and California only.']
             ]
@@ -2302,7 +2303,7 @@ var KORB_PATIENT_ED = {
       keyReminders: [
         'If you have a uterus, never take estrogen without progesterone.',
         'Let creams dry fully before contact with anyone else, and wash your hands.',
-        'Progesterone is taken at night. It helps you sleep.',
+        'Progesterone is taken at night, because it can make you drowsy.',
         'Your prescriptions run 12 weeks, and your follow-up is at 12 weeks.',
         'Do not change your own dose. Tell us what you are feeling and we will ' +
         'change it with you.',
@@ -2351,7 +2352,7 @@ var KORB_PATIENT_ED = {
 
       timingNotes: [
         ['Timing matters',
-         'Sermorelin should be injected at bedtime, on an empty stomach. growth hormone is ' +
+         'Sermorelin should be injected at bedtime, on an empty stomach. Growth hormone is ' +
          'released naturally in pulses during sleep, particularly during the first ' +
          'few hours of deep sleep, and injecting at bedtime aligns with that rhythm. ' +
          'Food, particularly carbohydrates, can blunt growth hormone release. Wait at least two ' +
@@ -2367,8 +2368,8 @@ var KORB_PATIENT_ED = {
          'Some patients notice early changes in sleep quality or morning energy.'],
         ['Weeks 4–8', 'Early response',
          'Many notice nothing yet. This is normal.'],
-        ['Weeks 8–12', 'Continued support',
-         'Sleep quality, recovery and energy may begin to improve. Do not adjust your schedule.'],
+        ['Weeks 8–12', 'Later in your cycle',
+         'Some patients report changes in sleep, recovery or energy by this point, and others do not. Do not adjust your schedule.'],
         ['Weeks 13–16', 'Off cycle — labs and lifestyle',
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
          'are reviewed during this window, and it is a good stretch to focus on ' +
@@ -2393,7 +2394,7 @@ var KORB_PATIENT_ED = {
         ['Joint discomfort or tingling',
          'May indicate a dose adjustment is needed. Tell your KORB provider.'],
         ['Sleep changes',
-         'Some patients report improved sleep; rarely, disrupted sleep early on.']
+         'Some patients report changes in sleep, and occasionally sleep is disrupted early on.']
       ],
 
       labs: {
@@ -2472,7 +2473,7 @@ var KORB_PATIENT_ED = {
 
       timingNotes: [
         ['Timing matters',
-         'Tesamorelin should be injected at bedtime, on an empty stomach. growth hormone is released ' +
+         'Tesamorelin should be injected at bedtime, on an empty stomach. Growth hormone is released ' +
          'naturally in pulses during sleep, particularly during the first few hours of ' +
          'deep sleep, and injecting at bedtime aligns with that rhythm. Food, ' +
          'particularly carbohydrates, can blunt growth hormone release. Wait at least two hours ' +
@@ -2490,9 +2491,9 @@ var KORB_PATIENT_ED = {
 
       timeline: [
         ['Weeks 1\u20134', 'Starting out',
-         'Most patients notice little initially. Energy or sleep changes are occasionally reported early.'],
+         'Most patients notice little at first. Some report changes in energy or sleep.'],
         ['Weeks 4\u20138', 'Active course', 'Changes, if any, begin emerging over time.'],
-        ['Weeks 8\u201312', 'Continued support',
+        ['Weeks 8\u201312', 'Later in your cycle',
          'Your provider will review your IGF-1 and blood sugar at your follow-up visit.'],
         ['Weeks 13\u201316', 'Off cycle \u2014 labs and lifestyle',
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
@@ -2596,7 +2597,7 @@ var KORB_PATIENT_ED = {
 
       timingNotes: [
         ['Timing matters',
-         'Inject at bedtime on an empty stomach. growth hormone is released naturally during sleep, ' +
+         'Inject at bedtime on an empty stomach. Growth hormone is released naturally during sleep, ' +
          'and food, particularly carbohydrates, can blunt that release. Wait at least ' +
          'two hours after your last meal.'],
         ['Your dose is compounded for you',
@@ -2609,9 +2610,9 @@ var KORB_PATIENT_ED = {
 
       timeline: [
         ['Weeks 1\u20134', 'Starting out',
-         'Some patients notice early improvements in sleep or morning energy.'],
+         'Some patients report changes in sleep or morning energy, and many notice nothing yet.'],
         ['Weeks 4\u20138', 'Early response', 'Many notice nothing yet. This is normal.'],
-        ['Weeks 8\u201312', 'Continued support',
+        ['Weeks 8\u201312', 'Later in your cycle',
          'Sleep, recovery and body composition changes may begin to emerge. Do not adjust your schedule.'],
         ['Weeks 13\u201316', 'Off cycle \u2014 labs and lifestyle',
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
@@ -2718,7 +2719,7 @@ var KORB_PATIENT_ED = {
 
       timeline: [
         ['Weeks 1\u20132', 'Getting started',
-         'No immediate noticeable effect is common. The therapy works gradually. Continue your schedule.'],
+         'Noticing nothing at first is common. Continue your schedule.'],
         ['Active course', 'Foundation 8 weeks; Gateway and Peak 6 weeks',
          'Recovery quality may begin to shift. Individual response varies from patient to patient.'],
         ['Off weeks', 'Break \u2014 labs and lifestyle',
@@ -2828,7 +2829,7 @@ var KORB_PATIENT_ED = {
 
       timeline: [
         ['First 2 weeks', 'Active course begins',
-         'Most patients notice nothing initially. This is normal; the therapy works gradually.'],
+         'Most patients notice nothing at first. This is normal.'],
         ['Weeks 3\u20134', 'Active course continues',
          'Skin quality or tissue changes may begin to emerge. Individual response varies.'],
         ['After your course', 'Break \u2014 labs and lifestyle',
@@ -2934,7 +2935,7 @@ var KORB_PATIENT_ED = {
       },
 
       nutrition: {
-        lead: 'These habits help your body respond well to Semaglutide and reduce the chance ' +
+        lead: 'While you take Semaglutide, these habits can reduce the chance ' +
               'of digestive side effects. They are general guidance rather than a meal plan. ' +
               'If you want a plan built around your own needs, a registered dietitian is the ' +
               'right person to see, and your provider can talk through whether that would help you.',
@@ -2947,8 +2948,8 @@ var KORB_PATIENT_ED = {
           'Avoid greasy, fried or very high-fat foods. These commonly worsen nausea.',
           'Drink regularly through the day. How much is below, under How much to drink.',
           'Limit alcohol, which can worsen nausea and interferes with steady progress.',
-          'Stay physically active as you are able. Movement supports muscle retention and overall results.',
-          'Prioritize consistent sleep. It supports appetite regulation and metabolic health.'
+          'Stay physically active as you are able. Movement helps you keep muscle.',
+          'Prioritize consistent sleep. Poor sleep can make hunger harder to manage.'
         ]
       },
       extraSections: [
@@ -3037,13 +3038,13 @@ var KORB_PATIENT_ED = {
       ],
       timeline: [
         ['Starting out', 'First few weeks',
-         'Reduced appetite often begins here. Some patients notice mild nausea while their body adjusts.'],
+         'Some patients notice their appetite change here, and some notice mild nausea while their body adjusts.'],
         ['Raising your dose', 'Finding your dose',
          'Your dose increases as tolerated, only when your provider tells you to. How quickly you respond depends on your dose and your body.'],
-        ['Effective dose', 'Continued progress',
-         'Most of the change happens once you reach a dose that works for you.'],
+        ['Your working dose', 'Staying on your dose',
+         'Your provider adjusts your dose until you reach one that works for you.'],
         ['Ongoing', 'Maintenance',
-         'Most patients remain on a steady dose long-term to sustain results.']
+         'Many patients stay on a steady dose long-term.']
       ],
       timelineNote:
         'Response is highly individual and depends on starting weight, metabolism, diet, ' +
@@ -3126,7 +3127,7 @@ var KORB_PATIENT_ED = {
         'hives, chest pain, or any symptom that feels severe or unsafe.',
 
       keyReminders: [
-        'Semaglutide reduces appetite gradually. Most weight loss builds over months, not days.',
+        'Changes in appetite and weight, if they come, build over months, not days.',
         'Dose increases happen only when your provider tells you to. Never increase on your own.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
@@ -3172,7 +3173,7 @@ var KORB_PATIENT_ED = {
       },
 
       nutrition: {
-        lead: 'These habits help your body respond well to Tirzepatide and reduce the chance ' +
+        lead: 'While you take Tirzepatide, these habits can reduce the chance ' +
               'of digestive side effects. They are general guidance rather than a meal plan. ' +
               'If you want a plan built around your own needs, a registered dietitian is the ' +
               'right person to see, and your provider can talk through whether that would help you.',
@@ -3185,8 +3186,8 @@ var KORB_PATIENT_ED = {
           'Avoid greasy, fried or very high-fat foods. These commonly worsen nausea.',
           'Drink regularly through the day. How much is below, under How much to drink.',
           'Limit alcohol, which can worsen nausea and interferes with steady progress.',
-          'Stay physically active as you are able. Movement supports muscle retention and overall results.',
-          'Prioritize consistent sleep. It supports appetite regulation and metabolic health.'
+          'Stay physically active as you are able. Movement helps you keep muscle.',
+          'Prioritize consistent sleep. Poor sleep can make hunger harder to manage.'
         ]
       },
       extraSections: [
@@ -3275,13 +3276,13 @@ var KORB_PATIENT_ED = {
       ],
       timeline: [
         ['Starting out', 'First few weeks',
-         'Reduced appetite often begins here. Some patients notice mild nausea while their body adjusts.'],
+         'Some patients notice their appetite change here, and some notice mild nausea while their body adjusts.'],
         ['Raising your dose', 'Finding your dose',
          'Your dose increases as tolerated, only when your provider tells you to. How quickly you respond depends on your dose and your body.'],
-        ['Effective dose', 'Continued progress',
-         'Most of the change happens once you reach a dose that works for you.'],
+        ['Your working dose', 'Staying on your dose',
+         'Your provider adjusts your dose until you reach one that works for you.'],
         ['Ongoing', 'Maintenance',
-         'Most patients remain on a steady dose long-term to sustain results.']
+         'Many patients stay on a steady dose long-term.']
       ],
       timelineNote:
         'Response is highly individual and depends on starting weight, metabolism, diet, ' +
@@ -3364,7 +3365,7 @@ var KORB_PATIENT_ED = {
         'hives, chest pain, or any symptom that feels severe or unsafe.',
 
       keyReminders: [
-        'Tirzepatide works through two hormone pathways and may support more pronounced weight loss for some patients.',
+        'Tirzepatide works like two natural gut hormones rather than one.',
         'Dose increases happen only when your provider tells you to. Never increase on your own.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',

@@ -1233,7 +1233,7 @@
     h += '<h2>What ' + esc(subjectOf(doc)) + ' is</h2>' + paras(doc.what);
 
     if (doc.nutrition) {
-      h += '<h2>Nutrition and lifestyle that support your results</h2><p>' +
+      h += '<h2>Nutrition and lifestyle</h2><p>' +
            esc(doc.nutrition.lead) + '</p>' + ul(doc.nutrition.items);
     }
 
