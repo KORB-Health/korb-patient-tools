@@ -1224,7 +1224,9 @@
     h += '<h2>What ' + esc(subjectOf(doc)) + ' is</h2>' + paras(doc.what);
 
     if (doc.mayHelp) {
-      h += '<h2>What it may support</h2><p>' + esc(doc.mayHelp.lead) + '</p>' +
+      /* "Why patients use it", not "What it may support". Don, 2026-09-22: a
+       benefit section names the goals patients bring and promises nothing. */
+    h += '<h2>Why patients use it</h2><p>' + esc(doc.mayHelp.lead) + '</p>' +
            ul(doc.mayHelp.items) + '<p>' + esc(doc.mayHelp.after) + '</p>';
     }
 

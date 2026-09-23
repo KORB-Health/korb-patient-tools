@@ -2075,8 +2075,7 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'Hormone therapy is prescribed for symptoms that are affecting ' +
-              'your quality of life, most commonly:',
+        lead: 'Women use hormone therapy for symptoms such as:',
         items: [
           'Hot flashes and night sweats',
           'Sleep that is broken or unrefreshing',
@@ -2084,7 +2083,8 @@ var KORB_PATIENT_ED = {
           'Low mood, irritability, or mood that swings more than it used to',
           'Difficulty concentrating - brain fog',
           'Low libido, low energy, loss of muscle tone'
-        ]
+        ],
+        after: 'Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       extraSections: [
@@ -2333,20 +2333,14 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'This medication is one possible adjunctive support option for patients ' +
-              'with goals related to:',
+        lead: 'Patients use Sermorelin for goals such as:',
         items: [
-          'Sleep quality, particularly deep, restorative sleep',
-          'Recovery, both exercise recovery and general recovery physiology',
-          'Body composition, lean mass preservation and fat metabolism as part of a lifestyle program',
-          'Energy and wellness, a general sense of vitality',
-          'GH-axis support as part of a structured longevity program'
+          'Sleep quality',
+          'Recovery after exercise',
+          'Body composition, as part of an exercise and nutrition plan',
+          'Energy and general wellness'
         ],
-        after: 'Response to Sermorelin varies from patient to patient. Some patients ' +
-               'notice changes within the first few weeks; others notice little or ' +
-               'nothing over an entire cycle. This is normal. Sermorelin is an ' +
-               'adjunctive support option, not a cure, not a guaranteed treatment, and ' +
-               'not a replacement for lifestyle foundations.'
+        after: 'Sermorelin is not FDA-approved for these uses, and the research for them is still limited. Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       timingNotes: [
@@ -2460,17 +2454,12 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'This medication is one possible adjunctive support option for patients ' +
-              'with goals related to:',
+        lead: 'Patients use Tesamorelin for goals such as:',
         items: [
-          'Visceral and central adiposity reduction, the fat around the organs',
-          'Body composition and metabolic health',
-          'IGF-1 axis support as part of a structured longevity program'
+          'Belly fat, the fat stored around the organs',
+          'Body composition, as part of an exercise and nutrition plan'
         ],
-        after: 'Response varies between patients. Clinical studies show visceral fat ' +
-               'reduction over sustained cycles, but individual results depend on ' +
-               'baseline body composition, lifestyle, diet, exercise and other factors. ' +
-               'Your provider will assess your response at each follow-up visit.'
+        after: 'Tesamorelin is not FDA-approved for these uses, and the research for them is still limited. Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       timingNotes: [
@@ -2586,17 +2575,14 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'This medication is one possible adjunctive support option for patients ' +
-              'with goals related to:',
+        lead: 'Patients use CJC-1295 / Ipamorelin for goals such as:',
         items: [
-          'Body composition, lean mass preservation and fat metabolism support as part of a lifestyle program',
-          'Sleep quality and recovery physiology',
-          'GH/IGF-1 axis support',
-          'Exercise recovery and general wellness'
+          'Body composition, as part of an exercise and nutrition plan',
+          'Sleep quality',
+          'Recovery after exercise',
+          'General wellness'
         ],
-        after: 'Response varies from patient to patient. CJC-1295 / Ipamorelin has human ' +
-               'pharmacokinetic data, but body composition benefits are extrapolated. ' +
-               'Your provider will assess your IGF-1 and your response at your follow-up visit.'
+        after: 'CJC-1295 / Ipamorelin is not FDA-approved for these uses, and the research for them is still limited. Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       timingNotes: [
@@ -2707,18 +2693,13 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'This medication is one possible adjunctive support option for patients ' +
-              'with goals related to:',
+        lead: 'Patients use BPC-157 for goals such as:',
         items: [
-          'Soft tissue recovery, including tendon, ligament and connective tissue support',
-          'Musculoskeletal wellness during rehabilitation or recovery',
-          'Exercise recovery quality and return-to-activity support',
-          'Gut support in select clinical contexts, discussed with your provider'
+          'Recovery of tendons, ligaments and other soft tissue',
+          'Recovery during rehabilitation, and getting back to activity',
+          'Gut health, discussed with your provider'
         ],
-        after: 'Response to BPC-157 varies from patient to patient and results are not ' +
-               'guaranteed. Some patients notice changes during their active course and ' +
-               'others do not. Your provider will assess whether to continue at your ' +
-               'follow-up visit.'
+        after: 'BPC-157 is not FDA-approved for these uses, and the research for them is still limited. Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       timingNotes: [
@@ -2816,17 +2797,12 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'This medication is one possible adjunctive support option for patients ' +
-              'with goals related to:',
+        lead: 'Patients use GHK-Cu for goals such as:',
         items: [
-          'Skin quality, collagen support and tissue healing',
-          'Anti-inflammatory support in the context of a structured program',
-          'Wound healing and cellular tissue wellness',
-          'Recovery physiology as an adjunctive support option'
+          'Skin quality',
+          'Recovery'
         ],
-        after: 'Response to GHK-Cu varies from patient to patient. It is not a cosmetic ' +
-               'treatment or a guaranteed skin improvement product. Your provider will ' +
-               'assess whether therapy is appropriate to continue at your follow-up visit.'
+        after: 'GHK-Cu is not FDA-approved for these uses, and the research for them is still limited. Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       timingNotes: [
@@ -2938,19 +2914,14 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'This medication is one possible support option for patients with goals related to:',
+        lead: 'Patients use Semaglutide for goals such as:',
         items: [
-          'Weight loss, through a gradual, sustained reduction in appetite and food intake',
-          'Increased energy as excess weight decreases',
-          'Better sleep quality, for some patients',
-          'Improved cardiovascular health markers',
-          'Support for blood sugar management, if that applies to you'
+          'Weight loss',
+          'Appetite and portion control',
+          'Energy and everyday activity',
+          'Sleep'
         ],
-        after: 'Response varies from patient to patient. Most patients notice reduced appetite ' +
-               'within the first few weeks, with weight loss building gradually over months. ' +
-               'Semaglutide is a tool that supports weight loss, not a shot that works on its ' +
-               'own. It works best paired with the nutrition and activity habits below, not as ' +
-               'a substitute for them.'
+        after: 'Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       nutrition: {
@@ -2965,12 +2936,34 @@ var KORB_PATIENT_ED = {
           'body catches up.',
           'Eat smaller, more frequent meals if large meals feel uncomfortable.',
           'Avoid greasy, fried or very high-fat foods. These commonly worsen nausea.',
-          'Stay well hydrated through the day.',
+          'Drink regularly through the day. How much is below, under How much to drink.',
           'Limit alcohol, which can worsen nausea and interferes with steady progress.',
           'Stay physically active as you are able. Movement supports muscle retention and overall results.',
           'Prioritize consistent sleep. It supports appetite regulation and metabolic health.'
         ]
       },
+      extraSections: [
+        {
+          /* Don, 2026-09-22, after Kris Mulkey asked for a reference point. From
+             the National Academies adequate intake for total water, about 80% of
+             which comes from drinks. A per-sex number, spread through the day. */
+          h: 'How much to drink',
+          p: [
+            'Aim for about 72 ounces (9 cups) of fluid a day if you are a woman, and about 96 ounces (12 cups) if you are a man. Water, milk, tea and coffee all count. You normally get some water from food as well, and because you are eating less on Semaglutide, drinking enough matters more.',
+            'Drink more in hot weather, when you exercise, and if you have vomiting or diarrhea. Pale yellow urine is a good sign you are drinking enough.'
+          ],
+          table: {
+            head: ['When', 'Women', 'Men'],
+            rows: [
+              ['Waking to lunch', '32 oz (4 cups)', '40 oz (5 cups)'],
+              ['Lunch to dinner', '24 oz (3 cups)', '40 oz (5 cups)'],
+              ['Dinner to early evening', '16 oz (2 cups)', '16 oz (2 cups)'],
+              ['Daily total', 'About 72 oz (9 cups)', 'About 96 oz (12 cups)']
+            ]
+          },
+          callout: '**If you have been told to limit fluids for a heart or kidney condition, follow that advice instead.** Contact your provider if you have dark urine, feel dizzy when you stand, or cannot keep fluids down. On Semaglutide, dehydration can affect your kidneys.'
+        }
+      ],
       timingNotes: [
         ['Already taking a GLP-1?',
          'If you are transferring to KORB from another provider and want to continue at your ' +
@@ -3161,19 +3154,14 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'This medication is one possible support option for patients with goals related to:',
+        lead: 'Patients use Tirzepatide for goals such as:',
         items: [
-          'Weight loss, often more pronounced than single-pathway GLP-1 medications for some patients',
-          'Increased energy as excess weight decreases',
-          'Better sleep quality, for some patients',
-          'Improved cardiovascular health markers',
-          'Support for blood sugar management, if that applies to you'
+          'Weight loss',
+          'Appetite and portion control',
+          'Energy and everyday activity',
+          'Sleep'
         ],
-        after: 'Response varies from patient to patient. Most patients notice reduced appetite ' +
-               'within the first few weeks, with weight loss building gradually over months. ' +
-               'Tirzepatide is a tool that supports weight loss, not a shot that works on its ' +
-               'own. It works best paired with the nutrition and activity habits below, not as ' +
-               'a substitute for them.'
+        after: 'Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       nutrition: {
@@ -3188,12 +3176,34 @@ var KORB_PATIENT_ED = {
           'body catches up.',
           'Eat smaller, more frequent meals if large meals feel uncomfortable.',
           'Avoid greasy, fried or very high-fat foods. These commonly worsen nausea.',
-          'Stay well hydrated through the day.',
+          'Drink regularly through the day. How much is below, under How much to drink.',
           'Limit alcohol, which can worsen nausea and interferes with steady progress.',
           'Stay physically active as you are able. Movement supports muscle retention and overall results.',
           'Prioritize consistent sleep. It supports appetite regulation and metabolic health.'
         ]
       },
+      extraSections: [
+        {
+          /* Don, 2026-09-22, after Kris Mulkey asked for a reference point. From
+             the National Academies adequate intake for total water, about 80% of
+             which comes from drinks. A per-sex number, spread through the day. */
+          h: 'How much to drink',
+          p: [
+            'Aim for about 72 ounces (9 cups) of fluid a day if you are a woman, and about 96 ounces (12 cups) if you are a man. Water, milk, tea and coffee all count. You normally get some water from food as well, and because you are eating less on Tirzepatide, drinking enough matters more.',
+            'Drink more in hot weather, when you exercise, and if you have vomiting or diarrhea. Pale yellow urine is a good sign you are drinking enough.'
+          ],
+          table: {
+            head: ['When', 'Women', 'Men'],
+            rows: [
+              ['Waking to lunch', '32 oz (4 cups)', '40 oz (5 cups)'],
+              ['Lunch to dinner', '24 oz (3 cups)', '40 oz (5 cups)'],
+              ['Dinner to early evening', '16 oz (2 cups)', '16 oz (2 cups)'],
+              ['Daily total', 'About 72 oz (9 cups)', 'About 96 oz (12 cups)']
+            ]
+          },
+          callout: '**If you have been told to limit fluids for a heart or kidney condition, follow that advice instead.** Contact your provider if you have dark urine, feel dizzy when you stand, or cannot keep fluids down. On Tirzepatide, dehydration can affect your kidneys.'
+        }
+      ],
       timingNotes: [
         ['Already taking a GLP-1?',
          'If you are transferring to KORB from another provider and want to continue at your ' +
@@ -3391,18 +3401,15 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'Testosterone replacement therapy may help with:',
+        lead: 'Men with low testosterone use TRT for goals such as:',
         items: [
-          'Energy and reduced fatigue',
-          'Muscle mass, strength, and recovery from exercise',
-          'Sex drive and sexual function',
-          'Mood, motivation and mental clarity',
-          'Body composition, including reduced body fat'
+          'Energy',
+          'Muscle, strength and recovery from exercise',
+          'Sex drive',
+          'Mood and motivation',
+          'Body composition'
         ],
-        after: 'Most men notice changes gradually rather than immediately. Energy and mood ' +
-               'often shift first, within a few weeks. Changes in body composition and ' +
-               'strength typically take three to six months. Your provider will adjust your ' +
-               'dose over time based on your labs and how you feel.'
+        after: 'Results vary from person to person, and no result is guaranteed. Your provider adjusts your dose over time based on your labs and how you feel.'
       },
 
       extraSections: [
