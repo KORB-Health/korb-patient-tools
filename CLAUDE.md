@@ -100,7 +100,7 @@ to check a single document against, which is the whole reason this table exists.
 | `Patient_Education/KORB_When_to_Contact_KORB_or_ER.html` | **Yes**, 2026-09-19 |
 | `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
-| `KORB_Lab_Interpretation_Tool.html` | **Yes**, 2026-09-19 |
+| `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |
 | `KORB_Patient_Hub.html` | **Yes**, 2026-09-19 |
 | `KORB_Patient_Treatment_Schedule.html` | **Yes**, 2026-09-19 |
 | `KORB_Schedule_Your_Lab_Appointment.html` | **Yes**, 2026-09-19 |
