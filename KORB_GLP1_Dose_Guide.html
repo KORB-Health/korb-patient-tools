@@ -215,6 +215,7 @@ function renderResult(){
   html+='<div class="info-box teal"><strong>Units are not milligrams.</strong> Units are the tick marks on your insulin syringe. Always draw to the units number shown here and on your label, never to the mg number.</div>';
   html+='<div class="info-box teal" style="margin-top:16px;"><strong>'+medLabel+' — '+pdata.label+'</strong><br>Contains: '+pdata.additive+'<br>Concentration: '+(d.conc?d.conc:pdata.concentration)+'</div>';
   html+='<div class="info-box amber">Discard 28 days after first use — even if medication remains. Your prescription label is always the final word on your dose and volume.</div>';
+  html+='<div class="info-box teal">Put used needles and syringes straight into a sharps container. <a href="https://safeneedledisposal.org/" target="_blank" rel="noopener">Find sharps disposal near you</a> by ZIP code.</div>';
   html+='</div></div>';
   output.innerHTML=html;
 }

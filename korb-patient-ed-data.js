@@ -1644,9 +1644,9 @@ var KORB_PATIENT_ED = {
               label: 'Your Program Overview',
               note: 'open the one your provider confirmed for you',
               choices: [
-                { href: 'KORB_Foundation_Program_Overview.html', label: 'Foundation' },
-                { href: 'KORB_Gateway_Program_Overview.html', label: 'Gateway' },
-                { href: 'KORB_Peak_Program_Overview.html', label: 'Peak' }
+                { href: 'KORB_Foundation_Program_Overview.html', label: 'Foundation, one medication' },
+                { href: 'KORB_Gateway_Program_Overview.html', label: 'Gateway, two medications' },
+                { href: 'KORB_Peak_Program_Overview.html', label: 'Peak, two medications, performance focus' }
               ]
             },
             {
@@ -2700,7 +2700,7 @@ var KORB_PATIENT_ED = {
         ['Foundation \u2014 active weeks', 'onWeeksFoundation'],
         ['Gateway / Peak \u2014 active weeks', 'onWeeksGatewayPeakBase']
       ],
-      weeksNote: 'On Gateway and Peak the course starts two weeks after your ' +
+      weeksNote: 'Foundation, Gateway and Peak are the three Functional Health & Longevity program options, and your provider confirmed which one you are on. On Gateway and Peak the course starts two weeks after your ' +
                  'start date, which is why it begins later and runs shorter.',
 
       what: [
@@ -2801,7 +2801,7 @@ var KORB_PATIENT_ED = {
       weeksRows: [
         ['Gateway / Peak add-on \u2014 active weeks', 'onWeeksOptionalAddon']
       ],
-      weeksNote: 'GHK-Cu is an optional add-on. It begins two weeks after you start ' +
+      weeksNote: 'Gateway and Peak are two of the three Functional Health & Longevity program options, and your provider confirmed which one you are on. GHK-Cu is an optional add-on on both. It begins two weeks after you start ' +
                  'BPC-157 and runs for four weeks.',
 
       what: [
