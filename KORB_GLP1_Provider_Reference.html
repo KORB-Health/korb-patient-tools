@@ -188,14 +188,16 @@
     <div class="tbl-wrap"><table id="ladderTbl"><thead></thead><tbody></tbody></table></div>
     <div class="note" id="formNote"></div>
 
-    <div class="sec">Tebra prescribing fields</div>
-    <div class="rx-block" id="rxBlock"></div>
-    <div class="note" id="rxFootnote">Copy these values literally into the Tebra Compounded Drug Favorite. Do not paraphrase prescription text.</div>
-
+    <!-- Pricing ABOVE the prescribing fields. Don, 2026-09-23: the price and the
+         charge code are used earlier in the visit than the prescription is. -->
     <div class="sec csec-hdr" onclick="tog('pricingBody',this)">Pricing &amp; charge codes <span class="tog">[hide]</span></div>
     <div class="csec-body" id="pricingBody">
       <div class="pricing-panel" id="pricingPanel"></div>
     </div>
+
+    <div class="sec">Tebra prescribing fields</div>
+    <div class="rx-block" id="rxBlock"></div>
+    <div class="note" id="rxFootnote">Copy these values literally into the Tebra Compounded Drug Favorite. Do not paraphrase prescription text.</div>
 
     <div class="sec csec-hdr" onclick="tog('progBody',this)">4-week to 8-week progression <span class="tog">[show]</span></div>
     <div class="csec-body collapsed" id="progBody">

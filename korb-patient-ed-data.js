@@ -3278,6 +3278,18 @@ var KORB_PATIENT_ED = {
          'schedule. Your prescription label always reflects your correct dose and volume for ' +
          'your pharmacy. For a quick reference showing injection volume and syringe markings by ' +
          'pharmacy and dose, [open My GLP-1 Dose & Injection Guide](https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html) on the Patient Hub.'],
+        /* TWO-VIAL DOSES. Added 2026-09-23 with Premier 4.5 mg, where Premier fills
+           four weeks as a 3.6 ml and a 2.4 ml vial and the fourth dose is what is
+           left in both. Don: providers must tell patients to use the leftovers, and
+           this is the patient half of that. Kept pharmacy- and dose-agnostic like
+           the rest of this handout; the provider counsels which dose and which vial
+           first - see acceptedLimitations PREMIER-SEMA-45-CROSS-VIAL. */
+        ['If your dose uses two vials',
+         'At some higher doses, one of your weekly doses is made from what is left in two ' +
+         'vials. Do not throw a vial away while it still has medication in it and it is ' +
+         'less than 28 days since you opened it. Draw what is left in each vial into its own ' +
+         'syringe, and inject both to make up your full dose. Your provider will tell you if ' +
+         'this applies to your dose and which vial to open first.'],
         ['Do not increase your own dose',
          'Even if you feel ready or your symptoms are mild. Increasing too quickly raises the ' +
          'risk of nausea and other side effects. If a dose is not well tolerated, tell your ' +

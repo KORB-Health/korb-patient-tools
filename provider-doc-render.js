@@ -826,7 +826,12 @@ function sectionPricing(doc) {
            than a separate headed table per program. A provider comparing 4-week
            against 8-week for the same tier was reading two tables under two
            headings; they are now adjacent lines. Don, 2026-09-15. */
-        const tierKey = p.label + (d.priceTier ? ' · tier ' + d.priceTier : '');
+        /* A semaglutide priceBand gets its own table too, headed by what it
+           covers, so the $319 row never sits under the $269 heading. It adds no
+           Tier column: a band is not a value typed into Tebra. */
+        const band = d.priceBand && K.pricing.semaglutide.doseBands[d.priceBand];
+        const tierKey = p.label + (d.priceTier ? ' · tier ' + d.priceTier : '') +
+                        (band ? ' · ' + band.label : '');
         if (!tierSeen[tierKey]) {
           tierSeen[tierKey] = [];
           tierOrder.push(tierKey);

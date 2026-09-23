@@ -317,9 +317,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.23',
+    version: '2.24',
     created: '2026-08-06',
-    lastUpdated: '2026-09-13',
+    lastUpdated: '2026-09-23',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -337,6 +337,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-23 (v2.24): NEW DOSES. Premier semaglutide 4.5 mg (150 units) and 6 mg (200 units) weekly, 4-week and 8-week. Vial combinations are Kelby Wilson\'s, Premier PIC, by email 2026-09-22, and Don ruled that table the source of truth: 4.5 mg is 3.6 ml + 2.4 ml per four weeks, 6 mg is one 2 ml vial per dose. 4.5 mg does not divide into its vials, so the fourth dose of every four weeks is the leftover of both - recorded as acceptedLimitations PREMIER-SEMA-45-CROSS-VIAL, whose mitigation is the counselling a provider gives and whose requiresSigText keeps the 28-day line on the sig. The leftover step is NOT in the sig, matching every other cross-vial dose in this file. NEW PRICE BAND, Nick 2026-09-21: pricing.semaglutide.doseBands.max, 4-week $319 FITSema001MAX website and $249 FITSemaCP9MAX discounted, 8-week $449 FITSemaMNTMAX, reached from a dose through priceBand. No existing dose, sig, price or code changed. Don Stevenson, PA-C, 2026-09-23.',
       '2026-09-20 (v2.23): SUPPLY CHANGE, NO DOSE OR ROUTING CHANGE. Belmar tirzepatide 12.5 mg and 15 mg now ask for TWO packs of insulin syringes on the 8-WEEK supply only. Belmar is 10 mg/mL, so those two doses are 1.25 mL and 1.5 mL - over a 1 mL syringe, so each dose is two injections. At two syringes a dose the 4-week supply needs 8 and fits one pack; the 8-week needs 16 and does not. They are the only doses over 100 units in ANY Belmar product, so semaglutide is unaffected, and Premier and FarmaKeio tirzepatide are 18 mg/mL whose top doses are 89 and 83 units - one syringe throughout. 10 mg is deliberately LEFT at one pack: it is exactly 100 units, one full syringe, and splitting it would make a patient give two shots and KORB buy a second pack. Don Stevenson, PA-C, 2026-09-20.',
       '2026-09-15 (v2.22): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing sign-off register, plus rx-signoff.js which reports and computes it. Nothing on the 10 GLP-1 documents had ever been signed: the monograph records date from 2026-09-06 and correctly still read current, because the monograph had not changed - but the prescribing blocks corrected over 13-15 September were covered by no record at all. The monograph fingerprint in korb-glp1-data.js is untouched and stays separate: it covers clinical writing, this covers the Tebra fields and charge codes, and merging them would mean a hyphen fix in a sig expiring a contraindication sign-off. Records hold a fingerprint of the document as signed rather than a boolean, so a change after sign-off shows as STALE instead of being invisible.',
       '2026-09-14 (v2.19): SPELLING ONLY, NO CLINICAL OR DOSE CHANGE. "L-Carnatine" corrected to "L-Carnitine" in all 7 Belmar tirzepatide strings: one display `formulation` and six `drugFormulation`. v2.18 left these alone on the reasoning that drugFormulation is the Tebra field a pharmacy matches against, and this repo keeps Greenwich formulation strings byte-identical for exactly that reason. Don confirmed 2026-09-14 that the exact-match constraint is GREENWICH ONLY - Greenwich matches on the compounded name and will flag a difference; Belmar does not. So the caution was right to raise and wrong to keep. No dose, quantity, unit, days supply or instruction changed, and no Greenwich string was touched.',
@@ -947,6 +948,54 @@ var KORB_GLP1 = {
      the other way - the risk did not go away when the decision was made, and
      whoever reads this file in six months needs to see that. */
   acceptedLimitations: [
+    {
+      id: 'PREMIER-SEMA-45-CROSS-VIAL',
+      severity: 'medium',
+      status: 'accepted',
+      decidedBy: 'Don',
+      decidedOn: '2026-09-23',
+      appliesTo: ['premier_sema'],
+      doses: ['4.5 mg'],
+      programs: ['4-week', '8-week'],
+      issue: '4.5 mg is 1.5 ml a week, and Premier fills four weeks as one 3.6 ml ' +
+             'vial and one 2.4 ml vial. Neither holds a whole number of doses: the ' +
+             '3.6 ml vial gives two doses with 0.6 ml left and the 2.4 ml vial gives ' +
+             'one dose with 0.9 ml left. The fourth dose is those two leftovers ' +
+             'together. A patient who discards a vial with medication in it runs a ' +
+             'dose short every four weeks.',
+      decision: 'Ship as Premier fills it. Kelby Wilson, Premier PIC, set the vial ' +
+                'combination by email on 2026-09-22, and Don ruled on 2026-09-23 that ' +
+                'his table is the source of truth. This is a deliberate exception to ' +
+                'the sizing principle in pharmacies.belmar.vialConstraints, which says ' +
+                'not to ship meaningful leftover: here the leftover is not spare, it ' +
+                'is the fourth dose.',
+      mitigation: 'Counsel every 4.5 mg patient to use the leftovers rather than ' +
+                  'discard them. Weeks 1 and 2 come from the 3.6 ml vial and week 3 ' +
+                  'from the 2.4 ml vial. Week 4 is what is left in both: 60 units from ' +
+                  'the 3.6 ml vial and 90 units from the 2.4 ml vial, one syringe for ' +
+                  'each vial, 150 units in total. On the 8-week supply, repeat the same ' +
+                  'order with the second pair for weeks 5 to 8 and do not open the ' +
+                  'second pair before week 5. That order keeps every vial inside 28 ' +
+                  'days of first use.',
+      /* Machine-checked, as on BELMAR-SEMA-VIAL-OVERSIZE. The leftover is only
+         safe because the vials are still inside their 28 days, so the 28-day
+         line must stay on the sig. */
+      requiresSigText: 'Discard 28 days after first use.',
+      /* The patient is TOLD to use the leftover here, so the Dose Guide shows
+         its two-vial note on records carrying this flag. Belmar's cross-vial
+         doses do not carry it: on the oversized semaglutide vials the patient
+         is told the opposite, discard after 4 doses. */
+      patientUsesLeftover: true,
+      /* No residualRisk, deliberately. Don, 2026-09-23: providers do not need
+         the reason the step is off the label (the 140-character Patient
+         Instructions cap, same as every cross-vial dose in this file). They
+         need the counselling above. */
+      opsNote: 'A 4.5 mg patient reporting they ran out a week early most likely ' +
+               'discarded the leftovers. Walk them through combining the two vials ' +
+               'rather than treating it as a short fill.',
+      revisitIf: 'Premier changes the vial combination for 4.5 mg.'
+    },
+
     {
       id: 'BELMAR-SEMA-VIAL-OVERSIZE',
       severity: 'high',
@@ -2244,6 +2293,118 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          }
+        },
+        /* 4.5 mg AND 6 mg, added 2026-09-23 (v2.24). Vial combinations are
+           Kelby Wilson's, Premier PIC, by email 2026-09-22, and Don ruled that
+           table the source of truth over his own proposal. Both doses are over
+           100 units, so every dose is two syringes - see the Dose Guide.
+
+           4.5 mg does NOT divide into its vials. 3.6 ml is two doses plus
+           0.6 ml, 2.4 ml is one dose plus 0.9 ml, and the fourth dose is the two
+           leftovers together. That is deliberate and it must be counselled - see
+           acceptedLimitations PREMIER-SEMA-45-CROSS-VIAL. 6 mg is one 2 ml vial
+           per dose and leaves nothing.
+
+           priceBand 'max' is the higher price band, pricing.semaglutide.doseBands.
+           It is NOT priceTier, which is the tirzepatide tier a provider types
+           into Tebra and would pull these doses into the tirzepatide checks. */
+        {
+          dose: '4.5 mg', mg: 4.5, units: 150, priceBand: 'max',
+          vials4: '3.6 ml x 1 & 2.4 ml x 1', vials8: '3.6 ml x 2 & 2.4 ml x 2',
+          drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
+          supply4: {
+            name: 'PREMIER - Semaglutide 4.5 mg - 4-Week Supply',
+            flag: 'PREMIER-SEMA-45-CROSS-VIAL',
+            allowSubstitution: true,
+            quantity: 6,
+            unit: 'ml',
+            refill: 0,
+            days: 28,
+            ptInstructions: 'INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            vialPlan: {
+              ship: '1 x 3.6 ml & 1 x 2.4 ml @ 3 mg/ml',
+              totalMl: 6,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2.4,
+              withinPunctureLimit: true,
+              crossVialDoses: [4],
+              crossVialNote: 'Dose 4 finish one vial and draw the '  +
+                             'remainder from the next. Counsel this directly - it '  +
+                             'does not fit the 140-character Patient Instructions field.'
+            }
+          },
+          supply8: {
+            name: 'PREMIER - Semaglutide 4.5 mg - 8-Week Supply',
+            flag: 'PREMIER-SEMA-45-CROSS-VIAL',
+            allowSubstitution: true,
+            quantity: 12,
+            unit: 'ml',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            vialPlan: {
+              ship: '2 x 3.6 ml & 2 x 2.4 ml @ 3 mg/ml',
+              totalMl: 12,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2.4,
+              withinPunctureLimit: true,
+              crossVialDoses: [4, 8],
+              crossVialNote: 'Dose 4, 8 finish one vial and draw the '  +
+                             'remainder from the next. Counsel this directly - it '  +
+                             'does not fit the 140-character Patient Instructions field.'
+            }
+          }
+        },
+        {
+          dose: '6 mg', mg: 6, units: 200, priceBand: 'max',
+          vials4: '2 ml x 4', vials8: '2 ml x 8',
+          drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
+          supply4: {
+            name: 'PREMIER - Semaglutide 6 mg - 4-Week Supply',
+            allowSubstitution: true,
+            quantity: 8,
+            unit: 'ml',
+            refill: 0,
+            days: 28,
+            ptInstructions: 'INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            vialPlan: {
+              ship: '4 x 2 ml @ 3 mg/ml',
+              totalMl: 8,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 1,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            }
+          },
+          supply8: {
+            name: 'PREMIER - Semaglutide 6 mg - 8-Week Supply',
+            allowSubstitution: true,
+            quantity: 16,
+            unit: 'ml',
+            refill: 0,
+            days: 56,
+            ptInstructions: 'INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            vialPlan: {
+              ship: '8 x 2 ml @ 3 mg/ml',
+              totalMl: 16,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 1,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            }
           }
         }
       ]
@@ -4572,8 +4733,9 @@ var KORB_GLP1 = {
     },
 
     semaglutide: {
-      note: 'Flat pricing, not dose-tiered. Unlike tirzepatide, the price does not ' +
-            'change as the patient titrates up.',
+      note: 'Flat pricing through 2.7 mg: the price does not change as the patient ' +
+            'titrates up. Premier 4.5 mg and 6 mg are the one exception and carry ' +
+            'their own band, doseBands.max.',
 
       /* CHARGE CODES ARE DELIBERATELY NOT STORED FOR THE 4-WEEK PROGRAM.
          Semaglutide has many codes. The price is largely the same across them,
@@ -4653,6 +4815,50 @@ var KORB_GLP1 = {
               'authentication. Operations and Finance hold the detail. If you are ' +
               'looking at a legacy charge that does not match $349, ask Operations ' +
               'rather than assuming it is an error.'
+      },
+
+      /* THE HIGHER DOSES HAVE THEIR OWN PRICE BAND. Nick, 2026-09-21: one MAX
+         band covering Premier 4.5 mg and 6 mg, reached from a dose through
+         `priceBand`. Same shape as the 4-week program above so billingFor()
+         reads it the same way, but two 4-week bands rather than three.
+
+         The discounted band DOES carry its code here, unlike the $199 band
+         above. The chargeCodePolicy reason is many codes per organisation;
+         this band has one code, FITSemaCP9MAX, covering every discounted
+         category, and Nick supplied it for exactly that purpose. */
+      doseBands: {
+        max: {
+          label: '4.5 mg and 6 mg',
+          doses: ['4.5 mg', '6 mg'],
+          pharmacies: ['premier'],
+          decidedBy: 'Nick',
+          decidedOn: '2026-09-21',
+          fourWeek: {
+            discountAppliesTo: '4-week only. There is no discounted rate on the 8-week program.',
+            bands: [
+              { key: 'standard',   price: 319, code: 'FITSema001MAX', label: 'Full price — website rate' },
+              { key: 'discounted', price: 249, code: 'FITSemaCP9MAX', label: 'Discounted rate',
+                eligibility: ['Corporate partners', 'Friends and family', 'Military'],
+                uniform: true,
+                note: 'One rate across all three categories. No per-partner variation.' }
+              /* NO "All others" band here, deliberately. Don, 2026-09-23: the
+                 partner-funded and variable codes exist for the lower doses only.
+                 At 4.5 and 6 mg there are exactly three codes and three prices. */
+            ]
+          },
+          eightWeek: {
+            price: 449,
+            label: '8-week, 4.5 mg and 6 mg, every patient',
+            discountedRate: null,
+            discountNote: 'No discounted rate on 8-week at 4.5 mg and 6 mg. Every patient ' +
+                          'pays $449. The $249 rate is 4-week only.',
+            codes: {
+              standard: { code: 'FITSemaMNTMAX', pharmacies: ['premier'],
+                          note: 'Single fill, full 8-week supply shipped at once.' },
+              retired: []
+            }
+          }
+        }
       }
     },
 
@@ -5066,14 +5272,17 @@ var KORB_GLP1 = {
       return out;
     }
 
-    // Injectable compounded, semaglutide: flat 8-week, banded 4-week.
+    // Injectable compounded, semaglutide: flat 8-week, banded 4-week. A dose
+    // with a priceBand reads that band instead - same shape, other numbers.
     var sg = KORB_GLP1.pricing.semaglutide;
+    var src = d.priceBand ? (sg.doseBands || {})[d.priceBand] : sg;
+    if (!src) return out;
     if (program === 'supply8') {
-      out.options.push({ label: sg.eightWeek.label, price: sg.eightWeek.price,
-                         code: sg.eightWeek.codes.standard.code,
-                         priceNote: sg.eightWeek.discountNote });
+      out.options.push({ label: src.eightWeek.label, price: src.eightWeek.price,
+                         code: src.eightWeek.codes.standard.code,
+                         priceNote: src.eightWeek.discountNote });
     } else {
-      sg.fourWeek.bands.forEach(function (band) {
+      src.fourWeek.bands.forEach(function (band) {
         out.options.push({
           label: '4-week — ' + band.label,
           price: band.price,
@@ -5082,8 +5291,9 @@ var KORB_GLP1 = {
           priceNote: band.note
         });
       });
-      out.note = sg.fourWeek.discountAppliesTo;
+      out.note = src.fourWeek.discountAppliesTo;
     }
+    if (d.priceBand) out.note = 'Price band ' + src.label + ' — ' + (out.note || '');
     return out;
   },
 
@@ -5314,6 +5524,14 @@ var KORB_GLP1 = {
       (p.doses || []).forEach(function (d) {
         if (d.flag && flagIds.indexOf(d.flag) === -1) problems.push(k + ' ' + d.dose + ': flag "' + d.flag + '" not in needsConfirmation');
         if (d.priceTier && !KORB_GLP1.pricing.tirzepatideTiers[d.priceTier]) problems.push(k + ' ' + d.dose + ': unknown price tier');
+        /* A priceBand must resolve, and the band must name this dose and this
+           pharmacy - otherwise a dose bills at the wrong price with no error. */
+        if (d.priceBand) {
+          var pb = (KORB_GLP1.pricing.semaglutide.doseBands || {})[d.priceBand];
+          if (!pb) problems.push(k + ' ' + d.dose + ': unknown price band ' + d.priceBand);
+          else if (pb.doses.indexOf(d.dose) === -1 || pb.pharmacies.indexOf(p.pharmacy) === -1)
+            problems.push(k + ' ' + d.dose + ': price band ' + d.priceBand + ' does not list this dose and pharmacy');
+        }
         ['supply4', 'supply8'].forEach(function (s) {
           if (!d[s]) return;
           if (d[s].flag && flagIds.indexOf(d[s].flag) === -1) problems.push(k + ' ' + d.dose + ' ' + s + ': unknown flag');
@@ -5351,20 +5569,10 @@ var KORB_GLP1 = {
                           KORB_GLP1.tebraLimits.pharmacyInstructions + ' - truncates silently');
           }
 
-          var vp = rec.vialPlan;
-          if (!vp || !vc) return;
-          if (vp.totalMl !== rec.quantity) {
-            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': vialPlan.totalMl ' +
-                          vp.totalMl + ' does not match dispensed quantity ' + rec.quantity);
-          }
-          var exceeds = vp.dosesPerVial > vc.maxDosesPerVial;
-          if (exceeds !== (vp.withinPunctureLimit === false)) {
-            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': withinPunctureLimit ' +
-                          'disagrees with dosesPerVial ' + vp.dosesPerVial +
-                          ' against a limit of ' + vc.maxDosesPerVial);
-          }
           /* If the record's flag is an accepted limitation whose mitigation lives
-             in the sig, the sig must actually carry it. */
+             in the sig, the sig must actually carry it. Runs BEFORE the vial-plan
+             return below, which exits for any pharmacy without vialConstraints -
+             sitting after it, this never ran for a Premier record. */
           if (rec.flag) {
             var acc = (KORB_GLP1.acceptedLimitations || []).filter(function (a) {
               return a.id === rec.flag && a.requiresSigText;
@@ -5377,6 +5585,18 @@ var KORB_GLP1 = {
             }
           }
 
+          var vp = rec.vialPlan;
+          if (!vp || !vc) return;
+          if (vp.totalMl !== rec.quantity) {
+            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': vialPlan.totalMl ' +
+                          vp.totalMl + ' does not match dispensed quantity ' + rec.quantity);
+          }
+          var exceeds = vp.dosesPerVial > vc.maxDosesPerVial;
+          if (exceeds !== (vp.withinPunctureLimit === false)) {
+            problems.push(pk + ' ' + dd.dose + ' ' + sup + ': withinPunctureLimit ' +
+                          'disagrees with dosesPerVial ' + vp.dosesPerVial +
+                          ' against a limit of ' + vc.maxDosesPerVial);
+          }
           if (exceeds && !rec.flag) {
             problems.push(pk + ' ' + dd.dose + ' ' + sup + ': one vial yields ' +
                           vp.dosesPerVial + ' doses against a limit of ' + vc.maxDosesPerVial +
