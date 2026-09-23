@@ -305,7 +305,7 @@
     }
 
     if (prog.agents && prog.agents.length) {
-      h += '<h2>' + esc(prog.agentsHeading || 'Your agent options') + '</h2>';
+      h += '<h2>' + esc(prog.agentsHeading || 'Your medication options') + '</h2>';
       if (prog.agentsLead) { h += '<p>' + esc(prog.agentsLead) + '</p>'; }
       h += agentBlocks(DATA, DOSING, prog);
     }
@@ -1221,14 +1221,16 @@
 
     h += '<div class="lede"><p>' + esc(S.disclaimer) + '</p></div>';
 
-    h += '<h2>What ' + esc(subjectOf(doc)) + ' is</h2>' + paras(doc.what);
-
+    /* Why before what. Kris Mulkey, 2026-09-22: a patient wants to know why a
+       treatment is relevant before the technical explanation of what it is. */
     if (doc.mayHelp) {
       /* "Why patients use it", not "What it may support". Don, 2026-09-22: a
        benefit section names the goals patients bring and promises nothing. */
     h += '<h2>Why patients use it</h2><p>' + esc(doc.mayHelp.lead) + '</p>' +
            ul(doc.mayHelp.items) + '<p>' + esc(doc.mayHelp.after) + '</p>';
     }
+
+    h += '<h2>What ' + esc(subjectOf(doc)) + ' is</h2>' + paras(doc.what);
 
     if (doc.nutrition) {
       h += '<h2>Nutrition and lifestyle that support your results</h2><p>' +

@@ -393,10 +393,10 @@ var KORB_PATIENT_ED = {
       'Do not adjust anything without speaking to your provider first.',
 
     disclaimer:
-      'This handout is for educational reference only. It is not medical advice. ' +
+      'This guide is for educational reference only. It is not medical advice. ' +
       'Always follow your prescription label, your pharmacy-specific ' +
       'instructions, and your KORB provider’s guidance. If you have ' +
-      'questions, contact KORB using the details at the end of this handout.',
+      'questions, contact KORB using the details at the end of this guide.',
 
     /* USP <797>: a multi-dose container is 28 days from first entry OR the
        assigned BUD, whichever is shorter. Never tell a patient to disregard a
@@ -570,13 +570,14 @@ var KORB_PATIENT_ED = {
       program: 'Functional Health & Longevity',
       title: 'Foundation Program Overview',
       cycleWeeks: 16,
-      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which agent and dosing schedule are right for you. If you have questions, contact KORB by phone or email.',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which medication and dosing schedule are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Foundation is the single-agent tier of KORB\'s Functional Health & Longevity Program. At any given time one peptide is active, and your provider selects it based on your goals and clinical profile. You may switch to a different agent at each 16-week follow-up, but Foundation never combines two agents at once.',
-        'If a staggered, multi-agent approach interests you, ask your provider about the Gateway or Peak programs.',
-        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
+        'Foundation is the simplest way to start: one medication at a time, chosen by your provider for your goals and your baseline labs. It suits patients who want to begin with a single treatment and see how they respond before adding anything.',
+        'Foundation is the single-medication tier of KORB\'s Functional Health & Longevity Program. At any given time one peptide is active, and your provider selects it based on your goals and clinical profile. You may switch to a different medication at each 16-week follow-up, but Foundation never combines two medications at once.',
+        'If a staggered, multi-medication approach interests you, ask your provider about the Gateway or Peak programs.',
+        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
-      agentsHeading: 'Your Foundation agent options',
+      agentsHeading: 'Your Foundation medication options',
       agentsLead: 'Your provider selects one of the following based on your goals. Each has its own active window inside your 16-week cycle. Your Treatment Schedule shows exact dates.',
       agents: [
         {
@@ -596,8 +597,8 @@ var KORB_PATIENT_ED = {
         }
       ],
       note: {
-        label: 'One agent at a time.',
-        text: 'Foundation never combines two agents simultaneously. At each 16-week follow-up you and your provider may continue your current agent or switch to a different one. See the Patient Education handout for your specific agent for full dosing, timing and storage instructions.'
+        label: 'One medication at a time.',
+        text: 'Foundation never combines two medications simultaneously. At each 16-week follow-up you and your provider may continue your current medication or switch to a different one. See the guide for your specific medication for full dosing, timing and storage instructions.'
       },
       /* THE SAME FOUR PRODUCTS THE HUB SHOWS, on the tier documents too. Don,
          2026-09-19: visibility is the point, a patient who never sees them never
@@ -625,7 +626,7 @@ var KORB_PATIENT_ED = {
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
-        'Any time after your agent\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+        'Any time after your medication\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
       ],
       expect: [
         'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
@@ -636,8 +637,8 @@ var KORB_PATIENT_ED = {
         'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
-        'Use your Foundation agent only as prescribed. Do not change your dose, course length or schedule without provider direction.',
-        'Do not add a second peptide or combine agents on your own. Foundation is single-agent only.',
+        'Use your Foundation medication only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'Do not add a second peptide or combine medications on your own. Foundation is single-medication only.',
         'This program is not appropriate during active malignancy or pregnancy.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
         'Your prescription label is the authoritative source for your dose and directions.',
@@ -645,8 +646,8 @@ var KORB_PATIENT_ED = {
         'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
-        'Your provider selects your Foundation agent. This guide is a general orientation, not personalized medical advice.',
-        'Only one agent is active at a time. You may switch to a different agent at your next follow-up if you and your provider agree.',
+        'Your provider selects your Foundation medication. This guide is a general orientation, not personalized medical advice.',
+        'Only one medication is active at a time. You may switch to a different medication at your next follow-up if you and your provider agree.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
         'For current program pricing, contact KORB Operations or ask your provider.'
       ]
@@ -660,16 +661,17 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines your exact schedule and add-ons. If you have questions, contact KORB by phone or email.',
       what: [
-        'Gateway is KORB\'s staggered two-medication tier within the Functional Health & Longevity Program. Unlike Foundation\'s single-agent model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day. An optional GHK-Cu add-on is available on Gateway if your provider prescribes it.',
-        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
+        'Gateway uses two medications, started at different points in your cycle rather than on the same day. Your provider recommends it when your goals call for more than one treatment, based on your baseline labs.',
+        'Gateway is KORB\'s staggered two-medication tier within the Functional Health & Longevity Program. Unlike Foundation\'s single-medication model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day. An optional GHK-Cu add-on is available on Gateway if your provider prescribes it.',
+        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
       agentsHeading: 'How your Gateway combination works',
-      agentsLead: 'Two agents started at different points in the cycle by design, plus one optional add-on. Your Treatment Schedule shows your exact dates.',
+      agentsLead: 'Two medications started at different points in the cycle by design, plus one optional add-on. Your Treatment Schedule shows your exact dates.',
       agents: [
         {
           key: 'sermorelin',
           context: 'foundation',
-          text: 'Your primary agent, begun on your start date. Injected most nights, 6 on and 1 off.'
+          text: 'Your main medication, begun on your start date. Injected most nights, 6 on and 1 off.'
         },
         {
           key: 'bpc157',
@@ -684,7 +686,7 @@ var KORB_PATIENT_ED = {
       ],
       note: {
         label: 'Staggered by design.',
-        text: 'The two agents start at different times on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together to catch up, and do not change the order.'
+        text: 'The two medications start at different times on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together to catch up, and do not change the order.'
       },
       /* THE SAME FOUR PRODUCTS THE HUB SHOWS, on the tier documents too. Don,
          2026-09-19: visibility is the point, a patient who never sees them never
@@ -712,7 +714,7 @@ var KORB_PATIENT_ED = {
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
-        'Any time after your agent\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+        'Any time after your medication\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
       ],
       expect: [
         'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
@@ -723,8 +725,8 @@ var KORB_PATIENT_ED = {
         'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
-        'Use your Gateway agents only as prescribed. Do not change your dose, course length or schedule without provider direction.',
-        'Keep the stagger. Do not start both agents on the same day.',
+        'Use your Gateway medications only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'Keep the stagger. Do not start both medications on the same day.',
         'GHK-Cu is an add-on only if your provider prescribed it. Do not add it yourself.',
         'This program is not appropriate during active malignancy or pregnancy.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
@@ -733,7 +735,7 @@ var KORB_PATIENT_ED = {
         'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
-        'Gateway is two agents on a fixed staggered schedule, not two agents started together.',
+        'Gateway is two medications on a fixed staggered schedule, not two medications started together.',
         'GHK-Cu is optional and only included if prescribed.',
         'Your provider sets your schedule. This guide is a general orientation, not personalized medical advice.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
@@ -749,29 +751,30 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Peak is KORB\'s performance and body-composition focused tier within the Functional Health & Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.',
+        'Peak also uses two medications, and is built around performance and body composition goals. It comes in two versions, called pathways, and your provider chooses the one that fits your goals and your labs.',
+        'Peak is KORB\'s performance and body-composition focused tier within the Functional Health & Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing medication with staggered BPC-157, and each with an optional GHK-Cu add-on.',
         'Your provider selects your pathway. You do not choose between them on your own, and they are not combined.',
-        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
+        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
       tiersHeading: 'Choosing your pathway',
-      tiersLead: 'Both pathways run on the same 16-week cycle. The difference is the primary agent.',
+      tiersLead: 'Both pathways run on the same 16-week cycle. The difference is the main medication.',
       tiers: [
         {
           name: 'Pathway A, CJC-1295 / Ipamorelin',
-          text: 'A growth hormone-releasing peptide combination as your primary agent, with staggered BPC-157 and an optional GHK-Cu add-on.'
+          text: 'A growth hormone-releasing peptide combination as your main medication, with staggered BPC-157 and an optional GHK-Cu add-on.'
         },
         {
           name: 'Pathway B, Tesamorelin',
-          text: 'Tesamorelin as your primary agent, with staggered BPC-157 and an optional GHK-Cu add-on. Tesamorelin is dose-selectable, so your provider sets your strength.'
+          text: 'Tesamorelin as your main medication, with staggered BPC-157 and an optional GHK-Cu add-on. Tesamorelin is dose-selectable, so your provider sets your strength.'
         }
       ],
-      agentsHeading: 'The agents that run alongside your pathway',
+      agentsHeading: 'The medications that run alongside your pathway',
       agentsLead: 'Whichever pathway you are on, these run on the same schedule inside your cycle.',
       agents: [
         {
           key: 'bpc157',
           context: 'gatewayPeakBase',
-          text: 'Added after your primary agent is already under way, not on your start date. Injected daily.'
+          text: 'Added after your main medication is already under way, not on your start date. Injected daily.'
         },
         {
           key: 'ghkcu',
@@ -781,7 +784,7 @@ var KORB_PATIENT_ED = {
       ],
       note: {
         label: 'Staggered by design.',
-        text: 'Your agents start at different points in the cycle on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together and do not change the order.'
+        text: 'Your medications start at different points in the cycle on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together and do not change the order.'
       },
       /* THE SAME FOUR PRODUCTS THE HUB SHOWS, on the tier documents too. Don,
          2026-09-19: visibility is the point, a patient who never sees them never
@@ -809,7 +812,7 @@ var KORB_PATIENT_ED = {
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
-        'Any time after your agent\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+        'Any time after your medication\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
       ],
       expect: [
         'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
@@ -820,8 +823,8 @@ var KORB_PATIENT_ED = {
         'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
-        'Use your Peak agents only as prescribed. Do not change your dose, course length or schedule without provider direction.',
-        'Keep the stagger. Do not start your agents on the same day to catch up.',
+        'Use your Peak medications only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'Keep the stagger. Do not start your medications on the same day to catch up.',
         'GHK-Cu is an add-on only if your provider prescribed it. Do not add it yourself.',
         'This program is not appropriate during active malignancy or pregnancy.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
@@ -852,14 +855,14 @@ var KORB_PATIENT_ED = {
         'KORB\'s Functional Health & Longevity Program is for adults who want to work on how they feel and function as they age. Treatment is peptide therapy: small injections you give yourself at home, in 16-week cycles, prescribed by a licensed KORB provider and matched to your goals and your baseline labs.',
         'Most people come to us for energy, sleep, recovery or body composition, and want a plan built from their own results rather than guesswork. You do not need to know which peptide you want. There are three program options, Foundation, Gateway and Peak, and your provider recommends one once your labs are back.',
         'This guide is a general orientation to the whole program. Your tier has its own guide with more detail, and your provider gives you individualized guidance.',
-        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
+        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
       tiersHeading: 'Choosing your program',
       tiersLead: 'All three run on the same 16-week cycle. They differ in how many medications you take and when each one starts.',
       tiers: [
         {
           name: 'Foundation',
-          text: 'The single-agent tier. One peptide is active at a time, chosen by your provider from Sermorelin, CJC-1295 / Ipamorelin or BPC-157. Agents are never combined, though you may switch at a follow-up.'
+          text: 'The single-medication tier. One peptide is active at a time, chosen by your provider from Sermorelin, CJC-1295 / Ipamorelin or BPC-157. Medications are never combined, though you may switch at a follow-up.'
         },
         {
           /* GHK-Cu on Gateway is not new. korb-dosing-data.js has had Gateway at
@@ -871,7 +874,7 @@ var KORB_PATIENT_ED = {
         },
         {
           name: 'Peak',
-          text: 'The performance and body-composition tier. Two pathways, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.'
+          text: 'The performance and body-composition tier. Two pathways, each pairing a primary growth hormone-releasing medication with staggered BPC-157, and each with an optional GHK-Cu add-on.'
         }
       ],
       /* These were missing from this overview entirely, and from Weight Loss and
@@ -904,7 +907,7 @@ var KORB_PATIENT_ED = {
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
-        'Any time after your agent\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+        'Any time after your medication\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
       ],
       expect: [
         'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
@@ -916,7 +919,7 @@ var KORB_PATIENT_ED = {
       ],
       safety: [
         'Use your medication only as prescribed. Do not change your dose, course length or schedule without provider direction.',
-        'Do not add an agent or change tiers on your own. Your tier is a clinical decision.',
+        'Do not add an medication or change tiers on your own. Your tier is a clinical decision.',
         'This program is not appropriate during active malignancy or pregnancy.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
         'Your prescription label is the authoritative source for your dose and directions.',
@@ -944,7 +947,7 @@ var KORB_PATIENT_ED = {
       file: 'Patient_Education/KORB_Patient_Ed_Anti_Aging',
       program: 'Program Optimization',
       title: 'Anti-Aging Guide',
-      disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
         'Two treatments aimed at how you age rather than at a specific symptom. They can be added to any KORB program, and you may be prescribed one or both. Neither requires lab work to start.'
       ],
@@ -1025,9 +1028,9 @@ var KORB_PATIENT_ED = {
       file: 'Patient_Education/KORB_Patient_Ed_Hair_Loss',
       program: 'Program Optimization',
       title: 'Hair Loss Guide',
-      disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        'Hair loss treatment comes as a once-daily tablet, a once-daily topical you apply to your scalp, or both together. Your provider chooses based on your pattern of loss, your health history and your preference.'
+        'KORB\'s hair loss treatments are prescription medications for thinning hair and hair loss, for men and for women. Treatment comes as a once-daily tablet, a once-daily topical you apply to your scalp, or both together. Your provider chooses based on your pattern of loss, your health history and your preference.'
       ],
       sections: [
         {
@@ -1119,9 +1122,10 @@ var KORB_PATIENT_ED = {
       file: 'Patient_Education/KORB_Patient_Ed_Sexual_Health',
       program: 'Program Optimization',
       title: 'Sexual Health Guide',
-      disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and PERFORM for men, and to KORB Electric for women**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
+        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and PERFORM for men, and to KORB Electric for women**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.',
+        'KORB\'s sexual health treatments are prescription medications for erections, arousal and sexual response: KORB Rise and PERFORM for men, and KORB Electric for women. Your provider chooses based on your health history and what you want help with.'
       ],
       sections: [
         {
@@ -1235,7 +1239,7 @@ var KORB_PATIENT_ED = {
       file: 'Patient_Education/KORB_Patient_Ed_Skin_Care',
       program: 'Program Optimization',
       title: 'Skin Care Guide',
-      disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
         'KORB\'s skin care treatments are prescription creams for acne, dark spots, fine lines and dry or aging skin. All three are applied once daily. Your provider selects which one fits your skin and your goals, and may start you at a lower strength.'
       ],
@@ -1375,12 +1379,12 @@ var KORB_PATIENT_ED = {
           links: [
             {
               href: 'KORB_Patient_Ed_Semaglutide.html',
-              label: 'Semaglutide handout',
+              label: 'Semaglutide Guide',
               note: 'full dosing, timing and storage'
             },
             {
               href: 'KORB_Patient_Ed_Tirzepatide.html',
-              label: 'Tirzepatide handout',
+              label: 'Tirzepatide Guide',
               note: 'full dosing, timing and storage'
             }
           ]
@@ -1646,7 +1650,7 @@ var KORB_PATIENT_ED = {
             },
             {
               label: 'Your Medication Guide',
-              note: 'open the handout for the agent you were prescribed',
+              note: 'open the guide for the medication you were prescribed',
               choices: [
                 { href: 'KORB_Patient_Ed_Sermorelin.html', label: 'Sermorelin' },
                 { href: 'KORB_Patient_Ed_CJC_Ipamorelin.html', label: 'CJC-1295 / Ipamorelin' },
