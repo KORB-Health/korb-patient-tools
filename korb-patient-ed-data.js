@@ -488,7 +488,8 @@ var KORB_PATIENT_ED = {
       'Put used needles and syringes straight into a rigid, puncture-resistant ' +
       'container. Sharps rules are set locally and vary by state and by city, so ' +
       'follow the ones where you live, and do not put needles or syringes loose ' +
-      'in household trash unless your local guidance specifically allows it.'
+      'in household trash unless your local guidance specifically allows it. ' +
+      '[Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
     ],
 
     contact: {
@@ -607,7 +608,7 @@ var KORB_PATIENT_ED = {
         heading: 'Optimize Your Longevity',
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
           { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
           { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
@@ -641,7 +642,7 @@ var KORB_PATIENT_ED = {
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
         'Your prescription label is the authoritative source for your dose and directions.',
         'Use a new syringe for every injection. Do not reuse syringes.',
-        'Follow your state or local regulations for sharps disposal.'
+        'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
         'Your provider selects your Foundation agent. This guide is a general orientation, not personalized medical advice.',
@@ -694,7 +695,7 @@ var KORB_PATIENT_ED = {
         heading: 'Optimize Your Longevity',
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
           { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
           { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
@@ -729,7 +730,7 @@ var KORB_PATIENT_ED = {
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
         'Your prescription label is the authoritative source for your dose and directions.',
         'Use a new syringe for every injection. Do not reuse syringes.',
-        'Follow your state or local regulations for sharps disposal.'
+        'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
         'Gateway is two agents on a fixed staggered schedule, not two agents started together.',
@@ -791,7 +792,7 @@ var KORB_PATIENT_ED = {
         heading: 'Optimize Your Longevity',
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
           { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
           { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
@@ -826,7 +827,7 @@ var KORB_PATIENT_ED = {
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
         'Your prescription label is the authoritative source for your dose and directions.',
         'Use a new syringe for every injection. Do not reuse syringes.',
-        'Follow your state or local regulations for sharps disposal.'
+        'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
         'Your provider selects your pathway. Pathways A and B are alternatives, not a combination.',
@@ -886,7 +887,7 @@ var KORB_PATIENT_ED = {
         heading: 'Optimize Your Longevity',
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
         links: [
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
           { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
           { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
@@ -920,7 +921,7 @@ var KORB_PATIENT_ED = {
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
         'Your prescription label is the authoritative source for your dose and directions.',
         'Use a new syringe for every injection. Do not reuse syringes.',
-        'Follow your state or local regulations for sharps disposal.'
+        'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
         'Your provider decides your tier after your intake and labs. This guide is a general orientation, not personalized medical advice.',
@@ -1112,7 +1113,7 @@ var KORB_PATIENT_ED = {
       title: 'Sexual Health Guide',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise, to PERFORM and to KORB Electric**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
+        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and PERFORM for men, and to KORB Electric for women**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
       ],
       sections: [
         {
@@ -1209,7 +1210,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Getting refills',
           paras: [
-            'There is no lab work and no scheduled follow-up for this add-on. When you need more, send a message through the patient portal and your provider will review it. Do not wait until you are completely out.'
+            'There is no lab work and no scheduled follow-up for this treatment. When you need more, send a message through the patient portal and your provider will review it. Do not wait until you are completely out.'
           ]
         }
       ],
@@ -1380,7 +1381,7 @@ var KORB_PATIENT_ED = {
           h: 'Optimize Your Weight Loss',
           lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
-            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise or KORB Electric' },
+            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
             { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
             { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
             { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
@@ -1426,7 +1427,7 @@ var KORB_PATIENT_ED = {
            and are no longer repeated there. */
         'KORB\'s Men\'s Health Program treats low testosterone in adult men. Treatment is testosterone replacement therapy (TRT), started only after lab work confirms your levels are low, and prescribed and monitored by a licensed KORB provider.',
         'Most men come to us for ongoing fatigue, reduced strength or muscle, more body fat, low sex drive, low mood or motivation, or slow recovery from exercise. You do not need to have all of them. What matters is how you feel and what your labs show.',
-        'Four optional optimization products are available alongside it: KORB Rise for sexual health, hair loss treatment, skin care, and anti-aging.',
+        'Four optional optimization products are available alongside it: KORB Rise, a sexual health treatment for men; hair loss treatment; skin care; and anti-aging.',
         'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss & Metabolic Health, or with Functional Health & Longevity. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
       ],
       sections: [
@@ -1476,7 +1477,7 @@ var KORB_PATIENT_ED = {
                  "There is no lab work and no scheduled follow-up for this
                  add-on" in its body and again in its reminders. The button is a
                  way in, not the place to state the fact. */
-              label: 'Sexual Health Guide, KORB Rise'
+              label: 'Sexual Health Guide, KORB Rise for men'
             },
             {
               href: 'KORB_Patient_Ed_Hair_Loss.html',
@@ -1582,7 +1583,7 @@ var KORB_PATIENT_ED = {
           h: 'Optimize Your Women’s Health',
           lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
-            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Electric' },
+            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Electric for women' },
             { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide for women, oral or topical' },
             { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
             { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
@@ -2944,7 +2945,7 @@ var KORB_PATIENT_ED = {
          'of the dose you are on: a pharmacy record, a prescription label, or a note from your ' +
          'prescriber. This is required before we can start you above the usual starting dose, ' +
          'and it is kept in your chart. Without it your provider will start you at the beginning ' +
-         'dose and titrate up, which protects you from being started higher than your body has ' +
+         'dose and titrate up (raise your dose gradually), which protects you from being started higher than your body has ' +
          'actually tolerated.'],
         ['Your titration schedule',
          'Your provider starts you at a low dose and increases it gradually, based on how you ' +
@@ -3165,7 +3166,7 @@ var KORB_PATIENT_ED = {
          'of the dose you are on: a pharmacy record, a prescription label, or a note from your ' +
          'prescriber. This is required before we can start you above the usual starting dose, ' +
          'and it is kept in your chart. Without it your provider will start you at the beginning ' +
-         'dose and titrate up, which protects you from being started higher than your body has ' +
+         'dose and titrate up (raise your dose gradually), which protects you from being started higher than your body has ' +
          'actually tolerated.'],
         ['Your titration schedule',
          'Your provider starts you at a low dose and increases it gradually, based on how you ' +

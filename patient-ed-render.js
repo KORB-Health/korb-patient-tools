@@ -206,8 +206,15 @@
      It exists because the patient guides carry safety lines - nitrates,
      finasteride in pregnancy, a four-hour erection - that should not read at
      the same weight as the sentence around them. */
+  /* [text](https://...) is a link, added 2026-09-22 so a sharps disposal line
+     can hand the patient the lookup where it says to look one up (Kris Mulkey's
+     review). https only, and it runs after escaping, so the url cannot carry a
+     quote out of the attribute. Opens in a new tab like every other outbound
+     link on these pages. */
   function rich(t) {
-    return esc(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    return esc(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener">$1</a>');
   }
 
   function ul(items) {
