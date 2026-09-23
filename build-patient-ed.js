@@ -121,7 +121,23 @@ const SCREEN = `
   .tools a { color: #0F5F69; margin-left: 12px; }
   .mast { border-bottom: 1.5px solid #00B2C3; padding-bottom: 7px; margin-bottom: 16px; }
   .mast img { height: 34px; width: auto; display: block; }
+}
+/* The When to contact KORB table, stacked on a phone. Three columns fit a page
+   and a laptop; at 390px each was about 80px and the emergency list ran off the
+   screen on nine handouts. Each cell carries its own heading in data-label, drawn
+   as the same navy band the column header uses. No font size here: see above. */
+@media screen and (max-width: 640px) {
+  table.contact3, table.contact3 tbody, table.contact3 tr, table.contact3 td { display: block; width: auto; }
+  table.contact3 thead { display: none; }
+  table.contact3 td { border-top: 0; }
+  table.contact3 td::before { content: attr(data-label); display: block; margin: -5pt -8pt 6pt;
+    padding: 5pt 8pt; background: #21275B; color: #fff; font-family: Montserrat, Helvetica, Arial, sans-serif;
+    font-weight: 600; }
 }`;
+/* Not fixed, deliberately: at 320px (the 2016 iPhone SE) Hormone Therapy's table
+   runs 35px wide and a CJC timeline 6px. overflow-wrap:anywhere was tried on
+   2026-09-22 and broke "Estradiol" into four lines; a short sideways scroll on a
+   ten-year-old phone is the better failure. 360px and up are clean. */
 
 /* One map, three uses: the script tag, the global, and the name in the live
    badge. They were three separate ternaries and adding a fourth source meant

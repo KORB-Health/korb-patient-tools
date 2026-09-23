@@ -1355,11 +1355,16 @@
        twice on one page. portalItems is per-handout and stays. */
     var C = S.contact;
     h += '<h2>When to contact KORB</h2>' +
-         '<table class="grid"><thead><tr><th>' + esc(C.operations.title) + '</th><th>' +
+         /* contact3 and data-label: on a phone the three columns were about 80px
+            each and pushed "Seek emergency care immediately" off the right edge
+            of nine handouts (found 2026-09-22). The builder's screen block stacks
+            them under 640px and prints each cell's own heading from data-label.
+            Desktop and print are unchanged. */
+         '<table class="grid contact3"><thead><tr><th>' + esc(C.operations.title) + '</th><th>' +
          esc(C.portal.title) + '</th><th>' + esc(C.emergency.title) + '</th></tr></thead><tbody><tr>' +
-         '<td>' + ul(C.operations.items) + '</td>' +
-         '<td>' + ul(doc.portalItems || C.portal.items) + '</td>' +
-         '<td>' + ul(C.emergency.items) + '</td>' +
+         '<td data-label="' + esc(C.operations.title) + '">' + ul(C.operations.items) + '</td>' +
+         '<td data-label="' + esc(C.portal.title) + '">' + ul(doc.portalItems || C.portal.items) + '</td>' +
+         '<td data-label="' + esc(C.emergency.title) + '">' + ul(C.emergency.items) + '</td>' +
          '</tr></tbody></table>' +
          '<p class="fine">' + esc(C.portalNote) + '</p>';
 
