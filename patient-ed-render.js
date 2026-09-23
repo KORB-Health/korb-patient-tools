@@ -633,6 +633,9 @@
        from here by accident, which took the "use a new insulin needle and
        syringe" instruction off the Injection, Storage and Safety Guide - the
        one page whose job is to say it. Caught the same day by rendering. */
+    /* The TSA checkpoint sentence on its own, for a guide whose storage rules
+       are per-product and cannot use the shared refrigerate block. 2026-09-23. */
+    if (name === 'travelScreening') { return screening(sh); }
     if (name === 'availability') {
       if (!sh.availability) { return ''; }
       return '<div class="callout"><p>' + esc(sh.availability) + '</p></div>';

@@ -1087,6 +1087,24 @@ var KORB_PATIENT_ED = {
         }
       ,
         {
+          /* NO shared storage block here. shared.storage says refrigerate, which
+             is right for a peptide and wrong for a tablet, and this page carries
+             both. The same trap the Women's Health handout hit. korb-addons-data.js
+             records NO storage temperature for any of these four products, so
+             nothing here states one - the label governs, and the 28-day figure is
+             the one fact the data does hold. Don, 2026-09-23. */
+          h: 'Storage and travel',
+          paras: [
+            'These products are not all stored the same way. NAD+ injection is a compounded injectable, while metformin and the sublingual tablet are tablets. **Follow the storage instructions on your own label and the pharmacy packaging** - they govern, and they differ by product.',
+            'NAD+ is dispensed as a 28-day supply because of the beyond-use date on a compounded product. Discard it at the end of that window even if some is left, and do not use it past the date on your label.',
+            'When you travel, keep these in your carry-on rather than checked baggage, in the original labeled packaging, and away from heat above 86°F (30°C) and from freezing.'
+          ]
+        },
+        {
+          h: 'Airport screening',
+          shared: 'travelScreening'
+        },
+        {
           h: 'Availability',
           shared: 'availability'
         }
@@ -1283,11 +1301,11 @@ var KORB_PATIENT_ED = {
             ],
             [
               'Stuffy nose or flushing',
-              'Common and temporary.'
+              'May occur, and is temporary.'
             ],
             [
               'Upset stomach or nausea',
-              'Common. Taking it on a lighter stomach may help.'
+              'May occur. Taking it on a lighter stomach may help.'
             ],
             [
               'Changes in vision, such as a blue tinge or blurring',
