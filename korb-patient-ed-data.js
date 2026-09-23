@@ -1060,14 +1060,7 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
-          h: 'Give it three to six months',
-          paras: [
-            'This is the single most important thing to understand before you start. Hair grows slowly, and these treatments aim to protect the hair you have and support new growth. Most people see no visible change for the first three months. If there is a change, it usually shows between three and six months.',
-            'Some people notice increased shedding in the first few weeks. That is usually a normal part of your hair\u2019s growth cycle resetting and not a sign the treatment is failing. Stopping early is the most common reason treatment does not work. If you stop, any gains will gradually reverse.'
-          ]
-        },
-        {
-          h: 'How to use the topical',
+          h: 'How to use it',
           items: [
             'Apply once daily to a dry scalp, not damp or freshly washed hair.',
             'Use one to two applications depending on how much area you are covering. Your provider will tell you which.',
@@ -1077,6 +1070,13 @@ var KORB_PATIENT_ED = {
           ],
           after: [
             'How long your bottle lasts depends on how much you use. Two doses a day runs out roughly twice as fast as one. Tell us early if you are running low rather than at the last minute.'
+          ]
+        },
+        {
+          h: 'What to expect',
+          paras: [
+            'Give it three to six months. This is the single most important thing to understand before you start. Hair grows slowly, and these treatments aim to protect the hair you have and support new growth. Most people see no visible change for the first three months. If there is a change, it usually shows between three and six months.',
+            'Some people notice increased shedding in the first few weeks. That is usually a normal part of your hair\u2019s growth cycle resetting and not a sign the treatment is failing. Stopping early is the most common reason treatment does not work. If you stop, any gains will gradually reverse.'
           ]
         },
         {
@@ -1262,7 +1262,7 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
-          h: 'How to apply',
+          h: 'How to use it',
           items: [
             'Wash your face and let it dry completely first. Applying to damp skin increases irritation.',
             'Use only the amount described. More does not work faster and will irritate your skin.',
@@ -1339,31 +1339,7 @@ var KORB_PATIENT_ED = {
       ],
       sections: [
         {
-          h: 'About compounded medication',
-          paras: [
-            'Your medication is prepared for you by a licensed US compounding pharmacy. Compounding pharmacies are state-licensed and regulated, and they prepare each prescription to your provider\'s specifications rather than mass-producing it. This is what allows your dose to be tailored to you and adjusted over time.',
-            'Because the FDA reviews mass-manufactured products rather than individual prescriptions, compounded preparations are not FDA-approved. The active ingredient is the same one used in the brand-name medication. If you would like to discuss a brand-name option, ask your provider whether it is a fit for you.'
-          ]
-        },
-        {
-          /* Said on the program document as well as the two handouts. A patient
-             reading the overview to find out what the program involves should
-             not have to open a molecule handout to learn that no labs are part
-             of it. Don, 2026-09-19. */
-          h: 'Labs',
-          paras: [
-            'KORB does not order labs for this program. There is no baseline draw and no scheduled draw at any point in your weight loss treatment with us.',
-            'If you want lab work, or another clinician has told you that you need it, that is a conversation to have with your primary care provider. Some other KORB programs do require lab work; this one does not, and that is deliberate.'
-          ]
-        },
-        {
-          h: 'If you are also managing diabetes',
-          paras: [
-            'If you are managing diabetes or pre-diabetes, KORB can continue to provide your GLP-1 medication, but you should continue your diabetes care, including any related lab monitoring, with the clinician who manages it. That may be your primary care provider, an endocrinologist (a hormone and diabetes specialist) or another specialist.'
-          ]
-        },
-        {
-          h: 'Your medication options',
+          h: 'What you may be prescribed',
           cards: [
             [
               'Semaglutide',
@@ -1391,6 +1367,39 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
+          h: 'How your program works',
+          items: [
+            'Your first visit includes a full history and a review of whether GLP-1 therapy is safe and appropriate for you.',
+            'Your provider selects your medication and starting dose.',
+            'Your dose increases gradually, typically every 4 weeks, based on how you are tolerating it.',
+            'You are reviewed at regular follow-up visits, where your plan is adjusted.'
+          ]
+        },
+        {
+          h: 'About compounded medication',
+          paras: [
+            'Your medication is prepared for you by a licensed US compounding pharmacy. Compounding pharmacies are state-licensed and regulated, and they prepare each prescription to your provider\'s specifications rather than mass-producing it. This is what allows your dose to be tailored to you and adjusted over time.',
+            'Because the FDA reviews mass-manufactured products rather than individual prescriptions, compounded preparations are not FDA-approved. The active ingredient is the same one used in the brand-name medication. If you would like to discuss a brand-name option, ask your provider whether it is a fit for you.'
+          ]
+        },
+        {
+          /* Said on the program document as well as the two handouts. A patient
+             reading the overview to find out what the program involves should
+             not have to open a molecule handout to learn that no labs are part
+             of it. Don, 2026-09-19. */
+          h: 'Labs',
+          paras: [
+            'KORB does not order labs for this program. There is no baseline draw and no scheduled draw at any point in your weight loss treatment with us.',
+            'If you want lab work, or another clinician has told you that you need it, that is a conversation to have with your primary care provider. Some other KORB programs do require lab work; this one does not, and that is deliberate.'
+          ]
+        },
+        {
+          h: 'If you are also managing diabetes',
+          paras: [
+            'If you are managing diabetes or pre-diabetes, KORB can continue to provide your GLP-1 medication, but you should continue your diabetes care, including any related lab monitoring, with the clinician who manages it. That may be your primary care provider, an endocrinologist (a hormone and diabetes specialist) or another specialist.'
+          ]
+        },
+        {
           h: 'Optimize Your Weight Loss',
           lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
@@ -1408,15 +1417,6 @@ var KORB_PATIENT_ED = {
           h: 'Pricing',
           paras: [
             'For current Weight Loss Program pricing, contact KORB Operations or ask your provider at your visit.'
-          ]
-        },
-        {
-          h: 'How your program works',
-          items: [
-            'Your first visit includes a full history and a review of whether GLP-1 therapy is safe and appropriate for you.',
-            'Your provider selects your medication and starting dose.',
-            'Your dose increases gradually, typically every 4 weeks, based on how you are tolerating it.',
-            'You are reviewed at regular follow-up visits, where your plan is adjusted.'
           ]
         }
       ],
@@ -1445,7 +1445,7 @@ var KORB_PATIENT_ED = {
       ],
       sections: [
         {
-          h: 'Testosterone Replacement Therapy',
+          h: 'What you may be prescribed',
           paras: [
             'Testosterone naturally declines with age. When levels fall low enough to cause symptoms, your provider may recommend replacing it.'
           ],
@@ -1577,15 +1577,15 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
-          h: 'Timing matters',
+          h: 'How your program works',
           paras: [
-            'Hormone therapy works best and carries the least risk when it is started under age 60 and within about ten years of your last period. That does not mean it is unavailable outside that window, but your provider will weigh it differently and will talk it through with you.'
+            'This program is guided by how you feel, not by a lab number. There is no blood test that tells us the right dose for you, so your provider adjusts based on your symptoms and how you are responding.'
           ]
         },
         {
-          h: 'How your treatment is adjusted',
+          h: 'Timing matters',
           paras: [
-            'This program is guided by how you feel, not by a lab number. There is no blood test that tells us the right dose for you, so your provider adjusts based on your symptoms and how you are responding.'
+            'Hormone therapy works best and carries the least risk when it is started under age 60 and within about ten years of your last period. That does not mean it is unavailable outside that window, but your provider will weigh it differently and will talk it through with you.'
           ]
         },
         {
@@ -2079,6 +2079,14 @@ var KORB_PATIENT_ED = {
         'clots than an oral estrogen does.'
       ],
 
+      /* What to expect, added 2026-09-22 so every medication guide has one. Every
+         line is a fact KORB already states in korb-womens-data.js or on this page. */
+      timeline: [
+        ['Before you start', 'Clinical review', 'Your provider reviews your health history to confirm hormone therapy is appropriate for you.'],
+        ['First few weeks', 'Settling in', 'Some side effects, such as breast tenderness, are common early and often settle. Tell us if they do not.'],
+        ['Every 12 weeks', 'Follow-up', 'Your prescriptions run 12 weeks. At each follow-up your provider reviews how you are doing and adjusts your dose or route if needed.']
+      ],
+      timelineNote: 'Results vary from person to person, and no result is guaranteed.',
       mayHelp: {
         lead: 'Women use hormone therapy for symptoms such as:',
         items: [
@@ -2957,6 +2965,7 @@ var KORB_PATIENT_ED = {
           /* Don, 2026-09-22, after Kris Mulkey asked for a reference point. From
              the National Academies adequate intake for total water, about 80% of
              which comes from drinks. A per-sex number, spread through the day. */
+          lifestyle: true,
           h: 'How much to drink',
           p: [
             'Aim for about 72 ounces (9 cups) of fluid a day if you are a woman, and about 96 ounces (12 cups) if you are a man. Water, milk, tea and coffee all count. You normally get some water from food as well, and because you are eating less on Semaglutide, drinking enough matters more.',
@@ -3195,6 +3204,7 @@ var KORB_PATIENT_ED = {
           /* Don, 2026-09-22, after Kris Mulkey asked for a reference point. From
              the National Academies adequate intake for total water, about 80% of
              which comes from drinks. A per-sex number, spread through the day. */
+          lifestyle: true,
           h: 'How much to drink',
           p: [
             'Aim for about 72 ounces (9 cups) of fluid a day if you are a woman, and about 96 ounces (12 cups) if you are a man. Water, milk, tea and coffee all count. You normally get some water from food as well, and because you are eating less on Tirzepatide, drinking enough matters more.',
@@ -3408,6 +3418,15 @@ var KORB_PATIENT_ED = {
         'of syringe and two different needles.'
       ],
 
+      /* What to expect, added 2026-09-22 so every medication guide has one. Every
+         line is a fact KORB already states in korb-mens-data.js or on this page. */
+      timeline: [
+        ['Before you start', 'Baseline labs', 'Lab work confirms your testosterone is low before anything is prescribed.'],
+        ['First weeks', 'Starting out', 'Some men report changes in energy or mood, and many notice little at first. Keep to your schedule.'],
+        ['6 to 8 weeks after any dose change', 'Recheck labs', 'Your labs are rechecked, drawn on an injection day before your dose, and your provider adjusts if needed.'],
+        ['Every 12 weeks', 'Follow-up', 'A follow-up visit with labs, to review how you feel and keep your levels in a safe range.']
+      ],
+      timelineNote: 'Results vary from person to person, and no result is guaranteed.',
       mayHelp: {
         lead: 'Men with low testosterone use testosterone replacement therapy (TRT) for goals such as:',
         items: [

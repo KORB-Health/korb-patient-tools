@@ -320,6 +320,15 @@
        declare `optimization` and get the same block in the same place, before
        Pricing. Added 2026-09-19 so the Functional Health and Longevity overview
        could list them at all: it was one of three overviews that never did. */
+    h += '<h2>How your ' + (prog.cycleWeeks || 16) + '-week cycle works</h2>' + ul(prog.cycle);
+    h += '<h2>What to expect</h2>' + paras(prog.expect);
+    h += '<h2>Labs and monitoring</h2>' + paras(prog.labs);
+    h += '<h2>Safety reminders</h2>' + ul(prog.safety);
+
+    /* ONE ORDER FOR EVERY OVERVIEW, 2026-09-22: what it is, the options, how it
+       works and what to expect, safety, then the optimization products, then
+       Pricing, then reminders. Optimization sat second and Pricing was a bold
+       line mid-page; the guide-shaped overviews already ended this way. */
     if (prog.optimization) {
       h += '<h2>' + esc(prog.optimization.heading || 'Additional optimization products') + '</h2>';
       if (prog.optimization.lead) { h += '<p>' + esc(prog.optimization.lead) + '</p>'; }
@@ -327,12 +336,7 @@
       if (prog.optimization.after) { h += paras(prog.optimization.after); }
     }
 
-    h += '<p><strong>Pricing.</strong> ' + esc(prog.pricing) + '</p>';
-
-    h += '<h2>How your ' + (prog.cycleWeeks || 16) + '-week cycle works</h2>' + ul(prog.cycle);
-    h += '<h2>What to expect</h2>' + paras(prog.expect);
-    h += '<h2>Labs and monitoring</h2>' + paras(prog.labs);
-    h += '<h2>Safety reminders</h2>' + ul(prog.safety);
+    h += '<h2>Pricing</h2><p>' + esc(prog.pricing) + '</p>';
 
     h += '<h2>Key reminders</h2>' + ul(prog.keyReminders);
     h += contactFooter(sh, prog);
@@ -1232,11 +1236,6 @@
 
     h += '<h2>What ' + esc(subjectOf(doc)) + ' is</h2>' + paras(doc.what);
 
-    if (doc.nutrition) {
-      h += '<h2>Nutrition and lifestyle</h2><p>' +
-           esc(doc.nutrition.lead) + '</p>' + ul(doc.nutrition.items);
-    }
-
     /* Route, schedule, timing and weeks - every value read from the dosing
        data, so a change there reaches this handout on the next page load. */
     h += '<h2>How to use it</h2>' +
@@ -1258,56 +1257,45 @@
          '</table>' +
          (doc.weeksNote ? '<p class="fine">' + esc(doc.weeksNote) + '</p>' : '');
 
-    (doc.extraSections || []).forEach(function (sec) {
-      /* `body` is accepted alongside `p`. Writing `body` used to render the
-         heading and drop the paragraphs, which is how "How to use a patch"
-         shipped as a title over empty space - visible to Don on the page and to
-         nothing in the build. A section that renders no content now throws
-         rather than printing a bare heading. */
-      var content = sec.p || sec.body;
-      if (!content && !sec.table && !sec.ul && !sec.callout && !sec.warn) {
-        throw new Error('patient-ed-render: extraSection "' + sec.h +
-          '" has no renderable content. Use p/body, table, ul, callout or warn.');
-      }
-      h += '<h2>' + esc(sec.h) + '</h2>';
-      if (content) h += paras(content);
-      if (sec.table) {
-        h += '<table class="grid"><thead><tr>' +
-             sec.table.head.map(function (x) { return '<th>' + esc(x) + '</th>'; }).join('') +
-             '</tr></thead><tbody>' + sec.table.rows.map(function (r) {
-               return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>';
-             }).join('') + '</tbody></table>';
-      }
-      if (sec.ul) h += ul(sec.ul);
-      /* rich(), not esc(). Every other text field in these documents runs through
-         rich() so **like this** reads as bold, and this one did not: a callout
-         written with the same convention printed its asterisks to the patient.
-         Caught on the testosterone handout 2026-09-19, before it shipped, by
-         rendering the page rather than trusting the edit. rich() escapes first,
-         so this adds no injection surface. */
-      if (sec.callout) h += '<div class="callout"><p>' + rich(sec.callout) + '</p></div>';
-      if (sec.warn) h += '<div class="callout warn"><p>' + esc(sec.warn) + '</p></div>';
-    });
+    /* extraSections are drawn in two places. How-to sections (the injection
+       steps, the syringe, the patch) follow How to use it; a section marked
+       lifestyle (How much to drink) sits with Nutrition and lifestyle, so
+       living with the medication reads as one run. 2026-09-22. */
+    function extraSection(sec) {
+        /* `body` is accepted alongside `p`. Writing `body` used to render the
+           heading and drop the paragraphs, which is how "How to use a patch"
+           shipped as a title over empty space - visible to Don on the page and to
+           nothing in the build. A section that renders no content now throws
+           rather than printing a bare heading. */
+        var content = sec.p || sec.body;
+        if (!content && !sec.table && !sec.ul && !sec.callout && !sec.warn) {
+          throw new Error('patient-ed-render: extraSection "' + sec.h +
+            '" has no renderable content. Use p/body, table, ul, callout or warn.');
+        }
+        h += '<h2>' + esc(sec.h) + '</h2>';
+        if (content) h += paras(content);
+        if (sec.table) {
+          h += '<table class="grid"><thead><tr>' +
+               sec.table.head.map(function (x) { return '<th>' + esc(x) + '</th>'; }).join('') +
+               '</tr></thead><tbody>' + sec.table.rows.map(function (r) {
+                 return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>';
+               }).join('') + '</tbody></table>';
+        }
+        if (sec.ul) h += ul(sec.ul);
+        /* rich(), not esc(). Every other text field in these documents runs through
+           rich() so **like this** reads as bold, and this one did not: a callout
+           written with the same convention printed its asterisks to the patient.
+           Caught on the testosterone handout 2026-09-19, before it shipped, by
+           rendering the page rather than trusting the edit. rich() escapes first,
+           so this adds no injection surface. */
+        if (sec.callout) h += '<div class="callout"><p>' + rich(sec.callout) + '</p></div>';
+        if (sec.warn) h += '<div class="callout warn"><p>' + esc(sec.warn) + '</p></div>';
+    }
+    (doc.extraSections || []).filter(function (sec) { return !sec.lifestyle; }).forEach(extraSection);
 
     (doc.timingNotes || []).forEach(function (n) {
       h += '<h3>' + esc(n[0]) + '</h3><p>' + esc(n[1]) + '</p>';
     });
-
-    /* The shared storage block is the refrigerated, 28-day peptide rule. A
-       handout whose storage genuinely differs states its own: testosterone is
-       room temperature and 90 days, and inheriting the shared block would have
-       told a patient to refrigerate a medication that must not be. */
-    var ST = doc.storage || S.storage;
-    h += '<h2>Storage and handling</h2>' +
-         twoCol(ST.cards, 'What to do', 'Detail') + paras(ST.notes);
-
-    /* The shared travel text tells the patient to refrigerate again on arrival,
-       which is right for every refrigerated peptide and WRONG for testosterone,
-       whose own storage block says do not refrigerate. The page contradicted
-       itself on the first build. A handout whose storage differs states its own
-       travel text too - the two belong together. */
-    h += '<h2>Traveling with your medication</h2><p>' + esc(doc.travel || S.travel) + '</p>' +
-         screening(S);
 
     if (doc.timeline) {
       h += '<h2>What to expect</h2><table class="grid"><thead><tr><th>Timeline</th>' +
@@ -1317,6 +1305,14 @@
            }).join('') + '</tbody></table>' +
            (doc.timelineNote ? '<p class="fine">' + esc(doc.timelineNote) + '</p>' : '');
     }
+
+    if (doc.nutrition) {
+      h += '<h2>Nutrition and lifestyle</h2><p>' +
+           esc(doc.nutrition.lead) + '</p>' + ul(doc.nutrition.items);
+    }
+    (doc.extraSections || []).filter(function (sec) { return sec.lifestyle; }).forEach(extraSection);
+
+
 
     h += '<h2>Side effects and what to watch for</h2>';
     if (doc.common) h += '<h3>What you may notice</h3>' + twoCol(doc.common, 'What you may notice', 'What to do');
@@ -1340,6 +1336,22 @@
       h += '<h2>' + esc(doc.labs.heading || 'Lab monitoring') + '</h2><p>' + esc(doc.labs.lead) + '</p>' + ul(doc.labs.items) +
            '<p>' + esc(doc.labs.after) + '</p>';
     }
+
+    /* The shared storage block is the refrigerated, 28-day peptide rule. A
+       handout whose storage genuinely differs states its own: testosterone is
+       room temperature and 90 days, and inheriting the shared block would have
+       told a patient to refrigerate a medication that must not be. */
+    var ST = doc.storage || S.storage;
+    h += '<h2>Storage and handling</h2>' +
+         twoCol(ST.cards, 'What to do', 'Detail') + paras(ST.notes);
+
+    /* The shared travel text tells the patient to refrigerate again on arrival,
+       which is right for every refrigerated peptide and WRONG for testosterone,
+       whose own storage block says do not refrigerate. The page contradicted
+       itself on the first build. A handout whose storage differs states its own
+       travel text too - the two belong together. */
+    h += '<h2>Traveling with your medication</h2><p>' + esc(doc.travel || S.travel) + '</p>' +
+         screening(S);
 
     /* The shared injection-safety block - fresh needle every time, sharps
        disposal - is appended to every handout. On Hormone Therapy there is
