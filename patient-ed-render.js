@@ -134,9 +134,9 @@
     var anySq = routes.some(function (r) { return r.sq; });
     var anyIm = routes.some(function (r) { return !r.sq; });
     var how = anySq && anyIm
-      ? 'Injection — subcutaneous or intramuscular, as your provider directs'
-      : anySq ? 'Injection — subcutaneous, as your provider directs'
-              : 'Injection — intramuscular, as your provider directs';
+      ? 'Injection under the skin (subcutaneous) or into the muscle (intramuscular), as your provider tells you'
+      : anySq ? 'Injection under the skin (subcutaneous), as your provider tells you'
+              : 'Injection into the muscle (intramuscular), as your provider tells you';
     return {
       how: how,
       timing: doc.timingText || '',
@@ -195,7 +195,7 @@
       windows: windows,
       offWeeks: (weeks && doc.cycleWeeks && weeks[1] < doc.cycleWeeks && !windows.length)
         ? ('Weeks ' + (weeks[1] + 1) + '–' + doc.cycleWeeks + ', a ' +
-           (doc.cycleWeeks - weeks[1]) + '-week washout before your next cycle')
+           (doc.cycleWeeks - weeks[1]) + '-week break with no injections before your next cycle')
         : ''
     };
   }
@@ -265,7 +265,7 @@
     }
     var active = 'Active for the first ' + end + ' weeks of your ' + cycleWeeks + '-week cycle';
     if (off > 0) {
-      active += ', followed by ' + art(off) + off + '-week washout before your next cycle begins';
+      active += ', followed by ' + art(off) + off + '-week break with no injections before your next cycle begins';
     }
     return active + '.';
   }
@@ -1320,7 +1320,10 @@
 
     h += '<h2>Side effects and what to watch for</h2>';
     if (doc.common) h += '<h3>What you may notice</h3>' + twoCol(doc.common, 'What you may notice', 'What to do');
-    if (doc.monitorAndTell) h += '<h3>Tell your KORB provider at your next visit</h3>' +
+    /* "When to tell your provider", not "at your next visit". Possible
+       pancreatitis and gallbladder signs sit under this heading, and a patient
+       read literally would wait weeks. Each row now says how soon. 2026-09-22. */
+    if (doc.monitorAndTell) h += '<h3>When to tell your provider</h3>' +
       twoCol(doc.monitorAndTell, 'What you may notice', 'What to do');
     if (doc.emergencyLead) h += '<div class="callout warn"><p>' + esc(doc.emergencyLead) + '</p></div>';
 

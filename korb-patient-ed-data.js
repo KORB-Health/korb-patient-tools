@@ -387,7 +387,7 @@ var KORB_PATIENT_ED = {
 
     authoritySource:
       'Your prescription label, or the instructions given to you by your KORB ' +
-      'clinical provider, is the authoritative source for your dose and ' +
+      'clinical provider, is the final word on your dose and ' +
       'directions. Some pharmacies label vials "as directed by provider" rather ' +
       'than printing exact instructions. What follows is a general reference. ' +
       'Do not adjust anything without speaking to your provider first.',
@@ -419,7 +419,7 @@ var KORB_PATIENT_ED = {
         'does, not when you take your first dose.',
         'After opening: write the open date on your vial and discard 28 days after ' +
         'first use, even if medication remains. If your label shows an earlier ' +
-        'beyond-use date, follow the earlier one.',
+        'beyond-use date (the pharmacy\'s use-by date), follow the earlier one.',
         'Do not use if the solution appears cloudy or discolored, or contains particles.'
       ]
     },
@@ -480,7 +480,7 @@ var KORB_PATIENT_ED = {
 
        Not combining medications and disposing of sharps are true of every
        injection and stay shared. Only the device sentence is per handout. */
-    injectionSafetyDevice: 'Use a new insulin needle and syringe for every injection. Do not reuse.',
+    injectionSafetyDevice: 'Use a new insulin needle and syringe for every injection. Do not reuse. Insulin syringes are the small, finely marked kind; the name does not mean your medication is insulin.',
 
     injectionSafety: [
       'Never combine two medications in one syringe. Use a separate needle and ' +
@@ -508,7 +508,7 @@ var KORB_PATIENT_ED = {
           { label: 'Email', value: 'info@korbhealth.com', href: 'mailto:info@korbhealth.com' },
           { label: 'Hours', value: 'Mon–Fri, 9 AM–6 PM CT' }
         ],
-        items: ['Questions about timing, storage or administration',
+        items: ['Questions about timing, storage, or how to take or inject your medication',
                 'Scheduling, billing and shipping']
       },
       portal: {
@@ -572,10 +572,10 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which medication and dosing schedule are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Foundation is the simplest way to start: one medication at a time, chosen by your provider for your goals and your baseline labs. It suits patients who want to begin with a single treatment and see how they respond before adding anything.',
-        'Foundation is the single-medication tier of KORB\'s Functional Health & Longevity Program. At any given time one peptide is active, and your provider selects it based on your goals and clinical profile. You may switch to a different medication at each 16-week follow-up, but Foundation never combines two medications at once.',
-        'If a staggered, multi-medication approach interests you, ask your provider about the Gateway or Peak programs.',
-        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
+        'Foundation is the simplest way to start: one medication at a time, chosen by your provider for your goals and your baseline labs (your first blood tests, before any treatment). It suits patients who want to begin with a single treatment and see how they respond before adding anything.',
+        'Foundation is the single-medication option in KORB\'s Functional Health & Longevity Program. At any given time one peptide (a small, protein-like molecule that acts as a signal in the body) is active, and your provider selects it based on your goals and health history. You may switch to a different medication at each 16-week follow-up, but Foundation never combines two medications at once.',
+        'If you are interested in two medications started at different times, ask your provider about the Gateway or Peak programs.',
+        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
       agentsHeading: 'Your Foundation medication options',
       agentsLead: 'Your provider selects one of the following based on your goals. Each has its own active window inside your 16-week cycle. Your Treatment Schedule shows exact dates.',
@@ -588,12 +588,12 @@ var KORB_PATIENT_ED = {
         {
           key: 'cjcipam',
           context: 'foundation',
-          text: 'A growth hormone-releasing peptide combination. Possible support for similar goals to Sermorelin, with a different release profile. Injected most nights, 6 on and 1 off.'
+          text: 'A growth hormone-releasing peptide combination. Possible support for similar goals to Sermorelin, released in a different pattern. Injected most nights, 6 on and 1 off.'
         },
         {
           key: 'bpc157',
           context: 'foundation',
-          text: 'A peptide studied for possible support of soft tissue recovery and musculoskeletal health. Injected daily.'
+          text: 'A peptide being studied for recovery of muscles, tendons, ligaments and joints. Injected daily.'
         }
       ],
       note: {
@@ -615,7 +615,7 @@ var KORB_PATIENT_ED = {
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
-          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
@@ -626,7 +626,7 @@ var KORB_PATIENT_ED = {
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
-        'Any time after your medication\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+        'Any time after your medication\'s active window, before your follow-up, is a break from injections, for your labs and for focusing on sleep, food and activity.'
       ],
       expect: [
         'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
@@ -637,13 +637,13 @@ var KORB_PATIENT_ED = {
         'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
-        'Use your Foundation medication only as prescribed. Do not change your dose, course length or schedule without provider direction.',
+        'Use your Foundation medication only as prescribed. Do not change your dose, course length or schedule unless your provider tells you to.',
         'Do not add a second peptide or combine medications on your own. Foundation is single-medication only.',
-        'This program is not appropriate during active malignancy or pregnancy.',
+        'This program is not appropriate if you have cancer now or are being treated for it, or if you are pregnant.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
-        'Your prescription label is the authoritative source for your dose and directions.',
+        'Your prescription label is the final word on your dose and directions.',
         'Use a new syringe for every injection. Do not reuse syringes.',
-        'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
+        'Follow your state or local rules for getting rid of sharps (used needles and syringes). [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
         'Your provider selects your Foundation medication. This guide is a general orientation, not personalized medical advice.',
@@ -661,9 +661,9 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines your exact schedule and add-ons. If you have questions, contact KORB by phone or email.',
       what: [
-        'Gateway uses two medications, started at different points in your cycle rather than on the same day. Your provider recommends it when your goals call for more than one treatment, based on your baseline labs.',
-        'Gateway is KORB\'s staggered two-medication tier within the Functional Health & Longevity Program. Unlike Foundation\'s single-medication model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day. An optional GHK-Cu add-on is available on Gateway if your provider prescribes it.',
-        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
+        'Gateway uses two medications, started at different points in your cycle rather than on the same day. Your provider recommends it when your goals call for more than one treatment, based on your baseline labs (your first blood tests, before any treatment).',
+        'Gateway is KORB\'s two-medication option within the Functional Health & Longevity Program. Unlike Foundation\'s single-medication model, Gateway combines Sermorelin with BPC-157 on a fixed schedule, started on different days so the two do not begin together. An optional GHK-Cu add-on is available on Gateway if your provider prescribes it.',
+        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
       agentsHeading: 'How your Gateway combination works',
       agentsLead: 'Two medications started at different points in the cycle by design, plus one optional add-on. Your Treatment Schedule shows your exact dates.',
@@ -685,7 +685,7 @@ var KORB_PATIENT_ED = {
         }
       ],
       note: {
-        label: 'Staggered by design.',
+        label: 'Started at different times on purpose.',
         text: 'The two medications start at different times on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together to catch up, and do not change the order.'
       },
       /* THE SAME FOUR PRODUCTS THE HUB SHOWS, on the tier documents too. Don,
@@ -703,7 +703,7 @@ var KORB_PATIENT_ED = {
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
-          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
@@ -714,7 +714,7 @@ var KORB_PATIENT_ED = {
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
-        'Any time after your medication\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+        'Any time after your medication\'s active window, before your follow-up, is a break from injections, for your labs and for focusing on sleep, food and activity.'
       ],
       expect: [
         'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
@@ -725,17 +725,17 @@ var KORB_PATIENT_ED = {
         'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
-        'Use your Gateway medications only as prescribed. Do not change your dose, course length or schedule without provider direction.',
-        'Keep the stagger. Do not start both medications on the same day.',
+        'Use your Gateway medications only as prescribed. Do not change your dose, course length or schedule unless your provider tells you to.',
+        'Keep the start dates apart. Do not start both medications on the same day.',
         'GHK-Cu is an add-on only if your provider prescribed it. Do not add it yourself.',
-        'This program is not appropriate during active malignancy or pregnancy.',
+        'This program is not appropriate if you have cancer now or are being treated for it, or if you are pregnant.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
-        'Your prescription label is the authoritative source for your dose and directions.',
+        'Your prescription label is the final word on your dose and directions.',
         'Use a new syringe for every injection. Do not reuse syringes.',
-        'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
+        'Follow your state or local rules for getting rid of sharps (used needles and syringes). [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
-        'Gateway is two medications on a fixed staggered schedule, not two medications started together.',
+        'Gateway is two medications started on different days, on a fixed schedule, not two medications started together.',
         'GHK-Cu is optional and only included if prescribed.',
         'Your provider sets your schedule. This guide is a general orientation, not personalized medical advice.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
@@ -751,21 +751,21 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Peak also uses two medications, and is built around performance and body composition goals. It comes in two versions, called pathways, and your provider chooses the one that fits your goals and your labs.',
-        'Peak is KORB\'s performance and body-composition focused tier within the Functional Health & Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing medication with staggered BPC-157, and each with an optional GHK-Cu add-on.',
+        'Peak also uses two medications, and is built around performance and body composition (your balance of muscle and fat). It comes in two versions, called pathways, and your provider chooses the one that fits your goals and your baseline labs (your first blood tests, before any treatment).',
+        'Peak is KORB\'s performance and body-composition focused option within the Functional Health & Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing medication with BPC-157 added later, and each with an optional GHK-Cu add-on.',
         'Your provider selects your pathway. You do not choose between them on your own, and they are not combined.',
-        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
+        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
       tiersHeading: 'Choosing your pathway',
       tiersLead: 'Both pathways run on the same 16-week cycle. The difference is the main medication.',
       tiers: [
         {
           name: 'Pathway A, CJC-1295 / Ipamorelin',
-          text: 'A growth hormone-releasing peptide combination as your main medication, with staggered BPC-157 and an optional GHK-Cu add-on.'
+          text: 'A growth hormone-releasing peptide combination as your main medication, with BPC-157 added later and an optional GHK-Cu add-on.'
         },
         {
           name: 'Pathway B, Tesamorelin',
-          text: 'Tesamorelin as your main medication, with staggered BPC-157 and an optional GHK-Cu add-on. Tesamorelin is dose-selectable, so your provider sets your strength.'
+          text: 'Tesamorelin as your main medication, with BPC-157 added later and an optional GHK-Cu add-on. Tesamorelin comes in more than one strength, and your provider sets yours.'
         }
       ],
       agentsHeading: 'The medications that run alongside your pathway',
@@ -783,7 +783,7 @@ var KORB_PATIENT_ED = {
         }
       ],
       note: {
-        label: 'Staggered by design.',
+        label: 'Started at different times on purpose.',
         text: 'Your medications start at different points in the cycle on purpose, so that if something does not agree with you it is clearer which one is responsible. Do not start them together and do not change the order.'
       },
       /* THE SAME FOUR PRODUCTS THE HUB SHOWS, on the tier documents too. Don,
@@ -801,7 +801,7 @@ var KORB_PATIENT_ED = {
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
-          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
@@ -812,7 +812,7 @@ var KORB_PATIENT_ED = {
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
-        'Any time after your medication\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+        'Any time after your medication\'s active window, before your follow-up, is a break from injections, for your labs and for focusing on sleep, food and activity.'
       ],
       expect: [
         'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
@@ -823,14 +823,14 @@ var KORB_PATIENT_ED = {
         'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
-        'Use your Peak medications only as prescribed. Do not change your dose, course length or schedule without provider direction.',
-        'Keep the stagger. Do not start your medications on the same day to catch up.',
+        'Use your Peak medications only as prescribed. Do not change your dose, course length or schedule unless your provider tells you to.',
+        'Keep the start dates apart. Do not start your medications on the same day to catch up.',
         'GHK-Cu is an add-on only if your provider prescribed it. Do not add it yourself.',
-        'This program is not appropriate during active malignancy or pregnancy.',
+        'This program is not appropriate if you have cancer now or are being treated for it, or if you are pregnant.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
-        'Your prescription label is the authoritative source for your dose and directions.',
+        'Your prescription label is the final word on your dose and directions.',
         'Use a new syringe for every injection. Do not reuse syringes.',
-        'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
+        'Follow your state or local rules for getting rid of sharps (used needles and syringes). [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
         'Your provider selects your pathway. Pathways A and B are alternatives, not a combination.',
@@ -852,17 +852,17 @@ var KORB_PATIENT_ED = {
            on "physician-guided, cash-pay telemedicine program": mechanics first,
            and two phrases Don removed from patient education. It now says what the
            program is for, then names the three options before the tiers appear. */
-        'KORB\'s Functional Health & Longevity Program is for adults who want to work on how they feel and function as they age. Treatment is peptide therapy: small injections you give yourself at home, in 16-week cycles, prescribed by a licensed KORB provider and matched to your goals and your baseline labs.',
-        'Most people come to us for energy, sleep, recovery or body composition, and want a plan built from their own results rather than guesswork. You do not need to know which peptide you want. There are three program options, Foundation, Gateway and Peak, and your provider recommends one once your labs are back.',
-        'This guide is a general orientation to the whole program. Your tier has its own guide with more detail, and your provider gives you individualized guidance.',
-        'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
+        'KORB\'s Functional Health & Longevity Program is for adults who want to work on how they feel and function as they age. Treatment is peptide therapy (peptides are small, protein-like molecules that act as signals in the body): small injections you give yourself at home, in 16-week cycles, prescribed by a licensed KORB provider and matched to your goals and your baseline labs (your first blood tests, before any treatment).',
+        'Most people come to us for energy, sleep, recovery or body composition (your balance of muscle and fat), and want a plan built from their own results rather than guesswork. You do not need to know which peptide you want. There are three program options, Foundation, Gateway and Peak, and your provider recommends one once your labs are back.',
+        'This guide is a general orientation to the whole program. Your program option has its own guide with more detail, and your provider gives you individualized guidance.',
+        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
       tiersHeading: 'Choosing your program',
       tiersLead: 'All three run on the same 16-week cycle. They differ in how many medications you take and when each one starts.',
       tiers: [
         {
           name: 'Foundation',
-          text: 'The single-medication tier. One peptide is active at a time, chosen by your provider from Sermorelin, CJC-1295 / Ipamorelin or BPC-157. Medications are never combined, though you may switch at a follow-up.'
+          text: 'The single-medication option. One peptide is active at a time, chosen by your provider from Sermorelin, CJC-1295 / Ipamorelin or BPC-157. Medications are never combined, though you may switch at a follow-up.'
         },
         {
           /* GHK-Cu on Gateway is not new. korb-dosing-data.js has had Gateway at
@@ -870,11 +870,11 @@ var KORB_PATIENT_ED = {
              at null with the comment "GHK-Cu is never a Foundation option". Only
              the patient documents left it out. Don, 2026-09-19. */
           name: 'Gateway',
-          text: 'The staggered two-medication tier. Sermorelin with BPC-157 added later in the cycle rather than on the same day, and an optional GHK-Cu add-on.'
+          text: 'The two-medication option. Sermorelin with BPC-157 added later in the cycle rather than on the same day, and an optional GHK-Cu add-on.'
         },
         {
           name: 'Peak',
-          text: 'The performance and body-composition tier. Two pathways, each pairing a primary growth hormone-releasing medication with staggered BPC-157, and each with an optional GHK-Cu add-on.'
+          text: 'The performance and body-composition option. Two pathways, each pairing a primary growth hormone-releasing medication with BPC-157 added later, and each with an optional GHK-Cu add-on.'
         }
       ],
       /* These were missing from this overview entirely, and from Weight Loss and
@@ -896,18 +896,18 @@ var KORB_PATIENT_ED = {
           { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
         ],
         after: [
-          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+          '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
-      pricing: 'For current pricing on any tier, contact KORB Operations or ask your provider at your visit.',
+      pricing: 'For current pricing on any program option, contact KORB Operations or ask your provider at your visit.',
       cycle: [
         'Baseline visit, labs only. No prescription is sent at your first visit.',
         'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
-        'Any time after your medication\'s active window, before your follow-up, is an off period for lab review and lifestyle focus.'
+        'Any time after your medication\'s active window, before your follow-up, is a break from injections, for your labs and for focusing on sleep, food and activity.'
       ],
       expect: [
         'Response to peptide therapy varies between patients. These are not guaranteed treatments, and results, if any, typically emerge gradually over the course of a cycle rather than immediately.',
@@ -918,17 +918,17 @@ var KORB_PATIENT_ED = {
         'Complete your lab draw between weeks 12 and 14 of your cycle. That gives enough time for results to come back before your 16-week follow-up. Results can take about a week from the day you are drawn, and your visit may need to be rescheduled if they are not in yet.'
       ],
       safety: [
-        'Use your medication only as prescribed. Do not change your dose, course length or schedule without provider direction.',
-        'Do not add an medication or change tiers on your own. Your tier is a clinical decision.',
-        'This program is not appropriate during active malignancy or pregnancy.',
+        'Use your medication only as prescribed. Do not change your dose, course length or schedule unless your provider tells you to.',
+        'Do not add a medication or switch program options on your own. Your provider decides which option is right for you.',
+        'This program is not appropriate if you have cancer now or are being treated for it, or if you are pregnant.',
         'Tell your KORB provider about any new medical condition or medication, or if you become pregnant.',
-        'Your prescription label is the authoritative source for your dose and directions.',
+        'Your prescription label is the final word on your dose and directions.',
         'Use a new syringe for every injection. Do not reuse syringes.',
-        'Follow your state or local rules for sharps disposal. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
+        'Follow your state or local rules for getting rid of sharps (used needles and syringes). [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
-        'Your provider decides your tier after your intake and labs. This guide is a general orientation, not personalized medical advice.',
-        'All tiers run on the same 16-week cycle with a lab draw between weeks 12 and 14.',
+        'Your provider decides your program option after your intake and labs. This guide is a general orientation, not personalized medical advice.',
+        'All three program options run on the same 16-week cycle with a lab draw between weeks 12 and 14.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
         'For current program pricing, contact KORB Operations or ask your provider.'
       ]
@@ -955,7 +955,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'NAD+',
           paras: [
-            'NAD+ is a coenzyme your body already makes. It is involved in energy production, DNA repair and immune function. Levels fall steadily with age, and supplementing aims to restore some of what has been lost.',
+            'NAD+ is a helper molecule your cells use to make energy, and your body already makes it. It is involved in energy production, DNA repair and immune function. Levels fall steadily with age, and supplementing aims to restore some of what has been lost.',
             'Most people take it hoping for better energy, sharper focus, and less of the general worn-down feeling that creeps in with age. Research is promising but still developing, so think of it as supporting how you feel rather than producing a dramatic change.'
           ],
           cards: [
@@ -973,15 +973,15 @@ var KORB_PATIENT_ED = {
             ]
           ],
           after: [
-            'Your NAD+ supply lasts 28 days and you refill monthly rather than quarterly. If you use the injection there will still be medication in the vial at 28 days. That is expected. Discard it and start your new vial. Compounded medication is not considered safe to use past that point once the vial has been punctured.',
+            'Your NAD+ supply lasts 28 days and you refill monthly rather than quarterly. If you use the injection there will still be medication in the vial at 28 days. That is expected. Discard it and start your new vial. Medication made by a compounding pharmacy is not considered safe to use past that point once the vial has been opened with a needle.',
             'Tell your provider if you take isotretinoin, sold as Accutane. NAD+ is not used alongside it.'
           ]
         },
         {
           h: 'Metformin',
           paras: [
-            'Metformin has been used for decades for blood sugar and is on the World Health Organization\'s list of essential medicines. It is prescribed here for a different reason: a growing body of research links it to lower rates of dementia and some cancers, reduced cardiovascular risk, and less inflammation.',
-            'One extended-release tablet daily. Your supply is 90 days, so it follows the usual quarterly rhythm.',
+            'Metformin has been used for decades for blood sugar and is on the World Health Organization\'s list of essential medicines. It is prescribed here for a different reason, as part of an approach to healthy aging. It is not FDA-approved for that use, and the research on it is still early. Results vary from person to person, and no result is guaranteed.',
+            'One slow-release tablet daily. Swallow it whole; do not crush or chew it. Your supply is 90 days, so it follows the usual quarterly rhythm.',
             'You will probably not feel any different, and that is normal. Unlike a medication that treats a symptom you can notice, metformin here is aimed at long-term risk. Not feeling a change does not mean it is not working.',
             'You do not need to be diabetic to take it. At this dose it may nudge your blood sugar slightly lower, but it is unlikely to cause symptoms of low blood sugar.'
           ],
@@ -1063,7 +1063,7 @@ var KORB_PATIENT_ED = {
           h: 'Give it three to six months',
           paras: [
             'This is the single most important thing to understand before you start. Hair grows slowly, and these treatments work by protecting the hair you have and improving the quality of new growth. Most people see no visible change for the first three months, and the clearest results appear between three and six months.',
-            'Some people notice increased shedding in the first few weeks. That is usually a normal part of the cycle resetting and not a sign the treatment is failing. Stopping early is the most common reason treatment does not work. If you stop, any gains will gradually reverse.'
+            'Some people notice increased shedding in the first few weeks. That is usually a normal part of your hair\u2019s growth cycle resetting and not a sign the treatment is failing. Stopping early is the most common reason treatment does not work. If you stop, any gains will gradually reverse.'
           ]
         },
         {
@@ -1124,7 +1124,7 @@ var KORB_PATIENT_ED = {
       title: 'Sexual Health Guide',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and PERFORM for men, and to KORB Electric for women**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.',
+        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and PERFORM for men, and to KORB Electric for women**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, and recreational "poppers", whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.',
         'KORB\'s sexual health treatments are prescription medications for erections, arousal and sexual response: KORB Rise and PERFORM for men, and KORB Electric for women. Your provider chooses based on your health history and what you want help with.'
       ],
       sections: [
@@ -1150,7 +1150,7 @@ var KORB_PATIENT_ED = {
           ],
           after: [
             'Start with half a troche. If that is not enough, your provider may tell you to increase to a full one. Do not take more than one troche in a 24-hour period unless your provider specifically tells you to.',
-            'If you live in a state we serve through a different pharmacy you may receive PERFORM instead. It contains sildenafil and tadalafil, the same two actives that do the main work in KORB Rise, in a fast-dissolving tablet taken 30 minutes before sexual activity. It does not contain L-Arginine or oxytocin, so headache may be a little more noticeable. **The nitrate warning at the top of this page applies to PERFORM as well.** Your strength may differ from KORB Rise, so follow your own label rather than anything you were told about the other product.'
+            'If you live in a state we serve through a different pharmacy you may receive PERFORM instead. It contains sildenafil and tadalafil, the same two active ingredients that do the main work in KORB Rise, in a fast-dissolving tablet taken 30 minutes before sexual activity. It does not contain L-Arginine or oxytocin, so headache may be a little more noticeable. **The nitrate warning at the top of this page applies to PERFORM as well.** Your strength may differ from KORB Rise, so follow your own label rather than anything you were told about the other product.'
           ]
         },
         {
@@ -1178,7 +1178,7 @@ var KORB_PATIENT_ED = {
           h: 'For women: KORB Electric',
           paras: [
             'KORB Electric is a topical gel applied directly to the clitoris about 30 minutes before sexual activity, where it increases blood flow to the tissue it is applied to.',
-            '**It contains sildenafil, the same active ingredient as Viagra**, along with L-arginine. Depending on which pharmacy fills your prescription it also contains either theophylline or DHEA. Your label names your exact formulation.',
+            '**It contains sildenafil, the same active ingredient as Viagra**, along with L-arginine. Depending on which pharmacy fills your prescription it also contains either theophylline (a medicine that relaxes blood vessels) or DHEA (a hormone your body turns into estrogen and testosterone). Your label names your exact formulation.',
             '**The nitrate warning at the top of this page applies to KORB Electric.** Applying it to the skin rather than swallowing it does not remove that risk. If you take nitroglycerin, isosorbide or any similar heart medication, even rarely, do not use KORB Electric and tell your provider.',
             'Apply one to two clicks from the applicator. Wash your hands before and after. One bottle covers roughly 20 uses.'
           ]
@@ -1253,11 +1253,11 @@ var KORB_PATIENT_ED = {
             ],
             [
               'Estriol',
-              'Dry skin, fine lines, elasticity and spots. One click once daily.'
+              'Dry skin, fine lines, elasticity and spots. One press of the pump once daily.'
             ],
             [
               'Combo cream',
-              'A broader approach combining several active ingredients. One click once daily.'
+              'A broader approach combining several active ingredients. One press of the pump once daily.'
             ]
           ]
         },
@@ -1272,7 +1272,7 @@ var KORB_PATIENT_ED = {
             'Follow with a plain moisturizer if your skin feels tight or dry.'
           ],
           after: [
-            'These creams make your skin more sensitive to the sun. Use sunscreen daily, even in winter and on overcast days. Without it you are more likely to burn, and sun exposure will work directly against the spots and discolouration you are treating.'
+            'These creams make your skin more sensitive to the sun. Use sunscreen daily, even in winter and on overcast days. Without it you are more likely to burn, and sun exposure will work directly against the spots and discoloration you are treating.'
           ]
         },
         {
@@ -1332,7 +1332,7 @@ var KORB_PATIENT_ED = {
            2026-09-22: what the program treats, then why people come, before any
            medicine is named. The last sentence of the second paragraph is her
            expectations point: medication is a tool, not a substitute for habits. */
-        'KORB\'s Weight Loss & Metabolic Health Program is medical treatment for adults whose weight is affecting their health. Treatment is a GLP-1 medication, semaglutide or tirzepatide, prescribed by a licensed KORB provider and dispensed by a licensed US pharmacy.',
+        'KORB\'s Weight Loss & Metabolic Health Program is medical treatment for adults whose weight is affecting their health. Treatment is a GLP-1 medication (one that copies a natural gut hormone that controls appetite and fullness), semaglutide or tirzepatide, prescribed by a licensed KORB provider and dispensed by a licensed US pharmacy.',
         'Most people come to us after diet and exercise alone have not been enough, or because their weight has started to affect their blood pressure, blood sugar, sleep, joints or energy. You do not need to have tried every diet first. Medication works best alongside nutrition and activity changes, not in place of them.',
         'Your provider selects your medication and starting dose based on your goals and health history, and adjusts your plan at regular follow-up visits.'
       ],
@@ -1358,7 +1358,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'If you are also managing diabetes',
           paras: [
-            'If you are managing diabetes or pre-diabetes, KORB can continue to provide your GLP-1 medication, but you should continue your diabetes care, including any related lab monitoring, with the clinician who manages it. That may be your primary care provider, an endocrinologist or another specialist.'
+            'If you are managing diabetes or pre-diabetes, KORB can continue to provide your GLP-1 medication, but you should continue your diabetes care, including any related lab monitoring, with the clinician who manages it. That may be your primary care provider, an endocrinologist (a hormone and diabetes specialist) or another specialist.'
           ]
         },
         {
@@ -1366,11 +1366,11 @@ var KORB_PATIENT_ED = {
           cards: [
             [
               'Semaglutide',
-              'A GLP-1 receptor agonist. Slows digestion and reduces appetite, which supports gradual, sustained weight loss. Injected once weekly, starting low and increasing every 4 weeks as tolerated.'
+              'A GLP-1 medication, which copies a natural gut hormone. Slows digestion and reduces appetite, which supports gradual, sustained weight loss. Injected once weekly, starting low and increasing every 4 weeks as tolerated.'
             ],
             [
               'Tirzepatide',
-              'A dual GIP/GLP-1 receptor agonist. Works through two hormone pathways rather than one, which may support greater appetite reduction for some patients. Injected once weekly, with the same gradual increase.'
+              'Works like two natural gut hormones, called GIP and GLP-1, rather than one. Injected once weekly, with the same gradual increase.'
             ]
           ],
           after: [
@@ -1399,7 +1399,7 @@ var KORB_PATIENT_ED = {
             { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
           ],
           after: [
-            '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain.** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+            '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
             '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
           ]
         },
@@ -1507,7 +1507,7 @@ var KORB_PATIENT_ED = {
             }
           ],
           after: [
-            '**Do not take KORB Rise if you take nitrates for chest pain.** It contains sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.'
+            '**Do not take KORB Rise if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** It contains sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.'
           ]
         },
         {
@@ -1601,7 +1601,7 @@ var KORB_PATIENT_ED = {
             { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
           ],
           after: [
-            '**Do not use KORB Electric if you take nitrates for chest pain.** It contains sildenafil, the same active as Viagra, and applying it to the skin rather than swallowing it does not remove the risk: the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
+            '**Do not use KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** It contains sildenafil, the same active as Viagra, and applying it to the skin rather than swallowing it does not remove the risk: the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
             '**Never take a hair loss prescription that was written for a man.** Yours is spironolactone. The men’s oral treatment is finasteride, and finasteride can cause serious birth defects if it is taken by a woman who is or could become pregnant. Never take, share or borrow a partner’s prescription.'
           ]
         },
@@ -1640,7 +1640,7 @@ var KORB_PATIENT_ED = {
               note: 'what the program is and how a cycle runs'
             },
             {
-              label: 'Your Tier Overview',
+              label: 'Your Program Overview',
               note: 'open the one your provider confirmed for you',
               choices: [
                 { href: 'KORB_Foundation_Program_Overview.html', label: 'Foundation' },
@@ -1680,7 +1680,7 @@ var KORB_PATIENT_ED = {
             'Baseline visit. Labs only. No prescription is sent at this visit.',
             'Your labs come back, usually within about a week.',
             'KORB Operations schedules the visit that starts your 16-week cycle.',
-            'At that visit your provider reviews your labs and confirms your tier and your medication.',
+            'At that visit your provider reviews your labs and confirms your program option and your medication.',
             'Your medication ships from the pharmacy with its own instructions.',
             'A lab order is placed for a draw between weeks 12 and 14, so results are back before your follow-up.',
             'At your 16-week follow-up your provider reviews everything and decides the next cycle with you.'
@@ -1691,7 +1691,7 @@ var KORB_PATIENT_ED = {
           lead: 'These therapies support nutrition, training and sleep. They do not replace them, and response is noticeably better in people who have the basics in place.',
           items: [
             'Nutrition. Adequate protein, and enough total food to support recovery.',
-            'Movement. Resistance training if you are able, plus regular general activity.',
+            'Movement. Strength training, with weights or your own body weight, if you are able, plus regular general activity.',
             'Recovery. Consistent sleep, and honest management of stress and alcohol.'
           ]
         },
@@ -1707,7 +1707,7 @@ var KORB_PATIENT_ED = {
         'Baseline visit is labs only. No prescription is sent at your first visit.',
         'Your pharmacy instructions and your prescription label take priority over any general guide.',
         'Read the Injection, Storage & Safety Guide before your first injection.',
-        'Nothing here is personalized medical advice. Your provider decides your tier and your medication.'
+        'Nothing here is personalized medical advice. Your provider decides your program option and your medication.'
       ]
     },
 
@@ -1839,7 +1839,7 @@ var KORB_PATIENT_ED = {
           items: [
             'The solution is cloudy or discolored, or has particles in it.',
             'The vial is cracked or damaged.',
-            'The vial is past 28 days from first use, or past the beyond-use date on your label.',
+            'The vial is past 28 days from first use, or past the beyond-use date (the pharmacy\'s use-by date) on your label.',
             'The medication has been frozen, or has been left in heat above 86°F (30°C).'
           ]
         },
@@ -1869,7 +1869,7 @@ var KORB_PATIENT_ED = {
           callout: {
             title: 'If you are on testosterone, your equipment is different',
             text: 'Testosterone is a thick oil and is **not** given with an insulin ' +
-                  'syringe. It comes with a Luer lock syringe and **two** separate ' +
+                  'syringe. It comes with a Luer lock syringe (one the needle twists onto, so you can change needles) and **two** separate ' +
                   'needles: a **draw-up needle** to pull the medication out of the ' +
                   'vial, and a thinner **injection needle** to inject with. Use both, ' +
                   'every time, and never draw up through the injection needle. ' +
@@ -1901,7 +1901,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Injection technique',
           paras: [
-            'Prepare the exact dose you were instructed to use. Your prescription label and your pharmacy instructions are the authoritative source for your dose, not any general guide.',
+            'Prepare the exact dose you were instructed to use. Your prescription label and your pharmacy instructions are the final word on your dose, not any general guide.',
             'These medications are given subcutaneously, into the fat layer just under the skin, not into muscle or a vein. Rotate your injection sites rather than using the same spot repeatedly.'
           ]
         },
@@ -1920,7 +1920,7 @@ var KORB_PATIENT_ED = {
       keyReminders: [
         'A new needle and syringe every time. Never reuse, and never combine two medications in one syringe.',
         'Write the open date on the vial and discard 28 days after first use, or earlier if your label says so.',
-        'Your prescription label is the authoritative source for your dose and directions.',
+        'Your prescription label is the final word on your dose and directions.',
         'Sharps rules are local and they are yours to look up. Find what your area requires and dispose of needles and syringes that way.'
       ]
     },
@@ -2041,7 +2041,7 @@ var KORB_PATIENT_ED = {
       noInjectionSafety: true,
 
       authoritySource: 'Your prescription label, or the instructions given to you ' +
-        'by your KORB clinical provider, is the authoritative source for your dose ' +
+        'by your KORB clinical provider, is the final word on your dose ' +
         'and directions. What follows is a general reference. Do not adjust ' +
         'anything without speaking to your provider first.',
 
@@ -2049,7 +2049,7 @@ var KORB_PATIENT_ED = {
         'Skin irritation where you apply a cream or patch',
         'Mild but persistent side effects',
         'Questions about whether to continue therapy',
-        'Interest in other KORB programmes, including sexual health'
+        'Interest in other KORB programs, including sexual health'
       ],
 
       facts: {
@@ -2070,10 +2070,10 @@ var KORB_PATIENT_ED = {
         'The hormones KORB prescribes are bioidentical, meaning they are ' +
         'structurally the same as the ones your body makes. You may be ' +
         'prescribed one, two or three of them, and they are counted that way ' +
-        'when your programme is priced.',
+        'when your program is priced.',
 
         'Most of them are absorbed through the skin rather than swallowed. That ' +
-        'matters: going through the skin avoids the first pass through your ' +
+        'matters: going through the skin skips the first trip through your ' +
         'liver, which is why a patch or cream carries a lower risk of blood ' +
         'clots than an oral estrogen does.'
       ],
@@ -2119,10 +2119,10 @@ var KORB_PATIENT_ED = {
             'lining of the uterus, and over time that can lead to cancer. ' +
             'Progesterone prevents it. This is not optional and it is not a ' +
             'preference - if you have been prescribed estrogen without ' +
-            'progesterone and you have not had a hysterectomy, contact us before ' +
+            'progesterone and you have not had a hysterectomy (surgery to remove your uterus), contact us before ' +
             'you start.',
           p: [
-            'If you have had a hysterectomy, you do not need progesterone. There ' +
+            'If you have had a hysterectomy, meaning your uterus was removed, you do not need progesterone. Having your tubes tied, an ablation, or only your ovaries removed does not count. There ' +
             'is no lining to protect, and adding it would not help you.',
             'If you still have regular periods, your progesterone is taken on a ' +
             'cycle - 21 days on, then 7 days off - rather than every night. Your ' +
@@ -2131,7 +2131,7 @@ var KORB_PATIENT_ED = {
         },
         {
           h: 'How to apply a cream',
-          callout: 'One click is one measured dose. Do not guess at it and do ' +
+          callout: 'One click (one press of the pump) is one measured dose. Do not guess at it and do ' +
             'not double up if you miss one.',
           table: {
             head: ['Step', 'What to do'],
@@ -2208,7 +2208,7 @@ var KORB_PATIENT_ED = {
           ['Out of reach', 'Of children, and of anyone else in the house']
         ],
         notes: [
-          'Your programme runs in 12-week blocks, but the amount dispensed at one ' +
+          'Your program runs in 12-week blocks, but the amount dispensed at one ' +
           'time varies by product and by pharmacy - anywhere from about 4 weeks to ' +
           '12. Some creams are sent a month at a time with refills. Go by what your ' +
           'label and your pharmacy tell you rather than by the calendar.',
@@ -2218,7 +2218,7 @@ var KORB_PATIENT_ED = {
       },
 
       travel: 'Hormone therapy travels easily. Keep everything in your carry-on ' +
-        'rather than a checked bag, leave it in its original labelled container, ' +
+        'rather than a checked bag, and leave it in its original labeled container. ' +
         'Patches and capsules need no cold storage at all; if your cream came ' +
         'with instructions to keep it refrigerated, take a small insulated bag. ' +
         'If you are crossing time ' +
@@ -2272,7 +2272,7 @@ var KORB_PATIENT_ED = {
           'that is actually reaching your tissues, which is what matters when ' +
           'the hormone is going through your skin. A blood level barely moves ' +
           'after a cream, so it would tell your provider very little.',
-          'The complete panel adds a small finger-prick blood spot for thyroid, ' +
+          'The complete version of the kit adds a small finger-prick blood spot for thyroid, ' +
           'because thyroid problems cause many of the same symptoms and are ' +
           'worth ruling out.'
         ]
@@ -2280,21 +2280,24 @@ var KORB_PATIENT_ED = {
 
       safety: [
         'Tell your provider before you start if you have had breast cancer, ' +
-        'endometrial cancer, or any cancer that was sensitive to estrogen.',
+        'endometrial cancer (cancer of the lining of the uterus), or any cancer that was sensitive to estrogen.',
         'Tell your provider if you have had a blood clot or a clotting disorder, ' +
         'or if a close relative has.',
         'Tell your provider if you have had a stroke or a heart attack, or if ' +
         'your blood pressure is not controlled.',
         'Tell your provider if you have liver disease.',
         'Tell your provider about any vaginal bleeding that has not been explained.',
-        'Tell us if you have a PEANUT ALLERGY. The commercial progesterone ' +
+        'Tell us if you have a PEANUT ALLERGY. The factory-made, brand-name progesterone ' +
         'capsule is made with peanut oil. A compounded capsule is not, and we ' +
         'will prescribe that one instead - so this does not stop you having ' +
         'progesterone.',
         'If you still have a uterus, never take estrogen without progesterone.',
         'Do not change your own dose, and do not use anyone else\'s hormones.'
       ],
-      emergencyLead: 'Call 911 or go to an emergency room if you have any of these:',
+      /* The list this lead introduced never existed, so the page printed "any of
+         these:" over nothing. Found 2026-09-22. The standard estrogen warning signs:
+         clot, stroke, heart attack, severe allergic reaction. For Don to confirm. */
+      emergencyLead: 'Call 911 or go to an emergency room if you have chest pain, sudden shortness of breath, pain or swelling in one leg, a sudden severe headache, sudden changes in your vision, weakness or numbness on one side of your body, trouble speaking, or swelling of your face, lips or throat. These can be signs of a blood clot, a stroke or a severe allergic reaction.',
 
       keyReminders: [
         'If you have a uterus, never take estrogen without progesterone.',
@@ -2305,7 +2308,7 @@ var KORB_PATIENT_ED = {
         'change it with you.',
         'Patches and capsules need no refrigeration. For creams, follow the ' +
         'instructions that came with them.',
-        'KORB also offers a SEXUAL HEALTH programme. If low libido or arousal is ' +
+        'KORB also offers a SEXUAL HEALTH program. If low libido or arousal is ' +
         'something you would like addressed, tell your provider - there are ' +
         'options beyond hormone therapy.'
       ]
@@ -2324,16 +2327,15 @@ var KORB_PATIENT_ED = {
       washoutWeeks: 4,
 
       what: [
-        'Sermorelin is a synthetic peptide that stimulates your pituitary gland to ' +
-        'release growth hormone (GH) naturally. It belongs to a class of compounds ' +
-        'called growth hormone releasing hormone (GHRH) analogs.',
-        'The key distinction: Sermorelin does not replace growth hormone. It ' +
-        'encourages your own pituitary gland to produce and release GH through its ' +
-        'normal pathways. Because it works with your body’s existing system, it ' +
-        'is considered a more physiologic approach than direct GH replacement.',
-        'Growth hormone release triggered by Sermorelin also stimulates your liver ' +
-        'to produce IGF-1 (insulin-like growth factor 1). Your IGF-1 level is one of ' +
-        'the key markers your provider will monitor throughout your program.'
+        'Sermorelin is a lab-made copy of the natural signal your brain uses to release ' +
+        'growth hormone. It acts on the pituitary gland, a small gland at the base of the ' +
+        'brain that controls many of your hormones.',
+        'Sermorelin does not replace growth hormone. It prompts your own pituitary gland ' +
+        'to make and release more of it, working through your body’s own system rather ' +
+        'than adding growth hormone from outside.',
+        'When your body releases growth hormone, your liver makes IGF-1, a blood marker ' +
+        'that shows how much growth hormone your body is making. Your IGF-1 level is one ' +
+        'of the main things your provider checks throughout your program.'
       ],
 
       mayHelp: {
@@ -2341,7 +2343,7 @@ var KORB_PATIENT_ED = {
         items: [
           'Sleep quality',
           'Recovery after exercise',
-          'Body composition, as part of an exercise and nutrition plan',
+          'Body composition (your balance of muscle and fat), as part of an exercise and nutrition plan',
           'Energy and general wellness'
         ],
         after: 'Sermorelin is not FDA-approved for these uses, and the research for them is still limited. Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
@@ -2349,10 +2351,10 @@ var KORB_PATIENT_ED = {
 
       timingNotes: [
         ['Timing matters',
-         'Sermorelin should be injected at bedtime, on an empty stomach. GH is ' +
+         'Sermorelin should be injected at bedtime, on an empty stomach. growth hormone is ' +
          'released naturally in pulses during sleep, particularly during the first ' +
          'few hours of deep sleep, and injecting at bedtime aligns with that rhythm. ' +
-         'Food, particularly carbohydrates, can blunt GH release. Wait at least two ' +
+         'Food, particularly carbohydrates, can blunt growth hormone release. Wait at least two ' +
          'hours after your last meal before injecting.'],
         ['The rest day is intentional',
          'Do not inject on your rest day, and do not make up a missed dose on it. If ' +
@@ -2371,11 +2373,11 @@ var KORB_PATIENT_ED = {
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
          'are reviewed during this window, and it is a good stretch to focus on ' +
          'nutrition, exercise and sleep before your next cycle. Do not restart early ' +
-         'without provider direction.']
+         'unless your provider tells you to.']
       ],
       timelineNote:
         'Do not compare your response to others. Response is highly individual. Age, ' +
-        'baseline GH levels, body composition, sleep quality and lifestyle habits all ' +
+        'baseline growth hormone levels, body composition, sleep quality and lifestyle habits all ' +
         'influence it.',
 
       common: [
@@ -2387,7 +2389,7 @@ var KORB_PATIENT_ED = {
       ],
       monitorAndTell: [
         ['Water retention or puffiness',
-         'Can occur with GH stimulation. Tell your KORB provider if noticeable.'],
+         'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
         ['Joint discomfort or tingling',
          'May indicate a dose adjustment is needed. Tell your KORB provider.'],
         ['Sleep changes',
@@ -2398,11 +2400,11 @@ var KORB_PATIENT_ED = {
         lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
               'provider uses labs to assess your response and your safety.',
         items: [
-          'IGF-1, your primary response marker. The target is the physiologic range; higher is not better.',
-          'HbA1c and fasting glucose, because GH stimulation can affect glucose metabolism.',
-          'Thyroid (TSH, free T4, free T3). Sermorelin requires a functioning thyroid axis.',
-          'CBC, CMP, lipid panel, copper, zinc and ceruloplasmin, at baseline and every 16-week follow-up.',
-          'PSA, added for men aged 45 and older at every draw.'
+          'IGF-1, the main blood test that shows how you are responding. The goal is the normal healthy range, and higher is not better.',
+          'HbA1c and fasting glucose (blood sugar tests), because raising growth hormone can raise blood sugar.',
+          'Thyroid tests (TSH, free T4, free T3). Sermorelin needs your thyroid to be working normally.',
+          'CBC (blood counts), CMP (kidney, liver and blood salts), lipid panel (cholesterol), copper, zinc and ceruloplasmin (the protein that carries copper in your blood), at baseline and every 16-week follow-up.',
+          'PSA (a prostate blood test), added for men aged 45 and older at every draw.'
         ],
         after: 'Your lab draw should be completed between weeks 12 and 14 of your active ' +
                'cycle, so results are back in time for your 16-week follow-up visit. Some ' +
@@ -2411,10 +2413,10 @@ var KORB_PATIENT_ED = {
       },
 
       safety: [
-        'Use Sermorelin only as prescribed. Do not change your dose, schedule or route without provider direction.',
-        'Do not combine it with other GH-axis therapies unless KORB specifically instructs you to.',
-        'Sermorelin is not appropriate during active malignancy, uncontrolled thyroid disease, or pregnancy.',
-        'Do not restart after your off weeks early. The washout period is intentional.',
+        'Use Sermorelin only as prescribed. Do not change your dose, schedule, or how you take it, unless your provider tells you to.',
+        'Do not use any other growth hormone product at the same time, including HGH injections or peptides from another source, unless KORB specifically tells you to.',
+        'Sermorelin is not appropriate if you have cancer now or are being treated for it, if you have thyroid disease that is not under control, or if you are pregnant.',
+        'Do not restart after your off weeks early. The break is intentional.',
         'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
       ],
 
@@ -2424,11 +2426,11 @@ var KORB_PATIENT_ED = {
         'hives, chest pain, or any symptom that feels severe or unsafe.',
 
       keyReminders: [
-        'Sermorelin stimulates your own GH. It is not GH replacement.',
+        'Sermorelin stimulates your own growth hormone. It is not growth hormone replacement.',
         'Write the open date on your vial and discard 28 days after first use.',
-        'Your washout period is intentional. Do not restart early.',
+        'Your break from injections is intentional. Do not restart early.',
         'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
-        'Response varies, and more is not better. Do not adjust your dose without provider direction.',
+        'Response varies, and more is not better. Do not adjust your dose unless your provider tells you to.',
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
@@ -2446,36 +2448,38 @@ var KORB_PATIENT_ED = {
       washoutWeeks: 4,
 
       what: [
-        'Tesamorelin is a synthetic analog of growth hormone releasing factor (GRF). ' +
-        'It stimulates the pituitary gland to release growth hormone (GH) naturally. ' +
-        'It does not replace GH; it encourages your own body to produce it.',
-        'Tesamorelin has the strongest human clinical evidence base among the peptides ' +
-        'in the KORB Longevity Program. It is FDA-approved for HIV-associated ' +
-        'lipodystrophy and is used in the KORB program off-label for body composition ' +
-        'support, specifically targeting visceral adiposity reduction.',
-        'Your provider selects your dose based on your goals, labs and clinical profile. ' +
-        'Your IGF-1 and glucose response will be reviewed at every 16-week follow-up visit.'
+        'Tesamorelin is a lab-made copy of the natural signal your brain uses to release ' +
+        'growth hormone. It prompts the pituitary gland, a small gland at the base of the ' +
+        'brain that controls many of your hormones, to release more of your own growth ' +
+        'hormone. It does not replace growth hormone.',
+        'Tesamorelin has been studied in people more than the other peptides in the ' +
+        'Functional Health & Longevity Program. The FDA has approved it for one use: ' +
+        'reducing extra belly fat in people with HIV. KORB uses it for a purpose the FDA ' +
+        'has not approved, which is reducing the fat stored around the organs.',
+        'Your provider selects your dose based on your goals, labs and health history. ' +
+        'Your IGF-1, a blood marker that shows how much growth hormone your body is making, ' +
+        'and your blood sugar are reviewed at every 16-week follow-up visit.'
       ],
 
       mayHelp: {
         lead: 'Patients use Tesamorelin for goals such as:',
         items: [
           'Belly fat, the fat stored around the organs',
-          'Body composition, as part of an exercise and nutrition plan'
+          'Body composition (your balance of muscle and fat), as part of an exercise and nutrition plan'
         ],
         after: 'Tesamorelin is not FDA-approved for these uses, and the research for them is still limited. Results vary from person to person, and no result is guaranteed. Your provider will talk with you about what is realistic for you, and reviews how it is going at each follow-up.'
       },
 
       timingNotes: [
         ['Timing matters',
-         'Tesamorelin should be injected at bedtime, on an empty stomach. GH is released ' +
+         'Tesamorelin should be injected at bedtime, on an empty stomach. growth hormone is released ' +
          'naturally in pulses during sleep, particularly during the first few hours of ' +
          'deep sleep, and injecting at bedtime aligns with that rhythm. Food, ' +
-         'particularly carbohydrates, can blunt GH release. Wait at least two hours ' +
+         'particularly carbohydrates, can blunt growth hormone release. Wait at least two hours ' +
          'after your last meal before injecting.'],
         ['Your dose is chosen for you',
          'Your specific dose and strength are decisions your KORB provider makes based ' +
-         'on your goals, labs and clinical profile. They are not something to choose or ' +
+         'on your goals, labs and health history. They are not something to choose or ' +
          'change yourself. Your dose is compounded specifically for you, so always ' +
          'follow the exact units on your prescription label, or your provider\u2019s ' +
          'direction if your label does not list exact units.'],
@@ -2489,16 +2493,16 @@ var KORB_PATIENT_ED = {
          'Most patients notice little initially. Energy or sleep changes are occasionally reported early.'],
         ['Weeks 4\u20138', 'Active course', 'Changes, if any, begin emerging over time.'],
         ['Weeks 8\u201312', 'Continued support',
-         'GH/IGF-1 axis support continues. Your provider will review your IGF-1 and glucose at your follow-up visit.'],
+         'Your provider will review your IGF-1 and blood sugar at your follow-up visit.'],
         ['Weeks 13\u201316', 'Off cycle \u2014 labs and lifestyle',
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
          'are reviewed during this window, and it is a good stretch to focus on ' +
          'nutrition, exercise and sleep before your next cycle. Do not restart early ' +
-         'without provider direction.']
+         'unless your provider tells you to.']
       ],
       timelineNote:
-        'Tesamorelin has the strongest human evidence base in this program for visceral ' +
-        'fat reduction, and results still vary. Your dose may be assessed and adjusted ' +
+        'Tesamorelin has been studied in people more than the other peptides in this ' +
+        'program, and results still vary. Your dose may be assessed and adjusted ' +
         'at your 16-week follow-up visit based on your IGF-1 response, as tolerated and ' +
         'as directed by your KORB provider.',
 
@@ -2507,13 +2511,13 @@ var KORB_PATIENT_ED = {
          'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
         ['Flushing or warmth after injection', 'Typically brief, and usually settles within minutes.'],
         ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
-        ['Nausea', 'Occasionally reported. Usually mild and self-limiting.']
+        ['Nausea', 'Occasionally reported. Usually mild, and usually goes away on its own.']
       ],
       monitorAndTell: [
-        ['Water retention or puffiness', 'Can occur with GH stimulation. Tell your KORB provider if noticeable.'],
+        ['Water retention or puffiness', 'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
         ['Joint discomfort or tingling', 'May indicate a dose adjustment is needed. Tell your KORB provider.'],
         ['Glucose or HbA1c changes',
-         'Tesamorelin is glycemically neutral, but glucose monitoring is required. Tell ' +
+         'Tesamorelin usually does not raise blood sugar, but it is still checked. Tell ' +
          'your KORB provider if you notice changes.']
       ],
 
@@ -2521,10 +2525,10 @@ var KORB_PATIENT_ED = {
         lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
               'provider uses labs to assess your response and your safety.',
         items: [
-          'IGF-1, your primary response marker. The target is the physiologic range; higher is not better.',
-          'HbA1c and fasting glucose. Tesamorelin is glycemically neutral, but glucose monitoring remains required throughout.',
-          'CBC, CMP, lipid panel, TSH, free T4, free T3, copper, zinc and ceruloplasmin, at baseline and every 16-week follow-up.',
-          'PSA, added for men aged 45 and older at every draw.'
+          'IGF-1, the main blood test that shows how you are responding. The goal is the normal healthy range, and higher is not better.',
+          'HbA1c and fasting glucose (blood sugar tests). Tesamorelin usually does not raise blood sugar, but it is checked throughout.',
+          'CBC (blood counts), CMP (kidney, liver and blood salts), lipid panel (cholesterol), TSH, free T4, free T3 (thyroid tests), copper, zinc and ceruloplasmin (the protein that carries copper in your blood), at baseline and every 16-week follow-up.',
+          'PSA (a prostate blood test), added for men aged 45 and older at every draw.'
         ],
         after: 'Your lab draw should be completed between weeks 12 and 14 of your active ' +
                'cycle, so results are back in time for your 16-week follow-up visit. Some ' +
@@ -2533,10 +2537,10 @@ var KORB_PATIENT_ED = {
       },
 
       safety: [
-        'Use Tesamorelin only as prescribed. Do not change your dose, schedule or route without provider direction.',
-        'Do not combine it with other GH-axis therapies unless KORB specifically instructs you to.',
+        'Use Tesamorelin only as prescribed. Do not change your dose, schedule, or how you take it, unless your provider tells you to.',
+        'Do not use any other growth hormone product at the same time, including HGH injections or peptides from another source, unless KORB specifically tells you to.',
         'Tesamorelin requires careful provider oversight if you have uncontrolled diabetes.',
-        'Do not restart after your off weeks early. The washout period is intentional.',
+        'Do not restart after your off weeks early. The break is intentional.',
         'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
       ],
 
@@ -2546,11 +2550,11 @@ var KORB_PATIENT_ED = {
         'hives, chest pain, or any symptom that feels severe or unsafe.',
 
       keyReminders: [
-        'Tesamorelin stimulates your own GH. It is not GH replacement.',
+        'Tesamorelin stimulates your own growth hormone. It is not growth hormone replacement.',
         'Always follow your prescription label for your exact dose and units.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
-        'Your washout period is intentional. Do not restart early.',
+        'Your break from injections is intentional. Do not restart early.',
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
@@ -2568,20 +2572,21 @@ var KORB_PATIENT_ED = {
       washoutWeeks: 4,
 
       what: [
-        'CJC-1295 / Ipamorelin is a dual-peptide combination used to stimulate growth ' +
-        'hormone (GH) release. CJC-1295 extends GH-releasing signals while Ipamorelin ' +
-        'directly stimulates GH release from the pituitary gland. Together they promote ' +
-        'a more sustained, pulsatile GH effect.',
-        'Like Sermorelin, this combination stimulates your own pituitary to produce GH. ' +
-        'It does not replace growth hormone; it acts through your body\u2019s existing system.',
-        'Your IGF-1 level is one of the key response markers your provider will monitor ' +
-        'throughout your program.'
+        'CJC-1295 / Ipamorelin is a combination of two lab-made peptides that prompt your ' +
+        'body to release growth hormone. CJC-1295 makes the signal last longer, and ' +
+        'Ipamorelin triggers the release from the pituitary gland, a small gland at the ' +
+        'base of the brain that controls many of your hormones. Together they release ' +
+        'growth hormone in natural bursts, for longer.',
+        'Like Sermorelin, this combination works through your body\u2019s own system. ' +
+        'It does not replace growth hormone.',
+        'Your IGF-1 level, a blood marker that shows how much growth hormone your body is ' +
+        'making, is one of the main things your provider checks throughout your program.'
       ],
 
       mayHelp: {
         lead: 'Patients use CJC-1295 / Ipamorelin for goals such as:',
         items: [
-          'Body composition, as part of an exercise and nutrition plan',
+          'Body composition (your balance of muscle and fat), as part of an exercise and nutrition plan',
           'Sleep quality',
           'Recovery after exercise',
           'General wellness'
@@ -2591,7 +2596,7 @@ var KORB_PATIENT_ED = {
 
       timingNotes: [
         ['Timing matters',
-         'Inject at bedtime on an empty stomach. GH is released naturally during sleep, ' +
+         'Inject at bedtime on an empty stomach. growth hormone is released naturally during sleep, ' +
          'and food, particularly carbohydrates, can blunt that release. Wait at least ' +
          'two hours after your last meal.'],
         ['Your dose is compounded for you',
@@ -2612,11 +2617,11 @@ var KORB_PATIENT_ED = {
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
          'are reviewed during this window, and it is a good stretch to focus on ' +
          'nutrition, exercise and sleep before your next cycle. Do not restart early ' +
-         'without provider direction.']
+         'unless your provider tells you to.']
       ],
       timelineNote:
         'Do not compare your response to others. Response is highly individual and ' +
-        'influenced by age, baseline GH levels, body composition, sleep quality and ' +
+        'influenced by age, baseline growth hormone levels, body composition, sleep quality and ' +
         'lifestyle habits.',
 
       common: [
@@ -2627,20 +2632,20 @@ var KORB_PATIENT_ED = {
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
       ],
       monitorAndTell: [
-        ['Water retention or puffiness', 'Can occur with GH stimulation. Tell your KORB provider if noticeable.'],
+        ['Water retention or puffiness', 'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
         ['Joint discomfort or tingling', 'May indicate a dose adjustment is needed. Tell your KORB provider.'],
-        ['Glucose changes', 'GH stimulation can affect blood sugar. Tell your KORB provider if you notice changes.']
+        ['Glucose changes', 'growth hormone stimulation can affect blood sugar. Tell your KORB provider if you notice changes.']
       ],
 
       labs: {
         lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
               'provider uses labs to assess your response and your safety.',
         items: [
-          'IGF-1, your primary response marker. The target is the physiologic range; higher is not better.',
-          'HbA1c and fasting glucose, because GH stimulation can affect glucose metabolism.',
-          'Thyroid (TSH, free T4, free T3). A functioning thyroid axis is important for optimal GH response.',
-          'CBC, CMP and lipid panel, at baseline and every 16-week follow-up.',
-          'PSA, added for men aged 45 and older at every draw.'
+          'IGF-1, the main blood test that shows how you are responding. The goal is the normal healthy range, and higher is not better.',
+          'HbA1c and fasting glucose (blood sugar tests), because raising growth hormone can raise blood sugar.',
+          'Thyroid tests (TSH, free T4, free T3). Your thyroid needs to be working normally for this medication to work as intended.',
+          'CBC (blood counts), CMP (kidney, liver and blood salts) and lipid panel (cholesterol), at baseline and every 16-week follow-up.',
+          'PSA (a prostate blood test), added for men aged 45 and older at every draw.'
         ],
         after: 'Your lab draw should be completed between weeks 12 and 14 of your active ' +
                'cycle, so results are back in time for your 16-week follow-up visit. Some ' +
@@ -2649,10 +2654,10 @@ var KORB_PATIENT_ED = {
       },
 
       safety: [
-        'Use CJC-1295 / Ipamorelin only as prescribed. Do not change your dose, schedule or route without provider direction.',
-        'Do not combine it with other GH-axis therapies unless KORB specifically instructs you to.',
-        'CJC-1295 / Ipamorelin is not appropriate during active malignancy, uncontrolled thyroid disease, or pregnancy.',
-        'Do not restart after your off weeks early. The washout period is intentional.',
+        'Use CJC-1295 / Ipamorelin only as prescribed. Do not change your dose, schedule, or how you take it, unless your provider tells you to.',
+        'Do not use any other growth hormone product at the same time, including HGH injections or peptides from another source, unless KORB specifically tells you to.',
+        'CJC-1295 / Ipamorelin is not appropriate if you have cancer now or are being treated for it, if you have thyroid disease that is not under control, or if you are pregnant.',
+        'Do not restart after your off weeks early. The break is intentional.',
         'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
       ],
 
@@ -2662,11 +2667,11 @@ var KORB_PATIENT_ED = {
         'hives, chest pain, or any symptom that feels severe or unsafe.',
 
       keyReminders: [
-        'CJC-1295 / Ipamorelin stimulates your own GH. It is not GH replacement.',
+        'CJC-1295 / Ipamorelin stimulates your own growth hormone. It is not growth hormone replacement.',
         'Always follow your prescription label for your exact dose and units.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
-        'Your washout period is intentional. Do not restart early.',
+        'Your break from injections is intentional. Do not restart early.',
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
@@ -2692,7 +2697,7 @@ var KORB_PATIENT_ED = {
       what: [
         'BPC-157 is a synthetic peptide derived from a protein found naturally in the ' +
         'stomach lining. Its full name is Body Protection Compound 157. It is being ' +
-        'studied for possible support of soft tissue recovery, musculoskeletal health ' +
+        'studied for recovery of soft tissue such as muscles, tendons and ligaments, and for joint ' +
         'and gut health.'
       ],
 
@@ -2716,27 +2721,27 @@ var KORB_PATIENT_ED = {
          'No immediate noticeable effect is common. The therapy works gradually. Continue your schedule.'],
         ['Active course', 'Foundation 8 weeks; Gateway and Peak 6 weeks',
          'Recovery quality may begin to shift. Individual response varies from patient to patient.'],
-        ['Off weeks', 'Washout \u2014 labs and lifestyle',
+        ['Off weeks', 'Break \u2014 labs and lifestyle',
          'No injections during this window; this is intentional. Your labs, drawn between ' +
          'weeks 12 and 14, are reviewed during this time, and it is a good stretch to focus ' +
          'on nutrition, exercise and sleep before your next course.']
       ],
       timelineNote:
         'Your provider will assess whether therapy is appropriate to continue based on ' +
-        'your response, tolerability and goals.',
+        'your response, any side effects, and your goals.',
 
       common: [
         ['Injection site redness or irritation',
          'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
-        ['Nausea or GI discomfort', 'Occasionally reported. Usually mild and self-limiting. Tell your KORB provider if it persists.'],
+        ['Nausea or stomach upset', 'Occasionally reported. Usually mild, and usually goes away on its own. Tell your KORB provider if it persists.'],
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
       ],
       monitorAndTell: [
         ['Unusual pain or swelling at the injection site',
          'Could indicate infection. Contact KORB promptly if redness spreads or a fever develops.'],
-        ['Systemic rash or hives',
-         'Tell your KORB provider at your next visit, or sooner if it is spreading or severe.'],
-        ['Any unexplained systemic symptom',
+        ['A rash or hives away from the injection site',
+         'Contact your provider promptly.'],
+        ['Any unexplained symptom that affects your whole body, such as fever or feeling generally unwell',
          'Tell your KORB provider. Do not continue without guidance if you have a significant new symptom.']
       ],
 
@@ -2744,10 +2749,10 @@ var KORB_PATIENT_ED = {
         lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
               'provider uses labs to assess your response and your safety.',
         items: [
-          'Standard longevity panel: CBC, CMP, lipid panel, HbA1c, fasting glucose, fasting ' +
-          'insulin, IGF-1, TSH, free T4, free T3, copper, zinc and ceruloplasmin, at ' +
+          'Standard longevity panel: CBC (blood counts), CMP (kidney, liver and blood salts), lipid panel (cholesterol), HbA1c (3-month blood sugar average), fasting glucose, fasting ' +
+          'insulin, IGF-1, TSH, free T4, free T3 (thyroid tests), copper, zinc and ceruloplasmin (the protein that carries copper in your blood), at ' +
           'baseline and every 16-week follow-up.',
-          'PSA, added for men aged 45 and older at every draw.'
+          'PSA (a prostate blood test), added for men aged 45 and older at every draw.'
         ],
         after: 'Your lab draw should be completed between weeks 12 and 14 of your active ' +
                'cycle, so results are back in time for your 16-week follow-up visit. Some ' +
@@ -2756,9 +2761,9 @@ var KORB_PATIENT_ED = {
       },
 
       safety: [
-        'Use BPC-157 only as prescribed. Do not change your dose, course length or schedule without provider direction.',
-        'BPC-157 is not appropriate during active malignancy or pregnancy.',
-        'Do not restart the course early after your off weeks without provider direction.',
+        'Use BPC-157 only as prescribed. Do not change your dose, course length or schedule unless your provider tells you to.',
+        'BPC-157 is not appropriate if you have cancer now or are being treated for it, or if you are pregnant.',
+        'Do not restart the course early after your off weeks unless your provider tells you to.',
         'Tell your KORB provider if you develop a new medical condition or become pregnant.'
       ],
 
@@ -2795,7 +2800,7 @@ var KORB_PATIENT_ED = {
         'is found in blood plasma, saliva and urine, and its levels decline with age. It ' +
         'is being studied for possible support of tissue health, collagen support, wound ' +
         'healing and anti-inflammatory processes.',
-        'GHK-Cu contains copper as part of its structure. Copper, zinc and ceruloplasmin ' +
+        'GHK-Cu contains copper as part of its structure. Copper, zinc and ceruloplasmin (the protein that carries copper in your blood) ' +
         'are part of your standard lab panel, and your provider will pay particular ' +
         'attention to these results while you are on GHK-Cu.'
       ],
@@ -2826,7 +2831,7 @@ var KORB_PATIENT_ED = {
          'Most patients notice nothing initially. This is normal; the therapy works gradually.'],
         ['Weeks 3\u20134', 'Active course continues',
          'Skin quality or tissue changes may begin to emerge. Individual response varies.'],
-        ['After your course', 'Washout \u2014 labs and lifestyle',
+        ['After your course', 'Break \u2014 labs and lifestyle',
          'No GHK-Cu injections. Your copper, zinc and ceruloplasmin results will be ' +
          'reviewed at your 16-week follow-up visit, and this is a good window to focus ' +
          'on nutrition, exercise and sleep before your next course.']
@@ -2840,26 +2845,26 @@ var KORB_PATIENT_ED = {
         ['Injection site redness or irritation',
          'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
         ['Mild skin changes at the injection site',
-         'Occasional mild discoloration or sensitivity. Usually self-limiting.'],
+         'Occasional mild discoloration or sensitivity. Usually goes away on its own.'],
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
       ],
       monitorAndTell: [
         ['Copper or ceruloplasmin trending up on labs',
          'Your provider will review this at your follow-up visit. Therapy may be discontinued if levels rise.'],
         ['Unusual rash, hives or skin reaction',
-         'Tell your KORB provider promptly. Copper-containing compounds can occasionally cause hypersensitivity.'],
-        ['Any systemic symptom',
-         'Tell your KORB provider. Do not continue without guidance if you have a new unexplained systemic symptom.']
+         'Tell your KORB provider promptly. Copper-containing compounds can occasionally cause an allergic reaction.'],
+        ['Any symptom that affects your whole body, such as fever or feeling generally unwell',
+         'Tell your KORB provider, and do not continue until your provider says so.']
       ],
 
       labs: {
         lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
               'provider uses labs to assess your response and your safety.',
         items: [
-          'Standard longevity panel: CBC, CMP, lipid panel, HbA1c, fasting glucose, fasting ' +
-          'insulin, IGF-1, TSH, free T4, free T3, copper, zinc and ceruloplasmin, at ' +
+          'Standard longevity panel: CBC (blood counts), CMP (kidney, liver and blood salts), lipid panel (cholesterol), HbA1c (3-month blood sugar average), fasting glucose, fasting ' +
+          'insulin, IGF-1, TSH, free T4, free T3 (thyroid tests), copper, zinc and ceruloplasmin (the protein that carries copper in your blood), at ' +
           'baseline and every 16-week follow-up.',
-          'PSA, added for men aged 45 and older at every draw.',
+          'PSA (a prostate blood test), added for men aged 45 and older at every draw.',
           'Copper, zinc and ceruloplasmin get particular attention while you are on ' +
           'GHK-Cu, and therapy may be discontinued if copper or ceruloplasmin trend upward.'
         ],
@@ -2870,8 +2875,8 @@ var KORB_PATIENT_ED = {
       },
 
       safety: [
-        'Use GHK-Cu only as prescribed. Do not change your dose, schedule or course length without provider direction.',
-        'GHK-Cu is absolutely contraindicated if you have Wilson\u2019s disease, a copper metabolism disorder.',
+        'Use GHK-Cu only as prescribed. Do not change your dose, schedule or course length unless your provider tells you to.',
+        'Never use GHK-Cu if you have Wilson\u2019s disease, a condition where the body cannot clear copper.',
         'Copper, zinc and ceruloplasmin are part of your standard labs. Do not skip your scheduled draw between weeks 12 and 14.',
         'Tell your KORB provider if you develop a new medical condition or become pregnant.'
       ],
@@ -2883,7 +2888,7 @@ var KORB_PATIENT_ED = {
 
       keyReminders: [
         'GHK-Cu is taken three times a week in the evening, on consistent days.',
-        'It is absolutely contraindicated in Wilson\u2019s disease.',
+        'Never use it if you have Wilson\u2019s disease.',
         'Copper, zinc and ceruloplasmin are watched closely and may end therapy if they rise.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Contact KORB Operations for non-urgent questions, your provider through the ' +
@@ -2903,7 +2908,7 @@ var KORB_PATIENT_ED = {
       timingText: 'Same day each week, with or without food',
 
       what: [
-        'Semaglutide is a GLP-1 (glucagon-like peptide-1) receptor agonist. It mimics a ' +
+        'Semaglutide belongs to a group of medications called GLP-1s. It copies a ' +
         'natural gut hormone that slows digestion, reduces appetite and helps you feel ' +
         'fuller longer after eating.',
         'Your semaglutide treatment is prepared by a licensed U.S. compounding pharmacy, ' +
@@ -2911,10 +2916,10 @@ var KORB_PATIENT_ED = {
         'mass-producing it. Because the FDA reviews mass-manufactured products rather than ' +
         'individual prescriptions, compounded preparations are not FDA-approved. The active ' +
         'ingredient is the same one used in the brand-name medication, which is approved for ' +
-        'weight management, for type 2 diabetes, and for reducing the risk of cardiovascular ' +
-        'death, heart attack and stroke in adults with cardiovascular disease who are ' +
+        'weight management, for type 2 diabetes, and for reducing the risk of death from heart ' +
+        'disease, heart attack and stroke in adults with heart disease who are ' +
         'overweight or obese. At KORB your provider prescribes a compounded formulation that ' +
-        'includes a small amount of cyanocobalamin (vitamin B-12) to help with tolerability.'
+        'includes a small amount of cyanocobalamin (vitamin B-12) to help your body handle it.'
       ],
 
       mayHelp: {
@@ -2971,13 +2976,13 @@ var KORB_PATIENT_ED = {
       timingNotes: [
         ['Already taking a GLP-1?',
          'If you are transferring to KORB from another provider and want to continue at your ' +
-         'current dose rather than start at the beginning of the ladder, we need documentation ' +
+         'current dose rather than start again at the lowest dose, we need documentation ' +
          'of the dose you are on: a pharmacy record, a prescription label, or a note from your ' +
          'prescriber. This is required before we can start you above the usual starting dose, ' +
          'and it is kept in your chart. Without it your provider will start you at the beginning ' +
-         'dose and titrate up (raise your dose gradually), which protects you from being started higher than your body has ' +
+         'dose and raise it gradually, which protects you from being started higher than your body has ' +
          'actually tolerated.'],
-        ['Your titration schedule',
+        ['How your dose goes up',
          'Your provider starts you at a low dose and increases it gradually, based on how you ' +
          'are tolerating the current one. The exact milligram steps and injection volume depend ' +
          'on which pharmacy fills your prescription, because KORB works with more than one ' +
@@ -3026,15 +3031,15 @@ var KORB_PATIENT_ED = {
            dose is a clinical decision and the step schedule differs by pharmacy. */
         ['If you miss two or more weeks in a row',
          'Contact KORB before your next injection rather than picking up where you left off. ' +
-         'Tolerance fades during a gap, and going straight back to the dose you were on is the ' +
+         'Your body loses its adjustment to the medication during a break, and going straight back to the dose you were on is the ' +
          'most common reason patients get severe nausea and vomiting. Your provider may restart ' +
          'you at a lower dose and build back up. Do not resume on your own.']
       ],
       timeline: [
         ['Starting out', 'First few weeks',
          'Reduced appetite often begins here. Some patients notice mild nausea while their body adjusts.'],
-        ['Titration', 'Finding your dose',
-         'Your dose increases as tolerated, only under provider direction. How quickly you respond depends on your dose and your body.'],
+        ['Raising your dose', 'Finding your dose',
+         'Your dose increases as tolerated, only when your provider tells you to. How quickly you respond depends on your dose and your body.'],
         ['Effective dose', 'Continued progress',
          'Most of the change happens once you reach a dose that works for you.'],
         ['Ongoing', 'Maintenance',
@@ -3060,16 +3065,16 @@ var KORB_PATIENT_ED = {
       ],
       monitorAndTell: [
         ['Severe or persistent abdominal pain, especially spreading to your back',
-         'Can indicate pancreatitis. Tell your provider.'],
+         'Can be a sign of pancreatitis (inflammation of the pancreas). Contact your provider the same day, and go to urgent care or the ER if the pain is severe.'],
         ['Pain in the upper right abdomen, fever, or yellowing of the skin or eyes',
-         'Possible gallbladder problem. Tell your provider.'],
-        ['Unable to keep fluids down for more than 24 hours', 'Tell your provider.']
+         'Possible gallbladder problem. Contact your provider the same day.'],
+        ['Unable to keep fluids down for more than 24 hours', 'Contact your provider the same day. On this medication, dehydration can affect your kidneys.']
       ],
       contraPhrasing: {
         'Personal or family history of medullary thyroid carcinoma (MTC)':
           'A personal or family history of medullary thyroid carcinoma (MTC), a rare thyroid cancer',
         'Multiple endocrine neoplasia syndrome type 2 (MEN2)':
-          'A personal or family history of multiple endocrine neoplasia syndrome type 2 (MEN2)',
+          'A personal or family history of multiple endocrine neoplasia syndrome type 2 (MEN2), an inherited condition that causes tumors in hormone glands, including the thyroid',
         'Hypersensitivity to the active drug or any component of the formulation':
           'A known allergy to Semaglutide or to anything else in the formulation',
         'Current pregnancy, breastfeeding, or planning pregnancy':
@@ -3102,7 +3107,7 @@ var KORB_PATIENT_ED = {
           'treatment with KORB.',
           'If you are also managing diabetes or pre-diabetes, continue that care, including ' +
           'any related labs, with the clinician who manages it, whether that is your primary ' +
-          'care provider, an endocrinologist or another specialist, alongside your KORB visits.',
+          'care provider, an endocrinologist (a hormone and diabetes specialist) or another specialist, alongside your KORB visits.',
           'If you want lab work, or another clinician has told you that you need it, that is a ' +
           'conversation to have with your primary care provider. KORB does not order it for you.'
         ],
@@ -3110,8 +3115,8 @@ var KORB_PATIENT_ED = {
                'lab work before and during treatment. The weight loss program does not.'
       },
       safety: [
-        'Use Semaglutide only as prescribed. Do not change your dose, schedule or route without provider direction.',
-        'Do not combine it with another GLP-1 or GIP medication from another source at the same time.',
+        'Use Semaglutide only as prescribed. Do not change your dose, schedule, or how you take it, unless your provider tells you to.',
+        'Do not use any other weight-loss medication at the same time, including Ozempic, Wegovy, Mounjaro, Zepbound or Rybelsus, or one from another clinic or online seller.',
         'Semaglutide is not appropriate during pregnancy or breastfeeding, or with a personal or family history of MTC or MEN2.',
         'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
       ],
@@ -3122,7 +3127,7 @@ var KORB_PATIENT_ED = {
 
       keyReminders: [
         'Semaglutide reduces appetite gradually. Most weight loss builds over months, not days.',
-        'Dose increases happen only under provider direction. Never increase on your own.',
+        'Dose increases happen only when your provider tells you to. Never increase on your own.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
         'KORB does not order labs for this program. Lab work is a conversation with your primary care provider.',
@@ -3143,10 +3148,8 @@ var KORB_PATIENT_ED = {
       timingText: 'Same day each week, with or without food',
 
       what: [
-        'Tirzepatide is a dual GIP (glucose-dependent insulinotropic polypeptide) and GLP-1 ' +
-        'receptor agonist. It works through two separate gut hormone pathways rather than ' +
-        'one, which slows digestion and reduces appetite, often more strongly than a ' +
-        'single-pathway medication for some patients.',
+        'Tirzepatide works like two natural gut hormones, called GIP and GLP-1, rather than ' +
+        'one. Together they slow digestion and reduce appetite.',
         'Your tirzepatide treatment is prepared by a licensed U.S. compounding pharmacy, which ' +
         'prepares each prescription to your provider\u2019s specifications rather than ' +
         'mass-producing it. Because the FDA reviews mass-manufactured products rather than ' +
@@ -3154,7 +3157,7 @@ var KORB_PATIENT_ED = {
         'ingredient is the same one used in the brand-name medication, which is approved for ' +
         'weight management and for type 2 diabetes. At KORB your provider prescribes a ' +
         'compounded formulation that includes a small amount of cyanocobalamin (vitamin B-12) ' +
-        'to help with tolerability.'
+        'to help your body handle it.'
       ],
 
       mayHelp: {
@@ -3211,13 +3214,13 @@ var KORB_PATIENT_ED = {
       timingNotes: [
         ['Already taking a GLP-1?',
          'If you are transferring to KORB from another provider and want to continue at your ' +
-         'current dose rather than start at the beginning of the ladder, we need documentation ' +
+         'current dose rather than start again at the lowest dose, we need documentation ' +
          'of the dose you are on: a pharmacy record, a prescription label, or a note from your ' +
          'prescriber. This is required before we can start you above the usual starting dose, ' +
          'and it is kept in your chart. Without it your provider will start you at the beginning ' +
-         'dose and titrate up (raise your dose gradually), which protects you from being started higher than your body has ' +
+         'dose and raise it gradually, which protects you from being started higher than your body has ' +
          'actually tolerated.'],
-        ['Your titration schedule',
+        ['How your dose goes up',
          'Your provider starts you at a low dose and increases it gradually, based on how you ' +
          'are tolerating the current one. The exact milligram steps and injection volume depend ' +
          'on which pharmacy fills your prescription, because KORB works with more than one ' +
@@ -3266,15 +3269,15 @@ var KORB_PATIENT_ED = {
            dose is a clinical decision and the step schedule differs by pharmacy. */
         ['If you miss two or more weeks in a row',
          'Contact KORB before your next injection rather than picking up where you left off. ' +
-         'Tolerance fades during a gap, and going straight back to the dose you were on is the ' +
+         'Your body loses its adjustment to the medication during a break, and going straight back to the dose you were on is the ' +
          'most common reason patients get severe nausea and vomiting. Your provider may restart ' +
          'you at a lower dose and build back up. Do not resume on your own.']
       ],
       timeline: [
         ['Starting out', 'First few weeks',
          'Reduced appetite often begins here. Some patients notice mild nausea while their body adjusts.'],
-        ['Titration', 'Finding your dose',
-         'Your dose increases as tolerated, only under provider direction. How quickly you respond depends on your dose and your body.'],
+        ['Raising your dose', 'Finding your dose',
+         'Your dose increases as tolerated, only when your provider tells you to. How quickly you respond depends on your dose and your body.'],
         ['Effective dose', 'Continued progress',
          'Most of the change happens once you reach a dose that works for you.'],
         ['Ongoing', 'Maintenance',
@@ -3300,16 +3303,16 @@ var KORB_PATIENT_ED = {
       ],
       monitorAndTell: [
         ['Severe or persistent abdominal pain, especially spreading to your back',
-         'Can indicate pancreatitis. Tell your provider.'],
+         'Can be a sign of pancreatitis (inflammation of the pancreas). Contact your provider the same day, and go to urgent care or the ER if the pain is severe.'],
         ['Pain in the upper right abdomen, fever, or yellowing of the skin or eyes',
-         'Possible gallbladder problem. Tell your provider.'],
-        ['Unable to keep fluids down for more than 24 hours', 'Tell your provider.']
+         'Possible gallbladder problem. Contact your provider the same day.'],
+        ['Unable to keep fluids down for more than 24 hours', 'Contact your provider the same day. On this medication, dehydration can affect your kidneys.']
       ],
       contraPhrasing: {
         'Personal or family history of medullary thyroid carcinoma (MTC)':
           'A personal or family history of medullary thyroid carcinoma (MTC), a rare thyroid cancer',
         'Multiple endocrine neoplasia syndrome type 2 (MEN2)':
-          'A personal or family history of multiple endocrine neoplasia syndrome type 2 (MEN2)',
+          'A personal or family history of multiple endocrine neoplasia syndrome type 2 (MEN2), an inherited condition that causes tumors in hormone glands, including the thyroid',
         'Hypersensitivity to the active drug or any component of the formulation':
           'A known allergy to Tirzepatide or to anything else in the formulation',
         'Current pregnancy, breastfeeding, or planning pregnancy':
@@ -3342,7 +3345,7 @@ var KORB_PATIENT_ED = {
           'treatment with KORB.',
           'If you are also managing diabetes or pre-diabetes, continue that care, including ' +
           'any related labs, with the clinician who manages it, whether that is your primary ' +
-          'care provider, an endocrinologist or another specialist, alongside your KORB visits.',
+          'care provider, an endocrinologist (a hormone and diabetes specialist) or another specialist, alongside your KORB visits.',
           'If you want lab work, or another clinician has told you that you need it, that is a ' +
           'conversation to have with your primary care provider. KORB does not order it for you.'
         ],
@@ -3350,8 +3353,8 @@ var KORB_PATIENT_ED = {
                'lab work before and during treatment. The weight loss program does not.'
       },
       safety: [
-        'Use Tirzepatide only as prescribed. Do not change your dose, schedule or route without provider direction.',
-        'Do not combine it with another GLP-1 or GIP medication from another source at the same time.',
+        'Use Tirzepatide only as prescribed. Do not change your dose, schedule, or how you take it, unless your provider tells you to.',
+        'Do not use any other weight-loss medication at the same time, including Ozempic, Wegovy, Mounjaro, Zepbound or Rybelsus, or one from another clinic or online seller.',
         'Tirzepatide is not appropriate during pregnancy or breastfeeding, or with a personal or family history of MTC or MEN2.',
         'Tell your KORB provider if you develop a new medical condition, start a new medication, or become pregnant.'
       ],
@@ -3362,7 +3365,7 @@ var KORB_PATIENT_ED = {
 
       keyReminders: [
         'Tirzepatide works through two hormone pathways and may support more pronounced weight loss for some patients.',
-        'Dose increases happen only under provider direction. Never increase on your own.',
+        'Dose increases happen only when your provider tells you to. Never increase on your own.',
         'Write the open date on your vial and discard 28 days after first use.',
         'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
         'KORB does not order labs for this program. Lab work is a conversation with your primary care provider.',
@@ -3405,13 +3408,13 @@ var KORB_PATIENT_ED = {
       ],
 
       mayHelp: {
-        lead: 'Men with low testosterone use TRT for goals such as:',
+        lead: 'Men with low testosterone use testosterone replacement therapy (TRT) for goals such as:',
         items: [
           'Energy',
           'Muscle, strength and recovery from exercise',
           'Sex drive',
           'Mood and motivation',
-          'Body composition'
+          'Body composition (your balance of muscle and fat)'
         ],
         after: 'Results vary from person to person, and no result is guaranteed. Your provider adjusts your dose over time based on your labs and how you feel.'
       },
@@ -3430,7 +3433,7 @@ var KORB_PATIENT_ED = {
              printed pair would be wrong for somebody. The gauge RULE is worth
              teaching instead, because it runs backwards and a patient reasonably
              assumes the bigger number is the bigger needle. */
-          callout: 'Your medication is a thick oil, and it comes with a Luer lock syringe and ' +
+          callout: 'Your medication is a thick oil, and it comes with a Luer lock syringe (one the needle twists onto) and ' +
                    'two separate needles that do different jobs. The **draw-up needle** is the ' +
                    'thicker of the two and is the only one that will pull the oil out of the ' +
                    'vial. The **injection needle** is thinner and is the one that goes into ' +
@@ -3453,7 +3456,7 @@ var KORB_PATIENT_ED = {
           p: [
             'Where to inject. If you inject under the skin, use the abdomen, upper thigh, or ' +
             'the fatty area of the buttock. If you inject into the muscle, use the outer thigh, ' +
-            'the gluteal muscle, or the shoulder. Your provider will tell you which route you ' +
+            'the buttock muscle, or the shoulder. Your provider will tell you which route you ' +
             'are using and show you the technique.',
             'Rotate every time. Move at least an inch or two from your last injection site. ' +
             'Injecting into the same spot repeatedly causes soreness, lumps and scar tissue ' +
@@ -3485,13 +3488,13 @@ var KORB_PATIENT_ED = {
               'and may adjust it over time.'],
           warn: 'Never increase your own dose. More testosterone is not better. Levels that run ' +
                 'too high raise your risk of thickened blood, elevated estrogen and ' +
-                'cardiovascular problems, and they do not produce better results. If you feel ' +
+                'heart and blood vessel problems, and they do not produce better results. If you feel ' +
                 'your dose is not working, tell your provider so it can be adjusted properly ' +
                 'and rechecked with labs.'
         },
         {
           h: 'Refills and timing',
-          p: ['Testosterone is a controlled medication. Pharmacies are legally limited in how ' +
+          p: ['Testosterone is a controlled medication, which means the law puts extra limits on how it is prescribed, refilled and shared, because it can be misused. Pharmacies are legally limited in how ' +
               'early they can release a refill, and they count from the date of your LAST FILL, ' +
               'not from the date you run out or the date of your visit.'],
           ul: [
@@ -3558,7 +3561,7 @@ var KORB_PATIENT_ED = {
 
       labs: {
         lead: 'Timing matters more than most patients expect. Get your blood drawn on a day you ' +
-              'are scheduled to inject, BEFORE you take that dose. This is called a trough level. ' +
+              'are scheduled to inject, BEFORE you take that dose, when your level is at its lowest. ' +
               'If you are drawn right after an injection your level reads artificially high, and ' +
               'your provider may lower a dose that was actually correct.',
         items: [
@@ -3575,11 +3578,11 @@ var KORB_PATIENT_ED = {
          appended. Don, 2026-09-21. */
       ownInjectionDevice: true,
       safety: [
-        'Use testosterone only as prescribed. Never change your dose, timing or route without provider direction.',
+        'Use testosterone only as prescribed. Never change your dose, timing, or how you inject it, unless your provider tells you to.',
         'Use a new syringe and new needles for every injection. Never reuse or share them.',
         'Draw up with the draw-up needle and inject with the injection needle. Never draw up through the injection needle.',
         'Do not share this medication with anyone. It is a controlled substance and sharing it is illegal.',
-        'Get your labs drawn at trough, on an injection day before your dose.',
+        'Get your labs drawn on an injection day, before your dose.',
         'Tell your provider if you are planning to father children.'
       ],
 

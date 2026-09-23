@@ -173,8 +173,8 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
       <select id="selProgram" onchange="onProgramChange()">
         <option value="foundation">Foundation Program</option>
         <option value="gateway">Gateway Program</option>
-        <option value="peakA">Peak Performance — Pathway A</option>
-        <option value="peakB">Peak Performance — Pathway B</option>
+        <option value="peakA">Peak, Pathway A (CJC-1295 / Ipamorelin)</option>
+        <option value="peakB">Peak, Pathway B (Tesamorelin)</option>
       </select>
     </div>
     <div class="cg" id="fdnGroup" style="display:none;">
@@ -186,11 +186,11 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
       </select>
     </div>
     <div class="cg" id="fdnDoseGroup" style="display:none;">
-      <label id="fdnDoseLbl" for="selFdnDose">My Dose</label>
+      <label id="fdnDoseLbl" for="selFdnDose">My Dose (mcg = micrograms)</label>
       <select id="selFdnDose" onchange="build()"></select>
     </div>
     <div class="cg" id="gwSermDoseGroup" style="display:none;">
-      <label for="selGwSermDose">My Sermorelin Dose</label>
+      <label for="selGwSermDose">My Sermorelin Dose (mcg = micrograms)</label>
       <select id="selGwSermDose" onchange="build()">
         <option value="200">200 mcg</option>
         <option value="300">300 mcg</option>
@@ -199,7 +199,7 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
       </select>
     </div>
     <div class="cg" id="peakCjcDoseGroup" style="display:none;">
-      <label for="selCjcDose">My CJC-1295/Ipamorelin Dose</label>
+      <label for="selCjcDose">My CJC-1295 / Ipamorelin Dose (mcg = micrograms)</label>
       <select id="selCjcDose" onchange="build()">
         <option value="100">100 mcg/100 mcg</option>
         <option value="150">150 mcg/150 mcg</option>
@@ -256,44 +256,44 @@ var AGENTS = (function(){var o={},S=KORB_DOSING.agents;Object.keys(S).forEach(fu
 // Medication education content
 var EDU={
   sermorelin:{
-    what:'Sermorelin is a peptide that signals your pituitary gland to release growth hormone (GH) naturally — it does not replace GH, it encourages your own body to produce it.',
-    maySupport:['Sleep quality and depth','Exercise recovery and muscle recovery','Body composition support as part of a lifestyle program','Morning energy and sense of wellness'],
+    what:'Sermorelin is a lab-made peptide that prompts your pituitary gland (a small gland at the base of the brain) to release more of your own growth hormone. It does not replace growth hormone.',
+    maySupport:['Sleep quality','Recovery after exercise','Body composition (your balance of muscle and fat), as part of an exercise and nutrition plan','Energy and general wellness'],
     notFor:'',
     expect:'Most patients who respond notice changes in sleep quality and recovery within the first 4–8 weeks. Some patients notice minimal change during a cycle — this does not necessarily mean the therapy is not working. Your provider will assess your IGF-1 labs at renewal.'
   },
   bpc157:{
-    what:'BPC-157 is a synthetic peptide derived from a protective protein found in the stomach.',
-    maySupport:['Tendon, ligament, and connective tissue recovery','Musculoskeletal wellness during rehabilitation','Exercise recovery quality','Gut support in some contexts'],
+    what:'BPC-157 is a lab-made peptide based on a protective protein found in the stomach.',
+    maySupport:['Recovery of tendons, ligaments and other soft tissue','Recovery during rehabilitation, and getting back to activity','Gut health, discussed with your provider'],
     notFor:'',
     expect:'BPC-157 is a short-course therapy. It runs for part of your 16-week cycle rather than all of it; your schedule above shows your exact active weeks. Noticeable changes, if any, typically emerge over the course of the full cycle. Your provider will reassess at your 16-week visit.'
   },
   cjcipam:{
-    what:'CJC-1295 / Ipamorelin is a dual-peptide combination. CJC-1295 extends GH-releasing signals; Ipamorelin directly stimulates GH release. Together they promote a more sustained, pulsatile GH effect.',
-    maySupport:['Body composition — lean mass preservation and fat metabolism support','Sleep quality and recovery physiology','GH/IGF-1 axis support','Exercise recovery'],
+    what:'CJC-1295 / Ipamorelin is a combination of two lab-made peptides that prompt your body to release its own growth hormone, in natural bursts and for longer.',
+    maySupport:['Body composition (your balance of muscle and fat), as part of an exercise and nutrition plan','Sleep quality','Recovery after exercise','General wellness'],
     notFor:'',
     expect:'Response typically emerges over the full 12-week active course. Sleep quality is often the first change patients notice. Your provider will assess IGF-1 at your 16-week renewal visit.'
   },
   ghkcu:{
-    what:'GHK-Cu is a copper-binding peptide found naturally in the body. It is being studied for its potential role in tissue health, collagen support, and anti-inflammatory processes.',
-    maySupport:['Skin quality and collagen support','Tissue healing and wound recovery','Anti-inflammatory processes','Cellular health discussions'],
+    what:'GHK-Cu is a copper-containing peptide found naturally in the body. It is being studied for skin and tissue health.',
+    maySupport:['Skin quality','Recovery'],
     notFor:'',
     expect:'GHK-Cu runs as an add-on, active Weeks 5–8 in Gateway and Peak Performance. Your provider will monitor copper and zinc levels at baseline and at renewal.'
   },
   tesamorelin1mg:{
-    what:'Tesamorelin is a growth hormone releasing factor analog with the strongest human clinical evidence base for visceral fat reduction. It is approved for HIV-related lipodystrophy and used off-label in longevity programs for body composition.',
-    maySupport:['Visceral and central adiposity reduction','Waist circumference improvement','Body composition and metabolic health','IGF-1 axis support'],
+    what:'Tesamorelin prompts your body to release more of its own growth hormone. The FDA has approved it for reducing extra belly fat in people with HIV. KORB uses it for a purpose the FDA has not approved, reducing fat stored around the organs.',
+    maySupport:['Belly fat, the fat stored around the organs','Body composition (your balance of muscle and fat), as part of an exercise and nutrition plan'],
     notFor:'',
     expect:'Clinical studies show visceral fat reduction over sustained cycles. Response varies. Your provider will assess IGF-1, waist circumference, and body composition trends at your 16-week renewal visit.'
   },
   tesamorelin2mg:{
-    what:'Tesamorelin 2 mg is a higher-dose option of the same medication. Your provider selected this dose based on your clinical profile.',
-    maySupport:['Visceral and central adiposity reduction','Waist circumference improvement','Body composition and metabolic health','IGF-1 axis support'],
+    what:'Tesamorelin 2 mg is a higher-dose option of the same medication. Your provider selected this dose based on your health history.',
+    maySupport:['Belly fat, the fat stored around the organs','Body composition (your balance of muscle and fat), as part of an exercise and nutrition plan'],
     notFor:'',
     expect:'Same as the 1 mg formulation — response varies. Your provider will assess at each 16-week renewal visit and may adjust dose as appropriate.'
   },
   tesamorelin15mg:{
-    what:'Tesamorelin 1.5 mg is a mid-range dose option of the same medication. Your provider selected this dose based on your clinical profile.',
-    maySupport:['Visceral and central adiposity reduction','Waist circumference improvement','Body composition and metabolic health','IGF-1 axis support'],
+    what:'Tesamorelin 1.5 mg is a mid-range dose option of the same medication. Your provider selected this dose based on your health history.',
+    maySupport:['Belly fat, the fat stored around the organs','Body composition (your balance of muscle and fat), as part of an exercise and nutrition plan'],
     notFor:'',
     expect:'Same as the 1 mg and 2 mg formulations — response varies. Your provider will assess at each 16-week renewal visit and may adjust dose as appropriate.'
   }
@@ -469,7 +469,7 @@ function build(){
     if(ghkOn) agentKeys.push('ghkcu');
   }
 
-  var progLabels={foundation:'Foundation Program',gateway:'Gateway Program',peakA:'Peak Performance — Pathway A',peakB:'Peak Performance — Pathway B'};
+  var progLabels={foundation:'Foundation Program',gateway:'Gateway Program',peakA:'Peak, Pathway A (CJC-1295 / Ipamorelin)',peakB:'Peak, Pathway B (Tesamorelin)'};
   var html='';
 
   // Program header
@@ -478,7 +478,7 @@ function build(){
   // Stagger notice
   if(prog!=='foundation'){
     var primaryName=AGENTS[agentKeys[0]].label;
-    html+='<div class="info-box amber"><strong>Staggered start:</strong> '+primaryName+' begins on your start date. BPC-157 begins two weeks after your start date.'+(ghkOn?' GHK-Cu (optional add-on) begins two weeks after you start BPC-157.':'')+' Do not start any medication early or change your schedule without speaking to your KORB provider.</div>';
+    html+='<div class="info-box amber"><strong>Different start dates:</strong> '+primaryName+' begins on your start date. BPC-157 begins two weeks after your start date.'+(ghkOn?' GHK-Cu (optional add-on) begins two weeks after you start BPC-157.':'')+' Do not start any medication early or change your schedule without speaking to your KORB provider.</div>';
   }
 
   // Payment section
@@ -512,7 +512,7 @@ function build(){
   html+='<li>16-week renewal visit</li>';
   html+='</ul></div>';
   html+='</div>';
-  html+='<div style="font-size:11px;color:var(--mu);">Payment 1 is paid to your provider at the visit where your treatment starts and your peptides are ordered. Payments 2, 3 and 4 follow every 28 days and are sent to you as secure AuthPay payment links.'+
+  html+='<div style="font-size:11px;color:var(--mu);">Payment 1 is paid to your provider at the visit where your treatment starts and your peptides are ordered. Payments 2, 3 and 4 follow every 28 days and are sent to you as secure online payment links through AuthPay, the payment service KORB uses.'+
     (CARD_ON_FILE?' We recommend saving your card in AuthPay from any of those links, so each remaining payment is charged automatically on its due date. If you do not save a card, pay each link when it arrives.':' Please pay each link when it arrives.')+
     (ghkOn?' GHK-Cu is a separate one-time payment.':'')+'</div>';
   html+='</div>';
@@ -571,7 +571,7 @@ function build(){
 
   // Week-by-week
   html+='<div class="sec">My Week-by-Week Schedule</div>';
-  html+='<div class="info-box teal"><strong>Why cycle?</strong> Intermittent off-periods limit receptor desensitization and downregulation under sustained agonism, preserving response across the year. The weekly off-night protects week-to-week sensitivity; the between-block month protects quarter-to-quarter sensitivity.</div>';
+  html+='<div class="info-box teal"><strong>Why the breaks?</strong> If you take these medications every day without stopping, your body can start responding to them less. The weekly night off and the 4-week break between cycles are there to help your body keep responding.</div>';
   html+=buildWeekTable(start,prog,agentKeys,ghkOn);
 
   // Lab instructions
@@ -617,7 +617,7 @@ function build(){
       html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">';
       html+='<div><div class="edu-section">What it is</div><div>'+ed.what+'</div>';
       if(ed.maySupport&&ed.maySupport.length){
-        html+='<div class="edu-section">May support</div><ul style="padding-left:16px;">'+ed.maySupport.map(function(i){return'<li>'+i+'</li>';}).join('')+'</ul>';
+        html+='<div class="edu-section">Why patients use it</div><ul style="padding-left:16px;">'+ed.maySupport.map(function(i){return'<li>'+i+'</li>';}).join('')+'</ul><p style="font-size:12px;">Results vary from person to person, and no result is guaranteed.</p>';
       }
       html+='</div>';
       html+='<div><div class="edu-section">What to expect</div><div>'+ed.expect+'</div></div>';
@@ -625,7 +625,7 @@ function build(){
     } else {
       html+='<div class="edu-section">What it is</div><div>'+ed.what+'</div>';
       if(ed.maySupport&&ed.maySupport.length){
-        html+='<div class="edu-section">May support</div><ul style="padding-left:16px;">'+ed.maySupport.map(function(i){return'<li>'+i+'</li>';}).join('')+'</ul>';
+        html+='<div class="edu-section">Why patients use it</div><ul style="padding-left:16px;">'+ed.maySupport.map(function(i){return'<li>'+i+'</li>';}).join('')+'</ul><p style="font-size:12px;">Results vary from person to person, and no result is guaranteed.</p>';
       }
       html+='<div class="edu-section">What to expect</div><div>'+ed.expect+'</div>';
     }
@@ -661,7 +661,7 @@ function build(){
   html+='<li>Severe rash or widespread hives</li>';
   html+='<li>Chest pain or fainting</li>';
   html+='<li>Severe or rapidly worsening symptoms</li>';
-  html+='<li>Confusion, severe weakness, or new neurologic symptoms</li>';
+  html+='<li>Sudden confusion, severe weakness, numbness or weakness on one side, trouble speaking, or sudden loss of vision</li>';
   html+='<li>Any symptom that feels urgent or unsafe</li>';
   html+='</ul>';
   html+='<div style="font-weight:700;font-size:12px;color:var(--red);margin-top:6px;border-top:1px solid #FFCDD2;padding-top:6px;">Call 911 or go to the nearest emergency room.</div>';
@@ -739,13 +739,13 @@ function buildWeekTable(start,prog,agentKeys,ghkOn){
 
   for(var w=1;w<=15;w++){
     var isVisit=w===1,isWashout=w>=13&&w<=15;
-    var rowCls=isVisit?'visit-row':isWashout?'washout-row':'';
+    var rowCls=isVisit?'visit-row':isWashout?'break-row':'';
     var wkLabel='Wk '+w;
     html+='<tr class="'+rowCls+'"><td style="font-weight:700;color:var(--navy);white-space:nowrap;">'+wkLabel+'</td>';
     html+='<td style="font-size:11px;">'+wkRange(start,w)+'</td>';
 
     if(isWashout){
-      html+='<td colspan="'+nMed+'" style="text-align:center;vertical-align:middle;"><span class="pill" style="background:#6A1B9A;color:#fff;min-width:unset;padding:4px 16px;font-size:10px;">Washout — no medication</span></td>';
+      html+='<td colspan="'+nMed+'" style="text-align:center;vertical-align:middle;"><span class="pill" style="background:#6A1B9A;color:#fff;min-width:unset;padding:4px 16px;font-size:10px;">Break — no medication</span></td>';
     } else {
       agentKeys.forEach(function(key){
         var ag=AGENTS[key];
@@ -770,9 +770,9 @@ function buildWeekTable(start,prog,agentKeys,ghkOn){
     else if(w===15) note='Keep up your lifestyle routine ahead of Week 16';
     html+='<td style="font-size:11px;color:var(--mu);">'+note+'</td></tr>';
   }
-  html+='<tr class="washout-row" style="border-top:3px solid var(--navy);"><td style="font-weight:700;color:var(--navy);white-space:nowrap;">Wk 16</td>';
+  html+='<tr class="break-row" style="border-top:3px solid var(--navy);"><td style="font-weight:700;color:var(--navy);white-space:nowrap;">Wk 16</td>';
   html+='<td style="font-size:11px;">'+wkRange(start,16)+'</td>';
-  html+='<td colspan="'+nMed+'" style="text-align:center;vertical-align:middle;"><span class="pill" style="background:#6A1B9A;color:#fff;min-width:unset;padding:4px 16px;font-size:10px;">Washout — no medication</span></td>';
+  html+='<td colspan="'+nMed+'" style="text-align:center;vertical-align:middle;"><span class="pill" style="background:#6A1B9A;color:#fff;min-width:unset;padding:4px 16px;font-size:10px;">Break — no medication</span></td>';
   html+='<td style="font-size:11px;color:var(--mu);"><strong>Provider visit</strong> — labs reviewed, prescriptions renewed. This marks the start of your next 16-week cycle.</td></tr>';
   html+='</tbody></table></div>';
   html+='<div class="swipe-hint">&#8592; Swipe to see all columns &#8594;</div>';

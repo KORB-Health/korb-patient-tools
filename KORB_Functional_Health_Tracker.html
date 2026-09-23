@@ -175,7 +175,7 @@
   </div>
   <div class="kicker">Functional Health &amp; Longevity</div>
   <h1>Your Peptide Tracker</h1>
-  <div style="display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:800;letter-spacing:.1em;color:#fff;">BUILD v1.9</div>
+  
 </header>
 
 <div class="wrap">
@@ -183,15 +183,15 @@
   <!-- ===================== SETUP ===================== -->
   <div class="card" id="setup">
     <h2 class="ct">Set up your tracker</h2>
-    <p class="sub">Answer a few questions and we'll build your 16-week schedule — with the exact dose you were prescribed, in units, for each day.</p>
+    <p class="sub">Answer a few questions and we'll build your 16-week schedule — with the exact dose you were prescribed, in units (the tick marks on your syringe, not milligrams), for each day.</p>
 
     <label for="selProgram">My program</label>
     <select id="selProgram" onchange="onProgramChange()">
       <option value="">Select your program…</option>
       <option value="foundation">Foundation</option>
       <option value="gateway">Gateway</option>
-      <option value="peakA">Peak Performance — Pathway A</option>
-      <option value="peakB">Peak Performance — Pathway B</option>
+      <option value="peakA">Peak, Pathway A (CJC-1295 / Ipamorelin)</option>
+      <option value="peakB">Peak, Pathway B (Tesamorelin)</option>
     </select>
 
     <div id="agentPickWrap" style="display:none;">
@@ -200,7 +200,7 @@
     </div>
 
     <div id="dosePickWrap" style="display:none;">
-      <label id="dosePickLbl" for="selDose">My dose</label>
+      <label id="dosePickLbl" for="selDose">My dose (mcg = micrograms)</label>
       <select id="selDose"></select>
     </div>
 
@@ -592,7 +592,7 @@ function weekActiveAgents(weekNum){
 
 // ── Render: everything ───────────────────────────────────────────────────
 function renderAll(){
-  var progLabels = { foundation:'Foundation', gateway:'Gateway', peakA:'Peak Performance — Pathway A', peakB:'Peak Performance — Pathway B' };
+  var progLabels = { foundation:'Foundation', gateway:'Gateway', peakA:'Peak, Pathway A (CJC-1295 / Ipamorelin)', peakB:'Peak, Pathway B (Tesamorelin)' };
   document.getElementById('progTitle').textContent = progLabels[state.prog];
 
   var today = new Date(); today.setHours(0,0,0,0);
@@ -712,10 +712,10 @@ function ghkWeekKey(weekNum){ return 'korbFHT_ghkwk_' + weekNum; }
 // Washout weeks aren't "nothing weeks" — this gives patients something
 // concrete to focus on instead of just waiting for the next cycle.
 // Rotates through a few angles so four back-to-back washout weeks (e.g.
-// Foundation BPC-157's 8-week washout) don't all show the identical card.
+// Foundation BPC-157's 8-week break with no injections) don't all show the identical card.
 var WASHOUT_FOCUS = [
   { title: 'Mindful eating', tip: 'Slow down at meals and pay attention to actual hunger and fullness cues. No tracking or restriction required this week — just notice.' },
-  { title: 'Move more', tip: 'Add one extra walk, stretch session, or short workout most days. Consistency matters more than intensity during a washout week.' },
+  { title: 'Move more', tip: 'Add one extra walk, stretch session, or short workout most days. Consistency matters more than intensity during a break week.' },
   { title: 'Protect your sleep', tip: 'Aim for a consistent bedtime and wake time. Recovery weeks are a good time to catch up on sleep debt.' },
   { title: 'Manage stress', tip: 'Build in a few minutes a day for whatever actually lowers your stress — a walk outside, journaling, breathing exercises, time away from screens.' }
 ];
@@ -723,12 +723,12 @@ function washoutBlock(weekNum){
   // Deterministic by week number, so the topic is stable every time the page
   // re-renders and consecutive washout weeks each get a different focus.
   var f = WASHOUT_FOCUS[(weekNum - 1) % WASHOUT_FOCUS.length];
-  return '<div class="wash-row">No medication this week — washout period.</div>' +
+  return '<div class="wash-row">No medication this week — break period.</div>' +
     '<div class="wash-focus">' +
       '<div class="wf-label">This week, focus on:</div>' +
       '<div class="wf-title">'+f.title+'</div>' +
       '<div class="wf-tip">'+f.tip+'</div>' +
-      '<div class="wf-all">Every washout week is a good week for mindful eating, staying active, protecting sleep, and managing stress — pick whichever matters most to you right now.</div>' +
+      '<div class="wf-all">Every break week is a good week for mindful eating, staying active, protecting sleep, and managing stress — pick whichever matters most to you right now.</div>' +
     '</div>';
 }
 
@@ -783,7 +783,7 @@ function renderWeeks(){
 
     var card = document.createElement('div');
     card.className = 'wk-card';
-    var badge = isWashout ? '<span class="badge washout">Washout</span>' : '<span class="badge active">Active</span>';
+    var badge = isWashout ? '<span class="badge break">Break</span>' : '<span class="badge active">Active</span>';
     if(isToday) badge += ' <span class="badge today-wk">This Week</span>';
 
     var bodyId = 'wkbody'+w;

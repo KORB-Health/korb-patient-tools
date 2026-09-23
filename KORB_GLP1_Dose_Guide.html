@@ -111,7 +111,7 @@ const DATA = (function () {
          point of the change: it is what did not happen on 2026-09-11. */
       if (prod.retired || prod.status === 'retired') return;
       (out[group] = out[group] || {})[ph] = {
-        label: group === 'semaglutide_glycine' ? phName(ph) + ' (with Glycine)' : phName(ph),
+        label: group === 'semaglutide_glycine' ? phName(ph) + ' (with glycine, an amino acid the pharmacy adds)' : phName(ph),
         additive: prod.additive || '',
         concentration: prod.formulation || '',
         doses: (prod.doses || []).map(function (d) {
@@ -210,8 +210,11 @@ function renderResult(){
   html+='<div class="stat"><div class="lbl">'+supply+'-Week Supply</div><div class="val" style="font-size:13px;">'+(supply===4?d.v4:d.v8)+'</div></div></div>';
   html+='<div style="font-size:11px;color:var(--mu);text-align:center;">'+(d.units>100 ? 'This dose requires <strong style="color:var(--teal);">2 standard insulin syringes</strong> (100 units each) — KORB does not ship 3 mL syringes.' : 'Draw up to <strong style="color:var(--teal);">'+d.units+' units</strong> on a standard 100-unit (1 mL) insulin syringe')+'</div>';
   html+=syringeSVG(d.units,'#00B2C3');
+  /* Units are syringe marks, not milligrams. Mixing the two is the classic
+     overdose error with compounded GLP-1s. Said on the result, 2026-09-22. */
+  html+='<div class="info-box teal"><strong>Units are not milligrams.</strong> Units are the tick marks on your insulin syringe. Always draw to the units number shown here and on your label, never to the mg number.</div>';
   html+='<div class="info-box teal" style="margin-top:16px;"><strong>'+medLabel+' — '+pdata.label+'</strong><br>Contains: '+pdata.additive+'<br>Concentration: '+(d.conc?d.conc:pdata.concentration)+'</div>';
-  html+='<div class="info-box amber">Discard 28 days after first use — even if medication remains. Your prescription label is always the authoritative source for your dose and volume.</div>';
+  html+='<div class="info-box amber">Discard 28 days after first use — even if medication remains. Your prescription label is always the final word on your dose and volume.</div>';
   html+='</div></div>';
   output.innerHTML=html;
 }
