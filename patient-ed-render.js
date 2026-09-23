@@ -1327,10 +1327,13 @@
 
     h += '<h2>Side effects and what to watch for</h2>';
     if (doc.common) h += '<h3>What you may notice</h3>' + twoCol(doc.common, 'What you may notice', 'What to do');
-    /* "When to tell your provider", not "at your next visit". Possible
+    /* ONE heading across all nine guides, Don 2026-09-23. It was "When to tell
+       your provider", which was wrong the moment rows started saying go to
+       urgent care. "When to be seen" was wrong the other way on the four guides
+       whose rows are all messages. "When to get help" is true of both. Possible
        pancreatitis and gallbladder signs sit under this heading, and a patient
        read literally would wait weeks. Each row now says how soon. 2026-09-22. */
-    if (doc.monitorAndTell) h += '<h3>' + esc(doc.monitorHeading || 'When to be seen') + '</h3>' +
+    if (doc.monitorAndTell) h += '<h3>When to get help</h3>' +
       twoCol(doc.monitorAndTell, 'What you may notice', 'What to do');
     if (doc.emergencyLead) h += '<div class="callout warn"><p>' + esc(doc.emergencyLead) + '</p></div>';
 

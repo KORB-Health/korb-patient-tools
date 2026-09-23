@@ -2307,12 +2307,12 @@ var KORB_PATIENT_ED = {
 
       common: [
         ['Breast tenderness or swelling',
-         'Common in the first few weeks. Tell us if it does not settle - it often ' +
+         'May occur in the first few weeks. Tell us if it does not settle - it often ' +
          'responds to a small change in dose.'],
         ['Headache',
          'Usually early and short-lived. Tell us if it is new for you or persistent.'],
         ['Bloating or fluid retention',
-         'Common early. Reducing salt and keeping hydrated helps.'],
+         'May occur early. Reducing salt and keeping hydrated helps.'],
         ['Mood changes',
          'Tell us. Mood is one of the things dose adjustment tends to fix.'],
         ['Nausea',
@@ -2461,13 +2461,11 @@ var KORB_PATIENT_ED = {
 
       common: [
         ['Injection site redness or irritation',
-         'Common, usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+         'May occur, and is usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
         ['Flushing or warmth after injection', 'Typically brief, and usually settles within minutes.'],
         ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
       ],
-      /* No row here instructs a patient to be seen, so this section keeps the older heading. The four guides that DO carry an urgent-care instruction - semaglutide, tirzepatide, bpc157, ghkcu - use the default 'When to be seen'. Don, 2026-09-23. */
-      monitorHeading: 'When to tell your provider',
       monitorAndTell: [
         ['Water retention or puffiness',
          'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
@@ -2478,8 +2476,11 @@ var KORB_PATIENT_ED = {
       ],
 
       labs: {
-        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
-              'provider uses labs to assess your response and your safety.',
+        lead: 'Lab monitoring is a required part of your program, not optional. ' +
+              'Baseline labs are required before you start: no prescription is sent ' +
+              'until your baseline results are back and your provider has reviewed ' +
+              'them. After that the draw is repeated in every 16-week cycle, between ' +
+              'weeks 12 and 14, so results are ready for your follow-up visit.',
         items: [
           'IGF-1, the main blood test that shows how you are responding. The goal is the normal healthy range, and higher is not better.',
           'HbA1c and fasting glucose (blood sugar tests), because raising growth hormone can raise blood sugar.',
@@ -2589,13 +2590,11 @@ var KORB_PATIENT_ED = {
 
       common: [
         ['Injection site redness or irritation',
-         'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+         'May occur, and is usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
         ['Flushing or warmth after injection', 'Typically brief, and usually settles within minutes.'],
         ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
         ['Nausea', 'Occasionally reported. Usually mild, and usually goes away on its own.']
       ],
-      /* No row here instructs a patient to be seen, so this section keeps the older heading. The four guides that DO carry an urgent-care instruction - semaglutide, tirzepatide, bpc157, ghkcu - use the default 'When to be seen'. Don, 2026-09-23. */
-      monitorHeading: 'When to tell your provider',
       monitorAndTell: [
         ['Water retention or puffiness', 'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
         ['Joint discomfort or tingling', 'May indicate a dose adjustment is needed. Tell your KORB provider.'],
@@ -2605,8 +2604,11 @@ var KORB_PATIENT_ED = {
       ],
 
       labs: {
-        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
-              'provider uses labs to assess your response and your safety.',
+        lead: 'Lab monitoring is a required part of your program, not optional. ' +
+              'Baseline labs are required before you start: no prescription is sent ' +
+              'until your baseline results are back and your provider has reviewed ' +
+              'them. After that the draw is repeated in every 16-week cycle, between ' +
+              'weeks 12 and 14, so results are ready for your follow-up visit.',
         items: [
           'IGF-1, the main blood test that shows how you are responding. The goal is the normal healthy range, and higher is not better.',
           'HbA1c and fasting glucose (blood sugar tests). Tesamorelin usually does not raise blood sugar, but it is checked throughout.',
@@ -2709,13 +2711,11 @@ var KORB_PATIENT_ED = {
 
       common: [
         ['Injection site redness or irritation',
-         'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+         'May occur, and is usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
         ['Flushing or warmth after injection', 'Typically brief, and usually settles within minutes.'],
         ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
       ],
-      /* No row here instructs a patient to be seen, so this section keeps the older heading. The four guides that DO carry an urgent-care instruction - semaglutide, tirzepatide, bpc157, ghkcu - use the default 'When to be seen'. Don, 2026-09-23. */
-      monitorHeading: 'When to tell your provider',
       monitorAndTell: [
         ['Water retention or puffiness', 'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
         ['Joint discomfort or tingling', 'May indicate a dose adjustment is needed. Tell your KORB provider.'],
@@ -2723,8 +2723,11 @@ var KORB_PATIENT_ED = {
       ],
 
       labs: {
-        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
-              'provider uses labs to assess your response and your safety.',
+        lead: 'Lab monitoring is a required part of your program, not optional. ' +
+              'Baseline labs are required before you start: no prescription is sent ' +
+              'until your baseline results are back and your provider has reviewed ' +
+              'them. After that the draw is repeated in every 16-week cycle, between ' +
+              'weeks 12 and 14, so results are ready for your follow-up visit.',
         items: [
           'IGF-1, the main blood test that shows how you are responding. The goal is the normal healthy range, and higher is not better.',
           'HbA1c and fasting glucose (blood sugar tests), because raising growth hormone can raise blood sugar.',
@@ -2817,7 +2820,7 @@ var KORB_PATIENT_ED = {
 
       common: [
         ['Injection site redness or irritation',
-         'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+         'May occur, and is usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
         ['Nausea or stomach upset', 'Occasionally reported. Usually mild, and usually goes away on its own. Tell your KORB provider if it persists.'],
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
       ],
@@ -2831,8 +2834,11 @@ var KORB_PATIENT_ED = {
       ],
 
       labs: {
-        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
-              'provider uses labs to assess your response and your safety.',
+        lead: 'Lab monitoring is a required part of your program, not optional. ' +
+              'Baseline labs are required before you start: no prescription is sent ' +
+              'until your baseline results are back and your provider has reviewed ' +
+              'them. After that the draw is repeated in every 16-week cycle, between ' +
+              'weeks 12 and 14, so results are ready for your follow-up visit.',
         items: [
           'Standard longevity panel: CBC (blood counts), CMP (kidney, liver and blood salts), lipid panel (cholesterol), HbA1c (3-month blood sugar average), fasting glucose, fasting ' +
           'insulin, IGF-1, TSH, free T4, free T3 (thyroid tests), copper, zinc and ceruloplasmin (the protein that carries copper in your blood), at ' +
@@ -2927,7 +2933,7 @@ var KORB_PATIENT_ED = {
 
       common: [
         ['Injection site redness or irritation',
-         'Common and usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
+         'May occur, and is usually mild. Rotate injection sites. Tell your KORB provider if it persists.'],
         ['Mild skin changes at the injection site',
          'Occasional mild discoloration or sensitivity. Usually goes away on its own.'],
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
@@ -2942,8 +2948,11 @@ var KORB_PATIENT_ED = {
       ],
 
       labs: {
-        lead: 'Lab monitoring is a required part of your program, not optional. Your ' +
-              'provider uses labs to assess your response and your safety.',
+        lead: 'Lab monitoring is a required part of your program, not optional. ' +
+              'Baseline labs are required before you start: no prescription is sent ' +
+              'until your baseline results are back and your provider has reviewed ' +
+              'them. After that the draw is repeated in every 16-week cycle, between ' +
+              'weeks 12 and 14, so results are ready for your follow-up visit.',
         items: [
           'Standard longevity panel: CBC (blood counts), CMP (kidney, liver and blood salts), lipid panel (cholesterol), HbA1c (3-month blood sugar average), fasting glucose, fasting ' +
           'insulin, IGF-1, TSH, free T4, free T3 (thyroid tests), copper, zinc and ceruloplasmin (the protein that carries copper in your blood), at ' +
@@ -3637,8 +3646,8 @@ var KORB_PATIENT_ED = {
 
       common: [
         ['Injection site soreness, redness or a small lump',
-         'Common. Rotate sites and use a fresh needle each time. Tell KORB if it worsens or does not resolve.'],
-        ['Acne or oilier skin', 'Common, especially early on. Tell your provider if it becomes bothersome.'],
+         'May occur. Rotate sites and use a fresh needle each time. Tell KORB if it worsens or does not resolve.'],
+        ['Acne or oilier skin', 'May occur, especially early on. Tell your provider if it becomes bothersome.'],
         ['Fluid retention or mild swelling', 'Tell your provider. Your dose may need adjusting.'],
         ['Mood changes, irritability or trouble sleeping',
          'Tell your provider. This can indicate your dose is too high.'],
@@ -3647,8 +3656,6 @@ var KORB_PATIENT_ED = {
         ['Reduced testicle size, or reduced fertility',
          'Expected with testosterone therapy. If you are planning to father children, tell your provider before continuing.']
       ],
-      /* No row here instructs a patient to be seen, so this section keeps the older heading. The four guides that DO carry an urgent-care instruction - semaglutide, tirzepatide, bpc157, ghkcu - use the default 'When to be seen'. Don, 2026-09-23. */
-      monitorHeading: 'When to tell your provider',
       monitorAndTell: [
         ['Headaches, flushing, or feeling unusually warm', 'Can suggest thickened blood. Tell your provider.'],
         ['New or worsening snoring, or pauses in breathing during sleep', 'Tell your provider.'],
