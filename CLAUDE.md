@@ -6,6 +6,27 @@ Owner: Don Stevenson, PA-C, Director of Clinical Operations.
 This file is the contract for anyone — person or agent — working in this repo.
 Read it before changing anything. Last revised 2026-09-13.
 
+## Two machines: pull first, push last (Don, 2026-09-23)
+
+Don works on a laptop and a desktop, and Remote Control is disabled for the KORB
+organization, so neither machine can reach the other. **GitHub is the only place the
+two meet.** On 2026-09-23 a whole day's work was assumed to be in one repo and was
+checked for in the others, because nobody could say what had been pushed where.
+
+- **Start of every session:** pull all three repos (`C:\korb-clinical-docs`,
+  `C:\korb-patient-tools`, `C:\korb`) before changing anything, and say what came in.
+- **End of every session, and whenever Don says he is stopping, switching machines
+  or going to bed:** check all three with `git status`, commit what is uncommitted,
+  and push. Report each repo's final commit id so it can be checked from the other
+  machine.
+- **`korb-clinical-docs` and `korb-licensing` are private:** commit and push them
+  without asking.
+- **`korb-patient-tools` publishes to patients the moment it is pushed** (GitHub
+  Pages). Say what will go live and push once Don agrees. Do not leave it unpushed
+  at the end of a session without telling him.
+- If a push is rejected, or the work is on a branch other than `main`, say so
+  plainly. Never end a session reporting "done" with commits that are not on GitHub.
+
 ---
 
 ## TRT IS MEN'S HEALTH. ONE PROGRAM, NOT TWO.
