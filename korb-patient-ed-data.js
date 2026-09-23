@@ -1755,7 +1755,32 @@ var KORB_PATIENT_ED = {
             'Fast for 8 to 12 hours.',
             'Drink plenty of water.',
             'Complete your draw before 10:00 AM.',
-            'Morning and fasting is preferred wherever possible.'
+            'Morning and fasting is preferred wherever possible.',
+            /* Added 2026-09-22. The fasting line above never said what to do
+               about medication, and a patient on insulin who fasts without
+               adjusting is the one who gets hurt by it. */
+            'Take your usual medications with water. If you take insulin or another diabetes medication, ask your provider how to handle it before you fast.',
+            /* Biotin distorts immunoassays, hormones and thyroid included; the
+               FDA has warned about it. It sits in the hair, skin and nail
+               supplements that KORB's hair loss patients are likely to take. */
+            'Stop biotin at least 72 hours before your draw. It is common in hair, skin and nail supplements and in multivitamins, and it can make hormone and thyroid results read wrong.'
+          ]
+        },
+        {
+          /* KORB's own standard, from korb-mens-data.js labs.timing: draw
+             testosterone at trough, on an injection day before the dose. Men's
+             Health uses this page for those draws, and until 2026-09-22 it
+             did not say so. The Testosterone guide does, in its labs section. A draw taken after
+             the injection reads high, and a dose set from it is set wrong. */
+          h: 'If you inject testosterone',
+          paras: [
+            'Book your draw for the morning of an injection day, and give that day\'s injection after your blood is drawn, not before. Drawn after an injection, your testosterone reads higher than it really runs, and your provider cannot set your dose from it.'
+          ]
+        },
+        {
+          h: 'What to bring',
+          paras: [
+            'A photo ID. If the Quest site cannot find your lab order, contact KORB Operations.'
           ]
         },
         {
