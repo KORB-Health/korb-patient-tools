@@ -318,7 +318,7 @@ var KORB_PATIENT_ED = {
                       {
                             "title": "Small meals that still hit protein",
                             "why": "For when you fill up after a few bites but still need the protein.",
-                            "text": "I get full very quickly and can only eat small portions. Give me 10 meal ideas that are small in volume but high in protein, at least 25 g each. Prioritise protein density over portion size. Keep them simple to prepare. List protein per serving. Do not give me medical or nutrition advice, just food ideas."
+                            "text": "I get full very quickly and can only eat small portions. Give me 10 meal ideas that are small in volume but high in protein, at least 25 g each. Prioritize protein density over portion size. Keep them simple to prepare. List protein per serving. Do not give me medical or nutrition advice, just food ideas."
                       },
                       {
                             "title": "Gentle food for a queasy day",
@@ -333,7 +333,7 @@ var KORB_PATIENT_ED = {
                       {
                             "title": "A week of simple dinners",
                             "why": "Removes the daily decision, which is usually the hard part.",
-                            "text": "Plan 7 simple dinners for one week. Each should have at least 30 g of protein, use whole or minimally processed ingredients, and take under 30 minutes. Reuse ingredients across meals to reduce waste. Then give me a single consolidated grocery list organised by store section. Do not give me medical or nutrition advice, just recipes and a list."
+                            "text": "Plan 7 simple dinners for one week. Each should have at least 30 g of protein, use whole or minimally processed ingredients, and take under 30 minutes. Reuse ingredients across meals to reduce waste. Then give me a single consolidated grocery list organized by store section. Do not give me medical or nutrition advice, just recipes and a list."
                       },
                       {
                             "title": "Ordering when you eat out",
@@ -583,12 +583,12 @@ var KORB_PATIENT_ED = {
         {
           key: 'sermorelin',
           context: 'foundation',
-          text: 'A growth hormone-releasing peptide. Possible support for sleep quality, recovery and body composition goals. Injected most nights, 6 on and 1 off.'
+          text: 'A growth hormone-releasing peptide. Patients use it for sleep, recovery and body composition goals. Injected most nights, 6 on and 1 off.'
         },
         {
           key: 'cjcipam',
           context: 'foundation',
-          text: 'A growth hormone-releasing peptide combination. Possible support for similar goals to Sermorelin, released in a different pattern. Injected most nights, 6 on and 1 off.'
+          text: 'A growth hormone-releasing peptide combination, used for goals similar to Sermorelin\'s. Injected most nights, 6 on and 1 off.'
         },
         {
           key: 'bpc157',
@@ -751,7 +751,7 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Peak also uses two medications, and is built around performance and body composition (your balance of muscle and fat). It comes in two versions, called pathways, and your provider chooses the one that fits your goals and your baseline labs (your first blood tests, before any treatment).',
+        'Peak uses two medications, and is built around performance and body composition (your balance of muscle and fat). It comes in two versions, called pathways, and your provider chooses the one that fits your goals and your baseline labs (your first blood tests, before any treatment).',
         'Peak is KORB\'s performance and body-composition focused option within the Functional Health & Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing medication with BPC-157 added later, and each with an optional GHK-Cu add-on.',
         'Your provider selects your pathway. You do not choose between them on your own, and they are not combined.',
         'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
@@ -927,7 +927,7 @@ var KORB_PATIENT_ED = {
         'Follow your state or local rules for getting rid of sharps (used needles and syringes). [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
       ],
       keyReminders: [
-        'Your provider decides your program option after your intake and labs. This guide is a general orientation, not personalized medical advice.',
+        'Your provider recommends your program option after your intake and labs. This guide is a general orientation, not personalized medical advice.',
         'All three program options run on the same 16-week cycle with a lab draw between weeks 12 and 14.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
         'For current program pricing, contact KORB Operations or ask your provider.'
@@ -1017,6 +1017,7 @@ var KORB_PATIENT_ED = {
       keyReminders: [
         'Neither treatment requires lab work to start.',
         'NAD+ injection: discard the vial 28 days after first puncture even if medication remains.',
+        'NAD+ injection: put used needles and syringes straight into a sharps container. [Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.',
         'Tell your provider about kidney or liver problems, heart failure or heavy alcohol use before starting metformin.',
         'Metformin is usually paused around surgery and contrast imaging. Tell us if either is scheduled.',
         'Do not take NAD+ alongside isotretinoin (Accutane).'
@@ -1112,7 +1113,7 @@ var KORB_PATIENT_ED = {
       keyReminders: [
         'Finasteride must never be taken by a woman who is or could become pregnant. It causes serious birth defects.',
         'Never share or borrow a hair loss prescription, including a partner\'s.',
-        'Give it three to six months. Stopping early is the commonest reason it does not work.',
+        'Give it three to six months. Stopping early is the most common reason it does not work.',
         'Apply the topical to a dry scalp and leave it at least four hours.'
       ]
     },
@@ -1124,7 +1125,7 @@ var KORB_PATIENT_ED = {
       title: 'Sexual Health Guide',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and PERFORM for men, and to KORB Electric for women**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, and recreational "poppers", whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.',
+        '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise and PERFORM for men, and to KORB Electric for women**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, and recreational "poppers", whether you take them daily or only occasionally. Combining nitrates with any of them can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.',
         'KORB\'s sexual health treatments are prescription medications for erections, arousal and sexual response: KORB Rise and PERFORM for men, and KORB Electric for women. Your provider chooses based on your health history and what you want help with.'
       ],
       sections: [
@@ -1628,7 +1629,7 @@ var KORB_PATIENT_ED = {
       title: 'Start Here Guide',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
-        'This is the first thing to read after your baseline visit. It tells you what order to read everything else in, what happens in your first cycle, and what to do if something does not feel right.'
+        'Read this after your baseline visit. It tells you what order to read everything else in, what happens in your first cycle, and what to do if something does not feel right.'
       ],
       sections: [
         {
@@ -1708,7 +1709,7 @@ var KORB_PATIENT_ED = {
         'Baseline visit is labs only. No prescription is sent at your first visit.',
         'Your pharmacy instructions and your prescription label take priority over any general guide.',
         'Read the Injection, Storage & Safety Guide before your first injection.',
-        'Nothing here is personalized medical advice. Your provider decides your program option and your medication.'
+        'Nothing here is personalized medical advice. Your provider recommends your program option and your medication.'
       ]
     },
 
@@ -1874,9 +1875,11 @@ var KORB_PATIENT_ED = {
                   'needles: a **draw-up needle** to pull the medication out of the ' +
                   'vial, and a thinner **injection needle** to inject with. Use both, ' +
                   'every time, and never draw up through the injection needle. ' +
-                  'Everything else on this page - not reusing anything, never ' +
-                  'combining two medications, and how to dispose of sharps - applies ' +
-                  'to you exactly as written. Your Testosterone guide has the full ' +
+                  'Three things on this page apply to you exactly as written: never ' +
+                  'reusing anything, never combining two medications, and how to dispose ' +
+                  'of sharps. **Storage is different: testosterone is kept at room ' +
+                  'temperature and never refrigerated, so follow your Testosterone guide, ' +
+                  'not the storage section here.** Your Testosterone guide has the full ' +
                   'step-by-step, and your KORB provider will go through it with you.'
           }
         },
@@ -2050,7 +2053,7 @@ var KORB_PATIENT_ED = {
         'Skin irritation where you apply a cream or patch',
         'Mild but persistent side effects',
         'Questions about whether to continue therapy',
-        'Interest in other KORB programs, including sexual health'
+        'Interest in other KORB programs or treatments, including sexual health'
       ],
 
       facts: {
@@ -2212,7 +2215,7 @@ var KORB_PATIENT_ED = {
       storage: {
         cards: [
           ['Patches and capsules', 'Room temperature, 68°F – 77°F (20°C – 25°C). No refrigeration.'],
-          ['Compounded creams', 'FOLLOW THE INSTRUCTIONS THAT CAME WITH YOUR CREAM. Some compounding pharmacies ship them cold and ask you to keep them refrigerated; others do not. Your pharmacy label is the answer.'],
+          ['Compounded creams', 'Follow the instructions that came with your cream. Some compounding pharmacies ship them cold and ask you to keep them refrigerated; others do not. Your pharmacy label is the answer.'],
           ['Keep the cap on the pump', 'And store creams upright'],
           ['Out of reach', 'Of children, and of anyone else in the house']
         ],
@@ -2296,7 +2299,7 @@ var KORB_PATIENT_ED = {
         'your blood pressure is not controlled.',
         'Tell your provider if you have liver disease.',
         'Tell your provider about any vaginal bleeding that has not been explained.',
-        'Tell us if you have a PEANUT ALLERGY. The factory-made, brand-name progesterone ' +
+        'Tell us if you have a **peanut allergy**. The factory-made, brand-name progesterone ' +
         'capsule is made with peanut oil. A compounded capsule is not, and we ' +
         'will prescribe that one instead - so this does not stop you having ' +
         'progesterone.',
@@ -2317,7 +2320,7 @@ var KORB_PATIENT_ED = {
         'change it with you.',
         'Patches and capsules need no refrigeration. For creams, follow the ' +
         'instructions that came with them.',
-        'KORB also offers a SEXUAL HEALTH program. If low libido or arousal is ' +
+        'KORB also offers sexual health treatment. If low libido or arousal is ' +
         'something you would like addressed, tell your provider - there are ' +
         'options beyond hormone therapy.'
       ]
@@ -2378,7 +2381,7 @@ var KORB_PATIENT_ED = {
          'Many notice nothing yet. This is normal.'],
         ['Weeks 8–12', 'Later in your cycle',
          'Some patients report changes in sleep, recovery or energy by this point, and others do not. Do not adjust your schedule.'],
-        ['Weeks 13–16', 'Off cycle — labs and lifestyle',
+        ['Weeks 13–16', 'Break — labs and lifestyle',
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
          'are reviewed during this window, and it is a good stretch to focus on ' +
          'nutrition, exercise and sleep before your next cycle. Do not restart early ' +
@@ -2503,7 +2506,7 @@ var KORB_PATIENT_ED = {
         ['Weeks 4\u20138', 'Active course', 'Changes, if any, begin emerging over time.'],
         ['Weeks 8\u201312', 'Later in your cycle',
          'Your provider will review your IGF-1 and blood sugar at your follow-up visit.'],
-        ['Weeks 13\u201316', 'Off cycle \u2014 labs and lifestyle',
+        ['Weeks 13\u201316', 'Break \u2014 labs and lifestyle',
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
          'are reviewed during this window, and it is a good stretch to focus on ' +
          'nutrition, exercise and sleep before your next cycle. Do not restart early ' +
@@ -2622,7 +2625,7 @@ var KORB_PATIENT_ED = {
         ['Weeks 4\u20138', 'Early response', 'Many notice nothing yet. This is normal.'],
         ['Weeks 8\u201312', 'Later in your cycle',
          'Sleep, recovery and body composition changes may begin to emerge. Do not adjust your schedule.'],
-        ['Weeks 13\u201316', 'Off cycle \u2014 labs and lifestyle',
+        ['Weeks 13\u201316', 'Break \u2014 labs and lifestyle',
          'No injections; this is intentional. Your labs, drawn between weeks 12 and 14, ' +
          'are reviewed during this window, and it is a good stretch to focus on ' +
          'nutrition, exercise and sleep before your next cycle. Do not restart early ' +
@@ -2807,8 +2810,7 @@ var KORB_PATIENT_ED = {
       what: [
         'GHK-Cu is a copper-binding peptide that occurs naturally in the human body. It ' +
         'is found in blood plasma, saliva and urine, and its levels decline with age. It ' +
-        'is being studied for possible support of tissue health, collagen support, wound ' +
-        'healing and anti-inflammatory processes.',
+        'is being studied for skin and tissue health.',
         'GHK-Cu contains copper as part of its structure. Copper, zinc and ceruloplasmin (the protein that carries copper in your blood) ' +
         'are part of your standard lab panel, and your provider will pay particular ' +
         'attention to these results while you are on GHK-Cu.'
@@ -2948,7 +2950,7 @@ var KORB_PATIENT_ED = {
               'If you want a plan built around your own needs, a registered dietitian is the ' +
               'right person to see, and your provider can talk through whether that would help you.',
         items: [
-          'Prioritize protein at each meal. It helps preserve muscle while you lose weight. [Find your daily protein target](https://korb-health.github.io/korb-patient-tools/KORB_Patient_Hub.html#protein-calculator) on the Patient Hub.',
+          'Prioritize protein at each meal. It helps preserve muscle while you lose weight. [Use the Protein Target Calculator](https://korb-health.github.io/korb-patient-tools/KORB_Patient_Hub.html#protein-calculator) on the Patient Hub to find your daily target.',
           'Eat slowly and stop when you feel satisfied rather than full. Semaglutide slows ' +
           'digestion, so it takes longer to feel full and it is easy to overeat before your ' +
           'body catches up.',
@@ -2999,7 +3001,7 @@ var KORB_PATIENT_ED = {
          'compounding pharmacy and each uses a slightly different concentration and step ' +
          'schedule. Your prescription label always reflects your correct dose and volume for ' +
          'your pharmacy. For a quick reference showing injection volume and syringe markings by ' +
-         'pharmacy and dose, ask your provider about KORB\u2019s GLP-1 Dose & Injection Guide.'],
+         'pharmacy and dose, [open My GLP-1 Dose & Injection Guide](https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html) on the Patient Hub.'],
         ['Do not increase your own dose',
          'Even if you feel ready or your symptoms are mild. Increasing too quickly raises the ' +
          'risk of nausea and other side effects. If a dose is not well tolerated, tell your ' +
@@ -3065,7 +3067,7 @@ var KORB_PATIENT_ED = {
          'Common, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
          'Tell your provider if it is severe or persistent.'],
         ['Constipation or stomach pain',
-         'May occur. Stay hydrated and tell your provider if it does not improve.'],
+         'May occur. Drink enough fluid (see How much to drink) and tell your provider if it does not improve.'],
         ['Low appetite',
          'Expected, and part of how the medication works. Tell your provider if you cannot ' +
          'eat or drink adequately.'],
@@ -3187,7 +3189,7 @@ var KORB_PATIENT_ED = {
               'If you want a plan built around your own needs, a registered dietitian is the ' +
               'right person to see, and your provider can talk through whether that would help you.',
         items: [
-          'Prioritize protein at each meal. It helps preserve muscle while you lose weight. [Find your daily protein target](https://korb-health.github.io/korb-patient-tools/KORB_Patient_Hub.html#protein-calculator) on the Patient Hub.',
+          'Prioritize protein at each meal. It helps preserve muscle while you lose weight. [Use the Protein Target Calculator](https://korb-health.github.io/korb-patient-tools/KORB_Patient_Hub.html#protein-calculator) on the Patient Hub to find your daily target.',
           'Eat slowly and stop when you feel satisfied rather than full. Tirzepatide slows ' +
           'digestion, so it takes longer to feel full and it is easy to overeat before your ' +
           'body catches up.',
@@ -3238,7 +3240,7 @@ var KORB_PATIENT_ED = {
          'compounding pharmacy and each uses a slightly different concentration and step ' +
          'schedule. Your prescription label always reflects your correct dose and volume for ' +
          'your pharmacy. For a quick reference showing injection volume and syringe markings by ' +
-         'pharmacy and dose, ask your provider about KORB\u2019s GLP-1 Dose & Injection Guide.'],
+         'pharmacy and dose, [open My GLP-1 Dose & Injection Guide](https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html) on the Patient Hub.'],
         ['Do not increase your own dose',
          'Even if you feel ready or your symptoms are mild. Increasing too quickly raises the ' +
          'risk of nausea and other side effects. If a dose is not well tolerated, tell your ' +
@@ -3304,7 +3306,7 @@ var KORB_PATIENT_ED = {
          'Common, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
          'Tell your provider if it is severe or persistent.'],
         ['Constipation or stomach pain',
-         'May occur. Stay hydrated and tell your provider if it does not improve.'],
+         'May occur. Drink enough fluid (see How much to drink) and tell your provider if it does not improve.'],
         ['Low appetite',
          'Expected, and part of how the medication works. Tell your provider if you cannot ' +
          'eat or drink adequately.'],
@@ -3489,7 +3491,7 @@ var KORB_PATIENT_ED = {
           h: 'Reading your syringe',
           p: [
             'Your prescription label tells you how many mL to draw. Find that number on the ' +
-            'barrel and pull the plunger back until the FRONT EDGE of the black stopper lines ' +
+            'barrel and pull the plunger back until the front edge of the black stopper lines ' +
             'up with it, not the middle or the back of it.',
             'The numbered lines are tenths of a mL and the smaller unnumbered lines between ' +
             'them are hundredths, so 0.42 mL is four numbered lines past zero plus two small ' +
@@ -3515,7 +3517,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Refills and timing',
           p: ['Testosterone is a controlled medication, which means the law puts extra limits on how it is prescribed, refilled and shared, because it can be misused. Pharmacies are legally limited in how ' +
-              'early they can release a refill, and they count from the date of your LAST FILL, ' +
+              'early they can release a refill, and they count from the date of your **last fill**, ' +
               'not from the date you run out or the date of your visit.'],
           ul: [
             'Your provider calculates your refill date and sends your prescription a few days ' +
@@ -3581,7 +3583,7 @@ var KORB_PATIENT_ED = {
 
       labs: {
         lead: 'Timing matters more than most patients expect. Get your blood drawn on a day you ' +
-              'are scheduled to inject, BEFORE you take that dose, when your level is at its lowest. ' +
+              'are scheduled to inject, before you take that dose, when your level is at its lowest. ' +
               'If you are drawn right after an injection your level reads artificially high, and ' +
               'your provider may lower a dose that was actually correct.',
         items: [

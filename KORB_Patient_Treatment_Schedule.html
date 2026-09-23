@@ -277,7 +277,7 @@ var EDU={
     what:'GHK-Cu is a copper-containing peptide found naturally in the body. It is being studied for skin and tissue health.',
     maySupport:['Skin quality','Recovery'],
     notFor:'',
-    expect:'GHK-Cu runs as an add-on, active Weeks 5–8 in Gateway and Peak. Your provider will monitor copper and zinc levels at baseline and at renewal.'
+    expect:'GHK-Cu runs as an add-on, active Weeks 5–8 in Gateway and Peak. Your provider will check copper, zinc and ceruloplasmin (the protein that carries copper in your blood) at baseline and at renewal.'
   },
   tesamorelin1mg:{
     what:'Tesamorelin prompts your body to release more of its own growth hormone. The FDA has approved it for reducing extra belly fat in people with HIV. KORB uses it for a purpose the FDA has not approved, reducing fat stored around the organs.',
@@ -571,7 +571,7 @@ function build(){
 
   // Week-by-week
   html+='<div class="sec">My Week-by-Week Schedule</div>';
-  html+='<div class="info-box teal"><strong>Why the breaks?</strong> If you take these medications every day without stopping, your body can start responding to them less. The weekly night off and the 4-week break between cycles are there to help your body keep responding.</div>';
+  html+='<div class="info-box teal"><strong>Why the breaks?</strong> If you take these medications every day without stopping, your body can start responding to them less. The weekly night off on some medications, and the 4-week break between cycles, are there to help your body keep responding.</div>';
   html+=buildWeekTable(start,prog,agentKeys,ghkOn);
 
   // Lab instructions
@@ -643,8 +643,8 @@ function build(){
   html+='<li>Shipping, pharmacy, or account questions</li>';
   html+='<li>General questions about your program</li>';
   html+='</ul>';
-  html+='<div style="font-size:12px;line-height:1.8;margin-top:6px;border-top:1px solid var(--bd);padding-top:6px;"><strong>Email:</strong> <a href="mailto:info@korbhealth.com" style="color:var(--navy);text-decoration:underline;">info@korbhealth.com</a><br><strong>Phone:</strong> <a href="tel:+18889597299" style="color:var(--navy);text-decoration:underline;">+1 (888) 959-7299</a></div>';
-  html+='<div style="font-size:11px;color:var(--mu);margin-top:4px;">Mon–Fri, 9am–6pm Central</div>';
+  html+='<div style="font-size:12px;line-height:1.8;margin-top:6px;border-top:1px solid var(--bd);padding-top:6px;"><strong>Email:</strong> <a href="mailto:info@korbhealth.com" style="color:var(--navy);text-decoration:underline;">info@korbhealth.com</a><br><strong>Phone:</strong> <a href="tel:+18889597299" style="color:var(--navy);text-decoration:underline;">(888) 959-7299</a></div>';
+  html+='<div style="font-size:11px;color:var(--mu);margin-top:4px;">Mon–Fri, 9 AM–6 PM CT</div>';
   html+='</div>';
   html+='<div class="qr-card"><h4 style="color:var(--navy);">Patient Portal — Medical Questions</h4>';
   html+='<ul style="padding-left:16px;font-size:12px;line-height:2.2;">';

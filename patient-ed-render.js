@@ -1294,7 +1294,7 @@
     (doc.extraSections || []).filter(function (sec) { return !sec.lifestyle; }).forEach(extraSection);
 
     (doc.timingNotes || []).forEach(function (n) {
-      h += '<h3>' + esc(n[0]) + '</h3><p>' + esc(n[1]) + '</p>';
+      h += '<h3>' + esc(n[0]) + '</h3><p>' + rich(n[1]) + '</p>';   /* rich: dose notes can carry a link, 2026-09-22 */
     });
 
     if (doc.timeline) {
