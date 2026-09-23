@@ -81,11 +81,20 @@ var KORB_PATIENT_ED = {
       "page:menshealth_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-20",
-        "fingerprint": "fp-31acc47a-3420",
-        "covers": "3192 characters, 6 headings",
-        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        "date": "2026-09-23",
+        "fingerprint": "fp-01e4daa1-3634",
+        "covers": "3412 characters, 6 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+        "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "fingerprint": "fp-31acc47a-3420",
+          "covers": "3192 characters, 6 headings",
+          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        }
       },
       "page:peak_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -108,11 +117,20 @@ var KORB_PATIENT_ED = {
       "page:weightloss_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-20",
-        "fingerprint": "fp-60cb3a90-4949",
-        "covers": "4635 characters, 10 headings",
-        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        "date": "2026-09-23",
+        "fingerprint": "fp-c5b93f28-5737",
+        "covers": "5382 characters, 10 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+        "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "fingerprint": "fp-60cb3a90-4949",
+          "covers": "4635 characters, 10 headings",
+          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        }
       },
       "page:when_to_contact_korb_or_er": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -126,11 +144,20 @@ var KORB_PATIENT_ED = {
       "page:womenshealth_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-20",
-        "fingerprint": "fp-42a82329-4415",
-        "covers": "4118 characters, 9 headings",
-        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        "date": "2026-09-23",
+        "fingerprint": "fp-e7aba570-4491",
+        "covers": "4202 characters, 9 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+        "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "fingerprint": "fp-42a82329-4415",
+          "covers": "4118 characters, 9 headings",
+          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        }
       },
       "handout:anti_aging": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -609,10 +636,10 @@ var KORB_PATIENT_ED = {
         heading: 'Optimize Your Longevity',
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
-          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
-          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide', note: 'KORB Rise for men, KORB Electric for women' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide', note: 'Oral or topical' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide', note: 'Topical' },
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide', note: 'NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
@@ -697,10 +724,10 @@ var KORB_PATIENT_ED = {
         heading: 'Optimize Your Longevity',
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
-          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
-          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide', note: 'KORB Rise for men, KORB Electric for women' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide', note: 'Oral or topical' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide', note: 'Topical' },
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide', note: 'NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
@@ -752,7 +779,7 @@ var KORB_PATIENT_ED = {
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
       what: [
         'Peak uses two medications, and is built around performance and body composition (your balance of muscle and fat). It comes in two versions, called pathways, and your provider chooses the one that fits your goals and your baseline labs (your first blood tests, before any treatment).',
-        'Peak is KORB\'s performance and body-composition focused option within the Functional Health & Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing medication with BPC-157 added later, and each with an optional GHK-Cu add-on.',
+        'Peak is KORB\'s performance and body-composition focused option within the Functional Health & Longevity Program. It offers two pathways, each pairing a growth hormone-releasing medication with BPC-157 added later in the cycle: Pathway A is CJC-1295 / Ipamorelin, Pathway B is Tesamorelin. Each has an optional GHK-Cu add-on, and your provider chooses the pathway.',
         'Your provider selects your pathway. You do not choose between them on your own, and they are not combined.',
         'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
       ],
@@ -795,10 +822,10 @@ var KORB_PATIENT_ED = {
         heading: 'Optimize Your Longevity',
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, they are not part of your peptide protocol, and none of them replaces any part of it.',
         links: [
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
-          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
-          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide', note: 'KORB Rise for men, KORB Electric for women' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide', note: 'Oral or topical' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide', note: 'Topical' },
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide', note: 'NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
@@ -874,7 +901,7 @@ var KORB_PATIENT_ED = {
         },
         {
           name: 'Peak',
-          text: 'The performance and body-composition option. Two pathways, each pairing a primary growth hormone-releasing medication with BPC-157 added later, and each with an optional GHK-Cu add-on.'
+          text: 'The performance and body-composition option. Two pathways, each pairing a growth hormone-releasing medication with BPC-157 added later in the cycle: Pathway A is CJC-1295 / Ipamorelin, Pathway B is Tesamorelin. Each has an optional GHK-Cu add-on, and your provider chooses the pathway.'
         }
       ],
       /* These were missing from this overview entirely, and from Weight Loss and
@@ -890,10 +917,10 @@ var KORB_PATIENT_ED = {
         heading: 'Optimize Your Longevity',
         lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
         links: [
-          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
-          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
-          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
-          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+          { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide', note: 'KORB Rise for men, KORB Electric for women' },
+          { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide', note: 'Oral or topical' },
+          { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide', note: 'Topical' },
+          { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide', note: 'NAD+ and metformin' }
         ],
         after: [
           '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
@@ -1404,10 +1431,10 @@ var KORB_PATIENT_ED = {
           h: 'Optimize Your Weight Loss',
           lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
-            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Rise for men or KORB Electric for women' },
-            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide, oral or topical' },
-            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
-            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide', note: 'KORB Rise for men, KORB Electric for women' },
+            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide', note: 'Oral or topical' },
+            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide', note: 'Topical' },
+            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide', note: 'NAD+ and metformin' }
           ],
           after: [
             '**Do not take KORB Rise or KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** Both contain sildenafil, and the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
@@ -1491,21 +1518,25 @@ var KORB_PATIENT_ED = {
                  "There is no lab work and no scheduled follow-up for this
                  add-on" in its body and again in its reminders. The button is a
                  way in, not the place to state the fact. */
-              label: 'Sexual Health Guide, KORB Rise for men'
+              label: 'Sexual Health Guide',
+              note: 'KORB Rise for men'
             },
             {
               href: 'KORB_Patient_Ed_Hair_Loss.html',
               /* Named for men. The handout carries both columns and they are
                  different drugs: finasteride for men, spironolactone for women. */
-              label: 'Hair Loss Guide for men, oral or topical'
+              label: 'Hair Loss Guide',
+              note: 'For men. Oral or topical.'
             },
             {
               href: 'KORB_Patient_Ed_Skin_Care.html',
-              label: 'Skin Care Guide, topical'
+              label: 'Skin Care Guide',
+              note: 'Topical'
             },
             {
               href: 'KORB_Patient_Ed_Anti_Aging.html',
-              label: 'Anti-Aging Guide, NAD+ and metformin'
+              label: 'Anti-Aging Guide',
+              note: 'NAD+ and metformin'
             }
           ],
           after: [
@@ -1597,10 +1628,10 @@ var KORB_PATIENT_ED = {
           h: 'Optimize Your Women’s Health',
           lead: 'These can be added alongside your program. Ask your provider if any are a fit for you. They are prescribed separately, and none of them replaces any part of your program.',
           links: [
-            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide, KORB Electric for women' },
-            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide for women, oral or topical' },
-            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide, topical' },
-            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide, NAD+ and metformin' }
+            { href: 'KORB_Patient_Ed_Sexual_Health.html', label: 'Sexual Health Guide', note: 'KORB Electric for women' },
+            { href: 'KORB_Patient_Ed_Hair_Loss.html', label: 'Hair Loss Guide', note: 'For women. Oral or topical.' },
+            { href: 'KORB_Patient_Ed_Skin_Care.html', label: 'Skin Care Guide', note: 'Topical' },
+            { href: 'KORB_Patient_Ed_Anti_Aging.html', label: 'Anti-Aging Guide', note: 'NAD+ and metformin' }
           ],
           after: [
             '**Do not use KORB Electric if you take nitrates for chest pain, such as nitroglycerin or isosorbide, or use recreational "poppers".** It contains sildenafil, the same active as Viagra, and applying it to the skin rather than swallowing it does not remove the risk: the combination can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you take only occasionally.',
