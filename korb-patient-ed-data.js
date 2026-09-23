@@ -844,12 +844,17 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which program and medication(s) are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'KORB\'s Functional Health & Longevity Program is a physician-guided, cash-pay telemedicine program built around select injectable peptide therapies. After a clinical intake and review, your provider determines which program tier and medication or medications are appropriate for your goals.',
+        /* Rewritten 2026-09-22 (items 2 and 5 of Kris Mulkey's review). It opened
+           on "physician-guided, cash-pay telemedicine program": mechanics first,
+           and two phrases Don removed from patient education. It now says what the
+           program is for, then names the three options before the tiers appear. */
+        'KORB\'s Functional Health & Longevity Program is for adults who want to work on how they feel and function as they age. Treatment is peptide therapy: small injections you give yourself at home, in 16-week cycles, prescribed by a licensed KORB provider and matched to your goals and your baseline labs.',
+        'Most people come to us for energy, sleep, recovery or body composition, and want a plan built from their own results rather than guesswork. You do not need to know which peptide you want. There are three program options, Foundation, Gateway and Peak, and your provider recommends one once your labs are back.',
         'This guide is a general orientation to the whole program. Your tier has its own guide with more detail, and your provider gives you individualized guidance.',
         'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
       ],
       tiersHeading: 'Choosing your program',
-      tiersLead: 'All three tiers run on the same 16-week cycle. They differ in how many agents are active and whether they are staggered.',
+      tiersLead: 'All three run on the same 16-week cycle. They differ in how many medications you take and when each one starts.',
       tiers: [
         {
           name: 'Foundation',
@@ -1223,7 +1228,7 @@ var KORB_PATIENT_ED = {
       title: 'Skin Care Guide',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
-        'All three creams are applied once daily. Your provider selects which one fits your skin and your goals, and may start you at a lower strength.'
+        'KORB\'s skin care treatments are prescription creams for acne, dark spots, fine lines and dry or aging skin. All three are applied once daily. Your provider selects which one fits your skin and your goals, and may start you at a lower strength.'
       ],
       sections: [
         {
@@ -1310,7 +1315,13 @@ var KORB_PATIENT_ED = {
       title: 'Weight Loss & Metabolic Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
-        'KORB\'s Weight Loss Program uses GLP-1 medication, semaglutide or tirzepatide, prescribed by your KORB provider and dispensed by a licensed US pharmacy. Your provider selects your medication and starting dose based on your goals and health history, and adjusts your plan at regular follow-up visits.'
+        /* Opens the way Women's Health does, the model Kris Mulkey pointed to on
+           2026-09-22: what the program treats, then why people come, before any
+           medicine is named. The last sentence of the second paragraph is her
+           expectations point: medication is a tool, not a substitute for habits. */
+        'KORB\'s Weight Loss & Metabolic Health Program is medical treatment for adults whose weight is affecting their health. Treatment is a GLP-1 medication, semaglutide or tirzepatide, prescribed by a licensed KORB provider and dispensed by a licensed US pharmacy.',
+        'Most people come to us after diet and exercise alone have not been enough, or because their weight has started to affect their blood pressure, blood sugar, sleep, joints or energy. You do not need to have tried every diet first. Medication works best alongside nutrition and activity changes, not in place of them.',
+        'Your provider selects your medication and starting dose based on your goals and health history, and adjusts your plan at regular follow-up visits.'
       ],
       sections: [
         {
@@ -1410,14 +1421,19 @@ var KORB_PATIENT_ED = {
       title: 'Men\'s Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
-        'KORB\'s Men\'s Health Program is built around how you actually feel. The main program is Testosterone Replacement Therapy for men with lab-confirmed low testosterone and symptoms that go with it. Four optional optimization products are available alongside it: KORB Rise for sexual health, hair loss treatment, skin care, and anti-aging.',
+        /* Women's Health opening shape, 2026-09-22. The reasons men come were
+           two sections down, in the testosterone section; they open the page now
+           and are no longer repeated there. */
+        'KORB\'s Men\'s Health Program treats low testosterone in adult men. Treatment is testosterone replacement therapy (TRT), started only after lab work confirms your levels are low, and prescribed and monitored by a licensed KORB provider.',
+        'Most men come to us for ongoing fatigue, reduced strength or muscle, more body fat, low sex drive, low mood or motivation, or slow recovery from exercise. You do not need to have all of them. What matters is how you feel and what your labs show.',
+        'Four optional optimization products are available alongside it: KORB Rise for sexual health, hair loss treatment, skin care, and anti-aging.',
         'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss & Metabolic Health, or with Functional Health & Longevity. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
       ],
       sections: [
         {
           h: 'Testosterone Replacement Therapy',
           paras: [
-            'Testosterone naturally declines with age. When levels fall low enough to cause symptoms, replacing it can help. Common reasons men start include ongoing fatigue, reduced strength or muscle mass, increased body fat, low sex drive, low mood or motivation, and poor recovery from exercise.'
+            'Testosterone naturally declines with age. When levels fall low enough to cause symptoms, replacing it can help.'
           ],
           cards: [
             [
