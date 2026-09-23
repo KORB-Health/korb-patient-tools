@@ -35,6 +35,20 @@
       .replace(/"/g, '&quot;');
   }
 
+  /* The thing a sentence is about, not the document's title. On 2026-09-22 the
+     titles gained their "Guide" and "Program Overview" suffixes, and three
+     headings built from the title started reading "Who should not use
+     Semaglutide Guide" and "What the Foundation Program Overview is". A title
+     names the document; a heading names the medicine or the program. `name`
+     overrides for an entry whose title does not follow the convention. Throws
+     rather than guessing, so a new title shape fails the build, not the page. */
+  function subjectOf(d) {
+    if (d.name) return d.name;
+    var m = /^(.*) (Guide|Program Overview)$/.exec(d.title || '');
+    if (!m) throw new Error('No subject for "' + d.title + '": add name: to its entry in korb-patient-ed-data.js');
+    return m[2] === 'Program Overview' ? m[1] + ' Program' : m[1];
+  }
+
   /* ---- the facts that must come from the dosing data ---------------------
      Throws rather than falling back. A handout that quietly prints nothing
      where the schedule should be is worse than a build that stops: the first
@@ -270,7 +284,7 @@
 
     h += '<p class="lede">' + esc(prog.disclaimer) + '</p>';
 
-    h += '<h2>What the ' + esc(prog.title) + ' is</h2>' + paras(prog.what);
+    h += '<h2>What the ' + esc(subjectOf(prog)) + ' is</h2>' + paras(prog.what);
 
     /* Tiers before agents. On Peak the reader has to know which pathway they are
        on before a list of agents that "run alongside your pathway" means
@@ -1200,7 +1214,7 @@
 
     h += '<div class="lede"><p>' + esc(S.disclaimer) + '</p></div>';
 
-    h += '<h2>What ' + esc(doc.title) + ' is</h2>' + paras(doc.what);
+    h += '<h2>What ' + esc(subjectOf(doc)) + ' is</h2>' + paras(doc.what);
 
     if (doc.mayHelp) {
       h += '<h2>What it may support</h2><p>' + esc(doc.mayHelp.lead) + '</p>' +
@@ -1300,7 +1314,7 @@
     if (doc.emergencyLead) h += '<div class="callout warn"><p>' + esc(doc.emergencyLead) + '</p></div>';
 
     if (doc.source === 'glp1' && doc.contraPhrasing) {
-      h += '<h2>Who should not use ' + esc(doc.title) + '</h2>' +
+      h += '<h2>Who should not use ' + esc(subjectOf(doc)) + '</h2>' +
            ul(contraindications(DOSING, doc));
     }
 
