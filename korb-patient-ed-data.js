@@ -567,12 +567,12 @@ var KORB_PATIENT_ED = {
       key: 'foundation',
       file: 'Patient_Education/KORB_Foundation_Program_Overview',
       program: 'Functional Health & Longevity',
-      title: 'Foundation Program',
+      title: 'Foundation Program Overview',
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which agent and dosing schedule are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Foundation is the single-agent tier of KORB\'s Functional Health and Longevity Program. At any given time one peptide is active, and your provider selects it based on your goals and clinical profile. You may switch to a different agent at each 16-week follow-up, but Foundation never combines two agents at once.',
-        'If a staggered, multi-agent approach interests you, ask your provider about the Gateway or Peak Performance programs.',
+        'Foundation is the single-agent tier of KORB\'s Functional Health & Longevity Program. At any given time one peptide is active, and your provider selects it based on your goals and clinical profile. You may switch to a different agent at each 16-week follow-up, but Foundation never combines two agents at once.',
+        'If a staggered, multi-agent approach interests you, ask your provider about the Gateway or Peak programs.',
         'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
       ],
       agentsHeading: 'Your Foundation agent options',
@@ -655,11 +655,11 @@ var KORB_PATIENT_ED = {
       key: 'gateway',
       file: 'Patient_Education/KORB_Gateway_Program_Overview',
       program: 'Functional Health & Longevity',
-      title: 'Gateway Program',
+      title: 'Gateway Program Overview',
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines your exact schedule and add-ons. If you have questions, contact KORB by phone or email.',
       what: [
-        'Gateway is KORB\'s staggered two-medication tier within the Functional Health and Longevity Program. Unlike Foundation\'s single-agent model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day. An optional GHK-Cu add-on is available on Gateway if your provider prescribes it.',
+        'Gateway is KORB\'s staggered two-medication tier within the Functional Health & Longevity Program. Unlike Foundation\'s single-agent model, Gateway combines Sermorelin with BPC-157 on a fixed staggered schedule, so the two do not start on the same day. An optional GHK-Cu add-on is available on Gateway if your provider prescribes it.',
         'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
       ],
       agentsHeading: 'How your Gateway combination works',
@@ -744,11 +744,11 @@ var KORB_PATIENT_ED = {
       key: 'peak',
       file: 'Patient_Education/KORB_Peak_Program_Overview',
       program: 'Functional Health & Longevity',
-      title: 'Peak Performance Program',
+      title: 'Peak Program Overview',
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Peak Performance is KORB\'s performance and body-composition focused tier within the Functional Health and Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.',
+        'Peak is KORB\'s performance and body-composition focused tier within the Functional Health & Longevity Program. It offers two pathways, A and B, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.',
         'Your provider selects your pathway. You do not choose between them on your own, and they are not combined.',
         'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
       ],
@@ -801,7 +801,7 @@ var KORB_PATIENT_ED = {
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
-      pricing: 'For current Peak Performance Program pricing, contact KORB Operations or ask your provider at your visit.',
+      pricing: 'For current Peak Program pricing, contact KORB Operations or ask your provider at your visit.',
       cycle: [
         'Baseline visit, labs only. No prescription is sent at your first visit.',
         'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
@@ -840,11 +840,11 @@ var KORB_PATIENT_ED = {
       key: 'longevity',
       file: 'Patient_Education/KORB_Longevity_Program_Overview',
       program: 'Functional Health & Longevity',
-      title: 'Functional Health and Longevity Program',
+      title: 'Functional Health & Longevity Program Overview',
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which program and medication(s) are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'KORB\'s Functional Health and Longevity Program is a physician-guided, cash-pay telemedicine program built around select injectable peptide therapies. After a clinical intake and review, your provider determines which program tier and medication or medications are appropriate for your goals.',
+        'KORB\'s Functional Health & Longevity Program is a physician-guided, cash-pay telemedicine program built around select injectable peptide therapies. After a clinical intake and review, your provider determines which program tier and medication or medications are appropriate for your goals.',
         'This guide is a general orientation to the whole program. Your tier has its own guide with more detail, and your provider gives you individualized guidance.',
         'These peptides are used in an investigational capacity. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific agent before you begin.'
       ],
@@ -864,7 +864,7 @@ var KORB_PATIENT_ED = {
           text: 'The staggered two-medication tier. Sermorelin with BPC-157 added later in the cycle rather than on the same day, and an optional GHK-Cu add-on.'
         },
         {
-          name: 'Peak Performance',
+          name: 'Peak',
           text: 'The performance and body-composition tier. Two pathways, each pairing a primary growth hormone-releasing agent with staggered BPC-157, and each with an optional GHK-Cu add-on.'
         }
       ],
@@ -936,8 +936,8 @@ var KORB_PATIENT_ED = {
     anti_aging: {
       key: 'anti_aging',
       file: 'Patient_Education/KORB_Patient_Ed_Anti_Aging',
-      program: 'KORB Health',
-      title: 'Anti-Aging',
+      program: 'Program Optimization',
+      title: 'Anti-Aging Guide',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
         'Two treatments aimed at how you age rather than at a specific symptom. They can be added to any KORB program, and you may be prescribed one or both. Neither requires lab work to start.'
@@ -1017,8 +1017,8 @@ var KORB_PATIENT_ED = {
     hair_loss: {
       key: 'hair_loss',
       file: 'Patient_Education/KORB_Patient_Ed_Hair_Loss',
-      program: 'KORB Health',
-      title: 'Hair Loss Treatment',
+      program: 'Program Optimization',
+      title: 'Hair Loss Guide',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
         'Hair loss treatment comes as a once-daily tablet, a once-daily topical you apply to your scalp, or both together. Your provider chooses based on your pattern of loss, your health history and your preference.'
@@ -1103,8 +1103,8 @@ var KORB_PATIENT_ED = {
     sexual_health: {
       key: 'sexual_health',
       file: 'Patient_Education/KORB_Patient_Ed_Sexual_Health',
-      program: 'KORB Health',
-      title: 'Sexual Health',
+      program: 'Program Optimization',
+      title: 'Sexual Health Guide',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
         '**Do not use these medications if you take nitrates for chest pain. This applies to KORB Rise, to PERFORM and to KORB Electric**, because all three contain sildenafil. Nitrates include nitroglycerin, isosorbide and similar heart medications, whether you take them daily or only occasionally. Combining them with either treatment can cause a sudden, dangerous drop in blood pressure that can be life-threatening. Tell your provider about every medication you take, including ones you use rarely.'
@@ -1219,8 +1219,8 @@ var KORB_PATIENT_ED = {
     skin_care: {
       key: 'skin_care',
       file: 'Patient_Education/KORB_Patient_Ed_Skin_Care',
-      program: 'KORB Health',
-      title: 'Skin Care Treatment',
+      program: 'Program Optimization',
+      title: 'Skin Care Guide',
       disclaimer: 'This handout is for educational reference only. It is not medical advice. Always follow your prescription label and your KORB provider\'s guidance. If your label differs from anything here, follow your label and contact KORB.',
       intro: [
         'All three creams are applied once daily. Your provider selects which one fits your skin and your goals, and may start you at a lower strength.'
@@ -1306,8 +1306,8 @@ var KORB_PATIENT_ED = {
     weight_loss: {
       key: 'weight_loss',
       file: 'Patient_Education/KORB_WeightLoss_Program_Overview',
-      program: 'KORB Health',
-      title: 'Weight Loss Program Overview',
+      program: 'Weight Loss & Metabolic Health',
+      title: 'Weight Loss & Metabolic Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
         'KORB\'s Weight Loss Program uses GLP-1 medication, semaglutide or tirzepatide, prescribed by your KORB provider and dispensed by a licensed US pharmacy. Your provider selects your medication and starting dose based on your goals and health history, and adjusts your plan at regular follow-up visits.'
@@ -1406,12 +1406,12 @@ var KORB_PATIENT_ED = {
     mens_health: {
       key: 'mens_health',
       file: 'Patient_Education/KORB_MensHealth_Program_Overview',
-      program: 'KORB Health',
+      program: 'Men\'s Health',
       title: 'Men\'s Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
         'KORB\'s Men\'s Health Program is built around how you actually feel. The main program is Testosterone Replacement Therapy for men with lab-confirmed low testosterone and symptoms that go with it. Four optional optimization products are available alongside it: KORB Rise for sexual health, hair loss treatment, skin care, and anti-aging.',
-        'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss and Metabolic Health, or with Functional Health and Longevity. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
+        'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss & Metabolic Health, or with Functional Health & Longevity. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
       ],
       sections: [
         {
@@ -1499,7 +1499,7 @@ var KORB_PATIENT_ED = {
     womens_health: {
       key: 'womens_health',
       file: 'Patient_Education/KORB_WomensHealth_Program_Overview',
-      program: 'KORB Health',
+      program: 'Women\'s Health',
       title: 'Women\'s Health Program Overview',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which treatment and dose are right for you. If you have questions, contact KORB.',
       intro: [
@@ -1616,7 +1616,7 @@ var KORB_PATIENT_ED = {
               choices: [
                 { href: 'KORB_Foundation_Program_Overview.html', label: 'Foundation' },
                 { href: 'KORB_Gateway_Program_Overview.html', label: 'Gateway' },
-                { href: 'KORB_Peak_Program_Overview.html', label: 'Peak Performance' }
+                { href: 'KORB_Peak_Program_Overview.html', label: 'Peak' }
               ]
             },
             {
@@ -1632,7 +1632,7 @@ var KORB_PATIENT_ED = {
             },
             {
               href: 'KORB_Injection_Storage_Safety_Guide.html',
-              label: 'Injection, Storage and Safety Guide',
+              label: 'Injection, Storage & Safety Guide',
               note: 'read before your first injection'
             },
             {
@@ -1677,7 +1677,7 @@ var KORB_PATIENT_ED = {
       keyReminders: [
         'Baseline visit is labs only. No prescription is sent at your first visit.',
         'Your pharmacy instructions and your prescription label take priority over any general guide.',
-        'Read the Injection, Storage and Safety Guide before your first injection.',
+        'Read the Injection, Storage & Safety Guide before your first injection.',
         'Nothing here is personalized medical advice. Your provider decides your tier and your medication.'
       ]
     },
@@ -1761,8 +1761,8 @@ var KORB_PATIENT_ED = {
          oral products. It said All Programs for part of 2026-09-19, which told
          a woman on a patch that a syringe document was written for her.
          A document about injecting says who injects. */
-      program: 'All injectable programs',
-      title: 'Injection, Storage and Safety Guide',
+      program: 'All Injectable Programs',
+      title: 'Injection, Storage & Safety Guide',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your prescription label and your provider\'s instructions come first. If you have questions, contact KORB.',
       intro: [
         'Read this before your first injection. It covers what to have ready, how to check your medication, how to store it, sharps disposal and travel.'
@@ -1974,7 +1974,7 @@ var KORB_PATIENT_ED = {
     hormone_therapy: {
       key: 'hormone_therapy',
       file: 'KORB_Patient_Ed_HormoneTherapy',
-      title: 'Hormone Therapy',
+      title: 'Hormone Therapy Guide',
       source: 'none',
       program: "Women's Health",
 
@@ -2263,7 +2263,7 @@ var KORB_PATIENT_ED = {
       file: 'KORB_Patient_Ed_Sermorelin',   /* the PUBLISHED name. Deriving it from the title
                                   invented KORB_Patient_Ed_CJC_1295_Ipamorelin and would
                                   have left the old file beside the new one. */
-      title: 'Sermorelin',
+      title: 'Sermorelin Guide',
       agentKey: 'sermorelin',
       program: 'Functional Health & Longevity',
       cycleWeeks: 16,
@@ -2391,7 +2391,7 @@ var KORB_PATIENT_ED = {
       file: 'KORB_Patient_Ed_Tesamorelin',   /* the PUBLISHED name. Deriving it from the title
                                   invented KORB_Patient_Ed_CJC_1295_Ipamorelin and would
                                   have left the old file beside the new one. */
-      title: 'Tesamorelin',
+      title: 'Tesamorelin Guide',
       agentKey: 'tesamorelin1mg',
       program: 'Functional Health & Longevity',
       cycleWeeks: 16,
@@ -2518,7 +2518,7 @@ var KORB_PATIENT_ED = {
       file: 'KORB_Patient_Ed_CJC_Ipamorelin',   /* the PUBLISHED name. Deriving it from the title
                                   invented KORB_Patient_Ed_CJC_1295_Ipamorelin and would
                                   have left the old file beside the new one. */
-      title: 'CJC-1295 / Ipamorelin',
+      title: 'CJC-1295 / Ipamorelin Guide',
       agentKey: 'cjcipam',
       program: 'Functional Health & Longevity',
       cycleWeeks: 16,
@@ -2635,7 +2635,7 @@ var KORB_PATIENT_ED = {
     bpc157: {
       key: 'bpc157',
       file: 'KORB_Patient_Ed_BPC157',
-      title: 'BPC-157',
+      title: 'BPC-157 Guide',
       agentKey: 'bpc157',
       program: 'Functional Health & Longevity',
       cycleWeeks: 16,
@@ -2745,7 +2745,7 @@ var KORB_PATIENT_ED = {
     ghkcu: {
       key: 'ghkcu',
       file: 'KORB_Patient_Ed_GHK_Cu',
-      title: 'GHK-Cu',
+      title: 'GHK-Cu Guide',
       agentKey: 'ghkcu',
       program: 'Functional Health & Longevity',
       cycleWeeks: 16,
@@ -2864,7 +2864,7 @@ var KORB_PATIENT_ED = {
     semaglutide: {
       key: 'semaglutide',
       file: 'KORB_Patient_Ed_Semaglutide',
-      title: 'Semaglutide',
+      title: 'Semaglutide Guide',
       source: 'glp1',
       productKey: 'premier_sema',
       program: 'Weight Loss & Metabolic Health',
@@ -3085,7 +3085,7 @@ var KORB_PATIENT_ED = {
     tirzepatide: {
       key: 'tirzepatide',
       file: 'KORB_Patient_Ed_Tirzepatide',
-      title: 'Tirzepatide',
+      title: 'Tirzepatide Guide',
       source: 'glp1',
       productKey: 'premier_tirz',
       program: 'Weight Loss & Metabolic Health',
@@ -3316,9 +3316,9 @@ var KORB_PATIENT_ED = {
     testosterone: {
       key: 'testosterone',
       file: 'KORB_Patient_Ed_Testosterone',
-      title: 'Testosterone',
+      title: 'Testosterone Guide',
       source: 'mens',
-      program: 'Men\u2019s Health',
+      program: 'Men\'s Health',
       /* `how` is DERIVED from korb-mens-data.js routes - see mensFacts() in
          patient-ed-render.js. Timing and schedule stay here as prose because
          neither is a fact that file holds: both depend on the individual

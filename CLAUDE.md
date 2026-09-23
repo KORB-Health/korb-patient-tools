@@ -740,6 +740,12 @@ probe yet and are reported as CANNOT BE FINGERPRINTED, which is a loud state rat
 than a quiet omission. The Men's Health probe was written on 2026-09-17. Writing one
 for the GLP-1 and Add-On tools is open work.
 
+**22 PATIENT PAGES ARE STALE ON PURPOSE, from 2026-09-22.** The naming pass from
+Kris Mulkey's hub review retitled them. Don's ruling: nobody re-signs them until every
+item on that review is done, so he reads and signs once. **Do not re-sign them piecemeal
+and do not treat `node artifact-signoff.js` exiting 1 as a defect to fix.** The list and
+its order are in `korb-clinical-docs/docs/KORB_Patient_Hub_Feedback_Review_2026-09-22.md`.
+
 **Status as of 2026-09-17: 24 artifacts, 6 signed.** The Add-On tool and GLP-1
 Pharmacy Routing were signed after review the same day; the GLP-1 Provider Tool left
 the register when it was retired to a redirect.
