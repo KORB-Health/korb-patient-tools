@@ -482,10 +482,23 @@ function build(){
   }
 
   // Payment section
+  /* Rewritten 2026-09-22 to Don's account of how FH&L is actually paid. It said
+     payments 2-4 were "charged automatically to the credit card on file", which
+     was not true: they go out as AuthPay links. It also said "HSA/FSA eligible"
+     and "Not covered by insurance"; Don took both out as billing language, not
+     patient education. It stays in the tool because FH&L is the only program
+     paid this way and patients need reminding.
+
+     CARD_ON_FILE: AuthPay card saving goes live in the week of 2026-09-22, not
+     yet. Until it does, telling a patient to save a card sends them looking for
+     an option that is not there. Set true the day it is switched on, and nothing
+     else needs to change. */
+  var CARD_ON_FILE=false;
+  var linkNote=CARD_ON_FILE?'Sent as an AuthPay payment link, or charged automatically if you saved your card in AuthPay':'Sent to you as an AuthPay payment link';
   html+='<div style="border-radius:10px;overflow:hidden;margin-bottom:24px;border:1px solid var(--bd);">';
-  html+='<div class="pay-banner"><h3>Program Pricing — 4 Equal Payments</h3><p>Your 16-week cycle is billed as 4 equal payments. This structure is designed to reduce the burden of a high upfront cost and give more patients access to a structured longevity program.</p></div>';
+  html+='<div class="pay-banner"><h3>Your Payments: 4 Equal Payments</h3><p>To make the program easier to start, KORB does not charge the full cost of your 16-week cycle before your peptides ship. It is split into 4 equal payments instead, and you are responsible for all four.</p></div>';
   html+='<div class="pay-included" style="background:var(--ln)">';
-  html+='<strong>What your 4 payments cover — all inclusive:</strong>';
+  html+='<strong>What your 4 payments cover, all inclusive:</strong>';
   html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 24px;margin:10px 0 8px;">';
   html+='<div style="font-size:12px;line-height:2;"><ul style="padding-left:16px;margin:0;">';
   html+='<li>Lab review at every visit</li>';
@@ -499,12 +512,14 @@ function build(){
   html+='<li>16-week renewal visit</li>';
   html+='</ul></div>';
   html+='</div>';
-  html+='<div style="font-size:11px;color:var(--mu);">All 4 payments are your responsibility for each 16-week cycle. Not covered by insurance. HSA/FSA eligible. Payments 2–4 will be charged automatically to the credit card on file.</div>';
+  html+='<div style="font-size:11px;color:var(--mu);">Payment 1 is paid to your provider at the visit where your treatment starts and your peptides are ordered. Payments 2, 3 and 4 follow every 28 days and are sent to you as secure AuthPay payment links.'+
+    (CARD_ON_FILE?' We recommend saving your card in AuthPay from any of those links, so each remaining payment is charged automatically on its due date. If you do not save a card, pay each link when it arrives.':' Please pay each link when it arrives.')+
+    (ghkOn?' GHK-Cu is a separate one-time payment.':'')+'</div>';
   html+='</div>';
   html+='<div class="pay-grid">';
   var pays=['Payment 1 of 4','Payment 2 of 4','Payment 3 of 4','Payment 4 of 4'];
-  var payWhen=['At Your Visit','28 Days Later','28 Days After Payment 2','28 Days After Payment 3'];
-  var payNotes=['Collected by your provider at your visit','Charged automatically to the card on file, approximately 28 days after Payment 1','Charged automatically to the card on file, approximately 28 days after Payment 2','Charged automatically to the card on file, approximately 28 days after Payment 3'];
+  var payWhen=['At Your Visit','28 Days After Payment 1','28 Days After Payment 2','28 Days After Payment 3'];
+  var payNotes=['Paid to your provider at the visit where your treatment starts',linkNote,linkNote,linkNote];
   pays.forEach(function(label,i){
     html+='<div class="pay-card"><div class="pay-num">'+label+'</div><div class="pay-when">'+payWhen[i]+'</div><div class="pay-note">'+payNotes[i]+'</div></div>';
   });
