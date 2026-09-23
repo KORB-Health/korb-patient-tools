@@ -316,18 +316,27 @@ var KORB_PATIENT_ED = {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
         "date": "2026-09-23",
-        "fingerprint": "fp-7ed57fe2-15798",
-        "covers": "15185 characters, 23 headings",
+        "fingerprint": "fp-fc75aa2b-16236",
+        "covers": "15593 characters, 24 headings",
         "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. On this guide: the fluid target, \"May occur\" in place of \"Common\" on the nausea row, sentence case in the fact table, and the rewritten escalation - pancreatitis, gallbladder and dehydration now send the patient to urgent care or the ER the same day rather than to a message.",
+        "note": "Re-signed after the \"If your dose uses two vials\" row was added with Premier semaglutide 4.5 mg, where the fourth dose of every four weeks is the leftover of both vials. Don reviewed on the live site and approved 2026-09-23: \"they look good. go ahead and sign off on them for me now. Good to go\".",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-45b0129c-14243",
-          "covers": "13608 characters, 22 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          "date": "2026-09-23",
+          "fingerprint": "fp-7ed57fe2-15798",
+          "covers": "15185 characters, 23 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. On this guide: the fluid target, \"May occur\" in place of \"Common\" on the nausea row, sentence case in the fact table, and the rewritten escalation - pancreatitis, gallbladder and dehydration now send the patient to urgent care or the ER the same day rather than to a message.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-45b0129c-14243",
+            "covers": "13608 characters, 22 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
         }
       },
       "handout:sermorelin": {
