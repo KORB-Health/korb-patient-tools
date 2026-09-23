@@ -433,6 +433,9 @@
     '.k-pill{display:inline-flex;align-items:center;padding:10px 16px;background:#fff;',
     'color:var(--navy);border:1.5px solid var(--k-teal-ink);border-radius:7px;',
     'text-decoration:none;font-weight:700;font-size:14.5px;line-height:1.3;min-height:44px;}',
+    '.k-pill2{flex-direction:column;align-items:center;gap:1px;text-align:center;padding:9px 16px;}',
+    '.k-pill-n{font-weight:700;font-size:14.5px;}',
+    '.k-pill-d{font-weight:600;font-size:11.5px;color:#4A4F6B;line-height:1.3;}',
     '.k-pill:hover{background:var(--teal);color:var(--navy);}',
     '.k-pill:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
 
@@ -467,8 +470,14 @@
                (l.note ? '<span class="k-panel-n">' + esc(l.note) + '</span>' : '') +
                '<div class="k-pills">' +
                l.choices.map(function (c) {
-                 return '<a class="k-pill" href="' + esc(c.href) + '">' +
-                        esc(c.label) + '</a>';
+                 /* A choice may carry a note. Same treatment as the optimization
+                    buttons: the pill says the name, the caption says what it is.
+                    Don, 2026-09-23. */
+                 return '<a class="k-pill' + (c.note ? ' k-pill2' : '') + '" href="' +
+                        esc(c.href) + '">' + (c.note
+                          ? '<span class="k-pill-n">' + esc(c.label) + '</span>' +
+                            '<span class="k-pill-d">' + esc(c.note) + '</span>'
+                          : esc(c.label)) + '</a>';
                }).join('') + '</div></div>';
       }
       return '<a href="' + esc(l.href) + '" style="' + (alt ? BTN_ALT : BTN) + '">' +
@@ -624,8 +633,19 @@
        from here by accident, which took the "use a new insulin needle and
        syringe" instruction off the Injection, Storage and Safety Guide - the
        one page whose job is to say it. Caught the same day by rendering. */
+    if (name === 'availability') {
+      if (!sh.availability) { return ''; }
+      return '<div class="callout"><p>' + esc(sh.availability) + '</p></div>';
+    }
     if (name === 'injectionSafety') {
       return ul([sh.injectionSafetyDevice].concat(sh.injectionSafety));
+    }
+    /* Same block without the sharps sentence, for the one page that has a
+       dedicated Sharps disposal section below it. Before this, the Injection,
+       Storage and Safety Guide printed the sharps rule and the locator link
+       TWICE. Don, 2026-09-23. */
+    if (name === 'injectionSafetyNoSharps') {
+      return ul([sh.injectionSafetyDevice, sh.injectionSafety[0]]);
     }
     if (name === 'contact') {
       if (!sh.contact) { return ''; }

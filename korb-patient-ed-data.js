@@ -348,6 +348,15 @@ var KORB_PATIENT_ED = {
      copies in eight PDFs; a correction to the sharps rule meant eight edits and
      eight chances to miss one. */
   shared: {
+    /* ONE sentence, referenced by all four optimization guides. Deliberately
+       names NO state. Which products reach which state is pharmacy licensure
+       and it changes; a hand-typed state list on a public patient page is the
+       failure this repo opens with. The true picture is also not simple -
+       metformin has no California route at all, while NAD+ does reach
+       California as a nasal spray or sublingual but not as an injection.
+       Don asked for a disclaimer, 2026-09-23. */
+    availability: 'Not every product on this page is available in every state. Which ones you can be prescribed depends on where you live and which partner pharmacy is licensed to ship there, and for some products the form differs by state as well. Your provider will tell you what is available for you.',
+
 
     /* MEAL-IDEA PROMPTS. Moved here 2026-09-21 because the Patient Hub was
        rendering an EMPTY "Use an AI assistant for meal ideas" section on a
@@ -1076,6 +1085,11 @@ var KORB_PATIENT_ED = {
             'Seek urgent care for unusual muscle pain or weakness, trouble breathing, unusual sleepiness, severe stomach pain with nausea and vomiting, or feeling very cold or lightheaded. These are rare but are the symptoms that matter most while taking metformin. Do not wait to hear back from KORB.'
           ]
         }
+      ,
+        {
+          h: 'Availability',
+          shared: 'availability'
+        }
       ],
       keyReminders: [
         'Neither treatment requires lab work to start.',
@@ -1124,7 +1138,7 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
-          h: 'How to use it',
+          h: 'How to use the topical',
           items: [
             'Apply once daily to a dry scalp, not damp or freshly washed hair.',
             'Use one to two applications depending on how much area you are covering. Your provider will tell you which.',
@@ -1148,7 +1162,7 @@ var KORB_PATIENT_ED = {
           cards: [
             [
               'Scalp redness, itching or dryness (topical)',
-              'Common early on. Tell your provider if it is severe or does not settle.'
+              'May occur early on. Tell your provider if it is severe or does not settle.'
             ],
             [
               'Increased shedding in the first few weeks',
@@ -1171,6 +1185,11 @@ var KORB_PATIENT_ED = {
               'Tell your provider.'
             ]
           ]
+        }
+      ,
+        {
+          h: 'Availability',
+          shared: 'availability'
         }
       ],
       keyReminders: [
@@ -1289,6 +1308,11 @@ var KORB_PATIENT_ED = {
             'There is no lab work and no scheduled follow-up for this treatment. When you need more, send a message through the patient portal and your provider will review it. Do not wait until you are completely out.'
           ]
         }
+      ,
+        {
+          h: 'Availability',
+          shared: 'availability'
+        }
       ],
       keyReminders: [
         'Never combine with nitrates for chest pain. This can be life-threatening.',
@@ -1373,6 +1397,11 @@ var KORB_PATIENT_ED = {
           after: [
             'Tell your provider if you are pregnant, trying to conceive or breastfeeding. Tretinoin is not used in pregnancy. Estriol contains a hormone, so mention it if you already take hormone therapy through another KORB program so your full plan can be reviewed together.'
           ]
+        }
+      ,
+        {
+          h: 'Availability',
+          shared: 'availability'
         }
       ],
       keyReminders: [
@@ -1712,9 +1741,9 @@ var KORB_PATIENT_ED = {
               label: 'Your Program Overview',
               note: 'open the one your provider confirmed for you',
               choices: [
-                { href: 'KORB_Foundation_Program_Overview.html', label: 'Foundation, one medication' },
-                { href: 'KORB_Gateway_Program_Overview.html', label: 'Gateway, two medications' },
-                { href: 'KORB_Peak_Program_Overview.html', label: 'Peak, two medications, performance focus' }
+                { href: 'KORB_Foundation_Program_Overview.html', label: 'Foundation', note: 'One medication' },
+                { href: 'KORB_Gateway_Program_Overview.html', label: 'Gateway', note: 'Two medications' },
+                { href: 'KORB_Peak_Program_Overview.html', label: 'Peak', note: 'Two medications, performance focus' }
               ]
             },
             {
@@ -1918,7 +1947,10 @@ var KORB_PATIENT_ED = {
         },
         {
           h: 'Injection safety',
-          shared: 'injectionSafety',
+          /* NOT the full shared block. This page has a dedicated Sharps disposal
+             section below, so printing the shared sharps sentence here said the
+             rule and rendered the locator link twice on one page. Don, 2026-09-23. */
+          shared: 'injectionSafetyNoSharps',
           /* THIS GUIDE IS WRITTEN FOR AN INSULIN SYRINGE, and until 2026-09-21
              it never said so. It goes to every patient before a first
              injection, it names no programme, and it mentions testosterone,
