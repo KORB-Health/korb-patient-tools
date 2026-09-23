@@ -45,20 +45,38 @@ var KORB_PATIENT_ED = {
       "page:foundation_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-20",
-        "fingerprint": "fp-c618be0b-6499",
-        "covers": "6140 characters, 13 headings",
-        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        "date": "2026-09-23",
+        "fingerprint": "fp-4ca04f0a-7151",
+        "covers": "6759 characters, 14 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+        "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes and the optimization link relabelling. Don: \"Foundation program overview is good to sign off on.\"",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "fingerprint": "fp-c618be0b-6499",
+          "covers": "6140 characters, 13 headings",
+          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        }
       },
       "page:gateway_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-20",
-        "fingerprint": "fp-5550a518-6091",
-        "covers": "5751 characters, 13 headings",
-        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        "date": "2026-09-23",
+        "fingerprint": "fp-afa9061f-6693",
+        "covers": "6325 characters, 14 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+        "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes and the optimization link relabelling. Don: \"Gateway program overview is good to sign off on.\"",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "fingerprint": "fp-5550a518-6091",
+          "covers": "5751 characters, 13 headings",
+          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        }
       },
       "page:injection_storage_safety_guide": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -72,11 +90,20 @@ var KORB_PATIENT_ED = {
       "page:longevity_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-20",
-        "fingerprint": "fp-e682b48b-5927",
-        "covers": "5518 characters, 13 headings",
-        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        "date": "2026-09-23",
+        "fingerprint": "fp-355ea93c-6804",
+        "covers": "6385 characters, 14 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+        "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes, the optimization link relabelling, and the Peak pathway naming added the same day at Don's request. Don: \"functional health all look good.\"",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "fingerprint": "fp-e682b48b-5927",
+          "covers": "5518 characters, 13 headings",
+          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        }
       },
       "page:menshealth_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -99,11 +126,20 @@ var KORB_PATIENT_ED = {
       "page:peak_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-20",
-        "fingerprint": "fp-742b8ef5-6382",
-        "covers": "5936 characters, 15 headings",
-        "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-        "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        "date": "2026-09-23",
+        "fingerprint": "fp-6e95c7eb-7000",
+        "covers": "6557 characters, 16 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+        "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes, the optimization link relabelling, and the pathway naming added the same day: Pathway A is CJC-1295 / Ipamorelin with BPC-157, Pathway B is Tesamorelin with BPC-157. Don: \"Peak program overview: good to sign off on.\"",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "fingerprint": "fp-742b8ef5-6382",
+          "covers": "5936 characters, 15 headings",
+          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+        }
       },
       "page:start_here_guide": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -2430,6 +2466,8 @@ var KORB_PATIENT_ED = {
         ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
       ],
+      /* No row here instructs a patient to be seen, so this section keeps the older heading. The four guides that DO carry an urgent-care instruction - semaglutide, tirzepatide, bpc157, ghkcu - use the default 'When to be seen'. Don, 2026-09-23. */
+      monitorHeading: 'When to tell your provider',
       monitorAndTell: [
         ['Water retention or puffiness',
          'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
@@ -2556,6 +2594,8 @@ var KORB_PATIENT_ED = {
         ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
         ['Nausea', 'Occasionally reported. Usually mild, and usually goes away on its own.']
       ],
+      /* No row here instructs a patient to be seen, so this section keeps the older heading. The four guides that DO carry an urgent-care instruction - semaglutide, tirzepatide, bpc157, ghkcu - use the default 'When to be seen'. Don, 2026-09-23. */
+      monitorHeading: 'When to tell your provider',
       monitorAndTell: [
         ['Water retention or puffiness', 'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
         ['Joint discomfort or tingling', 'May indicate a dose adjustment is needed. Tell your KORB provider.'],
@@ -2674,6 +2714,8 @@ var KORB_PATIENT_ED = {
         ['Headache', 'May occur early in therapy. Usually mild and short-lived.'],
         ['Fatigue', 'Uncommon. Tell your KORB provider if it persists.']
       ],
+      /* No row here instructs a patient to be seen, so this section keeps the older heading. The four guides that DO carry an urgent-care instruction - semaglutide, tirzepatide, bpc157, ghkcu - use the default 'When to be seen'. Don, 2026-09-23. */
+      monitorHeading: 'When to tell your provider',
       monitorAndTell: [
         ['Water retention or puffiness', 'Can occur with growth hormone stimulation. Tell your KORB provider if noticeable.'],
         ['Joint discomfort or tingling', 'May indicate a dose adjustment is needed. Tell your KORB provider.'],
@@ -2781,11 +2823,11 @@ var KORB_PATIENT_ED = {
       ],
       monitorAndTell: [
         ['Unusual pain or swelling at the injection site',
-         'Could indicate infection. Contact KORB promptly if redness spreads or a fever develops.'],
+         'Could indicate infection. If redness spreads or a fever develops, go to urgent care or the ER the same day - this needs examining. Let KORB know afterwards so it reaches your provider.'],
         ['A rash or hives away from the injection site',
-         'Contact your provider promptly.'],
+         'Can be an allergic reaction. Go to urgent care or the ER the same day to be evaluated, and seek emergency care immediately if you have any trouble breathing or swelling of the face, lips, tongue or throat. Let KORB know afterwards so it reaches your provider.'],
         ['Any unexplained symptom that affects your whole body, such as fever or feeling generally unwell',
-         'Tell your KORB provider. Do not continue without guidance if you have a significant new symptom.']
+         'Tell your KORB provider, and do not continue without guidance. If you feel very unwell, go to urgent care or the ER rather than waiting for a reply.']
       ],
 
       labs: {
@@ -2894,9 +2936,9 @@ var KORB_PATIENT_ED = {
         ['Copper or ceruloplasmin trending up on labs',
          'Your provider will review this at your follow-up visit. Therapy may be discontinued if levels rise.'],
         ['Unusual rash, hives or skin reaction',
-         'Tell your KORB provider promptly. Copper-containing compounds can occasionally cause an allergic reaction.'],
+         'Copper-containing compounds can occasionally cause an allergic reaction. Go to urgent care or the ER the same day to be evaluated, and seek emergency care immediately if you have any trouble breathing or swelling of the face, lips, tongue or throat. Let KORB know afterwards so it reaches your provider.'],
         ['Any symptom that affects your whole body, such as fever or feeling generally unwell',
-         'Tell your KORB provider, and do not continue until your provider says so.']
+         'Tell your KORB provider, and do not continue until your provider says so. If you feel very unwell, go to urgent care or the ER rather than waiting for a reply.']
       ],
 
       labs: {
@@ -3095,7 +3137,7 @@ var KORB_PATIENT_ED = {
         'alongside healthy eating and activity, not in place of them.',
       common: [
         ['Nausea, vomiting or diarrhea',
-         'Common, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
+         'May occur, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
          'Tell your provider if it is severe or persistent.'],
         ['Constipation or stomach pain',
          'May occur. Drink enough fluid (see How much to drink) and tell your provider if it does not improve.'],
@@ -3108,10 +3150,10 @@ var KORB_PATIENT_ED = {
       ],
       monitorAndTell: [
         ['Severe or persistent abdominal pain, especially spreading to your back',
-         'Can be a sign of pancreatitis (inflammation of the pancreas). Contact your provider the same day, and go to urgent care or the ER if the pain is severe.'],
+         'Can be a sign of pancreatitis (inflammation of the pancreas). Go to urgent care or the ER the same day to be evaluated - KORB is telemedicine and cannot examine you. Let KORB know afterwards so it reaches your provider.'],
         ['Pain in the upper right abdomen, fever, or yellowing of the skin or eyes',
-         'Possible gallbladder problem. Contact your provider the same day.'],
-        ['Unable to keep fluids down for more than 24 hours', 'Contact your provider the same day. On this medication, dehydration can affect your kidneys.']
+         'Possible gallbladder problem, which needs an examination and imaging. Go to urgent care or the ER the same day. Let KORB know afterwards so it reaches your provider.'],
+        ['Unable to keep fluids down for more than 24 hours', 'Go to urgent care or the ER the same day. On this medication, dehydration can affect your kidneys. Let KORB know afterwards so it reaches your provider.']
       ],
       contraPhrasing: {
         'Personal or family history of medullary thyroid carcinoma (MTC)':
@@ -3334,7 +3376,7 @@ var KORB_PATIENT_ED = {
         'alongside healthy eating and activity, not in place of them.',
       common: [
         ['Nausea, vomiting or diarrhea',
-         'Common, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
+         'May occur, most often after a dose increase. Smaller, lower-fat meals usually help. ' +
          'Tell your provider if it is severe or persistent.'],
         ['Constipation or stomach pain',
          'May occur. Drink enough fluid (see How much to drink) and tell your provider if it does not improve.'],
@@ -3347,10 +3389,10 @@ var KORB_PATIENT_ED = {
       ],
       monitorAndTell: [
         ['Severe or persistent abdominal pain, especially spreading to your back',
-         'Can be a sign of pancreatitis (inflammation of the pancreas). Contact your provider the same day, and go to urgent care or the ER if the pain is severe.'],
+         'Can be a sign of pancreatitis (inflammation of the pancreas). Go to urgent care or the ER the same day to be evaluated - KORB is telemedicine and cannot examine you. Let KORB know afterwards so it reaches your provider.'],
         ['Pain in the upper right abdomen, fever, or yellowing of the skin or eyes',
-         'Possible gallbladder problem. Contact your provider the same day.'],
-        ['Unable to keep fluids down for more than 24 hours', 'Contact your provider the same day. On this medication, dehydration can affect your kidneys.']
+         'Possible gallbladder problem, which needs an examination and imaging. Go to urgent care or the ER the same day. Let KORB know afterwards so it reaches your provider.'],
+        ['Unable to keep fluids down for more than 24 hours', 'Go to urgent care or the ER the same day. On this medication, dehydration can affect your kidneys. Let KORB know afterwards so it reaches your provider.']
       ],
       contraPhrasing: {
         'Personal or family history of medullary thyroid carcinoma (MTC)':
@@ -3605,6 +3647,8 @@ var KORB_PATIENT_ED = {
         ['Reduced testicle size, or reduced fertility',
          'Expected with testosterone therapy. If you are planning to father children, tell your provider before continuing.']
       ],
+      /* No row here instructs a patient to be seen, so this section keeps the older heading. The four guides that DO carry an urgent-care instruction - semaglutide, tirzepatide, bpc157, ghkcu - use the default 'When to be seen'. Don, 2026-09-23. */
+      monitorHeading: 'When to tell your provider',
       monitorAndTell: [
         ['Headaches, flushing, or feeling unusually warm', 'Can suggest thickened blood. Tell your provider.'],
         ['New or worsening snoring, or pauses in breathing during sleep', 'Tell your provider.'],

@@ -29,6 +29,17 @@
   var CSS = GLP1DOCS ? GLP1DOCS.CSS : '';
   var LOGO_URI = GLP1DOCS ? GLP1DOCS.LOGO_URI : '';
 
+  /* The three fact-table cells are sentence case. 'Schedule' comes from
+     korb-glp1-data.js `frequency`, which reads 'once weekly' - correct as a
+     fragment, wrong as a table cell beside 'Same day each week'. Capitalised
+     HERE rather than in the data, because KORB_GLP1_Provider_Reference.html
+     renders the same value in a provider table and must not move.
+     Don, 2026-09-23. */
+  function sentence(v) {
+    v = String(v == null ? '' : v);
+    return v ? v.charAt(0).toUpperCase() + v.slice(1) : v;
+  }
+
   function esc(s) {
     return String(s === undefined || s === null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -1245,10 +1256,10 @@
             defaults suit them; Hormone Therapy is patches, creams and capsules
             and "How to inject" was simply wrong on it. */
          '<tr><th>' + esc((doc.factLabels || {}).how || 'How to inject') + '</th><td>' +
-           esc(F.how) + '</td></tr>' +
+           esc(sentence(F.how)) + '</td></tr>' +
          '<tr><th>' + esc((doc.factLabels || {}).timing || 'When to inject') + '</th><td>' +
-           esc(F.timing) + '</td></tr>' +
-         '<tr><th>Schedule</th><td>' + esc(F.schedule) + '</td></tr>' +
+           esc(sentence(F.timing)) + '</td></tr>' +
+         '<tr><th>Schedule</th><td>' + esc(sentence(F.schedule)) + '</td></tr>' +
          (F.windows.length
             ? F.windows.map(function (w) {
                 return '<tr><th>' + esc(w[0]) + '</th><td>' + esc(w[1]) + '</td></tr>'; }).join('')
@@ -1319,7 +1330,7 @@
     /* "When to tell your provider", not "at your next visit". Possible
        pancreatitis and gallbladder signs sit under this heading, and a patient
        read literally would wait weeks. Each row now says how soon. 2026-09-22. */
-    if (doc.monitorAndTell) h += '<h3>When to tell your provider</h3>' +
+    if (doc.monitorAndTell) h += '<h3>' + esc(doc.monitorHeading || 'When to be seen') + '</h3>' +
       twoCol(doc.monitorAndTell, 'What you may notice', 'What to do');
     if (doc.emergencyLead) h += '<div class="callout warn"><p>' + esc(doc.emergencyLead) + '</p></div>';
 
