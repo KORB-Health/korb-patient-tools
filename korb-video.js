@@ -58,13 +58,13 @@
         id: '1229753136',
         label: 'Welcome to KORB',
         seconds: 64,
-        thumb: 'https://i.vimeocdn.com/video/2204486895-5834ffba14e750a5a388c467c9ddb3dae9ee5d8072135f159181414263b63d9b-d'
+        thumb: 'https://i.vimeocdn.com/video/2204494070-a559b7fdfa79ee961c8affa8e0eaa778f7278770442d6feafc3fd09a4e99404e-d'
       },
       glp1_consult: {
         id: '1229753120',
         label: 'Your GLP-1 Initial Consultation',
         seconds: 143,
-        thumb: 'https://i.vimeocdn.com/video/2204486890-a07890c11632c6d50a1c8c23d0b243a0f7c101c30d39e75ecc2945f5e1ee4522-d'
+        thumb: 'https://i.vimeocdn.com/video/2204493939-05eea52e3dae835e2d12f478e1dddb96a9bbcc882c8aa60d96dc4fcd89e69d54-d'
       },
       injection: {
         id: '1228373201',
