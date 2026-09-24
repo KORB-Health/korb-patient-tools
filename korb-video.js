@@ -105,7 +105,7 @@
       '.kv-still{position:absolute;inset:0;width:100%;height:100%;',
       'object-fit:cover;display:block;}',
       '.kv-facade::after{content:"";position:absolute;inset:0;',
-      'background:none;}',   /* No overlay. It was .10 to .72, then 0 to .18; both dimmed the light custom thumbnails of 2026-09-23. The play button and the duration badge carry their own contrast. */
+      'background:none;border-radius:inherit;box-shadow:inset 0 0 0 3px #00B2C3;}',   /* A teal frame, 2026-09-23: the Welcome thumbnail's navy band ran into the navy panel behind it and the still stopped reading as a video. Drawn on ::after so it sits above the image. */   /* No overlay. It was .10 to .72, then 0 to .18; both dimmed the light custom thumbnails of 2026-09-23. The play button and the duration badge carry their own contrast. */
       '.kv-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);',
       'z-index:1;display:flex;align-items:center;justify-content:center;',
       'width:64px;height:64px;border-radius:50%;background:#00B2C3;color:#0E1236;',
