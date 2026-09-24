@@ -105,7 +105,7 @@
       '.kv-still{position:absolute;inset:0;width:100%;height:100%;',
       'object-fit:cover;display:block;}',
       '.kv-facade::after{content:"";position:absolute;inset:0;',
-      'background:linear-gradient(180deg,rgba(14,18,54,0) 60%,rgba(14,18,54,.18) 100%);}',   /* was .10 to .72; the custom thumbnails of 2026-09-23 are light, and the heavy fade dimmed them. The teal play button carries its own contrast. */
+      'background:none;}',   /* No overlay. It was .10 to .72, then 0 to .18; both dimmed the light custom thumbnails of 2026-09-23. The play button and the duration badge carry their own contrast. */
       '.kv-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);',
       'z-index:1;display:flex;align-items:center;justify-content:center;',
       'width:64px;height:64px;border-radius:50%;background:#00B2C3;color:#0E1236;',
