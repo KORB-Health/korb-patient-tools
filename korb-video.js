@@ -70,7 +70,7 @@
         id: '1228373201',
         label: 'How to Give Your Injection',
         seconds: 390,
-        thumb: 'https://i.vimeocdn.com/video/2202804400-bf0a10c2f50b3f1ef62170ad8f95bbf0924562a3835d254217bce04bfd3b5371-d'
+        thumb: 'https://i.vimeocdn.com/video/2204490185-42435ceda4f6e529b4897b1a9438630a1179fbbbba13ce3f71afdfd97d6c093c-d'
       },
       mens: {
         id: '1229753121',
@@ -105,7 +105,7 @@
       '.kv-still{position:absolute;inset:0;width:100%;height:100%;',
       'object-fit:cover;display:block;}',
       '.kv-facade::after{content:"";position:absolute;inset:0;',
-      'background:linear-gradient(180deg,rgba(14,18,54,.10) 0%,rgba(14,18,54,.72) 100%);}',
+      'background:linear-gradient(180deg,rgba(14,18,54,0) 60%,rgba(14,18,54,.18) 100%);}',   /* was .10 to .72; the custom thumbnails of 2026-09-23 are light, and the heavy fade dimmed them. The teal play button carries its own contrast. */
       '.kv-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);',
       'z-index:1;display:flex;align-items:center;justify-content:center;',
       'width:64px;height:64px;border-radius:50%;background:#00B2C3;color:#0E1236;',
@@ -121,6 +121,11 @@
       'border-radius:4px;background:rgba(14,18,54,.72);}',
       '.kv-frame{width:100%;height:100%;border:0;display:block;}',
       /* Print gets the still, never a dead player box. */
+      /* The custom thumbnails of 2026-09-23 carry their own title, so the white label
+         over the still repeated it on a light background. Kept for screen readers,
+         hidden visually; the duration badge stays, at the right. */
+      '.kv-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}',
+      '.kv-dur{margin-left:auto;}',
       '@media print{.kv-play,.kv-dur{display:none;}}'
     ].join(''),
 
