@@ -55,16 +55,16 @@
        name and not a thing to show a patient. */
     videos: {
       welcome_korb: {
-        id: '1228372722',
+        id: '1229753136',
         label: 'Welcome to KORB',
-        seconds: 42,
-        thumb: 'https://i.vimeocdn.com/video/2202803681-1c7113feb1bd1085acccc163fb0c6ca2df4778a4f5294a36837c676e97277ecd-d'
+        seconds: 64,
+        thumb: 'https://i.vimeocdn.com/video/2204486895-5834ffba14e750a5a388c467c9ddb3dae9ee5d8072135f159181414263b63d9b-d'
       },
       glp1_consult: {
-        id: '1228373202',
+        id: '1229753120',
         label: 'Your GLP-1 Initial Consultation',
-        seconds: 153,
-        thumb: 'https://i.vimeocdn.com/video/2202804292-dccf350dbbdac053e5f6bc56cac936ab1461914f214568ae2b8d99b1fc811587-d'
+        seconds: 143,
+        thumb: 'https://i.vimeocdn.com/video/2204486890-a07890c11632c6d50a1c8c23d0b243a0f7c101c30d39e75ecc2945f5e1ee4522-d'
       },
       injection: {
         id: '1228373201',
@@ -73,28 +73,28 @@
         thumb: 'https://i.vimeocdn.com/video/2202804400-bf0a10c2f50b3f1ef62170ad8f95bbf0924562a3835d254217bce04bfd3b5371-d'
       },
       mens: {
-        id: '1228372723',
+        id: '1229753121',
         label: 'Welcome to Men’s Health',
-        seconds: 51,
-        thumb: 'https://i.vimeocdn.com/video/2202803670-4ef122b54aaa67cc525772ea984d9afacba66cbbede7ee10798a6cf81d50be6c-d'
+        seconds: 64,
+        thumb: 'https://i.vimeocdn.com/video/2204486881-dddde693aaa08467d9062ac6c556289e98025edd6a444d352127a67555330485-d'
       },
       womens: {
-        id: '1228372731',
+        id: '1229753138',
         label: 'Welcome to Women’s Health',
-        seconds: 51,
-        thumb: 'https://i.vimeocdn.com/video/2202803678-eea4b549b69efd1e33ff80ec8273f34ccfdb4bab1edd6c7a9ba35379ffa52ee3-d'
+        seconds: 69,
+        thumb: 'https://i.vimeocdn.com/video/2204486894-66f4a856a49bdebff635ba73524a53ff413f8cf85d27e73f170353443256c998-d'
       },
       fhl: {
-        id: '1228372725',
+        id: '1229753119',
         label: 'Welcome to Functional Health & Longevity',
-        seconds: 55,
-        thumb: 'https://i.vimeocdn.com/video/2202803674-8e7cc982d7c7f291344391ffad6066128b448953eaab23a67077b21ba074fc71-d'
+        seconds: 79,
+        thumb: 'https://i.vimeocdn.com/video/2204486879-ed8eb47868a11ddb7cede10e3c818504e1d7a43495cfeb150aff59f84a273aed-d'
       },
       quest: {
-        id: '1228372724',
+        id: '1229753118',
         label: 'How Quest Labs Work',
-        seconds: 45,
-        thumb: 'https://i.vimeocdn.com/video/2202803679-2c229e103146ebda9e3c7858123e33b96a87879c7aadcceac14715573b87098f-d'
+        seconds: 80,
+        thumb: 'https://i.vimeocdn.com/video/2204486886-05e02d07abd7f26f9f0ee3dc9947c880ea8284811d1869c98809f608aed2cd83-d'
       }
     },
 
