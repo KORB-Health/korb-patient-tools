@@ -21,6 +21,8 @@ body{font-family:Arial,sans-serif;font-size:14px;color:#1A1A2E;background:#fff;}
 .supply-row{margin-top:12px;display:flex;gap:8px;}
 .supply-row button{flex:1;padding:9px;border-radius:6px;border:1.5px solid var(--teal);background:#fff;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;font-family:Arial,sans-serif;}
 .supply-row button.active{background:var(--teal);color:#fff;}
+/* 2026-09-25: every control answers the pointer. Hover only where there is a pointer, so a phone never shows a stuck hover. */
+@media (hover:hover){.supply-row button:hover{border-color:var(--navy);background:var(--lt);}.supply-row button.active:hover{background:var(--navy);border-color:var(--navy);color:#fff;}}
 .empty{border:1.5px dashed var(--bd);border-radius:10px;padding:34px 20px;text-align:center;color:var(--mu);}
 .empty h2{font-size:15px;color:var(--navy);margin-bottom:6px;}
 .empty p{font-size:12.5px;}

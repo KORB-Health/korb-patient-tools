@@ -100,6 +100,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,san
 .btn{background:var(--teal);color:var(--navy);border:0;border-radius:24px;min-height:48px;
  padding:12px 22px;font-size:14.5px;font-weight:800;cursor:pointer;font-family:inherit;}
 .btn:active{opacity:.85;}
+/* 2026-09-25: every control answers the pointer. Hover only where there is a pointer, so a phone never shows a stuck hover. */
+@media (hover:hover){.day:hover{border-color:var(--teal);color:var(--navy);}.day.on:hover{background:var(--navy);border-color:var(--navy);color:#fff;}.btn:hover{background:var(--navy);color:#fff;}.btn.ghost:hover{background:#fff;border-color:var(--teal);color:var(--navy);}}
 .btn.wide{width:100%;font-size:16px;}
 .btn.ghost{background:#fff;border:1.5px solid var(--bd);color:var(--mu);font-size:13px;min-height:44px;padding:10px 16px;}
 .btnrow{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;}

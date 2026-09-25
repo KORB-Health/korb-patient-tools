@@ -51,6 +51,8 @@
   .btn-primary:active{background:var(--teal-dk);}
   .btn-secondary{background:var(--navy); color:#fff;}
   .btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--bd);font-weight:700;padding:9px;font-size:.82em;}
+/* 2026-09-25: every control answers the pointer. Hover only where there is a pointer, so a phone never shows a stuck hover. */
+@media (hover:hover){.btn-primary:hover{background:var(--navy);}.btn-secondary:hover{background:var(--teal);}.btn-ghost:hover{border-color:var(--teal);color:var(--teal);}}
   .gcal-btn{
     display:block; text-decoration:none; text-align:center;
     background:var(--teal); color:#fff; border:none;
