@@ -239,7 +239,7 @@ var KORB_GLP1 = {
         "blocks": 16,
         "document": "Premier \u2014 Semaglutide",
         "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-        "note": "Re-signed after 4.5 mg and 6 mg were added, per Kelby Wilson's vial table of 2026-09-22: four new blocks, the MAX price band ($319 FITSema001MAX, $249 FITSemaCP9MAX, $449 FITSemaMNTMAX), and both 8-week sigs opening with \"(Include two packs of insulin syringes)\". Don reviewed on the live site and approved 2026-09-23: \"they look good. go ahead and sign off on them for me now. Good to go\".",
+        "note": "Re-signed after 4.5 mg and 6 mg were added, per Kelby Wilson's vial table of 2026-09-22: four new blocks, the MAX charge codes (FITSema001MAX, FITSemaCP9MAX, FITSemaMNTMAX; prices are held by Operations per costPolicy), and both 8-week sigs opening with \"(Include two packs of insulin syringes)\". Don reviewed on the live site and approved 2026-09-23: \"they look good. go ahead and sign off on them for me now. Good to go\".",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
