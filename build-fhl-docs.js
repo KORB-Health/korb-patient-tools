@@ -73,42 +73,6 @@ const K = (function () {
 
 const BUILD_DATE = buildDate();   // LOCAL date - see build-date.js
 
-/* Playwright is resolved rather than hardcoded to one machine's global path.
-   Returns null when it is not installed rather than killing the process: it
-   gates PDF rendering only. The HTML needs no browser, and gating the whole
-   build on Chromium meant a machine without it produced nothing at all - not
-   even the HTML that was already correct. */
-function loadChromium() {
-  for (const t of ['playwright', 'playwright-core']) {
-    try { return require(t).chromium; } catch (e) { /* next */ }
-  }
-  return null;
-}
-
-/* Said when the PDF phase is skipped. It names the stale output explicitly,
-   because a PDF left over from an earlier build is not merely missing - it is
-   wrong, and it is the artefact a provider prints. */
-function warnPdfsSkipped(outDir, count) {
-  console.warn('');
-  console.warn('WARNING: PDFs were NOT generated. Playwright is not installed.');
-  console.warn('  The ' + count + ' HTML document(s) above were written and are current.');
-  console.warn('  Any .pdf in ' + outDir + ' is left over from an earlier build and is now STALE.');
-  console.warn('  To generate PDFs:  npm install  &&  npx playwright install chromium');
-  console.warn('  Then re-run this script.');
-}
-
-/* The four @font-face rules, lifted out of the shared stylesheet so the PDF
-   header and footer can carry them too. Read from the CSS rather than copied,
-   so a font change in provider-doc-render.js reaches the header as well. */
-function fontFaceBlock() {
-  const faces = R.CSS.match(/@font-face\{[^}]*\}/g) || [];
-  if (!faces.length) {
-    console.error('WARNING: no @font-face rules found in the shared stylesheet. ' +
-                  'The PDF header and footer will fall back to a system typeface.');
-  }
-  return faces.join('\n');
-}
-
 /* The live shell. Deliberately tiny: everything that could go stale lives in
    the scripts it loads, not in this file. Screen styling only - the print
    stylesheet is the same CSS the PDF uses, so Ctrl+P from the browser gives
@@ -216,15 +180,6 @@ ${R.CSS}
 </body></html>`;
 }
 
-/* The PDF path stamps a real build date, because a printed page is a snapshot
-   and should say which one. The live page says "live" instead. */
-function printableHtml(doc) {
-  const d = Object.assign({}, doc, { stamp: 'built ' + BUILD_DATE });
-  return `<!doctype html><html><head><meta charset="utf-8">
-<title>${R.esc(doc.title)}</title><style>${R.CSS}</style></head>
-<body>${R.renderBody(K, d)}</body></html>`;
-}
-
 async function main() {
   const only = process.argv[2];
   const list = only ? R.DOCS.filter(d => d.id === only) : R.DOCS;
@@ -293,73 +248,13 @@ async function main() {
     console.log(`  ${doc.file}  html ${String(fs.statSync(htmlPath).size).padStart(6)}`);
   }
 
-  const chromium = loadChromium();
-  if (!chromium) {
-    warnPdfsSkipped(OUT, list.length);
-    console.log(`
-Built ${list.length} HTML document(s) from korb-dosing-data.js v${K.meta.version} on ${BUILD_DATE}`);
-    console.log('FH&L is closed in ' + (K.states.unavailable || []).length + ' states: ' + (K.states.unavailable || []).join(', '));
-    console.log('HTML renders live from the data file. PDFs were not refreshed.');
-    return;
-  }
-
-  const browser = await chromium.launch();
-  const FONTS = fontFaceBlock();
-
-  for (const doc of list) {
-    const page = await browser.newPage();
-    const errs = [];
-    page.on('pageerror', e => errs.push(e.message));
-    await page.setContent(printableHtml(doc), { waitUntil: 'load' });
-    await page.pdf({
-      path: path.join(OUT, doc.file + '.pdf'),
-      format: 'Letter', printBackground: true,
-      margin: { top: '0.85in', bottom: '0.7in', left: '0.6in', right: '0.6in' },
-      displayHeaderFooter: true,
-      headerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:5px;border-bottom:1.5px solid #00B2C3;">
-          <img src="${R.LOGO_URI}" style="height:32px;width:auto;">
-          <div style="text-align:right;font-size:7.5pt;color:#21275B;line-height:1.3;">
-            <div style="font-weight:bold;">${R.esc('FH&L Provider Reference · ' + doc.title)}</div>
-            <div style="font-weight:bold;">KORB Health Medical Texas PA</div>
-          </div>
-        </div></div>`,
-      footerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
-        <div style="border-top:1.5px solid #00B2C3;padding-top:5px;display:flex;justify-content:space-between;font-size:7pt;color:#4A4F6B;">
-          <span>For KORB provider use only. Not for patient distribution.</span>
-          <span>Page <span class="pageNumber"></span></span>
-        </div></div>`
-    });
-    await page.close();
-    const pdfBytes = fs.statSync(path.join(OUT, doc.file + '.pdf')).size;
-    console.log(`  ${doc.file}  pdf ${String(pdfBytes).padStart(7)}${errs.length ? '  ERRORS: ' + errs.join('|') : ''}`);
-  }
-  await browser.close();
-
-  /* Every produced PDF must carry ONLY the brand typeface. A dropped @font-face
-     falls back silently and the page still looks plausible, which is exactly
-     the kind of defect that ships. */
-  const offBrand = [];
-  for (const doc of list) {
-    const buf = fs.readFileSync(path.join(OUT, doc.file + '.pdf'));
-    const faces = new Set();
-    const re = /\/BaseFont\s*\/([A-Za-z0-9+\-,]+)/g;
-    let m; const str = buf.toString('latin1');
-    while ((m = re.exec(str)) !== null) faces.add(m[1].split('+').pop());
-    [...faces].filter(f => !/^Montserrat/.test(f)).forEach(f => offBrand.push(doc.file + ': ' + f));
-  }
-  if (offBrand.length) {
-    console.error('BUILD FAILED — non-brand typeface embedded in the PDF output:');
-    offBrand.forEach(x => console.error('  - ' + x));
-    console.error('The KORB guidelines specify Montserrat. Check the @font-face data URIs in provider-doc-render.js,');
-    console.error('and that fontFaceBlock() is still finding them for the header and footer.');
-    process.exit(1);
-  }
-  console.log('Typeface check: all ' + list.length + ' PDFs embed Montserrat only.');
-
+  /* No PDF phase. The provider PDFs were retired on 2026-09-17, and until
+     2026-09-25 this builder still wrote them on every run, recreating the files
+     the repo had decided to delete. Retiring an output means removing what
+     writes it. Print from the browser gives a PDF from current data. */
   console.log(`\nBuilt ${list.length} document(s) from korb-dosing-data.js v${K.meta.version} on ${BUILD_DATE}`);
   console.log('FH&L is closed in ' + (K.states.unavailable || []).length + ' states: ' + (K.states.unavailable || []).join(', '));
-  console.log('HTML renders live from the data file. PDF is a snapshot of this build.');
+  console.log('HTML renders live from the data file. No PDFs: retired 2026-09-17.');
 }
 
 main().catch(e => { console.error(e); process.exit(1); });

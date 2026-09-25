@@ -602,6 +602,15 @@ browser is a separate download, and `npx playwright install chromium` is what ge
 it. Skip that second command and `require('playwright')` succeeds while
 `chromium.launch()` fails at build time.
 
+**No builder writes a PDF any more, as of 2026-09-25.** The PDF phase was
+removed from `build-provider-docs.js`, `build-fhl-docs.js` and
+`build-clinical-docs.js`, which had kept recreating the retired provider PDFs on
+every run. Chromium is still needed by `artifact-signoff.js`, which drives a
+browser, and by no builder. The content guard that
+refuses an empty clinical reference survived as `assertRendered()`, because it
+guards a data failure, not a PDF one. Negative-tested both halves. The paragraph
+below describes the old behaviour.
+
 **Without Chromium the generators skip the PDFs and carry on.** That is deliberate:
 the HTML renders live from the data file and never needed a browser, so gating it on
 Playwright meant a machine without Chromium produced nothing at all, not even the
@@ -2421,7 +2430,21 @@ testosterone" was either already gone or never in it.
    live document - worth knowing before treating the prompt list as hub copy.
    It is unsigned and has no probe, so nothing went stale.
 
-52. **STATE AVAILABILITY IS NOT ON THE HUB, AND IT NEEDS A GENERATOR FIRST.**
+52. ~~STATE AVAILABILITY IS NOT ON THE HUB, AND IT NEEDS A GENERATOR FIRST.~~
+   **CLOSED, NOT BUILDING. Don, 2026-09-25.** State availability lives on the
+   website, in Lindsay's section, and she is updating it there. The hub is for
+   patients KORB is already seeing, so it does not need a second copy of a list
+   that has one home. Do not build `build-states.js` or `korb-states.js` for the
+   hub. The reasoning below is kept because it is right about the mechanism:
+   a hand-typed state list beside a data file goes stale.
+
+   **One idea from the same design is still open and is a different thing:** a
+   small generated PATIENT-SAFE data file, so patient pages stop loading
+   `korb-glp1-data.js`, `korb-dosing-data.js` and `korb-mens-data.js`, which
+   carry Tebra fields, charge codes and pricing. Found in the 2026-09-25 hosting
+   audit; it matters once provider material goes behind a login.
+
+   The original item, for the history:
    Raised by Don 2026-09-19. He wants the hub to state where each programme is
    available, because the website's list is wrong and has stayed wrong for
    weeks. **Deliberately not built yet, and this item is the reminder.**
