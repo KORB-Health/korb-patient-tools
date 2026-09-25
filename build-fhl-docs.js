@@ -193,7 +193,7 @@ ${R.CSS}
     KORB_FHL_DOCS.mount(${JSON.stringify(doc.id)}, KORB_DOSING);
     var mast = document.createElement('div');
     mast.className = 'mast';
-    mast.innerHTML = '<img src="' + KORB_FHL_DOCS.LOGO_URI + '" alt="KORB Health Group">';
+    mast.innerHTML = '<img src="' + KORB_FHL_DOCS.LOGO_URI + '" alt="KORB Health">';
     document.body.insertBefore(mast, document.body.firstChild);
     var bar = document.createElement('div');
     bar.innerHTML = '<span class="live">Live — reflects korb-dosing-data.js v' +
@@ -317,7 +317,7 @@ Built ${list.length} HTML document(s) from korb-dosing-data.js v${K.meta.version
       displayHeaderFooter: true,
       headerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:5px;border-bottom:1.5px solid #00B2C3;">
-          <img src="${R.LOGO_URI}" style="height:26px;width:auto;">
+          <img src="${R.LOGO_URI}" style="height:32px;width:auto;">
           <div style="text-align:right;font-size:7.5pt;color:#21275B;line-height:1.3;">
             <div style="font-weight:bold;">${R.esc('FH&L Provider Reference · ' + doc.title)}</div>
             <div style="font-weight:bold;">KORB Health Medical Texas PA</div>

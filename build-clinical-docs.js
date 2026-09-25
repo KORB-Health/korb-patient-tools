@@ -387,7 +387,7 @@ async function main() {
       displayHeaderFooter: true,
       headerTemplate: `<style>${FONTS}</style><div style="width:100%;padding:0 0.6in;font-family:Montserrat,Helvetica,Arial,sans-serif;">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:5px;border-bottom:1.5px solid #00B2C3;">
-          <img src="${R.LOGO_URI}" style="height:26px;width:auto;">
+          <img src="${R.LOGO_URI}" style="height:32px;width:auto;">
           <div style="text-align:right;font-size:7.5pt;color:#21275B;line-height:1.3;">
             <div style="font-weight:bold;">${R.esc(D.document.title)}</div>
             <div style="font-weight:bold;">${R.esc(D.document.entity)}</div>
