@@ -2303,10 +2303,11 @@ var KORB_PATIENT_ED = {
             "**Add-on:** an optional treatment your provider may add alongside your program, such as GHK-Cu.",
             "**Baseline labs:** your first blood tests, before any treatment.",
             "**Cycle:** in Functional Health & Longevity, a 16-week block of treatment, with a follow-up visit and new labs before the next one.",
+            "**NP:** a nurse practitioner, a licensed clinician who diagnoses, treats and prescribes. You may also see APRN or FNP-C after a nurse practitioner's name.",
             "**PA-C:** a certified physician assistant, a licensed clinician who diagnoses, treats and prescribes.",
             "**Patient Portal:** your secure online KORB account, for messages and appointment details. There is a sign-in link on every guide.",
             "**Program option:** in Functional Health & Longevity, one of three ways to structure treatment: Foundation, Gateway or Peak. Your provider recommends one once your baseline labs are back.",
-            "**Provider:** the licensed clinician who reviews your health history, orders your labs and prescribes your treatment.",
+            "**Provider:** the licensed clinician who reviews your health history, orders your labs and prescribes your treatment. At KORB, that is usually a nurse practitioner (NP) or a physician assistant (PA-C).",
             "**Telemedicine:** care by video, phone or secure message rather than in person. Because we cannot examine you, some symptoms need urgent care or the emergency room instead.",
             "**Urgent care:** a walk-in clinic for problems that need to be seen the same day but are not life-threatening. For an emergency, call 911 or go to the emergency room."
           ]
