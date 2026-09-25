@@ -797,10 +797,12 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which medication and dosing schedule are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Foundation is the simplest way to start: one medication at a time, chosen by your provider for your goals and your baseline labs (your first blood tests, before any treatment). It suits patients who want to begin with a single treatment and see how they respond before adding anything.',
-        'Foundation is the single-medication option in KORB\'s Functional Health & Longevity Program. At any given time one peptide (a small, protein-like molecule that acts as a signal in the body) is active, and your provider selects it based on your goals and health history. You may switch to a different medication at each 16-week follow-up, but Foundation never combines two medications at once.',
+        /* Kris Mulkey, 2026-09-24: the first two paragraphs repeated each other.
+           Her wording, with the peptide definition kept: each guide stands alone. */
+        'Foundation is the simplest way to start: one medication at a time, chosen by your provider based on your goals and baseline labs (your first blood tests, before any treatment). It suits patients who want to begin with a single treatment and see how they respond before adding anything.',
+        'At any given time, one peptide (a small, protein-like molecule that acts as a signal in the body) is active. You may switch to a different medication at each 16-week follow-up, but Foundation never combines two medications at once. Baseline lab work is required.',
         'If you are interested in two medications started at different times, ask your provider about the Gateway or Peak programs.',
-        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
+        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will explain what this means for your specific medication before you begin.'
       ],
       agentsHeading: 'Your Foundation medication options',
       agentsLead: 'Your provider selects one of the following based on your goals. Each has its own active window inside your 16-week cycle. Your Treatment Schedule shows exact dates.',
@@ -886,9 +888,10 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines your exact schedule and add-ons. If you have questions, contact KORB by phone or email.',
       what: [
-        'Gateway uses two medications, started at different points in your cycle rather than on the same day. Your provider recommends it when your goals call for more than one treatment, based on your baseline labs (your first blood tests, before any treatment).',
-        'Gateway is KORB\'s two-medication option within the Functional Health & Longevity Program. Unlike Foundation\'s single-medication model, Gateway combines Sermorelin with BPC-157 on a fixed schedule, started on different days so the two do not begin together. An optional GHK-Cu add-on is available on Gateway if your provider prescribes it.',
-        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
+        /* Kris Mulkey, 2026-09-24: one paragraph where there were two saying the
+           same thing. Her wording, with the baseline labs definition kept. */
+        'Gateway is KORB\'s two-medication option within the Functional Health & Longevity Program. It combines Sermorelin with BPC-157 on a fixed schedule, started on different days. An optional GHK-Cu add-on is available if prescribed by your provider. Baseline lab work (your first blood tests, before any treatment) is required.',
+        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will explain what this means for your specific medication before you begin.'
       ],
       agentsHeading: 'How your Gateway combination works',
       agentsLead: 'Two medications started at different points in the cycle by design, plus one optional add-on. Your Treatment Schedule shows your exact dates.',
@@ -976,10 +979,14 @@ var KORB_PATIENT_ED = {
       cycleWeeks: 16,
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your KORB provider determines which pathway and dose are right for you. If you have questions, contact KORB by phone or email.',
       what: [
-        'Peak uses two medications, and is built around performance and body composition (your balance of muscle and fat). It comes in two versions, called pathways, and your provider chooses the one that fits your goals and your baseline labs (your first blood tests, before any treatment).',
-        'Peak is KORB\'s performance and body-composition focused option within the Functional Health & Longevity Program. It offers two pathways, each pairing a growth hormone-releasing medication with BPC-157 added later in the cycle: Pathway A is CJC-1295 / Ipamorelin, Pathway B is Tesamorelin. Each has an optional GHK-Cu add-on, and your provider chooses the pathway.',
-        'Your provider selects your pathway. You do not choose between them on your own, and they are not combined.',
-        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
+        /* Kris Mulkey, 2026-09-24: her wording and her layout, the pathways on
+           lines of their own. The body composition and baseline labs definitions
+           are kept, and "your provider chooses" is said once, not twice. */
+        'Peak is KORB\'s option within the Functional Health & Longevity Program focused on performance and body composition (your balance of muscle and fat). It offers two pathways, each pairing a growth hormone-releasing medication with BPC-157 added later in the cycle:',
+        '**Pathway A:** CJC-1295 / Ipamorelin',
+        '**Pathway B:** Tesamorelin',
+        'Each has an optional GHK-Cu add-on. Your provider selects your pathway: you do not choose between the two on your own, and they are not combined. Baseline lab work (your first blood tests, before any treatment) is required.',
+        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will explain what this means for your specific medication before you begin.'
       ],
       tiersHeading: 'Choosing your pathway',
       tiersLead: 'Both pathways run on the same 16-week cycle. The difference is the main medication.',
@@ -1080,7 +1087,7 @@ var KORB_PATIENT_ED = {
         'KORB\'s Functional Health & Longevity Program is for adults who want to work on how they feel and function as they age. Treatment is peptide therapy (peptides are small, protein-like molecules that act as signals in the body): small injections you give yourself at home, in 16-week cycles, prescribed by a licensed KORB provider and matched to your goals and your baseline labs (your first blood tests, before any treatment).',
         'Most people come to us for energy, sleep, recovery or body composition (your balance of muscle and fat), and want a plan built from their own results rather than guesswork. You do not need to know which peptide you want. There are three program options, Foundation, Gateway and Peak, and your provider recommends one once your labs are back.',
         'This guide is a general orientation to the whole program. Your program option has its own guide with more detail, and your provider gives you individualized guidance.',
-        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will walk you through what this means for your specific medication before you begin.'
+        'These peptides are still being studied. Most are not FDA-approved for this specific use, and much of the current evidence comes from earlier-stage research rather than large, completed human studies. Your provider will explain what this means for your specific medication before you begin.'
       ],
       tiersHeading: 'Choosing your program',
       tiersLead: 'All three run on the same 16-week cycle. They differ in how many medications you take and when each one starts.',
@@ -2272,6 +2279,99 @@ var KORB_PATIENT_ED = {
         'Phone and email are business hours only and are not for emergencies.',
         'Trouble breathing or swelling of the face, lips, tongue or throat is an emergency. Call 911.',
         'Tell us which product you took, how much, and when, so your provider can answer in one reply.'
+      ]
+    },
+    glossary: {
+      key: 'glossary',
+      file: 'Patient_Education/KORB_Glossary_of_Terms',
+      /* Kris Mulkey, 2026-09-24: one place to look up the terms the guides use.
+         THE DEFINITIONS ARE THE PAGES' OWN. Each one is the wording a guide
+         already uses the first time it names the term, so a patient who meets a
+         word in a guide and looks it up here reads the same sentence. Change a
+         definition in a guide and change it here, or the two will disagree.
+         Medication names are left to their own guides on purpose. */
+      program: 'All Programs',
+      title: 'Glossary of Terms',
+      disclaimer: "This guide is for educational reference only. It is not medical advice. Your prescription label and your provider's instructions come first. If you have questions, contact KORB.",
+      intro: [
+        "Plain-English meanings for words you will see in your guides and tools, grouped by topic. Medication names are explained in each medication's own guide. If a word is not here, ask your provider."
+      ],
+      sections: [
+        {
+          h: 'Your care',
+          items: [
+            "**Add-on:** an optional treatment your provider may add alongside your program, such as GHK-Cu.",
+            "**Baseline labs:** your first blood tests, before any treatment.",
+            "**Cycle:** in Functional Health & Longevity, a 16-week block of treatment, with a follow-up visit and new labs before the next one.",
+            "**PA-C:** a certified physician assistant, a licensed clinician who diagnoses, treats and prescribes.",
+            "**Patient Portal:** your secure online KORB account, for messages and appointment details. There is a sign-in link on every guide.",
+            "**Program option:** in Functional Health & Longevity, one of three ways to structure treatment: Foundation, Gateway or Peak. Your provider recommends one once your baseline labs are back.",
+            "**Provider:** the licensed clinician who reviews your health history, orders your labs and prescribes your treatment.",
+            "**Telemedicine:** care by video, phone or secure message rather than in person. Because we cannot examine you, some symptoms need urgent care or the emergency room instead.",
+            "**Urgent care:** a walk-in clinic for problems that need to be seen the same day but are not life-threatening. For an emergency, call 911 or go to the emergency room."
+          ]
+        },
+        {
+          h: 'Your medication',
+          items: [
+            "**Body composition:** your balance of muscle and fat.",
+            "**Compounded medication:** medication prepared by a licensed US compounding pharmacy to your provider's specifications, rather than mass-produced. [The FDA explains compounding here](https://www.fda.gov/drugs/human-drug-compounding/compounding-and-fda-questions-and-answers).",
+            "**Estradiol:** the main estrogen, given as a patch or a cream.",
+            "**FDA-approved:** the FDA has reviewed a medication for a specific use and approved it for that use. A medication can be approved for one use and not another. When a guide says a medication is not FDA-approved for a use, that use has not been through that review.",
+            "**GLP-1:** a group of medications that copy a natural gut hormone that slows digestion, reduces appetite and helps you feel fuller longer after eating. Semaglutide and tirzepatide are GLP-1s.",
+            "**Growth hormone-releasing peptide:** a peptide that prompts your own body to release more growth hormone, rather than replacing it. Sermorelin, CJC-1295 / Ipamorelin and Tesamorelin work this way.",
+            "**Hormone therapy:** treatment that replaces hormones your body has stopped making in the amounts it used to.",
+            "**Maintenance dose:** the steady dose you stay on once you and your provider are happy with how treatment is going.",
+            "**mg, mL, mcg and units:** mg (milligram) is an amount of medication. mL (milliliter) is an amount of liquid. mcg (microgram) is one-thousandth of a milligram. Units are the markings on some syringes. The same number means a different amount in each, so always follow the dose and units on your prescription label.",
+            "**Oral:** taken by mouth.",
+            "**Peptide:** a small, protein-like molecule that acts as a signal in the body.",
+            "**Progesterone:** a hormone taken as a capsule at night by women who still have a uterus, to protect the lining of the uterus while taking estrogen.",
+            "**Side effect:** an unwanted effect of a medication. Many settle on their own. Each guide lists which ones to message us about and which need care the same day.",
+            "**Titration:** raising your dose gradually, in steps, so your body can adjust. Your provider decides each step. Never raise your own dose.",
+            "**Topical:** applied to the skin or scalp."
+          ]
+        },
+        {
+          h: 'Injections and supplies',
+          items: [
+            "**Beyond-use date:** the pharmacy's use-by date on your label. Once a vial has been opened, discard it 28 days after first use, or on the beyond-use date if that comes first.",
+            "**Injection site:** the spot where you give your injection. **Rotating sites** means using a different spot each time rather than the same one.",
+            "**Intramuscular (IM):** into the muscle. Some testosterone plans are given this way.",
+            "**Luer lock syringe:** a syringe the needle twists onto, so you can change needles. Testosterone comes with one.",
+            "**Sharps:** used needles and syringes. Follow your state or local rules for getting rid of them. [Find sharps disposal near you](https://safeneedledisposal.org/).",
+            "**Subcutaneous (SQ):** into the fat layer just under the skin, not into muscle or a vein. Most KORB injections are given this way.",
+            "**Vial:** the small bottle your medication comes in, with a rubber top the needle goes through."
+          ]
+        },
+        {
+          h: 'Labs',
+          items: [
+            "**CBC:** blood counts.",
+            "**Ceruloplasmin:** the protein that carries copper in your blood.",
+            "**CMP:** a panel that checks your kidneys, liver and blood salts.",
+            "**Fasting:** no food or drink other than water for a set time before a lab draw, usually 8 to 12 hours. Follow your lab order if it says otherwise.",
+            "**HbA1c:** your average blood sugar over the past three months.",
+            "**IGF-1:** a blood marker that reflects your growth hormone activity. It is checked when you take a growth hormone-releasing peptide.",
+            "**Lipid panel:** cholesterol tests.",
+            "**PSA:** a prostate blood test.",
+            "**Quest Diagnostics:** the lab company where you have your blood drawn. The Schedule Your Quest Lab Appointment guide shows you how to book.",
+            "**TSH, free T4 and free T3:** thyroid tests."
+          ]
+        },
+        {
+          h: 'Health conditions',
+          items: [
+            "**Dehydration:** not having enough fluid in your body. Dark urine, feeling dizzy when you stand, and not being able to keep fluids down are signs.",
+            "**Endocrinologist:** a hormone and diabetes specialist.",
+            "**Gallbladder disease:** a problem with the small organ under your liver that stores bile. Pain in the upper right of your belly with a fever, or yellowing of your skin or eyes, needs urgent care or the emergency room the same day.",
+            "**MEN2 (multiple endocrine neoplasia type 2):** an inherited condition that causes tumors in hormone glands, including the thyroid.",
+            "**Menopause:** twelve months without a period.",
+            "**MTC (medullary thyroid carcinoma):** a rare thyroid cancer.",
+            "**Pancreatitis:** inflammation of the pancreas. Severe belly pain, especially pain that spreads to your back, needs urgent care or the emergency room the same day.",
+            "**Perimenopause:** the years before menopause, when hormones fluctuate and periods become irregular. Symptoms often start here.",
+            "**Postmenopause:** the years after menopause, when lower hormone levels affect bone and heart health."
+          ]
+        }
       ]
     }
   },
