@@ -98,6 +98,7 @@ to check a single document against, which is the whole reason this table exists.
 |---|---|
 | `Patient_Education/KORB_Foundation_Program_Overview.html` | **Yes**, 2026-09-19 |
 | `Patient_Education/KORB_Gateway_Program_Overview.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_Glossary_of_Terms.html` | **Yes**, 2026-09-24 |
 | `Patient_Education/KORB_Longevity_Program_Overview.html` | **Yes**, 2026-09-19 |
 | `Patient_Education/KORB_MensHealth_Program_Overview.html` | **Yes**, 2026-09-19 |
 | `Patient_Education/KORB_Peak_Program_Overview.html` | **Yes**, 2026-09-19 |
@@ -133,7 +134,7 @@ to check a single document against, which is the whole reason this table exists.
 | `KORB_Scheduler_Intake_AllPrograms.html` | **No.** In build. Not a patient link yet |
 | `404.html` | **Served**, 2026-09-21. Not a link anyone is sent - GitHub Pages shows it for any missing path |
 
-36 rows: 34 published pages, 1 PDF and the 404 page. If a file exists and is not on this list, the
+37 rows: 35 published pages, 1 PDF and the 404 page. If a file exists and is not on this list, the
 list is wrong, not the file.
 
 ---
