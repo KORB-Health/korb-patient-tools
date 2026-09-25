@@ -379,23 +379,19 @@
      not decoration: it is what tells a patient the thing is tappable. A blue
      underlined word in a wall of text does not.
 
-     Styles are inline on each element rather than in a stylesheet, because
-     these render into a PDF through Playwright and an inline style is the one
-     thing that cannot be lost on the way. */
+     These were INLINE styles until 2026-09-25, chosen so nothing could be lost
+     rendering to PDF through Playwright. The PDFs were retired on 2026-09-17,
+     and an inline style cannot carry :hover, so the step buttons were the one
+     control in the patient set that never answered the pointer. Don found it on
+     the Start Here Guide: the pills inside the panels changed colour, the teal
+     buttons around them did not. They are .k-step in CHOICE_CSS now, which
+     build-patient-ed.js inlines into every patient page. */
   /* Teal fill with navy text, not navy fill. The section headings are navy
      bands, so navy buttons under them read as more heading rather than as
      something to press. Teal is the other brand colour and separates action
      from label at a glance. Navy on teal is legible at this weight and size;
-     white on teal is not, so the text is navy. */
-  var BTN = 'display:block;box-sizing:border-box;width:100%;max-width:420px;' +
-            'margin:0 auto 9px;padding:12px 18px;text-align:center;' +
-            'background:#00B2C3;color:#0E1236;border:2px solid #00808D;' +
-            'border-radius:6px;text-decoration:none;font-weight:700;' +
-            'font-size:11.5pt;line-height:1.3;letter-spacing:.01em;';
-  var BTN_ALT = BTN.replace('background:#00B2C3;', 'background:#FBB040;')
-                   .replace('border:2px solid #00808D;', 'border:2px solid #C8862A;');
-  var NOTE = 'display:block;text-align:center;font-size:9.5pt;color:#4A4F6B;' +
-             'margin:-4px auto 11px;max-width:420px;';
+     white on teal is not, so the text is navy. On hover the button goes navy
+     with white text, which is legible and is plainly a change of state. */
 
   /* A step in a reading order that is a SET, not a document: "your tier
      overview" is one of three and "your medication guide" is one of five.
@@ -439,6 +435,18 @@
     '.k-pill:hover{background:var(--teal);color:var(--navy);}',
     '.k-pill:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
 
+    /* one step in a reading order: a full-width button, not a pill */
+    '.k-step{display:block;box-sizing:border-box;width:100%;max-width:420px;',
+    'margin:0 auto 9px;padding:12px 18px;text-align:center;',
+    'background:#00B2C3;color:#0E1236;border:2px solid #00808D;',
+    'border-radius:6px;text-decoration:none;font-weight:700;',
+    'font-size:11.5pt;line-height:1.3;letter-spacing:.01em;}',
+    '.k-step-alt{background:#FBB040;border-color:#C8862A;}',
+    '.k-step:hover{background:var(--navy);color:#fff;border-color:var(--navy);}',
+    '.k-step:focus-visible{outline:3px solid var(--navy);outline-offset:2px;}',
+    '.k-step-n{display:block;text-align:center;font-size:9.5pt;color:#4A4F6B;',
+    'margin:-4px auto 11px;max-width:420px;}',
+
     /* the label and the line of guidance above the choices. The hub has no
        equivalent - its section heading already says what the set is - so these
        two rules are only ever exercised by links(). */
@@ -480,9 +488,9 @@
                           : esc(c.label)) + '</a>';
                }).join('') + '</div></div>';
       }
-      return '<a href="' + esc(l.href) + '" style="' + (alt ? BTN_ALT : BTN) + '">' +
+      return '<a class="k-step' + (alt ? ' k-step-alt' : '') + '" href="' + esc(l.href) + '">' +
              esc(l.label) + '</a>' +
-             (l.note ? '<span style="' + NOTE + '">' + esc(l.note) + '</span>' : '');
+             (l.note ? '<span class="k-step-n">' + esc(l.note) + '</span>' : '');
     }).join('') + '</div>';
   }
 
