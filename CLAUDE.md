@@ -315,8 +315,10 @@ direction, which is how it sat outside the only record of what is live.
 **NOT published to the team.** Everything patient-facing
 including the Women's Health patient handout.
 
-**In use by providers, 2026-09-25.** Don: both are out there and being used.
-`Provider_Reference/KORB_BMI_Protein_Calculator.html` and its `_standalone` twin.
+**In use by providers, 2026-09-25.** `Provider_Reference/KORB_BMI_Protein_Calculator_standalone.html`
+is the one providers use: ICD-10 codes and chart text documenting that it was used.
+Its twin `KORB_BMI_Protein_Calculator.html` stays published for now, on Don's call.
+The patient calculator is the one embedded in the hub.
 This line said "out for provider feedback" until then. They are still provider
 tools, so item 49 stands: do not link either from the hub.
 
