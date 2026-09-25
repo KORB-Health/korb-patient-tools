@@ -78,6 +78,7 @@ function shell(doc) {
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <!-- iOS DATA DETECTORS OFF. Don, on an iPad Air, 2026-09-21: the Quest codes in
      the lab table carried dotted underlines and tapping one opened Google Maps.
      Nothing in this repo underlined them - Safari on iOS reads a bare number
