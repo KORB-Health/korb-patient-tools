@@ -117,10 +117,14 @@ const TOOL_META = {
     { probe: null, why: 'builds portal message text against a 1000-character cap' },
   'KORB_Provider_Clinical_Reference.html':
     { probe: null, why: 'FH&L state selector and per-programme routing' },
+  '404.html':
+    { probe: null, why: 'not-found page: contact details, no clinical content; check-404.js guards it' },
   'KORB_Functional_Health_Tracker.html':
-    { probe: null, why: 'FH&L agent and week tracking' },
+    { key: 'fhltracker', probe: 'fhlTracker', label: 'Functional Health Tracker', audience: 'patient',
+      records: { file: 'korb-dosing-data.js', global: 'KORB_DOSING' } },
   'KORB_Patient_Treatment_Schedule.html':
-    { probe: null, why: 'FH&L schedule generation from a start date' },
+    { key: 'fhlschedule', probe: 'fhlSchedule', label: 'Patient Treatment Schedule', audience: 'patient',
+      records: { file: 'korb-dosing-data.js', global: 'KORB_DOSING' } },
   'KORB_Lab_Interpretation_Tool.html':
     { probe: null, why: 'hand-built, no data file - see open item 5' },
   'KORB_Testosterone_Tracker.html':
@@ -176,7 +180,8 @@ require('child_process')
         : (meta.why || 'not yet classified - add it to TOOL_META in artifact-signoff.js'),
       label: meta.label || base.replace(/^KORB_/, '').split('_').join(' '),
       file: f,
-      records: meta.records || null
+      records: meta.records || null,
+      audience: meta.audience || 'provider'
     });
   });
 
@@ -599,6 +604,97 @@ PROBES.routing = function () {
            noBlocksReason: 'a routing page decides the destination and writes no prescription' };
 };
 
+/* THE TWO FH&L PATIENT TOOLS. Added 2026-09-25.
+
+   Both let a patient pick a program, a medication and a dose, and both then
+   tell the patient how many units to draw and on which days. That is the
+   routing layer this register exists to cover, and until today neither had a
+   probe: the Foundation dose fix of 2026-09-21 moved no fingerprint and nothing
+   would have caught the defect it fixed.
+
+   Every program x medication x dose x pharmacy x GHK-Cu combination is driven.
+   The START DATE IS FIXED, far in the future, because both tools default to
+   today and a fingerprint that moves every midnight is a check that cries wolf.
+   A future start also means the Tracker's "today" panel reads "Not started
+   yet", which is the same every day; its date label is blanked for the same
+   reason.
+
+   Neither tool writes a prescription, so neither has prescribing blocks, and
+   each says so. A state that renders almost nothing throws, because an empty
+   schedule fingerprints perfectly happily. */
+PROBES.fhlSchedule = function () {
+  var START = '2099-01-05';
+  var $ = function (id) { return document.getElementById(id); };
+  var vals = function (id) { return [].map.call($(id).options, function (o) { return o.value; }).filter(Boolean); };
+  var DOSE = { gateway: 'selGwSermDose', peakA: 'selCjcDose', peakB: 'selDose' };
+  var out = {}, options = {};
+  vals('selProgram').forEach(function (prog) {
+    $('selProgram').value = prog; onProgramChange();
+    var agents = prog === 'foundation' ? vals('selAgent') : [''];
+    agents.forEach(function (ag) {
+      if (ag) { $('selAgent').value = ag; onFoundationAgentChange(); }
+      var sel = prog === 'foundation' ? 'selFdnDose' : DOSE[prog];
+      var doses = vals(sel);
+      options[prog + (ag ? ':' + ag : '')] = [].map.call($(sel).options, function (o) { return o.value + '=' + o.textContent; });
+      (doses.length ? doses : ['']).forEach(function (d) {
+        if (d) $(sel).value = d;
+        vals('selPharmacy').forEach(function (ph) {
+          (prog === 'foundation' ? [false] : [false, true]).forEach(function (ghk) {
+            $('selPharmacy').value = ph; $('sd').value = START; $('ghkChk').checked = ghk; build();
+            var t = $('output').innerText.replace(/\s+/g, ' ').trim();
+            var k = [prog, ag, d, ph, ghk ? 'ghk' : ''].join('|');
+            if (t.length < 400) throw new Error('schedule for ' + k + ' rendered ' + t.length + ' characters');
+            out[k] = t;
+          });
+        });
+      });
+    });
+  });
+  return { kind: 'tool', states: Object.keys(out).length, doseOptions: options, schedules: out, blocks: {},
+           noBlocksReason: 'a patient schedule shows how and when to take a prescribed dose and writes no prescription' };
+};
+
+PROBES.fhlTracker = function () {
+  var START = '2099-01-05';
+  var $ = function (id) { return document.getElementById(id); };
+  var vals = function (id) { return [].map.call($(id).options, function (o) { return o.value; }).filter(Boolean); };
+  var reset = function () {
+    Object.keys(localStorage).forEach(function (k) { if (k.indexOf('korbFHT_') === 0) localStorage.removeItem(k); });
+    window.state = null; $('tracker').style.display = 'none'; $('setup').style.display = 'block';
+  };
+  var out = {}, options = {};
+  reset();
+  vals('selProgram').forEach(function (prog) {
+    $('selProgram').value = prog; onProgramChange();
+    var agents = prog === 'foundation' ? vals('selAgent') : [''];
+    agents.forEach(function (ag) {
+      if (ag) { $('selAgent').value = ag; onFoundationAgentChange(); }
+      var doses = vals('selDose');
+      options[prog + (ag ? ':' + ag : '')] = [].map.call($('selDose').options, function (o) { return o.value + '=' + o.textContent; });
+      (doses.length ? doses : ['']).forEach(function (d) {
+        vals('selPharmacy').forEach(function (ph) {
+          (prog === 'foundation' ? [false] : [false, true]).forEach(function (ghk) {
+            if (d) $('selDose').value = d;
+            $('selPharmacy').value = ph; $('startDate').value = START; $('ghkChk').checked = ghk;
+            generateTracker();
+            var k = [prog, ag, d, ph, ghk ? 'ghk' : ''].join('|');
+            if ($('tracker').style.display !== 'block') throw new Error('tracker did not build for ' + k);
+            $('todayDateLbl').textContent = '';
+            var t = $('tracker').innerText.replace(/\s+/g, ' ').trim();
+            if (t.length < 400) throw new Error('tracker for ' + k + ' rendered ' + t.length + ' characters');
+            out[k] = t;
+            reset();
+            $('selProgram').value = prog; onProgramChange();
+            if (ag) { $('selAgent').value = ag; onFoundationAgentChange(); }
+          });
+        });
+      });
+    });
+  });
+  return { kind: 'tool', states: Object.keys(out).length, doseOptions: options, trackers: out, blocks: {},
+           noBlocksReason: 'a patient tracker shows how and when to take a prescribed dose and writes no prescription' };
+};
+
 /* ---- rendering ---------------------------------------------------------- */
 function chromium() {
   try { return require('playwright').chromium; }
@@ -723,6 +819,10 @@ function status(r) {
         'dosing and administration guidance, the storage and travel instructions, ' +
         'the side effect and safety sections and the instructions on when to make ' +
         'contact - and approve it for release to patients.'
+      : r.audience === 'patient'
+      ? 'Reviewed this patient tool as rendered - every program, medication, dose ' +
+        'and pharmacy it offers, and the schedule, units to draw and injection ' +
+        'days it shows for each - and approve it for use by patients.'
       : 'Reviewed this tool as rendered - the states it covers, the pharmacies ' +
         'and products it offers for each of them, what it blocks and where, and ' +
         'the Tebra prescribing blocks it produces - and approve it for use by ' +

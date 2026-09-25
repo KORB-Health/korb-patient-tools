@@ -775,6 +775,28 @@ probe yet and are reported as CANNOT BE FINGERPRINTED, which is a loud state rat
 than a quiet omission. The Men's Health probe was written on 2026-09-17. Writing one
 for the GLP-1 and Add-On tools is open work.
 
+**Status as of 2026-09-25: 44 artifacts, 28 signed, 0 stale, 2 never signed,
+14 cannot be fingerprinted.** The two never signed are the FH&L patient tools,
+`KORB_Functional_Health_Tracker.html` and `KORB_Patient_Treatment_Schedule.html`,
+which gained probes that day and await Don's review. Each drives every program x
+medication x dose x pharmacy x GHK-Cu combination, 54 states, with the start
+date fixed at 2099-01-05 because both tools default to today. Negative-tested
+both halves: one sermorelin 300 Premier instruction changed from 30 to 31 units
+moved both fingerprints, and restoring it brought both back exactly. **The first
+attempt at that test edited `instructionsRx`, the Tebra copy, and moved nothing**
+- the same false pass recorded under Verification discipline, and caught the same
+way, by confirming the string reached the page. Patient tools sign with their own
+attestation (`audience: 'patient'` in TOOL_META), not the provider one about
+Tebra blocks.
+
+The same day `KORB_Patient_Treatment_Schedule.html` stopped typing its Gateway,
+Peak A and Peak B dose lists and reads `programs.<x>.primaryDoseOptions`. All 68
+rendered schedules were identical before and after; the only visible change is
+the CJC-1295 / Ipamorelin option, which now reads the agent's own dose string.
+
+**The paragraph below is out of date:** the 22 pages were re-signed and none is
+stale as of 2026-09-25.
+
 **22 PATIENT PAGES ARE STALE ON PURPOSE, from 2026-09-22.** The naming pass from
 Kris Mulkey's hub review retitled them. Don's ruling: nobody re-signs them until every
 item on that review is done, so he reads and signs once. **Do not re-sign them piecemeal

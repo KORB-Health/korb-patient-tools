@@ -193,28 +193,15 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
     </div>
     <div class="cg" id="gwSermDoseGroup" style="display:none;">
       <label for="selGwSermDose">My Sermorelin Dose (mcg = micrograms)</label>
-      <select id="selGwSermDose" onchange="build()">
-        <option value="200">200 mcg</option>
-        <option value="300">300 mcg</option>
-        <option value="400">400 mcg</option>
-        <option value="500">500 mcg</option>
-      </select>
+      <select id="selGwSermDose" onchange="build()"></select>
     </div>
     <div class="cg" id="peakCjcDoseGroup" style="display:none;">
       <label for="selCjcDose">My CJC-1295 / Ipamorelin Dose (mcg = micrograms)</label>
-      <select id="selCjcDose" onchange="build()">
-        <option value="100">100 mcg/100 mcg</option>
-        <option value="150">150 mcg/150 mcg</option>
-        <option value="200">200 mcg/200 mcg</option>
-      </select>
+      <select id="selCjcDose" onchange="build()"></select>
     </div>
     <div class="cg" id="tesaGroup" style="display:none;">
       <label for="selDose">My Tesamorelin Dose</label>
-      <select id="selDose" onchange="build()">
-        <option value="1mg">1 mg</option>
-        <option value="15mg">1.5 mg</option>
-        <option value="2mg">2 mg</option>
-      </select>
+      <select id="selDose" onchange="build()"></select>
     </div>
     <div class="cg">
       <label for="selPharmacy">My Pharmacy</label>
@@ -321,6 +308,7 @@ function wkRange(start,wk){var s=wkStart(start,wk);return fmts(s)+' – '+fmts(a
 (function(){
   var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).format(new Date());
   document.getElementById('sd').value=today;
+  fillProgramDoses();
   onProgramChange();
 })();
 
@@ -410,6 +398,31 @@ function fillFoundationDoses(){
 
 function onFoundationAgentChange(){ fillFoundationDoses(); build(); }
 
+// Gateway, Peak A and Peak B, from the same file. These were typed as <option>
+// tags until 2026-09-25, duplicating programs.<x>.primaryDoseOptions: the
+// KORB_GLP1_Dose_Guide.html failure again, a hand-kept list beside the data
+// that would have gone on offering a dose after the data dropped it. The label
+// is the agent's own dose string, so the option says what the medication says.
+function fillProgramDoses(){
+  // Inside the function: the page calls this at load, above where a top-level var would be assigned.
+  var PROGRAM_DOSE_SELECT={gateway:'selGwSermDose',peakA:'selCjcDose',peakB:'selDose'};
+  Object.keys(PROGRAM_DOSE_SELECT).forEach(function(prog){
+    var P=KORB_DOSING.programs[prog];
+    var sel=document.getElementById(PROGRAM_DOSE_SELECT[prog]);
+    if(!P||!P.primaryDoseOptions||!P.primaryDoseOptions.length){
+      throw new Error('korb-dosing-data.js: programs.'+prog+'.primaryDoseOptions is empty, so this tool has no dose to offer.');
+    }
+    sel.innerHTML='';
+    P.primaryDoseOptions.forEach(function(d){
+      var a=KORB_DOSING.agents[KORB_DOSING.resolvePrimaryKey(P.primaryFamily,d)];
+      if(!a){ throw new Error('korb-dosing-data.js: no agent for '+prog+' dose '+d+'.'); }
+      var o=document.createElement('option');
+      o.value=d; o.textContent=a.dose;
+      sel.appendChild(o);
+    });
+  });
+}
+
 function onProgramChange(){
   var prog=document.getElementById('selProgram').value;
   document.getElementById('fdnGroup').style.display=(prog==='foundation')?'':'none';
@@ -457,17 +470,15 @@ function build(){
     agentKeys=[fdnDose?KORB_DOSING.resolvePrimaryKey(fdnAgent,fdnDose):fdnAgent];
   } else if(prog==='gateway'){
     var sermDose=document.getElementById('selGwSermDose').value;
-    var sermKey=(sermDose==='200')?'sermorelin':'sermorelin'+sermDose;
-    agentKeys=[sermKey,'bpc157'];
+    agentKeys=[KORB_DOSING.resolvePrimaryKey('sermorelin',sermDose),'bpc157'];
     if(ghkOn) agentKeys.push('ghkcu');
   } else if(prog==='peakA'){
     var cjcDose=document.getElementById('selCjcDose').value;
-    var cjcKey=(cjcDose==='100')?'cjcipam':'cjcipam'+cjcDose;
-    agentKeys=[cjcKey,'bpc157'];
+    agentKeys=[KORB_DOSING.resolvePrimaryKey('cjcipam',cjcDose),'bpc157'];
     if(ghkOn) agentKeys.push('ghkcu');
   } else if(prog==='peakB'){
     var dose=document.getElementById('selDose').value;
-    agentKeys=['tesamorelin'+dose,'bpc157'];
+    agentKeys=[KORB_DOSING.resolvePrimaryKey('tesamorelin',dose),'bpc157'];
     if(ghkOn) agentKeys.push('ghkcu');
   }
 
