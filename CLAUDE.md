@@ -380,7 +380,14 @@ think" block and its "Give feedback on this page" button, as its last section.
 
 - **The wording and the form live once**, in `shared.feedback` in
   `korb-patient-ed-data.js`: heading, lead, label, the Google Form url and
-  `pageField` (`entry.868520896`). Never retype the form url on a page.
+  `pageField` (`entry.1732430176`). Never retype the form url on a page.
+- **A pageField is the id of ONE question on the live form, and editing the form
+  can move it.** On 2026-09-26 Don rebuilt the form to Kris's second-round survey
+  and the old id, `entry.868520896`, became Q1. Google silently drops a prefill
+  it cannot place, so every page kept opening the form and the page name simply
+  stopped arriving. Nothing here can see that. After any form edit, read the ids
+  off the live form (`FB_PUBLIC_LOAD_DATA_` in the viewform HTML) and open one
+  prefilled link to confirm the page name lands in "Page you were on".
 - **Each page pre-fills the form with its OWN title**, so responses arrive
   sorted by page. A page built from another page's shell must re-point that
   field, or its feedback is filed under the page it was copied from.

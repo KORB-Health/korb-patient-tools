@@ -14,11 +14,11 @@
    The footer goes at the end of the page's .wrap column, hidden in print. */
 (function () {
   var F = {
-    heading: 'Tell us what you think',
-    lead: 'Was this page helpful? It takes less than a minute. Please do not include your name or any health details. For questions about your care, message your care team through the Patient Portal.',
-    label: 'Give feedback on this page',
+    heading: 'Help us make KORB better',
+    lead: 'Your experience matters to us. If something was especially helpful, confusing, frustrating, or you have an idea that could make your experience better, we want to hear it. Please do not include your name or any health details. For questions about your care, message your care team through the Patient Portal.',
+    label: 'Share your feedback →',
     url: 'https://docs.google.com/forms/d/e/1FAIpQLSeLCEIpK8ae1Xud7d4UqeATkqb45gW-wO0lFVxToTUROQ8_Qw/viewform',
-    pageField: 'entry.868520896'
+    pageField: 'entry.1732430176'
   };
   if (typeof window === 'undefined') { module.exports = F; return; }
 
