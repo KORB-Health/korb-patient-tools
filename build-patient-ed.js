@@ -314,7 +314,8 @@ ${(doc.alsoLoad || []).map(k => `<script src="${t.up}${SOURCE_FILE[k]}"></script
     var doc = KORB_PATIENT_ED.${t.coll}[${JSON.stringify(t.key)}];
     var R = KORB_PATIENT_ED_DOCS;
     document.getElementById('doc').innerHTML =
-      ${JSON.stringify(head)} + R.${t.renderer}(KORB_PATIENT_ED, D, doc);
+      ${JSON.stringify(head)} + R.${t.renderer}(KORB_PATIENT_ED, D, doc) +
+      (R.feedbackFooter ? R.feedbackFooter(KORB_PATIENT_ED, doc) : '');
   }());
 </script>
 </body></html>`;

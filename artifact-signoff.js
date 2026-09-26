@@ -288,8 +288,16 @@ const PROBES = {};
    Each tool probe now returns the rendered text of the plan note it produces
    for the selection it ends on. */
 
-/* Static render. Everything the reader sees, and nothing else. */
+/* Static render. Everything the reader sees, and nothing else.
+
+   EXCEPT the feedback footer (.k-feedback), removed before the text is taken.
+   It is a link to a Google Form with a fixed sentence, on every patient page,
+   added 2026-09-25 at Kris's request. It carries no clinical content, and
+   leaving it in expired 24 handout signatures at once for a button - the
+   re-sign-without-reading habit this register exists to prevent. The footer's
+   wording lives in korb-patient-ed-data.js shared.feedback. */
 PROBES.static = function () {
+  [].forEach.call(document.querySelectorAll('.k-feedback'), function (e) { e.remove(); });
   return {
     kind: 'handout',
     title: document.title,

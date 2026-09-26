@@ -408,6 +408,9 @@ button{font-family:inherit;cursor:pointer;}
 .safety-inner a{background:#C62828;color:#fff;font-size:12.5px;font-weight:800;padding:10px 18px;border-radius:24px;white-space:nowrap;}
 
 /* ================= FOOTER ================= */
+.hub-feedback{display:inline-block;background:var(--teal);color:#fff;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:999px;min-height:44px;box-sizing:border-box;transition:all .15s ease;}
+.hub-feedback:hover{opacity:.85;}
+@media print{.hub-feedback{display:none;}}
 footer{background:#14172F;color:#9AA0C0;padding:36px 0;margin-top:60px;}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;}
 footer strong{color:#fff;}
@@ -1440,6 +1443,16 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
     <div class="m">Not feeling right, or not sure if it's an emergency? Know when to call KORB and when to go to the ER.</div>
     <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_When_to_Contact_KORB_or_ER.html">View Guide</a>
   </div>
+</div>
+
+<!-- PATIENT FEEDBACK. Kris, 2026-09-25; Don owns the responses. Same Google
+     Form as every patient page (korb-patient-ed-data.js shared.feedback),
+     pre-filled with "Patient Hub". The hub is hand-built and writes the address
+     out here rather than reading shared.feedback: change both together. -->
+<div class="wrap" style="text-align:center;margin-top:40px;">
+  <h2 style="color:var(--navy);margin:0 0 6px;">Tell us what you think</h2>
+  <p style="max-width:560px;margin:0 auto 14px;">Was this page helpful? It takes less than a minute. Please do not include your name or any health details. For questions about your care, message your care team through the Patient Portal.</p>
+  <a class="hub-feedback" target="_blank" rel="noopener" href="https://docs.google.com/forms/d/e/1FAIpQLSeLCEIpK8ae1Xud7d4UqeATkqb45gW-wO0lFVxToTUROQ8_Qw/viewform?usp=pp_url&amp;entry.868520896=Patient%20Hub">Give feedback on this page</a>
 </div>
 
 <footer>

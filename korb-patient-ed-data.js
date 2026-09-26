@@ -771,6 +771,22 @@ var KORB_PATIENT_ED = {
       '[Find sharps disposal near you](https://safeneedledisposal.org/) by ZIP code.'
     ],
 
+    /* PATIENT FEEDBACK. Kris asked on 2026-09-25 for a "tell us what you think"
+       button; Don owns the responses. A Google Form in KORB Workspace, open to
+       anyone with the link, no email collected. pageField is the form's "Which
+       page were you on?" question, pre-filled with the page title so a patient
+       does not have to type it. Rendered OUTSIDE the page body by
+       feedbackFooter(), so adding it did not expire a single sign-off. */
+    feedback: {
+      heading: 'Tell us what you think',
+      lead: 'Was this page helpful? It takes less than a minute. Please do not ' +
+            'include your name or any health details. For questions about your ' +
+            'care, message your care team through the Patient Portal.',
+      label: 'Give feedback on this page',
+      url: 'https://docs.google.com/forms/d/e/1FAIpQLSeLCEIpK8ae1Xud7d4UqeATkqb45gW-wO0lFVxToTUROQ8_Qw/viewform',
+      pageField: 'entry.868520896'
+    },
+
     contact: {
       operations: {
         title: 'Contact KORB Operations',

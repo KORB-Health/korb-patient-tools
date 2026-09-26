@@ -419,6 +419,8 @@
      --k-teal-ink is hub-local, so it is set here too. */
   var CHOICE_CSS = [
     ':root{--k-teal-ink:#00808D;}',
+    '.k-feedback{margin-top:26px;padding-top:6px;border-top:1px solid var(--rule);}',
+    '@media print{.k-feedback{display:none;}}',
     '.k-panel{box-sizing:border-box;max-width:470px;margin:0 auto;padding:15px;',
     'background:#F7F5E9;border:1px solid var(--rule);border-radius:10px;}',
 
@@ -606,6 +608,25 @@
            ways(all) +
            (C.emergencyNote ? '<div class="callout warn"><p>' +
               esc(C.emergencyNote) + '</p></div>' : '');
+  }
+
+  /* THE FEEDBACK FOOTER, below the page body on every patient page.
+     Deliberately NOT part of renderBody and friends: artifact-signoff.js
+     fingerprints the rendered body, so a footer inside it would have marked
+     every signed handout SIGNED THEN CHANGED for a button. The shell appends
+     this after the body instead. The page title goes into the form's first
+     question; a title is not personal data. */
+  function feedbackFooter(DATA, doc) {
+    var F = DATA && DATA.shared && DATA.shared.feedback;
+    if (!F || !F.url) { return ''; }
+    var page = (doc && doc.title) || (doc && doc.key) || '';
+    var href = F.url + '?usp=pp_url&' + F.pageField + '=' + encodeURIComponent(page);
+    return '<div class="k-feedback">' +
+           '<h2>' + esc(F.heading) + '</h2>' +
+           '<p>' + esc(F.lead) + '</p>' +
+           '<div class="linklist" style="margin:10px 0 4px;">' +
+           '<a class="k-step" target="_blank" rel="noopener" href="' + esc(href) + '">' +
+           esc(F.label) + '</a></div></div>';
   }
 
   function sharedBlock(DATA, name) {
@@ -1440,7 +1461,7 @@
 
   var DOCS = ['sermorelin'];
 
-  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, renderHubBody: renderHubBody, agentFacts: agentFacts,
+  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, renderHubBody: renderHubBody, agentFacts: agentFacts, feedbackFooter: feedbackFooter,
            contraindications: contraindications,
            CSS: CSS, CHOICE_CSS: CHOICE_CSS, LOGO_URI: LOGO_URI,
            /* Exported so build-patient-ed.js enforces the same list rather than
