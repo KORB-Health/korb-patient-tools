@@ -371,6 +371,38 @@ set. Worth reconciling, but not by moving them casually — they are live, so th
 URLs are in circulation.
 
 ---
+## EVERY PATIENT-FACING PAGE ENDS WITH THE FEEDBACK BUTTON
+
+Don, 2026-09-26, from Kris Mulkey's hub review of 2026-09-25. **Part of the
+standard design, not an extra.** Any page a patient can be sent - guide, handout,
+overview, tool, hub, and any draft of a new one - ends with the "Tell us what you
+think" block and its "Give feedback on this page" button, as its last section.
+
+- **The wording and the form live once**, in `shared.feedback` in
+  `korb-patient-ed-data.js`: heading, lead, label, the Google Form url and
+  `pageField` (`entry.868520896`). Never retype the form url on a page.
+- **Each page pre-fills the form with its OWN title**, so responses arrive
+  sorted by page. A page built from another page's shell must re-point that
+  field, or its feedback is filed under the page it was copied from.
+- **Generated pages get it for free**: `build-patient-ed.js` appends
+  `feedbackFooter()` below the body. It sits OUTSIDE the rendered body on
+  purpose, so `artifact-signoff.js` does not mark signed pages stale for a
+  button.
+- **Hand-built pages do NOT get it for free.** Add it by hand, and check.
+  As of 2026-09-26 four live patient tools lacked it:
+  `KORB_Functional_Health_Tracker.html`, `KORB_GLP1_Dose_Guide.html`,
+  `KORB_Patient_Treatment_Schedule.html`, `KORB_Testosterone_Tracker.html`.
+- **Hidden in print.** It is a screen control.
+- **Provider pages: not decided.** Don was unsure on 2026-09-26. Do not add it
+  to provider pages until he decides.
+
+**Found by Don on the first gut health draft**, which was built from the
+Longevity overview's rendered shell and had the footer stripped out along with
+that page's content. Removing the shell's body is not the same as removing its
+footer. Check a new patient page for the button before calling it done.
+
+---
+
 ## THE PUBLIC PAGES CARRY NOTHING PATIENT-SPECIFIC
 
 Confirmed by Don 2026-09-19, and it governs everything served from this repo.
