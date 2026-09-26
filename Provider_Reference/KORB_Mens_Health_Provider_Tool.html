@@ -252,8 +252,10 @@ body{background:var(--cream);}
     </tbody>
   </table></div>
   <div class="info-box teal">
-    Order the full panel at baseline and at each follow-up. Draw testosterone at trough, on an injection
-    day before the dose is given. A peak draw will read high and hide a symptomatic trough.
+    Order the full panel at baseline and at each follow-up. Draw testosterone <b>midway between
+    injections</b>: day 3 to 4 after an IM once weekly dose, about 48 hours after an SQ twice weekly dose,
+    about 24 hours after an SQ three times weekly dose. The 400 &ndash; 700 ng/dL goal band is a
+    mid-interval band (Endocrine Society).
   </div>
 
   <div class="info-box amber">
@@ -266,13 +268,13 @@ body{background:var(--cream);}
   <div class="tablewrap"><table class="ref">
     <thead><tr><th>Marker</th><th>Target / action threshold</th><th>Action</th></tr></thead>
     <tbody>
-      <tr><td>Total testosterone (trough)</td><td>Goal band 400 &ndash; 700 ng/dL</td>
+      <tr><td>Total testosterone (mid-interval)</td><td>Goal band 400 &ndash; 700 ng/dL</td>
           <td>In band with symptoms resolved: hold current dose.</td></tr>
-      <tr><td>Total testosterone (trough)</td><td>Below 400 ng/dL with persistent symptoms</td>
+      <tr><td>Total testosterone (mid-interval)</td><td>Below 400 ng/dL with persistent symptoms</td>
           <td>Move up one step on the ladder. Recheck in 6 to 8 weeks.</td></tr>
-      <tr><td>Total testosterone (trough)</td><td>Above 700 ng/dL</td>
+      <tr><td>Total testosterone (mid-interval)</td><td>Above 700 ng/dL</td>
           <td>Move down one step, even if the patient feels well.</td></tr>
-      <tr><td>Total testosterone (trough)</td><td>Above 1000 ng/dL</td>
+      <tr><td>Total testosterone (mid-interval)</td><td>Above 1000 ng/dL</td>
           <td>Reduce dose regardless of symptoms. Supraphysiologic levels carry cardiovascular and
               polycythemia risk.</td></tr>
       <tr><td>Hematocrit</td><td>50 &ndash; 53%</td>
@@ -291,7 +293,7 @@ body{background:var(--cream);}
   </table></div>
   <div class="info-box teal">
     Change one variable at a time. Adjusting dose and frequency together makes it impossible to know which
-    one worked. Recheck labs 6 to 8 weeks after any change, drawn at trough.
+    one worked. Recheck labs 6 to 8 weeks after any change, drawn midway between injections.
   </div>
 
   <div class="sec">Do Not Initiate &mdash; Contraindications</div>
@@ -635,6 +637,9 @@ function render(){
 
   /* ===== TEBRA FAVORITE ===== */
   var freqWord = FREQ_WORD[c.R.freq];
+  /* Midway between injections, per labPanel.timing. Don, 2026-09-25. */
+  var MIDWAY = { 1: "day 3 to 4 after an injection", 2: "about 48 hours after an injection",
+                 3: "about 24 hours after an injection" }[c.R.freq] || "midway between injections";
   var ptInstr = T.ptInstructions(W, rk);
   var pharmNotes = T.pharmacyNotes(W, rk, P.key, KORB_PHARMACIES);
 
@@ -695,7 +700,7 @@ function render(){
     "\nLABS\n" +
     "Standard TRT panel ordered: FSH & LH, PSA total, prolactin, CBC, estradiol, total testosterone (LC/MS).\n" +
     "Future-dated collection: " + fmtShort(labDraw) + ".\n" +
-    "Testosterone to be drawn at trough, on an injection day prior to the dose.\n" +
+    "Testosterone to be drawn midway between injections, " + MIDWAY + ".\n" +
     "Patient advised results may take up to a week from the draw, so it should not be left to the final days.\n" +
     "\nFOLLOW-UP\n" +
     "Return visit on or before " + fmtShort(visitBy) + " to review labs and reauthorize therapy.\n" +
@@ -715,7 +720,7 @@ function render(){
     "TRT lab order — future dated\n" +
     "Collection date: " + fmtShort(labDraw) + "\n" +
     "Panel: Standard TRT (FSH & LH 7137, PSA 5363, Prolactin 746, CBC 1759, Estradiol 4021, Testosterone Total MS 15983)\n" +
-    "Draw at trough, on an injection day before the dose.\n" +
+    "Draw testosterone midway between injections, " + MIDWAY + ".\n" +
     "Results can take up to a week from the draw, so the patient has roughly a one-week window to get drawn.\n" +
     "Please schedule the patient reminder email for that collection date.\n" +
     "Follow-up visit is set for on or before " + fmtShort(visitBy) + ".";
@@ -760,7 +765,7 @@ function render(){
       counselling: ((MD.sideEffects||{}).rows||[]).map(function(r){
         return r.system + ": " + r.effect + (r.action ? " - " + r.action : "");
       }),
-      followUp: MD.followUpRule || "Recheck at trough before any dose change.",
+      followUp: MD.followUpRule || "Recheck midway between injections before any dose change.",
       monitoring: mon
     }, "mensplan");
   }

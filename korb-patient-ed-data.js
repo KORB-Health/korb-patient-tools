@@ -2100,14 +2100,13 @@ var KORB_PATIENT_ED = {
           ]
         },
         {
-          /* KORB's own standard, from korb-mens-data.js labs.timing: draw
-             testosterone at trough, on an injection day before the dose. Men's
-             Health uses this page for those draws, and until 2026-09-22 it
-             did not say so. The Testosterone guide does, in its labs section. A draw taken after
-             the injection reads high, and a dose set from it is set wrong. */
+          /* KORB's own standard, from korb-mens-data.js labPanel.timing: draw
+             testosterone midway between injections (Don, 2026-09-25; it said
+             trough until then). Men's Health uses this page for those draws.
+             The Testosterone guide says the same, in its labs section. */
           h: 'If you inject testosterone',
           paras: [
-            'Book your draw for the morning of an injection day, and give that day\'s injection after your blood is drawn, not before. Drawn after an injection, your testosterone reads higher than it really runs, and your provider cannot set your dose from it.'
+            'Book your draw for a morning about halfway between two injections. If you inject once a week, that is 3 or 4 days after your injection. Twice a week, about 2 days after. Three times a week, the day after. Drawn right after an injection, your testosterone reads higher than it really runs, and your provider cannot set your dose from it.'
           ]
         },
         {
@@ -3868,7 +3867,7 @@ var KORB_PATIENT_ED = {
       timeline: [
         ['Before you start', 'Baseline labs', 'Lab work confirms your testosterone is low before anything is prescribed.'],
         ['First weeks', 'Starting out', 'Some men report changes in energy or mood, and many notice little at first. Keep to your schedule.'],
-        ['6 to 8 weeks after any dose change', 'Recheck labs', 'Your labs are rechecked, drawn on an injection day before your dose, and your provider adjusts if needed.'],
+        ['6 to 8 weeks after any dose change', 'Recheck labs', 'Your labs are rechecked, drawn about halfway between two injections, and your provider adjusts if needed.'],
         ['Every 12 weeks', 'Follow-up', 'A follow-up visit with labs, to review how you feel and keep your levels in a safe range.']
       ],
       timelineNote: 'Results vary from person to person, and no result is guaranteed.',
@@ -4025,10 +4024,11 @@ var KORB_PATIENT_ED = {
       ],
 
       labs: {
-        lead: 'Timing matters more than most patients expect. Get your blood drawn on a day you ' +
-              'are scheduled to inject, before you take that dose, when your level is at its lowest. ' +
-              'If you are drawn right after an injection your level reads artificially high, and ' +
-              'your provider may lower a dose that was actually correct.',
+        lead: 'Timing matters more than most patients expect. Get your blood drawn about halfway ' +
+              'between two injections: 3 or 4 days after if you inject once a week, about 2 days ' +
+              'after if you inject twice a week, the day after if you inject three times a week. ' +
+              'Drawn right after an injection your level reads artificially high, and your ' +
+              'provider may lower a dose that was actually correct.',
         items: [
           'Your panel checks your testosterone level, your red blood cell count, your prostate marker and your hormone balance.',
           'Labs are ordered about two weeks before your follow-up visit so results are ready when you meet, and you will get a reminder.'
@@ -4047,7 +4047,7 @@ var KORB_PATIENT_ED = {
         'Use a new syringe and new needles for every injection. Never reuse or share them.',
         'Draw up with the draw-up needle and inject with the injection needle. Never draw up through the injection needle.',
         'Do not share this medication with anyone. It is a controlled substance and sharing it is illegal.',
-        'Get your labs drawn on an injection day, before your dose.',
+        'Get your labs drawn about halfway between two injections.',
         'Tell your provider if you are planning to father children.'
       ],
 
@@ -4059,7 +4059,7 @@ var KORB_PATIENT_ED = {
       keyReminders: [
         'Draw up with the draw-up needle, then switch to the injection needle to inject.',
         'Rotate your injection site every single time.',
-        'Get labs drawn on an injection day, before your dose.',
+        'Get labs drawn about halfway between two injections.',
         'Your refill date is set by your last fill date. Early requests will not move it up.',
         'Discard your vial 90 days after first use, even if medication is left.',
         'Never increase your own dose. Higher is not better and carries real risk.',

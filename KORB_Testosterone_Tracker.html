@@ -399,11 +399,15 @@ function render(){
   }
   h+='</div>';
 
-  if(nd){
-    h+='<div class="box teal"><b>Lab reminder.</b> When your labs are due, get your blood drawn on an '+
-       'injection day <b>before</b> you take that dose. Your next injection day is '+fmtLong(nd)+
-       '. Drawing after a dose makes your level read high. Results can take up to a week from the day you are drawn, so do not leave '+
-       'the draw to the last few days.</div>';
+  /* Labs are drawn midway between injections, per korb-mens-data.js
+     labPanel.timing. Don, 2026-09-25; it said before the dose until then. */
+  var ndAfter = nd ? nextDueFrom(nd) : null;
+  if(nd && ndAfter){
+    var mid=new Date(nd.getTime()); mid.setDate(mid.getDate()+Math.round(diffD(nd,ndAfter)/2));
+    h+='<div class="box teal"><b>Lab reminder.</b> When your labs are due, get your blood drawn in the '+
+       'morning, about <b>halfway between two injections</b>. After your next injection on '+fmtLong(nd)+
+       ', that is '+fmtLong(mid)+'. Drawing right after a dose makes your level read high. Results can take '+
+       'up to a week from the day you are drawn, so do not leave the draw to the last few days.</div>';
   }
   if(state.vialDate && toDiscard<0){
     h+='<div class="box red"><b>This vial is past its discard date.</b> It should have been thrown away on '+

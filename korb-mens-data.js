@@ -390,9 +390,10 @@ var KORB_MENS = {
         onStandardPanel: null,
         threshold: null,
         comparison: 'clinical',
-        note: 'Reported by the patient, not a lab. Draw testosterone at trough ' +
-              'on an injection day before the dose, per labPanel.timing - a peak ' +
-              'draw hides a symptomatic trough.'
+        note: 'Reported by the patient, not a lab: symptoms returning toward the ' +
+              'end of the dosing interval. Labs are drawn midway between injections, ' +
+              'per labPanel.timing, so a mid-interval level can sit in band while ' +
+              'the patient is symptomatic before the next dose.'
       },
       {
         id: 'estradiol',
@@ -464,8 +465,11 @@ var KORB_MENS = {
                'NOT ordered individually.',
     timing: 'Draw in the MORNING, FASTING, before 10:00 - the KORB standard for all ' +
             'lab draws, and the window the Men\'s Health SOP specifies for testosterone ' +
-            '(7 to 10 AM). Draw testosterone at trough, on an injection day before the ' +
-            'dose is given. A peak draw will read high and hide a symptomatic trough.',
+            '(7 to 10 AM). Draw testosterone MIDWAY BETWEEN INJECTIONS: day 3 to 4 ' +
+            'after an IM once weekly dose, about 48 hours after an SQ twice weekly ' +
+            'dose, about 24 hours after an SQ three times weekly dose. This is the ' +
+            'Endocrine Society timing for cypionate, and the 400 - 700 ng/dL goal ' +
+            'band is a mid-interval band. Don, 2026-09-25.',
     cadence: 'Full panel at baseline and at each follow-up. Recheck 6 to 8 weeks ' +
              'after any change.',
     /* ADD-ON LABS, with the billing code and price. From the Men's Health
@@ -506,15 +510,15 @@ var KORB_MENS = {
   titration: {
     rule: 'Change one variable at a time. Adjusting dose and frequency together ' +
           'makes it impossible to know which one worked. Recheck labs 6 to 8 ' +
-          'weeks after any change, drawn at trough.',
+          'weeks after any change, drawn midway between injections.',
     rows: [
-      { marker: 'Total testosterone (trough)', threshold: 'Goal band 400 - 700 ng/dL',
+      { marker: 'Total testosterone (mid-interval)', threshold: 'Goal band 400 - 700 ng/dL',
         action: 'In band with symptoms resolved: hold current dose.' },
-      { marker: 'Total testosterone (trough)', threshold: 'Below 400 ng/dL with persistent symptoms',
+      { marker: 'Total testosterone (mid-interval)', threshold: 'Below 400 ng/dL with persistent symptoms',
         action: 'Move up one step on the ladder. Recheck in 6 to 8 weeks.' },
-      { marker: 'Total testosterone (trough)', threshold: 'Above 700 ng/dL',
+      { marker: 'Total testosterone (mid-interval)', threshold: 'Above 700 ng/dL',
         action: 'Move down one step, even if the patient feels well.' },
-      { marker: 'Total testosterone (trough)', threshold: 'Above 1000 ng/dL',
+      { marker: 'Total testosterone (mid-interval)', threshold: 'Above 1000 ng/dL',
         action: 'Reduce dose regardless of symptoms. Supraphysiologic levels carry ' +
                 'cardiovascular and polycythemia risk.' },
       { marker: 'Hematocrit', threshold: '50 - 53%',
@@ -630,7 +634,7 @@ var KORB_MENS = {
   sourceConflicts: [
     {
       topic: 'Total testosterone target band',
-      current: '400 - 700 ng/dL at trough, per titration.rows above.',
+      current: '400 - 700 ng/dL mid-interval, per titration.rows above.',
       sop: 'SOP 4.3 says target 600 - 800 ng/dL (mid-normal), sub-therapeutic ' +
            'below 500, supraphysiologic above 900.',
       resolution: 'CURRENT GOVERNS. The band is part of the dosing work of ' +
@@ -654,6 +658,17 @@ var KORB_MENS = {
       resolution: 'CURRENT GOVERNS, confirmed by Don 2026-09-16. The SOP favorites ' +
         'are last year and would not fill: 96 mg was removed because Premier will ' +
         'not dispense 90 days at that dose.'
+    },
+    {
+      topic: 'When testosterone is drawn',
+      current: 'Midway between injections, per labPanel.timing.',
+      sop: 'This file said trough (injection day, before the dose) in labPanel and ' +
+           'titration, and 48 hours post-injection in the 12-week monitoring row.',
+      resolution: 'RESOLVED by Don 2026-09-25: midway, everywhere. The Endocrine ' +
+        'Society 2018 guideline measures cypionate and enanthate midway between ' +
+        'injections against a 400 - 700 ng/dL target, which is this file\'s band. ' +
+        'A trough draw against a mid-interval band reads low and pushes the dose ' +
+        'up. The SOP wording is a recommendation to Robin, who owns the protocol.'
     }
   ],
 
@@ -784,7 +799,7 @@ var KORB_MENS = {
         why: 'Establish the diagnosis, confirm eligibility, identify contraindications.' },
       { when: '4 to 6 weeks after starting', labs: 'TT, E2, LH/FSH, CBC, PSA, prolactin',
         why: 'Initial therapeutic response, erythrocytosis risk, dose accuracy.' },
-      { when: 'Every 12 weeks', labs: 'TT, E2, CBC, drawn 48 hours post-injection',
+      { when: 'Every 12 weeks', labs: 'TT, E2, CBC, drawn midway between injections',
         why: 'Therapeutic response, erythrocytosis risk, dose accuracy.' },
       { when: 'Annually', labs: 'Full panel - TT, E2, LH/FSH, CBC, PSA, prolactin',
         why: 'Full annual review.' },
@@ -792,7 +807,7 @@ var KORB_MENS = {
         why: 'Dose changes, side effects, or abnormal prior results.' }
     ],
     note: 'PSA applies to men 40 and older or with risk factors. Recheck 6 to 8 ' +
-      'weeks after any dose or frequency change, drawn at trough.'
+      'weeks after any dose or frequency change, drawn midway between injections.'
   },
 
   /* -- SIDE EFFECTS. source: SOP 9.4 ----------------------------------------- */
