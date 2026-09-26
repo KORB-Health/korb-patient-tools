@@ -36,3 +36,11 @@ desktop.ini
 # which leaves a __pycache__ behind; it reached one commit before this line existed.
 __pycache__/
 *.pyc
+
+# Claude Code's own session state. launch.json is local machine config, and
+# .claude/worktrees holds a FULL SECOND CLONE of this repo when an agent runs
+# in an isolated worktree - 8.5MB of it on 2026-09-26, nested inside the repo,
+# which is the arrangement CLAUDE.md warns about for korb-licensing. It was
+# never committed, and this line is so it never can be. A public repo should
+# not publish a duplicate of itself.
+.claude/
