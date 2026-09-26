@@ -344,6 +344,25 @@ function nextDueFrom(start){
   }
   return null;
 }
+/* The lab day: the weekday nearest the midpoint between two injections,
+   skipping Saturday and Sunday because most Quest sites are closed. On a tie
+   the later day wins, so twice weekly lands near 48 hours. Tries the
+   next few intervals if one has no weekday strictly inside it. */
+function labDay(from){
+  var start=from;
+  for(var n=0;n<4;n++){
+    var end=nextDueFrom(start); if(!end) return null;
+    var gap=diffD(start,end), best=null, bestDist=99;
+    for(var i=1;i<gap;i++){
+      var d=new Date(start.getTime()); d.setDate(d.getDate()+i);
+      var dist=Math.abs(i-gap/2);
+      if(d.getDay()!==0 && d.getDay()!==6 && dist<=bestDist){ best=d; bestDist=dist; }
+    }
+    if(best) return { after:start, day:best };
+    start=end;
+  }
+  return null;
+}
 function nextDue(){
   if(!state.days.length) return null;
   if(state.log.length){
@@ -401,12 +420,11 @@ function render(){
 
   /* Labs are drawn midway between injections, per korb-mens-data.js
      labPanel.timing. Don, 2026-09-25; it said before the dose until then. */
-  var ndAfter = nd ? nextDueFrom(nd) : null;
-  if(nd && ndAfter){
-    var mid=new Date(nd.getTime()); mid.setDate(mid.getDate()+Math.round(diffD(nd,ndAfter)/2));
+  var lab = nd ? labDay(nd) : null;
+  if(lab){
     h+='<div class="box teal"><b>Lab reminder.</b> When your labs are due, get your blood drawn in the '+
-       'morning, about <b>halfway between two injections</b>. After your next injection on '+fmtLong(nd)+
-       ', that is '+fmtLong(mid)+'. Drawing right after a dose makes your level read high. Results can take '+
+       'morning, about <b>halfway between two injections</b>. After your injection on '+fmtLong(lab.after)+
+       ', that is '+fmtLong(lab.day)+'. Drawing right after a dose makes your level read high. Results can take '+
        'up to a week from the day you are drawn, so do not leave the draw to the last few days.</div>';
   }
   if(state.vialDate && toDiscard<0){
