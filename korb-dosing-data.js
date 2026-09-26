@@ -251,6 +251,32 @@ var KORB_DOSING = {
     }
   },
 
+  /* ARTIFACT SIGN-OFF - the two FH&L patient tools, read by artifact-signoff.js.
+     Separate from rxSignoff above: that covers the Tebra blocks, this covers
+     what a patient is shown. */
+  artifactSignoff: {
+    records: {
+      "tool:fhltracker": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-26",
+        "fingerprint": "fp-3a39c13c-113256",
+        "covers": "54 states, 0 prescribing blocks",
+        "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
+        "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the probe was added that day (commit 89bdf45)."
+      },
+      "tool:fhlschedule": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-09-26",
+        "fingerprint": "fp-8b33ef00-447371",
+        "covers": "54 states, 0 prescribing blocks",
+        "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
+        "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the Gateway, Peak A and Peak B dose lists moved from typed <option> tags to programs.<x>.primaryDoseOptions (commit 89bdf45)."
+      }
+    }
+  },
+
   meta: {
     version: '2.14',
     lastVerified: '2026-08-12',

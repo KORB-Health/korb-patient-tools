@@ -477,26 +477,35 @@ var KORB_PATIENT_ED = {
       "handout:testosterone": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-8d215228-13564",
-        "covers": "13076 characters, 19 headings",
-        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction and acne both drop \"Common\" for \"May occur\", at Don's instruction - his patients have not had these problems and one had acne that needed treating.",
+        "date": "2026-09-26",
+        "fingerprint": "fp-6444f642-13630",
+        "covers": "13142 characters, 19 headings",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-09-25 on Don's instruction in chat. What moved since the 2026-09-23 signature: labs are drawn about halfway between two injections, not on an injection day before the dose, in the labs section, the timeline, the safety list and the key reminders.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-21",
-          "fingerprint": "fp-54025f00-12865",
-          "covers": "12380 characters, 18 headings",
-          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-21 and approved: \"that Testosterone hand out is good now.\" DON FOUND A DEFECT ON THE FIRST READ AND IT IS WHY THIS SIGNATURE EXISTS. Under Safety reminders the handout carried the shared line 'Use a new insulin needle and syringe for every injection', appended directly beneath this handout's own correct sentence, so a patient was told both. Testosterone cypionate is a thick oil drawn with a draw-up needle and given through an injection needle on a Luer lock syringe; an insulin syringe has a fixed needle and is marked in units. The device sentence is now shared.injectionSafetyDevice and this handout declares ownInjectionDevice. Also covered by this reading: the needle renaming to draw-up and injection needle, and the gauge rule.",
+          "date": "2026-09-23",
+          "fingerprint": "fp-8d215228-13564",
+          "covers": "13076 characters, 19 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction and acne both drop \"Common\" for \"May occur\", at Don's instruction - his patients have not had these problems and one had acne that needed treating.",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-17",
-            "fingerprint": "fp-982b0eb4-11974",
-            "covers": "11509 characters, 17 headings",
-            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+            "date": "2026-09-21",
+            "fingerprint": "fp-54025f00-12865",
+            "covers": "12380 characters, 18 headings",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-21 and approved: \"that Testosterone hand out is good now.\" DON FOUND A DEFECT ON THE FIRST READ AND IT IS WHY THIS SIGNATURE EXISTS. Under Safety reminders the handout carried the shared line 'Use a new insulin needle and syringe for every injection', appended directly beneath this handout's own correct sentence, so a patient was told both. Testosterone cypionate is a thick oil drawn with a draw-up needle and given through an injection needle on a Luer lock syringe; an insulin syringe has a fixed needle and is marked in units. The device sentence is now shared.injectionSafetyDevice and this handout declares ownInjectionDevice. Also covered by this reading: the needle renaming to draw-up and injection needle, and the gauge rule.",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-17",
+              "fingerprint": "fp-982b0eb4-11974",
+              "covers": "11509 characters, 17 headings",
+              "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+            }
           }
         }
       },

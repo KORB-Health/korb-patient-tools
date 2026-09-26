@@ -775,10 +775,15 @@ probe yet and are reported as CANNOT BE FINGERPRINTED, which is a loud state rat
 than a quiet omission. The Men's Health probe was written on 2026-09-17. Writing one
 for the GLP-1 and Add-On tools is open work.
 
-**Status as of 2026-09-25: 44 artifacts, 28 signed, 0 stale, 2 never signed,
-14 cannot be fingerprinted.** The two never signed are the FH&L patient tools,
+**Status as of 2026-09-25, evening: 44 artifacts, 30 signed, 0 stale, 0 never
+signed, 14 cannot be fingerprinted.** Don signed four that evening: the two FH&L
+patient tools (first signatures, records in the new `artifactSignoff` block of
+`korb-dosing-data.js`), and the Men's Health Provider Tool and Testosterone
+handout, re-signed after the midway draw-timing change.
+
+Earlier the same day: 28 signed, 2 never signed. The two never signed were the FH&L patient tools,
 `KORB_Functional_Health_Tracker.html` and `KORB_Patient_Treatment_Schedule.html`,
-which gained probes that day and await Don's review. Each drives every program x
+which gained probes that day. Each drives every program x
 medication x dose x pharmacy x GHK-Cu combination, 54 states, with the start
 date fixed at 2099-01-05 because both tools default to today. Negative-tested
 both halves: one sermorelin 300 Premier instruction changed from 30 to 31 units
