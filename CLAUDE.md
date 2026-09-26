@@ -388,10 +388,20 @@ think" block and its "Give feedback on this page" button, as its last section.
   `feedbackFooter()` below the body. It sits OUTSIDE the rendered body on
   purpose, so `artifact-signoff.js` does not mark signed pages stale for a
   button.
-- **Hand-built pages do NOT get it for free.** Add it by hand, and check.
-  As of 2026-09-26 four live patient tools lacked it:
-  `KORB_Functional_Health_Tracker.html`, `KORB_GLP1_Dose_Guide.html`,
-  `KORB_Patient_Treatment_Schedule.html`, `KORB_Testosterone_Tracker.html`.
+- **Hand-built pages load `korb-feedback.js`**, one tag as the last thing
+  before `</body>`: `<script src="korb-feedback.js" data-page="My Page Name">`.
+  It appends the footer as the last element of the page's `.wrap` column.
+  The Functional Health Tracker, GLP-1 Dose Guide, Treatment Schedule and
+  Testosterone Tracker gained it on 2026-09-26; before that none of them had
+  it. The hub writes its link out by hand, the one exception.
+- **`korb-feedback.js` is a SECOND copy of `shared.feedback`**, because loading
+  the 180KB patient data file for one button is wrong for a phone tool.
+  `node check-feedback.js` fails if the two differ, and fails if any page marked
+  **Yes** in the release table above has no button. It reads that table, so a
+  newly released page joins the check by being written into it. Negative-tested
+  both halves on 2026-09-26: removing the call from one generated page and the
+  tag from one tool each failed by name, a changed label failed by name, and
+  restoring all three passed at 30 of 30.
 - **Hidden in print.** It is a screen control.
 - **Provider pages: not decided.** Don was unsure on 2026-09-26. Do not add it
   to provider pages until he decides.
@@ -967,6 +977,9 @@ This repo has real self-checks. Use them, and prove they have teeth.
   the more interesting one: dropping CA from the Schedule III states reported STALE
   while still showing 46 blocks, which is the proof that the routing half has teeth
   and not merely the blocks.
+- `node check-feedback.js` — every released patient page ends with the feedback
+  button, and `korb-feedback.js` matches `shared.feedback`. Expect "all 30",
+  exit 0. See the house rule near the top of this file.
 - `node check-404.js` — `404.html` is deliberately self-contained, so it holds a
   SECOND copy of the contact details. This asserts they still match
   `shared.contact` in `korb-patient-ed-data.js`, that every url in it is
