@@ -330,6 +330,33 @@
        print disagreed. */
     .rxb-tbl td{font-family:var(--sans);}
   }
+
+  /* A WIDE TABLE SCROLLS INSIDE ITSELF ON A PHONE, NOT THE WHOLE PAGE.
+     Measured 2026-09-26 at a 375px viewport: 11 of the generated provider
+     references were wider than the screen - 482px on Foundation - so the whole
+     document scrolled sideways and every paragraph with it. The cause was
+     always a multi-column table: the Item / Amount / Charge code pricing
+     table, the five-column dose schedules, the lab panel, and .datatbl in the
+     clinical references. Five columns do not fit in 320px, and squeezing them
+     would break the charge codes, which are nowrap on purpose.
+
+     display:block turns the table element into a scroll box the width of the
+     column; its rows sit in an anonymous table inside it, so the table keeps
+     its columns and its zebra and only IT moves under a thumb. Screen and
+     phone width only, so the desktop page and the PDF are untouched. The
+     prescribing blocks are .rxb-tbl, not .grid, and are not affected.
+
+     The table fix alone left Foundation and Gateway at 417px. The last cause
+     was prose: a titration note ends in the 48-character data path
+     "programs.foundation.sermorelin500ExclusionReason.", one word with no
+     break in it. break-word splits a word only when it cannot fit on a line
+     by itself, so ordinary text wraps exactly as before, and it changes where
+     a line breaks, never what is copied. */
+  @media screen and (max-width:640px){
+    table.grid,table.datatbl{display:block;max-width:100%;overflow-x:auto;
+      -webkit-overflow-scrolling:touch;}
+    body{overflow-wrap:break-word;}
+  }
 /* Screen presentation. The rules above are shared with the PDF build. */
 @media screen {
   /* Layout only. FONT SIZES LIVE IN ONE PLACE, the @media screen block at the
