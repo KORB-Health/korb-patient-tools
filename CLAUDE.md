@@ -13,14 +13,17 @@ organization, so neither machine can reach the other. **GitHub is the only place
 two meet.** On 2026-09-23 a whole day's work was assumed to be in one repo and was
 checked for in the others, because nobody could say what had been pushed where.
 
-- **Start of every session:** pull all three repos (`C:\korb-clinical-docs`,
-  `C:\korb-patient-tools`, `C:\korb`) before changing anything, and say what came in.
+- **Start of every session:** pull all four repos (`C:\korb-clinical-docs`,
+  `C:\korb-patient-tools`, `C:\korb`, `C:\korb-governance`) before changing
+  anything, and say what came in.
 - **End of every session, and whenever Don says he is stopping, switching machines
-  or going to bed:** check all three with `git status`, commit what is uncommitted,
+  or going to bed:** check all four with `git status`, commit what is uncommitted,
   and push. Report each repo's final commit id so it can be checked from the other
   machine.
 - **`korb-clinical-docs` and `korb-licensing` are private:** commit and push them
   without asking.
+- **`korb-governance` is private, but commit and push only when Don asks**, as its
+  own `CLAUDE.md` says. It holds policies, SOPs, shared rules and the policy register.
 - **`korb-patient-tools` publishes to patients the moment it is pushed** (GitHub
   Pages). Say what will go live and push once Don agrees. Do not leave it unpushed
   at the end of a session without telling him.
