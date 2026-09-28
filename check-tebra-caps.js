@@ -40,6 +40,7 @@ const fs = require('fs');
 function load(f,g,ctx){new Function('exports','module',fs.readFileSync(f,'utf8')+'\n;this.OUT='+g+';').call(ctx,{},{});return ctx.OUT;}
 const PH = load('./korb-pharmacies.js','KORB_PHARMACIES',{});
 global.KORB_PHARMACIES = PH;
+global.KORB_CHARGES = require('./korb-charges.js');   // CommonJS, not a bare global
 const K = load('./korb-glp1-data.js','KORB_GLP1',{});
 if (K.hydrate) K.hydrate(PH);
 

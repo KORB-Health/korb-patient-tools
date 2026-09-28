@@ -86,6 +86,7 @@ function load(file, globalName, sandbox) {
 function loadAll() {
   const sandbox = {};
   global.KORB_PHARMACIES = load('korb-pharmacies.js', 'KORB_PHARMACIES', sandbox);
+  global.KORB_CHARGES = require('./korb-charges.js');   // CommonJS, not a bare global
   return {
     pharmacies: global.KORB_PHARMACIES,
     glp1: load('korb-glp1-data.js', 'KORB_GLP1', sandbox),

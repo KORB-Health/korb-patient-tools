@@ -5045,12 +5045,12 @@ var KORB_GLP1 = {
            and the charge code descriptions say so. Price and code are
            Nick's, carried in korb-charges.js and repeated here only
            because this is where a tier resolves its programme prices. */
-        twelveWeek: { price: 699, code: 'FITTirz12WkT1', pharmacies: ['premier'],
+        twelveWeek: { price: null, code: 'FITTirz12WkT1', pharmacies: ['premier'],
                       label: '12-week maintenance, Premier only' },
         appliesTo: 'Low doses — 2 / 2.5 / 4 / 4.5 / 5 mg depending on pharmacy',
-        fourWeek:    { price: 349, code: 'FITTirz002' },
+        fourWeek:    { price: null, code: 'FITTirz002' },
         eightWeek: {
-          price: 599,
+          price: null,
           /* Price is the same at every pharmacy. Only the code differs, because
              the code is what tells Ops whether a second fill has to be placed. */
           codes: {
@@ -5077,12 +5077,12 @@ var KORB_GLP1 = {
            and the charge code descriptions say so. Price and code are
            Nick's, carried in korb-charges.js and repeated here only
            because this is where a tier resolves its programme prices. */
-        twelveWeek: { price: 799, code: 'FITTirz12WkT2', pharmacies: ['premier'],
+        twelveWeek: { price: null, code: 'FITTirz12WkT2', pharmacies: ['premier'],
                       label: '12-week maintenance, Premier only' },
         appliesTo: 'Mid doses — 6.5 / 7.5 / 8.5 / 9 / 10 mg depending on pharmacy',
-        fourWeek:    { price: 399, code: 'FITTirz003' },
+        fourWeek:    { price: null, code: 'FITTirz003' },
         eightWeek: {
-          price: 649,
+          price: null,
           /* Price is the same at every pharmacy. Only the code differs, because
              the code is what tells Ops whether a second fill has to be placed. */
           codes: {
@@ -5109,12 +5109,12 @@ var KORB_GLP1 = {
            and the charge code descriptions say so. Price and code are
            Nick's, carried in korb-charges.js and repeated here only
            because this is where a tier resolves its programme prices. */
-        twelveWeek: { price: 949, code: 'FITTirz12WkT3', pharmacies: ['premier'],
+        twelveWeek: { price: null, code: 'FITTirz12WkT3', pharmacies: ['premier'],
                       label: '12-week maintenance, Premier only' },
         appliesTo: 'High doses — 12.5 / 13.5 / 15 / 16 mg depending on pharmacy',
-        fourWeek:    { price: 449, code: 'FITTirz004' },
+        fourWeek:    { price: null, code: 'FITTirz004' },
         eightWeek: {
-          price: 799,
+          price: null,
           /* Price is the same at every pharmacy. Only the code differs, because
              the code is what tells Ops whether a second fill has to be placed. */
           codes: {
@@ -5163,7 +5163,7 @@ var KORB_GLP1 = {
       fourWeek: {
         discountAppliesTo: '4-week only. There is no discounted rate on the 8-week program.',
         bands: [
-          { key: 'standard',   price: 269, code: 'FITSema001', label: 'Full price — website rate',
+          { key: 'standard',   price: null, code: 'FITSema001', label: 'Full price — website rate',
             note: 'KORB Get Fit Now Semaglutide Standard' },
           { key: 'discounted', price: 199, label: 'Discounted rate',
             eligibility: ['Corporate partners', 'Friends and family', 'Military'],
@@ -5187,15 +5187,15 @@ var KORB_GLP1 = {
         discountedRate: null,
         discountNote: 'No discounted rate on 12-week, the same as 8-week.',
         bands: [
-          { key: 'low',  price: 399, code: 'FITSema12WKL', mgMax: 0.6,
+          { key: 'low',  price: null, code: 'FITSema12WKL', mgMax: 0.6,
             label: '0.1 - 0.6 mg', doses: ['0.3 mg', '0.6 mg'] },
-          { key: 'high', price: 449, code: 'FITSema12WKH', mgMax: 2.7,
+          { key: 'high', price: null, code: 'FITSema12WKH', mgMax: 2.7,
             label: '1.0 - 2.7 mg', doses: ['1.2 mg', '1.8 mg', '2.7 mg'] }
         ]
       },
 
       eightWeek: {
-        price: 349,
+        price: null,                 // FITSemaMNT, from korb-charges.js
         label: 'All 8-week semaglutide, every patient, every pharmacy',
         discountedRate: null,
         discountNote: 'No discounted rate on 8-week. Corporate, friends and family, ' +
@@ -5259,8 +5259,8 @@ var KORB_GLP1 = {
           fourWeek: {
             discountAppliesTo: '4-week only. There is no discounted rate on the 8-week program.',
             bands: [
-              { key: 'standard',   price: 319, code: 'FITSema001MAX', label: 'Full price — website rate' },
-              { key: 'discounted', price: 249, code: 'FITSemaCP9MAX', label: 'Discounted rate',
+              { key: 'standard',   price: null, code: 'FITSema001MAX', label: 'Full price — website rate' },
+              { key: 'discounted', price: null, code: 'FITSemaCP9MAX', label: 'Discounted rate',
                 eligibility: ['Corporate partners', 'Friends and family', 'Military'],
                 uniform: true,
                 note: 'One rate across all three categories. No per-partner variation.' }
@@ -5269,10 +5269,10 @@ var KORB_GLP1 = {
                  At 4.5 and 6 mg there are exactly three codes and three prices. */
             ]
           },
-          twelveWeek: { price: 569, code: 'FITSema12wkMAX', pharmacies: ['premier'],
+          twelveWeek: { price: null, code: 'FITSema12wkMAX', pharmacies: ['premier'],
                         label: '12-week, 4.5 mg and 6 mg, Premier only' },
           eightWeek: {
-            price: 449,
+            price: null,
             label: '8-week, 4.5 mg and 6 mg, every patient',
             discountedRate: null,
             discountNote: 'No discounted rate on 8-week at 4.5 mg and 6 mg. Every patient ' +
@@ -5313,14 +5313,14 @@ var KORB_GLP1 = {
        quantities are correct as they stand and changing them would under- or
        over-supply the patient. */
     oral: {
-      semaglutide90:  { price: 299, code: 'FITSemOrl90'  },
-      semaglutide180: { price: 399, code: 'FITSemOrl180' },
-      tirzepatide90:  { price: 499, code: 'FITTirOrl90'  },
-      tirzepatide180: { price: 599, code: 'FITTirOrl180' }
+      semaglutide90:  { price: null, code: 'FITSemOrl90'  },
+      semaglutide180: { price: null, code: 'FITSemOrl180' },
+      tirzepatide90:  { price: null, code: 'FITTirOrl90'  },
+      tirzepatide180: { price: null, code: 'FITTirOrl180' }
     },
 
     brandName: {
-      prescriptionVisitFee: 79,
+      prescriptionVisitFee: null,   // FITGLP1001, from korb-charges.js
       sameFeeBothPrograms: true,
       programChoiceNote:
         'The visit fee is identical for the short and long program. The choice is ' +
@@ -5417,6 +5417,7 @@ var KORB_GLP1 = {
   // Oral pricing is keyed to the charge code, so look it up rather than storing
   // the figure on every dose. One code, one price, one place to change it.
   priceForCode: function (code) {
+    KORB_GLP1.requireCharges();
     if (!code) return null;
     var o = KORB_GLP1.pricing.oral;
     for (var k in o) {
@@ -5642,6 +5643,7 @@ var KORB_GLP1 = {
   },
 
   billingFor: function (productKey, program, doseLabel) {
+    KORB_GLP1.requireCharges();
     var p = KORB_GLP1.getProduct(productKey);
     if (!p) return null;
     var d = doseLabel ? KORB_GLP1.getDose(productKey, doseLabel) : p.doses[0];
@@ -5761,6 +5763,7 @@ var KORB_GLP1 = {
 
   // Price lookup for a tirzepatide dose by product + dose label.
   getTirzepatidePrice: function (productKey, doseLabel) {
+    KORB_GLP1.requireCharges();
     var d = KORB_GLP1.getDose(productKey, doseLabel);
     if (!d || !d.priceTier) return null;
     return KORB_GLP1.pricing.tirzepatideTiers[d.priceTier] || null;
@@ -5825,6 +5828,81 @@ var KORB_GLP1 = {
      which is the failure this repo keeps re-learning to make loud.
      ========================================================================== */
   hydrated: false,
+
+  /* ---- PRICES COME FROM korb-charges.js --------------------------------
+     A price is Finance's number. It is typed in Nick's workbook, pulled by
+     build-charges.py into korb-charges.js, and filled in here at load. It is
+     NOT typed in this file, for exactly the reason state lists are not: two
+     copies of one fact drift, and on 2026-09-28 two copies of three
+     tirzepatide prices had been $50 apart long enough that nobody knew which
+     one Tebra was billing.
+
+     Every price this file used to carry is now null in source and is filled
+     from the charge code beside it. A price read before korb-charges.js has
+     loaded THROWS by name - it does not return null. A null price rendered on
+     a provider document is a blank where a number should be, and blanks get
+     filled in by hand.
+
+     WHAT IS NOT HYDRATED, and why. pricing.semaglutide.fourWeek.bands[1], the
+     $199 discounted rate, has no charge code at all - chargeCodePolicy says
+     Operations supplies one per arrangement. Nothing in the workbook can
+     resolve it, so it stays typed and says so.
+
+     PATIENT PAGES DO NOT NEED korb-charges.js. 25 of them load this file for
+     clinical prose and never ask for a price, so they never trip the guard.
+     That is deliberate: patient pages must not carry pricing at all, and if
+     one ever starts asking, it throws rather than quietly printing a number. */
+  chargesHydrated: false,
+
+  chargeCodeFor: function (o) {
+    if (!o || typeof o !== 'object') return null;
+    if (typeof o.code === 'string') return o.code;
+    if (typeof o.chargeCode === 'string') return o.chargeCode;
+    if (o.codes && o.codes.standard && typeof o.codes.standard.code === 'string') {
+      return o.codes.standard.code;
+    }
+    return null;
+  },
+
+  hydrateCharges: function (CH) {
+    if (!CH || !CH.codes) throw new Error(
+      'korb-glp1-data.js: korb-charges.js must be loaded first.');
+    var self = this, filled = 0, missing = [];
+    (function walk(o) {
+      if (!o || typeof o !== 'object') return;
+      if (Object.prototype.toString.call(o) === '[object Array]') {
+        o.forEach(walk);
+        return;
+      }
+      if (o.price === null) {
+        var code = self.chargeCodeFor(o);
+        if (code && CH.has(code)) { o.price = CH.priceFor(code); filled++; }
+        else if (code) { missing.push(code); }
+      }
+      Object.keys(o).forEach(function (k) { walk(o[k]); });
+    }(this.pricing));
+    if (this.pricing.brandName && this.pricing.brandName.prescriptionVisitFee === null) {
+      var bc = this.pricing.brandName.billingCode;
+      if (bc && CH.has(bc)) {
+        this.pricing.brandName.prescriptionVisitFee = CH.priceFor(bc);
+        filled++;
+      } else if (bc) { missing.push(bc); }
+    }
+    if (missing.length) throw new Error(
+      'korb-glp1-data.js: korb-charges.js has no price for ' + missing.join(', ') +
+      '. Regenerate it from the workbook: python build-charges.py <workbook.xlsx>');
+    this.chargesHydrated = true;
+    this.chargesFilled = filled;
+    this.chargesSource = (CH.meta && CH.meta.source) || null;
+    return this;
+  },
+
+  requireCharges: function () {
+    if (!this.chargesHydrated) throw new Error(
+      'korb-glp1-data.js: a price was asked for before korb-charges.js was ' +
+      'loaded. Add <script src="korb-charges.js"></script> BEFORE this file. ' +
+      'Prices are not typed here - they come from Nick\u2019s workbook.');
+  },
 
   hydrate: function (PH) {
     if (!PH || !PH.pharmacies) throw new Error(
@@ -6425,3 +6503,10 @@ if (typeof module !== 'undefined' && module.exports) { module.exports = KORB_GLP
    end so the object is complete first. A page that loads them the other way
    round still works: the first routing call throws with instructions. */
 if (typeof KORB_PHARMACIES !== 'undefined') { KORB_GLP1.hydrate(KORB_PHARMACIES); }
+
+/* Same for prices. korb-charges.js is OPTIONAL at load and required only
+   when a price is actually read, which is what lets the 25 patient pages go
+   on loading this file for clinical prose without carrying Finance's charge
+   codes. A provider page that forgets the tag does not render a blank price -
+   requireCharges() throws and names the tag it is missing. */
+if (typeof KORB_CHARGES !== 'undefined') { KORB_GLP1.hydrateCharges(KORB_CHARGES); }

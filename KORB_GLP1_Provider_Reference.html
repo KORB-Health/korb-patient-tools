@@ -234,6 +234,10 @@
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
 <script src="korb-pharmacies.js"></script>
+<!-- korb-charges.js carries the prices. It must load BEFORE the data file:
+     this page calls billingFor and reads pricing.* directly, and without it
+     every price is null - a blank where a number belongs, not an error. -->
+<script src="korb-charges.js"></script>
 <script src="korb-glp1-data.js"></script>
 <script>
 /* ============================================================

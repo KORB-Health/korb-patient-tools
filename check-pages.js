@@ -37,11 +37,40 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 
 /* module -> the globals-providing files it must be preceded by */
+/* Pages that RENDER a price and therefore must load korb-charges.js before
+   korb-glp1-data.js. Found by sweeping every page that loads the data file in
+   a real browser and by grepping for the price accessors, not by guessing:
+   KORB_GLP1_Provider_Reference.html reads pricing.* directly and would render
+   blanks rather than throw, which is the quieter and worse failure. The 10
+   generated monographs get the tag from build-provider-docs.js. Add a page
+   here the moment it starts showing a price. */
+const PRICE_PAGES = [
+  'KORB_GLP1_Provider_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Belmar_Semaglutide_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Belmar_Tirzepatide_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Brand_Foundayo_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Brand_Wegovy_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Brand_Zepbound_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Farmakeio_Semaglutide_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Farmakeio_Tirzepatide_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Premier_Semaglutide_Glycine_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Premier_Semaglutide_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Premier_Tirzepatide_Reference.html'
+];
+
 const NEEDS = {
   /* Data files. Since open items 3 and 4 both program files take their pharmacy
      footprints from korb-pharmacies.js at load. A page that loads a data file
      without it gets empty footprints, which reads as "this pharmacy ships
      nowhere" and routes every patient to the fallback. */
+  /* korb-charges.js is NOT listed here, deliberately, and that is a judgement
+     rather than an omission. It carries the PRICES, and a price is only needed
+     by a page that shows one. 25 patient-education pages load korb-glp1-data.js
+     for clinical prose and must never carry pricing at all, so requiring it
+     file-wide would push Finance's charge codes onto every patient page to fix
+     a problem those pages do not have. Instead korb-glp1-data.js throws by name
+     the first time a price is READ without it - see requireCharges - and the
+     pages that show prices are checked by name in PRICE_PAGES below. */
   'korb-glp1-data.js': ['korb-pharmacies.js'],
   'korb-dosing-data.js': ['korb-pharmacies.js'],
   'korb-mens-data.js': ['korb-pharmacies.js'],
@@ -75,6 +104,7 @@ function main() {
 
   const problems = [];
   let checked = 0;
+  let priceChecked = 0;
 
   files.forEach(function (f) {
     const html = fs.readFileSync(f, 'utf8');
@@ -94,6 +124,29 @@ function main() {
         }
       });
     });
+
+    /* A page that SHOWS a price must load korb-charges.js before the data file.
+       Checked by name rather than through NEEDS, so the 25 patient pages that
+       load the data file for prose are not dragged into carrying charge codes.
+       Both halves matter: the tag must be there, and it must come first. */
+    if (PRICE_PAGES.indexOf(f) !== -1) {
+      priceChecked++;
+      const chAt = srcs.indexOf('korb-charges.js');
+      const dataAt = srcs.indexOf('korb-glp1-data.js');
+      if (chAt === -1) {
+        problems.push(f + ': renders a price but never loads korb-charges.js - ' +
+                      'every price would be null');
+      } else if (dataAt !== -1 && chAt > dataAt) {
+        problems.push(f + ': loads korb-charges.js AFTER korb-glp1-data.js; ' +
+                      'it must come first');
+      }
+    }
+  });
+
+  PRICE_PAGES.forEach(function (pp) {
+    if (files.map(function (f) { return f; }).indexOf(pp) === -1) {
+      problems.push('PRICE_PAGES names ' + pp + ' but no such tracked page exists');
+    }
   });
 
   if (problems.length) {
@@ -106,6 +159,8 @@ function main() {
 
   console.log('Page check: ' + checked + ' module load(s) across ' + files.length +
               ' page(s), every dependency present and in order.');
+  console.log('Price check: ' + priceChecked + ' of ' + PRICE_PAGES.length +
+              ' price-rendering page(s) load korb-charges.js first.');
 }
 
 main();

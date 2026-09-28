@@ -45,6 +45,7 @@ const AUDIT = require('./dose-audit.js');
 const REPO = __dirname;
 const OUT = path.join(REPO, 'Provider_Reference', 'GLP1');
 const PH_REL   = '../../korb-pharmacies.js';   // MUST load before the data file
+const CH_REL   = '../../korb-charges.js';      // MUST load before the data file - prices
 const DATA_REL = '../../korb-glp1-data.js';
 const RXB_REL = '../../korb-rx-block.js';
 const REND_REL = '../../provider-doc-render.js';
@@ -59,6 +60,13 @@ const K = (function () {
   const phSrc = fs.readFileSync(path.join(REPO, 'korb-pharmacies.js'), 'utf8');
   new Function('exports', 'module', phSrc + '\n;this.KORB_PHARMACIES = KORB_PHARMACIES;').call(sandbox, {}, {});
   global.KORB_PHARMACIES = sandbox.KORB_PHARMACIES;
+
+  /* Prices are not typed in the data file; they come from korb-charges.js,
+     which build-charges.py generates from Nick's workbook. On the global
+     before the data file loads, exactly like the pharmacies above. It is a
+     CommonJS module rather than a bare global like korb-pharmacies.js, so
+     require reads it rather than the sandbox above. */
+  global.KORB_CHARGES = require(path.join(REPO, 'korb-charges.js'));
 
   const src = fs.readFileSync(path.join(REPO, 'korb-glp1-data.js'), 'utf8');
   new Function('exports', 'module', src + '\n;this.KORB_GLP1 = KORB_GLP1;').call(sandbox, {}, {});
@@ -127,6 +135,7 @@ ${R.CSS}
 <body>
 <p>Loading…</p>
 <script src="${PH_REL}"></script>
+<script src="${CH_REL}"></script>
 <script src="${DATA_REL}"></script>
 <script src="${RXB_REL}"></script>
 <script src="${REND_REL}"></script>
