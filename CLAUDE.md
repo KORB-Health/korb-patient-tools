@@ -721,6 +721,7 @@ Run all of them **from the repo root**.
 | `build-signoff-sheet.js` | `korb-glp1-data.js` | monograph clinical sign-off sheet |
 | `build-addon-signoff.js` | `korb-addons-data.js` | add-on sign-off sheet |
 | `build-intake-spec.py` | `KORB_Scheduler_Intake_Prototype.html` | `KORB_Scheduler_Intake_Logic_Spec.xlsx` (vendor spec) |
+| `build-charges.py` | Nick's KORB x TEBRA workbook (.xlsx) | `korb-charges.js` - codes and prices only |
 | `check-pages.js` | every tracked `.html` | nothing - exits 1 if a generated page cannot run |
 
 The list of GLP-1 documents is **not** in `build-provider-docs.js`. It is `DOCS` in
@@ -988,6 +989,19 @@ This repo has real self-checks. Use them, and prove they have teeth.
   the more interesting one: dropping CA from the Schedule III states reported STALE
   while still showing 46 blocks, which is the proof that the routing half has teeth
   and not merely the blocks.
+- `python build-charges.py <workbook.xlsx> --check` — the charge codes and
+  prices in `korb-charges.js` still match Nick's workbook. Exits 1 on drift, on
+  a code that has VANISHED from the sheet (Nick deletes retired rows rather than
+  striking them through, so a disappearance is the retirement signal), and on
+  the two blocks of `Charge Codes_Master` disagreeing with each other. Negative
+  -tested 13 ways on 2026-09-28. **It needs the workbook, which means a human
+  or a connector fetches it first** — there is no credential in this repo and
+  there should not be, because the repo is public.
+  **IT PULLS CODES AND PRICES AND NOTHING ELSE.** The grouping allow-list drops
+  TPA, Employee and Employer Paid, the whole Corporate Partner tab — 133 named
+  organisations and their negotiated rates — and four rows inside allowed
+  groupings that name AISD, HISD, NISD or InShape/Fitness19. Those are
+  contracts and this repo is served to anyone with the URL.
 - `node check-feedback.js` — every released patient page ends with the feedback
   button, and `korb-feedback.js` matches `shared.feedback`. Expect "all 30",
   exit 0. See the house rule near the top of this file.
