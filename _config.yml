@@ -1,0 +1,9 @@
+# GitHub Pages (Jekyll) settings. Added 2026-09-28.
+#
+# Pages renders every .md file in this repo as a web page, and with no
+# index.html it makes README.md the home page. These two are notes for people
+# working in the repo, not pages for patients, so they are left off the site.
+# They are still readable on GitHub, since the repo is public.
+exclude:
+  - README.md
+  - CLAUDE.md

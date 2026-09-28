@@ -136,8 +136,9 @@ to check a single document against, which is the whole reason this table exists.
 | `KORB_Scheduler_Intake_Prototype.html` | **No.** Frozen for Lindsay's review. Do not modify |
 | `KORB_Scheduler_Intake_AllPrograms.html` | **No.** In build. Not a patient link yet |
 | `404.html` | **Served**, 2026-09-21. Not a link anyone is sent - GitHub Pages shows it for any missing path |
+| `index.html` | **Served**, 2026-09-28. Redirect from the bare site address to the hub. Holds no content. It also keeps GitHub Pages from promoting `README.md` to the home page; `_config.yml` excludes `README.md` and `CLAUDE.md` from the site as well |
 
-37 rows: 35 published pages, 1 PDF and the 404 page. If a file exists and is not on this list, the
+38 rows: 35 published pages, 1 PDF, the 404 page and the index redirect. If a file exists and is not on this list, the
 list is wrong, not the file.
 
 ---
