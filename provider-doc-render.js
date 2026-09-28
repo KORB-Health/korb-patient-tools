@@ -653,7 +653,7 @@ function sectionRx(doc) {
        as a fallback. */
     const supplyKeys = (p.dispensing && p.dispensing.length)
       ? p.dispensing.map(x => x.key)
-      : ['supply4', 'supply8', 'rx'];
+      : ['supply4', 'supply8', 'supply12', 'rx'];
     const recs = [];
     (p.doses || []).forEach(d => {
       supplyKeys.forEach(sk => {
@@ -662,8 +662,15 @@ function sectionRx(doc) {
       /* Anything on the dose that looks like a supply record but is not in the
          dispensing list would otherwise vanish. Surface it rather than drop it. */
       Object.keys(d).forEach(k => {
+        /* name OR label. This tested label only until 2026-09-28, which is
+           the hole supply12 fell through: a BRAND supply record carries
+           label, a COMPOUNDED one carries name, and the net was written
+           against the brand shape. The 18 Premier supply12 records were
+           dropped in silence - the caps gate went on reporting the same
+           683 values across 17 documents with 18 new sigs in the data.
+           A net that only catches one of the two shapes is not a net. */
         if (/^(supply\d+|rx\w*)$/.test(k) && supplyKeys.indexOf(k) === -1 &&
-            d[k] && typeof d[k] === 'object' && d[k].label) {
+            d[k] && typeof d[k] === 'object' && (d[k].label || d[k].name)) {
           recs.push({ d, r: d[k], sk: k });
         }
       });
@@ -695,7 +702,8 @@ function sectionRx(doc) {
        The repetition that IS worth collapsing is counselling and monitoring,
        which is a property of the medication rather than the dose. See
        sectionClinical() in fhl-doc-render.js. */
-    const LABEL = { supply4: '4-week', supply8: '8-week', rx: '90-day',
+    const LABEL = { supply4: '4-week', supply8: '8-week', supply12: '12-week',
+                    rx: '90-day',
                     rx4: '4-week', rx8: '8-week', rx12: '12-week',
                     rx30: '30-day', rx60: '60-day', rx90: '90-day' };
 
@@ -809,12 +817,20 @@ function sectionBrandRules(doc) {
 function sectionLadder(doc) {
   const p = K.getProduct(doc.products[0]);
   if (!p || !p.doses || !p.doses[0] || !p.doses[0].supply4) return '';
+  /* The 12-week column appears only on a product that HAS a 12-week program.
+     Premier does; Belmar and FarmaKeio do not, and printing them an empty
+     column would read as a program they could offer and have not been given
+     vial counts for. Don found this table showing 4-week and 8-week only
+     after the 12-week records landed, 2026-09-28. */
+  const has12 = p.doses.some(d => d.vials12);
   return `<h2>Vials dispensed</h2><table class="grid">
-    <thead><tr><th>Dose</th><th>Units</th><th>Concentration</th><th>4-week</th><th>8-week</th></tr></thead>
+    <thead><tr><th>Dose</th><th>Units</th><th>Concentration</th><th>4-week</th><th>8-week</th>${
+      has12 ? '<th>12-week</th>' : ''}</tr></thead>
     <tbody>${p.doses.map(d => `<tr>
       <td>${esc(d.dose)}</td><td>${d.units != null ? esc(d.units) + ' units' : '—'}</td>
       <td>${esc(d.conc || p.formulation)}</td>
-      <td>${esc(d.vials4 || '—')}</td><td>${esc(d.vials8 || '—')}</td></tr>`).join('')}
+      <td>${esc(d.vials4 || '—')}</td><td>${esc(d.vials8 || '—')}</td>${
+      has12 ? `<td>${esc(d.vials12 || '—')}</td>` : ''}</tr>`).join('')}
     </tbody></table>`;
 }
 

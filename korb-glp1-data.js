@@ -179,11 +179,22 @@ var KORB_GLP1 = {
       "glp1:premier_glycine": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-15",
-        "dataVersion": "2.22",
-        "fingerprint": "fp-3ae3d14d-25992",
-        "blocks": 10,
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        "date": "2026-09-28",
+        "dataVersion": "2.25",
+        "fingerprint": "fp-383465dc-39224",
+        "blocks": 15,
+        "document": "Premier — Semaglutide with Glycine",
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Re-signed after the 12-week Premier programme was added, 2026-09-28. FIVE new blocks. The 12-week sigs drop the \"Maintenance - \" prefix the 8-week sigs keep: with the syringe pack count they ran to 151 of 140 characters, and a 12-week fill cannot be an escalation fill, so the prefix says nothing the record does not. ALSO A CORRECTION TO THE 8-WEEK: 1.8 mg quantity 5 to 6, and six 1 ml vials rather than five. Premier ships six - it multiplies the 4-week pack rather than filling to need - so the 5 in this file was asking for something they do not send. It was the only dose in the file whose 8-week quantity was not exactly double its 4-week. Don caught it on the rendered vial table and approved the change 2026-09-28: \"they said that they actually send out 6 vials instead of 5 ... Let us go ahead and change that to 3, 6, and 9.\"",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-15",
+          "dataVersion": "2.22",
+          "fingerprint": "fp-3ae3d14d-25992",
+          "blocks": 10,
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        }
       },
       "glp1:farmakeio_sema": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -206,11 +217,22 @@ var KORB_GLP1 = {
       "glp1:premier_tirz": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-15",
-        "dataVersion": "2.22",
-        "fingerprint": "fp-038c8b92-34975",
-        "blocks": 14,
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        "date": "2026-09-28",
+        "dataVersion": "2.25",
+        "fingerprint": "fp-abc0131e-50359",
+        "blocks": 20,
+        "document": "Premier — Tirzepatide",
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Re-signed after the 12-week Premier programme was added, 2026-09-28. SIX new blocks, one per dose. No sig on this document carried a syringe pack count before, so all six gained one. Separately, 13.5 mg vials8 moved from \"2 ml x 3\" to \"1 ml x 2 & 2 ml x 2\" - the same 6 ml, now the 4-week pack doubled, because the old string implied a consolidation Premier does not do. That is a vial-table value rather than a prescribing field, so it did not itself move this fingerprint. Every Premier dose now reads 1x / 2x / 3x across the three programmes, verified as quantity and as vial millilitres. Don approved 2026-09-28.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-15",
+          "dataVersion": "2.22",
+          "fingerprint": "fp-038c8b92-34975",
+          "blocks": 14,
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        }
       },
       "glp1:belmar_sema": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -233,23 +255,34 @@ var KORB_GLP1 = {
       "glp1:premier_sema": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "dataVersion": "2.24",
-        "fingerprint": "fp-e0fbc8d1-40146",
-        "blocks": 16,
+        "date": "2026-09-28",
+        "dataVersion": "2.25",
+        "fingerprint": "fp-073778e7-58056",
+        "blocks": 23,
         "document": "Premier \u2014 Semaglutide",
         "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-        "note": "Re-signed after 4.5 mg and 6 mg were added, per Kelby Wilson's vial table of 2026-09-22: four new blocks, the MAX charge codes (FITSema001MAX, FITSemaCP9MAX, FITSemaMNTMAX; prices are held by Operations per costPolicy), and both 8-week sigs opening with \"(Include two packs of insulin syringes)\". Don reviewed on the live site and approved 2026-09-23: \"they look good. go ahead and sign off on them for me now. Good to go\".",
+        "note": "Re-signed after the 12-week Premier programme was added, 2026-09-28. SEVEN new blocks, one per dose: quantity three times the 4-week, days 84, refill 0, single shipment. The two 8-WEEK sigs were also reworded, from \"(Include two packs of insulin syringes)\" to \"(Include two syringe packs)\" - at twelve weeks even a one-syringe dose needs two packs, so every 12-week sig carries a pack count and the longer wording would not fit 140 characters. One wording across Premier; Belmar keeps its own, placed at the end of the sig by its recorded instruction. Don read the rendered page and found three defects that were fixed before he signed: the 12-week price rows named one dose instead of the mg range, Vials dispensed had no 12-week column, and Before you prescribe still said Premier offers 4-week and 8-week only. Approved 2026-09-28: \"these three monograms look good ... Go ahead and sign off on those now.\"",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-15",
-          "dataVersion": "2.22",
-          "fingerprint": "fp-bd2c8d83-29998",
-          "blocks": 12,
+          "date": "2026-09-23",
+          "dataVersion": "2.24",
+          "fingerprint": "fp-e0fbc8d1-40146",
+          "blocks": 16,
           "document": "Premier \u2014 Semaglutide",
           "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-          "note": "Approved 2026-09-15 after reviewing branding, typeface and block format: \"This one is great.\""
+          "note": "Re-signed after 4.5 mg and 6 mg were added, per Kelby Wilson's vial table of 2026-09-22: four new blocks, the MAX charge codes (FITSema001MAX, FITSemaCP9MAX, FITSemaMNTMAX; prices are held by Operations per costPolicy), and both 8-week sigs opening with \"(Include two packs of insulin syringes)\". Don reviewed on the live site and approved 2026-09-23: \"they look good. go ahead and sign off on them for me now. Good to go\".",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-15",
+            "dataVersion": "2.22",
+            "fingerprint": "fp-bd2c8d83-29998",
+            "blocks": 12,
+            "document": "Premier \u2014 Semaglutide",
+            "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+            "note": "Approved 2026-09-15 after reviewing branding, typeface and block format: \"This one is great.\""
+          }
         }
       },
       "glp1:zepbound": {
@@ -328,7 +361,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.24',
+    version: '2.25',
     created: '2026-08-06',
     lastUpdated: '2026-09-23',
     owner: 'Director of Clinical Operations',
@@ -348,6 +381,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-09-28 (v2.25): NEW PROGRAMME. 12-WEEK, PREMIER ONLY. supply12 on all 18 Premier dose records - 7 semaglutide, 5 glycine, 6 tirzepatide. Don, 2026-09-28: all 84 days in ONE shipment, so quantity is three times the 4-week, days 84, refill 0. Deliberately NOT the brand rx12 shape of 28 days with two refills, which also exists in this file. BUD IS THE RISK AND IT IS NEW. 12 weekly doses fall on days 0 to 77, against a 90-day beyond-use date, so only 13 days separate the start of the BUD clock from the first injection - transit included. acceptedLimitations PREMIER-12WK-BUD-WINDOW, severity high: counsel a prompt start, and put a patient who cannot start promptly on 8-week instead. It is counselling and not sig text because Patient Instructions caps at 140. Don confirmed the same day that the 90 days runs from COMPOUNDING, not dispensing, and that Premier takes 3 to 5 days from compounding to dispatch - so 8 to 10 of the 13 days remain when the box ships, and transit comes out of those. Counselling is therefore to start WITHIN 5 DAYS of delivery. The numbers are in that entry’s budMath as numbers. Transit itself is still unconfirmed and is the only remaining unknown. SYRINGE WORDING CHANGED ON PREMIER ONLY. At 12 weeks even a one-syringe dose needs 12 syringes, which is 2 packs, so every 12-week sig carries a pack count where only 4.5 mg and 6 mg did at 8 weeks. "(Include two packs of insulin syringes)" would not fit, so Premier now reads "(Include two syringe packs)" on 8-week and 12-week alike - one wording across Premier. BELMAR IS DELIBERATELY UNTOUCHED: its 22 sigs place the phrase at the END by a recorded Belmar instruction, it has no 12-week programme and no character pressure. The glycine 12-week sigs also drop the "Maintenance - " prefix, which does not fit and says nothing a 12-week fill does not already say; the 8-week glycine sigs keep it. Worst sig is 137 of 140. PRICING: pricing.semaglutide.twelveWeek is BANDED by dose where 8-week is flat - low $399 FITSema12WKL, high $449 FITSema12WKH, and doseBands.max.twelveWeek $569 FITSema12wkMAX - plus tirzepatideTiers T1A/T2A/T3A twelveWeek at $699/$799/$949. Every figure is Nick’s, verified the same day against the live workbook and carried in korb-charges.js. TWO 8-WEEK RECORDS CORRECTED, both Premier, both from Don on 2026-09-28 after reading the rendered vial tables. premier_sema_glycine 1.8 mg 8-week quantity 5 to 6 and vials8 five vials to six: Premier ships six, it multiplies the 4-week pack rather than filling to need, and five was a prescription for something they do not send. It was the only dose in the file whose 8-week quantity was not exactly double its 4-week, which is what made the 12-week derivation look wrong when it was the 8-week that was. premier_tirz 13.5 mg vials8 from \u201c2 ml x 3\u201d to \u201c1 ml x 2 & 2 ml x 2\u201d - the same 6 ml, the 4-week pack doubled, no quantity change. Every Premier dose now reads 1x / 2x / 3x across the three programmes. THREE RENDERING DEFECTS, also Don, also from the rendered page: the 12-week price rows were labelled with one dose instead of the mg range and now carry it; Vials dispensed gained a 12-week column, on products that have a 12-week programme only; and Before you prescribe said Premier offers 4-week and 8-week, and now names the 12-week option and carries the start-within-5-days counselling. vials12 is on all 18 Premier doses and every one reconciles to its supply12 quantity in millilitres. No price or charge code changed. Don Stevenson, PA-C, 2026-09-28.',
       '2026-09-23 (v2.24): NEW DOSES. Premier semaglutide 4.5 mg (150 units) and 6 mg (200 units) weekly, 4-week and 8-week. Vial combinations are Kelby Wilson\'s, Premier PIC, by email 2026-09-22, and Don ruled that table the source of truth: 4.5 mg is 3.6 ml + 2.4 ml per four weeks, 6 mg is one 2 ml vial per dose. 4.5 mg does not divide into its vials, so the fourth dose of every four weeks is the leftover of both - recorded as acceptedLimitations PREMIER-SEMA-45-CROSS-VIAL, whose mitigation is the counselling a provider gives and whose requiresSigText keeps the 28-day line on the sig. The leftover step is NOT in the sig, matching every other cross-vial dose in this file. NEW PRICE BAND, Nick 2026-09-21: pricing.semaglutide.doseBands.max, 4-week $319 FITSema001MAX website and $249 FITSemaCP9MAX discounted, 8-week $449 FITSemaMNTMAX, reached from a dose through priceBand. No existing dose, sig, price or code changed. Same day, Don: the two 8-WEEK sigs open with "(Include two packs of insulin syringes)" - both doses are over 100 units, so two syringes a dose and 16 over 8 weeks, the same reasoning as Belmar tirzepatide in v2.23. Placed at the FRONT at Don\'s direction; 138 and 136 of 140 characters. Don Stevenson, PA-C, 2026-09-23.',
       '2026-09-20 (v2.23): SUPPLY CHANGE, NO DOSE OR ROUTING CHANGE. Belmar tirzepatide 12.5 mg and 15 mg now ask for TWO packs of insulin syringes on the 8-WEEK supply only. Belmar is 10 mg/mL, so those two doses are 1.25 mL and 1.5 mL - over a 1 mL syringe, so each dose is two injections. At two syringes a dose the 4-week supply needs 8 and fits one pack; the 8-week needs 16 and does not. They are the only doses over 100 units in ANY Belmar product, so semaglutide is unaffected, and Premier and FarmaKeio tirzepatide are 18 mg/mL whose top doses are 89 and 83 units - one syringe throughout. 10 mg is deliberately LEFT at one pack: it is exactly 100 units, one full syringe, and splitting it would make a patient give two shots and KORB buy a second pack. Don Stevenson, PA-C, 2026-09-20.',
       '2026-09-15 (v2.22): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing sign-off register, plus rx-signoff.js which reports and computes it. Nothing on the 10 GLP-1 documents had ever been signed: the monograph records date from 2026-09-06 and correctly still read current, because the monograph had not changed - but the prescribing blocks corrected over 13-15 September were covered by no record at all. The monograph fingerprint in korb-glp1-data.js is untouched and stays separate: it covers clinical writing, this covers the Tebra fields and charge codes, and merging them would mean a hyphen fix in a sig expiring a contraindication sign-off. Records hold a fingerprint of the document as signed rather than a boolean, so a change after sign-off shows as STALE instead of being invisible.',
@@ -967,7 +1001,7 @@ var KORB_GLP1 = {
       decidedOn: '2026-09-23',
       appliesTo: ['premier_sema'],
       doses: ['4.5 mg'],
-      programs: ['4-week', '8-week'],
+      programs: ['4-week', '8-week', '12-week'],
       issue: '4.5 mg is 1.5 ml a week, and Premier fills four weeks as one 3.6 ml ' +
              'vial and one 2.4 ml vial. Neither holds a whole number of doses: the ' +
              '3.6 ml vial gives two doses with 0.6 ml left and the 2.4 ml vial gives ' +
@@ -1079,12 +1113,89 @@ var KORB_GLP1 = {
                  'Then vialConstraints.maxDosesPerVial and every vialPlan derived from ' +
                  'it need revisiting. A verbal answer is not enough to move a patient- ' +
                  'facing in-use limit.'
+    },
+
+    {
+      id: 'PREMIER-12WK-BUD-WINDOW',
+      severity: 'high',
+      status: 'accepted',
+      decidedBy: 'Don',
+      decidedOn: '2026-09-28',
+      appliesTo: ['premier_sema', 'premier_sema_glycine', 'premier_tirz'],
+      doses: ['all'],
+      programs: ['12-week'],
+      issue: 'The 12-week programme ships all 84 days in ONE shipment, and the ' +
+             'compounded preparation carries a 90-day beyond-use date. Twelve weekly ' +
+             'doses fall on days 0 through 77 of treatment, so the LAST dose is drawn ' +
+             '77 days after the patient starts. That leaves only 13 days between the ' +
+             'start of the BUD clock and the first injection, and shipping transit ' +
+             'comes out of those 13, and so does any time the box spends at Premier ' +
+             'between compounding and dispatch - Don confirmed on 2026-09-28 that the ' +
+             '90 days runs from COMPOUNDING, not from dispensing. The patient cannot ' +
+             'see any of that: they receive a box on a day they did not choose, with ' +
+             'a clock that started before it was packed. A patient who sets it aside ' +
+             'for two weeks ' +
+             'is injecting past the beyond-use date by the end of the programme, and ' +
+             'nothing on the label will tell them at the time. No other programme in ' +
+             'this file has this problem: 4-week and 8-week finish far inside 90 days ' +
+             'however long the patient waits.',
+      decision: 'Offer the 12-week programme, and make the start date part of the ' +
+                'counselling rather than a detail. Don, 2026-09-28. The supply is one ' +
+                'shipment by Premier’s design, so the exposure cannot be removed ' +
+                'by splitting the fill - it can only be managed at the point the ' +
+                'patient receives the box.',
+      mitigation: 'Counsel every 12-week patient to start WITHIN 5 DAYS of delivery, ' +
+                  'and to tell KORB if they cannot. Five days, not “soon”, and ' +
+                  'not the week this said before Don gave the lag on 2026-09-28: the ' +
+                  'clock starts at COMPOUNDING, Premier uses 3 to 5 of the 13 days ' +
+                  'before it ships, and transit comes out of the 8 to 10 that are ' +
+                  'left. Neither the patient nor the provider can see how much has ' +
+                  'already gone. Do not offer the ' +
+                  '12-week programme to a patient who is travelling, between ' +
+                  'addresses, or otherwise unlikely to start promptly - put them on ' +
+                  '8-week instead. The per-vial rule is unchanged and additional: a ' +
+                  'vial is discarded 28 days after ITS first use, so a patient must ' +
+                  'not open a later vial early. The BUD governs the whole box; the ' +
+                  '28-day rule governs each vial once opened.',
+      /* The 28-day line stays on every sig, same as the cross-vial doses. The
+         BUD sentence does NOT go on the sig - Patient Instructions is capped at
+         140 and the 8-week max-dose sigs already sit at 138 and 136 of 140, so
+         there is no room and never will be. It is counselling, like the
+         cross-vial step. */
+      requiresSigText: 'Discard 28 days after first use.',
+      patientUsesLeftover: false,
+      /* The numbers, as numbers. Prose above explains them; a tool should not
+         have to parse a sentence to work out how much slack a patient has. */
+      budMath: {
+        budDays: 90,
+        budRunsFrom: 'compounding',
+        budRunsFromSetBy: 'Don, 2026-09-28',
+        lastDoseDayOfTreatment: 77,
+        daysFromBudStartToFirstDose: 13,
+        premierCompoundToDispatchDays: [3, 5],
+        premierLagSetBy: 'Don, 2026-09-28',
+        daysRemainingAtDispatch: [8, 10],
+        transitDays: null,
+        transitNote: 'NOT CONFIRMED. Transit comes out of the 8 to 10 days left at ' +
+                     'dispatch. The counselling figure below is safe for transit of ' +
+                     'up to 3 days at the worst lag; confirm transit with Premier to ' +
+                     'relax it, and do not shorten it on an assumption.',
+        counselStartWithinDaysOfDelivery: 5
+      },
+      opsNote: 'A 12-week patient asking to delay the start, or reporting they were ' +
+               'away when it arrived, is a clinical call and not a scheduling one. ' +
+               'Route it to the provider rather than confirming the delay.',
+      revisitIf: 'Premier states the BUD in writing and it is not 90 days, or its ' +
+                 'compounding-to-dispatch lag moves off the 3 to 5 days Don gave on ' +
+                 '2026-09-28. TRANSIT IS STILL UNCONFIRMED and is the remaining ' +
+                 'unknown: 5 days is safe for transit up to 3 at the worst lag, and ' +
+                 'a confirmed faster transit would relax it. Worth asking Premier ' +
+                 'that 12-week orders not be compounded ahead of dispatch, which ' +
+                 'removes most of this on its own.'
     }
   ],
 
   needsConfirmation: [
-
-
   ],
 
 
@@ -1194,7 +1305,16 @@ var KORB_GLP1 = {
      Writing 56 on a refill fill would read as 112 days of medication. Audited
      across all 140 records; every value conforms. */
   daysConvention: {
-    injectableSingleFill: { fourWeek: 28, eightWeek: 56 },
+    /* twelveWeek is 84 on ONE fill, refill 0. Don, 2026-09-28: Premier ships
+       the whole 84-day supply in a single shipment, not as a 28-day fill with
+       two refills. That matters because both shapes exist in this file - the
+       brand pens use rx12 as quantity 1 / days 28 / refill 2 - and they produce
+       different Tebra fields for the same programme length. Do not infer one
+       from the other.
+       See acceptedLimitations PREMIER-12WK-BUD-WINDOW: an 84-day supply in one
+       shipment runs close to the 90-day beyond-use date, which is the whole
+       reason the start date matters on this programme and on no other. */
+    injectableSingleFill: { fourWeek: 28, eightWeek: 56, twelveWeek: 84 },
     injectableWithRefill: { perFill: 28, refills: 1,
       appliesTo: ['zepbound', 'wegovy_pen'],
       removed: [{ pharmacy: 'belmar', on: '2026-09-05',
@@ -1344,12 +1464,21 @@ var KORB_GLP1 = {
       orderVia: 'Tebra Compound',
       billing: 'Bill to KORB Health Group, ship to patient',
       notes: [
-        'All Premier programs offer a 4-week and an 8-week option \u2014 semaglutide, ' +
-        'semaglutide with glycine, and tirzepatide alike.',
+        'All Premier programs offer a 4-week, an 8-week and a 12-week option \u2014 ' +
+        'semaglutide, semaglutide with glycine, and tirzepatide alike. The 12-week ' +
+        'programme is PREMIER ONLY; no other pharmacy offers one.',
         'All Premier compounds carry a 90-day BUD as of 2026-08. There is no longer a ' +
         'difference between the glycine and non-glycine products on this.',
-        '8-week programs ship the full eight weeks of medication and supplies in a ' +
-        'single initial shipment. No refill and no second shipment.',
+        '8-week and 12-week programs ship the full supply of medication and ' +
+        'supplies in a single initial shipment. No refill and no second shipment. ' +
+        'A 12-week quantity is three times the 4-week quantity.',
+        '12-WEEK: COUNSEL THE PATIENT TO START WITHIN 5 DAYS OF DELIVERY. The ' +
+        '90-day BUD runs from COMPOUNDING, twelve weekly doses reach day 77 of ' +
+        'treatment, and Premier takes 3 to 5 days from compounding to dispatch \u2014 ' +
+        'so the box arrives with part of its clock already spent and the patient ' +
+        'cannot see how much. A patient who is travelling, between addresses or ' +
+        'otherwise unlikely to start promptly goes on 8-week instead. See ' +
+        'acceptedLimitations PREMIER-12WK-BUD-WINDOW.',
         'Vials remain 28 days from first use regardless of BUD. On lower doses this ' +
         'produces overage. Counsel the patient to discard at 28 days.'
       ]
@@ -2174,6 +2303,7 @@ var KORB_GLP1 = {
         {
           dose: '0.3 mg', mg: 0.3, units: 10,
           vials4: '0.6 ml', vials8: '0.6 ml x 2',
+          vials12: '0.6 ml x 3',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Semaglutide 0.3 mg - 4-Week Supply',
@@ -2196,11 +2326,23 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Semaglutide 0.3 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 1.8,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '0.6 mg', mg: 0.6, units: 20,
           vials4: '1 ml', vials8: '1 ml x 2',
+          vials12: '1 ml x 3',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Semaglutide 0.6 mg - 4-Week Supply',
@@ -2223,11 +2365,23 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Semaglutide 0.6 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 3,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '1.2 mg', mg: 1.2, units: 40,
           vials4: '0.6 ml x 1 & 1 ml x 1', vials8: '0.6 ml x 2 & 1 ml x 2',
+          vials12: '0.6 ml x 3 & 1 ml x 3',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Semaglutide 1.2 mg - 4-Week Supply',
@@ -2250,11 +2404,23 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Semaglutide 1.2 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 4.8,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '1.8 mg', mg: 1.8, units: 60,
           vials4: '2.4 ml', vials8: '2.4 ml x 2',
+          vials12: '2.4 ml x 3',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Semaglutide 1.8 mg - 4-Week Supply',
@@ -2277,11 +2443,23 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Semaglutide 1.8 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 7.2,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '2.7 mg', mg: 2.7, units: 90,
           vials4: '3.6 ml', vials8: '3.6 ml x 2',
+          vials12: '3.6 ml x 3',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Semaglutide 2.7 mg - 4-Week Supply',
@@ -2304,6 +2482,17 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Semaglutide 2.7 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 10.8,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         /* 4.5 mg AND 6 mg, added 2026-09-23 (v2.24). Vial combinations are
@@ -2323,6 +2512,7 @@ var KORB_GLP1 = {
         {
           dose: '4.5 mg', mg: 4.5, units: 150, priceBand: 'max',
           vials4: '3.6 ml x 1 & 2.4 ml x 1', vials8: '3.6 ml x 2 & 2.4 ml x 2',
+          vials12: '3.6 ml x 3 & 2.4 ml x 3',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Semaglutide 4.5 mg - 4-Week Supply',
@@ -2356,7 +2546,7 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: '(Include two packs of insulin syringes) INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            ptInstructions: '(Include two syringe packs) INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
             vialPlan: {
@@ -2371,11 +2561,34 @@ var KORB_GLP1 = {
                              'remainder from the next. Counsel this directly - it '  +
                              'does not fit the 140-character Patient Instructions field.'
             }
+          },
+          supply12: {
+            name: 'PREMIER - Semaglutide 4.5 mg - 12-Week Supply',
+            flag: 'PREMIER-SEMA-45-CROSS-VIAL',
+            allowSubstitution: true,
+            quantity: 18,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include three syringe packs) INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            vialPlan: {
+              ship: '3 x 3.6 ml & 3 x 2.4 ml @ 3 mg/ml',
+              totalMl: 18,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 2.4,
+              withinPunctureLimit: true,
+              crossVialDoses: [4, 8, 12],
+              crossVialNote: 'Dose 4, 8, 12 finish one vial and draw the remainder from the next. Counsel this directly - it does not fit the 140-character Patient Instructions field.'
+            }
           }
         },
         {
           dose: '6 mg', mg: 6, units: 200, priceBand: 'max',
           vials4: '2 ml x 4', vials8: '2 ml x 8',
+          vials12: '2 ml x 12',
           drugFormulation: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Semaglutide 6 mg - 4-Week Supply',
@@ -2404,12 +2617,32 @@ var KORB_GLP1 = {
             unit: 'ml',
             refill: 0,
             days: 56,
-            ptInstructions: '(Include two packs of insulin syringes) INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            ptInstructions: '(Include two syringe packs) INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
             vialPlan: {
               ship: '8 x 2 ml @ 3 mg/ml',
               totalMl: 16,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 1,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            }
+          },
+          supply12: {
+            name: 'PREMIER - Semaglutide 6 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 24,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include three syringe packs) INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            vialPlan: {
+              ship: '12 x 2 ml @ 3 mg/ml',
+              totalMl: 24,
               leftoverMl: 0,
               leftoverDoses: 0,
               dosesPerVial: 1,
@@ -2443,6 +2676,7 @@ var KORB_GLP1 = {
         {
           dose: '0.3 mg', mg: 0.3, units: 10,
           vials4: '1 ml vial', vials8: '1 ml x 2 vials',
+          vials12: '1 ml x 3 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
             name: 'PREMIER - Glycine Semaglutide 0.3 mg - 4-Week Supply',
@@ -2465,11 +2699,23 @@ var KORB_GLP1 = {
             ptInstructions: 'Maintenance - GLYCINE - INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+          },
+          supply12: {
+            name: 'PREMIER - Glycine Semaglutide 0.3 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 3,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
         },
         {
           dose: '0.6 mg', mg: 0.6, units: 20,
           vials4: '1 ml vial', vials8: '1 ml x 2 vials',
+          vials12: '1 ml x 3 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
             name: 'PREMIER - Glycine Semaglutide 0.6 mg - 4-Week Supply',
@@ -2492,11 +2738,23 @@ var KORB_GLP1 = {
             ptInstructions: 'Maintenance - GLYCINE - INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+          },
+          supply12: {
+            name: 'PREMIER - Glycine Semaglutide 0.6 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 3,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
         },
         {
           dose: '1.2 mg', mg: 1.2, units: 40,
           vials4: '1 ml x 2 vials', vials8: '1 ml x 4 vials',
+          vials12: '1 ml x 6 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
             name: 'PREMIER - Glycine Semaglutide 1.2 mg - 4-Week Supply',
@@ -2519,11 +2777,23 @@ var KORB_GLP1 = {
             ptInstructions: 'Maintenance - GLYCINE - INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+          },
+          supply12: {
+            name: 'PREMIER - Glycine Semaglutide 1.2 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 6,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
         },
         {
           dose: '1.8 mg', mg: 1.8, units: 60,
-          vials4: '1 ml x 3 vials', vials8: '1 ml x 5 vials',
+          vials4: '1 ml x 3 vials', vials8: '1 ml x 6 vials',
+          vials12: '1 ml x 9 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
             name: 'PREMIER - Glycine Semaglutide 1.8 mg - 4-Week Supply',
@@ -2539,11 +2809,30 @@ var KORB_GLP1 = {
           supply8: {
             name: 'PREMIER - Glycine Semaglutide 1.8 mg - 8-Week Supply',
             allowSubstitution: true,
-            quantity: 5,
+            /* 6, not 5. Premier ships six 1 ml vials for eight weeks - Don\u2019s
+               correction 2026-09-28, from Premier. Eight weeks of 1.8 mg is
+               4.8 ml, so five vials would cover it and this file said five;
+               Premier does not fill to need, it multiplies the 4-week pack.
+               The 5 was therefore a prescription for something they do not
+               send. It was the ONLY dose in the file whose 8-week quantity
+               was not exactly double its 4-week, which is what made the
+               12-week derivation look wrong when it was the 8-week that was. */
+            quantity: 6,
             unit: 'ml',
             refill: 0,
             days: 56,
             ptInstructions: 'Maintenance - GLYCINE - INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+          },
+          supply12: {
+            name: 'PREMIER - Glycine Semaglutide 1.8 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 9,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2551,6 +2840,7 @@ var KORB_GLP1 = {
         {
           dose: '2.7 mg', mg: 2.7, units: 90,
           vials4: '1 ml x 4 vials', vials8: '1 ml x 8 vials',
+          vials12: '1 ml x 12 vials',
           drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
           supply4: {
             name: 'PREMIER - Glycine Semaglutide 2.7 mg - 4-Week Supply',
@@ -2571,6 +2861,17 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'Maintenance - GLYCINE - INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+          },
+          supply12: {
+            name: 'PREMIER - Glycine Semaglutide 2.7 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 12,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
           }
@@ -2616,6 +2917,7 @@ var KORB_GLP1 = {
         {
           dose: '2 mg', mg: 2, units: 11, priceTier: 'T1A',
           vials4: '0.6 ml', vials8: '0.6 ml x 2',
+          vials12: '0.6 ml x 3',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Tirzepatide 2 mg - 4-Week Supply',
@@ -2638,11 +2940,23 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Tirzepatide 2 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 1.8,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '4 mg', mg: 4, units: 22, priceTier: 'T1A',
           vials4: '1 ml', vials8: '1 ml x 2',
+          vials12: '1 ml x 3',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Tirzepatide 4 mg - 4-Week Supply',
@@ -2665,11 +2979,23 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Tirzepatide 4 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 3,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '6.5 mg', mg: 6.5, units: 36, priceTier: 'T2A',
           vials4: '0.6 ml & 1 ml', vials8: '0.6 ml x 2 & 1 ml x 2',
+          vials12: '0.6 ml x 3 & 1 ml x 3',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Tirzepatide 6.5 mg - 4-Week Supply',
@@ -2692,11 +3018,23 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Tirzepatide 6.5 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 4.8,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '8.5 mg', mg: 8.5, units: 47, priceTier: 'T2A',
           vials4: '2 ml', vials8: '2 ml x 2',
+          vials12: '2 ml x 3',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Tirzepatide 8.5 mg - 4-Week Supply',
@@ -2719,11 +3057,26 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Tirzepatide 8.5 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 6,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '13.5 mg', mg: 13.5, units: 75, priceTier: 'T3A',
-          vials4: '1 ml & 2 ml', vials8: '2 ml x 3',
+          /* vials8 was '2 ml x 3', which is the right 6 ml in the wrong
+             vials - it read as a consolidation Premier does not actually do.
+             Doubled from the 4-week pack, Don 2026-09-28. Quantity unchanged. */
+          vials4: '1 ml & 2 ml', vials8: '1 ml x 2 & 2 ml x 2',
+          vials12: '1 ml x 3 & 2 ml x 3',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Tirzepatide 13.5 mg - 4-Week Supply',
@@ -2746,11 +3099,23 @@ var KORB_GLP1 = {
             ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Tirzepatide 13.5 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 9,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
         },
         {
           dose: '16 mg', mg: 16, units: 89, priceTier: 'T3A',
           vials4: '3.6 ml', vials8: '3.6 ml x 2',
+          vials12: '3.6 ml x 3',
           drugFormulation: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
           supply4: {
             name: 'PREMIER - Tirzepatide 16 mg - 4-Week Supply',
@@ -2771,6 +3136,17 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+          },
+          supply12: {
+            name: 'PREMIER - Tirzepatide 16 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 10.8,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include two syringe packs) INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
           }
@@ -4665,6 +5041,12 @@ var KORB_GLP1 = {
                      'present it to a corporate partner as a saving.',
       T1A: {
         tier: 'T1A',
+        /* 12-week is Premier only. Belmar and FarmaKeio do not offer it,
+           and the charge code descriptions say so. Price and code are
+           Nick's, carried in korb-charges.js and repeated here only
+           because this is where a tier resolves its programme prices. */
+        twelveWeek: { price: 699, code: 'FITTirz12WkT1', pharmacies: ['premier'],
+                      label: '12-week maintenance, Premier only' },
         appliesTo: 'Low doses — 2 / 2.5 / 4 / 4.5 / 5 mg depending on pharmacy',
         fourWeek:    { price: 349, code: 'FITTirz002' },
         eightWeek: {
@@ -4691,6 +5073,12 @@ var KORB_GLP1 = {
       },
       T2A: {
         tier: 'T2A',
+        /* 12-week is Premier only. Belmar and FarmaKeio do not offer it,
+           and the charge code descriptions say so. Price and code are
+           Nick's, carried in korb-charges.js and repeated here only
+           because this is where a tier resolves its programme prices. */
+        twelveWeek: { price: 799, code: 'FITTirz12WkT2', pharmacies: ['premier'],
+                      label: '12-week maintenance, Premier only' },
         appliesTo: 'Mid doses — 6.5 / 7.5 / 8.5 / 9 / 10 mg depending on pharmacy',
         fourWeek:    { price: 399, code: 'FITTirz003' },
         eightWeek: {
@@ -4717,6 +5105,12 @@ var KORB_GLP1 = {
       },
       T3A: {
         tier: 'T3A',
+        /* 12-week is Premier only. Belmar and FarmaKeio do not offer it,
+           and the charge code descriptions say so. Price and code are
+           Nick's, carried in korb-charges.js and repeated here only
+           because this is where a tier resolves its programme prices. */
+        twelveWeek: { price: 949, code: 'FITTirz12WkT3', pharmacies: ['premier'],
+                      label: '12-week maintenance, Premier only' },
         appliesTo: 'High doses — 12.5 / 13.5 / 15 / 16 mg depending on pharmacy',
         fourWeek:    { price: 449, code: 'FITTirz004' },
         eightWeek: {
@@ -4779,6 +5173,24 @@ var KORB_GLP1 = {
             note: 'Partner-funded, partially covered, and other arrangements. Highly ' +
                   'variable and changes often. Operations confirms the figure and the ' +
                   'code at scheduling. Do not quote a price from this tool.' }
+        ]
+      },
+
+      /* 12-WEEK IS BANDED BY DOSE, WHICH 8-WEEK IS NOT.
+         8-week is one price for every semaglutide dose. 12-week is three:
+         low, high, and the max band below. That is Nick's structure, not a
+         simplification of it - the charge code descriptions carry the mg
+         ranges. Premier only; no other pharmacy offers a 12-week fill. */
+      twelveWeek: {
+        label: '12-week maintenance, Premier only',
+        pharmacies: ['premier'],
+        discountedRate: null,
+        discountNote: 'No discounted rate on 12-week, the same as 8-week.',
+        bands: [
+          { key: 'low',  price: 399, code: 'FITSema12WKL', mgMax: 0.6,
+            label: '0.1 - 0.6 mg', doses: ['0.3 mg', '0.6 mg'] },
+          { key: 'high', price: 449, code: 'FITSema12WKH', mgMax: 2.7,
+            label: '1.0 - 2.7 mg', doses: ['1.2 mg', '1.8 mg', '2.7 mg'] }
         ]
       },
 
@@ -4857,6 +5269,8 @@ var KORB_GLP1 = {
                  At 4.5 and 6 mg there are exactly three codes and three prices. */
             ]
           },
+          twelveWeek: { price: 569, code: 'FITSema12wkMAX', pharmacies: ['premier'],
+                        label: '12-week, 4.5 mg and 6 mg, Premier only' },
           eightWeek: {
             price: 449,
             label: '8-week, 4.5 mg and 6 mg, every patient',
@@ -5223,7 +5637,7 @@ var KORB_GLP1 = {
     var p = KORB_GLP1.getProduct(productKey);
     if (!p || !p.doses || !p.doses.length) return [];
     var d = p.doses[0];
-    return ['supply4', 'supply8', 'rx', 'rx4', 'rx8', 'rx30', 'rx60']
+    return ['supply4', 'supply8', 'supply12', 'rx', 'rx4', 'rx8', 'rx30', 'rx60']
       .filter(function (k) { return !!d[k]; });
   },
 
@@ -5233,7 +5647,8 @@ var KORB_GLP1 = {
     var d = doseLabel ? KORB_GLP1.getDose(productKey, doseLabel) : p.doses[0];
     if (!d) return null;
 
-    var LABEL = { supply4: '4-week', supply8: '8-week', rx: '90-day',
+    var LABEL = { supply4: '4-week', supply8: '8-week', supply12: '12-week',
+                  rx: '90-day',
                   rx4: '4-week', rx8: '8-week', rx30: '30-day', rx60: '60-day' };
     var out = { productKey: productKey, program: program,
                 programLabel: LABEL[program] || program, options: [], note: null };
@@ -5266,7 +5681,12 @@ var KORB_GLP1 = {
     if (p.drug === 'tirzepatide') {
       var t = KORB_GLP1.pricing.tirzepatideTiers[d.priceTier];
       if (!t) return out;
-      if (program === 'supply8') {
+      if (program === 'supply12') {
+        if (!t.twelveWeek) return out;
+        out.options.push({ label: '12-week', price: t.twelveWeek.price,
+                           code: t.twelveWeek.code,
+                           codeNote: t.twelveWeek.label });
+      } else if (program === 'supply8') {
         out.options.push({ label: '8-week', price: t.eightWeek.price,
                            code: t.eightWeek.codes.standard.code,
                            codeNote: t.eightWeek.codes.standard.note });
@@ -5288,7 +5708,38 @@ var KORB_GLP1 = {
     var sg = KORB_GLP1.pricing.semaglutide;
     var src = d.priceBand ? (sg.doseBands || {})[d.priceBand] : sg;
     if (!src) return out;
-    if (program === 'supply8') {
+    if (program === 'supply12') {
+      /* The max band carries a flat twelveWeek; the ordinary block carries
+         bands. One shape handles both - bands are ordered low to high and
+         the first whose mgMax the dose does not exceed is the one. */
+      var tw = src.twelveWeek;
+      if (!tw) return out;
+      var band = tw;
+      if (tw.bands) {
+        band = null;
+        for (var bi = 0; bi < tw.bands.length; bi++) {
+          if (d.mg <= tw.bands[bi].mgMax) { band = tw.bands[bi]; break; }
+        }
+      }
+      if (!band) {
+        out.note = 'No 12-week price band covers ' + d.dose + '. Check pricing.semaglutide.twelveWeek.';
+        return out;
+      }
+      /* The ROW LABEL must carry the mg range, not the dose that happened to
+         resolve it. Both bands share tw.label, so sectionPricing saw a
+         duplicate label and disambiguated it the only way it could - by
+         prefixing the first dose in each band. The page then read
+         "0.3 mg - 12-week maintenance" and "1.2 mg - 12-week maintenance",
+         which looks like a price for one dose rather than a band covering
+         several. Don caught it on the rendered page, 2026-09-28. Only the
+         banded case is prefixed; the max band is flat and already names its
+         own doses, so prefixing it would print its label twice. */
+      var rowLabel = (tw.bands && band.label)
+        ? band.label + ' \u2014 ' + tw.label
+        : tw.label;
+      out.options.push({ label: rowLabel, price: band.price, code: band.code,
+                         priceNote: tw.discountNote });
+    } else if (program === 'supply8') {
       out.options.push({ label: src.eightWeek.label, price: src.eightWeek.price,
                          code: src.eightWeek.codes.standard.code,
                          priceNote: src.eightWeek.discountNote });
