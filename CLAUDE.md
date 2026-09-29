@@ -722,6 +722,7 @@ Run all of them **from the repo root**.
 | `build-addon-signoff.js` | `korb-addons-data.js` | add-on sign-off sheet |
 | `build-intake-spec.py` | `KORB_Scheduler_Intake_Prototype.html` | `KORB_Scheduler_Intake_Logic_Spec.xlsx` (vendor spec) |
 | `build-charges.py` | Nick's KORB x TEBRA workbook (.xlsx) | `korb-charges.js` - codes and prices only |
+| `check-charges.ps1` | the published Clinical Export CSV | nothing - regenerates and pushes `korb-charges.js` only if every gate passes |
 | `check-pages.js` | every tracked `.html` | nothing - exits 1 if a generated page cannot run |
 
 The list of GLP-1 documents is **not** in `build-provider-docs.js`. It is `DOCS` in
@@ -989,8 +990,21 @@ This repo has real self-checks. Use them, and prove they have teeth.
   the more interesting one: dropping CA from the Schedule III states reported STALE
   while still showing 46 blocks, which is the proof that the routing half has teeth
   and not merely the blocks.
-- `python build-charges.py <workbook.xlsx> --check` — the charge codes and
-  prices in `korb-charges.js` still match Nick's workbook. Exits 1 on drift, on
+- **`check-charges.ps1` runs the whole thing unattended**, daily at 07:30, from
+  the Windows Task Scheduler entry "KORB charge codes". It fetches the published
+  Clinical Export CSV with `Invoke-WebRequest`, runs `build-charges.py --check`,
+  and pushes ONLY plain price drift with every gate green. A vanished code, a
+  self-contradicting source, a dirty tree or any failing gate stops it without
+  pushing. Log: `%USERPROFILE%\.korb-charges-log.txt`.
+  **The published URL is NOT in this repo** — it lives in
+  `%USERPROFILE%\.korb-charges-url.txt`, one line, because this repo is public.
+  **It is a script and not a Claude scheduled task for a reason.** As a scheduled
+  task it stalled three times on 2026-09-28, twice on the Google Drive connector
+  and once on a plain Bash curl, each with no result, no error and no prompt
+  anyone could answer — the first tool call in a scheduled session simply hung.
+  A check that hangs is worse than no check.
+- `python build-charges.py <workbook.xlsx|published.csv> --check` — the charge
+  codes and prices in `korb-charges.js` still match the source. Exits 1 on drift, on
   a code that has VANISHED from the sheet (Nick deletes retired rows rather than
   striking them through, so a disappearance is the retirement signal), and on
   the two blocks of `Charge Codes_Master` disagreeing with each other. Negative
