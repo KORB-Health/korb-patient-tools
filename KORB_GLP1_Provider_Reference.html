@@ -269,6 +269,30 @@ var US_STATES = Object.keys(STATE_NAMES).sort(function(a,b){
 });
 function stateName(c){ return STATE_NAMES[c] || c; }
 
+/* ONE PLACE THAT NAMES A PROGRAMME LENGTH, and one that decides which lengths
+   a product has. Before 2026-09-29 this page held FOUR separate hardcoded
+   4-week/8-week pairs - the picker, the dose ladder's columns, the "no record"
+   message and the prescribing block's own header. So the 12-week programme was
+   invisible in all four even after korb-glp1-data.js carried it on all 18
+   Premier doses, and the block header would have read "4-week" over a correct
+   12-week prescription, which is worse than omitting it.
+
+   Fixing only the picker is what was done first, and it left the ladder and the
+   header still saying two. WHEN A HARDCODED LIST TURNS UP, LOOK FOR ITS
+   SIBLINGS BEFORE CALLING IT FIXED. */
+var SUPPLY_LABEL = { supply4: '4-week', supply8: '8-week', supply12: '12-week' };
+function supplyLabel(key){
+  /* A key with no entry names itself from its own digits rather than rendering
+     blank on a provider's screen. */
+  return SUPPLY_LABEL[key] || String(key).replace('supply', '') + '-week';
+}
+function supplyKeys(productKey){
+  var keys = (K.billingPrograms(productKey) || []).filter(function (k) {
+    return /^supply\d+$/.test(k);
+  });
+  return keys.length ? keys : ['supply4'];
+}
+
 var S = { state:'', drug:'', pharmacy:'', product:'', supply:'supply4', dose:'' };
 
 function $(id){ return document.getElementById(id); }
@@ -486,16 +510,10 @@ function buildDoses(){
        billingPrograms() reads what the product ACTUALLY carries, so a fourth
        programme length appears here by existing in the data. */
     sup.innerHTML = '';
-    var SUPPLY_LABEL = { supply4: '4-week', supply8: '8-week', supply12: '12-week' };
-    var keys = (KORB_GLP1.billingPrograms(S.product) || [])
-                 .filter(function (k) { return /^supply\d+$/.test(k); });
-    if (!keys.length) keys = ['supply4'];
+    var keys = supplyKeys(S.product);
     keys.forEach(function (k) {
       var o = document.createElement('option');
-      o.value = k;
-      /* A key with no label still renders, spelled from its own digits, rather
-         than vanishing from a provider's choices in silence. */
-      o.textContent = SUPPLY_LABEL[k] || (k.replace('supply', '') + '-week');
+      o.value = k; o.textContent = supplyLabel(k);
       sup.appendChild(o);
     });
     if (keys.indexOf(S.supply) === -1) S.supply = keys[0];
@@ -656,18 +674,30 @@ function renderLadder(p){
   var qtyUnconfirmed = (K.needsConfirmation || []).some(function(f){
     return f.type === 'blocking' && (f.appliesTo || []).indexOf(p.key) !== -1;
   });
-  var eightCol = '8-week vials' + (qtyUnconfirmed ? ' — NOT CONFIRMED' : '');
+  /* A COLUMN PER PROGRAMME THE PRODUCT ACTUALLY CARRIES. This was the fixed
+     pair ['4-week vials', '8-week vials'], which is why Don opened this page on
+     2026-09-29 and saw a two-column ladder sitting directly under notes that
+     already described a 12-week programme. */
+  var supKeys = supplyKeys(p.key);
+  var vialCols = supKeys.map(function (k) {
+    var label = supplyLabel(k) + ' vials';
+    return (k === 'supply8' && qtyUnconfirmed) ? label + ' — NOT CONFIRMED' : label;
+  });
 
   var cols = isOral
     ? ['Dose','Presentation','Route','Frequency']
-    : ['Dose','Units','Concentration','4-week vials',eightCol];
+    : ['Dose','Units','Concentration'].concat(vialCols);
   thead.innerHTML = '<tr>' + cols.map(function(c){ return '<th>' + esc(c) + '</th>'; }).join('') + '</tr>';
 
   tbody.innerHTML = p.doses.map(function(d){
     var cells = isOral
       ? [d.dose, d.presentation || '\u2014', p.route || '\u2014', p.frequency || '\u2014']
-      : [d.dose, (d.units != null ? d.units + ' units' : '\u2014'), (d.conc || p.formulation || '\u2014'),
-         (d.vials4 || '\u2014'), (d.vials8 || '\u2014')];
+      : [d.dose, (d.units != null ? d.units + ' units' : '\u2014'), (d.conc || p.formulation || '\u2014')]
+          .concat(supKeys.map(function (k) {
+            /* The vials key follows the supply key: supply12 reads vials12. A
+               product with no entry prints an em dash rather than a blank. */
+            return d['vials' + k.replace('supply', '')] || '\u2014';
+          }));
     return '<tr class="' + (d.dose === S.dose ? 'selected' : '') + '">' +
            cells.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>';
   }).join('');
@@ -751,7 +781,7 @@ function renderRx(p){
   var isOral = !!(d.rx && !d.supply4);
   var r = isOral ? d.rx : d[S.supply];
   if (!r){
-    el.innerHTML = '<div class="rx-hdr">No ' + esc(S.supply === 'supply4' ? '4-week' : '8-week') +
+    el.innerHTML = '<div class="rx-hdr">No ' + esc(supplyLabel(S.supply)) +
                    ' record for this dose</div><div class="rx-row"><div class="rx-lbl">Note</div>' +
                    '<div class="rx-val">This product does not define that program length. Choose the other option.</div><div></div></div>';
     el.style.display='block'; return;
@@ -775,7 +805,10 @@ function renderRx(p){
   add('Reason for Compounding', r.reasonForCompounding);
   add('Pharmacy Instructions',  r.pharmacyNotes);
 
-  var hdrLabel = isOral ? (d.presentation || 'Oral') : (S.supply === 'supply8' ? '8-week' : '4-week');
+  /* This said 4-week for anything that was not supply8, so a 12-week
+     prescription would have carried a "4-week" header over correct 12-week
+     Tebra fields. A wrong label on a right block is worse than a missing one. */
+  var hdrLabel = isOral ? (d.presentation || 'Oral') : supplyLabel(S.supply);
   var html = '<div class="rx-hdr"><span>' + esc(p.label) + ' \u2014 ' + esc(d.dose) + ' \u00b7 ' + esc(hdrLabel) +
              '</span><button class="copy-all" onclick="copyAll()">Copy all fields</button></div>';
   html += rows.map(function(row, i){
