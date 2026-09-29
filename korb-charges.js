@@ -29,9 +29,10 @@
       source: 'korb_charges_live.xlsx',
       sourceTab: 'Charge Codes_Master, columns A-F',
       owner: 'Nick Ellison, VP Finance - the codes and prices are his',
-      count: 98,
+      count: 97,
       excludes: 'TPA, Employee, Employer Paid, the whole Corporate Partner tab, ' +
-                'and four rows naming AISD, HISD, NISD or InShape/Fitness19. ' +
+                'four rows naming AISD, HISD, NISD or InShape/Fitness19, and ' +
+                'KORBURGENTE, a staff rate filed outside the Employee group. ' +
                 'This repo is public; those are contracts.'
     },
 
@@ -203,8 +204,6 @@
       /* --- Urgent --- */
       'KORBURGENT49': { price: 49, grouping: 'Urgent',
         description: 'KORB Urgent care, existing patient $49' },
-      'KORBURGENTE': { price: 29, grouping: 'Urgent',
-        description: 'KORB Urgent care Employee/Spouse' },
 
       /* --- Ageless --- */
       'AGEMETF009': { price: 99, grouping: 'Ageless',

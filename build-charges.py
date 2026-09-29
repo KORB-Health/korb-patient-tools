@@ -19,6 +19,10 @@ because this repo is PUBLIC and the workbook is not. Two gates, both deliberate:
      and a gym chain. Listed by code, never matched by regex, so every
      exclusion is visible in the diff and can be argued with.
 
+  3. INTERNAL-RATE block-list. One row, KORBURGENTE, is a staff rate filed
+     under Urgent rather than Employee, so the grouping gate misses it.
+     Separate from the list above because the reason is different.
+
 WHAT THE SHEET OWNS AND WHAT THIS REPO OWNS. The sheet owns the code, the price
 and the Tebra description. This repo keeps owning which pharmacy, which states,
 when something retired and why, and every clinical fact. That split is the
@@ -71,6 +75,20 @@ NAMED_ORG = {
     'KORBURGENT30': 'description names InShape / Fitness19',
 }
 
+# A SECOND, DIFFERENT REASON. These are not named-partner rows; they are internal
+# staff rates that happen to sit OUTSIDE the Employee grouping, so the grouping
+# gate above lets them through. Kept separate from NAMED_ORG because the reason
+# is different and a future reader should not have to guess which rule applied.
+#
+# KORBURGENTE is "KORB Urgent care Employee/Spouse, $29", filed under Urgent.
+# Don, 2026-09-28: out of the repo and out of the published tab. It is one
+# internal perk price and nobody is harmed by it, but it is the same KIND of
+# thing the Employee grouping is excluded for, and inheriting it by accident is
+# not the same as deciding to publish it.
+INTERNAL_RATE = {
+    'KORBURGENTE': 'staff rate filed under Urgent rather than Employee',
+}
+
 CODE_RE = re.compile(r'^[A-Za-z][A-Za-z0-9]{2,}$')
 
 
@@ -100,7 +118,9 @@ def read(path):
         code = str(ws.cell(row=r, column=3).value or '').strip()
         fee = ws.cell(row=r, column=5).value
         desc = str(ws.cell(row=r, column=6).value or '').strip()
-        if not code or grouping not in ALLOW or code in NAMED_ORG:
+        if not code or grouping not in ALLOW:
+            continue
+        if code in NAMED_ORG or code in INTERNAL_RATE:
             continue
         if not CODE_RE.match(code):
             continue
@@ -173,7 +193,8 @@ def js(rows, source):
     add('      count: %d,' % len(rows))
     add("      excludes: 'TPA, Employee, Employer Paid, the whole Corporate Partner " +
         "tab, ' +")
-    add("                'and four rows naming AISD, HISD, NISD or InShape/Fitness19. ' +")
+    add("                'four rows naming AISD, HISD, NISD or InShape/Fitness19, and ' +")
+    add("                'KORBURGENTE, a staff rate filed outside the Employee group. ' +")
     add("                'This repo is public; those are contracts.'")
     add('    },')
     add('')
