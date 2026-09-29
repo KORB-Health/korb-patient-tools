@@ -75,6 +75,8 @@ const NEEDS = {
   'korb-dosing-data.js': ['korb-pharmacies.js'],
   'korb-mens-data.js': ['korb-pharmacies.js'],
   'korb-womens-data.js': ['korb-pharmacies.js'],
+  /* Builds its document from KORB_DOSING at load and leaves it null without it. */
+  'korb-fhl-counsel-data.js': ['korb-pharmacies.js', 'korb-dosing-data.js'],
 
   /* korb-patient-ed-data.js takes its Quest lab-scheduling facts from
      korb-quest.js at load, the same way the program files take their pharmacy

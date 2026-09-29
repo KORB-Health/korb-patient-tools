@@ -326,6 +326,35 @@ The patient calculator is the one embedded in the hub.
 This line said "out for provider feedback" until then. They are still provider
 tools, so item 49 stands: do not link either from the hub.
 
+**NOT published yet: `Provider_Reference/KORB_FHL_Peptide_Counseling_Guide.html`**,
+built 2026-09-29. The FH&L peptide Q&A and counseling guide, replacing
+`KORB Provider Peptide QA Counseling Guide.docx`, a July Word file in the shared
+drive archive that a provider found and asked to use. That copy offered GHK-Cu in
+Foundation, quoted a $199 baseline lab fee against the real $99, gave Tesamorelin
+two doses instead of three and carried the MSO byline. **Every one of those is a
+fact `korb-dosing-data.js` already held correctly**, which is the whole case for
+generating it.
+- The prose (agent positioning, the 16 questions, approved and forbidden
+  language, safety, documentation and escalation lists) lives once in
+  `korb-fhl-counsel-data.js`. Every tier, dose, week and price is read from
+  `korb-dosing-data.js` at load, which must load first. `selfCheck()` fails if
+  the formulary rows and the agents the programs offer ever differ.
+- Question 7 was rewritten on Don's answer of 2026-09-29: the Pharmacy
+  Compounding Advisory Committee met in July 2026, FDA's final decision is still
+  pending, and none of KORB's formulary agents is on Category 2, so nothing
+  changes. **It never says FDA-approved** except of Tesamorelin's own indication.
+- **Unsigned.** It is in `artifact-signoff.js` as `doc:fhlcounsel`, kind
+  `document`, fingerprinted on its rendered text like a handout. Don reads it
+  first; Nick should read questions 4 to 7 and the language lists, which are
+  compliance language.
+- Negative-tested both halves 2026-09-29: the Foundation partner price changed
+  in the dosing file reached the page and restoring it put it back; removing the
+  GHK-Cu formulary row made the builder exit 1.
+- The three sibling Word files in that archive folder (Ops escalation guide,
+  patient pre-enrollment FAQ, Start Here Q&A insert) were checked the same day
+  and are to be deleted, not converted. The Start Here insert told peptide
+  patients they do not use the portal, the opposite of every live page.
+
 **NOT published, and deliberately so.**
 `Provider_Reference/KORB_Mens_Health_Dose_Routing.html`, built 2026-09-21. One
 decision rendered from `KORB_MENS.doseRouting` - twice weekly to three times
@@ -718,6 +747,7 @@ Run all of them **from the repo root**.
 | `build-provider-docs.js` | `korb-glp1-data.js` | `Provider_Reference/GLP1/*.html` + `.pdf` (10 docs) |
 | `build-fhl-docs.js` | `korb-dosing-data.js` | `Provider_Reference/KORB_FHL_*.html` + `.pdf` (4 docs) |
 | `build-embed.js` | `korb-glp1-data.js`, `korb-addons-data.js` | embedded blocks in the two frozen tools |
+| `build-clinical-docs.js` | `korb-addons-data.js`, `korb-mens-data.js`, `korb-womens-data.js`, `korb-fhl-counsel-data.js` (+ `korb-dosing-data.js`) | the four `Provider_Reference/*_Clinical_Reference.html` and `KORB_FHL_Peptide_Counseling_Guide.html` |
 | `build-signoff-sheet.js` | `korb-glp1-data.js` | monograph clinical sign-off sheet |
 | `build-addon-signoff.js` | `korb-addons-data.js` | add-on sign-off sheet |
 | `build-intake-spec.py` | `KORB_Scheduler_Intake_Prototype.html` | `KORB_Scheduler_Intake_Logic_Spec.xlsx` (vendor spec) |

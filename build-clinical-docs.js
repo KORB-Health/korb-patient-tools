@@ -90,7 +90,13 @@ global.KORB_PHARMACIES = PHARMACIES;
 const SOURCES = {
   addons: { dataFile: 'korb-addons-data.js', global: 'KORB_ADDONS' },
   mens: { dataFile: 'korb-mens-data.js', global: 'KORB_MENS' },
-  womens: { dataFile: 'korb-womens-data.js', global: 'KORB_WOMENS' }
+  womens: { dataFile: 'korb-womens-data.js', global: 'KORB_WOMENS' },
+  /* The first document whose data file reads ANOTHER program file. `requires`
+     are loaded first, into the global scope, exactly as the page loads them:
+     korb-fhl-counsel-data.js builds its document from KORB_DOSING at load and
+     leaves it null otherwise. */
+  fhlcounsel: { dataFile: 'korb-fhl-counsel-data.js', global: 'KORB_FHL_COUNSEL',
+                requires: [{ file: 'korb-dosing-data.js', global: 'KORB_DOSING' }] }
 };
 
 const BUILD_DATE = buildDate();   // LOCAL date - see build-date.js
@@ -153,7 +159,7 @@ ${R.CSS}
 <p>Loading…</p>
 <script src="${PHARM_REL}"></script>
 <script src="${RXB_REL}"></script>
-<script src="../${src.dataFile}"></script>
+${(src.requires || []).map(r => '<script src="../' + r.file + '"></script>\n').join('')}<script src="../${src.dataFile}"></script>
 <script src="${GLP1_REND_REL}"></script>
 <script src="${REND_REL}"></script>
 <script>
@@ -161,7 +167,7 @@ ${R.CSS}
      If a script fails to load, say so plainly rather than rendering a
      half-empty page that looks authoritative. */
   (function () {
-    if (typeof ${src.global} === 'undefined' || typeof KORB_PHARMACIES === 'undefined' ||
+    if (typeof ${src.global} === 'undefined' || typeof KORB_PHARMACIES === 'undefined' ||${(src.requires || []).map(r => ' typeof ' + r.global + " === 'undefined' ||").join('')}
         typeof KORB_CLINICAL_DOCS === 'undefined') {
       document.body.innerHTML = '<p style="font-family:sans-serif;color:#B3261E">' +
         'Could not load ${src.dataFile}, korb-pharmacies.js, provider-doc-render.js or clinical-doc-render.js. ' +
@@ -175,7 +181,7 @@ ${R.CSS}
     document.body.insertBefore(mast, document.body.firstChild);
     var bar = document.createElement('div');
     bar.innerHTML = '<span class="live">Live — reflects ${src.dataFile} v' +
-      KORB_CLINICAL_DOCS.esc(${src.global}.meta.version) + ' and korb-pharmacies.js v' +
+      KORB_CLINICAL_DOCS.esc(${src.global}.meta.version) +${(src.requires || []).map(r => "\n      ', " + r.file + " v' + KORB_CLINICAL_DOCS.esc(" + r.global + ".meta.version) +").join('')} ' and korb-pharmacies.js v' +
       KORB_CLINICAL_DOCS.esc(KORB_PHARMACIES.meta.version) + ' as of this page load</span>' +
       /* No 'PDF version' link. The provider PDFs were retired 2026-09-17:
          every one had an HTML twin that reads the data files on load, so the
@@ -257,6 +263,7 @@ async function main() {
   for (const doc of list) {
     const src = SOURCES[doc.id];
     if (!src) { console.error('No data source registered for "' + doc.id + '".'); process.exit(1); }
+    (src.requires || []).forEach(r => { global[r.global] = loadGlobal(r.file, r.global); });
     loaded[doc.id] = loadGlobal(src.dataFile, src.global);
   }
 

@@ -125,6 +125,14 @@ const TOOL_META = {
   'KORB_Patient_Treatment_Schedule.html':
     { key: 'fhlschedule', probe: 'fhlSchedule', label: 'Patient Treatment Schedule', audience: 'patient',
       records: { file: 'korb-dosing-data.js', global: 'KORB_DOSING' } },
+  /* A provider DOCUMENT, not a tool: no controls, no prescribing blocks.
+     Fingerprinted on its rendered text, like a handout, because the counseling
+     and regulatory language IS the content. Its structure and prices come from
+     korb-dosing-data.js, so a price change moves this fingerprint too, which is
+     right: the page states them. */
+  'Provider_Reference/KORB_FHL_Peptide_Counseling_Guide.html':
+    { key: 'fhlcounsel', kind: 'document', probe: 'static', label: 'FH&L Peptide Q&A and Counseling Guide',
+      records: { file: 'korb-fhl-counsel-data.js', global: 'KORB_FHL_COUNSEL' } },
   'KORB_Lab_Interpretation_Tool.html':
     { probe: null, why: 'hand-built, no data file - see open item 5' },
   'KORB_Testosterone_Tracker.html':
@@ -173,8 +181,9 @@ require('child_process')
          KORB_Mens_Health_Provider_Tool.html earlier today and a derived key
          would have silently orphaned Don's signature. Mapped tools name their
          own; unmapped ones derive one, and carry no signature yet anyway. */
-      key: 'tool:' + (meta.key || base.replace(/^KORB_/, '').toLowerCase()),
-      kind: 'tool',
+      key: (meta.kind === 'document' ? 'doc:' : 'tool:') +
+           (meta.key || base.replace(/^KORB_/, '').toLowerCase()),
+      kind: meta.kind || 'tool',
       probe: meta.probe || null,
       noProbeWhy: meta.probe ? null
         : (meta.why || 'not yet classified - add it to TOOL_META in artifact-signoff.js'),
@@ -752,7 +761,7 @@ async function measure() {
     if (errs.length) entry.error = 'page error: ' + errs[0];
     entry.shot = shot;
     entry.fingerprint = fnv(canon(shot));
-    entry.size = (a.kind === 'handout')
+    entry.size = (a.kind !== 'tool')
       ? (shot.body || '').length
       : Object.keys(shot.blocks || {}).length;
     out.push(entry);
@@ -774,7 +783,7 @@ function selfCheck(rows) {
     if (seen[r.key]) problems.push('duplicate artifact key: ' + r.key);
     seen[r.key] = true;
     if (r.undrivable || r.error) return;
-    if (r.kind === 'handout' && (!r.shot || (r.shot.body || '').length < 2000)) {
+    if (r.kind !== 'tool' && (!r.shot || (r.shot.body || '').length < 2000)) {
       problems.push(r.key + ' rendered under 2000 characters of body text. A handout ' +
         'that short is a page that failed to load its data file, not a short handout.');
     }
@@ -822,7 +831,12 @@ function status(r) {
       console.error('Cannot sign ' + key + ': ' + (r.undrivable || r.error));
       process.exit(1);
     }
-    const attests = r.kind === 'handout'
+    const attests = r.kind === 'document'
+      ? 'Reviewed this provider document as rendered - the program structure, the ' +
+        'agent positioning, every question and answer, the regulatory language, ' +
+        'the safety, contraindication, documentation and escalation lists, and the ' +
+        'approved and forbidden wording - and approve it for use by the provider team.'
+      : r.kind === 'handout'
       ? 'Reviewed this patient handout as rendered - the clinical content, the ' +
         'dosing and administration guidance, the storage and travel instructions, ' +
         'the side effect and safety sections and the instructions on when to make ' +
