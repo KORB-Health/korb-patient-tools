@@ -142,7 +142,7 @@ body{background:var(--cream);}
   box-shadow:0 1px 3px rgba(33,39,91,.06);margin:0 auto 34px;padding:22px 20px 40px;}
 @media(max-width:620px){.wrap{border-radius:0;border-left:0;border-right:0;padding:18px 14px 30px;}}
 </style>
-<script src="../korb-plan-block.js"></script>
+<script src="../korb-plan-block.js?v=e4167983"></script>
 </head>
 <body>
 
@@ -323,8 +323,8 @@ body{background:var(--cream);}
      They now come from korb-mens-data.js. ORDER MATTERS - korb-pharmacies.js
      must load first or the data file throws by name rather than answering
      from an empty footprint. -->
-<script src="../korb-pharmacies.js"></script>
-<script src="../korb-mens-data.js"></script>
+<script src="../korb-pharmacies.js?v=c650bf38"></script>
+<script src="../korb-mens-data.js?v=929cba99"></script>
 <script>
 if (typeof KORB_MENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
   document.addEventListener("DOMContentLoaded", function () {

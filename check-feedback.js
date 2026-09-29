@@ -41,12 +41,22 @@ released.forEach(function (f) {
   const p = path.join(ROOT, f);
   if (!fs.existsSync(p)) { problems.push(f + ': in the release table but not on disk'); return; }
   const html = fs.readFileSync(p, 'utf8');
-  const viaScript = /<script[^>]+src="(\.\.\/)*korb-feedback\.js"[^>]*data-page="[^"]+"/.test(html);
+  /* (\?v=[0-9a-f]+)? because stamp-cache.js appends a content hash to every
+     local tag since 2026-09-29, so a changed data file is fetched rather than
+     served from cache. Without it these three patterns stop matching and this
+     check reports 33 released pages as having lost their feedback button when
+     nothing has happened to them. The CHECK breaks, not the pages - and a check
+     that cannot recognise its own subject is the shape this repo keeps
+     recording. */
+  const STAMP = '(\\?v=[0-9a-f]+)?';
+  const viaScript = new RegExp('<script[^>]+src="(\\.\\./)*korb-feedback\\.js' + STAMP +
+                               '"[^>]*data-page="[^"]+"').test(html);
   const inline = new RegExp(esc(SHARED.url) + '\\?usp=pp_url&(amp;)?' + esc(SHARED.pageField) + '=').test(html);
   // generated shell: renders the footer in the browser from shared.feedback,
   // so the url is right by construction; it must load the renderer and the data
   const generated = /R\.feedbackFooter\(KORB_PATIENT_ED,\s*doc\)/.test(html) &&
-    /src="(\.\.\/)*patient-ed-render\.js"/.test(html) && /src="(\.\.\/)*korb-patient-ed-data\.js"/.test(html);
+    new RegExp('src="(\\.\\./)*patient-ed-render\\.js' + STAMP + '"').test(html) &&
+    new RegExp('src="(\\.\\./)*korb-patient-ed-data\\.js' + STAMP + '"').test(html);
   if (!viaScript && !inline && !generated) problems.push(f + ': no feedback button');
   if (/korb-feedback\.js/.test(html) && !viaScript) problems.push(f + ': loads korb-feedback.js without a data-page name');
 });

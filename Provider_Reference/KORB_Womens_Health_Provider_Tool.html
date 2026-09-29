@@ -193,7 +193,7 @@ body{background:var(--cream);}
 .stat .val.code{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;
   font-size:14px;font-weight:600;letter-spacing:.3px;}
 </style>
-<script src="../korb-plan-block.js"></script>
+<script src="../korb-plan-block.js?v=e4167983"></script>
 </head>
 <body>
 
@@ -266,8 +266,8 @@ body{background:var(--cream);}
      to sexual health. It reads the data file now.
      ORDER MATTERS - korb-pharmacies.js must load first or the data file
      throws by name rather than routing from an empty footprint. -->
-<script src="../korb-pharmacies.js"></script>
-<script src="../korb-womens-data.js"></script>
+<script src="../korb-pharmacies.js?v=c650bf38"></script>
+<script src="../korb-womens-data.js?v=0033c87e"></script>
 <script>
 if (typeof KORB_WOMENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
   document.addEventListener("DOMContentLoaded", function () {

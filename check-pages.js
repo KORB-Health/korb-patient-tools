@@ -93,7 +93,13 @@ function scriptsIn(html) {
   const re = /<script[^>]+src="([^"]+)"/g;
   let m;
   while ((m = re.exec(html)) !== null) {
-    out.push(m[1].split('/').pop());
+    /* Basename WITHOUT the cache stamp. Since 2026-09-29 stamp-cache.js appends
+       a content hash - korb-glp1-data.js?v=1a2b3c4d - so a browser fetches a
+       changed data file instead of serving a cached one. Splitting on '/' alone
+       kept the query, so every dependency lookup here would have missed and
+       this check would have reported all 55 pages broken. A check that cannot
+       recognise the thing it is checking is worse than no check. */
+    out.push(m[1].split('/').pop().split('?')[0]);
   }
   return out;
 }

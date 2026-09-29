@@ -724,6 +724,7 @@ Run all of them **from the repo root**.
 | `build-charges.py` | Nick's KORB x TEBRA workbook (.xlsx) | `korb-charges.js` - codes and prices only |
 | `check-charges.ps1` | the published Clinical Export CSV | nothing - regenerates and pushes `korb-charges.js` only if every gate passes |
 | `install-charge-check.ps1` | - | registers the daily Windows task on THIS machine. Run it once per computer |
+| `stamp-cache.js` | every tracked `.html` + the assets they load | rewrites each local script/link tag with a content hash |
 | `check-pages.js` | every tracked `.html` | nothing - exits 1 if a generated page cannot run |
 
 The list of GLP-1 documents is **not** in `build-provider-docs.js`. It is `DOCS` in
@@ -965,6 +966,30 @@ This repo has real self-checks. Use them, and prove they have teeth.
   scope `premier / belmar / farmakeio`.
 - `node build-embed.js --check` from the repo root — expect "All 2 embedded blobs
   match their source", exit 0.
+- `node stamp-cache.js --check` — every local `<script>` and `<link>` carries
+  the current content hash of the file it names. Expect "all 249 local tag(s)",
+  exit 0.
+  **WHY IT EXISTS.** Every document here is a shell that loads its data file in
+  the browser, which is what keeps it current — and the browser CACHES that
+  file. On 2026-09-29 Don opened the Provider Reference, hard-refreshed twice,
+  and still saw the old programme lengths while the 12-week data sat live on the
+  server. A content hash in the query makes the URL change exactly when the
+  bytes change, so the browser fetches because it has never seen that URL rather
+  than because somebody remembered to refresh. A file that has NOT changed keeps
+  its hash and stays cached, which is the half worth keeping.
+  **RUN IT AFTER ANY BUILDER.** They emit bare tags, so a rebuild un-stamps
+  whatever it regenerates. That is what `--check` is for.
+  **Negative-tested four ways on 2026-09-29**: a byte added to a data file moves
+  that file's hash on every page naming it and fails `--check`; an untouched file
+  keeps its hash; restoring the byte returns the original hash exactly; and a tag
+  stripped of its stamp fails by name.
+  **IT RIPPLED INTO TWO CHECKS, and both broke by not recognising their own
+  subject.** `check-pages.js` took a basename by splitting on `/`, which kept
+  `?v=…` and would have reported all 55 pages broken. `check-feedback.js`
+  matched `src="patient-ed-render.js"` with a closing quote, so it reported 33
+  released pages as having lost their feedback button when nothing had happened
+  to them. **When a tag's shape changes, grep every check that pattern-matches a
+  src before trusting a green run.**
 - `node check-pages.js` — expect "every dependency present and in order", exit 0.
   Every other check in this repo reads DATA. This one asks whether a generated
   page can run at all. On 2026-09-14 the Add-On Clinical Reference shipped to
