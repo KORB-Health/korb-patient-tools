@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
 """build-charges.py - generate korb-charges.js from Nick's KORB x TEBRA workbook.
 
-    python build-charges.py <workbook.xlsx>            write korb-charges.js
-    python build-charges.py <workbook.xlsx> --check    exit 1 on any drift
+    python build-charges.py <workbook.xlsx|published.csv>          write korb-charges.js
+    python build-charges.py <workbook.xlsx|published.csv> --check  exit 1 on drift
+
+TWO INPUTS, ONE OUTPUT. The .xlsx is Nick’s whole workbook, fetched through
+the Drive connector by a person. The .csv is the published Clinical Export tab,
+fetched with curl and needing no sign-in, which is what lets this run
+unattended - a scheduled session cannot use the Drive connector at all, proven
+twice on 2026-09-28 when the call hung with no prompt and no error.
+
+The CSV is already filtered at the source. The gates below still run on it:
+filtering at the source is the safety, re-checking here is the proof. The one
+check the CSV cannot do is master-against-Tebra, because the published tab has
+a single fee column.
 
 WHAT THIS PULLS, AND WHAT IT REFUSES TO.
 
@@ -52,7 +63,7 @@ Do not let it pass: something was retired and nobody told you.
 
 Not wired to any page yet. Generating it is step one.
 """
-import sys, io, os, re, datetime
+import sys, io, os, re, csv, datetime
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
@@ -90,6 +101,45 @@ INTERNAL_RATE = {
 }
 
 CODE_RE = re.compile(r'^[A-Za-z][A-Za-z0-9]{2,}$')
+
+
+def read_csv(path):
+    """The PUBLISHED tab, fetched with curl. Columns are already the five we
+    want - Grouping, Charge Code, Modifier, Fee, Description - because the
+    QUERY in that sheet selected them, and the groupings and named-customer
+    rows were filtered there too. The gates below still run: filtering at the
+    source is the safety, re-checking here is the proof.
+
+    utf-8-sig because Google prefixes the export with a BOM."""
+    rows, seen, dup, conflict = [], {}, [], []
+    with io.open(path, encoding='utf-8-sig', newline='') as fh:
+        for rec in csv.DictReader(fh):
+            grouping = (rec.get('Grouping') or '').strip()
+            code = (rec.get('Charge Code') or '').strip()
+            desc = (rec.get('Description') or '').strip()
+            fee = (rec.get('Fee') or '').strip()
+            if not code or grouping not in ALLOW:
+                continue
+            if code in NAMED_ORG or code in INTERNAL_RATE:
+                continue
+            if not CODE_RE.match(code):
+                continue
+            price = int(float(fee)) if re.match(r'^-?\d+(\.\d+)?$', fee) else None
+            if code in seen:
+                first = seen[code]
+                if first['price'] != price:
+                    conflict.append((code, first['grouping'], first['price'], grouping, price))
+                else:
+                    dup.append((code, first['grouping'], grouping, price))
+                continue
+            entry = {'code': code, 'grouping': grouping, 'description': desc, 'price': price}
+            seen[code] = entry
+            rows.append(entry)
+    rows.sort(key=lambda x: (ALLOW.index(x['grouping']), x['code']))
+    # The published tab cannot show the master/Tebra disagreement - it carries
+    # one fee column. That check only runs on the .xlsx path, and the task
+    # prompt says so rather than pretending otherwise.
+    return rows, [], dup, conflict
 
 
 def read(path):
@@ -155,7 +205,7 @@ def esc(s):
     return s.replace('\\', '\\\\').replace("'", "\\'")
 
 
-def js(rows, source):
+def js(rows, route):
     L = []
     add = L.append
     bar = '=' * 74
@@ -163,7 +213,8 @@ def js(rows, source):
     add('   KORB HEALTH — CHARGE CODES AND PRICING')
     add('')
     add('   GENERATED. Do not hand-edit - the next build overwrites it.')
-    add("   Source: '%s', tab 'Charge Codes_Master', columns A-F." % source)
+    add("   Source: Nick Ellison's KORB x TEBRA workbook.")
+    add("   Fetched this run as: %s" % route)
     add('   Regenerate:  python build-charges.py <workbook.xlsx>')
     add('   Check drift: python build-charges.py <workbook.xlsx> --check')
     add('')
@@ -187,7 +238,7 @@ def js(rows, source):
     add('    meta: {')
     add("      version: '1.0',")
     add("      generated: '%s'," % datetime.date.today().isoformat())
-    add("      source: '%s'," % esc(source))
+    add("      source: 'KORB x TEBRA Charge Codes, Nick Ellison',")
     add("      sourceTab: 'Charge Codes_Master, columns A-F',")
     add("      owner: 'Nick Ellison, VP Finance - the codes and prices are his',")
     add('      count: %d,' % len(rows))
@@ -259,7 +310,8 @@ def main():
         sys.exit(__doc__)
 
     path = args[0]
-    rows, disagree, dup, conflict = read(path)
+    reader = read_csv if path.lower().endswith('.csv') else read
+    rows, disagree, dup, conflict = reader(path)
     source = os.path.basename(path)
     fail = False
 
@@ -284,6 +336,8 @@ def main():
         for c, m, t in disagree:
             print('   %-16s master %-6s tebra %-6s' % (c, m, t))
         print('   Ask Nick which one Tebra is billing. Reading the master, as always.')
+    elif path.lower().endswith('.csv'):
+        print('published CSV: one fee column, so no master/Tebra comparison here')
     else:
         print('master and Tebra extract agree on every code')
 
@@ -303,7 +357,8 @@ def main():
             print('')
             print('new codes since the last generation (%d): %s' % (len(new), ', '.join(new)))
 
-    built = js(rows, source)
+    route = 'published CSV' if path.lower().endswith('.csv') else 'workbook .xlsx'
+    built = js(rows, route)
 
     if check:
         if not os.path.exists(OUT):
@@ -311,7 +366,9 @@ def main():
             print('DRIFT: korb-charges.js does not exist. Generate it.')
             sys.exit(1)
         have = io.open(OUT, encoding='utf-8').read().replace('\r\n', '\n')
-        strip = lambda s: re.sub(r"^ *generated: '.*',$", '', s, flags=re.M)
+        def strip(s):
+            s = re.sub(r"^ *generated: '.*',$", '', s, flags=re.M)
+            return re.sub(r'^   Fetched this run as: .*$', '', s, flags=re.M)
         if strip(have) != strip(built):
             print('')
             print('DRIFT: korb-charges.js does not match the workbook. Regenerate it.')

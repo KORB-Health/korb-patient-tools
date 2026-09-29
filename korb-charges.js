@@ -2,7 +2,8 @@
    KORB HEALTH — CHARGE CODES AND PRICING
 
    GENERATED. Do not hand-edit - the next build overwrites it.
-   Source: 'korb_charges_live.xlsx', tab 'Charge Codes_Master', columns A-F.
+   Source: Nick Ellison's KORB x TEBRA workbook.
+   Fetched this run as: workbook .xlsx
    Regenerate:  python build-charges.py <workbook.xlsx>
    Check drift: python build-charges.py <workbook.xlsx> --check
 
@@ -26,7 +27,7 @@
     meta: {
       version: '1.0',
       generated: '2026-09-28',
-      source: 'korb_charges_live.xlsx',
+      source: 'KORB x TEBRA Charge Codes, Nick Ellison',
       sourceTab: 'Charge Codes_Master, columns A-F',
       owner: 'Nick Ellison, VP Finance - the codes and prices are his',
       count: 97,
