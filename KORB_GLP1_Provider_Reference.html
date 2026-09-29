@@ -164,9 +164,12 @@
       </div>
       <div class="cg">
         <label for="supplySel">6. Program length</label>
+        <!-- Filled from korb-glp1-data.js once a product is chosen - see
+             the SUPPLY_LABEL block below. This placeholder is what a disabled
+             picker shows before then, and must not be a second list of
+             programme lengths to keep in step. -->
         <select id="supplySel" disabled>
           <option value="supply4">4-week</option>
-          <option value="supply8">8-week</option>
         </select>
         <span class="hint">All patients start at 4-week.</span>
       </div>
@@ -471,8 +474,31 @@ function buildDoses(){
     sup.value = S.supply; sup.disabled = false;
   } else {
     supLbl.textContent = '6. Program length';
-    sup.innerHTML = '<option value="supply4">4-week</option><option value="supply8">8-week</option>';
-    if (String(S.supply).indexOf('disp') === 0) S.supply = 'supply4';
+    /* DERIVED, NOT TYPED. This was the string
+         '<option value="supply4">4-week</option><option value="supply8">8-week</option>'
+       until 2026-09-29, and that is why the 12-week Premier programme did not
+       appear here on the day it went live. korb-glp1-data.js carried supply12
+       on all 18 Premier doses, the monographs rendered it, the price resolved,
+       and this picker still offered two choices because two choices were typed
+       into it. A hardcoded list beside a data file is the failure this repo
+       opens with - the Dose Guide going stale on a retired Greenwich ladder -
+       and it was sitting in a second page the whole time.
+       billingPrograms() reads what the product ACTUALLY carries, so a fourth
+       programme length appears here by existing in the data. */
+    sup.innerHTML = '';
+    var SUPPLY_LABEL = { supply4: '4-week', supply8: '8-week', supply12: '12-week' };
+    var keys = (KORB_GLP1.billingPrograms(S.product) || [])
+                 .filter(function (k) { return /^supply\d+$/.test(k); });
+    if (!keys.length) keys = ['supply4'];
+    keys.forEach(function (k) {
+      var o = document.createElement('option');
+      o.value = k;
+      /* A key with no label still renders, spelled from its own digits, rather
+         than vanishing from a provider's choices in silence. */
+      o.textContent = SUPPLY_LABEL[k] || (k.replace('supply', '') + '-week');
+      sup.appendChild(o);
+    });
+    if (keys.indexOf(S.supply) === -1) S.supply = keys[0];
     sup.value = S.supply; sup.disabled = !!isOral;
   }
 }
