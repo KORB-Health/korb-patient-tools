@@ -203,7 +203,12 @@
     <div class="rx-block" id="rxBlock"></div>
     <div class="note" id="rxFootnote">Copy these values literally into the Tebra Compounded Drug Favorite. Do not paraphrase prescription text.</div>
 
-    <div class="sec csec-hdr" onclick="tog('progBody',this)">4-week to 8-week progression <span class="tog">[show]</span></div>
+    <!-- "4-week to 8-week progression" until 2026-09-29. It named two of the
+         three programme lengths on a page that offers all three, which is how
+         Don came to be looking at a heading that said 8 while the picker beside
+         it said 12. A heading that enumerates is a fourth list to keep in step;
+         this one describes instead. -->
+    <div class="sec csec-hdr" onclick="tog('progBody',this)">Programme progression <span class="tog">[show]</span></div>
     <div class="csec-body collapsed" id="progBody">
       <div class="pricing-panel" id="progPanel"></div>
     </div>
@@ -241,7 +246,7 @@
      this page calls billingFor and reads pricing.* directly, and without it
      every price is null - a blank where a number belongs, not an error. -->
 <script src="korb-charges.js?v=05b3cee5"></script>
-<script src="korb-glp1-data.js?v=f46c4fbe"></script>
+<script src="korb-glp1-data.js?v=42fbc770"></script>
 <script>
 /* ============================================================
    KORB GLP-1 Provider Reference — view layer only.
@@ -918,11 +923,27 @@ function renderProgression(){
   var prod = S.product ? K.getProduct(S.product) : null;
   var isOralProd = prod && (prod.route === 'oral' || prod.route === 'sublingual');
   var html = '<div class="pricing-note" style="font-size:13px;color:#1A1A2E;">' +
-             '<strong>' + esc(pr.startRule) + '</strong><br>' + esc(pr.eightWeekEligibility) + '</div>';
+             '<strong>' + esc(pr.startRule) + '</strong><br>' + esc(pr.eightWeekEligibility) +
+             (pr.twelveWeekEligibility ? '<br>' + esc(pr.twelveWeekEligibility) : '') + '</div>';
+  /* The dose commitment is the one thing a provider must weigh before offering
+     12-week that does not arise at 8, so it gets its own callout rather than a
+     third sentence in the paragraph above. */
+  if (pr.twelveWeekDoseCommitment){
+    html += '<div class="openflag" style="background:#FFF4E5;border-color:#FBB040;color:#6B4A00;">' +
+            '<strong>Before offering 12-week</strong><br>' + esc(pr.twelveWeekDoseCommitment) + '</div>';
+  }
   html += '<div class="tbl-wrap" style="margin-top:10px;"><table><thead><tr><th>Field</th><th>Rule</th></tr></thead><tbody>';
   html += '<tr><td>Decision owner</td><td>' + esc(pr.decisionOwner) + ' \u2014 mandatory: ' + (pr.mandatory ? 'yes' : 'no') + '</td></tr>';
   html += '<tr><td>Patient initiated</td><td>' + (pr.patientInitiated ? 'Yes' : 'No') + '</td></tr>';
-  html += '<tr><td>Visit cadence</td><td>4-week: ' + esc(pr.visitCadence.fourWeek) + ' &middot; 8-week: ' + esc(pr.visitCadence.eightWeek) + '</td></tr>';
+  /* Built from whatever cadences the data carries, rather than the fixed pair
+     '4-week: X · 8-week: Y'. That pair is why this row still said two lengths
+     after the 12-week programme went live. */
+  var CADENCE_LABEL = { fourWeek: '4-week', eightWeek: '8-week', twelveWeek: '12-week' };
+  var cadence = Object.keys(CADENCE_LABEL)
+    .filter(function (k) { return pr.visitCadence[k]; })
+    .map(function (k) { return CADENCE_LABEL[k] + ': ' + esc(pr.visitCadence[k]); })
+    .join(' &middot; ');
+  html += '<tr><td>Visit cadence</td><td>' + cadence + '</td></tr>';
   html += '<tr><td>Weaning</td><td>' + esc(pr.weaning.note) + '</td></tr>';
   html += '<tr><td>Applies to</td><td>' + esc(pr.appliesTo.join(', ')) + ' \u2014 ' + esc(pr.appliesToNote) + '</td></tr>';
   html += '</tbody></table></div>';

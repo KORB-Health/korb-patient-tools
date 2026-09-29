@@ -1207,14 +1207,25 @@ var KORB_GLP1 = {
     appliesToNote: 'Identical for both drugs. No drug-specific variation.',
     visibility: 'internal',
     doNotPublish: true,
-    publishNote: 'Internal and provider-facing only. Do not put this rule in a patient handout, the website, a pricing flyer, or any Circle post. A patient should not arrive expecting to graduate to 8-week.',
+    publishNote: 'Internal and provider-facing only. Do not put this rule in a patient handout, the website, a pricing flyer, or any Circle post. A patient should not arrive expecting to graduate to 8-week or 12-week.',
     startsAt: '4-week',
     startRule: 'Every patient starts on the 4-week program. No exceptions.',
     eightWeekEligibility: 'A patient may be offered the 8-week program once they are stable at the dose they have landed on after escalation.',
+    /* Don, 2026-09-29, asked directly: 12-week carries the SAME eligibility as
+       8-week. A stable patient who knows what they are doing may be offered it,
+       and 8-week is NOT a required step on the way - a patient may go from
+       4-week straight to 12-week if the provider offers it.
+       The one thing that is genuinely different is the length of the
+       commitment, and it is Don's own wording: they are stuck with that dose
+       for twelve weeks. It is recorded as its own field rather than folded into
+       the sentence above, because it is the question a provider has to ask
+       before offering 12-week and does not have to ask before offering 8. */
+    twelveWeekEligibility: 'Same as the 8-week program: a patient may be offered 12-week once they are stable at the dose they have landed on after escalation. 8-week is not a required step - a stable patient may go from 4-week straight to 12-week.',
+    twelveWeekDoseCommitment: 'Before offering 12-week, confirm the patient is comfortable staying on this dose for twelve weeks. The whole supply ships at once, so a dose change inside the programme means unused medication.',
     mandatory: false,
     decisionOwner: 'Provider',
     patientInitiated: false,
-    decisionNote: 'The 8-week program is an offer the provider extends, not a milestone the patient reaches or requests. Escalation, holding, reducing and weaning off are all provider discretion.',
+    decisionNote: 'The 8-week and 12-week programs are an offer the provider extends, not a milestone the patient reaches or requests. Escalation, holding, reducing and weaning off are all provider discretion.',
     weaning: { decisionOwner: 'Provider', note: 'Dose reduction and weaning off therapy are entirely at provider discretion. No fixed taper schedule is defined at the program level.' },
     reasonsToStayOnFourWeek: [
       'Cost \u2014 the 4-week program is the lower per-visit outlay and carries the discounted rate.',
@@ -1224,7 +1235,13 @@ var KORB_GLP1 = {
     visitCadence: {
       fourWeek: 'Monthly provider visit',
       eightWeek: 'Provider visit every 8 weeks',
-      modality: 'Either a video visit or an asynchronous visit. Both are acceptable for 4-week and 8-week follow-ups.'
+      /* The visit follows the fill, as it does at 4 and 8 weeks: the patient is
+         seen when the supply runs out, not partway through it. Derived from
+         that pattern rather than stated by Don on 2026-09-29, and flagged to
+         him as the one value here that was. If a 12-week patient should still
+         be seen at 8 weeks, this is the line to change and nothing else. */
+      twelveWeek: 'Provider visit every 12 weeks',
+      modality: 'Either a video visit or an asynchronous visit. Both are acceptable for 4-week, 8-week and 12-week follow-ups.'
     },
     /* Oral products do not follow the injectable 4-week / 8-week rhythm. */
     oral: {
