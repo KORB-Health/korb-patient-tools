@@ -723,6 +723,7 @@ Run all of them **from the repo root**.
 | `build-intake-spec.py` | `KORB_Scheduler_Intake_Prototype.html` | `KORB_Scheduler_Intake_Logic_Spec.xlsx` (vendor spec) |
 | `build-charges.py` | Nick's KORB x TEBRA workbook (.xlsx) | `korb-charges.js` - codes and prices only |
 | `check-charges.ps1` | the published Clinical Export CSV | nothing - regenerates and pushes `korb-charges.js` only if every gate passes |
+| `install-charge-check.ps1` | - | registers the daily Windows task on THIS machine. Run it once per computer |
 | `check-pages.js` | every tracked `.html` | nothing - exits 1 if a generated page cannot run |
 
 The list of GLP-1 documents is **not** in `build-provider-docs.js`. It is `DOCS` in
@@ -998,6 +999,13 @@ This repo has real self-checks. Use them, and prove they have teeth.
   pushing. Log: `%USERPROFILE%\.korb-charges-log.txt`.
   **The published URL is NOT in this repo** — it lives in
   `%USERPROFILE%\.korb-charges-url.txt`, one line, because this repo is public.
+  **IT IS PER MACHINE.** `check-charges.ps1` travels with the repo; the Windows
+  task and the url file do not. On a new computer run
+  `powershell -ExecutionPolicy Bypass -File install-charge-check.ps1 -Url "<link>"`
+  once. Safe on both machines at once: the script pulls before it regenerates,
+  so whichever runs first wins and the second finds nothing staged and says so
+  rather than erroring. A check that only runs on the computer that is switched
+  off is not a check.
   **It is a script and not a Claude scheduled task for a reason.** As a scheduled
   task it stalled three times on 2026-09-28, twice on the Google Drive connector
   and once on a plain Bash curl, each with no result, no error and no prompt

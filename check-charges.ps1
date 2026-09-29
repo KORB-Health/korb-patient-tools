@@ -104,6 +104,18 @@ if ($LASTEXITCODE -ne 0) { & git checkout -- korb-charges.js; Fail "still drifti
 # ---- 6. push just the one file -------------------------------------------
 $moved = ($check | Where-Object { $_ -match 'new codes|DRIFT' }) -join '; '
 & git add korb-charges.js
+
+# SAFE ON TWO MACHINES. Don works on a desktop and a laptop and this runs on
+# both. If the other one already pulled the same change and pushed it, the
+# git pull above brought it in and the regeneration produced an identical file,
+# so there is nothing staged. That is success, not failure - say so and stop,
+# rather than reporting a commit error for work that is already done.
+$staged = & git diff --cached --name-only
+if (-not $staged) {
+  Log "Already up to date - the other machine applied this change first."
+  exit 0
+}
+
 & git commit -q -m "Charge codes: pulled from the published sheet`n`n$moved`n`nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 if ($LASTEXITCODE -ne 0) { Fail "commit failed" }
 & git push -q
