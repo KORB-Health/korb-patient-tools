@@ -247,7 +247,13 @@
      every price is null - a blank where a number belongs, not an error. -->
 <script src="korb-charges.js?v=05b3cee5"></script>
 <script src="korb-glp1-data.js?v=42fbc770"></script>
+<!-- korb-rx-block.js owns the ONE Copy button and clipboard handler. This
+     page uses it for the charge code, so the code copies the same way a
+     charge code does on every monograph. Its own .copy-btn on the Tebra
+     rows below predates the shared module and is open work. -->
+<script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
+KORB_RX_BLOCK.install();
 /* ============================================================
    KORB GLP-1 Provider Reference — view layer only.
    Every clinical, pharmacy and pricing value comes from
@@ -868,8 +874,13 @@ function renderPricing(p){
   bill.options.forEach(function(o){
     /* A null code is a real answer, not a gap - it means Operations supplies it.
        Rendered as a different chip so it never reads as a code you can use. */
+    /* The code is typed into a Tebra charge character for character, so it
+       carries the shared Copy button, as it already did on the monographs.
+       Don, 2026-09-30. The retired-code chip further down does NOT: it is a
+       code a provider must not use. */
     var codeCell = o.code
-      ? '<span class="code-chip">' + esc(o.code) + '</span>'
+      ? '<span class="cp" data-copy="' + esc(o.code) + '"><span class="code-chip">' + esc(o.code) +
+        '</span><button class="copybtn" type="button" aria-label="Copy charge code">Copy</button></span>'
       : '<span class="ops-chip">' + esc(o.codeNote || 'Operations will provide') + '</span>';
     html += '<tr><td>' + esc(o.label) + '</td>' +
             '<td>' + (o.price != null ? '$' + o.price : 'Varies') + '</td>' +

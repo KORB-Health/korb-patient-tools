@@ -528,6 +528,24 @@
     '});'
   ].join('\n');
 
+  /* For a LIVE page that renders in the browser rather than being built.
+     The builders inline CSS and COPY_JS at build time; a hand-built page such
+     as KORB_GLP1_Provider_Reference.html loads this file and calls install()
+     instead, so it gets the same .copybtn rule and the same handler rather
+     than declaring its own. Runs once however often it is called. Added
+     2026-09-30 for the charge-code Copy button on that page. */
+  var installed = false;
+  function install(doc) {
+    doc = doc || (typeof document !== 'undefined' ? document : null);
+    if (!doc || installed) { return; }
+    installed = true;
+    var st = doc.createElement('style');
+    st.setAttribute('data-korb-rx-block', '');
+    st.textContent = CSS;
+    doc.head.appendChild(st);
+    (new Function(COPY_JS))();
+  }
+
   /* Every field a document renders has to be one this module knows about. An
      unknown label means a data file grew a field and no document is placing it
      in the right row. Returns [] when clean, so a caller can treat a non-empty
@@ -556,6 +574,7 @@
     esc: esc,
     CSS: CSS,
     COPY_JS: COPY_JS,
+    install: install,
     selfCheck: selfCheck
   };
 }));

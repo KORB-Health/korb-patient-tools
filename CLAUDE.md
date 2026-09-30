@@ -686,6 +686,14 @@ the pharmacy accent colours, the copy button and the clipboard handler. Before
 it, the same block existed four times in four shapes and a provider saw a
 different thing depending on which document they opened.
 
+**A live, hand-built page uses `KORB_RX_BLOCK.install()`**, added 2026-09-30:
+load `korb-rx-block.js` and call it once, and the page gets the shared `.copybtn`
+CSS and clipboard handler instead of declaring its own. First use: the charge
+codes in the Pricing box of `KORB_GLP1_Provider_Reference.html`, which were the
+only charge codes on any provider page with no Copy button (Don, 2026-09-30).
+The monographs and FH&L references already had it; the Men's, Women's, Add-On
+tool and FH&L Clinical Reference copy their codes through older private helpers.
+
 Only the four FH&L references are wired to it so far. The GLP-1 monographs, the
 Add-On reference and `KORB_Provider_Clinical_Reference.html` still render their
 own. Finishing that is open work.
