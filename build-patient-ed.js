@@ -119,9 +119,16 @@ const SCREEN = `
           border: 1px solid #C3E0D2; padding: 4px 9px; display: inline-block; margin-bottom: 14px; }
   .tools { float: right; font-family: Montserrat, Helvetica, Arial, sans-serif; font-weight: 600; font-size: 12px; }
   .tools a { color: #0F5F69; margin-left: 12px; }
-  .mast { border-bottom: 1.5px solid #00B2C3; padding-bottom: 7px; margin-bottom: 16px; }
-  .mast img { height: 34px; width: auto; display: block; }
 }
+/* THE MASTHEAD IS SIZED FOR PRINT TOO. Until 2026-09-30 these two rules sat
+   inside @media screen, so pressing Print on any patient page gave a logo the
+   full width of the sheet, 336px tall, with the Print link beside it. Found by
+   Don on the gut health draft PDFs, which print from this same shell. The
+   retired PDF phase had hidden it with its own header; the Print button never
+   did. The link is a screen control and hides on paper. */
+.mast { border-bottom: 1.5px solid #00B2C3; padding-bottom: 7px; margin-bottom: 16px; }
+.mast img { height: 34px; width: auto; display: block; }
+@media print { .mast .tools { display: none; } }
 /* The When to contact KORB table, stacked on a phone. Three columns fit a page
    and a laptop; at 390px each was about 80px and the emergency list ran off the
    screen on nine handouts. Each cell carries its own heading in data-label, drawn
