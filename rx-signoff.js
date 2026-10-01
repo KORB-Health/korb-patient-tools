@@ -83,6 +83,13 @@ function load(file, globalName, sandbox) {
   return sandbox.OUT;
 }
 
+/* korb-fhl-counsel-data.js builds its document from KORB_DOSING at load, so
+   the dosing global has to exist first, exactly as the page loads it. */
+function loadCounsel(sandbox) {
+  global.KORB_DOSING = load('korb-dosing-data.js', 'KORB_DOSING', sandbox);
+  return load('korb-fhl-counsel-data.js', 'KORB_FHL_COUNSEL', sandbox);
+}
+
 function loadAll() {
   const sandbox = {};
   global.KORB_PHARMACIES = load('korb-pharmacies.js', 'KORB_PHARMACIES', sandbox);
@@ -93,7 +100,8 @@ function loadAll() {
     dosing: load('korb-dosing-data.js', 'KORB_DOSING', sandbox),
     addons: require('./korb-addons-data.js'),
     mens: load('korb-mens-data.js', 'KORB_MENS', sandbox),
-    womens: load('korb-womens-data.js', 'KORB_WOMENS', sandbox)
+    womens: load('korb-womens-data.js', 'KORB_WOMENS', sandbox),
+    fhlcounsel: loadCounsel(sandbox)
   };
 }
 
@@ -208,7 +216,8 @@ function inventory() {
      needs, so the mapping is derived rather than typed. */
   var BY_GLOBAL = { KORB_ADDONS: { data: S.addons, program: 'Add-On', prefix: 'addon' },
                     KORB_MENS:   { data: S.mens,   program: "Men's",  prefix: 'mens' },
-                    KORB_WOMENS: { data: S.womens, program: "Women's", prefix: 'womens' } };
+                    KORB_WOMENS: { data: S.womens, program: "Women's", prefix: 'womens' },
+                    KORB_FHL_COUNSEL: { data: S.fhlcounsel, program: 'FH&L', prefix: 'fhlcounsel' } };
   (ADDON.DOCS || []).forEach(function (d) {
     var m = BY_GLOBAL[d.global];
     if (!m) {

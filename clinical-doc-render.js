@@ -82,7 +82,10 @@ var PH = null;
 var DOCS = [
   { id: 'addons', global: 'KORB_ADDONS', file: 'KORB_AddOn_Clinical_Reference', title: 'Add-On Clinical Reference' },
   { id: 'mens', global: 'KORB_MENS', file: 'KORB_Mens_Health_Clinical_Reference', title: "Men's Health Clinical Reference" },
-  { id: 'womens', global: 'KORB_WOMENS', file: 'KORB_Womens_Health_Clinical_Reference', title: 'Women\'s Health Clinical Reference' }
+  { id: 'womens', global: 'KORB_WOMENS', file: 'KORB_Womens_Health_Clinical_Reference', title: 'Women\'s Health Clinical Reference' },
+  /* Counseling guide, 2026-09-29. Prose from korb-fhl-counsel-data.js, every
+     program fact from korb-dosing-data.js. No prescribing blocks. */
+  { id: 'fhlcounsel', global: 'KORB_FHL_COUNSEL', file: 'KORB_FHL_Peptide_Counseling_Guide', title: 'Peptide Q&A and Counseling Guide' }
 ];
 
 /* ── SMALL HELPERS ────────────────────────────────────────────────────────── */
@@ -674,7 +677,33 @@ function sectionTrtPrescribing(sec) {
   return out;
 }
 
+/* Question and answer, one card per question. Written for the FH&L
+   counseling guide: each answer is prose, optionally followed by the wording a
+   provider must not use and a patient-safe phrase. An item with no answer
+   throws, because a question over nothing reads as "no guidance exists". */
+function sectionQA(sec) {
+  if (!sec.items || !sec.items.length) {
+    throw new Error('clinical-doc-render: section "' + sec.id + '" is render:qa with no items.');
+  }
+  var out = '<h2>' + esc2(sec.heading) + '</h2>' + paras(sec.body);
+  sec.items.forEach(function (it, i) {
+    if (!it.a || !it.a.length) {
+      throw new Error('clinical-doc-render: question "' + it.q + '" in "' + sec.id + '" has no answer.');
+    }
+    out += '<div class="qa"><h3>' + (i + 1) + '. ' + esc2(it.q) + '</h3>' + paras(it.a);
+    if (it.phrase) {
+      out += '<div class="callout"><p><strong>Patient-safe phrase.</strong> ' + esc2(it.phrase) + '</p></div>';
+    }
+    if (it.dontSay && it.dontSay.length) {
+      out += '<p class="qa-no">Do not say</p>' + bullets(it.dontSay);
+    }
+    out += '</div>';
+  });
+  return out + calloutsFor(sec);
+}
+
 function renderSection(sec) {
+  if (sec.render === 'qa') return sectionQA(sec);
   if (sec.render === 'hormoneGuide') return sectionHormoneGuide(sec);
   if (sec.render === 'womensTebra') return sectionWomensTebra(sec);
   if (sec.render === 'stateGroups') return sectionStateGroups(sec);
@@ -746,6 +775,13 @@ function renderBody(data, pharmacies, doc) {
           copy redeclared the button WITHOUT float:right while loading after it,
           so every button on this document sat inline against the text instead of
           on the right margin. One button style, one owner. */
+       '.qa{border:1px solid #D7DCE8;background:#fff;border-radius:3px;' +
+       'padding:9pt 12pt;margin:10pt 0;break-inside:avoid;}' +
+       '.qa h3{margin:0 0 5pt;color:#21275B;}' +
+       '.qa p{margin:0 0 6pt;}' +
+       '.qa .callout{margin:6pt 0;}' +
+       '.qa-no{margin:6pt 0 2pt !important;font-weight:700;color:#A15C07;font-size:11.5px;}' +
+       '.qa ul{margin:0 0 4pt;}' +
        '.rxblock h3{break-after:avoid;}' +
        '.rxblock h3+.fine{break-after:avoid;}' +
        '</style>';
