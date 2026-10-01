@@ -178,15 +178,21 @@ var KORB_FHL_COUNSEL = {
          voted to recommend several peptides, BPC-157 among them, for the 503A
          bulks list. The vote is advisory; FDA's final decision was still pending
          at the end of September. Don: none of KORB's formulary agents is on the
-         Category 2 list, so the outcome changes nothing KORB is proposing. */
+         Category 2 list, so the outcome changes nothing KORB is proposing.
+         2026-10-01: that claim is taken OFF the page. BPC-157 and injectable
+         GHK-Cu left Category 2 on 15 April 2026, but CJC-1295 and Ipamorelin were
+         designated Category 2 in October 2023 and public sources disagree on
+         whether they still are. Category status is per agent and moving, so the
+         page states only what holds either way. Don's call. */
       { q: 'What should I say about the July 2026 FDA meeting?',
         a: ['FDA\'s Pharmacy Compounding Advisory Committee met in July 2026 and voted to ' +
             'recommend several peptides, BPC-157 among them, for the 503A bulks list. The ' +
             'vote is a recommendation, not a decision. FDA has not yet issued its final ' +
             'decision, which is expected in the coming months.',
-            'It does not change KORB\'s current program. None of the agents on KORB\'s ' +
-            'formulary is on the Category 2 list, so KORB continues to offer the same ' +
-            'therapies through the same pharmacy pathways while FDA finalizes.',
+            'It does not change KORB\'s current program. KORB continues to offer only the ' +
+            'agents on its current formulary, through KORB-approved pharmacy pathways, ' +
+            'while FDA finalizes. Regulatory status differs by agent and is still ' +
+            'changing, so do not tell a patient where a specific peptide stands with FDA.',
             'Do not describe the vote as FDA approval, and do not predict the final ' +
             'decision. The committee also recommended some peptides KORB does not offer; ' +
             'that does not add them to the formulary. Any formulary change goes through ' +
