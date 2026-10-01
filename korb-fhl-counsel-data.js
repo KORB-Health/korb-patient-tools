@@ -123,7 +123,7 @@ var KORB_FHL_COUNSEL = {
       'Baseline visit: labs only. No prescription is sent and no follow-up is scheduled ' +
       'at that visit. Operations schedules the next visit once Quest results are back ' +
       'and available for provider review.',
-      'Week 12: mandatory Quest lab draw, completed at least about one week before the ' +
+      'Week 12: mandatory Quest lab draw, completed at least one week before the ' +
       'Week 16 renewal visit.',
       'Week 16: renewal visit. The provider reviews labs, response, side effects, ' +
       'adherence, goals and safety, and decides whether to continue, adjust, ' +
