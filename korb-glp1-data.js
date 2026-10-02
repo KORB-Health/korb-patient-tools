@@ -1805,7 +1805,7 @@ var KORB_GLP1 = {
        639.2351), one renewing, and have been prescribing there; the
        licensing record had simply not caught up. AZ, IL and MO are left off
        because those leases have ended (Don, 2026-10-02). NJ and NY have
-       addresses and were not asked for. */
+       ended too. */
     availableStates: ['TX', 'CA', 'AL', 'WI', 'NV'],
     availableStatesNote:
       'Brand-name GLP-1 through the manufacturer programs is only available in states ' +
