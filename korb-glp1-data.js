@@ -381,7 +381,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
-      '2026-10-02 (v2.26): BRAND STATES. Nevada added to brandRules.availableStates, and every brand state now carries the KORB practice address LillyDirect and NovoCare ask for, in brandRules.practiceAddresses, read from the office records in korb-licensing. Nevada carries a gate: each provider needs their own Nevada Board of Pharmacy Prescribe Registration first (NRS 639.2351), and none was on record that day. selfCheck fails if a brand state has no address or an address has no brand state. No dose, sig, price or charge code changed. Don Stevenson, PA-C, 2026-10-02.',
+      '2026-10-02 (v2.26): BRAND STATES. Nevada added to brandRules.availableStates, and every brand state now carries the KORB practice address LillyDirect and NovoCare ask for, in brandRules.practiceAddresses, read from the office records in korb-licensing. No warning on Nevada: Don confirmed the Nevada providers hold their Board of Pharmacy Prescribe Registration, one renewing, and have been prescribing there. Austin is Suite 100 with no building number, as Tebra lists it. selfCheck fails if a brand state has no address or an address has no brand state. No dose, sig, price or charge code changed. Don Stevenson, PA-C, 2026-10-02.',
       '2026-09-28 (v2.25): NEW PROGRAMME. 12-WEEK, PREMIER ONLY. supply12 on all 18 Premier dose records - 7 semaglutide, 5 glycine, 6 tirzepatide. Don, 2026-09-28: all 84 days in ONE shipment, so quantity is three times the 4-week, days 84, refill 0. Deliberately NOT the brand rx12 shape of 28 days with two refills, which also exists in this file. BUD IS THE RISK AND IT IS NEW. 12 weekly doses fall on days 0 to 77, against a 90-day beyond-use date, so only 13 days separate the start of the BUD clock from the first injection - transit included. acceptedLimitations PREMIER-12WK-BUD-WINDOW, severity high: counsel a prompt start, and put a patient who cannot start promptly on 8-week instead. It is counselling and not sig text because Patient Instructions caps at 140. Don confirmed the same day that the 90 days runs from COMPOUNDING, not dispensing, and that Premier takes 3 to 5 days from compounding to dispatch - so 8 to 10 of the 13 days remain when the box ships, and transit comes out of those. Counselling is therefore to start WITHIN 5 DAYS of delivery. The numbers are in that entry’s budMath as numbers. Transit itself is still unconfirmed and is the only remaining unknown. SYRINGE WORDING CHANGED ON PREMIER ONLY. At 12 weeks even a one-syringe dose needs 12 syringes, which is 2 packs, so every 12-week sig carries a pack count where only 4.5 mg and 6 mg did at 8 weeks. "(Include two packs of insulin syringes)" would not fit, so Premier now reads "(Include two syringe packs)" on 8-week and 12-week alike - one wording across Premier. BELMAR IS DELIBERATELY UNTOUCHED: its 22 sigs place the phrase at the END by a recorded Belmar instruction, it has no 12-week programme and no character pressure. The glycine 12-week sigs also drop the "Maintenance - " prefix, which does not fit and says nothing a 12-week fill does not already say; the 8-week glycine sigs keep it. Worst sig is 137 of 140. PRICING: pricing.semaglutide.twelveWeek is BANDED by dose where 8-week is flat - low $399 FITSema12WKL, high $449 FITSema12WKH, and doseBands.max.twelveWeek $569 FITSema12wkMAX - plus tirzepatideTiers T1A/T2A/T3A twelveWeek at $699/$799/$949. Every figure is Nick’s, verified the same day against the live workbook and carried in korb-charges.js. TWO 8-WEEK RECORDS CORRECTED, both Premier, both from Don on 2026-09-28 after reading the rendered vial tables. premier_sema_glycine 1.8 mg 8-week quantity 5 to 6 and vials8 five vials to six: Premier ships six, it multiplies the 4-week pack rather than filling to need, and five was a prescription for something they do not send. It was the only dose in the file whose 8-week quantity was not exactly double its 4-week, which is what made the 12-week derivation look wrong when it was the 8-week that was. premier_tirz 13.5 mg vials8 from \u201c2 ml x 3\u201d to \u201c1 ml x 2 & 2 ml x 2\u201d - the same 6 ml, the 4-week pack doubled, no quantity change. Every Premier dose now reads 1x / 2x / 3x across the three programmes. THREE RENDERING DEFECTS, also Don, also from the rendered page: the 12-week price rows were labelled with one dose instead of the mg range and now carry it; Vials dispensed gained a 12-week column, on products that have a 12-week programme only; and Before you prescribe said Premier offers 4-week and 8-week, and now names the 12-week option and carries the start-within-5-days counselling. vials12 is on all 18 Premier doses and every one reconciles to its supply12 quantity in millilitres. No price or charge code changed. Don Stevenson, PA-C, 2026-09-28.',
       '2026-09-23 (v2.24): NEW DOSES. Premier semaglutide 4.5 mg (150 units) and 6 mg (200 units) weekly, 4-week and 8-week. Vial combinations are Kelby Wilson\'s, Premier PIC, by email 2026-09-22, and Don ruled that table the source of truth: 4.5 mg is 3.6 ml + 2.4 ml per four weeks, 6 mg is one 2 ml vial per dose. 4.5 mg does not divide into its vials, so the fourth dose of every four weeks is the leftover of both - recorded as acceptedLimitations PREMIER-SEMA-45-CROSS-VIAL, whose mitigation is the counselling a provider gives and whose requiresSigText keeps the 28-day line on the sig. The leftover step is NOT in the sig, matching every other cross-vial dose in this file. NEW PRICE BAND, Nick 2026-09-21: pricing.semaglutide.doseBands.max, 4-week $319 FITSema001MAX website and $249 FITSemaCP9MAX discounted, 8-week $449 FITSemaMNTMAX, reached from a dose through priceBand. No existing dose, sig, price or code changed. Same day, Don: the two 8-WEEK sigs open with "(Include two packs of insulin syringes)" - both doses are over 100 units, so two syringes a dose and 16 over 8 weeks, the same reasoning as Belmar tirzepatide in v2.23. Placed at the FRONT at Don\'s direction; 138 and 136 of 140 characters. Don Stevenson, PA-C, 2026-09-23.',
       '2026-09-20 (v2.23): SUPPLY CHANGE, NO DOSE OR ROUTING CHANGE. Belmar tirzepatide 12.5 mg and 15 mg now ask for TWO packs of insulin syringes on the 8-WEEK supply only. Belmar is 10 mg/mL, so those two doses are 1.25 mL and 1.5 mL - over a 1 mL syringe, so each dose is two injections. At two syringes a dose the 4-week supply needs 8 and fits one pack; the 8-week needs 16 and does not. They are the only doses over 100 units in ANY Belmar product, so semaglutide is unaffected, and Premier and FarmaKeio tirzepatide are 18 mg/mL whose top doses are 89 and 83 units - one syringe throughout. 10 mg is deliberately LEFT at one pack: it is exactly 100 units, one full syringe, and splitting it would make a patient give two shots and KORB buy a second pack. Don Stevenson, PA-C, 2026-09-20.',
@@ -1800,13 +1800,12 @@ var KORB_GLP1 = {
        costs and the provider each lease was taken for stay in that private
        repo - this one is public.
 
-       Nevada added 2026-10-02 WITH A GATE. NRS 639.2351 makes a Nevada Board
-       of Pharmacy Prescribe Registration a precondition for an APRN to
-       prescribe any Rx-only drug, which includes every GLP-1, and on that date
-       no KORB provider had one on record. The address is real; the
-       registration is per provider. AZ, IL and MO also have addresses but
-       their leases carry a 2026-07-22 term notice, and NJ and NY were not
-       asked for - none of the five is listed. */
+       Nevada added 2026-10-02. Don confirmed the same day that the Nevada
+       providers hold their Board of Pharmacy Prescribe Registration (NRS
+       639.2351), one renewing, and have been prescribing there; the
+       licensing record had simply not caught up. AZ, IL and MO also have
+       addresses but their leases carry a 2026-07-22 term notice, and NJ and
+       NY were not asked for - none of the five is listed. */
     availableStates: ['TX', 'CA', 'AL', 'WI', 'NV'],
     availableStatesNote:
       'Brand-name GLP-1 through the manufacturer programs is only available in states ' +
@@ -1821,12 +1820,7 @@ var KORB_GLP1 = {
       CA: { address: '1750 Howe Avenue, Suite 300, Sacramento, CA 95825' },
       AL: { address: '445 Dexter Avenue, Suite 4050, Montgomery, AL 36104' },
       WI: { address: '11 Scott St, 1st Floor, Wausau, WI 54403' },
-      NV: {
-        address: '9805 Double R Blvd, Suite 300, Reno, NV 89521',
-        gate: 'Nevada: do not prescribe until you hold your own Nevada Board of Pharmacy ' +
-              'Prescribe Registration. A nursing license alone does not allow ' +
-              'prescribing a GLP-1 in Nevada (NRS 639.2351).'
-      }
+      NV: { address: '9805 Double R Blvd, Suite 300, Reno, NV 89521' }
     },
     orderVia: 'Tebra Standard prescription (NOT Tebra Compound)',
     billing: 'Patient pays the manufacturer program or the local pharmacy directly.',
@@ -5981,15 +5975,13 @@ var KORB_GLP1 = {
       'was loaded. Add <script src="korb-pharmacies.js"></script> BEFORE this file.');
   },
 
-  /* Appends the KORB practice address for a brand state, and raises the
-     result to a warning when that state carries a gate (Nevada). A state
-     with no address gets the message unchanged; callers block brand outside
+  /* Appends the KORB practice address for a brand state. A state with no
+     address gets the message unchanged; callers block brand outside
      availableStates before asking. */
   withPracticeAddress: function (st, r) {
     var a = (KORB_GLP1.brandRules.practiceAddresses || {})[st];
     if (!a) return r;
     r.message += ' KORB practice address for ' + st + ': ' + a.address + '.';
-    if (a.gate) { r.status = 'warning'; r.message += ' ' + a.gate; }
     return r;
   },
 

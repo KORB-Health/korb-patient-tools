@@ -782,9 +782,7 @@ function sectionBrandRules(doc) {
        '<p><strong>' + esc(R.availableStates.join(' · ')) + '</strong></p>' +
        '<p>' + esc(R.availableStatesNote || '') + '</p></div>';
 
-  /* The KORB practice address the manufacturer program asks for, per state.
-     A state with a gate (Nevada) prints it under the address, so the address
-     is never read without the condition attached. */
+  /* The KORB practice address the manufacturer program asks for, per state. */
   const PA = R.practiceAddresses || {};
   if (Object.keys(PA).length) {
     h += '<h3>KORB practice address by state</h3>' +
@@ -792,9 +790,6 @@ function sectionBrandRules(doc) {
          '<table class="kv">' + rows(R.availableStates.map(st => [
            st, PA[st] ? PA[st].address : '—'
          ])) + '</table>';
-    R.availableStates.filter(st => PA[st] && PA[st].gate).forEach(st => {
-      h += '<div class="callout warn"><p>' + esc(PA[st].gate) + '</p></div>';
-    });
   }
 
   /* The dispensing pharmacy. Read from the shared pharmacy layer, which is the
