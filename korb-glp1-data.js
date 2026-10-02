@@ -1803,9 +1803,9 @@ var KORB_GLP1 = {
        Nevada added 2026-10-02. Don confirmed the same day that the Nevada
        providers hold their Board of Pharmacy Prescribe Registration (NRS
        639.2351), one renewing, and have been prescribing there; the
-       licensing record had simply not caught up. AZ, IL and MO also have
-       addresses but their leases carry a 2026-07-22 term notice, and NJ and
-       NY were not asked for - none of the five is listed. */
+       licensing record had simply not caught up. AZ, IL and MO are left off
+       because those leases have ended (Don, 2026-10-02). NJ and NY have
+       addresses and were not asked for. */
     availableStates: ['TX', 'CA', 'AL', 'WI', 'NV'],
     availableStatesNote:
       'Brand-name GLP-1 through the manufacturer programs is only available in states ' +
