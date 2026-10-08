@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="KORB Health appointment time converter — convert an appointment slot between provider and patient time zones, with Arizona and daylight saving handled automatically.">
+<meta name="theme-color" content="#21275B">
+<title>KORB Health &middot; Appointment Time Converter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2321275B'/%3E%3Ccircle cx='16' cy='16' r='11.5' fill='none' stroke='%2300B2C3' stroke-width='2'/%3E%3Cpath d='M16 9v7.4l4.8 2.9' fill='none' stroke='%23FBB040' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --navy:#21275B;
+  --navy-deep:#171C45;
+  --teal:#00B2C3;
+  --sand:#ECE9D1;
+  --amber:#FBB040;
+  --bg:#F7F6F0;
+  --surface:#FFFFFF;
+  --fg:#1C1F33;
+  --muted:#6B6F84;
+  --line:#D9D7C8;
+  --warnbg:#FEF6E7;
+  --warnfg:#6A4A06;
+  --font-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --font-body:"Barlow",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);margin:0;
+  font-size:14px;line-height:1.5;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:720px;margin:0 auto;padding:28px 16px 48px}
+
+header h1{font-family:var(--font-display);font-size:clamp(26px,6vw,38px);line-height:1.05;
+  margin:0 0 6px;color:var(--navy);text-wrap:balance}
+header .sub{color:var(--muted);font-size:14px;line-height:1.55;margin:0;max-width:60ch}
+hr.rule{border:0;border-top:2px solid var(--navy);opacity:.45;margin:16px 0 22px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+  padding:18px 18px 20px;margin-bottom:16px}
+
+.lbl{display:block;font-family:var(--font-display);font-size:12px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+
+.grid2{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:560px){.grid2{grid-template-columns:1fr 1fr}}
+
+select,input[type=date],input[type=time]{
+  width:100%;font-family:var(--font-body);font-size:16px;font-weight:500;color:var(--fg);
+  padding:10px 11px;border:1px solid var(--line);border-radius:5px;background:#FBFAF5;
+  line-height:1.3;min-height:44px}
+select:focus-visible,input:focus-visible{outline:3px solid var(--teal);outline-offset:1px}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.chip{font-family:var(--font-body);font-size:12.5px;font-weight:600;padding:7px 13px;
+  border-radius:20px;border:1px solid var(--navy);background:transparent;color:var(--navy);
+  cursor:pointer;line-height:1.3}
+.chip:hover{background:var(--navy);color:#FFF}
+.chip:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+
+.sep{border:0;border-top:1px solid var(--line);margin:18px 0}
+
+.timebox .lbl b{color:var(--navy);font-weight:700}
+.hint{font-size:12px;color:var(--muted);margin:6px 0 0;line-height:1.45}
+
+.answer{background:var(--navy);color:#FFF;border-radius:8px;padding:20px 20px 22px;margin-bottom:16px}
+.answer .k{font-family:var(--font-display);font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;opacity:.72;margin-bottom:7px}
+.answer .big{font-family:var(--font-display);font-size:clamp(24px,5.5vw,34px);line-height:1.12;
+  margin:0;letter-spacing:.01em}
+.answer .big em{font-style:normal;color:var(--amber)}
+.answer .sub2{font-size:13.5px;line-height:1.6;margin:10px 0 0;opacity:.88}
+.answer .sub2 b{color:var(--amber);font-weight:600}
+
+.alert{border-radius:8px;padding:15px 17px;margin-bottom:16px;border:1px solid var(--line);
+  border-left:5px solid var(--amber);background:var(--warnbg)}
+.alert h3{font-family:var(--font-display);font-size:15px;letter-spacing:.05em;text-transform:uppercase;
+  margin:0 0 6px;color:var(--warnfg)}
+.alert p{margin:0;font-size:13.5px;line-height:1.6;color:var(--fg)}
+.alert p+p{margin-top:7px}
+.alert.ok{border-left-color:var(--teal);background:#EFFAFB}
+.alert.ok h3{color:#0A6A73}
+
+.compare{margin-top:11px;border-collapse:collapse;width:100%;font-size:13.5px;
+  font-variant-numeric:tabular-nums;background:#FFF;border:1px solid var(--line);
+  border-radius:5px;overflow:hidden}
+.compare th,.compare td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line)}
+.compare thead th{background:var(--sand);font-family:var(--font-display);font-size:11.5px;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--navy);font-weight:600}
+.compare tbody tr:last-child td{border-bottom:0}
+.compare td.v{font-weight:700;color:var(--navy)}
+
+.note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--teal);
+  border-radius:6px;padding:13px 16px;margin-bottom:12px}
+.note h3{font-family:var(--font-display);font-size:14px;letter-spacing:.05em;text-transform:uppercase;
+  margin:0 0 5px;color:var(--navy)}
+.note p{margin:0;font-size:13px;line-height:1.55}
+.note p+p{margin-top:6px}
+
+footer{margin-top:28px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);
+  padding-top:12px;line-height:1.5}
+
+@media print{
+  body{background:#FFF}
+  .chips{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <h1>Appointment Time Converter</h1>
+  <p class="sub">Pick the patient&rsquo;s zone and the visit date, type a time in either box, and the other box fills in. Arizona and the November change are handled for you.</p>
+</header>
+<hr class="rule">
+
+<div class="panel">
+  <div class="grid2">
+    <div>
+      <label class="lbl" for="meZone">Your time zone</label>
+      <select id="meZone"></select>
+    </div>
+    <div>
+      <label class="lbl" for="ptZone">Patient&rsquo;s time zone</label>
+      <select id="ptZone"></select>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <label class="lbl" for="theDate">Date of the visit</label>
+  <input type="date" id="theDate">
+  <div class="chips">
+    <button type="button" class="chip" data-weeks="0">Today</button>
+    <button type="button" class="chip" data-weeks="4">4 weeks out</button>
+    <button type="button" class="chip" data-weeks="8">8 weeks out</button>
+    <button type="button" class="chip" data-weeks="12">12 weeks out</button>
+  </div>
+
+  <hr class="sep">
+
+  <div class="grid2 timebox">
+    <div>
+      <label class="lbl" for="meTime">Time on <b id="meLbl">your</b> clock</label>
+      <input type="time" id="meTime" step="300" value="09:00">
+    </div>
+    <div>
+      <label class="lbl" for="ptTime">Time on <b id="ptLbl">the patient&rsquo;s</b> clock</label>
+      <input type="time" id="ptTime" step="300">
+    </div>
+  </div>
+  <p class="hint">Type in whichever box you know. The other one updates as you type.</p>
+</div>
+
+<div class="answer">
+  <div class="k">On the visit date</div>
+  <p class="big" id="answerLine">&nbsp;</p>
+  <p class="sub2" id="answerSub"></p>
+</div>
+
+<div id="shiftCard"></div>
+
+<div class="note">
+  <h3>What to tell the patient</h3>
+  <p>Always say the time <b>and</b> the zone: &ldquo;9:15 in the morning, your time in Phoenix.&rdquo; Saying only the number is what causes the missed visits.</p>
+  <p>If you book an Arizona patient now for a visit after the change, the Central slot stays where it is in your schedule &mdash; it is the patient&rsquo;s local time that lands an hour differently. Quote them the number this page gives for that date, not the number for today.</p>
+</div>
+
+<div class="note">
+  <h3>Why Arizona is different</h3>
+  <p>Arizona clocks never move. Everyone else springs forward in March and falls back in November, so the distance between you and an Arizona patient changes twice a year even though nothing changed on their end.</p>
+  <p>The Navajo Nation in northeastern Arizona <b>does</b> change its clocks. For those patients choose <b>Mountain</b> instead of Arizona.</p>
+</div>
+
+<footer>
+  KORB Health &middot; Clinical Operations. Times come from your device&rsquo;s own time zone database, so this page stays correct through every change with nothing to update.
+</footer>
+</div>
+
+<script>
+(function(){
+  var ZONES = [
+    { id:"America/New_York",    label:"Eastern" },
+    { id:"America/Chicago",     label:"Central" },
+    { id:"America/Denver",      label:"Mountain" },
+    { id:"America/Phoenix",     label:"Arizona (no time change)" },
+    { id:"America/Los_Angeles", label:"Pacific" },
+    { id:"America/Anchorage",   label:"Alaska" },
+    { id:"Pacific/Honolulu",    label:"Hawaii (no time change)" }
+  ];
+  var SHORT = {
+    "America/New_York":"Eastern", "America/Chicago":"Central", "America/Denver":"Mountain",
+    "America/Phoenix":"Arizona", "America/Los_Angeles":"Pacific",
+    "America/Anchorage":"Alaska", "Pacific/Honolulu":"Hawaii"
+  };
+
+  var meZone  = document.getElementById("meZone");
+  var ptZone  = document.getElementById("ptZone");
+  var theDate = document.getElementById("theDate");
+  var meTime  = document.getElementById("meTime");
+  var ptTime  = document.getElementById("ptTime");
+
+  ZONES.forEach(function(z){
+    [meZone, ptZone].forEach(function(sel){
+      var o = document.createElement("option");
+      o.value = z.id; o.textContent = z.label;
+      sel.appendChild(o);
+    });
+  });
+  meZone.value = "America/Chicago";
+  ptZone.value = "America/Phoenix";
+
+  /* ---------- time zone math, driven by the browser's own tz database ---------- */
+  function partsIn(tz, date){
+    var dtf = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz, hour12:false,
+      year:"numeric", month:"2-digit", day:"2-digit",
+      hour:"2-digit", minute:"2-digit", second:"2-digit"
+    });
+    var o = {};
+    dtf.formatToParts(date).forEach(function(p){ if(p.type!=="literal") o[p.type]=p.value; });
+    return o;
+  }
+  function offsetAt(tz, date){
+    var p = partsIn(tz, date);
+    var h = p.hour === "24" ? 0 : +p.hour;
+    var asUTC = Date.UTC(+p.year, +p.month - 1, +p.day, h, +p.minute, +p.second);
+    return asUTC - date.getTime();
+  }
+  function wallToInstant(tz, y, m, d, hh, mm){
+    var guess = Date.UTC(y, m - 1, d, hh, mm);
+    var off = offsetAt(tz, new Date(guess));
+    var ts = guess - off;
+    off = offsetAt(tz, new Date(ts));
+    return new Date(guess - off);
+  }
+  function instantToWall(tz, instant){
+    var p = partsIn(tz, instant);
+    return { y:+p.year, m:+p.month, d:+p.day, hh:(p.hour==="24"?0:+p.hour), mm:+p.minute };
+  }
+  function abbr(tz, date){
+    try{
+      var dtf = new Intl.DateTimeFormat("en-US",{timeZone:tz, timeZoneName:"short"});
+      var found = "";
+      dtf.formatToParts(date).forEach(function(p){ if(p.type==="timeZoneName") found = p.value; });
+      return found;
+    }catch(e){ return ""; }
+  }
+  function pretty(hh, mm){
+    var s = hh < 12 ? "AM" : "PM";
+    var h = hh % 12; if (h === 0) h = 12;
+    return h + ":" + (mm < 10 ? "0" : "") + mm + " " + s;
+  }
+  function pad(n){ return (n<10?"0":"") + n; }
+  function dateStr(dt){ return dt.getFullYear()+"-"+pad(dt.getMonth()+1)+"-"+pad(dt.getDate()); }
+  function parseDateInput(v){
+    var b = (v||"").split("-");
+    if (b.length !== 3) return null;
+    return { y:+b[0], m:+b[1], d:+b[2] };
+  }
+  function parseTimeInput(v){
+    var b = (v||"").split(":");
+    if (b.length < 2) return null;
+    return { hh:+b[0], mm:+b[1] };
+  }
+  function weekdayLong(y,m,d){
+    return new Date(y, m-1, d).toLocaleDateString("en-US",
+      { weekday:"long", month:"long", day:"numeric" });
+  }
+
+  theDate.value = dateStr(new Date());
+
+  Array.prototype.forEach.call(document.querySelectorAll(".chip"), function(btn){
+    btn.addEventListener("click", function(){
+      var t = new Date();
+      t.setDate(t.getDate() + (+btn.getAttribute("data-weeks")) * 7);
+      theDate.value = dateStr(t);
+      recalc("me");
+    });
+  });
+
+  var lastEdited = "me";
+
+  function gapHours(tzFrom, tzTo, instant){
+    return (offsetAt(tzTo, instant) - offsetAt(tzFrom, instant)) / 3600000;
+  }
+  function gapWords(h){
+    if (h === 0) return "on the same clock as you";
+    var n = Math.abs(h);
+    var unit = (n === 1) ? "hour" : "hours";
+    return n + " " + unit + (h > 0 ? " ahead of you" : " behind you");
+  }
+
+  function recalc(source){
+    var D = parseDateInput(theDate.value);
+    var mz = meZone.value, pz = ptZone.value;
+    document.getElementById("meLbl").textContent = "your (" + SHORT[mz] + ")";
+    document.getElementById("ptLbl").textContent = "the patient’s (" + SHORT[pz] + ")";
+    if (!D) return;
+
+    var instant, meW, ptW;
+
+    if (source === "pt"){
+      var tp = parseTimeInput(ptTime.value);
+      if (!tp) return;
+      instant = wallToInstant(pz, D.y, D.m, D.d, tp.hh, tp.mm);
+      meW = instantToWall(mz, instant);
+      ptW = { y:D.y, m:D.m, d:D.d, hh:tp.hh, mm:tp.mm };
+      meTime.value = pad(meW.hh) + ":" + pad(meW.mm);
+    } else {
+      var tm = parseTimeInput(meTime.value);
+      if (!tm) return;
+      instant = wallToInstant(mz, D.y, D.m, D.d, tm.hh, tm.mm);
+      ptW = instantToWall(pz, instant);
+      meW = { y:D.y, m:D.m, d:D.d, hh:tm.hh, mm:tm.mm };
+      ptTime.value = pad(ptW.hh) + ":" + pad(ptW.mm);
+    }
+
+    render(instant, meW, ptW, mz, pz, D);
+  }
+
+  function render(instant, meW, ptW, mz, pz, D){
+    var sameZone = (mz === pz);
+    var meStr = pretty(meW.hh, meW.mm);
+    var ptStr = pretty(ptW.hh, ptW.mm);
+    var dayNote = "";
+    if (ptW.d !== meW.d || ptW.m !== meW.m){
+      var earlier = new Date(ptW.y, ptW.m-1, ptW.d) < new Date(meW.y, meW.m-1, meW.d);
+      dayNote = earlier ? " the day before" : " the next day";
+    }
+
+    var line = document.getElementById("answerLine");
+    var sub  = document.getElementById("answerSub");
+    line.textContent = "";
+
+    if (sameZone){
+      line.textContent = meStr + " for both of you.";
+      sub.textContent = weekdayLong(D.y, D.m, D.d) + " · same zone, nothing to convert.";
+    } else {
+      line.innerHTML = "Your <em>" + meStr + "</em> is the patient’s <em>" + ptStr + "</em>" +
+        dayNote + ".";
+      var g = gapHours(mz, pz, instant);
+      sub.innerHTML = weekdayLong(D.y, D.m, D.d) + " · book it at <b>" + meStr + " " +
+        (abbr(mz, instant) || SHORT[mz]) + "</b> · the patient is " + gapWords(g) +
+        " on that date.";
+    }
+
+    renderShift(meW, mz, pz, D);
+  }
+
+  function renderShift(meW, mz, pz, D){
+    var box = document.getElementById("shiftCard");
+    box.textContent = "";
+    if (mz === pz) return;
+
+    var today = new Date();
+    var sameDay = (today.getFullYear()===D.y && (today.getMonth()+1)===D.m && today.getDate()===D.d);
+    if (sameDay) return;
+
+    var todayInstant = wallToInstant(mz, today.getFullYear(), today.getMonth()+1, today.getDate(), meW.hh, meW.mm);
+    var thenInstant  = wallToInstant(mz, D.y, D.m, D.d, meW.hh, meW.mm);
+
+    var gapToday = gapHours(mz, pz, todayInstant);
+    var gapThen  = gapHours(mz, pz, thenInstant);
+
+    var ptToday = instantToWall(pz, todayInstant);
+    var ptThen  = instantToWall(pz, thenInstant);
+
+    var card = document.createElement("div");
+
+    if (gapToday === gapThen){
+      card.className = "alert ok";
+      card.innerHTML =
+        "<h3>No shift on this one</h3>" +
+        "<p>The gap between you and this patient is the same on " + weekdayLong(D.y,D.m,D.d) +
+        " as it is today. Book it the way you normally would.</p>";
+      box.appendChild(card);
+      return;
+    }
+
+    var dir = gapThen > gapToday ? "later" : "earlier";
+    var amt = Math.abs(gapThen - gapToday);
+    card.className = "alert";
+    card.innerHTML =
+      "<h3>Heads up — this visit crosses a time change</h3>" +
+      "<p>For the same " + pretty(meW.hh, meW.mm) + " slot on your schedule, this patient’s " +
+      "local time moves <b>" + amt + " hour" + (amt===1?"":"s") + " " + dir + "</b> between today and " +
+      weekdayLong(D.y, D.m, D.d) + ". Quote them the bottom row, not the top one.</p>" +
+      "<table class=\"compare\"><thead><tr>" +
+        "<th>Same slot on</th><th>Your clock</th><th>Patient’s clock</th>" +
+      "</tr></thead><tbody>" +
+        "<tr><td>Today</td><td class=\"v\">" + pretty(meW.hh, meW.mm) + "</td>" +
+          "<td class=\"v\">" + pretty(ptToday.hh, ptToday.mm) + "</td></tr>" +
+        "<tr><td>" + weekdayLong(D.y, D.m, D.d) + "</td><td class=\"v\">" + pretty(meW.hh, meW.mm) + "</td>" +
+          "<td class=\"v\">" + pretty(ptThen.hh, ptThen.mm) + "</td></tr>" +
+      "</tbody></table>";
+    box.appendChild(card);
+  }
+
+  meTime.addEventListener("input",  function(){ lastEdited="me"; recalc("me"); });
+  ptTime.addEventListener("input",  function(){ lastEdited="pt"; recalc("pt"); });
+  theDate.addEventListener("input", function(){ recalc(lastEdited); });
+  meZone.addEventListener("change", function(){ recalc(lastEdited); });
+  ptZone.addEventListener("change", function(){ recalc(lastEdited); });
+
+  recalc("me");
+})();
+</script>
+</body>
+</html>
