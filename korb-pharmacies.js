@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.6",
+    version: "1.7",
     created: "2026-09-11",
-    updated: "2026-09-15",
+    updated: "2026-10-12",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-10-12 (v1.7): NORTH CAROLINA ONLY. FarmaKeio does not ship to NC. NC removed from the FarmaKeio footprint and preferred list, added to footprintExcludes, and added to Premier's preferred states and routing. Every other state and pharmacy is unchanged. Don Stevenson, PA-C.",
       "2026-09-16 (v1.6): PROGRAMS CAN NOW NARROW A FOOTPRINT, not just subtract from it. servesState honours an `only` list on a program. Added for TRT: testosterone cypionate is Schedule III and a pharmacy's controlled-substance licensure is far narrower than the states it can ship an ordinary compound to - Premier ships peptides to 38 states and testosterone to Texas. Saying that with `excludes` would mean typing the other 37 and re-typing them whenever the general footprint moves, which is a list kept in step by hand. No program declared `only` before this, and every existing GLP-1 and peptide footprint was captured before the change and compared after: none moved. Also filled in the trt program for premier (TX) and empower (CA), both verified:false - they record what KORB_Mens_Health_Provider_Tool.html has asserted since before this file existed and have NOT been checked against DEA registration or state licences. suppliesKit records that Empower ships the injection kit and Premier does not, which is why the Tebra pharmacy note differs by pharmacy rather than by state.",
       "2026-09-15 (v1.5): korb-dosing-data.js wired on under open item 4, joining korb-glp1-data.js. Its premierRouting now comes from statesFor('premier', 'peptides') at load instead of being typed there. crossCheck reports derived files by name and states plainly that their lists were NOT independently verified, since comparing a value with itself is agreement it did not earn. Also added dispensingName, address1, cityStateZip and phone for lillydirect and novocare, which the brand GLP-1 documents print.",
       "2026-09-11 (v1.0-1.4): extracted from korb-glp1-data.js; reshaped to pharmacy x program keying; GLP-1 wired on under open item 3."
@@ -245,7 +246,8 @@ var KORB_PHARMACIES = {
         "MO",
         "NJ",
         "NY",
-        "OH"
+        "OH",
+        "NC"
       ],
       "programs": {
         "glp1": {
@@ -417,7 +419,6 @@ var KORB_PHARMACIES = {
         "MO",
         "MS",
         "MT",
-        "NC",
         "ND",
         "NE",
         "NH",
@@ -443,9 +444,10 @@ var KORB_PHARMACIES = {
         "WY"
       ],
       "footprintExcludes": [
-        "CA"
+        "CA",
+        "NC"
       ],
-      "footprintNote": "Ships to 49 states plus DC. California is the single state FarmaKeio will not ship to, and that cannot be overridden. Preferred everywhere except CA, TX, FL, AZ and NV.",
+      "footprintNote": "Ships to 48 states plus DC. FarmaKeio will not ship to California or North Carolina, and that cannot be overridden. North Carolina was removed 2026-10-12 when Don learned FarmaKeio does not ship there; NC routes to Premier. Preferred everywhere except CA, NC, TX, FL, AZ and NV.",
       "preferredStates": [
         "AK",
         "AL",
@@ -468,7 +470,6 @@ var KORB_PHARMACIES = {
         "MN",
         "MS",
         "MT",
-        "NC",
         "ND",
         "NE",
         "NH",
@@ -814,7 +815,8 @@ var KORB_PHARMACIES = {
         "MO",
         "NJ",
         "NY",
-        "OH"
+        "OH",
+        "NC"
       ],
       "pharmacy": "premier",
       "basis": "preferred pharmacy"

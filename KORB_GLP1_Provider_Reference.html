@@ -241,12 +241,12 @@
 
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
-<script src="korb-pharmacies.js?v=c650bf38"></script>
+<script src="korb-pharmacies.js?v=a403b1b1"></script>
 <!-- korb-charges.js carries the prices. It must load BEFORE the data file:
      this page calls billingFor and reads pricing.* directly, and without it
      every price is null - a blank where a number belongs, not an error. -->
 <script src="korb-charges.js?v=05b3cee5"></script>
-<script src="korb-glp1-data.js?v=f01ddf3c"></script>
+<script src="korb-glp1-data.js?v=a6685dfd"></script>
 <!-- korb-rx-block.js owns the ONE Copy button and clipboard handler. This
      page uses it for the charge code, so the code copies the same way a
      charge code does on every monograph. Its own .copy-btn on the Tebra
