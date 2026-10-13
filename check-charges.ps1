@@ -108,6 +108,16 @@ if ($dirty) {
 & git pull --ff-only | Out-Null
 if ($LASTEXITCODE -ne 0) { Fail "git pull failed - resolve by hand" }
 
+# NEVER PUSH SOMEBODY ELSE'S COMMITS. This repo publishes to patients the
+# moment it is pushed, and git push sends every local commit, not just ours.
+# On 2026-10-13 the desktop held two committed-but-unreleased GHK-Cu commits
+# awaiting Don's sign-off; a sheet change the next morning would have
+# published them with the charge codes. Unpushed work stops the job instead.
+$ahead = (& git rev-list --count '@{u}..HEAD').Trim()
+if ($ahead -ne '0') {
+  Fail "this machine has $ahead commit(s) not yet on GitHub. Not pushing them with the charge codes - push or hold them first."
+}
+
 # The drift check above ran against THIS machine's copy, before the pull. If the
 # other machine already pushed the change, the pull brought it in and there is
 # nothing left to do. Without this re-check the run regenerated an identical file
@@ -120,23 +130,41 @@ if ($LASTEXITCODE -eq 0) {
   exit 0
 }
 
+# Undo everything this run wrote. The dirty-tree check above guarantees the
+# tree was clean apart from korb-charges.js, so restoring every tracked file
+# touches nothing but our own output - which now includes restamped pages.
+function Revert { & git checkout -- . | Out-Null }
+
 & python build-charges.py $csv | Out-Null
 if ($LASTEXITCODE -ne 0) {
-  Log "regeneration reported a problem:"; Log ($check -join "`n"); & git checkout -- korb-charges.js
+  Log "regeneration reported a problem:"; Log ($check -join "`n"); Revert
   Notify 'KORB charge codes: needs you' 'Regenerating the charge codes failed. Nothing pushed.'
   exit 1
+}
+
+# RESTAMP THE PAGES THAT LOAD IT. Every page loads korb-charges.js with a
+# content hash in its url (stamp-cache.js), so a browser fetches the new file
+# because the url changed. Regenerating the file without restamping left the
+# old hash on 11 pages: on 2026-10-12 the GHK-Cu codes went live in the file
+# and every GLP-1 page still pointed browsers at their cached copy. Found
+# 2026-10-13. The stamp check is a gate below, so a missed stamp cannot ship.
+& node stamp-cache.js | Out-Null
+if ($LASTEXITCODE -ne 0) {
+  Revert
+  Notify 'KORB charge codes: needs you' 'Restamping the pages failed. Reverted, nothing pushed.'
+  Fail "stamp-cache.js failed"
 }
 
 # ---- 5. every gate, or nothing -------------------------------------------
 $gates = @(
   'node check-pages.js', 'node check-tebra-caps.js --gate', 'node rx-signoff.js --gate',
   'node build-embed.js --check', 'node check-pharmacies.js', 'node check-feedback.js',
-  'node check-404.js'
+  'node check-404.js', 'node stamp-cache.js --check'
 )
 foreach ($g in $gates) {
   $out = & cmd /c "$g 2>&1"
   if ($LASTEXITCODE -ne 0) {
-    & git checkout -- korb-charges.js
+    Revert
     Log "GATE FAILED, reverted and did not push: $g"
     Log ($out -join "`n")
     Notify 'KORB charge codes: a check failed' "The sheet changed but $g failed. Reverted, nothing pushed."
@@ -144,11 +172,12 @@ foreach ($g in $gates) {
   }
 }
 & python build-charges.py $csv --check | Out-Null
-if ($LASTEXITCODE -ne 0) { & git checkout -- korb-charges.js; Fail "still drifting after regeneration" }
+if ($LASTEXITCODE -ne 0) { Revert; Fail "still drifting after regeneration" }
 
-# ---- 6. push just the one file -------------------------------------------
+# ---- 6. push the file and the pages restamped for it ---------------------
 $moved = ($check | Where-Object { $_ -match 'new codes|DRIFT' }) -join '; '
 & git add korb-charges.js
+& git add -u -- '*.html'
 
 # SAFE ON TWO MACHINES. Don works on a desktop and a laptop and this runs on
 # both. If the other one already pulled the same change and pushed it, the
