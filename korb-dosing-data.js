@@ -1405,11 +1405,16 @@ var KORB_DOSING = {
          partner code, created by Nick for it on 2026-10-12. Same price and the
          same four payments as the rest of Foundation; only the code differs.
          The recurring twin, FndnPeptideP44, is Ops-only for payments 2-4 and is
-         deliberately NOT here (Don). No website code exists yet - null, not a
-         borrowed code, until Nick issues one. */
+         deliberately NOT here (Don).
+
+         PARTNER ONLY, BY DESIGN. Don, 2026-10-13: website codes and website
+         pricing are not released to providers and staff - they live only on
+         the website. Nick is also holding the website codes until he has
+         confirmed they work with the recurring payments. So there is no
+         website key here at all, not a null and not a "pending" note, and
+         every renderer shows GHK-Cu Foundation at the partner rate only. */
       codeByAgent: {
-        ghkcu1mg: { website: null, partner: 'FndnPeptideP04',
-                    websitePending: 'No website code yet - requested from Nick 2026-10-13' }
+        ghkcu1mg: { partner: 'FndnPeptideP04', websiteOnSiteOnly: true }
       }
     },
     gateway: {

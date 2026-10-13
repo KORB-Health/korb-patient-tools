@@ -812,19 +812,15 @@ function sectionPricing(doc) {
   rows += payRow(p.label + others + ' - partner', p.partner.payment, p.code.partner);
   rows += payRow(p.label + others + ' - website', p.website.payment, p.code.website);
 
-  /* THE EXCEPTION, 2026-10-13: GHK-Cu in Foundation bills under its own code.
-     Same price, different code, so it gets its own rows. A missing code prints
-     as pending rather than borrowing the program's - a borrowed code is a
-     wrong charge that looks right. */
+  /* THE EXCEPTION, 2026-10-13: GHK-Cu in Foundation bills under its own code,
+     partner rate only. Don: website codes and pricing are not released to
+     providers and staff; they live on the website. So no website row at all -
+     not a price with a blank code, which would still be a website price. */
   Object.keys(p.codeByAgent || {}).forEach(function (ak) {
     const c = p.codeByAgent[ak], name = agentTitle(ak);
     rows += payRow(p.label + ' - ' + name + ' - partner', p.partner.payment, c.partner);
     if (c.website) {
       rows += payRow(p.label + ' - ' + name + ' - website', p.website.payment, c.website);
-    } else {
-      rows += '<tr><td>' + esc(p.label + ' - ' + name + ' - website') + '</td><td class="amt">' +
-              money(p.website.payment) + '<span class="per"> / month</span></td>' +
-              '<td class="code"><em>' + esc(c.websitePending || 'Code pending') + '</em></td></tr>';
     }
   });
 
