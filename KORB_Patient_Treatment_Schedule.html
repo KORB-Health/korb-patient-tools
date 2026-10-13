@@ -182,9 +182,9 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
     <div class="cg" id="fdnGroup" style="display:none;">
       <label for="selAgent">My Medication</label>
       <select id="selAgent" onchange="onFoundationAgentChange()">
-        <option value="sermorelin">Sermorelin</option>
-        <option value="bpc157">BPC-157</option>
-        <option value="cjcipam">CJC-1295 / Ipamorelin</option>
+        <!-- Filled from programs.foundation.agentChoices at load. Typed here
+             until 2026-10-13, when GHK-Cu became the fourth Foundation choice
+             and this list would have stayed at three. -->
       </select>
     </div>
     <div class="cg" id="fdnDoseGroup" style="display:none;">
@@ -231,7 +231,7 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
 
 <script src="korb-quest.js?v=7e00a689"></script>
 <script src="korb-pharmacies.js?v=a403b1b1"></script>
-<script src="korb-dosing-data.js?v=219d43d1"></script>
+<script src="korb-dosing-data.js?v=46b7ca65"></script>
 <script>
 // ── PHARMACY DATA ─────────────────────────────────────────────────────
 // Pharmacy is selected directly by the patient (Premier or Greenwich) — no state lookup.
@@ -241,6 +241,16 @@ var INSTR = KORB_DOSING.instructions
 
 // Medication metadata
 var AGENTS = (function(){var o={},S=KORB_DOSING.agents;Object.keys(S).forEach(function(k){var a=S[k];o[k]={label:a.label,dose:a.dose,color:a.color,onWeeks:(a.onWeeksFoundation||a.onWeeksOptionalAddon||a.onWeeksAddon),schedule:a.schedule,timing:a.timing,how:a.how,pillLabel:a.pillLabel,pillBg:a.pillBg};});return o;})()
+
+// Foundation medication picker, read from the data file rather than typed.
+;(function(){
+  var sel=document.getElementById('selAgent');
+  KORB_DOSING.programs.foundation.agentChoices.forEach(function(k){
+    var o=document.createElement('option');
+    o.value=k; o.textContent=KORB_DOSING.agents[k].label;
+    sel.appendChild(o);
+  });
+})();
 
 // Medication education content
 var EDU={
@@ -267,6 +277,14 @@ var EDU={
     maySupport:['Skin quality','Recovery'],
     notFor:'',
     expect:'GHK-Cu runs as an add-on, active Weeks 5–8 in Gateway and Peak. Your provider will check copper, zinc and ceruloplasmin (the protein that carries copper in your blood) at baseline and at renewal.'
+  },
+  /* GHK-Cu as a Foundation medication, 2026-10-13. Same medicine as the add-on
+     above, its own regimen: once a day for the active weeks the schedule shows. */
+  ghkcu1mg:{
+    what:'GHK-Cu is a copper-containing peptide found naturally in the body. It is being studied for skin and tissue health.',
+    maySupport:['Skin quality','Recovery'],
+    notFor:'',
+    expect:'On Foundation, GHK-Cu is your one medication, taken once a day in the evening during the active weeks shown in your schedule above. Changes, if any, usually come gradually. Your provider will check copper, zinc and ceruloplasmin (the protein that carries copper in your blood) at baseline and at renewal.'
   },
   tesamorelin1mg:{
     what:'Tesamorelin prompts your body to release more of its own growth hormone. The FDA has approved it for reducing extra belly fat in people with HIV. KORB uses it for a purpose the FDA has not approved, reducing fat stored around the organs.',
@@ -731,6 +749,7 @@ function getPillLabel(key,prog){
   if(key==='bpc157') return 'BPC-157 &nbsp;·&nbsp; Daily';
   if(key.startsWith('cjcipam')) return 'CJC / Ipam &nbsp;·&nbsp; 6 on / 1 off';
   if(key==='ghkcu') return 'GHK-Cu &nbsp;·&nbsp; 3× / week';
+  if(key==='ghkcu1mg') return 'GHK-Cu &nbsp;·&nbsp; Daily';
   if(key.startsWith('tesamorelin')) return 'Tesamorelin &nbsp;·&nbsp; 6 on / 1 off';
   return AGENTS[key].pillLabel;
 }

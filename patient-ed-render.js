@@ -180,10 +180,11 @@
         'schedule and timing cannot be read. Fix the key rather than typing the facts here.');
     }
     /* ACTIVE WEEKS VARY BY PROGRAM for some agents, and one row cannot say so.
-       BPC-157 runs weeks 1-8 on Foundation and 3-8 on Gateway/Peak; GHK-Cu is an
-       add-on at weeks 5-8 and has no Foundation window at all, so asking
-       getActiveWeeks for 'foundation' returns undefined and the row would have
-       rendered empty. The PDFs these replace spelled both windows out in prose.
+       BPC-157 runs weeks 1-8 on Foundation and 3-8 on Gateway/Peak, so asking
+       getActiveWeeks for 'foundation' alone would print only one of the two.
+       The PDFs these replace spelled both windows out in prose. (GHK-Cu used to
+       be the other example; since 2026-10-13 it differs in schedule as well as
+       weeks, and uses regimens below instead.)
 
        A handout with more than one window lists them, each read from its own
        field on the agent record, so they stay pulled rather than retyped. */
@@ -195,6 +196,30 @@
       }
       return [r[0], 'Weeks ' + w[0] + '–' + w[1]];
     });
+    /* ONE MEDICINE, TWO REGIMENS. GHK-Cu became a Foundation medication on
+       2026-10-13 (daily, its own record ghkcu1mg) while staying the Gateway/Peak
+       add-on (three times weekly, ghkcu). A single schedule row would be true of
+       one program and wrong for the other, so a handout that declares regimens
+       gets one row per program, each read from its OWN dosing record. A regimen
+       naming a record or weeks field that does not exist throws, like windows. */
+    var regimens = (doc.regimens || []).map(function (r) {
+      var ra = DOSING.agents[r.agentKey];
+      if (!ra) {
+        throw new Error('patient-ed-render: regimen "' + r.label + '" names agent "' +
+          r.agentKey + '", which is not in korb-dosing-data.js.');
+      }
+      var rw = ra[r.weeksField];
+      if (!rw) {
+        throw new Error('patient-ed-render: agent "' + r.agentKey + '" has no "' +
+          r.weeksField + '" for regimen "' + r.label + '".');
+      }
+      return { label: r.label, schedule: ra.schedule || '', timing: ra.timing || '',
+               weeks: 'Weeks ' + rw[0] + '–' + rw[1] + ' of your ' + (doc.cycleWeeks || 16) + '-week cycle' };
+    });
+    if (regimens.length) {
+      return { how: a.how || '', schedule: '', timing: '', activeWeeks: '',
+               windows: [], offWeeks: '', regimens: regimens };
+    }
     var weeks = (DOSING.getActiveWeeks && DOSING.getActiveWeeks(doc.agentKey, 'foundation'))
       || a.onWeeksFoundation || null;
     return {
@@ -1301,6 +1326,24 @@
 
     /* Route, schedule, timing and weeks - every value read from the dosing
        data, so a change there reaches this handout on the next page load. */
+    if (F.regimens && F.regimens.length) {
+      h += '<h2>How to use it</h2>' +
+           '<div class="callout"><p>' + esc(doc.authoritySource || S.authoritySource) + '</p></div>' +
+           '<table class="kv"><tr><th>' + esc((doc.factLabels || {}).how || 'How to inject') +
+           '</th><td>' + esc(sentence(F.how)) + '</td></tr></table>' +
+           '<p>Your schedule depends on your program:</p>' +
+           /* One small table per program, stacked. A single four-column grid was
+              tried first and clipped its last column at 375px - these pages are
+              opened from a text message, so phone width is the case that counts. */
+           F.regimens.map(function (r) {
+             return '<h3>' + esc(r.label) + '</h3><table class="kv">' +
+                    '<tr><th>Schedule</th><td>' + esc(sentence(r.schedule)) + '</td></tr>' +
+                    '<tr><th>' + esc((doc.factLabels || {}).timing || 'When to inject') + '</th><td>' +
+                      esc(sentence(r.timing)) + '</td></tr>' +
+                    '<tr><th>Active weeks</th><td>' + esc(r.weeks) + '</td></tr></table>';
+           }).join('') +
+           (doc.weeksNote ? '<p class="fine">' + esc(doc.weeksNote) + '</p>' : '');
+    } else
     h += '<h2>How to use it</h2>' +
          '<div class="callout"><p>' + esc(doc.authoritySource || S.authoritySource) + '</p></div>' +
          '<table class="kv">' +

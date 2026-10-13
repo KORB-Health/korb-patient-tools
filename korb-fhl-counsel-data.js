@@ -44,11 +44,18 @@
    reviewed it in this repo. The regulatory answers (questions 4 to 7) and
    the language lists are compliance language; Nick should read them too.
    Sign-off lives in artifactSignoff below, read by artifact-signoff.js.
+
+   2026-10-13 (v1.1): GHK-Cu JOINED FOUNDATION, Don's decision. The first of the
+   Word file's three "errors" became policy: GHK-Cu 1 mg daily is now a fourth
+   Foundation single agent (ghkcu1mg in the dosing file), while the 2 mg
+   Gateway/Peak add-on is unchanged. Every "never a Foundation option" line is
+   gone. Both keys are one agent, so they share ONE formulary row - see
+   FORMULARY_ROW - rather than printing GHK-Cu twice.
    ============================================================================ */
 var KORB_FHL_COUNSEL = {
   meta: {
-    version: '1.0',
-    updated: '2026-09-29',
+    version: '1.1',
+    updated: '2026-10-13',
     source: 'KORB Provider Peptide QA Counseling Guide.docx (2026-07-04), corrected'
   },
 
@@ -102,8 +109,10 @@ var KORB_FHL_COUNSEL = {
       },
       ghkcu: {
         positioning: 'Copper-binding peptide',
-        talkingPoint: 'Used for skin, collagen and tissue-support goals. Requires copper, ' +
-          'zinc and ceruloplasmin monitoring. Contraindicated in Wilson\'s disease.'
+        talkingPoint: 'Used for skin, collagen and tissue-support goals. Offered as a ' +
+          'Foundation patient\'s single medication, or as an optional add-on in Gateway ' +
+          'and Peak. Requires copper, zinc and ceruloplasmin monitoring. Contraindicated ' +
+          'in Wilson\'s disease.'
       },
       tesamorelin: {
         positioning: 'GHRH analog with the strongest human evidence',
@@ -220,7 +229,11 @@ var KORB_FHL_COUNSEL = {
         a: ['GHK-Cu is a copper-binding peptide used for tissue, collagen and skin-support ' +
             'goals. Because it involves copper biology, KORB requires copper-related ' +
             'monitoring: copper, zinc and ceruloplasmin. Wilson\'s disease is an absolute ' +
-            'contraindication.'] },
+            'contraindication.',
+            'It is offered two ways, and they are different regimens. In Foundation it is ' +
+            'the patient\'s one medication, {GHK_FOUNDATION}. In Gateway and Peak it is ' +
+            'the optional add-on, {GHK_ADDON}. A Foundation GHK-Cu patient is not on an ' +
+            'add-on.'] },
       { q: 'How should I explain Tesamorelin?',
         a: ['Tesamorelin has the strongest human clinical evidence of the current ' +
             'formulary because it is FDA-approved for HIV-associated lipodystrophy. In ' +
@@ -242,9 +255,9 @@ var KORB_FHL_COUNSEL = {
             'develops side effects, it becomes harder to tell which therapy caused them.'] },
       { q: 'Can peptides be stacked?',
         a: ['Only within the approved Gateway or Peak Performance structures. Foundation ' +
-            'does not allow simultaneous agents, and GHK-Cu is never a Foundation option. ' +
-            'Add-ons are restricted to eligible tiers and follow the approved staggered ' +
-            'schedule.'] }
+            'does not allow simultaneous agents: GHK-Cu can be a Foundation patient\'s one ' +
+            'medication, but nothing is added to it. Add-ons are restricted to Gateway and ' +
+            'Peak and follow the approved staggered schedule.'] }
     ],
 
     safety: ['Subcutaneous injection technique', 'Site rotation',
@@ -359,22 +372,30 @@ var KORB_FHL_COUNSEL = {
     function weeks(w) { return 'Weeks ' + w[0] + '-' + w[1]; }
 
     var bpcW = A.bpc157.onWeeksGatewayPeakBase;
+    /* Two keys, one agent. The Foundation course and the add-on are separate
+       regimens in the dosing file, but a formulary row is about the AGENT, so
+       both resolve to the 'ghkcu' row. */
+    var FORMULARY_ROW = { ghkcu1mg: 'ghkcu' };
+    function rowKey(f) { return FORMULARY_ROW[f] || f; }
+
     var ghkW = A.ghkcu.onWeeksOptionalAddon;
+    var ghkF = A.ghkcu1mg;
+    var ghkFoundation = ghkF.dose + ' once daily in the evening, ' + weeks(ghkF.onWeeksFoundation);
+    var ghkAddon = A.ghkcu.dose + ' three times weekly, ' + weeks(ghkW);
     var ghk = 'optional GHK-Cu ' + A.ghkcu.dose + ' add-on, ' + weeks(ghkW) + ' (' +
               money(PR.ghkcu.partner) + ' one-time)';
 
     var fnd = P.foundation;
     if (fnd.optionalAddon) {
       throw new Error('korb-fhl-counsel-data: Foundation now declares an add-on; this ' +
-        'guide says GHK-Cu is never a Foundation option. Update the prose first.');
+        'guide says Foundation is single-agent with nothing added. Update the prose first.');
     }
     var fndAgents = fnd.agentChoices.map(name);
     var fndRow = 'One active peptide at a time, chosen from ' + list(fndAgents) + '. ' +
       fnd.agentChoices.map(function (k) {
         return name(k) + ' ' + doses(k, fnd.primaryDoseOptions[k]);
       }).join('; ') +
-      '. No simultaneous agents. Switchable only at each 16-week renewal. GHK-Cu is not ' +
-      'a Foundation option.';
+      '. No simultaneous agents. Switchable only at each 16-week renewal.';
 
     function stagger(key) {
       var p = P[key];
@@ -385,7 +406,9 @@ var KORB_FHL_COUNSEL = {
     var tesaDoses = doses('tesamorelin', P.peakB.primaryDoseOptions);
     function fill(t) {
       return t.replace('{TESA_DOSES}', tesaDoses)
-              .replace('{FOUNDATION_AGENTS}', list(fndAgents));
+              .replace('{FOUNDATION_AGENTS}', list(fndAgents))
+              .replace('{GHK_FOUNDATION}', ghkFoundation)
+              .replace('{GHK_ADDON}', ghkAddon);
     }
 
     /* Every family any program offers, in first-seen order. */
@@ -393,6 +416,7 @@ var KORB_FHL_COUNSEL = {
     ['foundation', 'gateway', 'peakA', 'peakB'].forEach(function (k) {
       var p = P[k];
       [].concat(p.agentChoices || [], p.baseProtocol || [], p.optionalAddon || [])
+        .map(rowKey)
         .forEach(function (f) { if (families.indexOf(f) < 0) families.push(f); });
     });
     this.families = families;
@@ -409,8 +433,8 @@ var KORB_FHL_COUNSEL = {
       effective: this.meta.updated,
       intro: C.intro,
       supersedes: 'KORB Provider Peptide QA Counseling Guide.docx (July 2026), which ' +
-        'offered GHK-Cu in Foundation, quoted a $199 baseline lab fee and gave ' +
-        'Tesamorelin two doses. Do not use the Word copy.',
+        'quoted a $199 baseline lab fee and gave Tesamorelin two doses. Do not use the ' +
+        'Word copy.',
       noPrescribingBlocks: 'Counseling guide. It carries no Tebra entries; its text is ' +
         'signed in artifact-signoff.js, not here.',
       sections: [

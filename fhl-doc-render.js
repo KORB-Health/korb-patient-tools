@@ -77,8 +77,8 @@ function pharmName(k) { return (K.pharmacies[k] || {}).name || k; }
 
 /* ── AGENT RESOLUTION ─────────────────────────────────────────────────────
    Which agent keys a document covers, and in what role. Foundation is the odd
-   one: three standalone choices, each with its own ladder, no stagger and no
-   add-on. The other three are primary family + BPC-157 base + GHK-Cu add-on. */
+   one: four standalone choices (GHK-Cu joined 2026-10-13), each with its own
+   ladder or a single dose, no stagger and no add-on. The other three are primary family + BPC-157 base + GHK-Cu add-on. */
 function agentRows(doc) {
   const prog = K.programs[doc.program];
   const out = [];
@@ -263,7 +263,20 @@ function sectionCycle(doc) {
 
   let notes = '';
   if (doc.program === 'foundation') {
-    notes = '<div class="callout"><p>Foundation is a single agent. The provider selects one of the three; there is no stagger and GHK-Cu is never a Foundation option.</p></div>';
+    /* Counted and named from the data, not typed: this sentence said "one of
+       the three" and "GHK-Cu is never a Foundation option" until 2026-10-13,
+       the day GHK-Cu became the fourth. */
+    const fdn = K.programs.foundation.agentChoices || [];
+    let ghkNote = '';
+    if (fdn.indexOf('ghkcu1mg') !== -1) {
+      const gf = K.agents.ghkcu1mg, ga = K.agents.ghkcu;
+      ghkNote = ' GHK-Cu here is the Foundation course, ' + gf.dose + ' daily ' +
+        weeksLabel('ghkcu1mg', 'foundation') + ' - a different regimen and a different Tebra ' +
+        'entry from the ' + ga.dose + ' Gateway and Peak add-on. Do not prescribe one for the other.';
+    }
+    const word = ['none', 'one', 'two', 'three', 'four', 'five', 'six'][fdn.length] || String(fdn.length);
+    notes = '<div class="callout"><p>Foundation is a single agent. The provider selects one of the ' +
+            word + '; there is no stagger and nothing is added to it.' + esc(ghkNote) + '</p></div>';
   } else {
     notes = '<div class="callout"><p>The primary agent runs Weeks 1–12, then Weeks 13–16 are off. BPC-157 is staggered to start Week 3. GHK-Cu, if selected, runs Weeks 5–8.</p>' +
             '<p>GHK-Cu is billed once, separately from the program.</p></div>';
@@ -790,8 +803,30 @@ function sectionPricing(doc) {
      branch here on codeByAgent and print three pairs of rows saying the same two
      numbers with different codes; it now carries a single pair like Gateway and
      Peak, so the branch is gone. */
-  rows += payRow(p.label + ' - partner', p.partner.payment, p.code.partner);
-  rows += payRow(p.label + ' - website', p.website.payment, p.code.website);
+  /* With an agent-specific code present, the program pair must say it is for
+     the OTHER agents, or GHK-Cu reads as billable under P02 as well. */
+  const others = Object.keys(p.codeByAgent || {}).length
+    ? ' (' + (prog.agentChoices || []).filter(function (k) { return !(k in p.codeByAgent); })
+        .map(function (k) { return agentParts(k).name; }).join(', ') + ')'
+    : '';
+  rows += payRow(p.label + others + ' - partner', p.partner.payment, p.code.partner);
+  rows += payRow(p.label + others + ' - website', p.website.payment, p.code.website);
+
+  /* THE EXCEPTION, 2026-10-13: GHK-Cu in Foundation bills under its own code.
+     Same price, different code, so it gets its own rows. A missing code prints
+     as pending rather than borrowing the program's - a borrowed code is a
+     wrong charge that looks right. */
+  Object.keys(p.codeByAgent || {}).forEach(function (ak) {
+    const c = p.codeByAgent[ak], name = agentTitle(ak);
+    rows += payRow(p.label + ' - ' + name + ' - partner', p.partner.payment, c.partner);
+    if (c.website) {
+      rows += payRow(p.label + ' - ' + name + ' - website', p.website.payment, c.website);
+    } else {
+      rows += '<tr><td>' + esc(p.label + ' - ' + name + ' - website') + '</td><td class="amt">' +
+              money(p.website.payment) + '<span class="per"> / month</span></td>' +
+              '<td class="code"><em>' + esc(c.websitePending || 'Code pending') + '</em></td></tr>';
+    }
+  });
 
   if (prog.optionalAddon === 'ghkcu') {
     rows += oneOffRow(ghk.label, ghk.partner, ghk.code);

@@ -630,6 +630,9 @@ PROBES.routing = function () {
    would have caught the defect it fixed.
 
    Every program x medication x dose x pharmacy x GHK-Cu combination is driven.
+   Foundation medications are read off the tool's own selAgent list, so GHK-Cu
+   as a Foundation agent (ghkcu1mg, 2026-10-13) is covered with no change here;
+   the GHK-Cu checkbox is the Gateway/Peak add-on and stays off for Foundation.
    The START DATE IS FIXED, far in the future, because both tools default to
    today and a fingerprint that moves every midnight is a check that cries wolf.
    A future start also means the Tracker's "today" panel reads "Not started

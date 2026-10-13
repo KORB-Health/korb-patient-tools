@@ -590,7 +590,9 @@ What that means today, and the repo already matches it:
 
 So a provider reference covers every agent its program offers, and an agent
 appears in every program that offers it. BPC-157 is in all four documents,
-GHK-Cu in three, Sermorelin and CJC in two, Tesamorelin only in Peak B. That
+GHK-Cu in all four since 2026-10-13 (the 1 mg daily Foundation course, key
+`ghkcu1mg`, and the 2 mg add-on in the other three), Sermorelin and CJC in two,
+Tesamorelin only in Peak B. That
 repetition is correct and is not a defect to clean up: a provider prescribing
 Gateway needs Gateway complete on its own page, not a cross-reference to
 Foundation.

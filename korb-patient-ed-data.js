@@ -893,6 +893,14 @@ var KORB_PATIENT_ED = {
           key: 'bpc157',
           context: 'foundation',
           text: 'A peptide being studied for recovery of muscles, tendons, ligaments and joints. Injected daily.'
+        },
+        /* GHK-Cu joined Foundation 2026-10-13 (Don). Its own key, ghkcu1mg, so
+           the window sentence reads the Foundation course and not the Gateway
+           and Peak add-on. Still one medication: it is the medication. */
+        {
+          key: 'ghkcu1mg',
+          context: 'foundation',
+          text: 'A copper-binding peptide being studied for skin and tissue health. Injected once a day in the evening. Your copper levels get particular attention on your labs while you are on it.'
         }
       ],
       note: {
@@ -1166,7 +1174,7 @@ var KORB_PATIENT_ED = {
       tiers: [
         {
           name: 'Foundation',
-          text: 'The single-medication option. One peptide is active at a time, chosen by your provider from Sermorelin, CJC-1295 / Ipamorelin or BPC-157. Medications are never combined, though you may switch at a follow-up.'
+          text: 'The single-medication option. One peptide is active at a time, chosen by your provider from Sermorelin, CJC-1295 / Ipamorelin, BPC-157 or GHK-Cu. Medications are never combined, though you may switch at a follow-up.'
         },
         {
           /* GHK-Cu on Gateway is not new. korb-dosing-data.js has had Gateway at
@@ -2004,7 +2012,7 @@ var KORB_PATIENT_ED = {
                 { href: 'KORB_Patient_Ed_CJC_Ipamorelin.html', label: 'CJC-1295 / Ipamorelin' },
                 { href: 'KORB_Patient_Ed_BPC157.html', label: 'BPC-157' },
                 { href: 'KORB_Patient_Ed_Tesamorelin.html', label: 'Tesamorelin' },
-                { href: 'KORB_Patient_Ed_GHK_Cu.html', label: 'GHK-Cu (Add-On)' }
+                { href: 'KORB_Patient_Ed_GHK_Cu.html', label: 'GHK-Cu' }
               ]
             },
             {
@@ -3255,11 +3263,16 @@ var KORB_PATIENT_ED = {
       agentKey: 'ghkcu',
       program: 'Functional Health & Longevity',
       cycleWeeks: 16,
-      weeksRows: [
-        ['Gateway / Peak add-on \u2014 active weeks', 'onWeeksOptionalAddon']
+      /* TWO REGIMENS, one guide, from 2026-10-13. GHK-Cu is a Foundation
+         medication on its own (ghkcu1mg, daily) and still the Gateway/Peak
+         add-on (ghkcu, three times weekly). One handout rather than two because
+         it is one medicine with one set of risks; only the schedule differs, and
+         the renderer reads each schedule from its own dosing record. */
+      regimens: [
+        { label: 'Foundation (GHK-Cu is your one medication)', agentKey: 'ghkcu1mg', weeksField: 'onWeeksFoundation' },
+        { label: 'Gateway or Peak (GHK-Cu is an add-on)', agentKey: 'ghkcu', weeksField: 'onWeeksOptionalAddon' }
       ],
-      weeksNote: 'Gateway and Peak are two of the three Functional Health & Longevity program options, and your provider confirmed which one you are on. GHK-Cu is an optional add-on on both. It begins two weeks after you start ' +
-                 'BPC-157 and runs for four weeks.',
+      weeksNote: 'Foundation, Gateway and Peak are the three Functional Health & Longevity program options, and your provider confirmed which one you are on. On Foundation, GHK-Cu is your only medication. On Gateway and Peak it is an optional add-on that begins two weeks after you start BPC-157. Your Treatment Schedule shows your exact dates.',
 
       what: [
         'GHK-Cu is a copper-binding peptide that occurs naturally in the human body. It ' +
@@ -3280,7 +3293,9 @@ var KORB_PATIENT_ED = {
       },
 
       timingNotes: [
-        ['Choosing your three days',
+        ['On Foundation: the same time each evening',
+         'Inject once a day in the evening, at about the same time each day, to build a reliable routine.'],
+        ['On Gateway or Peak: choosing your three days',
          'Choose three consistent days each week, for example Monday, Wednesday and ' +
          'Friday, and keep the same days each week to build a reliable routine.'],
         ['Copper, zinc and ceruloplasmin are watched closely',
@@ -3294,7 +3309,7 @@ var KORB_PATIENT_ED = {
       timeline: [
         ['First 2 weeks', 'Active course begins',
          'Most patients notice nothing at first. This is normal.'],
-        ['Weeks 3\u20134', 'Active course continues',
+        ['Rest of your active weeks', 'Active course continues',
          'Skin quality or tissue changes may begin to emerge. Individual response varies.'],
         ['After your course', 'Break \u2014 labs and lifestyle',
          'No GHK-Cu injections. Your copper, zinc and ceruloplasmin results will be ' +
@@ -3355,7 +3370,7 @@ var KORB_PATIENT_ED = {
         'hives, chest pain, or any symptom that feels severe or unsafe.',
 
       keyReminders: [
-        'GHK-Cu is taken three times a week in the evening, on consistent days.',
+        'On Foundation, GHK-Cu is taken once a day in the evening. As a Gateway or Peak add-on, it is taken three times a week in the evening, on consistent days.',
         'Never use it if you have Wilson\u2019s disease.',
         'Copper, zinc and ceruloplasmin are watched closely and may end therapy if they rise.',
         'Write the open date on your vial and discard 28 days after first use.',

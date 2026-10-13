@@ -889,7 +889,10 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
       ]
     },
-    schedule: '3x weekly SQ (evening) · Active Weeks 1–4, off Weeks 5–16 of cycle',
+    /* Said "Active Weeks 1-4, off Weeks 5-16" until 2026-10-13, contradicting
+       onWeeksOptionalAddon [5, 8] and peakSchedule beside it. Corrected on Don's
+       instruction; the length (4 weeks) was always right, the position was not. */
+    schedule: '3x weekly SQ (evening) · Optional add-on · Active Weeks 5–8 of each 16-week cycle',
     timing: '3 times weekly, evening',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
     counseling: [
