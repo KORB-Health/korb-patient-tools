@@ -278,13 +278,14 @@ var KORB_DOSING = {
   },
 
   meta: {
-    version: '2.14',
+    version: '2.15',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-10-13 (v2.15): CLINICAL CONTENT CHANGED - GHK-Cu JOINS FOUNDATION. Decided by Don. A fourth Foundation single-agent choice, key ghkcu1mg: 1 mg SQ once daily in the evening, Weeks 1-12, off 13-16, no titration, switchable at renewal like the other three. Premier and Greenwich, routed like every FH&L agent, 10 mg/ml at both so 10 units. Three vials per 84 days because a punctured vial is discarded at 28: 18 ml Premier, 15 ml Greenwich, 90 Premier syringes. Same labs, $99 baseline and $199 x 4 as the rest of Foundation, billed under FndnPeptideP04 (Nick, 2026-10-12); the recurring FndnPeptideP44 is Ops-only and not used. No website code yet. THE GATEWAY/PEAK ADD-ON IS UNTOUCHED - key ghkcu, 2 mg three times weekly, Weeks 5-8, GHKCUPeptide01 - and a separate key was used precisely so the two can never be confused by a tool resolving a Foundation choice.',
       '2026-09-20 (v2.14): SYRINGE COUNT MOVED, NO DOSE OR AGENT CHANGE. The count moved from Pharmacy Instructions to the FRONT of Patient Instructions on all twelve Premier peptide entries. The pharmacy has been missing it where it sat and shipping one pack of 10 against prescriptions calling for far more; they read the patient sig while filling and strip the prefix by hand, so the front of that line is where it is actually seen. Requested by the pharmacy, relayed by Don Stevenson, PA-C. Counts are unchanged and all twelve fit the 140-character cap, the longest being sermorelin at 124. THE TWO GREENWICH TESAMORELIN ENTRIES ARE DELIBERATELY UNTOUCHED: theirs reads DISPENSE 100-UNIT SYRINGES and is a syringe SIZE instruction, not a count - the 67-unit dose exceeds a 50-unit syringe - so prefixing a quantity would have destroyed the reason it is there.',
       '2026-09-15 (v2.13): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing sign-off register, plus rx-signoff.js which reports and computes it. FH&L had no sign-off mechanism of any kind. The monograph fingerprint in korb-glp1-data.js is untouched and stays separate: it covers clinical writing, this covers the Tebra fields and charge codes, and merging them would mean a hyphen fix in a sig expiring a contraindication sign-off. Records hold a fingerprint of the document as signed rather than a boolean, so a change after sign-off shows as STALE instead of being invisible.',
       '2026-09-15 (v2.12): NO CLINICAL CONTENT CHANGE. Open item 4. This file no longer types a pharmacy footprint. states.premierRouting is empty in source and filled at load by hydrate() from korb-pharmacies.js, which is now the only place a pharmacy state list is written - the same wiring korb-glp1-data.js took in v2.21 under open item 3. WHAT DID NOT MOVE, and the distinction is the whole point: unavailable, unavailableNoShip, unavailableNoPharmacy and unavailableLabWorkflow all stay here. Those are program decisions about where KORB offers Functional Health & Longevity, not facts about where a pharmacy is licensed, and only 8 of the 18 closed states are closed for a pharmacy reason at all. MISSISSIPPI is the case that made this worth doing. The typed list held 37 states, the shared footprint holds 38, and the one difference was MS, removed from premierRouting on 2026-08-24 when MS left the FH&L offering. Premier is licensed to ship peptides to MS and always was; a program decision had been written into a pharmacy list. MS is back in the footprint and still blocked through unavailableNoShip. NOTHING A PROVIDER SEES CHANGES, and that was measured rather than assumed: premierRouting minus unavailable is the same 31 states before and after. requireHydrated() throws by name if korb-pharmacies.js was not loaded first, because an empty footprint reads as "Premier ships nowhere" and would silently route every FH&L patient to Greenwich. Negative-tested: loading this file alone leaves hydrated false and makes requireHydrated() throw; build-fhl-docs.js refuses to build and the live pages refuse to render. The script tag was added to the four generated FH&L references, to the three live root tools, and to check-pages.js, which failed on all four generated pages before the rebuild and passes after.',
@@ -445,6 +446,10 @@ var KORB_DOSING = {
       premier:   'Inject 20 units subcutaneously three times weekly in the evening.',
       greenwich: 'Inject 20 units subcutaneously three times weekly in the evening.'
     },
+    ghkcu1mg: {
+      premier:   'Inject 10 units subcutaneously once daily in the evening.',
+      greenwich: 'Inject 10 units subcutaneously once daily in the evening.'
+    },
     tesamorelin1mg: {
       premier:   'Inject 20 units subcutaneously in the evening, 6 days on, 1 day off.',
       greenwich: 'Inject 33 units subcutaneously in the evening, 6 days on, 1 day off.'
@@ -506,6 +511,10 @@ var KORB_DOSING = {
   ghkcu: {
     premier:'Inject 20 units subcutaneously three times weekly in the evening.',
     greenwich:'Inject 20 units subcutaneously three times weekly in the evening.'
+  },
+  ghkcu1mg: {
+    premier:'Inject 10 units subcutaneously once daily in the evening.',
+    greenwich:'Inject 10 units subcutaneously once daily in the evening.'
   },
   tesamorelin1mg: {
     premier:'Inject 20 units subcutaneously in the evening, 6 days on, 1 day off.',
@@ -898,6 +907,69 @@ var KORB_DOSING = {
       'Course completion vs. discontinuation',
     ]
   },
+  /* GHK-Cu AS A FOUNDATION AGENT, added 2026-10-13 (v2.15), decided by Don.
+     A separate regimen from the Gateway/Peak add-on above, and a separate key
+     on purpose: 1 mg daily for 12 weeks against 2 mg three times weekly for 4.
+     Every tool turns a Foundation choice into a prescribing key, so sharing
+     'ghkcu' would have handed a Foundation patient the add-on's 2 mg entries.
+
+     QUANTITY IS THREE VIALS, not need plus margin. 1 mg at 10 mg/ml is 0.1 ml
+     a day, 2.8 ml per 28 days, and a punctured vial is discarded at 28 days
+     whatever is left. The 28-day add-on dispenses one vial at each pharmacy -
+     6 ml Premier, 5 ml Greenwich, confirmed by Don as the vial sizes - so 84
+     days is 18 ml and 15 ml. Premier syringes: 90 for 84 daily doses, the same
+     round-up the other daily entries use. Formulation strings are the add-on's,
+     byte for byte; Greenwich matches on them exactly. */
+  ghkcu1mg: {
+    name: 'GHK-Cu 1mg',
+    premier: {
+      label: 'PREMIER - GHK-Cu 1 mg SQ Inj Daily',
+      fields: [
+        { field: 'Drug Formulation', val: 'GHK-Cu 10 mg/ml inj', copy: true },
+        { field: 'Name', val: 'PREMIER - GHK-Cu 1 mg SQ Inj Daily', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
+        { field: 'Quantity', val: '18', copy: true },
+        { field: 'Unit', val: 'ml', copy: true },
+        { field: 'Refill', val: '0', copy: true },
+        { field: 'Days Supply', val: '84', copy: true },
+        { field: 'Patient Instructions', val: 'DISPENSE 90 INSULIN SYRINGES. INJECT 10 UNITS SUBCUTANEOUSLY ONCE DAILY IN THE EVENING', copy: true },
+        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
+      ]
+    },
+    greenwich: {
+      label: 'GREENWICH - GHK-Cu 1mg SQ Inj Daily',
+      fields: [
+        { field: 'Drug Formulation', val: 'KBH GHK-Cu 10mg/mL', copy: true },
+        { field: 'Name', val: 'GREENWICH - GHK-Cu 1mg SQ Inj Daily', copy: true },
+        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
+        { field: 'Quantity', val: '15', copy: true },
+        { field: 'Unit', val: 'ml', copy: true },
+        { field: 'Refill', val: '0', copy: true },
+        { field: 'Days Supply', val: '84', copy: true },
+        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
+        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
+        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
+      ]
+    },
+    schedule: 'Daily SQ (evening) · Active Weeks 1–12, off Weeks 13–16 of cycle',
+    timing: 'Evening, at a consistent time each day',
+    storage: 'Refrigerate (36–46 °F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
+    counseling: [
+      'Investigational tissue/skin-support peptide — not a cure or guaranteed outcome',
+      'Copper-containing compound — requires copper/zinc lab monitoring per protocol',
+      'Course-based cycling (12 weeks on / 4 weeks off) — do not extend without provider reassessment',
+      'Report injection site reactions, rash, or unusual symptoms immediately',
+      'Discard vial 28 days after initial puncture — do not use beyond this date regardless of remaining volume',
+    ],
+    monitor: [
+      'Skin / tissue quality trend toward documented goal',
+      'Injection site reactions',
+      'Copper, RBC / Zinc, RBC / Ceruloplasmin (baseline Standard panel)',
+      'Any systemic symptoms',
+      'Course completion vs. discontinuation',
+    ]
+  },
   tesamorelin1mg: {
     name: 'Tesamorelin 1mg',
     premier: {
@@ -1043,7 +1115,10 @@ var KORB_DOSING = {
     titrationNote:'Titrate 100 → 150 → 200 mcg at 16-week visits. All three doses ' +
       'dispense the same quantity, so titration changes no vial and no cost.',
     schedule:'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
-    timing:'Before bed, on an empty stomach' }
+    timing:'Before bed, on an empty stomach' },
+  ghkcu1mg: { key:'ghkcu1mg', label:'GHK-Cu', onWeeks:[1,12], doseLabel:'1 mg', titrate:false,
+    schedule:'Daily SQ (evening) · Active Weeks 1–12, off Weeks 13–16 of cycle',
+    timing:'Evening, at a consistent time each day' }
 },
   /* Every dose a program can offer needs an entry here or the schedule renders
      blank for that selection. cjcipam150, cjcipam200 and tesamorelin15mg were
@@ -1167,12 +1242,21 @@ var KORB_DOSING = {
     },
     ghkcu: {
       label: 'GHK-Cu', dose: '2 mg', color: '#4A148C',
-      onWeeksOptionalAddon: [5, 8],   // Gateway/Peak optional add-on only — never Foundation. This is the ONLY true optional add-on in the program structure.
+      onWeeksOptionalAddon: [5, 8],   // Gateway/Peak optional add-on only. This is the ONLY true optional add-on in the program structure. Foundation's GHK-Cu is ghkcu1mg below, a different regimen.
       cadence: 'threeWeekly',
 
       schedule: '3 times per week (evenings)', timing: 'Evening · Choose consistent days (e.g. Mon / Wed / Fri)',
       how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
       pillLabel: '3×/week', pillBg: '#6A1B9A'
+    },
+    ghkcu1mg: {
+      label: 'GHK-Cu', dose: '1 mg', color: '#4A148C',
+      onWeeksFoundation: [1, 12],     // Foundation standalone course, 2026-10-13. Not the add-on.
+      cadence: 'daily',
+
+      schedule: 'Every day (7 days a week)', timing: 'Evening · Same time each day',
+      how: 'Subcutaneous (SQ) injection — fatty tissue under the skin',
+      pillLabel: 'daily', pillBg: '#6A1B9A'
     },
     tesamorelin1mg: {
       label: 'Tesamorelin 1 mg', dose: '1 mg', color: '#21275B',
@@ -1210,9 +1294,14 @@ var KORB_DOSING = {
   programs: {
     foundation: {
       label: 'Foundation Program',
-      agentChoices: ['sermorelin', 'cjcipam', 'bpc157'],   // provider selects ONE
+      agentChoices: ['sermorelin', 'cjcipam', 'bpc157', 'ghkcu1mg'],   // provider selects ONE
       stagger: false,
-      optionalAddon: null,  // GHK-Cu is never a Foundation option
+      /* Foundation has no add-on. GHK-Cu joined it on 2026-10-13 as a fourth
+         single-agent choice, ghkcu1mg - 1 mg daily, Weeks 1-12 - which patients
+         and providers had been asking for. It is not the Gateway/Peak add-on and
+         it does not make Foundation a two-medication program. Switchable at each
+         16-week renewal like the other three. */
+      optionalAddon: null,
 
       /* Titration added to Foundation 2026-09-05, decided by Don.
          CJC-1295/Ipamorelin matches Peak Pathway A exactly - 100 / 150 / 200.
@@ -1232,11 +1321,13 @@ var KORB_DOSING = {
          150 and 200 to Foundation changes no quantity, no vial and no cost.
          Verified against the prescribing records 2026-09-05.
 
-         BPC-157 has no dose options in any program; it is 500 mcg throughout. */
+         BPC-157 has no dose options in any program; it is 500 mcg throughout.
+         GHK-Cu in Foundation is 1 mg only, no ladder (Don, 2026-10-13). */
       primaryDoseOptions: {
         sermorelin: ['200', '300', '400'],
         cjcipam:    ['100', '150', '200'],
-        bpc157:     null
+        bpc157:     null,
+        ghkcu1mg:   null
       },
       /* Foundation timing comes from foundationAgents, not peakSchedule. */
       usesPeakSchedule: false,
@@ -1306,7 +1397,17 @@ var KORB_DOSING = {
          they were a plan never adopted. The Sermorelin pair is the live one and
          is what survives. Gateway and Peak already carried a single pair each,
          so Foundation was the outlier. */
-      code: { website: 'FndnPeptide002', partner: 'FndnPeptideP02' }
+      code: { website: 'FndnPeptide002', partner: 'FndnPeptideP02' },
+      /* THE ONE EXCEPTION, 2026-10-13. GHK-Cu in Foundation bills under its own
+         partner code, created by Nick for it on 2026-10-12. Same price and the
+         same four payments as the rest of Foundation; only the code differs.
+         The recurring twin, FndnPeptideP44, is Ops-only for payments 2-4 and is
+         deliberately NOT here (Don). No website code exists yet - null, not a
+         borrowed code, until Nick issues one. */
+      codeByAgent: {
+        ghkcu1mg: { website: null, partner: 'FndnPeptideP04',
+                    websitePending: 'No website code yet - requested from Nick 2026-10-13' }
+      }
     },
     gateway: {
       label: 'Gateway Program',
