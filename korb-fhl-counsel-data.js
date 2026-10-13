@@ -365,9 +365,10 @@ var KORB_FHL_COUNSEL = {
       if (!opts) return A[family].dose;
       return list(opts.map(function (o) { return dose(family, o); }));
     }
+    /* Partner only since 2026-10-13: FH&L website prices are not issued to
+       providers or staff, and the dosing file no longer carries them. */
     function price(key) {
-      return money(PR[key].partner.payment) + ' partner / ' +
-             money(PR[key].website.payment) + ' website';
+      return money(PR[key].partner.payment) + ' partner';
     }
     function weeks(w) { return 'Weeks ' + w[0] + '-' + w[1]; }
 

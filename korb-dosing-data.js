@@ -1381,6 +1381,18 @@ var KORB_DOSING = {
   // PROVIDER AND INTERNAL ONLY. Never render in a patient-facing tool or document.
   // Moved out of KORB_Provider_Clinical_Reference.html 2026-08-12 so a price change
   // lands in the tool and every generated document at once.
+  /* FH&L PROGRAM PRICING IS PARTNER ONLY, from 2026-10-13. Don: website
+     codes and website pricing are not released to providers and staff; they
+     live on the website. Nick confirmed the same day that he has NOT released
+     any FH&L website code - he is holding them until they work with the
+     recurring payments. Checked against the published sheet: FndnPeptide002,
+     GatePeptide001, PeakPeptide001 and PeakPeptide002 were all absent, so the
+     provider pages had been showing four copyable codes that did not exist in
+     Tebra. Removed rather than nulled, so nothing can render them.
+     When Nick releases them, they come back one line per program.
+
+     Baseline labs and the GHK-Cu add-on keep their website figure because
+     each has ONE released code and one price for everybody. */
   pricing: {
     baseline: {
       label: 'Baseline Labs (one-time, before program selection)',
@@ -1388,10 +1400,10 @@ var KORB_DOSING = {
     },
     foundation: {
       label: 'Foundation Program',
-      website: { payment: 249.00, total: 996.00 }, partner: { payment: 199.00, total: 796.00 },
-      /* ONE code pair for the whole Foundation program. Don, 2026-09-15: the
-         charge does not depend on the agent - partner $199 and website $249
-         whichever of BPC-157, Sermorelin or CJC-1295/Ipamorelin is prescribed.
+      partner: { payment: 199.00, total: 796.00 },
+      /* ONE code for the whole Foundation program. Don, 2026-09-15: the
+         charge does not depend on the agent - partner $199 whichever of
+         BPC-157, Sermorelin or CJC-1295/Ipamorelin is prescribed.
          The comment that used to sit here said "Foundation bills per agent, not
          one flat program code", which is the opposite of the truth.
 
@@ -1400,7 +1412,7 @@ var KORB_DOSING = {
          they were a plan never adopted. The Sermorelin pair is the live one and
          is what survives. Gateway and Peak already carried a single pair each,
          so Foundation was the outlier. */
-      code: { website: 'FndnPeptide002', partner: 'FndnPeptideP02' },
+      code: { partner: 'FndnPeptideP02' },
       /* THE ONE EXCEPTION, 2026-10-13. GHK-Cu in Foundation bills under its own
          partner code, created by Nick for it on 2026-10-12. Same price and the
          same four payments as the rest of Foundation; only the code differs.
@@ -1414,23 +1426,23 @@ var KORB_DOSING = {
          website key here at all, not a null and not a "pending" note, and
          every renderer shows GHK-Cu Foundation at the partner rate only. */
       codeByAgent: {
-        ghkcu1mg: { partner: 'FndnPeptideP04', websiteOnSiteOnly: true }
+        ghkcu1mg: { partner: 'FndnPeptideP04' }
       }
     },
     gateway: {
       label: 'Gateway Program',
-      website: { payment: 349.00, total: 1396.00 }, partner: { payment: 299.00, total: 1196.00 },
-      code: { website: 'GatePeptide001', partner: 'GatePeptideP01' }
+      partner: { payment: 299.00, total: 1196.00 },
+      code: { partner: 'GatePeptideP01' }
     },
     peakA: {
       label: 'Peak Performance — Pathway A',
-      website: { payment: 449.00, total: 1796.00 }, partner: { payment: 399.00, total: 1596.00 },
-      code: { website: 'PeakPeptide001', partner: 'PeakPeptideP01' }
+      partner: { payment: 399.00, total: 1596.00 },
+      code: { partner: 'PeakPeptideP01' }
     },
     peakB: {
       label: 'Peak Performance — Pathway B',
-      website: { payment: 449.00, total: 1796.00 }, partner: { payment: 399.00, total: 1596.00 },
-      code: { website: 'PeakPeptide002', partner: 'PeakPeptideP02' }
+      partner: { payment: 399.00, total: 1596.00 },
+      code: { partner: 'PeakPeptideP02' }
     },
     ghkcu: {
       label: 'GHK-Cu Add-On (one-time)',

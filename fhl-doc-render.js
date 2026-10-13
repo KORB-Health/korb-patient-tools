@@ -809,8 +809,9 @@ function sectionPricing(doc) {
     ? ' (' + (prog.agentChoices || []).filter(function (k) { return !(k in p.codeByAgent); })
         .map(function (k) { return agentParts(k).name; }).join(', ') + ')'
     : '';
+  /* Partner only. FH&L website codes and prices are not issued to providers
+     or staff (Don, 2026-10-13) and are no longer in the data file. */
   rows += payRow(p.label + others + ' - partner', p.partner.payment, p.code.partner);
-  rows += payRow(p.label + others + ' - website', p.website.payment, p.code.website);
 
   /* THE EXCEPTION, 2026-10-13: GHK-Cu in Foundation bills under its own code,
      partner rate only. Don: website codes and pricing are not released to
@@ -819,9 +820,6 @@ function sectionPricing(doc) {
   Object.keys(p.codeByAgent || {}).forEach(function (ak) {
     const c = p.codeByAgent[ak], name = agentTitle(ak);
     rows += payRow(p.label + ' - ' + name + ' - partner', p.partner.payment, c.partner);
-    if (c.website) {
-      rows += payRow(p.label + ' - ' + name + ' - website', p.website.payment, c.website);
-    }
   });
 
   if (prog.optionalAddon === 'ghkcu') {
@@ -835,7 +833,8 @@ function sectionPricing(doc) {
     '<table class="grid pricetbl"><thead><tr><th>Item</th><th>Amount</th><th>Charge code</th></tr></thead><tbody>' +
     rows + '</tbody></table>' +
     '<div class="callout"><p>Monthly payments run across the full 16-week cycle: ' +
-    money(p.partner.total) + ' partner in total, ' + money(p.website.total) + ' website in total.</p></div></div>';
+    money(p.partner.total) + ' partner in total. Website enrollments are priced and billed on the ' +
+    'website; those prices and codes are not issued to providers or staff.</p></div></div>';
 }
 
 /* ── PAGE ─────────────────────────────────────────────────────────────────── */
