@@ -288,11 +288,20 @@ var KORB_DOSING = {
       "tool:fhlschedule": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-26",
-        "fingerprint": "fp-8b33ef00-447371",
-        "covers": "54 states, 0 prescribing blocks",
+        "date": "2026-10-13",
+        "fingerprint": "fp-1fff97ce-460598",
+        "covers": "56 states, 0 prescribing blocks",
         "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
-        "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the Gateway, Peak A and Peak B dose lists moved from typed <option> tags to programs.<x>.primaryDoseOptions (commit 89bdf45)."
+        "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: the Foundation medication picker now reads programs.foundation.agentChoices (four, GHK-Cu last) instead of typed options, and GHK-Cu shows daily, 10 units, Weeks 1-12 at both pharmacies. The Gateway/Peak add-on is unchanged. Don used the tool and said \"approved\".",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-26",
+          "fingerprint": "fp-8b33ef00-447371",
+          "covers": "54 states, 0 prescribing blocks",
+          "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
+          "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the Gateway, Peak A and Peak B dose lists moved from typed <option> tags to programs.<x>.primaryDoseOptions (commit 89bdf45)."
+        }
       }
     }
   },
