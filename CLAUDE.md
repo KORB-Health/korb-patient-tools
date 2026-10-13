@@ -1060,6 +1060,10 @@ This repo has real self-checks. Use them, and prove they have teeth.
   and pushes ONLY plain price drift with every gate green. A vanished code, a
   self-contradicting source, a dirty tree or any failing gate stops it without
   pushing. Log: `%USERPROFILE%\.korb-charges-log.txt`.
+  **It pops up a Windows notification** when it pushes a change or stops for
+  a person, and stays silent when nothing changed. Added 2026-10-13: Nick's
+  GHK-Cu codes landed the night before and nobody was told, because until
+  then the log file was the only record.
   **The published URL is NOT in this repo** — it lives in
   `%USERPROFILE%\.korb-charges-url.txt`, one line, because this repo is public.
   **IT IS PER MACHINE.** `check-charges.ps1` travels with the repo; the Windows

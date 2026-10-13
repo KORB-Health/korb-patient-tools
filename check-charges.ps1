@@ -32,7 +32,29 @@ function Log($msg) {
   Add-Content -Path $logFile -Value $line -Encoding utf8
 }
 
-function Fail($msg) { Log "STOP: $msg"; exit 1 }
+# A Windows pop-up for anything Don should know about: a change pushed, or a run
+# that stopped and needs a person. Nothing for "unchanged" - a daily all-clear is
+# noise, and noise trains people to dismiss the one that matters. Added
+# 2026-10-13 after Nick added the GHK-Cu codes and the change landed without
+# anyone being told; until then the log file was the only record.
+#
+# It borrows PowerShell's own app id, which Windows already knows, so nothing has
+# to be registered. It shows only when Don is signed in, which the task requires
+# anyway (LogonType Interactive). A failed pop-up must never fail the job.
+function Notify($title, $body) {
+  try {
+    [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
+    [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null
+    $esc = { param($s) [Security.SecurityElement]::Escape([string]$s) }
+    $xml = New-Object Windows.Data.Xml.Dom.XmlDocument
+    $xml.LoadXml("<toast duration=`"long`"><visual><binding template=`"ToastGeneric`"><text>$(& $esc $title)</text><text>$(& $esc $body)</text><text>Log: .korb-charges-log.txt</text></binding></visual></toast>")
+    $appId = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe'
+    [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($appId).Show(
+      [Windows.UI.Notifications.ToastNotification]::new($xml))
+  } catch { Add-Content -Path $logFile -Value "  (pop-up failed: $($_.Exception.Message))" -Encoding utf8 }
+}
+
+function Fail($msg) { Log "STOP: $msg"; Notify 'KORB charge codes: needs you' $msg; exit 1 }
 
 Set-Location $repo
 
@@ -65,23 +87,45 @@ $text = $check -join "`n"
 if ($text -match 'CODES THAT VANISHED') {
   Log "A CODE DISAPPEARED FROM THE PUBLISHED TAB. Not pushing - Don confirms first."
   Log $text
+  Notify 'KORB charge codes: a code disappeared' 'A code was removed from the sheet. Nothing pushed - confirm with Nick first.'
   exit 1
 }
 if ($text -match 'TWO DIFFERENT PRICES') {
   Log "THE SOURCE CONTRADICTS ITSELF. Not pushing - that is a question for Nick."
   Log $text
+  Notify 'KORB charge codes: the sheet disagrees with itself' 'One code has two different prices. Nothing pushed - a question for Nick.'
   exit 1
 }
 
 # ---- 4. never commit somebody else's work in progress --------------------
 $dirty = (& git status --porcelain) | Where-Object { $_ -notmatch 'korb-charges\.js$' }
-if ($dirty) { Log "working tree has other changes, not touching it:"; Log ($dirty -join "`n"); exit 1 }
+if ($dirty) {
+  Log "working tree has other changes, not touching it:"; Log ($dirty -join "`n")
+  Notify 'KORB charge codes: needs you' 'The sheet changed but the repo has uncommitted work, so nothing was pushed.'
+  exit 1
+}
 
 & git pull --ff-only | Out-Null
 if ($LASTEXITCODE -ne 0) { Fail "git pull failed - resolve by hand" }
 
+# The drift check above ran against THIS machine's copy, before the pull. If the
+# other machine already pushed the change, the pull brought it in and there is
+# nothing left to do. Without this re-check the run regenerated an identical file
+# with a new date and committed that, as d9ad087 did on 2026-10-13 - harmless,
+# but it logged the other machine's new codes as its own, and with a pop-up it
+# would announce the same change twice.
+& python build-charges.py $csv --check | Out-Null
+if ($LASTEXITCODE -eq 0) {
+  Log "Already up to date - the other machine applied this change first."
+  exit 0
+}
+
 & python build-charges.py $csv | Out-Null
-if ($LASTEXITCODE -ne 0) { Log "regeneration reported a problem:"; Log ($check -join "`n"); & git checkout -- korb-charges.js; exit 1 }
+if ($LASTEXITCODE -ne 0) {
+  Log "regeneration reported a problem:"; Log ($check -join "`n"); & git checkout -- korb-charges.js
+  Notify 'KORB charge codes: needs you' 'Regenerating the charge codes failed. Nothing pushed.'
+  exit 1
+}
 
 # ---- 5. every gate, or nothing -------------------------------------------
 $gates = @(
@@ -95,6 +139,7 @@ foreach ($g in $gates) {
     & git checkout -- korb-charges.js
     Log "GATE FAILED, reverted and did not push: $g"
     Log ($out -join "`n")
+    Notify 'KORB charge codes: a check failed' "The sheet changed but $g failed. Reverted, nothing pushed."
     exit 1
   }
 }
@@ -119,9 +164,14 @@ if (-not $staged) {
 & git commit -q -m "Charge codes: pulled from the published sheet`n`n$moved`n`nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 if ($LASTEXITCODE -ne 0) { Fail "commit failed" }
 & git push -q
-if ($LASTEXITCODE -ne 0) { Log "COMMITTED BUT PUSH FAILED - push by hand"; exit 1 }
+if ($LASTEXITCODE -ne 0) {
+  Log "COMMITTED BUT PUSH FAILED - push by hand"
+  Notify 'KORB charge codes: push failed' 'The change is committed on this machine but not on GitHub. Push by hand.'
+  exit 1
+}
 
 $sha = (& git rev-parse --short HEAD)
 Log "Charge codes changed and pushed as $sha. $moved"
+Notify 'KORB charge codes changed' "Pulled from Nick's sheet and pushed as $sha. $moved"
 Log "Providers with a document already open need a hard refresh; browsers cache the data files."
 exit 0
