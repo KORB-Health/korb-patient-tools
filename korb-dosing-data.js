@@ -1401,32 +1401,35 @@ var KORB_DOSING = {
     foundation: {
       label: 'Foundation Program',
       partner: { payment: 199.00, total: 796.00 },
-      /* ONE code for the whole Foundation program. Don, 2026-09-15: the
-         charge does not depend on the agent - partner $199 whichever of
-         BPC-157, Sermorelin or CJC-1295/Ipamorelin is prescribed.
-         The comment that used to sit here said "Foundation bills per agent, not
-         one flat program code", which is the opposite of the truth.
+      /* FOUNDATION BILLS PER AGENT, from 2026-10-13. Same $199 for all four,
+         a different code for each - the codes name the agent:
 
-         This held three pairs: 001/P01 for BPC-157, 002/P02 for Sermorelin and
-         003/P03 for CJC. Don did not recognise the BPC or CJC pairs and believes
-         they were a plan never adopted. The Sermorelin pair is the live one and
-         is what survives. Gateway and Peak already carried a single pair each,
-         so Foundation was the outlier. */
-      code: { partner: 'FndnPeptideP02' },
-      /* THE ONE EXCEPTION, 2026-10-13. GHK-Cu in Foundation bills under its own
-         partner code, created by Nick for it on 2026-10-12. Same price and the
-         same four payments as the rest of Foundation; only the code differs.
-         The recurring twin, FndnPeptideP44, is Ops-only for payments 2-4 and is
-         deliberately NOT here (Don).
+           FndnPeptideP01  KORB Peptide Foundation Program-Partner- BPC
+           FndnPeptideP02  KORB Peptide Foundation Program-Partner-Sermorelin
+           FndnPeptideP03  KORB Peptide Foundation Program-Partner-CJC
+           FndnPeptideP04  KORB Peptide Foundation Program-GHK CU
 
-         PARTNER ONLY, BY DESIGN. Don, 2026-10-13: website codes and website
-         pricing are not released to providers and staff - they live only on
-         the website. Nick is also holding the website codes until he has
-         confirmed they work with the recurring payments. So there is no
-         website key here at all, not a null and not a "pending" note, and
-         every renderer shows GHK-Cu Foundation at the partner rate only. */
+         REVERSES 2026-09-15, which put every Foundation agent on P02 because
+         Don did not recognise P01 and P03 and took them for a plan never
+         adopted. On 2026-10-13 he looked at Nick's sheet and saw all four as
+         live, agent-named codes. Verified the same day against the Tebra
+         extract Nick pastes into Charge Codes_Master (columns I-N, refreshed
+         2026-10-12 after P04 was made): all four present, $199, descriptions
+         identical to the master. Nothing was ever billed wrongly as a PRICE -
+         only the code differed for BPC-157 and CJC.
+
+         No program-level code, deliberately: every agent names its own, and
+         a fallback is how a wrong code ends up looking right. selfCheck()
+         fails if an agent Foundation offers has no code here.
+
+         The recurring twins (P11, P22, P33, P44) are Ops-only for payments
+         2-4 and are deliberately NOT here (Don). Partner only: website codes
+         and pricing are not released to providers and staff. */
       codeByAgent: {
-        ghkcu1mg: { partner: 'FndnPeptideP04' }
+        bpc157:     { partner: 'FndnPeptideP01' },
+        sermorelin: { partner: 'FndnPeptideP02' },
+        cjcipam:    { partner: 'FndnPeptideP03' },
+        ghkcu1mg:   { partner: 'FndnPeptideP04' }
       }
     },
     gateway: {
@@ -1858,6 +1861,21 @@ KORB_DOSING.selfCheck = function(){
         problems.push('CADENCE ' + k + ': cadence "' + a.cadence + '" expects schedule "' +
                       EXPECT[a.cadence] + '" but the agent says "' + a.schedule + '"');
       }
+    });
+  })();
+
+  /* FOUNDATION CODES, 2026-10-13. Foundation bills per agent and carries no
+     program-level code to fall back on, so an agent added to agentChoices
+     without a code would render "Not available" at the moment a provider
+     charges. Assert every offered agent has one, and nothing has a code
+     that Foundation does not offer. */
+  (function () {
+    var f = KORB_DOSING.programs.foundation, by = KORB_DOSING.pricing.foundation.codeByAgent || {};
+    f.agentChoices.forEach(function (k) {
+      if (!by[k] || !by[k].partner) problems.push('FOUNDATION CODE ' + k + ': offered but has no partner charge code');
+    });
+    Object.keys(by).forEach(function (k) {
+      if (f.agentChoices.indexOf(k) === -1) problems.push('FOUNDATION CODE ' + k + ': has a code but Foundation does not offer it');
     });
   })();
 

@@ -159,7 +159,7 @@ if ($LASTEXITCODE -ne 0) {
 $gates = @(
   'node check-pages.js', 'node check-tebra-caps.js --gate', 'node rx-signoff.js --gate',
   'node build-embed.js --check', 'node check-pharmacies.js', 'node check-feedback.js',
-  'node check-404.js', 'node stamp-cache.js --check'
+  'node check-404.js', 'node stamp-cache.js --check', 'node check-fhl-codes.js'
 )
 foreach ($g in $gates) {
   $out = & cmd /c "$g 2>&1"

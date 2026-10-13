@@ -1093,6 +1093,16 @@ This repo has real self-checks. Use them, and prove they have teeth.
   organisations and their negotiated rates — and four rows inside allowed
   groupings that name AISD, HISD, NISD or InShape/Fitness19. Those are
   contracts and this repo is served to anyone with the URL.
+- `node check-fhl-codes.js` — every FH&L charge code a provider can copy is in
+  Nick's sheet (`korb-charges.js`) at the price the pages show. Expect "all 9",
+  exit 0. Added 2026-10-13 after four website codes that never existed
+  (FndnPeptide002, GatePeptide001, PeakPeptide001/002) were found on every
+  FH&L provider page. FH&L prices are typed in `korb-dosing-data.js`, so
+  nothing else compares them with the sheet. A gate in `check-charges.ps1`.
+  Negative-tested both halves: a planted code and a $1 drift each fail by name.
+  **Foundation bills PER AGENT from 2026-10-13**: P01 BPC-157, P02 Sermorelin,
+  P03 CJC, P04 GHK-Cu, verified against the Tebra extract in Nick's workbook.
+  FH&L provider pages show the partner rate and code only.
 - `node check-feedback.js` — every released patient page ends with the feedback
   button, and `korb-feedback.js` matches `shared.feedback`. Expect "all 30",
   exit 0. See the house rule near the top of this file.

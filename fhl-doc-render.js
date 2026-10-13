@@ -803,21 +803,17 @@ function sectionPricing(doc) {
      branch here on codeByAgent and print three pairs of rows saying the same two
      numbers with different codes; it now carries a single pair like Gateway and
      Peak, so the branch is gone. */
-  /* With an agent-specific code present, the program pair must say it is for
-     the OTHER agents, or GHK-Cu reads as billable under P02 as well. */
-  const others = Object.keys(p.codeByAgent || {}).length
-    ? ' (' + (prog.agentChoices || []).filter(function (k) { return !(k in p.codeByAgent); })
-        .map(function (k) { return agentParts(k).name; }).join(', ') + ')'
-    : '';
   /* Partner only. FH&L website codes and prices are not issued to providers
-     or staff (Don, 2026-10-13) and are no longer in the data file. */
-  rows += payRow(p.label + others + ' - partner', p.partner.payment, p.code.partner);
+     or staff (Don, 2026-10-13) and are no longer in the data file.
+     A program with one code gets one row. Foundation bills per agent from
+     2026-10-13 and has no program code, so it gets a row per agent below. */
+  if (p.code && p.code.partner) {
+    rows += payRow(p.label + ' - partner', p.partner.payment, p.code.partner);
+  }
 
-  /* THE EXCEPTION, 2026-10-13: GHK-Cu in Foundation bills under its own code,
-     partner rate only. Don: website codes and pricing are not released to
-     providers and staff; they live on the website. So no website row at all -
-     not a price with a blank code, which would still be a website price. */
-  Object.keys(p.codeByAgent || {}).forEach(function (ak) {
+  /* Per-agent codes, in the order the program offers its agents. */
+  (prog.agentChoices || Object.keys(p.codeByAgent || {})).forEach(function (ak) {
+    if (!(p.codeByAgent || {})[ak]) return;
     const c = p.codeByAgent[ak], name = agentTitle(ak);
     rows += payRow(p.label + ' - ' + name + ' - partner', p.partner.payment, c.partner);
   });
