@@ -229,23 +229,34 @@ var KORB_DOSING = {
       "fhl:foundation": {
       "signedBy": "Donald Stevenson, PA-C",
       "role": "Director of Clinical Operations and Lead Provider",
-      "date": "2026-09-20",
-      "dataVersion": "2.14",
-      "fingerprint": "fp-d09fe8ba-33170",
-      "blocks": 14,
+      "date": "2026-10-13",
+      "dataVersion": "2.15",
+      "fingerprint": "fp-04ede32c-37783",
+      "blocks": 16,
       "document": "Foundation",
       "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-      "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+      "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: two new entries, PREMIER - GHK-Cu 1 mg SQ Inj Daily (18 ml, 84 days, 90 syringes) and GREENWICH - GHK-Cu 1mg SQ Inj Daily (15 ml, 84 days), 14 existing entries unchanged. Same review covered the per-agent charge codes (P01 BPC-157, P02 Sermorelin, P03 CJC, P04 GHK-Cu) and the removal of website pricing. Don reviewed it on screen and said \"approved\".",
       "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-15",
-          "dataVersion": "2.13",
-          "fingerprint": "fp-ddf4892c-33170",
+          "date": "2026-09-20",
+          "dataVersion": "2.14",
+          "fingerprint": "fp-d09fe8ba-33170",
           "blocks": 14,
           "document": "Foundation",
           "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-          "note": "Approved 2026-09-15 after the duplicated doses in headings were fixed, pricing moved to the top, and the Foundation charge codes were corrected to FndnPeptideP02 / FndnPeptide002: \"Perfect.\""
+          "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+          "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-15",
+              "dataVersion": "2.13",
+              "fingerprint": "fp-ddf4892c-33170",
+              "blocks": 14,
+              "document": "Foundation",
+              "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+              "note": "Approved 2026-09-15 after the duplicated doses in headings were fixed, pricing moved to the top, and the Foundation charge codes were corrected to FndnPeptideP02 / FndnPeptide002: \"Perfect.\""
+            }
         }
     },
     }
