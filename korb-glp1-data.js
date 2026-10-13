@@ -350,11 +350,20 @@ var KORB_GLP1 = {
       "tool:glp1routing": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-17",
-        "fingerprint": "fp-79fb1a74-25617",
+        "date": "2026-10-13",
+        "fingerprint": "fp-fdaa203b-25648",
         "covers": "51 states, 0 prescribing blocks",
         "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-        "note": "Approved 2026-09-17. Don: \"we used the other day and it is good to go.\" KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio."
+        "note": "Re-signed 2026-10-13 on Don's instruction in chat, for one change: North Carolina moved from FarmaKeio to Premier on 2026-10-12 (e7e8b27; FarmaKeio does not ship to NC). Verified the NC move was the ONLY routing change since the 2026-09-17 signature: at e7e8b27^ this tool was still current against it. Now FarmaKeio 39, Premier 11, Belmar 1 (CA); KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio; NC shows Premier Pharmacy, preferred.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-17",
+          "fingerprint": "fp-79fb1a74-25617",
+          "covers": "51 states, 0 prescribing blocks",
+          "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+          "note": "Approved 2026-09-17. Don: \"we used the other day and it is good to go.\" KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio."
+        }
       }
     }
   },
