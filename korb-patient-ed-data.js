@@ -54,27 +54,36 @@ var KORB_PATIENT_ED = {
       "page:foundation_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-24",
-        "fingerprint": "fp-3e55f26d-7013",
-        "covers": "6621 characters, 14 headings",
-        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read after Kris Mulkey's second review: the opening paragraphs trimmed to her wording, the peptide definition kept, \"Baseline lab work is required\" added, and \"walk you through\" changed to \"explain\". Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
+        "date": "2026-10-13",
+        "fingerprint": "fp-43189fe8-7340",
+        "covers": "6939 characters, 15 headings",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation as a fourth medication option: daily in the evening, Weeks 1-12, copper watched on labs. Don read it on screen and said \"approved\".",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-23",
-          "fingerprint": "fp-4ca04f0a-7151",
-          "covers": "6759 characters, 14 headings",
+          "date": "2026-09-24",
+          "fingerprint": "fp-3e55f26d-7013",
+          "covers": "6621 characters, 14 headings",
           "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes and the optimization link relabelling. Don: \"Foundation program overview is good to sign off on.\"",
+          "note": "Re-read after Kris Mulkey's second review: the opening paragraphs trimmed to her wording, the peptide definition kept, \"Baseline lab work is required\" added, and \"walk you through\" changed to \"explain\". Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-20",
-            "fingerprint": "fp-c618be0b-6499",
-            "covers": "6140 characters, 13 headings",
-            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            "date": "2026-09-23",
+            "fingerprint": "fp-4ca04f0a-7151",
+            "covers": "6759 characters, 14 headings",
+            "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes and the optimization link relabelling. Don: \"Foundation program overview is good to sign off on.\"",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-20",
+              "fingerprint": "fp-c618be0b-6499",
+              "covers": "6140 characters, 13 headings",
+              "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            }
           }
         }
       },
