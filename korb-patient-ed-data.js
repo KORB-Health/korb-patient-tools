@@ -135,27 +135,36 @@ var KORB_PATIENT_ED = {
       "page:longevity_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-24",
-        "fingerprint": "fp-a512cc9a-6795",
-        "covers": "6376 characters, 14 headings",
-        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read after Kris Mulkey's second review: \"walk you through\" changed to \"explain\" in the shared research sentence. Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
+        "date": "2026-10-13",
+        "fingerprint": "fp-d0dcc675-6803",
+        "covers": "6384 characters, 14 headings",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Re-signed 2026-10-13: the Foundation tier now names GHK-Cu as a fourth medication choice. Don read it on screen and said \"approved\".",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-23",
-          "fingerprint": "fp-355ea93c-6804",
-          "covers": "6385 characters, 14 headings",
+          "date": "2026-09-24",
+          "fingerprint": "fp-a512cc9a-6795",
+          "covers": "6376 characters, 14 headings",
           "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes, the optimization link relabelling, and the Peak pathway naming added the same day at Don's request. Don: \"functional health all look good.\"",
+          "note": "Re-read after Kris Mulkey's second review: \"walk you through\" changed to \"explain\" in the shared research sentence. Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-20",
-            "fingerprint": "fp-e682b48b-5927",
-            "covers": "5518 characters, 13 headings",
-            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            "date": "2026-09-23",
+            "fingerprint": "fp-355ea93c-6804",
+            "covers": "6385 characters, 14 headings",
+            "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes, the optimization link relabelling, and the Peak pathway naming added the same day at Don's request. Don: \"functional health all look good.\"",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-20",
+              "fingerprint": "fp-e682b48b-5927",
+              "covers": "5518 characters, 13 headings",
+              "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            }
           }
         }
       },
