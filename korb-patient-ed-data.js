@@ -216,19 +216,28 @@ var KORB_PATIENT_ED = {
       "page:start_here_guide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-b2e7921e-3474",
-        "covers": "3223 characters, 7 headings",
-        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. The three programme choices split into a name and a caption - \"Foundation\" with \"One medication\" beneath - matching the treatment the optimization buttons got the same day.",
+        "date": "2026-10-13",
+        "fingerprint": "fp-e4240da8-3465",
+        "covers": "3214 characters, 7 headings",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Re-signed 2026-10-13: the medication guide button reads GHK-Cu rather than GHK-Cu (Add-On), since the guide now covers the Foundation course too. Don read it on screen: \"This looks great.\"",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-64bd476d-3380",
-          "covers": "3129 characters, 7 headings",
-          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          "date": "2026-09-23",
+          "fingerprint": "fp-b2e7921e-3474",
+          "covers": "3223 characters, 7 headings",
+          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. The three programme choices split into a name and a caption - \"Foundation\" with \"One medication\" beneath - matching the treatment the optimization buttons got the same day.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-64bd476d-3380",
+            "covers": "3129 characters, 7 headings",
+            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          }
         }
       },
       "page:weightloss_program_overview": {
