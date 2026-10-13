@@ -3,7 +3,7 @@
 
    GENERATED. Do not hand-edit - the next build overwrites it.
    Source: Nick Ellison's KORB x TEBRA workbook.
-   Fetched this run as: workbook .xlsx
+   Fetched this run as: published CSV
    Regenerate:  python build-charges.py <workbook.xlsx>
    Check drift: python build-charges.py <workbook.xlsx> --check
 
@@ -26,11 +26,11 @@
   var KORB_CHARGES = {
     meta: {
       version: '1.0',
-      generated: '2026-09-28',
+      generated: '2026-10-12',
       source: 'KORB x TEBRA Charge Codes, Nick Ellison',
       sourceTab: 'Charge Codes_Master, columns A-F',
       owner: 'Nick Ellison, VP Finance - the codes and prices are his',
-      count: 97,
+      count: 99,
       excludes: 'TPA, Employee, Employer Paid, the whole Corporate Partner tab, ' +
                 'four rows naming AISD, HISD, NISD or InShape/Fitness19, and ' +
                 'KORBURGENTE, a staff rate filed outside the Employee group. ' +
@@ -104,11 +104,11 @@
       'FITTirzCP4': { price: 449, grouping: 'Tirzepatide',
         description: 'KORB Get Fit Now Tirzepatide Corp Partner and F&F T4' },
       'FITTirzMT1': { price: 599, grouping: 'Tirzepatide',
-        description: 'KORB Get Fit Now Tirzepatide 8 Week-Maintenance T1' },
+        description: 'KORB Get Fit Now Tirzepatide 8 Wk-Maintenance T1' },
       'FITTirzMT2': { price: 649, grouping: 'Tirzepatide',
-        description: 'KORB Get Fit Now Tirzepatide 8 Week-Maintenance T2' },
+        description: 'KORB Get Fit Now Tirzepatide 8 Wk-Maintenance T2' },
       'FITTirzMT3': { price: 799, grouping: 'Tirzepatide',
-        description: 'KORB Get Fit Now Tirzepatide 8 Week-Maintenance T3' },
+        description: 'KORB Get Fit Now Tirzepatide 8 Wk-Maintenance T3' },
       'FITTirzMTB1': { price: 599, grouping: 'Tirzepatide',
         description: 'KORB Get Fit Now Tirzepatide 8 Week-Maintenance T1-Belmar' },
       'FITTirzMTB2': { price: 649, grouping: 'Tirzepatide',
@@ -127,12 +127,16 @@
         description: 'KORB Peptide Foundation Program-Partner-Sermorelin' },
       'FndnPeptideP03': { price: 199, grouping: 'Peptide',
         description: 'KORB Peptide Foundation Program-Partner-CJC' },
+      'FndnPeptideP04': { price: 199, grouping: 'Peptide',
+        description: 'KORB Peptide Foundation Program-GHK CU' },
       'FndnPeptideP11': { price: 199, grouping: 'Peptide',
         description: 'KORB Peptide Foundation Program-Partner- BPC-Recurring' },
       'FndnPeptideP22': { price: 199, grouping: 'Peptide',
         description: 'KORB Peptide Foundation Program-Partner-Sermorelin Recurring' },
       'FndnPeptideP33': { price: 199, grouping: 'Peptide',
         description: 'KORB Peptide Foundation Program-Partner-CJC Recurring' },
+      'FndnPeptideP44': { price: 199, grouping: 'Peptide',
+        description: 'KORB Peptide Foundation Program-GHK CU Recurring' },
       'GHKCUPeptide01': { price: 199, grouping: 'Peptide',
         description: 'KORB Peptide GHK-CU Add on' },
       'GatePeptideP01': { price: 299, grouping: 'Peptide',
