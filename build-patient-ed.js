@@ -140,6 +140,17 @@ const SCREEN = `
   table.contact3 td::before { content: attr(data-label); display: block; margin: -5pt -8pt 6pt;
     padding: 5pt 8pt; background: #21275B; color: #fff; font-family: Montserrat, Helvetica, Arial, sans-serif;
     font-weight: 600; }
+}
+/* FULL-WIDTH TABLES ON A PHONE, 2026-10-13, found by Don on the GHK-Cu Guide's
+   storage table. The shared stylesheet makes table.grid display:block below
+   640px so a wide provider pricing table can scroll sideways. A block-display
+   table keeps its OUTER box full width, but its rows sit in an anonymous table
+   that shrinks to its content - so a short table, like Storage, drew at 391px
+   in a 496px column while every measurement of the table element said 496.
+   Patient tables are prose that wraps, so from 360px up they are ordinary
+   tables again. Below 360 the scroll box stays: see the 320px note below. */
+@media screen and (min-width: 360px) and (max-width: 640px) {
+  table.grid:not(.contact3) { display: table; width: 100%; }
 }`;
 /* Not fixed, deliberately: at 320px (the 2016 iPhone SE) Hormone Therapy's table
    runs 35px wide and a CJC timeline 6px. overflow-wrap:anywhere was tried on

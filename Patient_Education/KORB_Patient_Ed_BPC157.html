@@ -390,6 +390,17 @@
     padding: 5pt 8pt; background: #21275B; color: #fff; font-family: Montserrat, Helvetica, Arial, sans-serif;
     font-weight: 600; }
 }
+/* FULL-WIDTH TABLES ON A PHONE, 2026-10-13, found by Don on the GHK-Cu Guide's
+   storage table. The shared stylesheet makes table.grid display:block below
+   640px so a wide provider pricing table can scroll sideways. A block-display
+   table keeps its OUTER box full width, but its rows sit in an anonymous table
+   that shrinks to its content - so a short table, like Storage, drew at 391px
+   in a 496px column while every measurement of the table element said 496.
+   Patient tables are prose that wraps, so from 360px up they are ordinary
+   tables again. Below 360 the scroll box stays: see the 320px note below. */
+@media screen and (min-width: 360px) and (max-width: 640px) {
+  table.grid:not(.contact3) { display: table; width: 100%; }
+}
 /* The pill and panel rules, on EVERY patient page rather than emitted by
    whichever renderer happens to need them. ways() and screening() render
    buttons and neither sits near a links() call. */
