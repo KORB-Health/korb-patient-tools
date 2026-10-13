@@ -62,7 +62,17 @@ var KORB_FHL_COUNSEL = {
   /* Read by artifact-signoff.js. The page is fingerprinted on its rendered
      text, like a handout, because it has no prescribing blocks. */
   artifactSignoff: {
-    records: {}
+    records: {
+      "doc:fhlcounsel": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-13",
+        "fingerprint": "fp-dd790679-16565",
+        "covers": "15439 characters, 30 headings",
+        "attests": "Reviewed this provider document as rendered - the program structure, the agent positioning, every question and answer, the regulatory language, the safety, contraindication, documentation and escalation lists, and the approved and forbidden wording - and approve it for use by the provider team.",
+        "note": "First signature, 2026-10-13, after GHK-Cu joined Foundation (four Foundation agents, one GHK-Cu formulary row, the two-regimen answer, partner-only tier prices). Don read it on screen and said \"approved\". Clinical review only: Nick has not yet read questions 4 to 7 and the language lists, which are compliance language."
+      }
+    }
   },
 
   /* ── PROSE ──────────────────────────────────────────────────────────── */
