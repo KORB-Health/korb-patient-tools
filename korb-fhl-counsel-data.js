@@ -39,10 +39,10 @@
    is present, and the document is null until it has. The builder refuses a
    document with no sections, so a missing script fails loudly.
 
-   NOT YET SIGNED. The prose is carried over from the July Word file with the
-   corrections above and Don's 2026-09-29 answer on question 7. Nobody has
-   reviewed it in this repo. The regulatory answers (questions 4 to 7) and
-   the language lists are compliance language; Nick should read them too.
+   SIGNED 2026-10-13 by Don, clinically AND as compliance: the regulatory
+   answers (questions 4 to 7) and the language lists are compliance language,
+   and Don is the compliance reviewer for this document (Don, 2026-10-13). An
+   earlier note here said Nick should read them; that was wrong and is gone.
    Sign-off lives in artifactSignoff below, read by artifact-signoff.js.
 
    2026-10-13 (v1.1): GHK-Cu JOINED FOUNDATION, Don's decision. The first of the
@@ -70,7 +70,7 @@ var KORB_FHL_COUNSEL = {
         "fingerprint": "fp-dd790679-16565",
         "covers": "15439 characters, 30 headings",
         "attests": "Reviewed this provider document as rendered - the program structure, the agent positioning, every question and answer, the regulatory language, the safety, contraindication, documentation and escalation lists, and the approved and forbidden wording - and approve it for use by the provider team.",
-        "note": "First signature, 2026-10-13, after GHK-Cu joined Foundation (four Foundation agents, one GHK-Cu formulary row, the two-regimen answer, partner-only tier prices). Don read it on screen and said \"approved\". Clinical review only: Nick has not yet read questions 4 to 7 and the language lists, which are compliance language."
+        "note": "First signature, 2026-10-13, after GHK-Cu joined Foundation (four Foundation agents, one GHK-Cu formulary row, the two-regimen answer, partner-only tier prices). Don read it on screen and said \"approved\". This is both the clinical and the compliance review: Don confirmed 2026-10-13 that he is compliance for this document, so no separate review of questions 4 to 7 or the language lists is pending."
       }
     }
   },

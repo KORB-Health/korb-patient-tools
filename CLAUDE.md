@@ -343,10 +343,12 @@ generating it.
   Compounding Advisory Committee met in July 2026, FDA's final decision is still
   pending, and none of KORB's formulary agents is on Category 2, so nothing
   changes. **It never says FDA-approved** except of Tesamorelin's own indication.
-- **Unsigned.** It is in `artifact-signoff.js` as `doc:fhlcounsel`, kind
-  `document`, fingerprinted on its rendered text like a handout. Don reads it
-  first; Nick should read questions 4 to 7 and the language lists, which are
-  compliance language.
+- **Signed 2026-10-13 by Don, clinically and as compliance.** It is in
+  `artifact-signoff.js` as `doc:fhlcounsel`, kind `document`, fingerprinted on
+  its rendered text like a handout. Questions 4 to 7 and the language lists are
+  compliance language, and **Don is compliance for this document** (Don,
+  2026-10-13). This line used to say Nick should read them; it was wrong.
+  Still not on the intranet.
 - Negative-tested both halves 2026-09-29: the Foundation partner price changed
   in the dosing file reached the page and restoring it put it back; removing the
   GHK-Cu formulary row made the builder exit 1.
