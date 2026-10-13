@@ -270,11 +270,20 @@ var KORB_DOSING = {
       "tool:fhltracker": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-26",
-        "fingerprint": "fp-3a39c13c-113256",
-        "covers": "54 states, 0 prescribing blocks",
+        "date": "2026-10-13",
+        "fingerprint": "fp-63bd1432-116991",
+        "covers": "56 states, 0 prescribing blocks",
         "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
-        "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the probe was added that day (commit 89bdf45)."
+        "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: GHK-Cu 1 mg is a fourth Foundation medication, daily, 10 units, Weeks 1-12, at Premier and Greenwich (54 states to 56). The Gateway/Peak GHK-Cu add-on is unchanged. Don used the tool and said \"approved\".",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-26",
+          "fingerprint": "fp-3a39c13c-113256",
+          "covers": "54 states, 0 prescribing blocks",
+          "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
+          "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the probe was added that day (commit 89bdf45)."
+        }
       },
       "tool:fhlschedule": {
         "signedBy": "Donald Stevenson, PA-C",
