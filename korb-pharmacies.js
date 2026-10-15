@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.7",
+    version: "1.8",
     created: "2026-09-11",
-    updated: "2026-10-12",
+    updated: "2026-10-15",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-10-15 (v1.8): PREMIER GAINS FIVE STATES. Alaska, Idaho, Iowa, Indiana and Minnesota added to Premier's footprint and removed from footprintExcludes, from Premier's current state licence list (States licensed.xlsx, sent by Don). Premier now ships to 43 jurisdictions including DC. Every program on the footprint follows: GLP-1, peptides, add-ons and women's health (Premier is the women's default wherever licensed, so these five move from Belmar to Premier). TRT stays Texas only. Three things on that list are NOT applied and wait for Don: Mississippi and Massachusetts are licensed for non-sterile compounding only (injectables are sterile); Virginia is on our list but not on Premier's; Michigan and Connecticut show licences that expired 2026-08-06 and 2026-08-31. Don Stevenson, PA-C.",
       "2026-10-12 (v1.7): NORTH CAROLINA ONLY. FarmaKeio does not ship to NC. NC removed from the FarmaKeio footprint and preferred list, added to footprintExcludes, and added to Premier's preferred states and routing. Every other state and pharmacy is unchanged. Don Stevenson, PA-C.",
       "2026-09-16 (v1.6): PROGRAMS CAN NOW NARROW A FOOTPRINT, not just subtract from it. servesState honours an `only` list on a program. Added for TRT: testosterone cypionate is Schedule III and a pharmacy's controlled-substance licensure is far narrower than the states it can ship an ordinary compound to - Premier ships peptides to 38 states and testosterone to Texas. Saying that with `excludes` would mean typing the other 37 and re-typing them whenever the general footprint moves, which is a list kept in step by hand. No program declared `only` before this, and every existing GLP-1 and peptide footprint was captured before the change and compared after: none moved. Also filled in the trt program for premier (TX) and empower (CA), both verified:false - they record what KORB_Mens_Health_Provider_Tool.html has asserted since before this file existed and have NOT been checked against DEA registration or state licences. suppliesKit records that Empower ships the injection kit and Premier does not, which is why the Tebra pharmacy note differs by pharmacy rather than by state.",
       "2026-09-15 (v1.5): korb-dosing-data.js wired on under open item 4, joining korb-glp1-data.js. Its premierRouting now comes from statesFor('premier', 'peptides') at load instead of being typed there. crossCheck reports derived files by name and states plainly that their lists were NOT independently verified, since comparing a value with itself is agreement it did not earn. Also added dispensingName, address1, cityStateZip and phone for lillydirect and novocare, which the brand GLP-1 documents print.",
@@ -180,6 +181,7 @@ var KORB_PHARMACIES = {
       "orderVia": "Tebra Compound",
       "billing": "Bill to KORB Health Group, ship to patient",
       "footprint": [
+        "AK",
         "AZ",
         "CO",
         "CT",
@@ -187,13 +189,17 @@ var KORB_PHARMACIES = {
         "DE",
         "FL",
         "GA",
+        "IA",
+        "ID",
         "IL",
+        "IN",
         "KS",
         "KY",
         "LA",
         "MD",
         "ME",
         "MI",
+        "MN",
         "MO",
         "MS",
         "MT",
@@ -220,21 +226,16 @@ var KORB_PHARMACIES = {
         "WY"
       ],
       "footprintExcludes": [
-        "AK",
         "AL",
         "AR",
         "CA",
         "HI",
-        "IA",
-        "ID",
-        "IN",
         "MA",
-        "MN",
         "NH",
         "SC",
         "WA"
       ],
-      "footprintNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09.",
+      "footprintNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09; Alaska, Idaho, Iowa, Indiana and Minnesota added 2026-10-15 from Premier's state licence list (States licensed.xlsx, Don). Texas is Premier's home state and is not on that non-resident list.",
       "footprintIsSettled": "SETTLED — do not soften this back to a preference. Two different things were being confused: the ROUTING DEFAULT for a state is overridable (a provider may choose Premier where FarmaKeio is default, or vice versa), but Premier’s LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.",
       "preferredStates": [
         "TX",
@@ -262,7 +263,7 @@ var KORB_PHARMACIES = {
         "trt": {
           "status": "active",
           "only": ["TX"],
-          "note": "Testosterone cypionate 200 mg/mL, commercial generic, for male TRT. TEXAS ONLY - Schedule III, and controlled-substance licensure is narrower than the 38-state general footprint above. Taken from KORB_Mens_Health_Provider_Tool.html, which has routed TX to Premier since before korb-pharmacies.js existed. NOT INDEPENDENTLY VERIFIED against Premier's DEA registration or state licences - it records what the live provider tool asserts. Confirm with Premier before adding a state.",
+          "note": "Testosterone cypionate 200 mg/mL, commercial generic, for male TRT. TEXAS ONLY - Schedule III, and controlled-substance licensure is narrower than the general footprint above. Taken from KORB_Mens_Health_Provider_Tool.html, which has routed TX to Premier since before korb-pharmacies.js existed. NOT INDEPENDENTLY VERIFIED against Premier's DEA registration or state licences - it records what the live provider tool asserts. Confirm with Premier before adding a state.",
           "suppliesKit": true,
           "suppliesKitNote": "Premier ships the injection kit with the vial too - medication, syringes, needles and alcohol pads. Corrected 2026-09-16 by Don. Both the TRT Provider Tool and the February Men's Health protocol had Premier shipping nothing, which was wrong and would have had a Texas patient waiting on supplies nobody ordered.",
           "sourcedFrom": "KORB_Mens_Health_Provider_Tool.html, 2026-09-16",
@@ -273,7 +274,7 @@ var KORB_PHARMACIES = {
         },
 "womens": {
           "status": "active",
-          "note": "Menopausal hormone therapy. Premier is the DEFAULT pharmacy wherever it is licensed - Don, 2026-09-16 - and Belmar picks up the remaining 13 states. No `only` here: the whole 38-state footprint applies, unlike trt.",
+          "note": "Menopausal hormone therapy. Premier is the DEFAULT pharmacy wherever it is licensed - Don, 2026-09-16 - and Belmar picks up the remaining 13 states. No `only` here: the whole footprint applies, unlike trt.",
           "verified": true,
           "verifiedBy": "Don Stevenson, PA-C",
           "verifiedOn": "2026-09-16"
