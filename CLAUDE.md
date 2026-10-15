@@ -541,6 +541,8 @@ cosmetic — these are plain scripts assigning globals.
 | `KORB_GLP1_Patient_Message_Builder.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
 | `KORB_GLP1_Pharmacy_Routing.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
 | `KORB_GLP1_Dose_Guide.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
+| `KORB_GLP1_12Week_Savings.html` | `korb-pharmacies.js`, `korb-charges.js`, `korb-glp1-data.js`. Provider and Ops quick reference, 2026-10-15. Never shows the grandfathered 8-week rate: `costPolicy` forbids it in this public repo |
+| `KORB_GLP1_Premier_Shipping_States.html` | `korb-pharmacies.js` only. Provider and Ops reference, 2026-10-15. Every state is `statesFor('premier','glp1')`; none is typed |
 | `Provider_Reference/GLP1/*.html` (10) | `../../korb-pharmacies.js`, `../../korb-glp1-data.js` |
 | `KORB_Provider_Clinical_Reference.html` | `korb-pharmacies.js`, `korb-dosing-data.js` |
 | `KORB_Functional_Health_Tracker.html` | `korb-pharmacies.js`, `korb-dosing-data.js` |

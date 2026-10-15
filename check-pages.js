@@ -46,6 +46,7 @@ const { execSync } = require('child_process');
    here the moment it starts showing a price. */
 const PRICE_PAGES = [
   'KORB_GLP1_Provider_Reference.html',
+  'KORB_GLP1_12Week_Savings.html',
   'Provider_Reference/GLP1/KORB_GLP1_Belmar_Semaglutide_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Belmar_Tirzepatide_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Brand_Foundayo_Reference.html',
