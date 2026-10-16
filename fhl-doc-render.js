@@ -473,9 +473,19 @@ function sectionStates() {
     ['Functional Health & Longevity is not offered in these states', '<strong>' + esc(stateList(unavailable)) + '</strong>']
   ]) + '</table>';
 
-  if (noPharm.length) {
+  /* Only the Greenwich pause list gets the pause story. A no-pharmacy state outside it
+     (Virginia, 2026-10-16: Premier lost its licence) is closed with no restore date. */
+  const pausedList = (S.pausedPharmacy && S.pausedPharmacy.states) || [];
+  const closedNoPharm = noPharm.filter(function (s) { return pausedList.indexOf(s) === -1; });
+  if (closedNoPharm.length) {
+    h += '<div class="callout warn"><h3>Closed — no pharmacy can fill — ' + esc(stateList(closedNoPharm)) + '</h3>' +
+         '<p>No peptide pharmacy KORB works with is licensed to ship here. No visit, no prescription, no shipment. ' +
+         'There is no restore date.</p></div>';
+  }
+  if (noPharm.length - closedNoPharm.length) {
     const paused = S.pausedPharmacy || null;
-    h += '<div class="callout warn"><h3>Paused — no pharmacy can fill — ' + esc(stateList(noPharm)) + '</h3>' +
+    h += '<div class="callout warn"><h3>Paused — no pharmacy can fill — ' +
+         esc(stateList(noPharm.filter(function (s) { return pausedList.indexOf(s) !== -1; }))) + '</h3>' +
          '<p>Greenwich stopped relying on central-fill arrangements on 11 September 2026 and now dispenses only into ' +
          'the 23 states where it is directly licensed. Premier is not licensed in any of these, ' +
          'so there is no peptide source while the restriction holds. No visit, no prescription, no shipment.</p>';

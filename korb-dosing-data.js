@@ -307,13 +307,14 @@ var KORB_DOSING = {
   },
 
   meta: {
-    version: '2.15',
+    version: '2.16',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-10-16 (v2.16): FUNCTIONAL HEALTH & LONGEVITY CLOSES IN VIRGINIA. Premier is no longer licensed in VA and would need an NABP inspection to return (Premier, by email 2026-10-16; korb-pharmacies.js v1.10). Premier was the only peptide pharmacy KORB has in VA, so VA joins unavailable and unavailableNoPharmacy. It is NOT in pausedPharmacy: there is no restore date. Don decided 2026-10-16. Open FH&L states go from 33 to 32. Don Stevenson, PA-C.',
       '2026-10-13 (v2.15): CLINICAL CONTENT CHANGED - GHK-Cu JOINS FOUNDATION. Decided by Don. A fourth Foundation single-agent choice, key ghkcu1mg: 1 mg SQ once daily in the evening, Weeks 1-12, off 13-16, no titration, switchable at renewal like the other three. Premier and Greenwich, routed like every FH&L agent, 10 mg/ml at both so 10 units. Three vials per 84 days because a punctured vial is discarded at 28: 18 ml Premier, 15 ml Greenwich, 90 Premier syringes. Same labs, $99 baseline and $199 x 4 as the rest of Foundation, billed under FndnPeptideP04 (Nick, 2026-10-12); the recurring FndnPeptideP44 is Ops-only and not used. No website code yet. THE GATEWAY/PEAK ADD-ON IS UNTOUCHED - key ghkcu, 2 mg three times weekly, Weeks 5-8, GHKCUPeptide01 - and a separate key was used precisely so the two can never be confused by a tool resolving a Foundation choice.',
       '2026-09-20 (v2.14): SYRINGE COUNT MOVED, NO DOSE OR AGENT CHANGE. The count moved from Pharmacy Instructions to the FRONT of Patient Instructions on all twelve Premier peptide entries. The pharmacy has been missing it where it sat and shipping one pack of 10 against prescriptions calling for far more; they read the patient sig while filling and strip the prefix by hand, so the front of that line is where it is actually seen. Requested by the pharmacy, relayed by Don Stevenson, PA-C. Counts are unchanged and all twelve fit the 140-character cap, the longest being sermorelin at 124. THE TWO GREENWICH TESAMORELIN ENTRIES ARE DELIBERATELY UNTOUCHED: theirs reads DISPENSE 100-UNIT SYRINGES and is a syringe SIZE instruction, not a count - the 67-unit dose exceeds a 50-unit syringe - so prefixing a quantity would have destroyed the reason it is there.',
       '2026-09-15 (v2.13): NO CLINICAL CONTENT CHANGE. Added rxSignoff, the prescribing sign-off register, plus rx-signoff.js which reports and computes it. FH&L had no sign-off mechanism of any kind. The monograph fingerprint in korb-glp1-data.js is untouched and stays separate: it covers clinical writing, this covers the Tebra fields and charge codes, and merging them would mean a hyphen fix in a sig expiring a contraindication sign-off. Records hold a fingerprint of the document as signed rather than a boolean, so a change after sign-off shows as STALE instead of being invisible.',
@@ -1575,9 +1576,11 @@ var KORB_DOSING = {
        which is worse than an absent one. requireHydrated() makes the
        missing-script case loud instead. */
     premierRouting: [],
-    unavailable: ['AL','AK','AR','CA','DC','GA','HI','IN','MA','MN','MS','NH','NJ','NY','RI','SC','WA','WV'],
+    unavailable: ['AL','AK','AR','CA','DC','GA','HI','IN','MA','MN','MS','NH','NJ','NY','RI','SC','VA','WA','WV'],
     unavailableNoShip: ['AL','MS','SC'],
-    unavailableNoPharmacy: ['AR','CA','IN','NH','WA'],
+    /* VA added 2026-10-16: Premier is no longer licensed in Virginia and was the only
+       peptide pharmacy there. Not paused - returning needs an NABP inspection. */
+    unavailableNoPharmacy: ['AR','CA','IN','NH','VA','WA'],
     unavailableLabWorkflow: ['NY','NJ','RI'],
     pausedPharmacy: {
       states: ['AR','CA','IN','NH','WA'],

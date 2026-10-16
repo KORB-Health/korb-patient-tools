@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.9",
+    version: "1.10",
     created: "2026-09-11",
     updated: "2026-10-16",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-10-16 (v1.10): PREMIER LOSES VIRGINIA. Premier is no longer licensed in VA and would need an NABP inspection to return (Miguel Sanchez, Premier, by email 2026-10-16). VA removed from the footprint and added to footprintExcludes, out of Premier preferredStates and into FarmaKeio preferredStates. Every program on the footprint follows: GLP-1 VA routes to FarmaKeio, Women's health VA routes to Belmar, and Functional Health & Longevity CLOSES in VA because Premier was its only peptide pharmacy there (korb-dosing-data.js v2.16, Don 2026-10-16). The same email confirmed Connecticut renewed to 2027-08-31 and Colorado to 2028-10-31, recorded in licenceExpires. Michigan renewal is still being checked: MI stays on Premier on Don's call and carries a licencePending caution that the GLP-1 routing pages print. Mississippi non-sterile-only from v1.8 is still open. Don Stevenson, PA-C.",
       "2026-10-16 (v1.9): GLP-1 ROUTING, PREMIER FIRST WHEREVER IT SHIPS. Premier preferredStates is now its whole GLP-1 footprint, 43 states; FarmaKeio preferredStates is the 7 Premier cannot reach (AL, AR, HI, MA, NH, SC, WA); Belmar stays CA. No footprint changed. The typed copy of the GLP-1 routing rule under states.routing was DELETED: nothing read it, the rule lives in korb-glp1-data.js, and it would have gone stale the next time Premier gained a state. Don Stevenson, PA-C.",
       "2026-10-15 (v1.8): PREMIER GAINS FIVE STATES. Alaska, Idaho, Iowa, Indiana and Minnesota added to Premier's footprint and removed from footprintExcludes, from Premier's current state licence list (States licensed.xlsx, sent by Don). Premier now ships to 43 jurisdictions including DC. Every program on the footprint follows: GLP-1, peptides, add-ons and women's health (Premier is the women's default wherever licensed, so these five move from Belmar to Premier). TRT stays Texas only. Three things on that list are NOT applied and wait for Don: Mississippi and Massachusetts are licensed for non-sterile compounding only (injectables are sterile); Virginia is on our list but not on Premier's; Michigan and Connecticut show licences that expired 2026-08-06 and 2026-08-31. Don Stevenson, PA-C.",
       "2026-10-12 (v1.7): NORTH CAROLINA ONLY. FarmaKeio does not ship to NC. NC removed from the FarmaKeio footprint and preferred list, added to footprintExcludes, and added to Premier's preferred states and routing. Every other state and pharmacy is unchanged. Don Stevenson, PA-C.",
@@ -220,7 +221,6 @@ var KORB_PHARMACIES = {
         "TN",
         "TX",
         "UT",
-        "VA",
         "VT",
         "WI",
         "WV",
@@ -234,9 +234,17 @@ var KORB_PHARMACIES = {
         "MA",
         "NH",
         "SC",
+        "VA",
         "WA"
       ],
-      "footprintNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09; Alaska, Idaho, Iowa, Indiana and Minnesota added 2026-10-15 from Premier's state licence list (States licensed.xlsx, Don). Texas is Premier's home state and is not on that non-resident list.",
+      "footprintNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09; Alaska, Idaho, Iowa, Indiana and Minnesota added 2026-10-15 from Premier's state licence list (States licensed.xlsx, Don). Texas is Premier's home state and is not on that non-resident list. Virginia REMOVED 2026-10-16: Premier is no longer licensed there and would need an NABP inspection to return (Miguel Sanchez, Premier, by email to Don). Connecticut confirmed renewed to 2027-08-31 and Colorado licensed to 2028-10-31, same email. Michigan renewal is still being checked by Premier; see licencePending.",
+      "licenceExpires": {
+        "CT": "2027-08-31",
+        "CO": "2028-10-31"
+      },
+      "licencePending": {
+        "MI": "Premier is checking on the status of its Michigan licence renewal (Premier, 2026-10-16). Michigan stays on Premier, but confirm with Operations before sending a Michigan prescription to Premier."
+      },
       "footprintIsSettled": "SETTLED — do not soften this back to a preference. Two different things were being confused: the ROUTING DEFAULT for a state is overridable (a provider may choose Premier where FarmaKeio is default, or vice versa), but Premier’s LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.",
       "preferredStates": [
         "AK",
@@ -277,7 +285,6 @@ var KORB_PHARMACIES = {
         "TN",
         "TX",
         "UT",
-        "VA",
         "VT",
         "WI",
         "WV",
@@ -489,6 +496,7 @@ var KORB_PHARMACIES = {
         "MA",
         "NH",
         "SC",
+        "VA",
         "WA"
       ],
       "programs": {

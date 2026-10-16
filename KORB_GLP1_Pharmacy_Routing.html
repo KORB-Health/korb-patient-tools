@@ -88,7 +88,7 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
-<script src="korb-pharmacies.js?v=4b0c6e0f"></script>
+<script src="korb-pharmacies.js?v=ef7babe1"></script>
 <script src="korb-glp1-data.js?v=b2aae7ee"></script>
 <script>
 (function(){
@@ -211,6 +211,12 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
       h += '<p class="headline" style="color:var(--err)">No default pharmacy</p>'
          + '<p class="why">Nothing is configured as the default for this state. Ask before prescribing.</p>';
     }
+
+    /* A licence the pharmacy itself has not confirmed (Michigan, 2026-10-16). Read from
+       korb-pharmacies.js, where the licence fact lives, so it clears when the record does. */
+    var pend = def && typeof KORB_PHARMACIES !== 'undefined' && KORB_PHARMACIES.pharmacies[def.key]
+      && (KORB_PHARMACIES.pharmacies[def.key].licencePending || {})[st];
+    if(pend) h += '<div class="callout"><strong>Licence renewal pending.</strong> ' + esc(pend) + '</div>';
 
     h += '<div class="cols' + (no.length ? '' : ' two') + '">';
 

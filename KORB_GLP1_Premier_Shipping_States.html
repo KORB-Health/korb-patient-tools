@@ -49,7 +49,7 @@ ul{padding-left:20px;} li{margin:4px 0;}
 </div>
 <!-- korb-pharmacies.js is the ONE record of where each pharmacy ships, and korb-glp1-data.js holds
      the GLP-1 routing rule built on it. This page reads both and types no state. Pharmacies FIRST. -->
-<script src="korb-pharmacies.js?v=4b0c6e0f"></script>
+<script src="korb-pharmacies.js?v=ef7babe1"></script>
 <script src="korb-glp1-data.js?v=b2aae7ee"></script>
 <script>
 (function () {
@@ -81,6 +81,9 @@ ul{padding-left:20px;} li{margin:4px 0;}
   var usual = Object.keys(count).sort(function (a, b) { return count[b] - count[a]; })[0];
   var odd = PR.filter(function (x) { return backupText(x) !== usual; });
   function oddText() { return odd.map(function (x) { return esc(x.name) + ': ' + esc(backupText(x)); }).join('; '); }
+  /* A licence the pharmacy has not yet confirmed (Michigan, 2026-10-16), read from korb-pharmacies.js. */
+  function pending(x) { var ph = P.pharmacies[x.ph]; return (ph && ph.licencePending && ph.licencePending[x.st]) || ''; }
+  var PEND = rows.filter(function (x) { return pending(x); });
 
   var upd = (D.meta && D.meta.lastUpdated) || '';
   var d = upd ? new Date(upd + 'T12:00:00') : null;
@@ -94,7 +97,8 @@ ul{padding-left:20px;} li{margin:4px 0;}
       h += '<tr>';
       for (var c = 0; c < cols; c++) {
         var v = a[c * nr + r];
-        h += v ? '<td data-s="' + esc(v.name.toLowerCase()) + '">' + esc(v.name) + (mark && mark(v) ? ' <sup>*</sup>' : '') + '</td>' : '<td></td>';
+        h += v ? '<td data-s="' + esc(v.name.toLowerCase()) + '">' + esc(v.name) + (mark && mark(v) ? ' <sup>*</sup>' : '') +
+          (pending(v) ? ' <sup>&dagger;</sup>' : '') + '</td>' : '<td></td>';
       }
       h += '</tr>';
     }
@@ -118,6 +122,7 @@ ul{padding-left:20px;} li{margin:4px 0;}
     '<p id="ans" style="font-weight:700;min-height:1.4em;margin:8px 0 0" aria-live="polite"></p></div>' +
     '<h2>Premier (' + PR.length + ')</h2>' +
     '<p>Backup: ' + esc(usual) + '.' + (odd.length ? ' <sup>*</sup> Except ' + oddText() + '.' : '') + '</p>' +
+    PEND.map(function (x) { return '<p><sup>&dagger;</sup> <strong>' + esc(x.name) + ':</strong> ' + esc(pending(x)) + '</p>'; }).join('') +
     grid(PR, cols, isOdd) +
     (FK.length ? '<h2>FarmaKeio, for now (' + FK.length + ')</h2><p>Premier does not ship to these states. Backup: ' +
       summary(FK) + '.</p>' + grid(FK, cols) : '') +
@@ -142,7 +147,9 @@ ul{padding-left:20px;} li{margin:4px 0;}
     if (hit.length === 1) {
       var x = hit[0];
       ans.style.color = '#007C87';
-      ans.textContent = x.name + ': ' + phName(x.ph) + '. Backup: ' + backupText(x) + '.';
+      ans.textContent = x.name + ': ' + phName(x.ph) + '. Backup: ' + backupText(x) + '.' +
+        (pending(x) ? ' Licence renewal pending: confirm with Operations before sending.' : '');
+      if (pending(x)) ans.style.color = '#A15C07';
     } else {
       ans.textContent = hit.length + ' states match. Keep typing to narrow it down.';
     }
