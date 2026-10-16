@@ -51,3 +51,5 @@ One time, on each machine:
 
 - **Sitting down:** `git pull`
 - **Getting up:** commit, and push once Don has agreed to what will go live
+
+Cloud push test
