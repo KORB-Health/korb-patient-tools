@@ -29,6 +29,10 @@ checked for in the others, because nobody could say what had been pushed where.
   at the end of a session without telling him.
 - If a push is rejected, or the work is on a branch other than `main`, say so
   plainly. Never end a session reporting "done" with commits that are not on GitHub.
+- **Cloud sessions push to their own `claude/` branch and open a pull request.
+  They never push to `main`.** Don, 2026-10-16. A change reaches `main`, and so
+  goes live on Pages, only when Don merges the PR. See "Pushing from a cloud
+  session" below.
 
 ---
 
@@ -1263,7 +1267,24 @@ included. They rebuild from the data files. Recover source, then rebuild.
 2026-09-16 and renamed 2026-09-17 once Don confirmed TRT and Men's Health are one
 program. Open item 6 is closed.
 
-### Push does not work from Cowork
+### Pushing from a cloud session
+
+**Cloud sessions can push now, to a `claude/` branch, and open a pull request.
+Never to `main`.** Confirmed 2026-10-16: a cloud session with this repo attached
+pushed `claude/hopeful-albattani-tejcx6` and opened
+[#1](https://github.com/KORB-Health/korb-patient-tools/pull/1) through the GitHub
+tools. Don's rule, the same day: changes reach `main` only when he merges the PR.
+That matters more here than in any other repo, because `main` is what Pages
+serves to patients.
+
+So from a cloud session: commit on the session's `claude/` branch, push it, open
+a PR against `main`, and say in the PR what would go live on merge. Do not merge
+it. The bundle and `format-patch` handover below is no longer needed.
+
+Everything below in this section is the history from before the repo could be
+attached to a cloud session, kept so the old 403s make sense if they turn up
+again. If one does, the repo is not attached to that session: add it, rather
+than reaching for a bundle.
 
 The `clinical-generators` push failed because the sandbox proxy will not issue a
 credential for this repo. It is not a GitHub permissions problem and retrying will not
