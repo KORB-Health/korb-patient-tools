@@ -370,9 +370,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.27',
+    version: '2.28',
     created: '2026-08-06',
-    lastUpdated: '2026-10-02',
+    lastUpdated: '2026-10-16',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -390,6 +390,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-10-16 (v2.28): ROUTING. PREMIER IS THE DEFAULT IN EVERY STATE IT SHIPS GLP-1 TO, FARMAKEIO THE BACKUP. Don, 2026-10-16. The Premier rule is no longer a typed list of 11: hydrate() fills it from korb-pharmacies.js statesFor(premier, glp1), 43 states, so the five Premier gained on 2026-10-15 (AK, ID, IA, IN, MN) route there and the next one will too. NC keeps its own rule with BELMAR as backup, because FarmaKeio does not ship to NC. CA stays Belmar with NO backup. FarmaKeio is the default only in the 7 states Premier cannot reach: AL, AR, HI, MA, NH, SC, WA. Tally Premier 43, FarmaKeio 7, Belmar 1, was 11/39/1. Routing rules gained `backup`; checkPharmacyForState answers info for the backup and skips the Belmar discouraged-outside-CA warning where Belmar is the backup. APPLIES TO CURRENT PATIENTS TOO: every patient moves to the state default unless there is a very specific reason, so the first override reason now says that. routeTo() now refuses to answer before hydrate(), because an unhydrated Premier rule is empty and would send all 43 states to FarmaKeio silently. selfCheck gained two assertions: each state default is in that pharmacy preferredStates, and each backup can ship there. No dose, sig, product or price changed. Don Stevenson, PA-C.',
       '2026-10-12 (v2.27): NORTH CAROLINA ONLY. FarmaKeio does not ship to NC, so NC moves from FarmaKeio to Premier for new GLP-1 starts. NC added to the Premier routing rule; the FarmaKeio footprint in korb-pharmacies.js now excludes NC, which makes FarmaKeio a hard block there. Every other state is unchanged: FarmaKeio 39, Premier 11, Belmar 1. Don Stevenson, PA-C.',
       '2026-10-02 (v2.26): BRAND STATES. Nevada added to brandRules.availableStates, and every brand state now carries the KORB practice address LillyDirect and NovoCare ask for, in brandRules.practiceAddresses, read from the office records in korb-licensing. No warning on Nevada: Don confirmed the Nevada providers hold their Board of Pharmacy Prescribe Registration, one renewing, and have been prescribing there. Austin is Suite 100 with no building number, as Tebra lists it. selfCheck fails if a brand state has no address or an address has no brand state. No dose, sig, price or charge code changed. Don Stevenson, PA-C, 2026-10-02.',
       '2026-09-28 (v2.25): NEW PROGRAMME. 12-WEEK, PREMIER ONLY. supply12 on all 18 Premier dose records - 7 semaglutide, 5 glycine, 6 tirzepatide. Don, 2026-09-28: all 84 days in ONE shipment, so quantity is three times the 4-week, days 84, refill 0. Deliberately NOT the brand rx12 shape of 28 days with two refills, which also exists in this file. BUD IS THE RISK AND IT IS NEW. 12 weekly doses fall on days 0 to 77, against a 90-day beyond-use date, so only 13 days separate the start of the BUD clock from the first injection - transit included. acceptedLimitations PREMIER-12WK-BUD-WINDOW, severity high: counsel a prompt start, and put a patient who cannot start promptly on 8-week instead. It is counselling and not sig text because Patient Instructions caps at 140. Don confirmed the same day that the 90 days runs from COMPOUNDING, not dispensing, and that Premier takes 3 to 5 days from compounding to dispatch - so 8 to 10 of the 13 days remain when the box ships, and transit comes out of those. Counselling is therefore to start WITHIN 5 DAYS of delivery. The numbers are in that entry’s budMath as numbers. Transit itself is still unconfirmed and is the only remaining unknown. SYRINGE WORDING CHANGED ON PREMIER ONLY. At 12 weeks even a one-syringe dose needs 12 syringes, which is 2 packs, so every 12-week sig carries a pack count where only 4.5 mg and 6 mg did at 8 weeks. "(Include two packs of insulin syringes)" would not fit, so Premier now reads "(Include two syringe packs)" on 8-week and 12-week alike - one wording across Premier. BELMAR IS DELIBERATELY UNTOUCHED: its 22 sigs place the phrase at the END by a recorded Belmar instruction, it has no 12-week programme and no character pressure. The glycine 12-week sigs also drop the "Maintenance - " prefix, which does not fit and says nothing a 12-week fill does not already say; the 8-week glycine sigs keep it. Worst sig is 137 of 140. PRICING: pricing.semaglutide.twelveWeek is BANDED by dose where 8-week is flat - low $399 FITSema12WKL, high $449 FITSema12WKH, and doseBands.max.twelveWeek $569 FITSema12wkMAX - plus tirzepatideTiers T1A/T2A/T3A twelveWeek at $699/$799/$949. Every figure is Nick’s, verified the same day against the live workbook and carried in korb-charges.js. TWO 8-WEEK RECORDS CORRECTED, both Premier, both from Don on 2026-09-28 after reading the rendered vial tables. premier_sema_glycine 1.8 mg 8-week quantity 5 to 6 and vials8 five vials to six: Premier ships six, it multiplies the 4-week pack rather than filling to need, and five was a prescription for something they do not send. It was the only dose in the file whose 8-week quantity was not exactly double its 4-week, which is what made the 12-week derivation look wrong when it was the 8-week that was. premier_tirz 13.5 mg vials8 from \u201c2 ml x 3\u201d to \u201c1 ml x 2 & 2 ml x 2\u201d - the same 6 ml, the 4-week pack doubled, no quantity change. Every Premier dose now reads 1x / 2x / 3x across the three programmes. THREE RENDERING DEFECTS, also Don, also from the rendered page: the 12-week price rows were labelled with one dose instead of the mg range and now carry it; Vials dispensed gained a 12-week column, on products that have a 12-week programme only; and Before you prescribe said Premier offers 4-week and 8-week, and now names the 12-week option and carries the start-within-5-days counselling. vials12 is on all 18 Premier doses and every one reconciles to its supply12 quantity in millilitres. No price or charge code changed. Don Stevenson, PA-C, 2026-09-28.',
@@ -1431,28 +1432,41 @@ var KORB_GLP1 = {
     ],
 
     // Routing rule, evaluated in order. First match wins.
-    // Applies to NEW starts. Patients already established with a pharmacy stay
-    // where they are unless there is a clinical or supply reason to move them.
-    // A default can be overridden; whether a given pharmacy can actually serve
-    // the state is a separate question answered by hardExcludes.
+    // Applies to EVERY patient, current and new, from 2026-10-16 (Don): a patient
+    // on another pharmacy moves to the state default unless there is a very
+    // specific reason not to. A default can be overridden; whether a given
+    // pharmacy can actually serve the state is a separate question answered by
+    // hardExcludes. `backup` names the pharmacy to use when the default cannot
+    // fill; null means there is no second route.
     routing: [
-      /* 2026-08-12: MO, IL, NJ, MD, OH and NY moved here from the FarmaKeio catch-all.
-         AZ and FL were already Premier. Premier ships to all six and excludes none. */
-      /* 2026-10-12: NC moved here from FarmaKeio, which does not ship to NC. */
-      { states: ['TX', 'NV', 'AZ', 'FL', 'IL', 'MD', 'MO', 'NJ', 'NY', 'OH', 'NC'],
-        pharmacy: 'premier', basis: 'preferred pharmacy' },
-      { states: ['CA'],                   pharmacy: 'belmar',
+      /* 2026-10-16: PREMIER IS THE DEFAULT IN EVERY STATE IT SHIPS GLP-1 TO, with
+         FarmaKeio the backup. The state list is NOT typed: hydrate() fills it from
+         korb-pharmacies.js statesFor('premier', 'glp1'), so a state Premier is
+         licensed for routes to Premier without anyone retyping it. On 2026-10-15
+         Premier gained AK, ID, IA, IN and MN and none of them moved, because this
+         rule was a typed list of 11.
+         NC is its own rule because FarmaKeio does not ship there, so its backup
+         is Belmar. It must stay ABOVE the footprint rule. */
+      { states: ['NC'], pharmacy: 'premier', backup: 'belmar',
+        basis: 'preferred pharmacy',
+        note: 'FarmaKeio does not ship to North Carolina, so Belmar is the backup here.' },
+      { states: [], fromFootprint: 'premier', pharmacy: 'premier', backup: 'farmakeio',
+        basis: 'preferred pharmacy' },
+      { states: ['CA'],                   pharmacy: 'belmar', backup: null,
         basis: 'sole California pharmacy \u2014 semaglutide and tirzepatide',
-        note: 'Belmar is the only California option, and as of 2026-09-11 this applies ' +
-              'to established patients too, not just new starts. FarmaKeio cannot ship ' +
-              'to CA at all, Premier cannot either, and Greenwich stopped shipping to ' +
-              'CA and no longer fills GLP-1 in any state. Every California tirzepatide ' +
-              'patient still on Greenwich moves to Belmar.' },
-      { states: ['*'],                    pharmacy: 'farmakeio', basis: 'all other new patients' }
+        note: 'Belmar is the only California option, for established patients and new ' +
+              'starts alike. There is no backup: FarmaKeio cannot ship to CA at all, ' +
+              'Premier cannot either, and Greenwich stopped shipping to CA and no ' +
+              'longer fills GLP-1 in any state.' },
+      { states: ['*'],                    pharmacy: 'farmakeio', backup: null,
+        basis: 'Premier does not ship GLP-1 to this state' }
     ],
 
     // Resolve a two-letter state code to a pharmacy key.
     routeTo: function (stateCode) {
+      /* The Premier rule is empty until hydrate() fills it. Answering before then
+         would send every Premier state to FarmaKeio on the catch-all, silently. */
+      KORB_GLP1.requireHydrated();
       var s = String(stateCode || '').toUpperCase();
       for (var i = 0; i < KORB_GLP1.states.routing.length; i++) {
         var r = KORB_GLP1.states.routing[i];
@@ -1660,8 +1674,9 @@ var KORB_GLP1 = {
       shipsToNote: 'Ships to 48 states plus DC. FarmaKeio does not ship to California or, ' +
                    'since 2026-10-12, North Carolina. ' +
                    'Previously: Ships to 49 states plus DC. California is the single state FarmaKeio ' +
-                   'will not ship to, and that cannot be overridden. Preferred everywhere ' +
-                   'except CA, TX, FL, AZ and NV.',
+                   'will not ship to, and that cannot be overridden. From 2026-10-16 FarmaKeio ' +
+                   'is the default only where Premier cannot ship, and the backup in every ' +
+                   'Premier state except NC.',
       address: 'FarmaKeio Pharmacy, 1736 N Greenville Ave, Richardson, TX 75081',
       orderVia: 'Tebra Compound',
       billing: 'Bill to KORB Health Group, ship to patient',
@@ -5838,7 +5853,7 @@ var KORB_GLP1 = {
     defaultFrom: 'patient state',
     overrideAllowed: true,
     overrideReasons: [
-      'Patient is already established with another pharmacy and does not want to switch',
+      'A specific, documented reason to keep the patient on their current pharmacy (from 2026-10-16 every patient moves to the state default otherwise)',
       'Patient has moved between states',
       'Patient prefers a formulation with a different added agent (B-12, B-6, L-carnitine)',
       'Provider preference'
@@ -5978,6 +5993,21 @@ var KORB_GLP1 = {
       mine.hardExcludes = allStates.filter(function (st) { return mine.shipsTo.indexOf(st) < 0; });
       if (shared.preferredStates) mine.preferredStates = shared.preferredStates.slice();
     });
+    /* A routing rule marked fromFootprint takes every state that pharmacy ships
+       GLP-1 to, less any state an EARLIER rule already claims (first match wins,
+       so leaving it in would be harmless, but the rule would then describe states
+       it never decides). */
+    var claimed = [];
+    this.states.routing.forEach(function (r) {
+      if (r.fromFootprint) {
+        r.states = PH.statesFor(r.fromFootprint, 'glp1').filter(function (st) {
+          return claimed.indexOf(st) < 0;
+        });
+        if (!r.states.length) throw new Error('korb-glp1-data.js: routing rule for ' +
+          r.fromFootprint + ' resolved to no states. korb-pharmacies.js gives it no GLP-1 footprint.');
+      }
+      claimed = claimed.concat(r.states);
+    });
     this.hydrated = true;
     return this;
   },
@@ -6044,6 +6074,17 @@ var KORB_GLP1 = {
     if ((ph.shipsToUnconfirmed || []).indexOf(st) !== -1) {
       return { status: 'warning', message: ph.name + ' shipping to ' + st + ' is not ' +
                'confirmed. Verify with Operations before sending the prescription.' };
+    }
+
+    /* The named backup for this state is a sanctioned second route, so it is
+       'info' and skips the discouraged warning below. That is what makes Belmar
+       the NC backup rather than an exception there. */
+    var route = KORB_GLP1.states.routeTo(st);
+    if (route && route.backup === pharmacyKey && route.pharmacy !== pharmacyKey) {
+      var routeName = (KORB_GLP1.pharmacies[route.pharmacy] || {}).name || route.pharmacy;
+      return { status: 'info', message: ph.name + ' is the backup for ' + st + '. The ' +
+               'default is ' + routeName + '; use ' + ph.name + ' when ' + routeName +
+               ' cannot fill.' };
     }
 
     // Ships there, but the program discourages it outside its preferred states.
@@ -6410,6 +6451,19 @@ var KORB_GLP1 = {
         problems.push('state ' + st + ': routes to ' + ph.name + ' which hard-excludes ' + st);
       } else if (ph.shipsTo.length && ph.shipsTo.indexOf(st) === -1) {
         warnings.push('state ' + st + ': default pharmacy ' + ph.name + ' does not list ' + st + ' (preference list, not a block)');
+      }
+      /* The default must also be the PREFERRED pharmacy for the state, because
+         monographs print preferredStates and the routing tool prints routeTo.
+         Two lists that must agree, checked rather than trusted. */
+      if ((ph.preferredStates || []).indexOf(st) === -1) {
+        problems.push('state ' + st + ': routes to ' + ph.name + ' but ' + st +
+                      ' is not in its preferredStates in korb-pharmacies.js');
+      }
+      if (r.backup) {
+        var bk = KORB_GLP1.pharmacies[r.backup];
+        if (!bk) problems.push('state ' + st + ': backup is unknown pharmacy "' + r.backup + '"');
+        else if ((bk.hardExcludes || []).indexOf(st) !== -1)
+          problems.push('state ' + st + ': backup ' + bk.name + ' cannot ship to ' + st);
       }
       if ((ph.shipsToUnconfirmed || []).indexOf(st) !== -1) {
         warnings.push('state ' + st + ': routes to ' + ph.name + ' on an UNCONFIRMED ship-to');

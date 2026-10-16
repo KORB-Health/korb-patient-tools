@@ -88,8 +88,8 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
-<script src="korb-pharmacies.js?v=093873bf"></script>
-<script src="korb-glp1-data.js?v=4585522d"></script>
+<script src="korb-pharmacies.js?v=4b0c6e0f"></script>
+<script src="korb-glp1-data.js?v=eda74889"></script>
 <script>
 (function(){
   "use strict";
@@ -306,6 +306,16 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
         problems.push(st + ': belmar is listed at position ' + (bi + 1) + ' of ' + a.length + ', expected last');
       if(a.indexOf('farmakeio') > bi && bi !== -1)
         problems.push(st + ': farmakeio is listed below belmar');
+    });
+    /* The pharmacy the data file names as backup must be the one this page tags
+       "backup": first in the list and not an exception. 2026-10-16. */
+    STATES.forEach(function(st){
+      var r = D.states.routeTo(st);
+      if(!r || !r.backup) return;
+      var a = altsFor(st, defaultFor(st));
+      if(!a.length || a[0].key !== r.backup || a[0].status === 'warning')
+        problems.push(st + ': backup is ' + r.backup + ' but the page shows '
+          + (a[0] ? a[0].key + ' (' + a[0].status + ')' : 'none') + ' first');
     });
     /* the idle line must account for every state, or it is quietly lying about coverage */
     var counted = order.reduce(function(a,k){ return a + group[k].length; }, 0);
