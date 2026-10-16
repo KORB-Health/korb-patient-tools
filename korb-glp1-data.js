@@ -370,7 +370,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.28',
+    version: '2.29',
     created: '2026-08-06',
     lastUpdated: '2026-10-16',
     owner: 'Director of Clinical Operations',
@@ -390,6 +390,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-10-16 (v2.29): OVERRIDE WORDING ONLY, NO ROUTING CHANGE. "Provider preference" removed from pharmacySelection.overrideReasons, and pharmacySelection.overrideRule added: every patient, current and new, goes to the pharmacy for their state, and a patient stays on another pharmacy only for an explicit reason documented in the visit note. Don, 2026-10-16. KORB_GLP1_Premier_Shipping_States.html now reads routing from this file and prints that rule. Don Stevenson, PA-C.',
       '2026-10-16 (v2.28): ROUTING. PREMIER IS THE DEFAULT IN EVERY STATE IT SHIPS GLP-1 TO, FARMAKEIO THE BACKUP. Don, 2026-10-16. The Premier rule is no longer a typed list of 11: hydrate() fills it from korb-pharmacies.js statesFor(premier, glp1), 43 states, so the five Premier gained on 2026-10-15 (AK, ID, IA, IN, MN) route there and the next one will too. NC keeps its own rule with BELMAR as backup, because FarmaKeio does not ship to NC. CA stays Belmar with NO backup. FarmaKeio is the default only in the 7 states Premier cannot reach: AL, AR, HI, MA, NH, SC, WA. Tally Premier 43, FarmaKeio 7, Belmar 1, was 11/39/1. Routing rules gained `backup`; checkPharmacyForState answers info for the backup and skips the Belmar discouraged-outside-CA warning where Belmar is the backup. APPLIES TO CURRENT PATIENTS TOO: every patient moves to the state default unless there is a very specific reason, so the first override reason now says that. routeTo() now refuses to answer before hydrate(), because an unhydrated Premier rule is empty and would send all 43 states to FarmaKeio silently. selfCheck gained two assertions: each state default is in that pharmacy preferredStates, and each backup can ship there. No dose, sig, product or price changed. Don Stevenson, PA-C.',
       '2026-10-12 (v2.27): NORTH CAROLINA ONLY. FarmaKeio does not ship to NC, so NC moves from FarmaKeio to Premier for new GLP-1 starts. NC added to the Premier routing rule; the FarmaKeio footprint in korb-pharmacies.js now excludes NC, which makes FarmaKeio a hard block there. Every other state is unchanged: FarmaKeio 39, Premier 11, Belmar 1. Don Stevenson, PA-C.',
       '2026-10-02 (v2.26): BRAND STATES. Nevada added to brandRules.availableStates, and every brand state now carries the KORB practice address LillyDirect and NovoCare ask for, in brandRules.practiceAddresses, read from the office records in korb-licensing. No warning on Nevada: Don confirmed the Nevada providers hold their Board of Pharmacy Prescribe Registration, one renewing, and have been prescribing there. Austin is Suite 100 with no building number, as Tebra lists it. selfCheck fails if a brand state has no address or an address has no brand state. No dose, sig, price or charge code changed. Don Stevenson, PA-C, 2026-10-02.',
@@ -5855,9 +5856,13 @@ var KORB_GLP1 = {
     overrideReasons: [
       'A specific, documented reason to keep the patient on their current pharmacy (from 2026-10-16 every patient moves to the state default otherwise)',
       'Patient has moved between states',
-      'Patient prefers a formulation with a different added agent (B-12, B-6, L-carnitine)',
-      'Provider preference'
+      'Patient prefers a formulation with a different added agent (B-12, B-6, L-carnitine)'
+      /* 'Provider preference' removed 2026-10-16 (Don): every patient goes to the
+         state default unless there is an explicit reason, documented in the note. */
     ],
+    overrideRule: 'Every patient, current and new, goes to the pharmacy for their state. ' +
+                  'Keep a patient on another pharmacy only for an explicit reason, and ' +
+                  'document that reason in the visit note.',
     brandProgramsNote: 'LillyDirect and NovoCare are manufacturer programs and are not ' +
                        'state-routed. They never appear as a state default and are ' +
                        'selected deliberately or not at all.'
