@@ -57,7 +57,7 @@
 var KORB_MENS = {
 
   meta: {
-    version: '1.6',
+    version: '1.7',
     created: '2026-09-16',
     updated: '2026-10-19',
     owner: 'Director of Clinical Operations',
@@ -66,6 +66,11 @@ var KORB_MENS = {
            'health question and belongs in korb-womens-data.js, not here.',
     entity: 'KORB Health Medical Texas PA',
     changelog: [
+      '2026-10-19 (v1.7): TWO VISITS. Don asked for a toggle between the initial consult, ' +
+      'which screens and orders baseline labs, and the follow-up, which reviews labs and is ' +
+      'where testosterone is prescribed and dosed. Every preScreen section names its visit; ' +
+      'the consult gains a PLAN section, the follow-up a SINCE THE CONSULT section that ' +
+      're-confirms fertility plans before a prescription.',
       '2026-10-19 (v1.6): SCREEN MADE INTERACTIVE. Don asked for buttons instead of a fill-in ' +
       'template. preScreen items now carry a type, an optional detail box, showIf and a flag; ' +
       'preScreenItems(), preScreenFlags() and preScreenNote() replace preScreenText(), and the ' +
@@ -851,13 +856,22 @@ var KORB_MENS = {
      2026-10-19 as standard intake. The note is ASCII only, because it is
      pasted into an EMR field - same rule as the plan note. */
   preScreen: {
-    title: 'TRT PRE-PRESCRIBING SCREEN',
+    /* Two visits, chosen by the toggle at the top of the tool. The initial
+       consult screens the patient and orders baseline labs; the follow-up
+       reviews those labs and decides, and is where a prescription is written.
+       Don, 2026-10-19. Every section names the visit it belongs to. */
+    visits: {
+      initial:  { label: 'Initial consult', sub: 'Screen and order labs',
+                  title: 'TRT INITIAL CONSULTATION' },
+      followup: { label: 'Follow-up', sub: 'Review labs, prescribe and dose',
+                  title: 'TRT FOLLOW-UP - LABS AND PRESCRIBING' }
+    },
     sections: [
-      { head: 'PATIENT', items: [
+      { head: 'PATIENT', visit: 'initial', items: [
         { id: 'pcp', type: 'text', q: 'Who is your primary care provider?',
           label: 'PCP' }
       ] },
-      { head: 'FERTILITY', items: [
+      { head: 'FERTILITY', visit: 'initial', items: [
         { id: 'kids', type: 'yn', q: 'Do you want children now or in the future?',
           label: 'Desires children now or in future',
           detail: { when: 'Y', label: 'Referred to' },
@@ -866,7 +880,7 @@ var KORB_MENS = {
           label: 'Counseled on fertility effect',
           flag: { when: 'N', level: 'first', text: 'Fertility counseling not done. Ask and document before prescribing.' } }
       ] },
-      { head: 'PROSTATE / BREAST', items: [
+      { head: 'PROSTATE / BREAST', visit: 'initial', items: [
         { id: 'cancer', type: 'yn', q: 'Ever had prostate or breast cancer, or been told you might?',
           label: 'History of prostate or breast cancer, known or suspected',
           detail: { when: 'Y', label: 'Details' },
@@ -884,7 +898,7 @@ var KORB_MENS = {
         { id: 'aua', type: 'text', q: 'AUA symptom score', label: 'AUA score',
           showIf: { id: 'luts', is: 'Y' } }
       ] },
-      { head: 'BLOOD / CLOTTING', items: [
+      { head: 'BLOOD / CLOTTING', visit: 'initial', items: [
         { id: 'clot', type: 'yn', q: 'Ever had a blood clot, or told you have a clotting disorder?',
           label: 'History of blood clot or clotting disorder',
           detail: { when: 'Y', label: 'Details' },
@@ -893,7 +907,7 @@ var KORB_MENS = {
           label: 'Prior high hematocrit, donation or phlebotomy',
           flag: { when: 'Y', level: 'first', text: 'Prior high hematocrit. Re-evaluate for sleep apnea and dehydration before starting.' } }
       ] },
-      { head: 'HEART / BLOOD PRESSURE', items: [
+      { head: 'HEART / BLOOD PRESSURE', visit: 'initial', items: [
         { id: 'miStroke', type: 'yn', q: 'Heart attack or stroke in the last 6 months?',
           label: 'MI or stroke in the last 6 months',
           flag: { when: 'Y', level: 'stop', text: 'MI or stroke within 6 months. Do not start.' } },
@@ -911,7 +925,7 @@ var KORB_MENS = {
         { id: 'dm', type: 'yn', q: 'Diabetes?', label: 'Diabetes',
           flag: { when: 'Y', level: 'note', text: 'Diabetes. Check HbA1c and lipids; coordinate with the PCP.' } }
       ] },
-      { head: 'SLEEP', items: [
+      { head: 'SLEEP', visit: 'initial', items: [
         { id: 'snore', type: 'yn', q: 'Loud snoring, stop breathing in sleep, or wake up gasping?',
           label: 'Snoring, witnessed apneas or waking gasping',
           flag: { when: 'Y', level: 'first', text: 'Possible sleep apnea. Refer to the PCP for screening.' } },
@@ -920,7 +934,7 @@ var KORB_MENS = {
           showIf: { id: 'osa', is: 'Y' },
           flag: { when: 'N', level: 'stop', text: 'Untreated sleep apnea. Severe untreated OSA is a contraindication.' } }
       ] },
-      { head: 'OTHER CONDITIONS', items: [
+      { head: 'OTHER CONDITIONS', visit: 'initial', items: [
         { id: 'thyroid', type: 'yn', q: 'Thyroid problem?', label: 'Thyroid disease' },
         { id: 'thyroidTx', type: 'yn', q: 'Is the thyroid treated?', label: 'Thyroid treated',
           showIf: { id: 'thyroid', is: 'Y' },
@@ -933,13 +947,13 @@ var KORB_MENS = {
           showIf: { id: 'mood', is: 'Y' },
           flag: { when: 'N', level: 'first', text: 'Mood disorder not stable. Stabilize first and coordinate with the PCP.' } }
       ] },
-      { head: 'SYMPTOMS', items: [
+      { head: 'SYMPTOMS', visit: 'initial', items: [
         { id: 'symptoms', type: 'multi', q: 'What brought you in?', label: 'Presenting symptoms',
           options: ['Low energy', 'Low libido', 'Erectile dysfunction', 'Low mood',
                     'Loss of muscle or strength', 'Poor sleep', 'Brain fog'] },
         { id: 'symptomsOther', type: 'text', q: 'Other symptoms', label: 'Other symptoms' }
       ] },
-      { head: 'MEDICATIONS / PRIOR USE', items: [
+      { head: 'MEDICATIONS / PRIOR USE', visit: 'initial', items: [
         { id: 'aas', type: 'yn', q: 'Ever used testosterone or steroids, from any clinic or online?',
           label: 'Prior testosterone or anabolic steroid use',
           detail: { when: 'Y', label: 'What, when, last dose' },
@@ -952,7 +966,24 @@ var KORB_MENS = {
           detail: { when: 'Y', label: 'Which' } },
         { id: 'medsOther', type: 'text', q: 'Other relevant medications', label: 'Other medications' }
       ] },
-      { head: 'LABS AND DECISION', items: [
+      { head: 'PLAN', visit: 'initial', items: [
+        { id: 'consultDecision', type: 'choice', q: 'Decision', label: 'Decision',
+          options: ['Order baseline labs', 'Refer', 'Not a candidate'] },
+        { id: 'labsOrdered', type: 'yn', q: 'Baseline labs ordered ({BASELINE_LABS})?',
+          label: 'Baseline labs ordered ({BASELINE_LABS})',
+          showIf: { id: 'consultDecision', is: 'Order baseline labs' } },
+        { id: 'consultPlan', type: 'text', q: 'Plan or referral', label: 'Plan' }
+      ] },
+      { head: 'SINCE THE CONSULT', visit: 'followup', items: [
+        { id: 'changed', type: 'yn', q: 'Any change in health or medications since the consult?',
+          label: 'Change in health or medications since consult',
+          detail: { when: 'Y', label: 'What changed' },
+          flag: { when: 'Y', level: 'first', text: 'Health or medications changed since the consult. Re-check what it affects before prescribing.' } },
+        { id: 'stillNoKids', type: 'yn', q: 'Still no plans for children?',
+          label: 'Still no plans for children',
+          flag: { when: 'N', level: 'stop', text: 'Now wants children. Testosterone suppresses sperm production and KORB does not offer fertility-preserving adjuncts. Refer rather than treat.' } }
+      ] },
+      { head: 'LABS AND DECISION', visit: 'followup', items: [
         { id: 'labsReviewed', type: 'yn', q: 'Baseline labs reviewed ({BASELINE_LABS})?',
           label: 'Baseline labs reviewed ({BASELINE_LABS})',
           flag: { when: 'N', level: 'first', text: 'Baseline labs not reviewed. Review before prescribing.' } },
@@ -1338,7 +1369,7 @@ var KORB_MENS = {
   /* The pre-prescribing screen, resolved: placeholders filled from this file
      (never typed twice) and every item that should be asked given the answers
      so far. The tool renders from this, and preScreenNote() writes from it. */
-  preScreenItems: function (answers) {
+  preScreenItems: function (answers, visit) {
     var self = this, a = answers || {};
     var fill = { BASELINE_LABS: self.monitoring.rows[0].labs };
     var sub = function (s) {
@@ -1347,21 +1378,26 @@ var KORB_MENS = {
         return fill[k];
       });
     };
-    return self.preScreen.sections.map(function (sec) {
+    if (!self.preScreen.visits[visit]) throw new Error(
+      'korb-mens-data.js preScreen: unknown visit "' + visit + '"');
+    return self.preScreen.sections.filter(function (sec) {
+      return sec.visit === visit;
+    }).map(function (sec) {
       return { head: sec.head, items: sec.items.filter(function (it) {
         return !it.showIf || a[it.showIf.id] === it.showIf.is;
       }).map(function (it) {
         var c = {}; Object.keys(it).forEach(function (k) { c[k] = it[k]; });
         c.q = sub(it.q); c.label = sub(it.label);
+        if (it.options) c.options = it.options.map(sub);
         return c;
       }) };
     });
   },
 
   /* Which flags the answers raise, grouped by level. */
-  preScreenFlags: function (answers) {
+  preScreenFlags: function (answers, visit) {
     var a = answers || {}, out = { stop: [], first: [], note: [] };
-    this.preScreenItems(a).forEach(function (sec) {
+    this.preScreenItems(a, visit).forEach(function (sec) {
       sec.items.forEach(function (it) {
         if (it.flag && a[it.id] === it.flag.when) out[it.flag.level].push(it.flag.text);
       });
@@ -1381,10 +1417,11 @@ var KORB_MENS = {
         .replace(/[–—]/g, '-').replace(/…/g, '...')
         .replace(/[^\x09\x0A\x0D\x20-\x7E]/g, '').trim();
     };
-    var lines = [self.preScreen.title];
+    var visit = c.visit || 'initial';
+    var lines = [self.preScreen.visits[visit].title];
     if (c.date) lines.push('Date: ' + c.date);
     lines.push('State: ' + (c.state || 'not selected'));
-    self.preScreenItems(a).forEach(function (sec) {
+    self.preScreenItems(a, visit).forEach(function (sec) {
       var body = [];
       sec.items.forEach(function (it) {
         var v = a[it.id];
@@ -1397,7 +1434,7 @@ var KORB_MENS = {
       });
       if (body.length) { lines.push(''); lines.push(sec.head); lines = lines.concat(body); }
     });
-    var f = self.preScreenFlags(a);
+    var f = self.preScreenFlags(a, visit);
     ['stop', 'first', 'note'].forEach(function (lv) {
       if (!f[lv].length) return;
       lines.push(''); lines.push(self.preScreen.levels[lv]);

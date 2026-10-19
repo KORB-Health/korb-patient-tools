@@ -84,6 +84,18 @@ body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,
   min-height:42px;padding:9px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;}
 .copybtn:hover{background:var(--navy);color:#fff;}
 .copybtn.done{background:var(--green);color:#fff;}
+/* Visit toggle. Initial consult screens and orders labs; follow-up reviews
+   labs and prescribes. Anything marked fu-only is a follow-up control and
+   is hidden at an initial consult so the page shows only what that visit
+   needs. */
+.visit-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.vt-b{min-height:60px;padding:10px 14px;border:2px solid var(--navy);border-radius:12px;background:#fff;
+  color:var(--navy);font:inherit;font-size:17px;font-weight:800;cursor:pointer;text-align:center;line-height:1.25;}
+.vt-b span{display:block;font-size:13px;font-weight:600;color:var(--mu);}
+.vt-b.on{background:var(--navy);color:#fff;}
+.vt-b.on span{color:var(--teal);}
+body.visit-initial .fu-only{display:none !important;}
+@media print{ .visit-toggle{display:none;} }
 /* Pre-prescribing screen. One question per row, big Yes/No buttons, the flag
    an answer raises shown right under it. 44px targets throughout. */
 .ps-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;font-size:13px;font-weight:700;}
@@ -188,6 +200,7 @@ body{background:var(--cream);}
 </header>
 
 <div class="wrap">
+<div class="visit-toggle" id="visitToggle" role="group" aria-label="Visit type"><!-- filled at load from korb-mens-data.js preScreen.visits --></div>
 <div class="controls">
     <div class="ctrl-grid">
       <div class="cg">
@@ -195,7 +208,7 @@ body{background:var(--cream);}
         <input type="date" id="examDate">
         <span class="hint">Today's visit</span>
       </div>
-      <div class="cg">
+      <div class="cg fu-only">
         <label for="pmpDate">PMP last fill date</label>
         <input type="date" id="pmpDate">
         <span class="hint">From the PMP report</span>
@@ -209,7 +222,7 @@ body{background:var(--cream);}
         </select>
         <span class="hint">Sets the pharmacy</span>
       </div>
-      <div class="cg">
+      <div class="cg fu-only">
         <label for="dose">Weekly dose</label>
         <select id="dose">
           <option value="">Select…</option>
@@ -217,7 +230,7 @@ body{background:var(--cream);}
         </select>
         <span class="hint" id="startHint"></span>
       </div>
-      <div class="cg">
+      <div class="cg fu-only">
         <label for="route">Route &amp; frequency</label>
         <select id="route">
           <option value="">Select…</option>
@@ -228,16 +241,16 @@ body{background:var(--cream);}
         <span class="hint">SQ 3x is second-line</span>
       </div>
     </div>
-    <div class="ctrl-note">
+    <div class="ctrl-note fu-only">
       Testosterone cypionate 200 mg/mL, 10 mL vial (2000 mg). Days supply is calculated from the actual
       dose, not a flat 90 days. Schedule III: confirm dispense length is permitted in the patient's state
       before sending a fill longer than 90 days.
     </div>
   </div>
 
-  <div class="sec">Before the First Prescription</div>
+  <div class="sec" id="psTitle">Visit screen</div>
   <div class="card" id="psCard"><div class="card-hdr">
-    <strong>Pre-prescribing screen &mdash; click the answers, then copy the note</strong>
+    <strong>Click the answers, then copy the note</strong>
     <button type="button" class="ps-reset" onclick="psReset()">Start over</button>
   </div><div class="card-body">
     <div class="ps-bar" id="psBar"></div>
@@ -254,7 +267,7 @@ body{background:var(--cream);}
       <tr><td>Initial TRT labs</td><td>$99</td>
           <td><span class="codewrap"><span class="code-chip" id="ccTRTlab">FITTRTQ100</span>
               <button type="button" class="cbtn" onclick="copyCode(this,'ccTRTlab')">Copy code</button></span></td></tr>
-      <tr><td>Quarterly TRT &mdash; visit, medication, shipping</td><td>$399</td>
+      <tr class="fu-only"><td>Quarterly TRT &mdash; visit, medication, shipping</td><td>$399</td>
           <td><span class="codewrap"><span class="code-chip" id="ccTRTqtr">FITTRTQ001</span>
               <button type="button" class="cbtn" onclick="copyCode(this,'ccTRTqtr')">Copy code</button></span></td></tr>
     </tbody>
@@ -263,13 +276,14 @@ body{background:var(--cream);}
     KORB does not accept insurance.
     Add-on pricing is held in the Optimization Products tool so it is maintained in one place.
   </div>
-  <div id="output">
+  <div id="output" class="fu-only">
     <div class="empty">
       <h2>Fill in all five fields above</h2>
       <p>Your visit date, refill release date, Rx send date, lab order date, dosing and Tebra fields will appear here.</p>
     </div>
   </div>
 
+  <div class="fu-only">
   <div class="sec">Dose Ladder Reference</div>
   <div class="tablewrap"><table class="ref" id="ladderTable">
     <thead>
@@ -284,6 +298,7 @@ body{background:var(--cream);}
     the weekly dose in the patient regardless of route. All volumes are read in mL on a Luer lock barrel.
     Testosterone cypionate is a viscous oil: draw up with the draw-up needle, then change to the
     injection needle to inject. Gauges are per route in the table above. Do not use insulin syringes, which have a fixed needle and are marked in units.
+  </div>
   </div>
 
   <div class="sec">Standard TRT Lab Panel</div>
@@ -366,7 +381,7 @@ body{background:var(--cream);}
      must load first or the data file throws by name rather than answering
      from an empty footprint. -->
 <script src="../korb-pharmacies.js?v=ef7babe1"></script>
-<script src="../korb-mens-data.js?v=43a6d945"></script>
+<script src="../korb-mens-data.js?v=d256517e"></script>
 <script>
 if (typeof KORB_MENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
   document.addEventListener("DOMContentLoaded", function () {
@@ -845,17 +860,30 @@ buildTables();
    Every question, flag and note line comes from korb-mens-data.js; this only
    draws buttons and keeps the answers. State and date come from the fields at
    the top of the page. */
-var PS = {};
+var VISIT = "initial";
+var PSALL = { initial: {}, followup: {} };
+var PS = PSALL[VISIT];
+function psSetVisit(v){
+  VISIT = v; PS = PSALL[v];
+  document.body.classList.toggle("visit-initial", v === "initial");
+  var V = T.preScreen.visits;
+  document.getElementById("visitToggle").innerHTML = Object.keys(V).map(function(k){
+    return '<button type="button" class="vt-b' + (k === v ? " on" : "") + '" data-visit="' + k + '">' +
+           psEsc(V[k].label) + '<span>' + psEsc(V[k].sub) + '</span></button>';
+  }).join("");
+  document.getElementById("psTitle").textContent = V[v].label + " - " + V[v].sub;
+  psDraw();
+}
 function psEsc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
 function psAnswered(v){ return v != null && v !== "" && !(Array.isArray(v) && !v.length); }
 function psCtx(){
   var st = document.getElementById("state").value;
   var dt = parseD(document.getElementById("examDate").value);
-  return { state: st ? stName(st) : "", date: dt ? fmtShort(dt) : "" };
+  return { visit: VISIT, state: st ? stName(st) : "", date: dt ? fmtShort(dt) : "" };
 }
 function psDraw(){
   var h = "";
-  T.preScreenItems(PS).forEach(function(sec){
+  T.preScreenItems(PS, VISIT).forEach(function(sec){
     h += '<div class="ps-sec">' + psEsc(sec.head) + '</div>';
     sec.items.forEach(function(it){
       var v = PS[it.id], lv = it.flag && v === it.flag.when ? it.flag.level : "";
@@ -888,8 +916,8 @@ function psDraw(){
   psNote();
 }
 function psNote(){
-  var f = T.preScreenFlags(PS), total = 0, done = 0;
-  T.preScreenItems(PS).forEach(function(sec){ sec.items.forEach(function(it){
+  var f = T.preScreenFlags(PS, VISIT), total = 0, done = 0;
+  T.preScreenItems(PS, VISIT).forEach(function(sec){ sec.items.forEach(function(it){
     total++; if (psAnswered(PS[it.id])) done++; }); });
   document.getElementById("psBar").innerHTML =
     '<span>Answered ' + done + ' of ' + total + '</span>' +
@@ -897,13 +925,13 @@ function psNote(){
     (f.first.length ? '<span class="first">' + f.first.length + ' settle first</span>' : '');
   document.getElementById("preScreenTxt").textContent = T.preScreenNote(PS, psCtx());
 }
-function psReset(){ PS = {}; psDraw(); }
+function psReset(){ PSALL[VISIT] = {}; PS = PSALL[VISIT]; psDraw(); }
 document.getElementById("psForm").addEventListener("click", function(e){
   var b = e.target.closest ? e.target.closest(".ps-b") : null; if (!b) return;
   var id = b.getAttribute("data-ps"), ans = b.getAttribute("data-ps-ans"), opt = b.getAttribute("data-ps-opt");
   if (ans) PS[id] = PS[id] === ans ? null : ans;           /* click again to clear */
   else {
-    var it = null; T.preScreen.sections.forEach(function(s){ s.items.forEach(function(x){ if (x.id === id) it = x; }); });
+    var it = null; T.preScreenItems(PS, VISIT).forEach(function(s){ s.items.forEach(function(x){ if (x.id === id) it = x; }); });
     if (it.type === "multi") { var arr = (PS[id] || []).slice(), i = arr.indexOf(opt);
       if (i >= 0) arr.splice(i, 1); else arr.push(opt); PS[id] = arr; }
     else PS[id] = PS[id] === opt ? null : opt;
@@ -914,10 +942,14 @@ document.getElementById("psForm").addEventListener("input", function(e){
   var id = e.target.getAttribute && e.target.getAttribute("data-ps-text"); if (!id) return;
   PS[id] = e.target.value; psNote();                      /* no redraw, so the cursor stays put */
 });
+document.getElementById("visitToggle").addEventListener("click", function(e){
+  var b = e.target.closest ? e.target.closest(".vt-b") : null;
+  if (b) psSetVisit(b.getAttribute("data-visit"));
+});
 ["state","examDate"].forEach(function(id){
   document.getElementById(id).addEventListener("change", function(){ psNote(); });
 });
-psDraw();
+psSetVisit("initial");
 </script>
 </body>
 </html>

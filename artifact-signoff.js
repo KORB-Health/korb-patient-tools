@@ -446,6 +446,8 @@ PROBES.womens = function () {
    the fingerprint depend on what day it was probed and every signature would
    expire overnight. */
 PROBES.mens = function () {
+  /* The prescribing controls only show at a follow-up visit. */
+  if (typeof psSetVisit === 'function') psSetVisit('followup');
   var stEl = document.getElementById('state');
   var doseEl = document.getElementById('dose');
   var routeEl = document.getElementById('route');
@@ -520,8 +522,13 @@ PROBES.mens = function () {
                }
                return document.getElementById('preScreenTxt').textContent;
              };
-             var out = { allNo: run('N'), allYes: run('Y') };
-             psReset();
+             var out = {};
+             Object.keys(KORB_MENS.preScreen.visits).forEach(function (v) {
+               psSetVisit(v);
+               out[v] = { allNo: run('N'), allYes: run('Y') };
+               psReset();
+             });
+             psSetVisit('followup');
              return out;
            })() };
 };
