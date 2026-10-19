@@ -205,6 +205,14 @@ body{background:var(--cream);}
     </div>
   </div>
 
+  <div class="sec">Before the First Prescription</div>
+  <div class="card"><div class="card-hdr">
+    <strong>Pre-prescribing screen &mdash; copy into Tebra, then fill in</strong>
+    <button class="copybtn" onclick="copyIt(this,'preScreenTxt')">Copy</button>
+  </div><div class="card-body">
+    <div class="copybox" id="preScreenTxt"><!-- filled at load from korb-mens-data.js preScreenText() --></div>
+  </div></div>
+
   <div class="sec">Pricing &amp; Charge Codes</div>
   <div class="tablewrap"><table class="ref">
     <thead><tr><th>Item</th><th>Price</th><th>Charge code</th></tr></thead>
@@ -324,7 +332,7 @@ body{background:var(--cream);}
      must load first or the data file throws by name rather than answering
      from an empty footprint. -->
 <script src="../korb-pharmacies.js?v=ef7babe1"></script>
-<script src="../korb-mens-data.js?v=929cba99"></script>
+<script src="../korb-mens-data.js?v=a248aef8"></script>
 <script>
 if (typeof KORB_MENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
   document.addEventListener("DOMContentLoaded", function () {
@@ -799,6 +807,7 @@ function fallback(t, cb){
 /* The dose list, the ladder and the lab panel are built from korb-mens-data.js.
    Must run before anything reads the dose select. */
 buildTables();
+document.getElementById("preScreenTxt").textContent = T.preScreenText();
 </script>
 </body>
 </html>

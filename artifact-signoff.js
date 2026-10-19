@@ -494,6 +494,12 @@ PROBES.mens = function () {
            plan: (function () {
              var pre = document.querySelector('.korb-plan-body');
              return pre ? pre.innerText.replace(/\s+$/, '') : '';
+           })(),
+           /* The pre-prescribing screen, added 2026-10-19. Text a provider pastes
+              into a chart, so it is inside the signature like the plan note. */
+           preScreen: (function () {
+             var el = document.getElementById('preScreenTxt');
+             return el ? el.textContent : '';
            })() };
 };
 

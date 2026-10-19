@@ -57,15 +57,21 @@
 var KORB_MENS = {
 
   meta: {
-    version: '1.4',
+    version: '1.5',
     created: '2026-09-16',
-    updated: '2026-09-16',
+    updated: '2026-10-19',
     owner: 'Director of Clinical Operations',
     extractedFrom: 'Provider_Reference/KORB_Mens_Health_Provider_Tool.html as at 2026-09-16',
     scope: 'Male testosterone replacement only. Female testosterone is a women\'s ' +
            'health question and belongs in korb-womens-data.js, not here.',
     entity: 'KORB Health Medical Texas PA',
     changelog: [
+      '2026-10-19 (v1.5): PRE-PRESCRIBING SCREEN. preScreen and preScreenText() added, ' +
+      'a plain-text EMR template of the questions to ask before a first prescription, ' +
+      'built from the contraindications, precautions, eligibility, cardiometabolic and ' +
+      'fertility sections. States and baseline labs are filled from this file. The ' +
+      'MEDICATIONS / PRIOR USE section is new and not from the SOP (Don, 2026-10-19). ' +
+      'Rendered on the Mens Health Provider Tool with a Copy button.',
       '2026-09-16 (v1.0): CREATED. Open item 6. Extracted whole from ' +
       'KORB_Mens_Health_Provider_Tool.html, which had held every one of these facts as ' +
       'JavaScript inside a hand-built page. No clinical content was changed, ' +
@@ -819,6 +825,67 @@ var KORB_MENS = {
       'weeks after any dose or frequency change, drawn midway between injections.'
   },
 
+  /* -- PRE-PRESCRIBING SCREEN. Don, 2026-10-19 ------------------------------
+     What a provider asks a patient before a first testosterone prescription,
+     as a plain-text template to paste into the EMR and fill in. Built from the
+     contraindications, precautions, eligibility, cardiometabolic and fertility
+     sections above; preScreenText() fills in the states and the baseline labs
+     from this file at load, so neither is typed twice.
+
+     The MEDICATIONS / PRIOR USE section is NOT in the SOP. Don added it on
+     2026-10-19 as standard intake (prior testosterone or anabolic steroid use,
+     opioids, 5-alpha reductase inhibitors, clomiphene). ASCII only, because it
+     is pasted into an EMR field - same rule as the plan note. */
+  preScreen: {
+    title: 'TRT PRE-PRESCRIBING SCREEN',
+    sections: [
+      { lines: ['State of residence ({STATES} only): ____', 'PCP name / practice: ____'] },
+      { head: 'FERTILITY', lines: [
+        'Desires children now or in future: Y / N',
+        'If Y: counseled that testosterone suppresses sperm production; KORB does not offer fertility-preserving adjuncts; referred to: ____',
+        'Patient preference documented: ____'] },
+      { head: 'PROSTATE / BREAST', lines: [
+        'History of prostate or breast cancer, known or suspected: Y / N',
+        'Prior elevated PSA or urology referral: Y / N  Details: ____',
+        'Family history of prostate cancer: Y / N',
+        'Urinary symptoms (weak stream, nocturia, hesitancy, incomplete emptying): Y / N',
+        'AUA symptom score (if done): ____  (above 19 = urology first)'] },
+      { head: 'BLOOD / CLOTTING', lines: [
+        'History of blood clot or clotting disorder: Y / N  Details: ____',
+        'Prior high hematocrit, blood donation or phlebotomy for high count: Y / N'] },
+      { head: 'CARDIOVASCULAR', lines: [
+        'MI or stroke in the last 6 months: Y / N',
+        'Heart failure: Y / N  Controlled: Y / N',
+        'Known heart disease or atherosclerosis: Y / N  Managed by: ____',
+        'Hypertension: Y / N  Recent BP: ____  Managed by: ____  (must be below 140/90)',
+        'Diabetes: Y / N'] },
+      { head: 'SLEEP', lines: [
+        'Loud snoring, witnessed apneas or waking gasping: Y / N',
+        'Diagnosed sleep apnea: Y / N  On CPAP: Y / N'] },
+      { head: 'OTHER CONDITIONS', lines: [
+        'Thyroid disease: Y / N  Treated: Y / N',
+        'Liver or kidney disease: Y / N',
+        'Mood disorder (depression, anxiety, bipolar): Y / N  Currently stable: Y / N'] },
+      { head: 'SYMPTOMS', lines: [
+        'Presenting symptoms (energy, libido, ED, mood, muscle/strength): ____',
+        'Symptoms and labs align: Y / N'] },
+      { head: 'MEDICATIONS / PRIOR USE', lines: [
+        'Current or past testosterone or anabolic steroid use (incl. outside clinic or online): Y / N  Details: ____',
+        'Opioids: Y / N',
+        'Finasteride or dutasteride: Y / N',
+        'Clomiphene or other hormone therapy: Y / N',
+        'Other relevant medications: ____'] },
+      { head: 'ASSESSMENT', lines: [
+        'Absolute contraindication present: Y / N  If Y, referred to: ____',
+        'Relative contraindication present: Y / N  Plan: ____',
+        'Baseline labs reviewed ({BASELINE_LABS}): Y / N',
+        'Hct below 52%: Y / N',
+        'PSA within age-adjusted range: Y / N',
+        'Eligible to start TRT: Y / N',
+        'Plan: ____'] }
+    ]
+  },
+
   /* -- SIDE EFFECTS. source: SOP 9.4 ----------------------------------------- */
   sideEffects: {
     source: 'SOP',
@@ -1180,6 +1247,32 @@ var KORB_MENS = {
 
   /* The ladder is COMPUTED, never typed. The tool printed it as a static table
      beside the live calculation, which is two places for one number. */
+  /* The pre-prescribing screen as pasteable text. States and baseline labs are
+     read from this file, never typed into the template. Throws on a placeholder
+     it cannot fill or on a non-ASCII character, because either would reach a
+     chart note silently. */
+  preScreenText: function () {
+    this.requireHydrated();
+    var self = this;
+    var fill = {
+      STATES: self.states.offered.join(' or '),
+      BASELINE_LABS: self.monitoring.rows[0].labs
+    };
+    var out = [self.preScreen.title];
+    self.preScreen.sections.forEach(function (sec) {
+      out.push('');
+      if (sec.head) out.push(sec.head);
+      sec.lines.forEach(function (l) { out.push(l); });
+    });
+    var txt = out.join('\n').replace(/\{([A-Z_]+)\}/g, function (m, k) {
+      if (!fill[k]) throw new Error('korb-mens-data.js preScreenText: nothing fills {' + k + '}');
+      return fill[k];
+    });
+    if (/[^\x09\x0A\x0D\x20-\x7E]/.test(txt)) throw new Error(
+      'korb-mens-data.js preScreenText: non-ASCII character in an EMR template');
+    return txt;
+  },
+
   ladder: function () {
     var self = this;
     return this.weeklyDosesMg.map(function (w) {
