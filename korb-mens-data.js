@@ -57,7 +57,7 @@
 var KORB_MENS = {
 
   meta: {
-    version: '1.5',
+    version: '1.6',
     created: '2026-09-16',
     updated: '2026-10-19',
     owner: 'Director of Clinical Operations',
@@ -66,6 +66,10 @@ var KORB_MENS = {
            'health question and belongs in korb-womens-data.js, not here.',
     entity: 'KORB Health Medical Texas PA',
     changelog: [
+      '2026-10-19 (v1.6): SCREEN MADE INTERACTIVE. Don asked for buttons instead of a fill-in ' +
+      'template. preScreen items now carry a type, an optional detail box, showIf and a flag; ' +
+      'preScreenItems(), preScreenFlags() and preScreenNote() replace preScreenText(), and the ' +
+      'tool writes the finished chart note from the answers.',
       '2026-10-19 (v1.5): PRE-PRESCRIBING SCREEN. preScreen and preScreenText() added, ' +
       'a plain-text EMR template of the questions to ask before a first prescription, ' +
       'built from the contraindications, precautions, eligibility, cardiometabolic and ' +
@@ -826,64 +830,148 @@ var KORB_MENS = {
   },
 
   /* -- PRE-PRESCRIBING SCREEN. Don, 2026-10-19 ------------------------------
-     What a provider asks a patient before a first testosterone prescription,
-     as a plain-text template to paste into the EMR and fill in. Built from the
-     contraindications, precautions, eligibility, cardiometabolic and fertility
-     sections above; preScreenText() fills in the states and the baseline labs
-     from this file at load, so neither is typed twice.
+     The questions a provider asks before a first testosterone prescription,
+     answered by clicking, and turned into a finished chart note by
+     preScreenNote(). Built from the contraindications, precautions,
+     eligibility, cardiometabolic and fertility sections above.
 
-     The MEDICATIONS / PRIOR USE section is NOT in the SOP. Don added it on
-     2026-10-19 as standard intake (prior testosterone or anabolic steroid use,
-     opioids, 5-alpha reductase inhibitors, clomiphene). ASCII only, because it
-     is pasted into an EMR field - same rule as the plan note. */
+     Each item:  q      what the provider reads out (plain words)
+                 label  how the answer is written in the chart note
+                 type   yn (Yes / No), text (free entry), multi (tick any)
+                 detail a box that opens for that answer, written after it
+                 showIf only asked when another answer is set
+                 flag   what an answer means: stop (do not start, refer),
+                        first (settle before starting) or note (record it)
+
+     The flag wording restates rules held above in this file - the
+     contraindications, precautions and eligibility gates. If one of those
+     rules changes, change its flag here in the same commit.
+
+     The MEDICATIONS / PRIOR USE section is NOT from the SOP. Don added it on
+     2026-10-19 as standard intake. The note is ASCII only, because it is
+     pasted into an EMR field - same rule as the plan note. */
   preScreen: {
     title: 'TRT PRE-PRESCRIBING SCREEN',
     sections: [
-      { lines: ['State of residence ({STATES} only): ____', 'PCP name / practice: ____'] },
-      { head: 'FERTILITY', lines: [
-        'Desires children now or in future: Y / N',
-        'If Y: counseled that testosterone suppresses sperm production; KORB does not offer fertility-preserving adjuncts; referred to: ____',
-        'Patient preference documented: ____'] },
-      { head: 'PROSTATE / BREAST', lines: [
-        'History of prostate or breast cancer, known or suspected: Y / N',
-        'Prior elevated PSA or urology referral: Y / N  Details: ____',
-        'Family history of prostate cancer: Y / N',
-        'Urinary symptoms (weak stream, nocturia, hesitancy, incomplete emptying): Y / N',
-        'AUA symptom score (if done): ____  (above 19 = urology first)'] },
-      { head: 'BLOOD / CLOTTING', lines: [
-        'History of blood clot or clotting disorder: Y / N  Details: ____',
-        'Prior high hematocrit, blood donation or phlebotomy for high count: Y / N'] },
-      { head: 'CARDIOVASCULAR', lines: [
-        'MI or stroke in the last 6 months: Y / N',
-        'Heart failure: Y / N  Controlled: Y / N',
-        'Known heart disease or atherosclerosis: Y / N  Managed by: ____',
-        'Hypertension: Y / N  Recent BP: ____  Managed by: ____  (must be below 140/90)',
-        'Diabetes: Y / N'] },
-      { head: 'SLEEP', lines: [
-        'Loud snoring, witnessed apneas or waking gasping: Y / N',
-        'Diagnosed sleep apnea: Y / N  On CPAP: Y / N'] },
-      { head: 'OTHER CONDITIONS', lines: [
-        'Thyroid disease: Y / N  Treated: Y / N',
-        'Liver or kidney disease: Y / N',
-        'Mood disorder (depression, anxiety, bipolar): Y / N  Currently stable: Y / N'] },
-      { head: 'SYMPTOMS', lines: [
-        'Presenting symptoms (energy, libido, ED, mood, muscle/strength): ____',
-        'Symptoms and labs align: Y / N'] },
-      { head: 'MEDICATIONS / PRIOR USE', lines: [
-        'Current or past testosterone or anabolic steroid use (incl. outside clinic or online): Y / N  Details: ____',
-        'Opioids: Y / N',
-        'Finasteride or dutasteride: Y / N',
-        'Clomiphene or other hormone therapy: Y / N',
-        'Other relevant medications: ____'] },
-      { head: 'ASSESSMENT', lines: [
-        'Absolute contraindication present: Y / N  If Y, referred to: ____',
-        'Relative contraindication present: Y / N  Plan: ____',
-        'Baseline labs reviewed ({BASELINE_LABS}): Y / N',
-        'Hct below 52%: Y / N',
-        'PSA within age-adjusted range: Y / N',
-        'Eligible to start TRT: Y / N',
-        'Plan: ____'] }
-    ]
+      { head: 'PATIENT', items: [
+        { id: 'pcp', type: 'text', q: 'Who is your primary care provider?',
+          label: 'PCP' }
+      ] },
+      { head: 'FERTILITY', items: [
+        { id: 'kids', type: 'yn', q: 'Do you want children now or in the future?',
+          label: 'Desires children now or in future',
+          detail: { when: 'Y', label: 'Referred to' },
+          flag: { when: 'Y', level: 'stop', text: 'Wants children. Testosterone suppresses sperm production and KORB does not offer fertility-preserving adjuncts. Refer rather than treat.' } },
+        { id: 'fertCounsel', type: 'yn', q: 'Counseled that testosterone lowers sperm production?',
+          label: 'Counseled on fertility effect',
+          flag: { when: 'N', level: 'first', text: 'Fertility counseling not done. Ask and document before prescribing.' } }
+      ] },
+      { head: 'PROSTATE / BREAST', items: [
+        { id: 'cancer', type: 'yn', q: 'Ever had prostate or breast cancer, or been told you might?',
+          label: 'History of prostate or breast cancer, known or suspected',
+          detail: { when: 'Y', label: 'Details' },
+          flag: { when: 'Y', level: 'stop', text: 'Prostate or breast cancer, known or suspected. Do not start. Refer.' } },
+        { id: 'psaHx', type: 'yn', q: 'Ever told your PSA was high, or sent to a urologist?',
+          label: 'Prior elevated PSA or urology referral',
+          detail: { when: 'Y', label: 'Details' },
+          flag: { when: 'Y', level: 'first', text: 'Prior high PSA or urology referral. Check PSA against the age range; urology clearance first if above it.' } },
+        { id: 'famPca', type: 'yn', q: 'Any prostate cancer in your family?',
+          label: 'Family history of prostate cancer',
+          flag: { when: 'Y', level: 'note', text: 'Family history of prostate cancer: PSA hold is 3.0 ng/mL, not 4.0.' } },
+        { id: 'luts', type: 'yn', q: 'Urinary trouble: weak stream, up at night, hard to start, not emptying?',
+          label: 'Urinary symptoms',
+          flag: { when: 'Y', level: 'first', text: 'Urinary symptoms. Get an AUA score; above 19 means urology first.' } },
+        { id: 'aua', type: 'text', q: 'AUA symptom score', label: 'AUA score',
+          showIf: { id: 'luts', is: 'Y' } }
+      ] },
+      { head: 'BLOOD / CLOTTING', items: [
+        { id: 'clot', type: 'yn', q: 'Ever had a blood clot, or told you have a clotting disorder?',
+          label: 'History of blood clot or clotting disorder',
+          detail: { when: 'Y', label: 'Details' },
+          flag: { when: 'Y', level: 'first', text: 'Clot history. Thrombophilia is a contraindication; rule it out before starting.' } },
+        { id: 'hctHx', type: 'yn', q: 'Ever told your blood count was high, or had blood drawn off for it?',
+          label: 'Prior high hematocrit, donation or phlebotomy',
+          flag: { when: 'Y', level: 'first', text: 'Prior high hematocrit. Re-evaluate for sleep apnea and dehydration before starting.' } }
+      ] },
+      { head: 'HEART / BLOOD PRESSURE', items: [
+        { id: 'miStroke', type: 'yn', q: 'Heart attack or stroke in the last 6 months?',
+          label: 'MI or stroke in the last 6 months',
+          flag: { when: 'Y', level: 'stop', text: 'MI or stroke within 6 months. Do not start.' } },
+        { id: 'hf', type: 'yn', q: 'Heart failure?', label: 'Heart failure' },
+        { id: 'hfCtrl', type: 'yn', q: 'Is the heart failure under control?', label: 'Heart failure controlled',
+          showIf: { id: 'hf', is: 'Y' },
+          flag: { when: 'N', level: 'stop', text: 'Uncontrolled heart failure. Do not start.' } },
+        { id: 'ascvd', type: 'yn', q: 'Known heart disease or blocked arteries?',
+          label: 'Known heart disease or atherosclerosis',
+          detail: { when: 'Y', label: 'Managed by' },
+          flag: { when: 'Y', level: 'first', text: 'Known heart disease. PCP or cardiology clearance first.' } },
+        { id: 'htn', type: 'yn', q: 'High blood pressure?', label: 'Hypertension',
+          detail: { when: 'Y', label: 'Recent BP and who manages it' },
+          flag: { when: 'Y', level: 'first', text: 'Hypertension. Confirm BP is below 140/90 and managed before starting.' } },
+        { id: 'dm', type: 'yn', q: 'Diabetes?', label: 'Diabetes',
+          flag: { when: 'Y', level: 'note', text: 'Diabetes. Check HbA1c and lipids; coordinate with the PCP.' } }
+      ] },
+      { head: 'SLEEP', items: [
+        { id: 'snore', type: 'yn', q: 'Loud snoring, stop breathing in sleep, or wake up gasping?',
+          label: 'Snoring, witnessed apneas or waking gasping',
+          flag: { when: 'Y', level: 'first', text: 'Possible sleep apnea. Refer to the PCP for screening.' } },
+        { id: 'osa', type: 'yn', q: 'Diagnosed with sleep apnea?', label: 'Diagnosed sleep apnea' },
+        { id: 'cpap', type: 'yn', q: 'Using CPAP or other treatment?', label: 'Sleep apnea treated',
+          showIf: { id: 'osa', is: 'Y' },
+          flag: { when: 'N', level: 'stop', text: 'Untreated sleep apnea. Severe untreated OSA is a contraindication.' } }
+      ] },
+      { head: 'OTHER CONDITIONS', items: [
+        { id: 'thyroid', type: 'yn', q: 'Thyroid problem?', label: 'Thyroid disease' },
+        { id: 'thyroidTx', type: 'yn', q: 'Is the thyroid treated?', label: 'Thyroid treated',
+          showIf: { id: 'thyroid', is: 'Y' },
+          flag: { when: 'N', level: 'first', text: 'Untreated thyroid disease. Optimize first.' } },
+        { id: 'liverKidney', type: 'yn', q: 'Liver or kidney disease?', label: 'Liver or kidney disease',
+          flag: { when: 'Y', level: 'first', text: 'Liver or kidney disease. Function must be normal before starting.' } },
+        { id: 'mood', type: 'yn', q: 'Depression, anxiety, bipolar or another mood condition?',
+          label: 'Mood disorder' },
+        { id: 'moodStable', type: 'yn', q: 'Is it stable right now?', label: 'Mood disorder stable',
+          showIf: { id: 'mood', is: 'Y' },
+          flag: { when: 'N', level: 'first', text: 'Mood disorder not stable. Stabilize first and coordinate with the PCP.' } }
+      ] },
+      { head: 'SYMPTOMS', items: [
+        { id: 'symptoms', type: 'multi', q: 'What brought you in?', label: 'Presenting symptoms',
+          options: ['Low energy', 'Low libido', 'Erectile dysfunction', 'Low mood',
+                    'Loss of muscle or strength', 'Poor sleep', 'Brain fog'] },
+        { id: 'symptomsOther', type: 'text', q: 'Other symptoms', label: 'Other symptoms' }
+      ] },
+      { head: 'MEDICATIONS / PRIOR USE', items: [
+        { id: 'aas', type: 'yn', q: 'Ever used testosterone or steroids, from any clinic or online?',
+          label: 'Prior testosterone or anabolic steroid use',
+          detail: { when: 'Y', label: 'What, when, last dose' },
+          flag: { when: 'Y', level: 'note', text: 'Prior testosterone or steroid use. Baseline labs may not reflect natural levels.' } },
+        { id: 'opioids', type: 'yn', q: 'Taking opioid pain medicine?', label: 'Opioids',
+          flag: { when: 'Y', level: 'note', text: 'Opioids can lower testosterone.' } },
+        { id: 'fiveAri', type: 'yn', q: 'Taking finasteride or dutasteride?', label: 'Finasteride or dutasteride',
+          flag: { when: 'Y', level: 'note', text: 'Finasteride or dutasteride lowers PSA; read PSA with that in mind.' } },
+        { id: 'hormones', type: 'yn', q: 'Taking clomiphene or any other hormone?', label: 'Clomiphene or other hormone therapy',
+          detail: { when: 'Y', label: 'Which' } },
+        { id: 'medsOther', type: 'text', q: 'Other relevant medications', label: 'Other medications' }
+      ] },
+      { head: 'LABS AND DECISION', items: [
+        { id: 'labsReviewed', type: 'yn', q: 'Baseline labs reviewed ({BASELINE_LABS})?',
+          label: 'Baseline labs reviewed ({BASELINE_LABS})',
+          flag: { when: 'N', level: 'first', text: 'Baseline labs not reviewed. Review before prescribing.' } },
+        { id: 'hctOk', type: 'yn', q: 'Hematocrit below 52%?', label: 'Hematocrit below 52%',
+          flag: { when: 'N', level: 'stop', text: 'Hematocrit 52% or above. Hold and evaluate for erythrocytosis, dehydration or sleep apnea.' } },
+        { id: 'psaOk', type: 'yn', q: 'PSA within the age-adjusted range?', label: 'PSA within age-adjusted range',
+          flag: { when: 'N', level: 'stop', text: 'PSA above the age-adjusted range. Urology evaluation first.' } },
+        { id: 'align', type: 'yn', q: 'Do symptoms and labs agree?', label: 'Symptoms and labs align',
+          flag: { when: 'N', level: 'first', text: 'Symptoms and labs do not agree. Do not diagnose on a number alone.' } },
+        { id: 'decision', type: 'choice', q: 'Decision', label: 'Decision',
+          options: ['Start TRT', 'Defer', 'Refer'] },
+        { id: 'plan', type: 'text', q: 'Plan or referral', label: 'Plan' }
+      ] }
+    ],
+    levels: {
+      stop:  'DO NOT START / REFER',
+      first: 'SETTLE BEFORE STARTING',
+      note:  'NOTES'
+    }
   },
 
   /* -- SIDE EFFECTS. source: SOP 9.4 ----------------------------------------- */
@@ -1247,30 +1335,75 @@ var KORB_MENS = {
 
   /* The ladder is COMPUTED, never typed. The tool printed it as a static table
      beside the live calculation, which is two places for one number. */
-  /* The pre-prescribing screen as pasteable text. States and baseline labs are
-     read from this file, never typed into the template. Throws on a placeholder
-     it cannot fill or on a non-ASCII character, because either would reach a
-     chart note silently. */
-  preScreenText: function () {
-    this.requireHydrated();
-    var self = this;
-    var fill = {
-      STATES: self.states.offered.join(' or '),
-      BASELINE_LABS: self.monitoring.rows[0].labs
+  /* The pre-prescribing screen, resolved: placeholders filled from this file
+     (never typed twice) and every item that should be asked given the answers
+     so far. The tool renders from this, and preScreenNote() writes from it. */
+  preScreenItems: function (answers) {
+    var self = this, a = answers || {};
+    var fill = { BASELINE_LABS: self.monitoring.rows[0].labs };
+    var sub = function (s) {
+      return s.replace(/\{([A-Z_]+)\}/g, function (m, k) {
+        if (!fill[k]) throw new Error('korb-mens-data.js preScreen: nothing fills {' + k + '}');
+        return fill[k];
+      });
     };
-    var out = [self.preScreen.title];
-    self.preScreen.sections.forEach(function (sec) {
-      out.push('');
-      if (sec.head) out.push(sec.head);
-      sec.lines.forEach(function (l) { out.push(l); });
+    return self.preScreen.sections.map(function (sec) {
+      return { head: sec.head, items: sec.items.filter(function (it) {
+        return !it.showIf || a[it.showIf.id] === it.showIf.is;
+      }).map(function (it) {
+        var c = {}; Object.keys(it).forEach(function (k) { c[k] = it[k]; });
+        c.q = sub(it.q); c.label = sub(it.label);
+        return c;
+      }) };
     });
-    var txt = out.join('\n').replace(/\{([A-Z_]+)\}/g, function (m, k) {
-      if (!fill[k]) throw new Error('korb-mens-data.js preScreenText: nothing fills {' + k + '}');
-      return fill[k];
+  },
+
+  /* Which flags the answers raise, grouped by level. */
+  preScreenFlags: function (answers) {
+    var a = answers || {}, out = { stop: [], first: [], note: [] };
+    this.preScreenItems(a).forEach(function (sec) {
+      sec.items.forEach(function (it) {
+        if (it.flag && a[it.id] === it.flag.when) out[it.flag.level].push(it.flag.text);
+      });
     });
-    if (/[^\x09\x0A\x0D\x20-\x7E]/.test(txt)) throw new Error(
-      'korb-mens-data.js preScreenText: non-ASCII character in an EMR template');
-    return txt;
+    return out;
+  },
+
+  /* The finished chart note. answers: { id: 'Y' | 'N' | text | [ticked] },
+     plus id + '_detail' for a detail box. ctx: { state, date } from the tool.
+     Only answered items are written. ASCII is enforced: common typographic
+     characters are folded and anything else is dropped, because the note is
+     pasted into an EMR field. */
+  preScreenNote: function (answers, ctx) {
+    var self = this, a = answers || {}, c = ctx || {};
+    var fold = function (s) {
+      return String(s).replace(/[‘’]/g, "'").replace(/[“”]/g, '"')
+        .replace(/[–—]/g, '-').replace(/…/g, '...')
+        .replace(/[^\x09\x0A\x0D\x20-\x7E]/g, '').trim();
+    };
+    var lines = [self.preScreen.title];
+    if (c.date) lines.push('Date: ' + c.date);
+    lines.push('State: ' + (c.state || 'not selected'));
+    self.preScreenItems(a).forEach(function (sec) {
+      var body = [];
+      sec.items.forEach(function (it) {
+        var v = a[it.id];
+        if (v == null || v === '' || (Array.isArray(v) && !v.length)) return;
+        var shown = it.type === 'yn' ? (v === 'Y' ? 'Yes' : 'No')
+                  : Array.isArray(v) ? v.join(', ') : v;
+        var d = it.detail && v === it.detail.when && a[it.id + '_detail'];
+        body.push('- ' + it.label + ': ' + fold(shown) +
+                  (d ? ' (' + it.detail.label + ': ' + fold(d) + ')' : ''));
+      });
+      if (body.length) { lines.push(''); lines.push(sec.head); lines = lines.concat(body); }
+    });
+    var f = self.preScreenFlags(a);
+    ['stop', 'first', 'note'].forEach(function (lv) {
+      if (!f[lv].length) return;
+      lines.push(''); lines.push(self.preScreen.levels[lv]);
+      f[lv].forEach(function (t) { lines.push('- ' + t); });
+    });
+    return lines.join('\n');
   },
 
   ladder: function () {

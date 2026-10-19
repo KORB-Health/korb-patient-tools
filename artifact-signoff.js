@@ -495,11 +495,34 @@ PROBES.mens = function () {
              var pre = document.querySelector('.korb-plan-body');
              return pre ? pre.innerText.replace(/\s+$/, '') : '';
            })(),
-           /* The pre-prescribing screen, added 2026-10-19. Text a provider pastes
-              into a chart, so it is inside the signature like the plan note. */
+           /* The pre-prescribing screen, added 2026-10-19 and made interactive
+              the same day. Its note is pasted into a chart, so it is inside the
+              signature like the plan note. Driven twice - every question
+              answered No, then every question answered Yes - which reaches
+              every follow-up question and raises every flag. Choice, tick and
+              text items are left empty. The state and date are blanked first so
+              the fingerprint does not depend on the day it was probed. */
            preScreen: (function () {
-             var el = document.getElementById('preScreenTxt');
-             return el ? el.textContent : '';
+             if (typeof psReset !== 'function') return '';
+             stEl.value = ''; fire(stEl);
+             var ex = document.getElementById('examDate'); if (ex) { ex.value = ''; fire(ex); }
+             var run = function (ans) {
+               psReset();
+               for (var pass = 0; pass < 5; pass++) {
+                 var open = [].filter.call(document.querySelectorAll('#psForm .ps-b[data-ps-ans="' + ans + '"]'),
+                   function (b) { return !b.classList.contains('on'); });
+                 if (!open.length) break;
+                 open.forEach(function (b) {
+                   var live = document.querySelector('#psForm .ps-b[data-ps="' + b.getAttribute('data-ps') +
+                     '"][data-ps-ans="' + ans + '"]');
+                   if (live && !live.classList.contains('on')) live.click();
+                 });
+               }
+               return document.getElementById('preScreenTxt').textContent;
+             };
+             var out = { allNo: run('N'), allYes: run('Y') };
+             psReset();
+             return out;
            })() };
 };
 
