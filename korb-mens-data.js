@@ -179,26 +179,35 @@ var KORB_MENS = {
       "tool:mens": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-26",
-        "fingerprint": "fp-366e7e0a-10590",
+        "date": "2026-10-21",
+        "fingerprint": "fp-8c1ec8ed-15248",
         "covers": "2 states, 18 prescribing blocks",
         "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-        "note": "Signed 2026-09-25 on Don's instruction in chat. What moved since the 2026-09-21 signature: testosterone is drawn midway between injections, not at trough (commits d301775, e00185d). The panel note, the titration table, and the Tebra note and lab-queue text now name the midway point for the chosen route.",
+        "note": "Signed 2026-10-21 on Don's instruction in chat: 'I've read it and approve the screen as written.' What moved since the 2026-09-26 signature: the pre-prescribing screen and the Initial consult / Follow-up toggle (commits 335754a, c230444, 2fbf4d6, korb-mens-data v1.5 to v1.7). Tebra blocks (18) and TX/CA routing unchanged. Approved as written, including five judgment calls raised in review: PSA stops at the age-adjusted range rather than only above 4.0/3.0; hematocrit stops at 52.0% exactly; clot history is settle-first pending thrombophilia; family history counts as high risk for the 3.0 PSA hold; and the MEDICATIONS / PRIOR USE notes (opioids, finasteride/dutasteride, prior steroid use), which are not from the SOP.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-21",
-          "fingerprint": "fp-ddf4b597-10572",
+          "date": "2026-09-26",
+          "fingerprint": "fp-366e7e0a-10590",
           "covers": "2 states, 18 prescribing blocks",
           "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-          "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: California upgraded from pending to LIVE with Empower, the needles renamed to draw-up needle and injection needle, lab results anchored to the draw, and the shared plan note brought inside the fingerprint. Don confirmed California shows Empower.",
+          "note": "Signed 2026-09-25 on Don's instruction in chat. What moved since the 2026-09-21 signature: testosterone is drawn midway between injections, not at trough (commits d301775, e00185d). The panel note, the titration table, and the Tebra note and lab-queue text now name the midway point for the chosen route.",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-17",
-            "fingerprint": "fp-e48db880-8894",
+            "date": "2026-09-21",
+            "fingerprint": "fp-ddf4b597-10572",
             "covers": "2 states, 18 prescribing blocks",
-            "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team."
+            "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+            "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: California upgraded from pending to LIVE with Empower, the needles renamed to draw-up needle and injection needle, lab results anchored to the draw, and the shared plan note brought inside the fingerprint. Don confirmed California shows Empower.",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-17",
+              "fingerprint": "fp-e48db880-8894",
+              "covers": "2 states, 18 prescribing blocks",
+              "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team."
+            }
           }
         }
       }
