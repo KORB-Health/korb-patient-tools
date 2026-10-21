@@ -132,6 +132,7 @@ to check a single document against, which is the whole reason this table exists.
 | `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |
 | `KORB_Patient_Hub.html` | **Yes**, 2026-09-19 |
 | `KORB_Patient_Treatment_Schedule.html` | **Yes**, 2026-09-19 |
+| `KORB_Provider_Directory.html` | **Yes**, 2026-10-21. Public provider licensure for LegitScript Q27 (MA, RI, VT, CA rules). Renders `korb-provider-directory.js`, which is GENERATED in korb-licensing by `jobs/build_provider_directory.py` on every `save_state.py`. Never hand-edit a name or number here; change the register. Must be linked from korbhealth.com |
 | `KORB_Schedule_Your_Lab_Appointment.html` | **Yes**, 2026-09-19 |
 | `KORB_Testosterone_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_Welcome_Letter.html` | **Retired** 2026-09-19, redirects to the hub |
@@ -142,7 +143,7 @@ to check a single document against, which is the whole reason this table exists.
 | `404.html` | **Served**, 2026-09-21. Not a link anyone is sent - GitHub Pages shows it for any missing path |
 | `index.html` | **Served**, 2026-09-28. Redirect from the bare site address to the hub. Holds no content. It also keeps GitHub Pages from promoting `README.md` to the home page; `_config.yml` excludes `README.md` and `CLAUDE.md` from the site as well |
 
-38 rows: 35 published pages, 1 PDF, the 404 page and the index redirect. If a file exists and is not on this list, the
+39 rows: 36 published pages, 1 PDF, the 404 page and the index redirect. If a file exists and is not on this list, the
 list is wrong, not the file.
 
 ---
