@@ -66,6 +66,9 @@ li{margin:4px 0;}
 .kmp-ways li{display:flex;gap:10px;min-height:44px;align-items:center;border-bottom:1px solid var(--rule);margin:0;}
 .kmp-ways span{width:70px;color:var(--mu);font-size:13px;}
 .kmp-ways a{color:var(--navy);font-weight:700;}
+/* The link fills its 44px row, so the tap target is the row and not the 24px
+   line of text. Screen only: on paper it would just pad the list. */
+@media screen{.kmp-ways a{display:inline-flex;align-items:center;min-height:44px;flex:1;}}
 .kmp-fine{font-size:12px;color:var(--mu);margin-top:18px;}
 @media print{.kmp-btn,.kmp-select{display:none;}}
 `.trim();
