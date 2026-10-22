@@ -18,6 +18,9 @@ const fs = require('fs');
 const path = require('path');
 global.KORB_PHARMACIES = require('./korb-pharmacies.js');
 const G = require('./korb-glp1-data.js');
+/* The horizontal KORB logo, the one every other patient page carries. One copy,
+   in provider-doc-render.js; never retype the data uri here. */
+const { LOGO_URI } = require('./provider-doc-render.js');
 if (!G.hydrated) G.hydrate(global.KORB_PHARMACIES);
 
 const CSS = `
@@ -25,9 +28,14 @@ const CSS = `
 *{box-sizing:border-box;}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#1F2330;line-height:1.5;background:#fff;}
 .wrap{max-width:640px;margin:0 auto;padding:0 16px 24px;}
-.kmp-mast{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:3px solid var(--teal);padding:16px 0 10px;flex-wrap:wrap;}
-.kmp-brand{font-weight:800;color:var(--navy);font-size:20px;letter-spacing:.3px;}
-.kmp-by{font-size:12px;color:var(--mu);}
+/* The house masthead, as build-patient-ed.js draws it: logo left, Print right,
+   a teal rule, then the PA byline. Until 2026-10-22 these pages printed the
+   words KORB Health instead of the logo (Don). */
+.kmp-mast{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1.5px solid var(--teal);padding:16px 0 7px;}
+.kmp-mast img{height:34px;width:auto;display:block;}
+.kmp-tools a{font-family:Montserrat,Helvetica,Arial,sans-serif;font-weight:600;font-size:12px;color:#0F5F69;}
+.kmp-by{font-size:12px;color:var(--mu);margin:8px 0 0;}
+@media print{.kmp-tools{display:none;}}
 .kmp-title h1{color:var(--navy);font-size:26px;margin:18px 0 0;}
 .kmp-title p{margin:2px 0 14px;color:var(--mu);font-size:15px;}
 h2{color:var(--navy);font-size:17px;margin:22px 0 6px;}
@@ -89,7 +97,8 @@ ${CSS}
 </head>
 <body class="korb-sheet">
 <div class="wrap">
-<header class="kmp-mast"><div class="kmp-brand">KORB Health</div><div class="kmp-by">KORB Health Medical Texas PA</div></header>
+<header class="kmp-mast"><img src="${LOGO_URI}" alt="KORB Health"><div class="kmp-tools"><a href="#" onclick="window.print();return false;">Print</a></div></header>
+<p class="kmp-by">KORB Health Medical Texas PA · Patient education</p>
 <main id="page"><p>Loading your medication instructions...</p></main>
 </div>
 <script src="../korb-pharmacies.js"></script>
