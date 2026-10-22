@@ -67,6 +67,24 @@ var KORB_GLP1 = {
      Empty because nothing has been signed yet. All 10 GLP-1 documents are unsigned. */
   rxSignoff: {
     records: {
+      "glp1:premier_sema_b6": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "dataVersion": "2.32",
+        "fingerprint": "fp-03baccf3-53656",
+        "blocks": 21,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
+      "glp1:premier_tirz_b6": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "dataVersion": "2.32",
+        "fingerprint": "fp-38d65b2f-45886",
+        "blocks": 18,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+      },
     /* Signed 2026-09-15. Don reviewed each of these on screen, one at a time,
        and said so before moving to the next. Recorded from the transcript
        rather than from memory, and every fingerprint was checked against the
