@@ -6515,6 +6515,14 @@ var KORB_GLP1 = {
       }
     });
 
+    /* Every FarmaKeio dose converts, at both pharmacies, never upward where the
+       rule says nearest lower, and lands on a product with a patient page.
+       farmakeioConversion is attached after this object, so it is checked
+       only once it exists. 2026-10-22. */
+    if (KORB_GLP1.farmakeioConversion) {
+      KORB_GLP1.farmakeioConversion.check().forEach(function (p) { problems.push(p); });
+    }
+
     // Legacy products should never be reachable from a routing rule.
     KORB_GLP1.states.routing.forEach(function (r) {
       var ph = KORB_GLP1.pharmacies[r.pharmacy];
@@ -6778,6 +6786,135 @@ var KORB_GLP1 = {
     });
   });
 }(KORB_GLP1));
+
+/* FARMAKEIO CONVERSION RULES. Don, 2026-10-22.
+
+   Every FarmaKeio GLP-1 patient moves at their next follow-up: to Premier in a
+   state Premier can fill, to Belmar otherwise (states.routeTo decides which).
+   The dose they move to is decided HERE, once, so the provider conversion tool
+   and the patient medication pages cannot give two different answers.
+
+     sameStep      Semaglutide. The ladders are built step for step, so the
+                   patient keeps their place: FarmaKeio 0.25 / 0.5 / 1.0 / 1.7 /
+                   2.5 is Premier 0.3 / 0.6 / 1.2 / 1.8 / 2.7 and Belmar 0.25 /
+                   0.5 / 1.0 / 1.7 / 2.4.
+     nearestLower  Tirzepatide. The highest new dose that is not above the
+                   current one, so no patient is moved up, or into a higher
+                   price tier, by a pharmacy change.
+     sameDose      Oral semaglutide. 0.5 and 1 mg exist at every pharmacy.
+
+   B-12 is the default at Premier. B-6 is only for a patient who cannot
+   tolerate B-12 (Don, 2026-10-22), and FarmaKeio's product carried B-6, so the
+   tool asks rather than assuming either way.
+
+   THE UNITS CHANGE EVEN WHEN THE STEP DOES NOT. FarmaKeio semaglutide is
+   2.5 mg/mL and Premier's is 3 mg/mL, so 40 units is 1.0 mg at FarmaKeio and
+   1.2 mg at Premier. Belmar semaglutide is 1 mg/mL at the low doses, so 1.0 mg
+   is 100 units there. Every page that shows a converted dose shows the new
+   units, never the old ones. */
+KORB_GLP1.farmakeioConversion = {
+  decidedBy: 'Don Stevenson',
+  decidedOn: '2026-10-22',
+  rules: [
+    { from: 'farmakeio_sema', rule: 'sameStep',
+      to: { premier: 'premier_sema', belmar: 'belmar_sema' }, b6: { premier: 'premier_sema_b6' } },
+    { from: 'farmakeio_tirz', rule: 'nearestLower',
+      to: { premier: 'premier_tirz', belmar: 'belmar_tirz' }, b6: { premier: 'premier_tirz_b6' } },
+    { from: 'farmakeio_oral_sema', rule: 'sameDose',
+      to: { premier: 'premier_oral_sema', belmar: 'belmar_oral_sema' } }
+  ],
+
+  /* The patient medication page for each product a patient can be converted
+     to. A page reads ?dose= from its link, so a provider sends a link that
+     opens at the patient's own dose. Nothing else about the patient is in it. */
+  patientPages: {
+    premier_sema:      'Patient_Education/KORB_My_GLP1_Premier_Semaglutide.html',
+    premier_sema_b6:   'Patient_Education/KORB_My_GLP1_Premier_Semaglutide_B6.html',
+    premier_tirz:      'Patient_Education/KORB_My_GLP1_Premier_Tirzepatide.html',
+    premier_tirz_b6:   'Patient_Education/KORB_My_GLP1_Premier_Tirzepatide_B6.html',
+    belmar_sema:       'Patient_Education/KORB_My_GLP1_Belmar_Semaglutide.html',
+    belmar_tirz:       'Patient_Education/KORB_My_GLP1_Belmar_Tirzepatide.html',
+    premier_oral_sema: 'Patient_Education/KORB_My_GLP1_Premier_Oral_Semaglutide.html',
+    belmar_oral_sema:  'Patient_Education/KORB_My_GLP1_Belmar_Oral_Semaglutide.html'
+  },
+  siteBase: 'https://korb-health.github.io/korb-patient-tools/',
+
+  ruleFor: function (fromKey) {
+    return this.rules.filter(function (r) { return r.from === fromKey; })[0] || null;
+  },
+
+  /* One dose record from another, by rule. Returns null if nothing fits. */
+  pickDose: function (rule, fromProd, fromDose, toProd) {
+    var t = toProd.doses;
+    if (rule === 'sameStep') {
+      var i = fromProd.doses.indexOf(fromDose);
+      return i >= 0 && i < t.length ? t[i] : null;
+    }
+    if (rule === 'nearestLower') {
+      var best = null;
+      t.forEach(function (d) { if (d.mg <= fromDose.mg && (!best || d.mg > best.mg)) best = d; });
+      return best;
+    }
+    if (rule === 'sameDose') {
+      return t.filter(function (d) { return d.mg === fromDose.mg; })[0] || null;
+    }
+    return null;
+  },
+
+  /* fromKey: a FarmaKeio product key. doseStr: its dose, e.g. '1.0 mg'.
+     state: two-letter code. opts.b6: true only for B-12 intolerance (Premier). */
+  convert: function (fromKey, doseStr, state, opts) {
+    opts = opts || {};
+    var r = this.ruleFor(fromKey);
+    if (!r) return { error: 'No conversion rule for ' + fromKey + '.' };
+    var fromProd = KORB_GLP1.products[fromKey];
+    var fromDose = fromProd.doses.filter(function (d) { return d.dose === doseStr; })[0];
+    if (!fromDose) return { error: 'FarmaKeio has no ' + doseStr + ' for this product.' };
+    var route = KORB_GLP1.states.routeTo(state);
+    if (!route) return { error: 'No GLP-1 route for ' + state + '.' };
+    var ph = route.pharmacy;
+    var key = (opts.b6 && r.b6 && r.b6[ph]) || r.to[ph];
+    if (!key) return { error: 'No ' + ph + ' product to convert ' + fromKey + ' to.' };
+    var toProd = KORB_GLP1.products[key];
+    var toDose = this.pickDose(r.rule, fromProd, fromDose, toProd);
+    if (!toDose) return { error: 'No ' + toProd.label + ' dose fits ' + doseStr + '.' };
+    var page = this.patientPages[key];
+    return {
+      rule: r.rule, state: state, pharmacy: ph, route: route,
+      b6Requested: !!opts.b6, b6Available: !!(r.b6 && r.b6[ph]),
+      fromProduct: fromProd, fromDose: fromDose,
+      toProduct: toProd, toDose: toDose,
+      patientLink: page ? this.siteBase + page + '?dose=' + encodeURIComponent(toDose.dose.replace(/\s*mg$/i, '')) +
+        '&was=' + encodeURIComponent(fromDose.dose.replace(/\s*mg$/i, '')) : null
+    };
+  },
+
+  /* Every FarmaKeio dose must convert at both pharmacies, and to B-6 at
+     Premier where B-6 exists, and every target product needs a patient page.
+     Run by selfCheck. */
+  check: function () {
+    var self = this, problems = [];
+    /* A state routed to each pharmacy: Texas is Premier's home state, and
+       California is Belmar's single-source state. */
+    var probe = { premier: 'TX', belmar: 'CA' };
+    this.rules.forEach(function (r) {
+      var fromProd = KORB_GLP1.products[r.from];
+      if (!fromProd) { problems.push('conversion: ' + r.from + ' is missing'); return; }
+      fromProd.doses.forEach(function (d) {
+        ['premier', 'belmar'].forEach(function (ph) {
+          [false, true].forEach(function (b6) {
+            if (b6 && !(r.b6 && r.b6[ph])) return;
+            var c = self.convert(r.from, d.dose, probe[ph], { b6: b6 });
+            if (c.error) problems.push('conversion: ' + r.from + ' ' + d.dose + ' to ' + ph + (b6 ? ' B-6' : '') + ': ' + c.error);
+            else if (!c.patientLink) problems.push('conversion: no patient page for ' + c.toProduct.key);
+            else if (r.rule === 'nearestLower' && c.toDose.mg > d.mg) problems.push('conversion: ' + r.from + ' ' + d.dose + ' moves UP to ' + c.toDose.dose);
+          });
+        });
+      });
+    });
+    return problems;
+  }
+};
 
 if (typeof module !== 'undefined' && module.exports) { module.exports = KORB_GLP1; }
 

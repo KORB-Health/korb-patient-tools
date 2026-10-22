@@ -216,6 +216,20 @@ fs.readdirSync(path.join(ROOT, 'Patient_Education'))
   .forEach(function (f) {
     const isHandout = /^KORB_Patient_Ed_/.test(f);
     const id = f.replace(/^KORB_Patient_Ed_/, '').replace(/^KORB_/, '').replace(/\.html$/, '');
+    /* The per-product medication pages open at a dose from their link, so they
+       need the medPage probe, and their record lives with the GLP-1 data. */
+    if (/^KORB_My_GLP1_/.test(f)) {
+      ARTIFACTS.push({
+        key: 'medpage:' + id.replace(/^My_GLP1_/, '').toLowerCase(),
+        kind: 'handout',
+        probe: 'medPage',
+        label: 'Patient medication page - ' + id.replace(/^My_GLP1_/, ''),
+        file: 'Patient_Education/' + f,
+        records: { file: 'korb-glp1-data.js', global: 'KORB_GLP1' },
+        audience: 'patient'
+      });
+      return;
+    }
     ARTIFACTS.push({
       key: (isHandout ? 'handout:' : 'page:') + id.toLowerCase(),
       kind: 'handout',
@@ -315,6 +329,43 @@ PROBES.static = function () {
     }),
     body: document.body.innerText.replace(/\s+/g, ' ').trim()
   };
+};
+
+/* "My GLP-1 medication" patient pages (Patient_Education/KORB_My_GLP1_*).
+
+   A page opens at the dose in its link, so a static render with no link shows
+   only a dose picker. This renders EVERY dose the product has, and every
+   FarmaKeio before-and-after pair that converts onto it, by re-running
+   korb-med-page.js once per case. The fingerprint is all of those renders, so
+   a change to any dose, unit count, switching note or sentence moves it.
+   Added 2026-10-22 with the pages. */
+PROBES.medPage = async function () {
+  var tag = document.querySelector('script[data-product]');
+  var key = tag.getAttribute('data-product');
+  var G = KORB_GLP1, P = G.products[key], C = G.farmakeioConversion;
+  var num = function (d) { return String(d.dose).replace(/\s*mg\s*$/i, ''); };
+  var cases = P.doses.map(function (d) { return '?dose=' + num(d); });
+  C.rules.forEach(function (r) {
+    G.products[r.from].doses.forEach(function (fd) {
+      [['TX', false], ['TX', true], ['CA', false]].forEach(function (o) {
+        var c = C.convert(r.from, fd.dose, o[0], { b6: o[1] });
+        if (!c.error && c.toProduct.key === key) cases.push('?dose=' + num(c.toDose) + '&was=' + num(fd));
+      });
+    });
+  });
+  cases = cases.filter(function (x, i) { return cases.indexOf(x) === i; });
+  var out = [];
+  for (var i = 0; i < cases.length; i++) {
+    window.__KORB_MED_SEARCH = cases[i];
+    await new Promise(function (res, rej) {
+      var s = document.createElement('script');
+      s.src = tag.src; s.setAttribute('data-product', key);
+      s.onload = res; s.onerror = rej;
+      document.body.appendChild(s);
+    });
+    out.push(cases[i] + ' ' + document.getElementById('page').innerText.replace(/\s+/g, ' ').trim());
+  }
+  return { kind: 'handout', title: document.title, cases: cases.length, body: out.join('\n') };
 };
 
 /* Women's Health provider tool.

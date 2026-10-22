@@ -36,6 +36,28 @@ checked for in the others, because nobody could say what had been pushed where.
 
 ---
 
+## GLP-1: FARMAKEIO OUT, PREMIER OR BELMAR. BUILT, NOT PUSHED. (Don, 2026-10-22)
+
+Premier wherever Premier can fill GLP-1 (41 states, backup Belmar); Belmar
+everywhere else (10: AL, AR, CA, HI, MA, MS, NH, SC, VA, WA). Mississippi left
+Premier because its Mississippi licence is non-sterile only. FarmaKeio ADD-ONS
+are not decided; do not touch add-on routing until Don says.
+
+- `korb-glp1-data.js` `farmakeioConversion` holds the dose rules: same step for
+  semaglutide, nearest lower for tirzepatide, same dose for oral. Both the
+  provider tool and the patient pages read it. `selfCheck()` fails if a dose
+  does not convert, moves up under nearest lower, or lands on a product with
+  no patient page.
+- `KORB_GLP1_FarmaKeio_Conversion.html` is the provider tool: running summary,
+  plan, Tebra entry and portal message, ASCII only.
+- Eight patient pages, `Patient_Education/KORB_My_GLP1_*.html`, one per
+  product, written by `node build-med-pages.js` and rendered by
+  `korb-med-page.js`. They open at the dose in their link (`?dose=`, and
+  `?was=` for the FarmaKeio dose). The link carries nothing else.
+- The syringe drawing is `korb-syringe.js`, shared with the Dose Guide.
+- **Do not push until Don has Nick's confirmation.** Don announces it by email
+  and Google Chat first.
+
 ## TRT IS MEN'S HEALTH. ONE PROGRAM, NOT TWO.
 
 Confirmed by Don 2026-09-17, and the repo had it wrong. The provider side said
@@ -127,6 +149,14 @@ to check a single document against, which is the whole reason this table exists.
 | `Patient_Education/KORB_Patient_Ed_Tirzepatide.html` | **Yes**, 2026-09-19 |
 | `Patient_Education/KORB_Start_Here_Guide.html` | **Yes**, 2026-09-19 |
 | `Patient_Education/KORB_When_to_Contact_KORB_or_ER.html` | **Yes**, 2026-09-19 |
+| `Patient_Education/KORB_My_GLP1_Premier_Semaglutide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
+| `Patient_Education/KORB_My_GLP1_Premier_Semaglutide_B6.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
+| `Patient_Education/KORB_My_GLP1_Premier_Tirzepatide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
+| `Patient_Education/KORB_My_GLP1_Premier_Tirzepatide_B6.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
+| `Patient_Education/KORB_My_GLP1_Belmar_Semaglutide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
+| `Patient_Education/KORB_My_GLP1_Belmar_Tirzepatide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
+| `Patient_Education/KORB_My_GLP1_Premier_Oral_Semaglutide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
+| `Patient_Education/KORB_My_GLP1_Belmar_Oral_Semaglutide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
 | `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
 | `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |
@@ -142,7 +172,7 @@ to check a single document against, which is the whole reason this table exists.
 | `404.html` | **Served**, 2026-09-21. Not a link anyone is sent - GitHub Pages shows it for any missing path |
 | `index.html` | **Served**, 2026-09-28. Redirect from the bare site address to the hub. Holds no content. It also keeps GitHub Pages from promoting `README.md` to the home page; `_config.yml` excludes `README.md` and `CLAUDE.md` from the site as well |
 
-38 rows: 35 published pages, 1 PDF, the 404 page and the index redirect. If a file exists and is not on this list, the
+46 rows: 43 published pages, 1 PDF, the 404 page and the index redirect. If a file exists and is not on this list, the
 list is wrong, not the file.
 
 ---
