@@ -307,13 +307,14 @@ var KORB_DOSING = {
   },
 
   meta: {
-    version: '2.17',
+    version: '2.18',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-10-22 (v2.18): FUNCTIONAL HEALTH & LONGEVITY REOPENS IN INDIANA. IN was closed on 2026-09-11 for the pharmacy reason only, never for providers. Premier ships peptides to Indiana and IN was already in premierRouting, so the unavailableNoPharmacy flag was stale, and it made build-fhl-docs.js refuse to build. IN leaves unavailable, unavailableNoPharmacy and pausedPharmacy and routes to Premier. Providers: Fatou Thiam (CNP, staffs IN) and Kim Hildebrant (backup), both with collaboration agreements. Open FH&L states go from 33 to 34. Don Stevenson, PA-C.',
       '2026-10-22 (v2.17): FUNCTIONAL HEALTH & LONGEVITY REOPENS IN NEW HAMPSHIRE. NH was closed on 2026-09-11 for one reason only: Greenwich stopped shipping there and Premier was not licensed, so no peptide pharmacy could fill. Premier is now licensed in NH (NR2802, expires 2028-10-21; korb-pharmacies.js v1.12), so NH leaves unavailable, unavailableNoPharmacy and pausedPharmacy and routes to Premier. Providers: Kim Yartklang and Kim Hildebrant, NH APRN, full practice authority. Open FH&L states go from 32 to 33. Don Stevenson, PA-C.',
       '2026-10-16 (v2.16): FUNCTIONAL HEALTH & LONGEVITY CLOSES IN VIRGINIA. Premier is no longer licensed in VA and would need an NABP inspection to return (Premier, by email 2026-10-16; korb-pharmacies.js v1.10). Premier was the only peptide pharmacy KORB has in VA, so VA joins unavailable and unavailableNoPharmacy. It is NOT in pausedPharmacy: there is no restore date. Don decided 2026-10-16. Open FH&L states go from 33 to 32. Don Stevenson, PA-C.',
       '2026-10-13 (v2.15): CLINICAL CONTENT CHANGED - GHK-Cu JOINS FOUNDATION. Decided by Don. A fourth Foundation single-agent choice, key ghkcu1mg: 1 mg SQ once daily in the evening, Weeks 1-12, off 13-16, no titration, switchable at renewal like the other three. Premier and Greenwich, routed like every FH&L agent, 10 mg/ml at both so 10 units. Three vials per 84 days because a punctured vial is discarded at 28: 18 ml Premier, 15 ml Greenwich, 90 Premier syringes. Same labs, $99 baseline and $199 x 4 as the rest of Foundation, billed under FndnPeptideP04 (Nick, 2026-10-12); the recurring FndnPeptideP44 is Ops-only and not used. No website code yet. THE GATEWAY/PEAK ADD-ON IS UNTOUCHED - key ghkcu, 2 mg three times weekly, Weeks 5-8, GHKCUPeptide01 - and a separate key was used precisely so the two can never be confused by a tool resolving a Foundation choice.',
@@ -1577,20 +1578,22 @@ var KORB_DOSING = {
        which is worse than an absent one. requireHydrated() makes the
        missing-script case loud instead. */
     premierRouting: [],
-    unavailable: ['AL','AK','AR','CA','DC','GA','HI','IN','MA','MN','MS','NJ','NY','RI','SC','VA','WA','WV'],
+    unavailable: ['AL','AK','AR','CA','DC','GA','HI','MA','MN','MS','NJ','NY','RI','SC','VA','WA','WV'],
     unavailableNoShip: ['AL','MS','SC'],
     /* VA added 2026-10-16: Premier is no longer licensed in Virginia and was the only
        peptide pharmacy there. Not paused - returning needs an NABP inspection. */
-    /* NH removed 2026-10-22: Premier is licensed there now (NR2802) and FH&L reopened. */
-    unavailableNoPharmacy: ['AR','CA','IN','VA','WA'],
+    /* NH removed 2026-10-22: Premier is licensed there now (NR2802) and FH&L reopened.
+       IN removed 2026-10-22: Premier already shipped peptides to Indiana; the flag
+       was the only thing keeping it closed. */
+    unavailableNoPharmacy: ['AR','CA','VA','WA'],
     unavailableLabWorkflow: ['NY','NJ','RI'],
     pausedPharmacy: {
-      states: ['AR','CA','IN','WA'],
+      states: ['AR','CA','WA'],
       effective: '2026-09-11',
       effectiveTime: '11:59 pm 11 September 2026',
       expectedRestore: '30 to 60 days from 11 September 2026',
       reviewBy: '10 November 2026',
-      reason: 'Greenwich restricted itself to the 23 states where it is directly licensed, having stopped relying on central-fill arrangements with affiliated pharmacies. Premier is not licensed in any of these five, so there is no peptide source while the restriction holds.',
+      reason: 'Greenwich restricted itself to the 23 states where it is directly licensed, having stopped relying on central-fill arrangements with affiliated pharmacies. Premier is not licensed in any of these states, so there is no peptide source while the restriction holds.',
       providerLine: 'Functional Health and Longevity is temporarily unavailable in this state. Greenwich has applications pending and expects to substantially resume coverage within 30 to 60 days of 11 Sept 2026. Do not tell a patient the program has been discontinued.',
       /* AL, MN and SC also lost Greenwich, but every one of them was already
          out of the peptide program before this happened — AL and SC as
