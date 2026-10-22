@@ -366,10 +366,15 @@ var destSel = document.getElementById("dest");
    was asked for. Measured, not assumed: Premier reaches 38 and is blocked in
    AL AK AR CA HI ID IN IA MA MN NH SC WA; Belmar reaches 51; every state is
    reachable by at least one, so this can never empty the list. */
+/* ONE PHARMACY PER STATE (Don, 2026-10-22). The compounding destination is
+   the state's routed pharmacy and nothing else: Premier where Premier is
+   licensed, Belmar everywhere else, with no override. The patient's own
+   pharmacy stays, because it is the route for COMMERCIAL products, the
+   Women's Health equivalent of the brand channels GLP-1 keeps. */
 function destsForState(st) {
   return DESTS.filter(function (d) {
     if (d.key === "local") return true;      // the patient's own pharmacy has no footprint
-    return PH.shipsTo(d.key, st);
+    return d.key === W.states.routing[st] && PH.shipsTo(d.key, st);
   });
 }
 
@@ -403,9 +408,8 @@ function fillDests() {
     return !ok.some(function (o) { return o.key === d.key; });
   });
   if (blocked.length) {
-    note.textContent = blocked.map(function (d) { return d.label; }).join(" and ")
-      + " cannot ship to " + STATE_NAME[st] + ", so "
-      + (blocked.length > 1 ? "they are" : "it is") + " not offered.";
+    note.textContent = "Do not send to " + blocked.map(function (d) { return d.label; }).join(" or ")
+      + " for " + STATE_NAME[st] + ". One pharmacy per state, no override.";
     note.hidden = false;
   } else {
     note.hidden = true;

@@ -57,6 +57,16 @@ are not decided; do not touch add-on routing until Don says.
 - The syringe drawing is `korb-syringe.js`, shared with the Dose Guide.
 - **Do not push until Don has Nick's confirmation.** Don announces it by email
   and Google Chat first.
+- **ONE PHARMACY PER STATE, NO BACKUP, NO OVERRIDE, in every program** (Don,
+  2026-10-22). GLP-1: `checkPharmacyForState` returns error for any
+  compounding pharmacy that is not the state's, so no tool can select it; the
+  routing page shows only Send to / Do not send to. Women's Health: the tool
+  offers only the routed pharmacy, plus the patient's own pharmacy for
+  commercial products. FH&L: the "patient prefers Greenwich" override is gone;
+  Premier wherever it ships peptides (every open FH&L state today, since the
+  Greenwich-only states HI and MA are closed). Brand routes (LillyDirect,
+  NovoCare, local) stay. Add-ons are NOT changed until the FarmaKeio add-on
+  review is done.
 
 ## TRT IS MEN'S HEALTH. ONE PROGRAM, NOT TWO.
 

@@ -323,9 +323,9 @@
       <div class="cg"><label for="sd">Visit date (starts this cycle)</label><input type="date" id="sd"></div>
       <div class="cg"><label style="visibility:hidden;">Reset</label><button class="reset-btn" onclick="resetFilters()">&#8635; Reset</button></div>
     </div>
-    <div class="override-row" id="ovr">
-      <label><input type="checkbox" id="ovrChk"> Patient prefers Greenwich Pharmacy (override — Greenwich dispenses to only 23 states as of 11 Sep 2026; confirm the state is open before selecting)</label>
-    </div>
+    <!-- The "Patient prefers Greenwich" override was removed 2026-10-22 (Don):
+         one pharmacy per state, no override. Premier wherever Premier ships
+         peptides, Greenwich only where Premier cannot. -->
     <div class="override-row" id="ghkRow" style="display:none;">
       <label><input type="checkbox" id="ghkChk"> Add GHK-Cu (optional add-on — Weeks 5–8 of this cycle)</label>
     </div>
@@ -667,12 +667,12 @@ function nextVisitMF(s){
 function escJs(s){return s.replace(/\\/g,"\\\\").replace(/'/g,"\\'");}
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────
-var sdEl=document.getElementById('sd'),ovrChk=document.getElementById('ovrChk');
+var sdEl=document.getElementById('sd');
 var todayStr=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).format(new Date());sdEl.value=todayStr;
 
 function getPharm(){
   var st=document.getElementById('st').value;if(!st)return null;
-  return(PREMIER.has(st)&&!ovrChk.checked)?'premier':'greenwich';
+  return PREMIER.has(st)?'premier':'greenwich';   // one pharmacy per state, no override (2026-10-22)
 }
 
 /* The Foundation dose ladder comes from the data file, never from a list typed
@@ -741,7 +741,6 @@ function build(){
     document.getElementById('stateBlockTop').innerHTML='<div class="state-blocked-top'+stateBlockedClass(stCheck)+'"><strong>\u26A0 '+stateBlockedHeading(stCheck)+'</strong>'+stateBlockedMessage(stCheck)+'</div>';
     document.getElementById('pricingBox').innerHTML='<div class="info-box">Pricing is not shown — '+(UNAVAILABLE_STATES_NO_SHIP.indexOf(stCheck)!==-1 ? 'this state is excluded from the Functional Health &amp; Longevity offering' : 'this program is not yet offered in the selected state')+'. See banner above.</div>';
     document.getElementById('pb').style.display='none';
-    document.getElementById('ovr').style.display='none';
     document.getElementById('ghkRow').style.display='none';
     document.getElementById('rxGrid').style.display='none';
     document.getElementById('rxFieldsContainer').innerHTML='<div class="state-blocked'+stateBlockedClass(stCheck)+'"><strong>\u26A0 '+stateBlockedHeading(stCheck)+'</strong>'+stateBlockedMessage(stCheck)+'</div>';
@@ -787,7 +786,6 @@ function buildInitialConsultation(){
   var start=new Date(startStr);
 
   document.getElementById('pb').style.display='none';
-  document.getElementById('ovr').style.display='none';
   document.getElementById('ghkRow').style.display='none';
   document.getElementById('rxGrid').style.display='none';
   document.getElementById('rxFieldsContainer').innerHTML='<div class="info-box"><strong>No Rx is issued at Initial Consultation.</strong> This visit is baseline labs only. Select a specific program (Foundation, Gateway, or Peak) above once the patient is ready to begin treatment at the next visit.</div>';
@@ -816,15 +814,14 @@ function buildGateway(){
   var sermDoseVal=document.getElementById('selGwSermDose').value;
   var sermKey=(sermDoseVal==='200')?'sermorelin':'sermorelin'+sermDoseVal;
 
-  document.getElementById('ovr').style.display=(st&&PREMIER.has(st))?'flex':'none';
 
   var banner=document.getElementById('pb');
   if(ph){
     banner.style.display='';banner.className='pharm-banner '+pk;
     document.getElementById('pbTitle').textContent='Assigned Pharmacy: '+ph.name;
     document.getElementById('pbSub').textContent=pk==='premier'
-      ?'Patient state ('+st+') is in the Premier Pharmacy network. Override available below if patient prefers Greenwich.'
-      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy.':'Override selected - using Greenwich Pharmacy.');
+      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier. Do not send to Greenwich.'
+      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy. Send to Greenwich.':'Select the patient state.');
   } else {banner.style.display='none';}
 
   var activeKeys=[sermKey, bpcKey];
@@ -985,15 +982,14 @@ function buildFoundation(){
   var pk=getPharm(),ph=pk?PHARM[pk]:null;
   var agentSel=document.getElementById('selFdnAgent').value;
 
-  document.getElementById('ovr').style.display=(st&&PREMIER.has(st))?'flex':'none';
 
   var banner=document.getElementById('pb');
   if(ph && agentSel!=='compare'){
     banner.style.display='';banner.className='pharm-banner '+pk;
     document.getElementById('pbTitle').textContent='Assigned Pharmacy: '+ph.name;
     document.getElementById('pbSub').textContent=pk==='premier'
-      ?'Patient state ('+st+') is in the Premier Pharmacy network. Override available below if patient prefers Greenwich.'
-      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy.':'Override selected - using Greenwich Pharmacy.');
+      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier. Do not send to Greenwich.'
+      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy. Send to Greenwich.':'Select the patient state.');
   } else { banner.style.display='none'; }
 
   if(agentSel==='compare'){
@@ -1202,15 +1198,14 @@ function buildPeak(pathwayKey){
     primaryLabel = 'CJC-1295/Ipamorelin '+cjcDose+'mcg/'+cjcDose+'mcg';
   }
 
-  document.getElementById('ovr').style.display=(st&&PREMIER.has(st))?'flex':'none';
 
   var banner=document.getElementById('pb');
   if(ph){
     banner.style.display='';banner.className='pharm-banner '+pk;
     document.getElementById('pbTitle').textContent='Assigned Pharmacy: '+ph.name;
     document.getElementById('pbSub').textContent=pk==='premier'
-      ?'Patient state ('+st+') is in the Premier Pharmacy network. Override available below if patient prefers Greenwich.'
-      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy.':'Override selected - using Greenwich Pharmacy.');
+      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier. Do not send to Greenwich.'
+      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy. Send to Greenwich.':'Select the patient state.');
   } else { banner.style.display='none'; }
 
   var activeKeys=[primaryKey,bpcKey];
@@ -1552,7 +1547,6 @@ function renderLabs(){
 
 function resetFilters(){
   document.getElementById('st').value = '';
-  ovrChk.checked = false;
   document.getElementById('selGender').value = '';
   document.getElementById('patAge').value = '';
   build();
@@ -1607,7 +1601,6 @@ function doFieldCopy(btn, text){
 
 document.getElementById('sd').addEventListener('change',build);
 document.getElementById('st').addEventListener('change',build);
-document.getElementById('ovrChk').addEventListener('change',build);
 document.getElementById('ghkChk').addEventListener('change',build);
 document.getElementById('selGender').addEventListener('change',build);
 document.getElementById('patAge').addEventListener('input',build);
