@@ -161,8 +161,7 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
       var n  = group[k].length;
       return '<b>' + esc(nm) + '</b> ' + (n === 1 ? '(' + group[k][0] + ')' : n);
     });
-    return '<div class="idle">Pick a state above for the full routing, including which '
-         + 'pharmacies are blocked there. Current split: ' + parts.join(' &middot; ')
+    return '<div class="idle">Pick a state above to see its pharmacy. Current split: ' + parts.join(' &middot; ')
          + '.</div>';
   }
 
@@ -170,24 +169,16 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
     var st = sel.value, host = document.getElementById('out');
     if(!st){ host.innerHTML = idleHTML(); return; }
 
-    var opts = optsFor(st);
     var def  = defaultFor(st);
-    /* ONE PHARMACY PER STATE (Don, 2026-10-22): every other compounding pharmacy
-       is a "do not send", whether for licensure or because it is not this
-       state's pharmacy. */
-    var no   = opts.filter(function(o){ return o.selectable === false; });
-    var route = (typeof D.states.routeTo === 'function') ? D.states.routeTo(st) : null;
 
     var h = '<div class="result"><div class="hd"><span>' + esc(NAME[st] || st)
           + '</span><span>' + esc(st) + '</span></div><div class="bd">';
 
+    /* JUST THE PHARMACY FOR THE STATE (Don, 2026-10-22). The Send to / Do not send
+       to columns, the routing basis and the no-backup callout are gone: one pharmacy
+       per state, so the answer is one line. */
     if(def){
-      /* Just the basis. "Send here unless there is a reason not to" was on every state and
-         the Send to column already says it. */
-      var basis = (route && route.basis) ? String(route.basis).trim() : '';
-      if(basis) basis = basis.charAt(0).toUpperCase() + basis.slice(1);
-      h += '<p class="headline">' + esc(def.name) + '</p>'
-         + '<p class="why">' + (basis ? esc(basis).replace(/\.?$/, '.') : 'Default route for this state.') + '</p>';
+      h += '<p class="headline">Send to ' + esc(def.name) + '</p>';
     } else {
       h += '<p class="headline" style="color:var(--err)">No default pharmacy</p>'
          + '<p class="why">Nothing is configured as the default for this state. Ask before prescribing.</p>';
@@ -198,19 +189,6 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
     var pend = def && typeof KORB_PHARMACIES !== 'undefined' && KORB_PHARMACIES.pharmacies[def.key]
       && (KORB_PHARMACIES.pharmacies[def.key].licencePending || {})[st];
     if(pend) h += '<div class="callout"><strong>Licence renewal pending.</strong> ' + esc(pend) + '</div>';
-
-    h += '<div class="cols two">';
-    h += '<div class="col"><div class="k">Send to</div><div class="v">'
-       + (def ? esc(def.name) : '<em>&mdash;</em>') + '</div></div>';
-    h += '<div class="col blocked"><div class="k">Do not send to</div><div class="v">'
-       + (no.length ? no.map(function(o){ return esc(o.name); }).join('<br>') : '<em>&mdash;</em>')
-       + '</div></div>';
-    h += '</div>';
-
-    /* The rule itself, verbatim from the data file so the page and the tools agree. */
-    var rule = (D.pharmacySelection && D.pharmacySelection.overrideRule) || '';
-    if(rule) h += '<div class="callout"><strong>No backup, no override.</strong> ' + esc(rule)
-                + ' If ' + esc(def ? def.name : 'the pharmacy') + ' cannot fill, contact Operations.</div>';
 
     h += '</div></div>';
     host.innerHTML = h;
