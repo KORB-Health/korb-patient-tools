@@ -38,8 +38,9 @@ checked for in the others, because nobody could say what had been pushed where.
 
 ## GLP-1: FARMAKEIO OUT, PREMIER OR BELMAR. BUILT, NOT PUSHED. (Don, 2026-10-22)
 
-Premier wherever Premier can fill GLP-1 (41 states, backup Belmar); Belmar
-everywhere else (10: AL, AR, CA, HI, MA, MS, NH, SC, VA, WA). Mississippi left
+Premier wherever Premier can fill GLP-1 (42 states, no backup); Belmar
+everywhere else (9: AL, AR, CA, HI, MA, MS, SC, VA, WA). New Hampshire moved to
+Premier the same day: licence NR2802, expires 2028-10-21 (Miguel, Premier). Mississippi left
 Premier because its Mississippi licence is non-sterile only. FarmaKeio ADD-ONS
 are not decided; do not touch add-on routing until Don says.
 
