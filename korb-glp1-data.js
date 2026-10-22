@@ -365,6 +365,78 @@ var KORB_GLP1 = {
      than as a check that still passes. */
   artifactSignoff: {
     records: {
+      "medpage:premier_semaglutide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "fingerprint": "fp-e16be71b-23866",
+        "covers": "23785 characters, 12 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+      },
+      "medpage:premier_semaglutide_b6": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "fingerprint": "fp-eba7d5b9-23842",
+        "covers": "23761 characters, 12 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+      },
+      "medpage:premier_tirzepatide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "fingerprint": "fp-7245eb96-23247",
+        "covers": "23166 characters, 12 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+      },
+      "medpage:premier_tirzepatide_b6": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "fingerprint": "fp-21a1e01a-23223",
+        "covers": "23142 characters, 12 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+      },
+      "medpage:belmar_semaglutide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "fingerprint": "fp-13295687-19382",
+        "covers": "19302 characters, 10 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+      },
+      "medpage:belmar_tirzepatide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "fingerprint": "fp-4c19cf31-23671",
+        "covers": "23591 characters, 12 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+      },
+      "medpage:premier_oral_semaglutide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "fingerprint": "fp-623cfe7c-3138",
+        "covers": "3051 characters, 4 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+      },
+      "medpage:belmar_oral_semaglutide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-22",
+        "fingerprint": "fp-dca3650d-3117",
+        "covers": "3031 characters, 4 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+      },
       "tool:glp1routing": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",

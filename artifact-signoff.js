@@ -947,7 +947,10 @@ function status(r) {
       fingerprint: r.fingerprint,
       covers: r.kind === 'tool'
         ? r.shot.states + ' states, ' + Object.keys(r.shot.blocks).length + ' prescribing blocks'
-        : (r.shot.body || '').length + ' characters, ' + r.shot.headings.length + ' headings',
+        /* A medication page has no headings list; it records how many dose
+           and conversion cases it rendered instead. */
+        : (r.shot.body || '').length + ' characters, ' +
+          (r.shot.headings ? r.shot.headings.length + ' headings' : r.shot.cases + ' dose cases'),
       attests: attests
     }, null, 2).split('\n').join('\n  '));
     console.log('\nArtifact : ' + r.label + '\nFile     : ' + r.file);
