@@ -88,8 +88,8 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
-<script src="korb-pharmacies.js?v=59b4d63c"></script>
-<script src="korb-glp1-data.js?v=5115728c"></script>
+<script src="korb-pharmacies.js?v=4c1faf76"></script>
+<script src="korb-glp1-data.js?v=01d582b2"></script>
 <script>
 (function(){
   "use strict";
@@ -127,11 +127,12 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
   /* Order for the "Also allowed" column, most preferred first. This is a KORB operational
      preference, not something the data file encodes: Belmar sits last everywhere because of
-     cost, and is only the default in California where it is the sole licensed route. An
+     cost, and is the default only where Premier cannot fill. FarmaKeio left GLP-1 on
+     2026-10-22. An
      exception-status pharmacy always sinks below a clean backup regardless of this list.
      If a compounding pharmacy is ever added without being placed here, the self-check fails
      rather than letting it sort into an arbitrary position. */
-  var PREFER = ['premier', 'farmakeio', 'belmar'];
+  var PREFER = ['premier', 'belmar'];
   function prefRank(k){
     var i = PREFER.indexOf(k);
     return i === -1 ? PREFER.length : i;
@@ -310,8 +311,6 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
       var bi = a.indexOf('belmar');
       if(bi !== -1 && bi !== a.length - 1)
         problems.push(st + ': belmar is listed at position ' + (bi + 1) + ' of ' + a.length + ', expected last');
-      if(a.indexOf('farmakeio') > bi && bi !== -1)
-        problems.push(st + ': farmakeio is listed below belmar');
     });
     /* The pharmacy the data file names as backup must be the one this page tags
        "backup": first in the list and not an exception. 2026-10-16. */

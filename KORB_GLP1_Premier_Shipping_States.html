@@ -49,8 +49,8 @@ ul{padding-left:20px;} li{margin:4px 0;}
 </div>
 <!-- korb-pharmacies.js is the ONE record of where each pharmacy ships, and korb-glp1-data.js holds
      the GLP-1 routing rule built on it. This page reads both and types no state. Pharmacies FIRST. -->
-<script src="korb-pharmacies.js?v=59b4d63c"></script>
-<script src="korb-glp1-data.js?v=5115728c"></script>
+<script src="korb-pharmacies.js?v=4c1faf76"></script>
+<script src="korb-glp1-data.js?v=01d582b2"></script>
 <script>
 (function () {
   var out = document.getElementById('out');
@@ -126,7 +126,7 @@ ul{padding-left:20px;} li{margin:4px 0;}
     grid(PR, cols, isOdd) +
     (FK.length ? '<h2>FarmaKeio, for now (' + FK.length + ')</h2><p>Premier does not ship to these states. Backup: ' +
       summary(FK) + '.</p>' + grid(FK, cols) : '') +
-    (BE.length ? '<h2>Belmar (' + BE.length + ')</h2><p>Backup: ' + summary(BE) + '. Premier and FarmaKeio cannot ship here.</p>' + grid(BE, cols) : '') +
+    (BE.length ? '<h2>Belmar (' + BE.length + ')</h2><p>Backup: ' + summary(BE) + '. Premier cannot fill GLP-1 in these states.</p>' + grid(BE, cols) : '') +
     '<h2>Good to know</h2><ul>' +
     '<li>The <a href="KORB_GLP1_Pharmacy_Routing.html">GLP-1 Pharmacy Routing tool</a> shows the same routing one state at a time, with the pharmacies that cannot ship there.</li>' +
     '<li>Brand-name GLP-1s (Zepbound, Wegovy) ship through LillyDirect and NovoCare and are not affected by this list.</li></ul>';

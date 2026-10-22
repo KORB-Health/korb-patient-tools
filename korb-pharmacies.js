@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.10",
+    version: "1.11",
     created: "2026-09-11",
-    updated: "2026-10-16",
+    updated: "2026-10-22",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-10-22 (v1.11): FARMAKEIO OUT OF GLP-1; MISSISSIPPI TO BELMAR. FarmaKeio programs.glp1 retired (add-ons untouched, a separate decision). Premier glp1 and peptides exclude MS: its Mississippi licence is non-sterile only and injections are sterile. GLP-1 routing is now Premier wherever it can fill, Belmar everywhere else: Belmar preferredStates widened from CA to the 10 non-Premier states (AL, AR, CA, HI, MA, MS, NH, SC, VA, WA); Premier preferred drops MS; FarmaKeio preferred emptied. Don Stevenson, PA-C.",
       "2026-10-16 (v1.10): PREMIER LOSES VIRGINIA. Premier is no longer licensed in VA and would need an NABP inspection to return (Miguel Sanchez, Premier, by email 2026-10-16). VA removed from the footprint and added to footprintExcludes, out of Premier preferredStates and into FarmaKeio preferredStates. Every program on the footprint follows: GLP-1 VA routes to FarmaKeio, Women's health VA routes to Belmar, and Functional Health & Longevity CLOSES in VA because Premier was its only peptide pharmacy there (korb-dosing-data.js v2.16, Don 2026-10-16). The same email confirmed Connecticut renewed to 2027-08-31 and Colorado to 2028-10-31, recorded in licenceExpires. Michigan renewal is still being checked: MI stays on Premier on Don's call and carries a licencePending caution that the GLP-1 routing pages print. Mississippi non-sterile-only from v1.8 is still open. Don Stevenson, PA-C.",
       "2026-10-16 (v1.9): GLP-1 ROUTING, PREMIER FIRST WHEREVER IT SHIPS. Premier preferredStates is now its whole GLP-1 footprint, 43 states; FarmaKeio preferredStates is the 7 Premier cannot reach (AL, AR, HI, MA, NH, SC, WA); Belmar stays CA. No footprint changed. The typed copy of the GLP-1 routing rule under states.routing was DELETED: nothing read it, the rule lives in korb-glp1-data.js, and it would have gone stale the next time Premier gained a state. Don Stevenson, PA-C.",
       "2026-10-15 (v1.8): PREMIER GAINS FIVE STATES. Alaska, Idaho, Iowa, Indiana and Minnesota added to Premier's footprint and removed from footprintExcludes, from Premier's current state licence list (States licensed.xlsx, sent by Don). Premier now ships to 43 jurisdictions including DC. Every program on the footprint follows: GLP-1, peptides, add-ons and women's health (Premier is the women's default wherever licensed, so these five move from Belmar to Premier). TRT stays Texas only. Three things on that list are NOT applied and wait for Don: Mississippi and Massachusetts are licensed for non-sterile compounding only (injectables are sterile); Virginia is on our list but not on Premier's; Michigan and Connecticut show licences that expired 2026-08-06 and 2026-08-31. Don Stevenson, PA-C.",
@@ -267,7 +268,6 @@ var KORB_PHARMACIES = {
         "MI",
         "MN",
         "MO",
-        "MS",
         "MT",
         "NC",
         "ND",
@@ -292,10 +292,14 @@ var KORB_PHARMACIES = {
       ],
       "programs": {
         "glp1": {
-          "status": "active"
+          "status": "active",
+          "excludes": ["MS"],
+          "excludesNote": "Mississippi: Premier is licensed for NON-STERILE compounding only (States licensed.xlsx, Miguel Sanchez, 2026-10-15). Compounded GLP-1 injections are sterile. Mississippi GLP-1 goes to Belmar (Don, 2026-10-22)."
         },
         "peptides": {
-          "status": "active"
+          "status": "active",
+          "excludes": ["MS"],
+          "excludesNote": "Mississippi: non-sterile licence only, and peptide injections are sterile. FH&L was already closed in MS; this makes the pharmacy fact match."
         },
         "addons": {
           "status": "active"
@@ -393,7 +397,16 @@ var KORB_PHARMACIES = {
       "footprintExcludes": [],
       "footprintNote": "Ships to all 50 states and DC. Preferred for California only.",
       "preferredStates": [
-        "CA"
+        "AL",
+        "AR",
+        "CA",
+        "HI",
+        "MA",
+        "MS",
+        "NH",
+        "SC",
+        "VA",
+        "WA"
       ],
       "programs": {
         "glp1": {
@@ -490,19 +503,15 @@ var KORB_PHARMACIES = {
         "NC"
       ],
       "footprintNote": "Ships to 48 states plus DC. FarmaKeio will not ship to California or North Carolina, and that cannot be overridden. North Carolina was removed 2026-10-12 when Don learned FarmaKeio does not ship there; NC routes to Premier. From 2026-10-16 FarmaKeio is the GLP-1 default only where Premier cannot ship (AL, AR, HI, MA, NH, SC, WA) and the backup in every Premier state except NC.",
-      "preferredStates": [
-        "AL",
-        "AR",
-        "HI",
-        "MA",
-        "NH",
-        "SC",
-        "VA",
-        "WA"
-      ],
+      "preferredStates": [],
       "programs": {
         "glp1": {
-          "status": "active"
+          "status": "retired",
+          "retiredOn": "2026-10-22",
+          "movesTo": "premier, or belmar where Premier cannot fill",
+          "decidedBy": "Don Stevenson",
+          "reason": "KORB is phasing FarmaKeio out of GLP-1. Premier now offers B-6 as well as B-12, so every patient Premier can reach moves to Premier, and every other patient moves to Belmar. Add-ons at FarmaKeio are a separate decision and are NOT retired here.",
+          "opsAction": "Providers convert each FarmaKeio GLP-1 patient at their next follow-up: Premier in a Premier state, Belmar otherwise."
         },
         "peptides": {
           "status": "not-offered"

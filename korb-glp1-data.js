@@ -379,7 +379,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.30',
+    version: '2.31',
     created: '2026-08-06',
     lastUpdated: '2026-10-22',
     owner: 'Director of Clinical Operations',
@@ -399,6 +399,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-10-22 (v2.31): FARMAKEIO OUT OF GLP-1; TWO PHARMACIES. Routing is Premier wherever Premier can fill GLP-1 (backup Belmar) and Belmar everywhere else (no backup): Premier 41, Belmar 10 (AL, AR, CA, HI, MA, MS, NH, SC, VA, WA). Mississippi moves Premier to Belmar: Premier holds a non-sterile licence there. The NC special rule is gone, NC is an ordinary Premier state. FarmaKeio pharmacy is glp1-retired and its three products are retired for prescribing but flagged patientGuideUntilConverted, so the patient Dose Guide keeps them until each patient is converted. selfCheck now fails if a routing rule names a retired pharmacy as default or backup. Don Stevenson, PA-C.',
       '2026-10-22 (v2.30): NEW PRODUCTS, PREMIER B-6. premier_sema_b6 (semaglutide 3 mg / pyridoxine 10 mg per mL) and premier_tirz_b6 (tirzepatide 18 mg / pyridoxine 10 mg per mL), 4-, 8- and 12-week, every dose. No glycine B-6. Derived at load from premier_sema and premier_tirz by deriveB6 at the end of this file: doses, units, volumes, vials, patient instructions and charge codes are the B-12 ones, and only the additive, compound name, Tebra name (PREMIER - B6 ...) and pharmacy note differ. B-12 stays the default; B-6 is for patients who cannot tolerate B-12 and carries restrictedUse. selfCheck fails if any B-12 wording reaches a B-6 record. Don Stevenson, PA-C.',
       '2026-10-16 (v2.29): OVERRIDE WORDING ONLY, NO ROUTING CHANGE. "Provider preference" removed from pharmacySelection.overrideReasons, and pharmacySelection.overrideRule added: every patient, current and new, goes to the pharmacy for their state, and a patient stays on another pharmacy only for an explicit reason documented in the visit note. Don, 2026-10-16. KORB_GLP1_Premier_Shipping_States.html now reads routing from this file and prints that rule. Don Stevenson, PA-C.',
       '2026-10-16 (v2.28): ROUTING. PREMIER IS THE DEFAULT IN EVERY STATE IT SHIPS GLP-1 TO, FARMAKEIO THE BACKUP. Don, 2026-10-16. The Premier rule is no longer a typed list of 11: hydrate() fills it from korb-pharmacies.js statesFor(premier, glp1), 43 states, so the five Premier gained on 2026-10-15 (AK, ID, IA, IN, MN) route there and the next one will too. NC keeps its own rule with BELMAR as backup, because FarmaKeio does not ship to NC. CA stays Belmar with NO backup. FarmaKeio is the default only in the 7 states Premier cannot reach: AL, AR, HI, MA, NH, SC, WA. Tally Premier 43, FarmaKeio 7, Belmar 1, was 11/39/1. Routing rules gained `backup`; checkPharmacyForState answers info for the backup and skips the Belmar discouraged-outside-CA warning where Belmar is the backup. APPLIES TO CURRENT PATIENTS TOO: every patient moves to the state default unless there is a very specific reason, so the first override reason now says that. routeTo() now refuses to answer before hydrate(), because an unhydrated Premier rule is empty and would send all 43 states to FarmaKeio silently. selfCheck gained two assertions: each state default is in that pharmacy preferredStates, and each backup can ship there. No dose, sig, product or price changed. Don Stevenson, PA-C.',
@@ -1268,7 +1269,7 @@ var KORB_GLP1 = {
     },
     /* Oral products do not follow the injectable 4-week / 8-week rhythm. */
     oral: {
-      appliesTo: 'All oral products \u2014 compounded (Premier dots, Belmar FastSL, FarmaKeio) and brand (Foundayo, Wegovy tablet).',
+      appliesTo: 'All oral products \u2014 compounded (Premier dots, Belmar FastSL) and brand (Foundayo, Wegovy tablet).',
       followUpOptions: ['30 days', '60 days'],
       decisionOwner: 'Provider',
       rule: 'The provider sets a 30-day or 60-day follow-up to keep the patient on track, rather than using the 4-week / 8-week injectable cadence.',
@@ -1400,7 +1401,7 @@ var KORB_GLP1 = {
   preparation: {
     compounded: {
       key: 'compounded',
-      appliesTo: 'Compounded products from Premier, Belmar, FarmaKeio and Greenwich.',
+      appliesTo: 'Compounded products from Premier and Belmar.',
       heading: 'Compounded preparation',
       note: 'KORB dispenses a COMPOUNDED preparation, not the FDA-approved branded ' +
             'product. The molecule is approved; this specific formulation is not, and ' +
@@ -1450,27 +1451,24 @@ var KORB_GLP1 = {
     // hardExcludes. `backup` names the pharmacy to use when the default cannot
     // fill; null means there is no second route.
     routing: [
-      /* 2026-10-16: PREMIER IS THE DEFAULT IN EVERY STATE IT SHIPS GLP-1 TO, with
-         FarmaKeio the backup. The state list is NOT typed: hydrate() fills it from
-         korb-pharmacies.js statesFor('premier', 'glp1'), so a state Premier is
-         licensed for routes to Premier without anyone retyping it. On 2026-10-15
-         Premier gained AK, ID, IA, IN and MN and none of them moved, because this
-         rule was a typed list of 11.
-         NC is its own rule because FarmaKeio does not ship there, so its backup
-         is Belmar. It must stay ABOVE the footprint rule. */
-      { states: ['NC'], pharmacy: 'premier', backup: 'belmar',
-        basis: 'preferred pharmacy',
-        note: 'FarmaKeio does not ship to North Carolina, so Belmar is the backup here.' },
-      { states: [], fromFootprint: 'premier', pharmacy: 'premier', backup: 'farmakeio',
+      /* 2026-10-22: FARMAKEIO IS OUT OF GLP-1. TWO PHARMACIES, ONE RULE (Don).
+         PREMIER wherever Premier can fill GLP-1, with Belmar as the backup.
+         BELMAR everywhere else, with no backup.
+         The Premier list is NOT typed: hydrate() fills it from
+         korb-pharmacies.js statesFor('premier', 'glp1'), so a licence gained or
+         lost moves the routing with no edit here. Mississippi left Premier the
+         same day: its Mississippi licence is non-sterile only.
+         History: until 2026-10-22 FarmaKeio was the backup in Premier states and
+         the default in the eight Premier could not reach, and NC had its own
+         rule because FarmaKeio does not ship there. Neither is needed now. */
+      { states: [], fromFootprint: 'premier', pharmacy: 'premier', backup: 'belmar',
         basis: 'preferred pharmacy' },
       { states: ['CA'],                   pharmacy: 'belmar', backup: null,
         basis: 'sole California pharmacy \u2014 semaglutide and tirzepatide',
-        note: 'Belmar is the only California option, for established patients and new ' +
-              'starts alike. There is no backup: FarmaKeio cannot ship to CA at all, ' +
-              'Premier cannot either, and Greenwich stopped shipping to CA and no ' +
-              'longer fills GLP-1 in any state.' },
-      { states: ['*'],                    pharmacy: 'farmakeio', backup: null,
-        basis: 'Premier does not ship GLP-1 to this state' }
+        note: 'Belmar is the only California option. Premier cannot ship to CA, and ' +
+              'FarmaKeio and Greenwich no longer fill GLP-1 in any state.' },
+      { states: ['*'],                    pharmacy: 'belmar', backup: null,
+        basis: 'Premier cannot fill GLP-1 in this state' }
     ],
 
     // Resolve a two-letter state code to a pharmacy key.
@@ -1512,7 +1510,7 @@ var KORB_GLP1 = {
       footprintIsSettled:
         'SETTLED \u2014 do not soften this back to a preference. Two different things were ' +
         'being confused: the ROUTING DEFAULT for a state is overridable (a provider may ' +
-        'choose Premier where FarmaKeio is default, or vice versa), but Premier\u2019s ' +
+        'choose Belmar where Premier is the default), but Premier\u2019s ' +
         'LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.',
       address: 'Premier Pharmacy, 2425 Babcock Rd, Ste 108A, San Antonio, TX 78229',
       orderVia: 'Tebra Compound',
@@ -1674,7 +1672,21 @@ var KORB_GLP1 = {
       color: '#EF6C00',
       type: 'compounding',
       visibility: 'provider',
-      status: 'active',
+      status: 'glp1-retired',
+      statusNote: 'NOT A GLP-1 PHARMACY from 2026-10-22. KORB is phasing FarmaKeio out of ' +
+                  'GLP-1 in every state. Do not start or continue a GLP-1 patient here. ' +
+                  'Convert each FarmaKeio patient at their next follow-up: Premier in a ' +
+                  'Premier state, Belmar otherwise. FarmaKeio add-ons are a separate decision.',
+      glp1Retired: {
+        retired: true,
+        retiredOn: '2026-10-22',
+        movesTo: 'premier',
+        movesToNote: 'Premier where Premier can fill GLP-1; Belmar in every other state.',
+        decidedBy: 'Don Stevenson',
+        reason: 'Premier now offers B-6 as well as B-12, which covers the FarmaKeio ' +
+                'formulation, and two pharmacies are simpler than three.',
+        opsAction: 'Providers convert each patient at their next follow-up.'
+      },
       /* FILLED BY hydrate() FROM korb-pharmacies.js. */
       preferredStates: [],
       /* FILLED BY hydrate() FROM korb-pharmacies.js. Editing this does nothing. */
@@ -3888,6 +3900,11 @@ var KORB_GLP1 = {
          read Premier's 2.7 as an overshoot. Three pharmacies, three ladders,
          all below the ceiling. */
       key: 'farmakeio_sema',
+      status: 'retired',
+      retired: true,
+      retiredOn: '2026-10-22',
+      patientGuideUntilConverted: true,
+      statusNote: 'RETIRED FOR PRESCRIBING 2026-10-22 with the rest of FarmaKeio GLP-1. Kept so a patient still holding FarmaKeio vials can read their draw-up in the Dose Guide until they are converted, and so a provider can see what the patient was on.',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */
       additive: 'Pyridoxine (Vitamin B-6)',
@@ -4071,6 +4088,11 @@ var KORB_GLP1 = {
          with what FarmaKeio actually compounds and labels. If it is ever
          revisited, it is revisited with the pharmacy first. */
       key: 'farmakeio_tirz',
+      status: 'retired',
+      retired: true,
+      retiredOn: '2026-10-22',
+      patientGuideUntilConverted: true,
+      statusNote: 'RETIRED FOR PRESCRIBING 2026-10-22 with the rest of FarmaKeio GLP-1. Kept so a patient still holding FarmaKeio vials can read their draw-up in the Dose Guide until they are converted, and so a provider can see what the patient was on.',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */
       additive: 'Pyridoxine (Vitamin B-6)',
@@ -4592,6 +4614,11 @@ var KORB_GLP1 = {
 
     farmakeio_oral_sema: {
       key: 'farmakeio_oral_sema',
+      status: 'retired',
+      retired: true,
+      retiredOn: '2026-10-22',
+      patientGuideUntilConverted: true,
+      statusNote: 'RETIRED FOR PRESCRIBING 2026-10-22 with the rest of FarmaKeio GLP-1. Kept so a patient still holding FarmaKeio vials can read their draw-up in the Dose Guide until they are converted, and so a provider can see what the patient was on.',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'semaglutide',
@@ -6491,6 +6518,14 @@ var KORB_GLP1 = {
     // Legacy products should never be reachable from a routing rule.
     KORB_GLP1.states.routing.forEach(function (r) {
       var ph = KORB_GLP1.pharmacies[r.pharmacy];
+      /* Nor a retired pharmacy, as default or as backup. 2026-10-22. */
+      [r.pharmacy, r.backup].forEach(function (k) {
+        var x = k && KORB_GLP1.pharmacies[k];
+        if (x && (x.status === 'glp1-retired' || (x.glp1Retired && x.glp1Retired.retired))) {
+          problems.push('routing rule for ' + (r.fromFootprint || r.states.join('/')) +
+                        ' names retired pharmacy ' + x.name);
+        }
+      });
       if (ph && ph.status === 'legacy-continuity') {
         problems.push('routing rule for ' + r.states.join('/') + ' points at legacy pharmacy ' + ph.name);
       }

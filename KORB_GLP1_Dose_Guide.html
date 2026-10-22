@@ -75,8 +75,8 @@ footer{margin-top:30px;font-size:11px;color:var(--mu);text-align:center;line-hei
 </div>
 <!-- Both MUST load before the inline script below: the dose table is built
      from them at load and this page throws if korb-glp1-data.js is absent. -->
-<script src="korb-pharmacies.js?v=59b4d63c"></script>
-<script src="korb-glp1-data.js?v=5115728c"></script>
+<script src="korb-pharmacies.js?v=4c1faf76"></script>
+<script src="korb-glp1-data.js?v=01d582b2"></script>
 <script>
 /* ── THE DOSE TABLE IS NOT TYPED HERE ──────────────────────────────────────
    Built from korb-glp1-data.js at load. Open item 5.
@@ -127,9 +127,14 @@ const DATA = (function () {
       if (!prod) return;
       /* A retired product drops off this page by itself. That is the whole
          point of the change: it is what did not happen on 2026-09-11. */
-      if (prod.retired || prod.status === 'retired') return;
+      /* Except one kept for patients not yet converted (FarmaKeio, 2026-10-22):
+         they still hold its vials, and FarmaKeio doses by volume, so its units
+         differ from Premier's. Labelled so the patient knows it is ending. */
+      const leaving = !!prod.patientGuideUntilConverted;
+      if ((prod.retired || prod.status === 'retired') && !leaving) return;
       (out[group] = out[group] || {})[ph] = {
-        label: group === 'semaglutide_glycine' ? phName(ph) + ' (with glycine, an amino acid the pharmacy adds)'
+        label: leaving ? phName(ph) + ' (current supply only: your provider will move you to a new pharmacy at your next visit)'
+             : group === 'semaglutide_glycine' ? phName(ph) + ' (with glycine, an amino acid the pharmacy adds)'
              : /_b6$/.test(group) ? phName(ph) + ' (with vitamin B-6 instead of B-12)' : phName(ph),
         additive: prod.additive || '',
         concentration: prod.formulation || '',
