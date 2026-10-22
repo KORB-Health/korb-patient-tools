@@ -379,7 +379,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.31',
+    version: '2.32',
     created: '2026-08-06',
     lastUpdated: '2026-10-22',
     owner: 'Director of Clinical Operations',
@@ -399,6 +399,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-10-22 (v2.32): NO BACKUP, NO OVERRIDE (Don). One pharmacy per state for every compounded GLP-1 prescription: Premier where it can fill, Belmar everywhere else. routing has no backup; checkPharmacyForState returns error for any compounding pharmacy that is not the state pharmacy, so no tool can select it; the backup and default-override branches are removed. pharmacySelection.overrideAllowed false, no override reasons. Brand channels (LillyDirect, NovoCare, local pharmacy) unchanged.',
       '2026-10-22 (v2.31): FARMAKEIO OUT OF GLP-1; TWO PHARMACIES. Routing is Premier wherever Premier can fill GLP-1 (backup Belmar) and Belmar everywhere else (no backup): Premier 41, Belmar 10 (AL, AR, CA, HI, MA, MS, NH, SC, VA, WA). Mississippi moves Premier to Belmar: Premier holds a non-sterile licence there. The NC special rule is gone, NC is an ordinary Premier state. FarmaKeio pharmacy is glp1-retired and its three products are retired for prescribing but flagged patientGuideUntilConverted, so the patient Dose Guide keeps them until each patient is converted. selfCheck now fails if a routing rule names a retired pharmacy as default or backup. Don Stevenson, PA-C.',
       '2026-10-22 (v2.30): NEW PRODUCTS, PREMIER B-6. premier_sema_b6 (semaglutide 3 mg / pyridoxine 10 mg per mL) and premier_tirz_b6 (tirzepatide 18 mg / pyridoxine 10 mg per mL), 4-, 8- and 12-week, every dose. No glycine B-6. Derived at load from premier_sema and premier_tirz by deriveB6 at the end of this file: doses, units, volumes, vials, patient instructions and charge codes are the B-12 ones, and only the additive, compound name, Tebra name (PREMIER - B6 ...) and pharmacy note differ. B-12 stays the default; B-6 is for patients who cannot tolerate B-12 and carries restrictedUse. selfCheck fails if any B-12 wording reaches a B-6 record. Don Stevenson, PA-C.',
       '2026-10-16 (v2.29): OVERRIDE WORDING ONLY, NO ROUTING CHANGE. "Provider preference" removed from pharmacySelection.overrideReasons, and pharmacySelection.overrideRule added: every patient, current and new, goes to the pharmacy for their state, and a patient stays on another pharmacy only for an explicit reason documented in the visit note. Don, 2026-10-16. KORB_GLP1_Premier_Shipping_States.html now reads routing from this file and prints that rule. Don Stevenson, PA-C.',
@@ -1461,8 +1462,10 @@ var KORB_GLP1 = {
          History: until 2026-10-22 FarmaKeio was the backup in Premier states and
          the default in the eight Premier could not reach, and NC had its own
          rule because FarmaKeio does not ship there. Neither is needed now. */
-      { states: [], fromFootprint: 'premier', pharmacy: 'premier', backup: 'belmar',
-        basis: 'preferred pharmacy' },
+      /* 2026-10-22 (later the same day): NO BACKUP, NO OVERRIDE. One pharmacy per
+         state for every compounded prescription (Don). */
+      { states: [], fromFootprint: 'premier', pharmacy: 'premier', backup: null,
+        basis: 'Premier is the GLP-1 pharmacy wherever it can fill' },
       { states: ['CA'],                   pharmacy: 'belmar', backup: null,
         basis: 'sole California pharmacy \u2014 semaglutide and tirzepatide',
         note: 'Belmar is the only California option. Premier cannot ship to CA, and ' +
@@ -5889,17 +5892,12 @@ var KORB_GLP1 = {
      checkPharmacyForState() on every change and render the result. */
   pharmacySelection: {
     defaultFrom: 'patient state',
-    overrideAllowed: true,
-    overrideReasons: [
-      'A specific, documented reason to keep the patient on their current pharmacy (from 2026-10-16 every patient moves to the state default otherwise)',
-      'Patient has moved between states',
-      'Patient prefers a formulation with a different added agent (B-12, B-6, L-carnitine)'
-      /* 'Provider preference' removed 2026-10-16 (Don): every patient goes to the
-         state default unless there is an explicit reason, documented in the note. */
-    ],
-    overrideRule: 'Every patient, current and new, goes to the pharmacy for their state. ' +
-                  'Keep a patient on another pharmacy only for an explicit reason, and ' +
-                  'document that reason in the visit note.',
+    /* No override from 2026-10-22 (Don). The state decides the pharmacy. */
+    overrideAllowed: false,
+    overrideReasons: [],
+    overrideRule: 'Every compounded GLP-1 prescription goes to the pharmacy for the ' +
+                  'patient' + '\u2019' + 's state: Premier where Premier can fill, Belmar everywhere ' +
+                  'else. There is no backup and no override.',
     brandProgramsNote: 'LillyDirect and NovoCare are manufacturer programs and are not ' +
                        'state-routed. They never appear as a state default and are ' +
                        'selected deliberately or not at all.'
@@ -6108,6 +6106,19 @@ var KORB_GLP1 = {
                'licensing limit, not a preference \u2014 it cannot be overridden.' };
     }
 
+    /* ONE PHARMACY PER STATE. Don, 2026-10-22. Every compounded GLP-1
+       prescription goes to the state's pharmacy: Premier where Premier can fill,
+       Belmar everywhere else. Any other compounding pharmacy is a block, not an
+       override, so no tool can offer it. Brand channels (LillyDirect, NovoCare,
+       the patient's local pharmacy) returned above and are unaffected. */
+    var routed = KORB_GLP1.states.routeTo(st);
+    if (ph.type === 'compounding' && routed && routed.pharmacy !== pharmacyKey) {
+      var routedName = (KORB_GLP1.pharmacies[routed.pharmacy] || {}).name || routed.pharmacy;
+      return { status: 'error', message: 'Do not send to ' + ph.name + ' for ' + st + '. ' +
+               'Send to ' + routedName + '. KORB sends every compounded GLP-1 prescription ' +
+               'for ' + st + ' to ' + routedName + ', with no backup and no override.' };
+    }
+
     if (ph.status === 'legacy-continuity') {
       return { status: 'warning', message: ph.name + ' is not used for new GLP-1 patients. ' +
                (ph.overrideOnlyFor ? 'Select only for: ' + ph.overrideOnlyFor : '') };
@@ -6116,31 +6127,6 @@ var KORB_GLP1 = {
     if ((ph.shipsToUnconfirmed || []).indexOf(st) !== -1) {
       return { status: 'warning', message: ph.name + ' shipping to ' + st + ' is not ' +
                'confirmed. Verify with Operations before sending the prescription.' };
-    }
-
-    /* The named backup for this state is a sanctioned second route, so it is
-       'info' and skips the discouraged warning below. That is what makes Belmar
-       the NC backup rather than an exception there. */
-    var route = KORB_GLP1.states.routeTo(st);
-    if (route && route.backup === pharmacyKey && route.pharmacy !== pharmacyKey) {
-      var routeName = (KORB_GLP1.pharmacies[route.pharmacy] || {}).name || route.pharmacy;
-      return { status: 'info', message: ph.name + ' is the backup for ' + st + '. The ' +
-               'default is ' + routeName + '; use ' + ph.name + ' when ' + routeName +
-               ' cannot fill.' };
-    }
-
-    // Ships there, but the program discourages it outside its preferred states.
-    if (ph.discouragedOutsidePreferred && (ph.preferredStates || []).indexOf(st) === -1) {
-      return { status: 'warning', message: ph.name + ' can ship to ' + st + ', but is ' +
-               'discouraged outside ' + (ph.preferredStates || []).join('/') + '. ' +
-               ph.discouragedReason };
-    }
-
-    var def = KORB_GLP1.states.routeTo(st);
-    if (def && def.pharmacy !== pharmacyKey) {
-      var defName = (KORB_GLP1.pharmacies[def.pharmacy] || {}).name || def.pharmacy;
-      return { status: 'info', message: ph.name + ' can ship to ' + st + ', but the ' +
-               'default for ' + st + ' is ' + defName + '. Continue if this is intentional.' };
     }
 
     return { status: 'ok', message: ph.name + ' is the default pharmacy for ' + st + '.' };

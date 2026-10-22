@@ -89,7 +89,7 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
 <script src="korb-pharmacies.js?v=4c1faf76"></script>
-<script src="korb-glp1-data.js?v=7140a7f7"></script>
+<script src="korb-glp1-data.js?v=37e86db9"></script>
 <script>
 (function(){
   "use strict";
@@ -125,30 +125,8 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
   var STATES = (D.states.korbActive || []).slice().sort();
 
-  /* Order for the "Also allowed" column, most preferred first. This is a KORB operational
-     preference, not something the data file encodes: Belmar sits last everywhere because of
-     cost, and is the default only where Premier cannot fill. FarmaKeio left GLP-1 on
-     2026-10-22. An
-     exception-status pharmacy always sinks below a clean backup regardless of this list.
-     If a compounding pharmacy is ever added without being placed here, the self-check fails
-     rather than letting it sort into an arbitrary position. */
-  var PREFER = ['premier', 'belmar'];
-  function prefRank(k){
-    var i = PREFER.indexOf(k);
-    return i === -1 ? PREFER.length : i;
-  }
-  /* One comparator, used by both the renderer and the self-check. Do not inline a copy of
-     this anywhere — a duplicated comparator makes the assertion vacuous, which is exactly
-     what a negative test caught on 2026-09-13. */
-  function altOrder(a, b){
-    var ea = (a.status === 'warning') ? 1 : 0, eb = (b.status === 'warning') ? 1 : 0;
-    return (ea - eb) || (prefRank(a.key) - prefRank(b.key));
-  }
-  function altsFor(st, def){
-    return optsFor(st)
-      .filter(function(o){ return o.selectable !== false && (!def || o.key !== def.key); })
-      .sort(altOrder);
-  }
+  /* The "Also allowed, in order" column and its ordering helpers were removed
+     2026-10-22 (Don): one pharmacy per state, no backup and no override. */
 
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function optsFor(st){
@@ -194,7 +172,9 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 
     var opts = optsFor(st);
     var def  = defaultFor(st);
-    var alt  = altsFor(st, def);   /* clean backups first, exceptions last, then PREFER */
+    /* ONE PHARMACY PER STATE (Don, 2026-10-22): every other compounding pharmacy
+       is a "do not send", whether for licensure or because it is not this
+       state's pharmacy. */
     var no   = opts.filter(function(o){ return o.selectable === false; });
     var route = (typeof D.states.routeTo === 'function') ? D.states.routeTo(st) : null;
 
@@ -219,52 +199,18 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
       && (KORB_PHARMACIES.pharmacies[def.key].licencePending || {})[st];
     if(pend) h += '<div class="callout"><strong>Licence renewal pending.</strong> ' + esc(pend) + '</div>';
 
-    h += '<div class="cols' + (no.length ? '' : ' two') + '">';
-
+    h += '<div class="cols two">';
     h += '<div class="col"><div class="k">Send to</div><div class="v">'
        + (def ? esc(def.name) : '<em>&mdash;</em>') + '</div></div>';
-
-    /* Listed in order of preference, so the tag says which rung each one is on. */
-    h += '<div class="col"><div class="k">Also allowed &mdash; in order</div><div class="v">'
-       + (alt.length
-           ? alt.map(function(o, i){
-               var tag = (o.status === 'warning') ? 'exception' : (i === 0 ? 'backup' : 'then');
-               return esc(o.name)
-                    + ' <span class="note" style="display:inline">(' + tag + ')</span>';
-             }).join('<br>')
-           : '<em>None. Single source.</em>')
+    h += '<div class="col blocked"><div class="k">Do not send to</div><div class="v">'
+       + (no.length ? no.map(function(o){ return esc(o.name); }).join('<br>') : '<em>&mdash;</em>')
        + '</div></div>';
-
-    if(no.length){
-      h += '<div class="col blocked"><div class="k">Cannot ship</div><div class="v">'
-         + no.map(function(o){ return esc(o.name); }).join('<br>')
-         + '</div><div class="note">Licensing limit. Not overridable.</div></div>';
-    }
     h += '</div>';
 
-    if(!alt.length){
-      h += '<div class="callout"><strong>Single source.</strong> '
-         + esc(def ? def.name : 'One pharmacy') + ' is the only option for this state. '
-         + 'If they cannot fill, there is no second route — escalate rather than substituting.</div>';
-    }
-
-    /* The data file's warning text runs several sentences. The column already flags the
-       pharmacy as an exception, so only the first sentence earns space here. */
-    var warned = opts.filter(function(o){ return o.status === 'warning' && o.selectable !== false; });
-    warned.forEach(function(o){
-      var m = String(o.message || '').trim();
-      var first = m.split(/(?<=\.)\s+/)[0] || m;
-      h += '<div class="callout"><strong>' + esc(o.name) + '</strong> ' + esc(first);
-      /* Verbatim from the data file's pharmacySelection.overrideReasons so this stays in
-         step with it. Answers "when is the exception actually justified" at the point of
-         decision, which is the only place it matters. */
-      var rs = (D.pharmacySelection && D.pharmacySelection.overrideReasons) || [];
-      if(rs.length){
-        h += '<br><span class="note" style="display:inline;color:inherit;opacity:.85">'
-           + 'Override is reasonable when: ' + rs.map(esc).join(' &middot; ') + '.</span>';
-      }
-      h += '</div>';
-    });
+    /* The rule itself, verbatim from the data file so the page and the tools agree. */
+    var rule = (D.pharmacySelection && D.pharmacySelection.overrideRule) || '';
+    if(rule) h += '<div class="callout"><strong>No backup, no override.</strong> ' + esc(rule)
+                + ' If ' + esc(def ? def.name : 'the pharmacy') + ' cannot fill, contact Operations.</div>';
 
     h += '</div></div>';
     host.innerHTML = h;
@@ -300,27 +246,17 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
       var p = D.pharmacies[k];
       if(p.type !== 'compounding') problems.push(k + ': not a compounding pharmacy but in scope');
       if(p.status === 'glp1-retired') problems.push(k + ': retired from GLP-1 but in scope');
-      if(PREFER.indexOf(k) === -1)
-        problems.push(k + ': in scope but missing from PREFER, so it sorts last by accident');
     });
-    /* Belmar must never outrank a clean backup outside California. Assert the rendered
-       order rather than trusting the sort, so a future data change cannot quietly undo it. */
-    STATES.forEach(function(st){
-      if(st === 'CA') return;
-      var a = altsFor(st, defaultFor(st)).map(function(o){ return o.key; });
-      var bi = a.indexOf('belmar');
-      if(bi !== -1 && bi !== a.length - 1)
-        problems.push(st + ': belmar is listed at position ' + (bi + 1) + ' of ' + a.length + ', expected last');
-    });
-    /* The pharmacy the data file names as backup must be the one this page tags
-       "backup": first in the list and not an exception. 2026-10-16. */
+    /* ONE PHARMACY PER STATE. Every compounding pharmacy except the state's own
+       must be unselectable, and the routing record must name no backup.
+       2026-10-22. */
     STATES.forEach(function(st){
       var r = D.states.routeTo(st);
-      if(!r || !r.backup) return;
-      var a = altsFor(st, defaultFor(st));
-      if(!a.length || a[0].key !== r.backup || a[0].status === 'warning')
-        problems.push(st + ': backup is ' + r.backup + ' but the page shows '
-          + (a[0] ? a[0].key + ' (' + a[0].status + ')' : 'none') + ' first');
+      if(r && r.backup) problems.push(st + ': routing names a backup (' + r.backup + ')');
+      optsFor(st).forEach(function(x){
+        if(x.status !== 'ok' && x.selectable !== false)
+          problems.push(st + ': ' + x.key + ' is selectable but is not the state pharmacy');
+      });
     });
     /* the idle line must account for every state, or it is quietly lying about coverage */
     var counted = order.reduce(function(a,k){ return a + group[k].length; }, 0);
