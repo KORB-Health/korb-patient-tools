@@ -3438,7 +3438,9 @@ var KORB_PATIENT_ED = {
         'weight management, for type 2 diabetes, and for reducing the risk of death from heart ' +
         'disease, heart attack and stroke in adults with heart disease who are ' +
         'overweight or obese. At KORB your provider prescribes a compounded formulation that ' +
-        'includes a small amount of cyanocobalamin (vitamin B-12) to help your body handle it.'
+        'includes a small amount of an added vitamin, usually cyanocobalamin (vitamin B-12), to ' +
+        'help your body handle it. If you do not tolerate B-12, your provider may prescribe it ' +
+        'with vitamin B-6 instead. Your label names exactly what is in yours.'
       ],
 
       mayHelp: {
@@ -3688,8 +3690,10 @@ var KORB_PATIENT_ED = {
         'individual prescriptions, compounded preparations are not FDA-approved. The active ' +
         'ingredient is the same one used in the brand-name medication, which is approved for ' +
         'weight management and for type 2 diabetes. At KORB your provider prescribes a ' +
-        'compounded formulation that includes a small amount of cyanocobalamin (vitamin B-12) ' +
-        'to help your body handle it.'
+        'compounded formulation that includes a small amount of an added vitamin, usually ' +
+        'cyanocobalamin (vitamin B-12), to help your body handle it. If you do not tolerate ' +
+        'B-12, your provider may prescribe it with vitamin B-6 instead. Your label names ' +
+        'exactly what is in yours.'
       ],
 
       mayHelp: {

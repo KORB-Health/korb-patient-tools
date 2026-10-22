@@ -241,12 +241,12 @@
 
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
-<script src="korb-pharmacies.js?v=ef7babe1"></script>
+<script src="korb-pharmacies.js?v=59b4d63c"></script>
 <!-- korb-charges.js carries the prices. It must load BEFORE the data file:
      this page calls billingFor and reads pricing.* directly, and without it
      every price is null - a blank where a number belongs, not an error. -->
 <script src="korb-charges.js?v=ddc0bb2c"></script>
-<script src="korb-glp1-data.js?v=b2aae7ee"></script>
+<script src="korb-glp1-data.js?v=5115728c"></script>
 <!-- korb-rx-block.js owns the ONE Copy button and clipboard handler. This
      page uses it for the charge code, so the code copies the same way a
      charge code does on every monograph. Its own .copy-btn on the Tebra
@@ -468,7 +468,8 @@ function buildProducts(){
   list.forEach(function(p){
     var o = document.createElement('option');
     o.value = p.key;
-    o.textContent = formulationLabel(p) + (p.status === 'legacy-continuity' ? '  \u26a0 continuation only' : '');
+    o.textContent = formulationLabel(p) + (p.status === 'legacy-continuity' ? '  \u26a0 continuation only' : '') +
+      (p.restrictedUse ? '  (B-12 intolerance only)' : '');   // Premier B-6, 2026-10-22
     sel.appendChild(o);
   });
   if (!list.filter(function(p){ return p.key === S.product; }).length) S.product = list[0].key;
@@ -730,6 +731,7 @@ function renderLadder(p){
   if (p.formulationNote) notes.push(esc(p.formulationNote));
   if (p.supplyNote)      notes.push(esc(p.supplyNote));
   if (p.statusNote)      notes.push('<strong style="color:#8A5A00;">' + esc(p.statusNote) + '</strong>');
+  if (p.restrictedUse)   notes.push('<strong style="color:#8A5A00;">' + esc(p.restrictedUse) + '</strong>');
   if (p.positioning)     notes.push(esc(p.positioning));
   $('formNote').innerHTML = notes.join('<br>') || '&nbsp;';
   $('formNote').style.display = notes.length ? 'block' : 'none';

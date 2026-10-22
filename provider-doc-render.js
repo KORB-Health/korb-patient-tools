@@ -404,6 +404,10 @@ const DOCS = [
   { id: 'premier_sema',     file: 'KORB_GLP1_Premier_Semaglutide_Reference',       title: 'Premier — Semaglutide',               products: ['premier_sema', 'premier_oral_sema'] },
   { id: 'premier_glycine',  file: 'KORB_GLP1_Premier_Semaglutide_Glycine_Reference', title: 'Premier — Semaglutide with Glycine', products: ['premier_sema_glycine'] },
   { id: 'premier_tirz',     file: 'KORB_GLP1_Premier_Tirzepatide_Reference',       title: 'Premier — Tirzepatide',               products: ['premier_tirz', 'premier_oral_tirz'] },
+  /* B-6 added 2026-10-22. Own documents beside the B-12 ones, as glycine has:
+     simpler to pick, and a B-6 entry cannot be mistaken for a B-12 one. */
+  { id: 'premier_sema_b6',  file: 'KORB_GLP1_Premier_Semaglutide_B6_Reference',    title: 'Premier — Semaglutide with B-6',      products: ['premier_sema_b6'] },
+  { id: 'premier_tirz_b6',  file: 'KORB_GLP1_Premier_Tirzepatide_B6_Reference',    title: 'Premier — Tirzepatide with B-6',      products: ['premier_tirz_b6'] },
   { id: 'farmakeio_sema',   file: 'KORB_GLP1_Farmakeio_Semaglutide_Reference',     title: 'FarmaKeio — Semaglutide',             products: ['farmakeio_sema', 'farmakeio_oral_sema'] },
   { id: 'farmakeio_tirz',   file: 'KORB_GLP1_Farmakeio_Tirzepatide_Reference',     title: 'FarmaKeio — Tirzepatide',             products: ['farmakeio_tirz'] },
   /* greenwich_tirz removed 2026-09-11. Greenwich GLP-1 is retired in every state
@@ -640,6 +644,9 @@ function sectionRx(doc) {
     const p = K.getProduct(key);
     if (!p) return;
     h += `<h3 class="prodhead">${esc(p.label)} <span class="via">${esc(p.orderVia || '')}</span></h3>`;
+    if (p.restrictedUse) {
+      h += `<div class="callout warn"><h3>Not the default: B-12 intolerance only</h3><p>${esc(p.restrictedUse)}</p></div>`;
+    }
     if (p.exclusiveTo && p.exclusiveNote) {
       h += `<div class="callout"><h3>Only from ${esc(K.pharmacies[p.exclusiveTo].name)} — this product</h3><p>${esc(p.exclusiveNote)}</p></div>`;
     }

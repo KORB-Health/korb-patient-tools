@@ -166,8 +166,8 @@
 
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
-<script src="korb-pharmacies.js?v=ef7babe1"></script>
-<script src="korb-glp1-data.js?v=b2aae7ee"></script>
+<script src="korb-pharmacies.js?v=59b4d63c"></script>
+<script src="korb-glp1-data.js?v=5115728c"></script>
 <script>
 (function(){
   "use strict";
@@ -240,7 +240,7 @@
   function ingredient(name){
     var n = String(name).trim().replace(/\s+/g,' ');
     if (/^b-?12$/i.test(n)) return 'Vitamin B-12';
-    if (/^b-?6$/i.test(n))  return 'Vitamin B-6';
+    if (/^b-?6$/i.test(n) || /pyridoxine/i.test(n))  return 'Vitamin B-6';   // Premier B-6, 2026-10-22
     if (/carnatine|carnitine/i.test(n)) return 'L-Carnitine';   // data file spells it Carnatine
     if (/^glycine$/i.test(n)) return 'Glycine';
     return cap(n);
@@ -566,7 +566,8 @@
     list.forEach(function(p){
       var o = document.createElement('option');
       o.value = p.key;
-      o.textContent = p.label.replace(/^[^—]*—\s*/, '');
+      o.textContent = p.label.replace(/^[^—]*—\s*/, '') +
+        (p.restrictedUse ? '  (B-12 intolerance only)' : '');
       selProd.appendChild(o);
     });
     if (list.length === 1) { selProd.value = list[0].key; S.prod = list[0].key; }
@@ -611,6 +612,11 @@
             ' is not the default for ' + esc(S.state) + '.</strong>' + esc(chk.message || '') + '</div>');
         }
       } catch(e){ /* never let a routing helper block a message */ }
+    }
+
+    /* Premier B-6, 2026-10-22: B-12 is the default and B-6 is an override. */
+    if (prod && prod.restrictedUse) {
+      out.push('<div class="alert warn"><strong>Not the default.</strong>' + esc(prod.restrictedUse) + '</div>');
     }
 
     if (prod && prod.exclusiveNote) {

@@ -54,8 +54,10 @@ const PRICE_PAGES = [
   'Provider_Reference/GLP1/KORB_GLP1_Brand_Zepbound_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Farmakeio_Semaglutide_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Farmakeio_Tirzepatide_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Premier_Semaglutide_B6_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Premier_Semaglutide_Glycine_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Premier_Semaglutide_Reference.html',
+  'Provider_Reference/GLP1/KORB_GLP1_Premier_Tirzepatide_B6_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Premier_Tirzepatide_Reference.html'
 ];
 

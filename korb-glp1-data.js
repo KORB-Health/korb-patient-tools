@@ -379,9 +379,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.29',
+    version: '2.30',
     created: '2026-08-06',
-    lastUpdated: '2026-10-16',
+    lastUpdated: '2026-10-22',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -399,6 +399,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-10-22 (v2.30): NEW PRODUCTS, PREMIER B-6. premier_sema_b6 (semaglutide 3 mg / pyridoxine 10 mg per mL) and premier_tirz_b6 (tirzepatide 18 mg / pyridoxine 10 mg per mL), 4-, 8- and 12-week, every dose. No glycine B-6. Derived at load from premier_sema and premier_tirz by deriveB6 at the end of this file: doses, units, volumes, vials, patient instructions and charge codes are the B-12 ones, and only the additive, compound name, Tebra name (PREMIER - B6 ...) and pharmacy note differ. B-12 stays the default; B-6 is for patients who cannot tolerate B-12 and carries restrictedUse. selfCheck fails if any B-12 wording reaches a B-6 record. Don Stevenson, PA-C.',
       '2026-10-16 (v2.29): OVERRIDE WORDING ONLY, NO ROUTING CHANGE. "Provider preference" removed from pharmacySelection.overrideReasons, and pharmacySelection.overrideRule added: every patient, current and new, goes to the pharmacy for their state, and a patient stays on another pharmacy only for an explicit reason documented in the visit note. Don, 2026-10-16. KORB_GLP1_Premier_Shipping_States.html now reads routing from this file and prints that rule. Don Stevenson, PA-C.',
       '2026-10-16 (v2.28): ROUTING. PREMIER IS THE DEFAULT IN EVERY STATE IT SHIPS GLP-1 TO, FARMAKEIO THE BACKUP. Don, 2026-10-16. The Premier rule is no longer a typed list of 11: hydrate() fills it from korb-pharmacies.js statesFor(premier, glp1), 43 states, so the five Premier gained on 2026-10-15 (AK, ID, IA, IN, MN) route there and the next one will too. NC keeps its own rule with BELMAR as backup, because FarmaKeio does not ship to NC. CA stays Belmar with NO backup. FarmaKeio is the default only in the 7 states Premier cannot reach: AL, AR, HI, MA, NH, SC, WA. Tally Premier 43, FarmaKeio 7, Belmar 1, was 11/39/1. Routing rules gained `backup`; checkPharmacyForState answers info for the backup and skips the Belmar discouraged-outside-CA warning where Belmar is the backup. APPLIES TO CURRENT PATIENTS TOO: every patient moves to the state default unless there is a very specific reason, so the first override reason now says that. routeTo() now refuses to answer before hydrate(), because an unhydrated Premier rule is empty and would send all 43 states to FarmaKeio silently. selfCheck gained two assertions: each state default is in that pharmacy preferredStates, and each backup can ship there. No dose, sig, product or price changed. Don Stevenson, PA-C.',
       '2026-10-12 (v2.27): NORTH CAROLINA ONLY. FarmaKeio does not ship to NC, so NC moves from FarmaKeio to Premier for new GLP-1 starts. NC added to the Premier routing rule; the FarmaKeio footprint in korb-pharmacies.js now excludes NC, which makes FarmaKeio a hard block there. Every other state is unchanged: FarmaKeio 39, Premier 11, Belmar 1. Don Stevenson, PA-C.',
@@ -6634,6 +6635,32 @@ var KORB_GLP1 = {
       warnings.forEach(function (w) { console.warn('  ! ' + w); });
     }
 
+    /* The B-6 records are derived from the B-12 ones (see deriveB6 below the
+       object). Nothing about B-12 may survive into a B-6 record: a Tebra name,
+       compound or pharmacy note saying B-12 on a B-6 prescription is a
+       dispensing error. Added 2026-10-22. */
+    ['premier_sema_b6', 'premier_tirz_b6'].forEach(function (k) {
+      var p = KORB_GLP1.products[k];
+      if (!p) { problems.push(k + ': missing. The B-6 derivation did not run.'); return; }
+      if (!KORB_GLP1.products[p.derivedFrom]) problems.push(k + ': its B-12 source ' + p.derivedFrom + ' is missing');
+      (function walk (o, path) {
+        if (typeof o === 'string') {
+          if (/B-?12|cobalamin/i.test(o) && !/^\.restrictedUse$/.test(path)) {
+            problems.push(k + path + ': still says B-12: "' + o.slice(0, 80) + '"');
+          }
+          return;
+        }
+        if (o && typeof o === 'object') Object.keys(o).forEach(function (x) { walk(o[x], path + '.' + x); });
+      }(p, ''));
+      p.doses.forEach(function (d) {
+        ['supply4', 'supply8', 'supply12'].forEach(function (s) {
+          if (d[s] && d[s].name.indexOf('PREMIER - B6 ') !== 0) {
+            problems.push(k + ' ' + d.dose + ' ' + s + ': Tebra name does not start "PREMIER - B6": ' + d[s].name);
+          }
+        });
+      });
+    });
+
     if (problems.length) {
       console.warn('KORB_GLP1.selfCheck found ' + problems.length + ' problem(s):');
       problems.forEach(function (p) { console.warn('  - ' + p); });
@@ -6644,6 +6671,78 @@ var KORB_GLP1 = {
     return problems;
   }
 };
+
+/* PREMIER B-6, DERIVED FROM PREMIER B-12. Don, 2026-10-22.
+
+   Premier compounds semaglutide and tirzepatide with pyridoxine (vitamin B-6)
+   as well as B-12. The GLP-1 concentration is identical - semaglutide 3 mg/mL,
+   tirzepatide 18 mg/mL - so every dose, unit count, volume, vial, sig and
+   charge code is identical too. Only the additive differs: B-6 10 mg/mL in
+   place of B-12 0.5 mg/mL.
+
+   So the B-6 records are BUILT from the B-12 ones at load rather than typed as
+   a second copy. A typed copy would be 600 lines free to drift from the record
+   it duplicates; this cannot, because there is nothing to drift. Exactly seven
+   strings change per product: key, additive, label, formulation,
+   drugFormulation, the Tebra Name (B6 in front, so it stands out to the
+   pharmacy, as Glycine does) and the "added B-12" in pharmacy notes. Patient
+   instructions are the B-12 ones word for word, at Don's direction.
+
+   B-12 IS THE DEFAULT. B-6 is for a patient who cannot tolerate B-12, not a
+   preference, so the record carries restrictedUse and the tools list it after
+   B-12 and say so.
+
+   If Premier ever changes a B-6 vial size, add the override to b6VialOverrides
+   below. Doses do not change (Don, 2026-10-22). selfCheck fails if any B-12
+   wording survives in a B-6 record, or if a B-6 record exists without its
+   source. */
+(function deriveB6 (K) {
+  var SPEC = [
+    { from: 'premier_sema', to: 'premier_sema_b6', drug: 'Semaglutide',
+      b12Form: 'Semaglutide/B-12 3mg/0.5mg per mL inj',
+      b6Form:  'Semaglutide/Pyridoxine (B-6) 3mg/10mg per mL inj',
+      formulation: 'Semaglutide 3 mg / Pyridoxine (B-6) 10 mg per mL' },
+    { from: 'premier_tirz', to: 'premier_tirz_b6', drug: 'Tirzepatide',
+      b12Form: 'Tirzepatide/B-12 18mg/0.5mg per mL inj',
+      b6Form:  'Tirzepatide/Pyridoxine (B-6) 18mg/10mg per mL inj',
+      formulation: 'Tirzepatide 18 mg / Pyridoxine (B-6) 10 mg per mL' }
+  ];
+  /* { 'premier_sema_b6': { '4.5 mg': { vials4: '...', ... } } } - none today. */
+  var b6VialOverrides = {};
+
+  SPEC.forEach(function (s) {
+    var src = K.products[s.from];
+    if (!src) throw new Error('korb-glp1-data.js: cannot build ' + s.to + ', ' + s.from + ' is missing.');
+    var p = JSON.parse(JSON.stringify(src));
+    p.key = s.to;
+    p.derivedFrom = s.from;
+    p.additive = 'Pyridoxine (Vitamin B-6)';
+    p.label = 'Premier — ' + s.drug + ' / B-6';
+    p.formulation = s.formulation;
+    p.restrictedUse = 'B-12 is the default. Use B-6 only for a patient who cannot tolerate ' +
+                      'B-12, and document why in the note.';
+    p.doses.forEach(function (d) {
+      if (d.drugFormulation !== s.b12Form) throw new Error('korb-glp1-data.js: ' + s.from +
+        ' ' + d.dose + ' drugFormulation is "' + d.drugFormulation + '", expected "' + s.b12Form +
+        '". The B-6 derivation would carry the wrong compound name.');
+      d.drugFormulation = s.b6Form;
+      ['supply4', 'supply8', 'supply12'].forEach(function (k) {
+        var x = d[k];
+        if (!x) return;
+        x.name = x.name.replace('PREMIER - ' + s.drug, 'PREMIER - B6 ' + s.drug);
+        x.pharmacyNotes = x.pharmacyNotes.replace('added B-12', 'added B-6');
+      });
+      var ov = (b6VialOverrides[s.to] || {})[d.dose];
+      if (ov) Object.keys(ov).forEach(function (f) { d[f] = ov[f]; });
+    });
+    K.products[s.to] = p;
+    /* Same vials, so the same accepted limitations apply. */
+    (K.acceptedLimitations || []).forEach(function (l) {
+      if (Array.isArray(l.appliesTo) && l.appliesTo.indexOf(s.from) !== -1 &&
+          l.appliesTo.indexOf(s.to) === -1) l.appliesTo.push(s.to);
+    });
+  });
+}(KORB_GLP1));
 
 if (typeof module !== 'undefined' && module.exports) { module.exports = KORB_GLP1; }
 

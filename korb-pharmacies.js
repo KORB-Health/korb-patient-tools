@@ -321,7 +321,8 @@ var KORB_PHARMACIES = {
         }
       },
       "notes": [
-        "All Premier programs offer a 4-week and an 8-week option — semaglutide, semaglutide with glycine, and tirzepatide alike.",
+        "All Premier programs offer a 4-week, an 8-week and a 12-week option — semaglutide, semaglutide with glycine, and tirzepatide alike.",
+        "Premier compounds semaglutide and tirzepatide with B-12 (the default) or with B-6 (pyridoxine 10 mg/mL) for a patient who cannot tolerate B-12. Same GLP-1 concentration, doses, volumes and charge codes. No glycine with B-6. Added 2026-10-22.",
         "All Premier compounds carry a 90-day BUD as of 2026-08. There is no longer a difference between the glycine and non-glycine products on this.",
         "8-week programs ship the full eight weeks of medication and supplies in a single initial shipment. No refill and no second shipment.",
         "Vials remain 28 days from first use regardless of BUD. On lower doses this produces overage. Counsel the patient to discard at 28 days."

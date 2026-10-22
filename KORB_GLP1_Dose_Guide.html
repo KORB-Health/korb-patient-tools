@@ -53,7 +53,7 @@ footer{margin-top:30px;font-size:11px;color:var(--mu);text-align:center;line-hei
   <div class="controls">
     <div class="ctrl-grid">
       <div class="cg"><label>Medication</label>
-        <select id="med"><option value="">Select medication…</option><option value="semaglutide">Semaglutide</option><option value="semaglutide_glycine">Semaglutide + Glycine (Premier only)</option><option value="tirzepatide">Tirzepatide</option></select>
+        <select id="med"><option value="">Select medication…</option><option value="semaglutide">Semaglutide</option><option value="semaglutide_glycine">Semaglutide + Glycine (Premier only)</option><option value="semaglutide_b6">Semaglutide + Vitamin B-6 (Premier only)</option><option value="tirzepatide">Tirzepatide</option><option value="tirzepatide_b6">Tirzepatide + Vitamin B-6 (Premier only)</option></select>
       </div>
       <div class="cg"><label>Pharmacy</label>
         <select id="pharmacy" disabled><option value="">Select medication first…</option></select>
@@ -73,8 +73,8 @@ footer{margin-top:30px;font-size:11px;color:var(--mu);text-align:center;line-hei
 </div>
 <!-- Both MUST load before the inline script below: the dose table is built
      from them at load and this page throws if korb-glp1-data.js is absent. -->
-<script src="korb-pharmacies.js?v=ef7babe1"></script>
-<script src="korb-glp1-data.js?v=b2aae7ee"></script>
+<script src="korb-pharmacies.js?v=59b4d63c"></script>
+<script src="korb-glp1-data.js?v=5115728c"></script>
 <script>
 /* ── THE DOSE TABLE IS NOT TYPED HERE ──────────────────────────────────────
    Built from korb-glp1-data.js at load. Open item 5.
@@ -98,7 +98,9 @@ const DATA = (function () {
   const MAP = {
     semaglutide:         { premier: 'premier_sema', farmakeio: 'farmakeio_sema', belmar: 'belmar_sema' },
     semaglutide_glycine: { premier: 'premier_sema_glycine' },
-    tirzepatide:         { premier: 'premier_tirz', farmakeio: 'farmakeio_tirz', belmar: 'belmar_tirz' }
+    semaglutide_b6:      { premier: 'premier_sema_b6' },
+    tirzepatide:         { premier: 'premier_tirz', farmakeio: 'farmakeio_tirz', belmar: 'belmar_tirz' },
+    tirzepatide_b6:      { premier: 'premier_tirz_b6' }
   };
 
   const phName = k => (typeof KORB_PHARMACIES !== 'undefined' && KORB_PHARMACIES.pharmacies[k])
@@ -125,7 +127,8 @@ const DATA = (function () {
          point of the change: it is what did not happen on 2026-09-11. */
       if (prod.retired || prod.status === 'retired') return;
       (out[group] = out[group] || {})[ph] = {
-        label: group === 'semaglutide_glycine' ? phName(ph) + ' (with glycine, an amino acid the pharmacy adds)' : phName(ph),
+        label: group === 'semaglutide_glycine' ? phName(ph) + ' (with glycine, an amino acid the pharmacy adds)'
+             : /_b6$/.test(group) ? phName(ph) + ' (with vitamin B-6 instead of B-12)' : phName(ph),
         additive: prod.additive || '',
         concentration: prod.formulation || '',
         doses: (prod.doses || []).map(function (d) {
@@ -222,7 +225,7 @@ function renderResult(){
   const med=medSel.value,pharm=pharmSel.value,doseIdx=doseSel.value;
   if(!med||!pharm||doseIdx===''){renderEmpty();return;}
   const pdata=DATA[med][pharm],d=pdata.doses[doseIdx];
-  const MED_LABELS={semaglutide:'Semaglutide',semaglutide_glycine:'Semaglutide + Glycine',tirzepatide:'Tirzepatide'};
+  const MED_LABELS={semaglutide:'Semaglutide',semaglutide_glycine:'Semaglutide + Glycine',semaglutide_b6:'Semaglutide + Vitamin B-6',tirzepatide:'Tirzepatide',tirzepatide_b6:'Tirzepatide + Vitamin B-6'};
   const medLabel=MED_LABELS[med]||med;
   let html='<div class="result-card"><div class="result-hdr"><strong>'+medLabel+' — '+d.mg+' mg weekly</strong><p>'+pdata.label+'</p></div><div class="result-body">';
   html+='<div class="stat-grid"><div class="stat"><div class="lbl">Weekly Dose</div><div class="val">'+d.mg+' mg</div></div>';
