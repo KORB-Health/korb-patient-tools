@@ -6876,14 +6876,23 @@ KORB_GLP1.farmakeioConversion = {
     var key = (opts.b6 && r.b6 && r.b6[ph]) || r.to[ph];
     if (!key) return { error: 'No ' + ph + ' product to convert ' + fromKey + ' to.' };
     var toProd = KORB_GLP1.products[key];
-    var toDose = this.pickDose(r.rule, fromProd, fromDose, toProd);
-    if (!toDose) return { error: 'No ' + toProd.label + ' dose fits ' + doseStr + '.' };
+    var equivDose = this.pickDose(r.rule, fromProd, fromDose, toProd);
+    if (!equivDose) return { error: 'No ' + toProd.label + ' dose fits ' + doseStr + '.' };
+    /* opts.step: -1, 0 or +1. A provider may move the patient ONE step down
+       (side effects) or up (ready to titrate) on the new ladder at the same
+       visit (Don, 2026-10-22). The equivalent dose is always reported too, so
+       the plan can say what the conversion was and what the provider chose. */
+    var step = opts.step === 1 ? 1 : opts.step === -1 ? -1 : 0;
+    var ei = toProd.doses.indexOf(equivDose);
+    var toDose = toProd.doses[ei + step];
+    if (!toDose) return { error: 'There is no dose one step ' + (step > 0 ? 'above ' : 'below ') + equivDose.dose + ' at ' + (KORB_GLP1.pharmacies[ph] || {}).name + '.' };
     var page = this.patientPages[key];
     return {
       rule: r.rule, state: state, pharmacy: ph, route: route,
       b6Requested: !!opts.b6, b6Available: !!(r.b6 && r.b6[ph]),
       fromProduct: fromProd, fromDose: fromDose,
-      toProduct: toProd, toDose: toDose,
+      toProduct: toProd, toDose: toDose, equivDose: equivDose, step: step,
+      canStepDown: ei > 0, canStepUp: ei < toProd.doses.length - 1,
       patientLink: page ? this.siteBase + page + '?dose=' + encodeURIComponent(toDose.dose.replace(/\s*mg$/i, '')) +
         '&was=' + encodeURIComponent(fromDose.dose.replace(/\s*mg$/i, '')) : null
     };

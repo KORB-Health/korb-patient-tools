@@ -59,6 +59,17 @@ h2{font-size:15px;font-weight:800;margin:0 0 4px}
 .btn{margin-top:8px;font-family:inherit;font-weight:800;font-size:13px;padding:9px 16px;min-height:40px;border-radius:8px;border:none;background:var(--navy);color:#fff;cursor:pointer}
 .btn.done{background:#2E7D32}
 a{color:var(--navy)}
+.stepwrap{margin-top:14px}
+.steplbl{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg button{font-family:inherit;font-size:13px;font-weight:800;color:var(--navy);background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:8px 6px;min-height:52px;cursor:pointer;line-height:1.3}
+.seg button span{display:block;font-weight:600;font-size:12px;color:var(--muted)}
+.seg button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.seg button.on span{color:#DCE3F5}
+.seg button:disabled{opacity:.45;cursor:not-allowed}
+.seg button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.stephint{font-size:12px;color:var(--muted);margin:6px 0 0}
+@media(max-width:420px){.seg button{font-size:12px}}
 @media print{.btn{display:none}}
 </style>
 </head>
@@ -76,6 +87,15 @@ a{color:var(--navy)}
       <div class="f"><label for="dose">3. Current FarmaKeio dose</label><select id="dose" disabled><option value="">Select medication first</option></select></div>
       <div class="f"><label for="sup">4. New program length</label><select id="sup" disabled><option value="">-</option></select></div>
     </div>
+    <div class="stepwrap">
+      <div class="steplbl">5. Dose at conversion</div>
+      <div class="seg" id="seg" role="radiogroup" aria-label="Dose at conversion">
+        <button type="button" data-step="-1" role="radio" aria-checked="false" disabled>One step lower<span>-</span></button>
+        <button type="button" data-step="0" role="radio" aria-checked="true" class="on" disabled>Equivalent<span>-</span></button>
+        <button type="button" data-step="1" role="radio" aria-checked="false" disabled>One step higher<span>-</span></button>
+      </div>
+      <p class="stephint">Equivalent is the default. Step lower for side effects, higher if the patient is ready to titrate. One step only.</p>
+    </div>
     <label class="chk off" id="b6wrap"><input type="checkbox" id="b6" disabled>
       <span><strong>Patient cannot tolerate B-12</strong> (Premier only). B-12 is the default. Use B-6 only for documented B-12 intolerance, not preference.</span></label>
   </div>
@@ -84,7 +104,7 @@ a{color:var(--navy)}
 </div>
 
 <script src="korb-pharmacies.js?v=4c1faf76"></script>
-<script src="korb-glp1-data.js?v=1f6065f3"></script>
+<script src="korb-glp1-data.js?v=e3759093"></script>
 <script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
 (function(){
@@ -141,10 +161,14 @@ a{color:var(--navy)}
     var b6ok = !!(route && route.pharmacy === 'premier' && C.ruleFor(from) && C.ruleFor(from).b6);
     $('b6').disabled = !b6ok; $('b6wrap').className = 'chk' + (b6ok ? '' : ' off');
     if (!b6ok) $('b6').checked = false;
-    if (!st || !from || !ds){ fillSupply(null); out.innerHTML = '<div class="panel empty">Pick a state, a medication and a dose.</div>'; return; }
+    if (!st || !from || !ds){ fillSupply(null); paintSeg(null); out.innerHTML = '<div class="panel empty">Pick a state, a medication and a dose.</div>'; return; }
 
-    var c = C.convert(from, ds, st, { b6: $('b6').checked });
+    var opt = { b6: $('b6').checked };
+    paintSeg(function(step){ return C.convert(from, ds, st, { b6: opt.b6, step: step }); });
+    var c = C.convert(from, ds, st, { b6: opt.b6, step: chosenStep });
     if (c.error){ out.innerHTML = '<div class="panel"><div class="alert err"><strong>Cannot convert.</strong> ' + esc(c.error) + '</div></div>'; return; }
+    var e = c.equivDose, eu = e.units !== undefined ? ' (' + e.units + ' units)' : '';
+    var stepWord = c.step > 0 ? 'increased' : c.step < 0 ? 'decreased' : '';
     fillSupply(c.toProduct);
     var oral = isOral(c.toProduct), sup = $('sup').value || 'rx';
     var rec = oral ? c.toDose.rx : c.toDose[sup];
@@ -167,8 +191,10 @@ a{color:var(--navy)}
     var h = '<div class="panel"><div class="move">' +
       '<div class="side"><div class="k">Now, FarmaKeio</div><div class="v">' + esc(f.dose) + esc(fu) + '</div><div class="s">' + esc(G.products[from].label.replace(/\s*\(RETIRED\)\s*$/,'')) + '</div></div>' +
       '<div class="arrow">&rarr;</div>' +
-      '<div class="side now"><div class="k">Convert to, ' + esc(ph) + '</div><div class="v">' + esc(t.dose) + esc(tu) + '</div><div class="s">' + esc(c.toProduct.label) + '</div></div></div>' +
-      '<div class="alert info"><strong>Why ' + esc(ph) + ':</strong> ' + esc(c.route.basis || '') + ' (' + esc(P.stateName(st)) + '). <strong>Dose rule:</strong> ' + esc(ruleText) + '.</div>' +
+      '<div class="side now"><div class="k">Convert to, ' + esc(ph) + '</div><div class="v">' + esc(t.dose) + esc(tu) + '</div><div class="s">' + esc(c.toProduct.label) +
+        (c.step ? '<br><strong>' + (c.step > 0 ? 'One step higher' : 'One step lower') + '</strong> than the equivalent ' + esc(e.dose) + esc(eu) : '') + '</div></div></div>' +
+      '<div class="alert info"><strong>Why ' + esc(ph) + ':</strong> ' + esc(c.route.basis || '') + ' (' + esc(P.stateName(st)) + '). <strong>Dose rule:</strong> ' + esc(ruleText) +
+        ', equivalent ' + esc(e.dose) + esc(eu) + '.' + (c.step ? ' <strong>Provider ' + stepWord + ' one step to ' + esc(t.dose) + '.</strong>' : '') + '</div>' +
       (unitsNote ? '<div class="alert warn"><strong>Tell the patient:</strong> ' + esc(unitsNote) + '</div>' : '') +
       (c.toProduct.restrictedUse ? '<div class="alert warn"><strong>B-6 selected.</strong> ' + esc(c.toProduct.restrictedUse) + '</div>' : '') +
       '</div>';
@@ -183,12 +209,16 @@ a{color:var(--navy)}
 
     var today = new Date(), date = (today.getMonth()+1) + '/' + today.getDate() + '/' + today.getFullYear();
     var summary = date + ': GLP-1 pharmacy changed FarmaKeio to ' + ph + ' (FarmaKeio phased out for GLP-1). ' +
-      drug + ' ' + f.dose + fu + ' converted to ' + c.toProduct.label.replace(/^[^—]*—\s*/, '') + ' ' + t.dose + tu + ', ' + ruleText + '.';
+      drug + ' ' + f.dose + fu + ' converted to ' + c.toProduct.label.replace(/^[^—]*—\s*/, '') + ' ' +
+      (c.step ? e.dose + eu + ' (' + ruleText + '), then ' + stepWord + ' one step to ' + t.dose + tu + '.'
+              : t.dose + tu + ', ' + ruleText + '.');
 
     var plan = [
       'Pharmacy change: FarmaKeio to ' + ph + '. KORB has phased out FarmaKeio for GLP-1; ' + ph + ' is the pharmacy for ' + P.stateName(st) + '.',
       'New Rx: ' + (rec ? rec.name : c.toProduct.label + ' ' + t.dose) + '. ' + (t.drugFormulation || '') + '.',
-      'Dose: FarmaKeio ' + f.dose + fu + ' to ' + ph + ' ' + t.dose + tu + ' (' + ruleText + ', per KORB conversion rule).',
+      'Dose: FarmaKeio ' + f.dose + fu + ' converts to ' + ph + ' ' + e.dose + eu + ' (' + ruleText + ', per KORB conversion rule).',
+      c.step ? 'Dose adjusted at conversion: ' + stepWord + ' one step to ' + t.dose + tu + '. Reason: [' +
+        (c.step > 0 ? 'tolerating current dose, ready to titrate' : 'side effects') + ' - document].' : null,
       unitsNote ? 'Patient instructed: ' + unitsNote : null,
       c.toProduct.restrictedUse ? 'B-6 formulation for documented B-12 intolerance: [document reaction].' : null,
       'Patient counseled to finish current FarmaKeio supply first using FarmaKeio instructions, then start the new ' + ph + ' medication at the new dose and units.',
@@ -202,6 +232,7 @@ a{color:var(--navy)}
                : f.units === t.units ? ' The number of units is the same as before, but the new medication is a different strength, so ' + t.units + ' units now gives you ' + t.dose + '.'
                                    : ' Please note this is a change from the ' + f.units + ' units you draw now.') +
                (t.units > 100 ? ' This dose takes two syringes: fill one completely (100 units), then fill a second to ' + (t.units - 100) + ' units.' : '')) +
+      (c.step ? ' Your provider has also moved your dose one step ' + (c.step > 0 ? 'up' : 'down') + ' with this change.' : '') +
       '\n\nCopy and paste this link into your browser to see your instructions' + (oral ? '' : ' and a picture of your syringe') + ':\n' + c.patientLink +
       '\n\nPlease finish your current FarmaKeio supply first, using your FarmaKeio instructions. Then start your new ' + ph + ' medication using the new instructions. If you have any questions, reply to this message and we will help.';
 
@@ -212,6 +243,29 @@ a{color:var(--navy)}
     out.innerHTML = h;
   }
 
+  /* DOSE AT CONVERSION. Equivalent by default; one step either way on the new
+     ladder. Each button shows the dose it lands on and is disabled where the
+     ladder ends. Resets to equivalent when the patient, medication or dose
+     changes, so a choice made for one patient is never carried to the next. */
+  var chosenStep = 0;
+  function paintSeg(conv){
+    [].forEach.call(document.querySelectorAll('#seg button'), function(b){
+      var s = +b.getAttribute('data-step'), r = conv ? conv(s) : null;
+      var ok = !!(r && !r.error);
+      b.disabled = !ok;
+      b.querySelector('span').textContent = ok ? r.toDose.dose + (r.toDose.units !== undefined ? ' (' + r.toDose.units + ' u)' : '') : (conv ? 'not available' : '-');
+      if (!ok && s === chosenStep) chosenStep = 0;
+    });
+    [].forEach.call(document.querySelectorAll('#seg button'), function(b){
+      var on = +b.getAttribute('data-step') === chosenStep;
+      b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+  }
+  $('seg').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b || b.disabled) return;
+    chosenStep = +b.getAttribute('data-step'); render();
+  });
+
   document.addEventListener('click', function(e){
     var b = e.target.closest && e.target.closest('[data-copy-from]');
     if (!b) return;
@@ -220,9 +274,9 @@ a{color:var(--navy)}
     if (navigator.clipboard) navigator.clipboard.writeText(ta.value).then(done, function(){ ta.select(); document.execCommand('copy'); done(); });
     else { ta.select(); document.execCommand('copy'); done(); }
   });
-  $('st').addEventListener('change', render);
-  $('med').addEventListener('change', function(){ fillDoses(); render(); });
-  $('dose').addEventListener('change', render);
+  $('st').addEventListener('change', function(){ chosenStep = 0; render(); });
+  $('med').addEventListener('change', function(){ chosenStep = 0; fillDoses(); render(); });
+  $('dose').addEventListener('change', function(){ chosenStep = 0; render(); });
   $('sup').addEventListener('change', function(){ chosenSup = $('sup').value; render(); });
   $('b6').addEventListener('change', render);
 }());
