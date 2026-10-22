@@ -191,7 +191,7 @@ a{color:var(--navy)}
       'Dose: FarmaKeio ' + f.dose + fu + ' to ' + ph + ' ' + t.dose + tu + ' (' + ruleText + ', per KORB conversion rule).',
       unitsNote ? 'Patient instructed: ' + unitsNote : null,
       c.toProduct.restrictedUse ? 'B-6 formulation for documented B-12 intolerance: [document reaction].' : null,
-      'Patient counseled to use the new instructions only with the new ' + ph + ' medication, not with any FarmaKeio vials or tablets.',
+      'Patient counseled to finish current FarmaKeio supply first using FarmaKeio instructions, then start the new ' + ph + ' medication at the new dose and units.',
       'Portal message sent with link to the patient dosing page. Patient to contact KORB with questions.'
     ].filter(Boolean).map(function(l){ return '- ' + l; }).join('\n');
 
@@ -203,7 +203,7 @@ a{color:var(--navy)}
                                    : ' Please note this is a change from the ' + f.units + ' units you draw now.') +
                (t.units > 100 ? ' This dose takes two syringes: fill one completely (100 units), then fill a second to ' + (t.units - 100) + ' units.' : '')) +
       '\n\nCopy and paste this link into your browser to see your instructions' + (oral ? '' : ' and a picture of your syringe') + ':\n' + c.patientLink +
-      '\n\nPlease use these new instructions only with your new ' + ph + ' medication, not with anything left from FarmaKeio. If you have any questions, reply to this message and we will help.';
+      '\n\nPlease finish your current FarmaKeio supply first, using your FarmaKeio instructions. Then start your new ' + ph + ' medication using the new instructions. If you have any questions, reply to this message and we will help.';
 
     h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', ascii(summary));
     h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', ascii(plan));

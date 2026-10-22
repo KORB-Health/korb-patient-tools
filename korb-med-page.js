@@ -116,7 +116,7 @@
          directions differ, because that is the mistake a patient would make. */
       var oldSig = String((was.rx || {}).ptInstructions || '').toUpperCase();
       var newSig = String((dose.rx || {}).ptInstructions || '').toUpperCase();
-      h += '<div class="kmp-box amber"><strong>Switching from FarmaKeio.</strong> Your dose stays ' + esc(dose.dose) + ' a day. ' +
+      h += '<div class="kmp-box amber"><strong>Switching from FarmaKeio.</strong> Finish your FarmaKeio supply first, then start your new tablets. Your dose stays ' + esc(dose.dose) + ' a day. ' +
            (oldSig && newSig && oldSig !== newSig
              ? '<p><strong>How you take it has changed.</strong> Follow the directions above and on your new label, not your old FarmaKeio directions.</p>'
              : 'Your new tablets may look different, so follow the directions on your new label.') + '</div>';
@@ -129,7 +129,7 @@
            (same
              ? '<p>The number of units is the same as before, but your new medication is a different strength, so the same units now give you ' + esc(dose.dose) + '. That is expected.</p>'
              : '<p><strong>Your number of units has changed.</strong> Draw to ' + esc(dose.units) + ' units, not your old ' + esc(was.units) + '.</p>') +
-           '<p>Do not use these instructions with an old FarmaKeio vial. Use them only with your new ' + esc(pharmacy) + ' medication.</p></div>';
+           '<p><strong>Finish your FarmaKeio supply first</strong>, using your FarmaKeio instructions. Then start your new ' + esc(pharmacy) + ' medication at the units on this page. Do not use these instructions with a FarmaKeio vial.</p></div>';
     }
   }
 
