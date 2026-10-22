@@ -6839,6 +6839,31 @@ KORB_GLP1.farmakeioConversion = {
   },
   siteBase: 'https://korb-health.github.io/korb-patient-tools/',
 
+  /* HIGHER SEMAGLUTIDE DOSES AT PREMIER (4.5 and 6 mg). Don, 2026-10-22.
+     The step up from 2.7 mg (90 units) to 4.5 mg (150 units) is a 67% jump,
+     and providers may have a patient split these doses into two injections a
+     week, or work up in smaller increments. So nothing here prescribes how:
+     the provider is warned, and the patient is told to follow the provider's
+     own escalation instructions. Read by the conversion tool, its plan and
+     portal message, and the patient medication pages. */
+  highDose: {
+    appliesTo: ['premier_sema', 'premier_sema_b6'],
+    minMg: 4.5,
+    provider: 'Higher-dose semaglutide. 4.5 mg is 150 units, a 67% jump from 2.7 mg (90 units), ' +
+              'and at 4.5 mg the patient finishes one vial and draws the rest from the next. ' +
+              'Consider smaller increments, or splitting the weekly dose into two injections, ' +
+              'and give the patient specific escalation instructions.',
+    plan: 'Escalation instructions given for this higher dose: [split twice weekly / smaller increments / as tolerated - document].',
+    patient: 'Follow any specific instructions your provider gave you for this dose. At higher ' +
+             'doses your provider may have you split your weekly dose into two injections, or ' +
+             'increase in smaller steps as you tolerate it. If you are not sure how to take this ' +
+             'dose, contact KORB before your next injection.'
+  },
+  isHighDose: function (productKey, dose) {
+    var h = this.highDose;
+    return !!(dose && h.appliesTo.indexOf(productKey) !== -1 && dose.mg >= h.minMg);
+  },
+
   ruleFor: function (fromKey) {
     return this.rules.filter(function (r) { return r.from === fromKey; })[0] || null;
   },

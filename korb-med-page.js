@@ -105,6 +105,9 @@
          (dose.units > 100 ? '<p class="kmp-how"><strong>This dose takes two syringes.</strong> Fill the first one completely (100 units), then fill the second to ' + esc(dose.units - 100) + ' units.</p>'
                            : '<p class="kmp-how">Draw to the <strong>' + esc(dose.units) + '</strong> line on a standard 100-unit insulin syringe, once a week.</p>') +
          '</div>';
+    if (conv && conv.isHighDose && conv.isHighDose(KEY, dose)) {
+      h += '<div class="kmp-box amber"><strong>This is a higher dose.</strong> ' + esc(conv.highDose.patient) + '</div>';
+    }
     h += '<div class="kmp-box teal"><strong>Units are not milligrams.</strong> Units are the marks on your syringe. Always draw to the units number on this page and on your label, never to the mg number.</div>';
   }
 
