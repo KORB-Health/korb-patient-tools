@@ -36,7 +36,7 @@ checked for in the others, because nobody could say what had been pushed where.
 
 ---
 
-## GLP-1: FARMAKEIO OUT, PREMIER OR BELMAR. BUILT, NOT PUSHED. (Don, 2026-10-22)
+## GLP-1: FARMAKEIO OUT, PREMIER OR BELMAR. LIVE 2026-10-23. (Don, 2026-10-22)
 
 Premier wherever Premier can fill GLP-1 (42 states, no backup); Belmar
 everywhere else (9: AL, AR, CA, HI, MA, MS, SC, VA, WA). New Hampshire moved to
@@ -56,8 +56,9 @@ are not decided; do not touch add-on routing until Don says.
   `korb-med-page.js`. They open at the dose in their link (`?dose=`, and
   `?was=` for the FarmaKeio dose). The link carries nothing else.
 - The syringe drawing is `korb-syringe.js`, shared with the Dose Guide.
-- **Do not push until Don has Nick's confirmation.** Don announces it by email
-  and Google Chat first.
+- **Live on Pages since 2026-10-23, about 5:45 pm Central** (the push of
+  `b9fb419`, after clinic). Nick confirmed. Providers are told at the Monday
+  meeting, 2026-10-26 at 10:30; anyone on early Monday may not know yet.
 - **ONE PHARMACY PER STATE, NO BACKUP, NO OVERRIDE, in every program** (Don,
   2026-10-22). GLP-1: `checkPharmacyForState` returns error for any
   compounding pharmacy that is not the state's, so no tool can select it; the
@@ -160,14 +161,14 @@ to check a single document against, which is the whole reason this table exists.
 | `Patient_Education/KORB_Patient_Ed_Tirzepatide.html` | **Yes**, 2026-09-19 |
 | `Patient_Education/KORB_Start_Here_Guide.html` | **Yes**, 2026-09-19 |
 | `Patient_Education/KORB_When_to_Contact_KORB_or_ER.html` | **Yes**, 2026-09-19 |
-| `Patient_Education/KORB_My_GLP1_Premier_Semaglutide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
-| `Patient_Education/KORB_My_GLP1_Premier_Semaglutide_B6.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
-| `Patient_Education/KORB_My_GLP1_Premier_Tirzepatide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
-| `Patient_Education/KORB_My_GLP1_Premier_Tirzepatide_B6.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
-| `Patient_Education/KORB_My_GLP1_Belmar_Semaglutide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
-| `Patient_Education/KORB_My_GLP1_Belmar_Tirzepatide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
-| `Patient_Education/KORB_My_GLP1_Premier_Oral_Semaglutide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
-| `Patient_Education/KORB_My_GLP1_Belmar_Oral_Semaglutide.html` | **No.** Built 2026-10-22 for the FarmaKeio conversion. Goes live with it, once Nick confirms |
+| `Patient_Education/KORB_My_GLP1_Premier_Semaglutide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
+| `Patient_Education/KORB_My_GLP1_Premier_Semaglutide_B6.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
+| `Patient_Education/KORB_My_GLP1_Premier_Tirzepatide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
+| `Patient_Education/KORB_My_GLP1_Premier_Tirzepatide_B6.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
+| `Patient_Education/KORB_My_GLP1_Belmar_Semaglutide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
+| `Patient_Education/KORB_My_GLP1_Belmar_Tirzepatide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
+| `Patient_Education/KORB_My_GLP1_Premier_Oral_Semaglutide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
+| `Patient_Education/KORB_My_GLP1_Belmar_Oral_Semaglutide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
 | `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
 | `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |
