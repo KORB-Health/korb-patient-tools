@@ -56,6 +56,12 @@ are not decided; do not touch add-on routing until Don says.
   `korb-med-page.js`. They open at the dose in their link (`?dose=`, and
   `?was=` for the FarmaKeio dose). The link carries nothing else.
 - The syringe drawing is `korb-syringe.js`, shared with the Dose Guide.
+- **Patient page wording is `KORB_GLP1.medPage`** (Don approved 2026-10-25): why the
+  pharmacy changed and what to expect from the switch (only on `?was=` links), what
+  the added vitamin is for, the 12-week start-within-5-days box (Premier injectables),
+  and a What to expect section whose side effects are READ from the signed semaglutide
+  and tirzepatide handouts. Change the handout and the medication pages follow, and
+  their sign-offs go stale. The why is also the policy's approved answer for Ops.
 - **Live on Pages since 2026-10-23, about 5:45 pm Central** (the push of
   `b9fb419`, after clinic). Nick confirmed. Providers are told at the Monday
   meeting, 2026-10-26 at 10:30; anyone on early Monday may not know yet.
