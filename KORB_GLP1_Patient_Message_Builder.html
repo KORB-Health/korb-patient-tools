@@ -48,9 +48,10 @@ h1{font-size:21px;font-weight:800;margin:0;line-height:1.25}
 .rule{height:3px;width:48px;background:var(--teal);border-radius:2px;margin:7px 0 12px}
 .lead{font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.55;max-width:72ch}
 .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:400px){.grid{grid-template-columns:1fr}}
+/* Three even columns, left, middle, right (Don, 2026-10-25). align-items:end
+   keeps the boxes on one line even if a label wraps. One column on a phone. */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 16px;align-items:end}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
 .f label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
 .f select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-family:inherit;font-size:14px;color:var(--navy);background:#fff;min-height:44px}
 .f select:focus{outline:3px solid var(--teal);outline-offset:2px}
@@ -85,6 +86,7 @@ a{color:var(--navy)}
 .steplbl{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .seg.two{grid-template-columns:repeat(2,1fr)}
+@media(max-width:560px){.seg.two{grid-template-columns:1fr}}
 .seg button{font-family:inherit;font-size:13px;font-weight:800;color:var(--navy);background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:8px 6px;min-height:52px;cursor:pointer;line-height:1.3}
 .seg button span{display:block;font-weight:600;font-size:12px;color:var(--muted)}
 .seg button.on{background:var(--navy);border-color:var(--navy);color:#fff}
@@ -130,8 +132,8 @@ a{color:var(--navy)}
   <!-- MOVING FROM FARMAKEIO -->
   <div class="panel hide" id="convPanel">
     <div class="grid">
-      <div class="f"><label for="med">3. Current FarmaKeio medication</label><select id="med"><option value="">Select...</option></select></div>
-      <div class="f"><label for="dose">4. Current FarmaKeio dose</label><select id="dose" disabled><option value="">Select medication first</option></select></div>
+      <div class="f"><label for="med">3. FarmaKeio medication</label><select id="med"><option value="">Select...</option></select></div>
+      <div class="f"><label for="dose">4. FarmaKeio dose</label><select id="dose" disabled><option value="">Select medication first</option></select></div>
       <div class="f"><label for="sup">5. New program length</label><select id="sup" disabled><option value="">-</option></select></div>
     </div>
     <div class="stepwrap">
