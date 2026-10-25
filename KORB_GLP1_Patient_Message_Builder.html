@@ -24,7 +24,7 @@
     Moving from FarmaKeio: the conversion as built 2026-10-22 (same step for
       semaglutide, nearest lower for tirzepatide, same dose for oral), plus the
       cancel-and-rewrite rule: the FarmaKeio prescription is cancelled and a new
-      one written, never renewed (Don, 2026-10-25).
+      one written rather than renewed (Don, 2026-10-25).
 
   Nothing clinical is typed here. Routing is KORB_GLP1.states.routeTo, the
   conversion is KORB_GLP1.farmakeioConversion, the Tebra entry is the dose
@@ -262,8 +262,10 @@ a{color:var(--navy)}
 
   /* ---------- the Tebra rule, Don 2026-10-25 ---------- */
   function tebraRule(ph){
-    return '<div class="alert err"><strong>In Tebra: cancel, do not renew.</strong> Cancel the patient\'s FarmaKeio GLP-1 prescription and write a NEW prescription to ' + esc(ph) +
-      ' from the entry below. A renewal goes back to FarmaKeio. Delete your own FarmaKeio GLP-1 drug favorites so they cannot be picked again. Prescriptions to FarmaKeio are being monitored.</div>';
+    /* Worded softly on purpose (Don, 2026-10-25): KORB no longer uses FarmaKeio
+       for GLP-1 because of LegitScript, not because FarmaKeio cannot fill. */
+    return '<div class="alert warn"><strong>In Tebra:</strong> cancel the FarmaKeio prescription and write a new one to ' + esc(ph) +
+      ' from the entry below, rather than renewing it, since a renewal goes back to FarmaKeio. Please delete your FarmaKeio drug favorites so a prescription is not sent there by mistake. FarmaKeio bills still come to KORB, so prescriptions sent there will be flagged and reviewed.</div>';
   }
 
   /* ---------- NEW PRESCRIPTION OR DOSE CHANGE ---------- */
