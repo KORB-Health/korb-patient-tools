@@ -152,28 +152,32 @@
       <div class="cg">
         <label for="stateSel">1. Patient state</label>
         <select id="stateSel"><option value="">Select state…</option></select>
-        <span class="hint" id="stateHint">Sets the default pharmacy.</span>
+        <span class="hint" id="stateHint">Sets the pharmacy.</span>
       </div>
       <div class="cg">
-        <label for="pharmSel">2. Pharmacy</label>
-        <select id="pharmSel" disabled><option value="">Select state first…</option></select>
-        <span class="hint">Defaults from state. Override if needed.</span>
-      </div>
-      <div class="cg">
-        <label for="drugSel">3. Drug</label>
-        <select id="drugSel"><option value="">Select drug…</option></select>
+        <label for="drugSel">2. Drug</label>
+        <select id="drugSel" disabled><option value="">Select state first…</option></select>
         <span class="hint" id="drugHint"></span>
       </div>
       <div class="cg">
-        <label for="prodSel">4. Formulation</label>
+        <label for="prodSel">3. Formulation</label>
         <select id="prodSel" disabled><option value="">—</option></select>
       </div>
       <div class="cg">
-        <label for="doseSel">5. Dose</label>
+        <label for="doseSel">4. Dose</label>
         <select id="doseSel" disabled><option value="">—</option></select>
       </div>
+      <!-- STATE FIRST, PRODUCT SECOND, PHARMACY DERIVED (Don, 2026-10-25). A
+           compounded drug goes to the state's one pharmacy, so there is nothing
+           to pick. Only a brand-name drug has a real choice of where it goes:
+           the maker's program or the patient's local pharmacy. -->
+      <div class="cg" id="sendToCg" style="display:none;">
+        <label for="pharmSel">Send to</label>
+        <select id="pharmSel"><option value="">—</option></select>
+        <span class="hint">Brand-name only: the maker's program or the patient's local pharmacy.</span>
+      </div>
       <div class="cg">
-        <label for="supplySel">6. Program length</label>
+        <label for="supplySel">5. Program length</label>
         <!-- Filled from korb-glp1-data.js once a product is chosen - see
              the SUPPLY_LABEL block below. This placeholder is what a disabled
              picker shows before then, and must not be a second list of
@@ -354,8 +358,8 @@ function init(){
 
   buildDrugs();
   $('stateSel').onchange   = function(){ S.state = this.value; S.pharmacy=''; onStateOrDrug(); };
-  $('drugSel').onchange    = function(){ S.drug = this.value; buildProducts(); render(); };
-  $('pharmSel').onchange   = function(){ S.pharmacy = this.value; buildDrugs(); buildProducts(); render(); };
+  $('drugSel').onchange    = function(){ S.drug = this.value; S.pharmacy = ''; setPharmacy(); buildProducts(); render(); };
+  $('pharmSel').onchange   = function(){ S.pharmacy = this.value; buildProducts(); render(); };
   $('prodSel').onchange    = function(){ S.product = this.value; buildDoses(); render(); };
   $('supplySel').onchange  = function(){ S.supply = this.value; render(); };
   $('doseSel').onchange    = function(){ S.dose = this.value; render(); };
@@ -372,37 +376,73 @@ function drugLabel(v){ return DRUG_LABEL[v] || v; }
 // products show the full product name.
 function formulationLabel(p){ return p.presentationLabel || p.label; }
 
-// Drug options come from the data, narrowed to what the selected pharmacy carries.
-function buildDrugs(){
-  var sel = $('drugSel');
+/* DRUG OPTIONS, STATE FIRST (Don, 2026-10-25). Compounded: the molecules the
+   state's one pharmacy carries. Brand-name: every brand family, and only in a
+   state KORB offers brand in (brandRules.availableStates). The pharmacy is then
+   derived from the drug, never picked: a provider knows the product they want,
+   and may not know which program or pharmacy fills it. */
+function stateRoute(){ return S.state ? K.states.routeTo(S.state) : null; }
+function brandDrugs(){
   var seen = {}, list = [];
-  K.listProducts(S.pharmacy ? { pharmacy:S.pharmacy } : {}).forEach(function(p){
+  K.listProducts({}).forEach(function(p){
+    if (p.brandName && p.brandFamily && !isRetiredProduct(p) && !seen[p.brandFamily]){ seen[p.brandFamily] = 1; list.push(p.brandFamily); }
+  });
+  return list.sort();
+}
+function isBrandDrug(d){ return brandDrugs().indexOf(d) !== -1; }
+function compoundedDrugs(){
+  var r = stateRoute(), seen = {}, list = [];
+  if (!r) return list;
+  K.listProducts({ pharmacy:r.pharmacy }).forEach(function(p){
     var v = selectorDrug(p);
-    if (!seen[v]){ seen[v] = 1; list.push(v); }
+    if (!p.brandName && !isRetiredProduct(p) && !seen[v]){ seen[v] = 1; list.push(v); }
   });
-  list.sort();
-  sel.innerHTML = '<option value="">Select drug…</option>';
-  list.forEach(function(d){
-    var o = document.createElement('option');
-    o.value = d; o.textContent = drugLabel(d);
-    sel.appendChild(o);
-  });
-  // If the pharmacy does not carry the drug currently chosen, move to one it does
-  // rather than leaving the downstream selectors empty and greyed out.
-  // If the current drug is not carried here (including the empty case after a
-  // previous switch), auto-select when there is only one option, otherwise ask.
-  if (list.indexOf(S.drug) === -1) S.drug = (list.length === 1) ? list[0] : '';
+  return list.sort();
+}
+function buildDrugs(){
+  var sel = $('drugSel'), hint = $('drugHint');
+  if (!S.state){
+    sel.innerHTML = '<option value="">Select state first…</option>'; sel.disabled = true;
+    S.drug = ''; if (hint) hint.textContent = ''; return;
+  }
+  var r = stateRoute(), comp = compoundedDrugs();
+  var brandOk = K.brandRules.availableStates.indexOf(S.state) !== -1;
+  var brand = brandOk ? brandDrugs() : [];
+  var phName = r ? (K.pharmacies[r.pharmacy] || {}).name : '';
+  var h = '<option value="">Select drug…</option>';
+  h += '<optgroup label="Compounded · ' + esc(phName) + '">' + comp.map(function(d){
+    return '<option value="' + esc(d) + '">' + esc(drugLabel(d)) + '</option>'; }).join('') + '</optgroup>';
+  h += brandOk
+    ? '<optgroup label="Brand name">' + brand.map(function(d){ return '<option value="' + esc(d) + '">' + esc(drugLabel(d)) + '</option>'; }).join('') + '</optgroup>'
+    : '<optgroup label="Brand name"><option value="" disabled>Not offered in ' + esc(stateName(S.state)) + '</option></optgroup>';
+  sel.innerHTML = h; sel.disabled = false;
+  if (comp.concat(brand).indexOf(S.drug) === -1) S.drug = '';
   sel.value = S.drug || '';
-  var hint = $('drugHint');
-  if (hint) hint.textContent = (S.pharmacy && list.length)
-    ? (K.pharmacies[S.pharmacy].name + ' carries: ' + list.map(drugLabel).join(', '))
-    : '';
+  if (hint) hint.textContent = 'Compounded goes to ' + phName + '.' + (brandOk ? ' Brand name goes to the maker’s program or a local pharmacy.' : '');
+}
+
+/* The pharmacy follows from the state and the drug. Brand-name is the only
+   case with a choice, so the Send to picker shows only then. */
+function setPharmacy(){
+  var cg = $('sendToCg'), sel = $('pharmSel');
+  if (!S.state || !S.drug){ S.pharmacy = ''; cg.style.display = 'none'; return; }
+  if (!isBrandDrug(S.drug)){
+    var r = stateRoute(); S.pharmacy = r ? r.pharmacy : ''; cg.style.display = 'none'; return;
+  }
+  var chans = [];
+  K.listProducts({}).forEach(function(p){
+    if (p.brandFamily === S.drug && !isRetiredProduct(p))
+      [p.pharmacy].concat(p.altChannels || []).forEach(function(c){ if (chans.indexOf(c) === -1) chans.push(c); });
+  });
+  sel.innerHTML = chans.map(function(c){ return '<option value="' + esc(c) + '">' + esc((K.pharmacies[c] || {}).name || c) + '</option>'; }).join('');
+  if (chans.indexOf(S.pharmacy) === -1) S.pharmacy = chans[0] || '';
+  sel.value = S.pharmacy; cg.style.display = '';
 }
 
 function resetAll(){
   S = { state:'', drug:'', pharmacy:'', product:'', supply:'supply4', dose:'' };
   $('stateSel').value=''; $('drugSel').value=''; $('supplySel').value='supply4';
-  $('pharmSel').innerHTML='<option value="">Select state first…</option>'; $('pharmSel').disabled=true;
+  $('sendToCg').style.display='none';
   $('prodSel').innerHTML='<option value="">—</option>'; $('prodSel').disabled=true;
   buildDrugs();
   $('doseSel').innerHTML='<option value="">—</option>'; $('doseSel').disabled=true;
@@ -411,48 +451,17 @@ function resetAll(){
   $('fillNotice').style.display='none';
   $('results').style.display='none';
   $('emptyState').style.display='block';
-  $('stateHint').textContent = 'Sets the default pharmacy.';
+  $('stateHint').textContent = 'Sets the pharmacy.';
 }
 
 function onStateOrDrug(){
-  if (!S.state){ buildPharmacies(); render(); return; }
-  var def = K.states.routeTo(S.state);
+  var def = stateRoute();
   var defName = def ? (K.pharmacies[def.pharmacy] || {}).name : '';
-  $('stateHint').textContent = def ? ('Default: ' + defName + ' \u2014 ' + def.basis) : '';
-  if (!S.pharmacy && def) S.pharmacy = def.pharmacy;
-  buildPharmacies();
+  $('stateHint').textContent = def ? ('Compounded GLP-1 goes to ' + defName + '.') : 'Sets the pharmacy.';
   buildDrugs();
+  setPharmacy();
   buildProducts();
   render();
-}
-
-function buildPharmacies(){
-  var sel = $('pharmSel');
-  sel.innerHTML = '';
-  if (!S.state){
-    sel.innerHTML = '<option value="">Select state first…</option>';
-    sel.disabled = true; return;
-  }
-  sel.disabled = false;
-  var opts = K.pharmacyOptionsForState(S.state);
-  /* One pharmacy per state from 2026-10-22: every other compounding pharmacy is
-     'error' (do not send), and the only 'info' rows left are the brand and
-     local-pharmacy channels, which are not state-routed. */
-  var flag = { ok:'', info:'  \u00b7 brand or local only', warning:'  \u26a0 restricted', error:'  \u2715 do not send' };
-  opts.forEach(function(o){
-    var op = document.createElement('option');
-    op.value = o.key;
-    op.textContent = o.name + (flag[o.status] || '');
-    if (!o.selectable) op.disabled = true;
-    sel.appendChild(op);
-  });
-  // If current selection is unusable, fall back to the state default.
-  var cur = opts.filter(function(o){ return o.key === S.pharmacy; })[0];
-  if (!cur || !cur.selectable){
-    var def = K.states.routeTo(S.state);
-    S.pharmacy = def ? def.pharmacy : '';
-  }
-  sel.value = S.pharmacy;
 }
 
 /* Retired products never reach a selector. The record stays in the data file so
@@ -586,7 +595,7 @@ function renderCompat(){
   }
   var c = K.checkPharmacyForState(S.pharmacy, S.state);
   el.className = 'compat ' + c.status;
-  var title = { ok:'Default pharmacy', info:'Override', warning:'Check before prescribing', error:'Will not work' }[c.status];
+  var title = { ok:'Pharmacy for this state', info:'Brand-name route', warning:'Check before prescribing', error:'Will not work' }[c.status];
   el.innerHTML = '<strong>' + esc(title) + '</strong>' + esc(c.message);
   el.style.display = 'block';
 }
