@@ -136,6 +136,21 @@
     }
   }
 
+  /* 2b. WHY, and what to expect from the switch. Wording in KORB_GLP1.medPage. */
+  var M = G.medPage || null;
+  var fill = function (s) {
+    return String(s).replace(/\{pharmacy\}/g, pharmacy).replace(/\{additive\}/g, addName).replace(/\{drug\}/g, P.drug);
+  };
+  if (was && M) {
+    h += '<h2>Why your pharmacy changed</h2>' + M.switchWhy.map(function (p) { return '<p>' + esc(fill(p)) + '</p>'; }).join('');
+    var sx = (oral ? M.switchExpect.oral : M.switchExpect.injection).filter(function (p, i) {
+      /* The "dose set a little lower" line only when it was. */
+      return oral || i !== M.switchExpect.injection.length - 1 || dose.mg < was.mg;
+    });
+    if (!oral && fromProd && fromProd.additive !== P.additive && addName) sx.unshift(M.switchExpect.vitaminChanged);
+    h += '<h2>What to expect from the switch</h2><ul>' + sx.map(function (p) { return '<li>' + esc(fill(p)) + '</li>'; }).join('') + '</ul>';
+  }
+
   /* 3. WHAT IS IN IT, and what the label shows. */
   if (oral) {
     h += '<h2>What is in it</h2><p>' + esc(drug) + ', taken by mouth and dissolved under your tongue. ' +
@@ -144,8 +159,30 @@
     h += '<h2>What is in your vial</h2><p>Each mL holds ' + esc(drug.toLowerCase()) + ' ' + esc(mgPerMl) + ' mg' +
          (addName ? ', with ' + esc(addName) + ' added' : '') + '. ' +
          'It is given once a week as an injection just under the skin.</p>' +
+         (M && addName && M.additives[addName] ? '<p>' + esc(M.additives[addName]) + '</p>' : '') +
          '<h2>Your label</h2><p>Your label from ' + esc(pharmacy) + ' shows your name, the medication and its strength, your dose, and the date it was made. ' +
          '<strong>If your label says something different from this page, follow your label and contact KORB.</strong></p>';
+  }
+
+  /* 3b. 12-WEEK START WINDOW, Premier injectables only. */
+  if (M && M.twelveWeek.appliesTo.indexOf(KEY) !== -1) {
+    h += '<div class="kmp-box amber"><strong>' + esc(M.twelveWeek.heading) + '</strong>' +
+         M.twelveWeek.p.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>';
+  }
+
+  /* 3c. WHAT TO EXPECT. Side effects read from the signed handout for this
+     drug, so the two pages cannot disagree. Tablets skip the injection row. */
+  var HO = M && (KORB_PATIENT_ED.docs || {})[M.handout[P.drug.toLowerCase()]];
+  if (HO && HO.common) {
+    var rows = HO.common.filter(function (c) { return !(oral && /injection/i.test(c[0])); });
+    /* The handout points at its own sections ("see How much to drink"), which
+       this page does not have; the link to the full guide follows instead. */
+    var own = function (s) { return String(s).replace(/\s*\(see [^)]*\)/g, ''); };
+    h += '<h2>' + esc(M.expectHeading) + '</h2><p>' + esc(M.expectLead) + '</p><ul>' +
+         rows.map(function (c) { return '<li><strong>' + esc(c[0]) + '.</strong> ' + esc(own(c[1])) + '</li>'; }).join('') + '</ul>' +
+         (HO.monitorAndTell ? '<div class="kmp-box red"><strong>' + esc(M.urgentLead) + '</strong><ul>' +
+           HO.monitorAndTell.map(function (c) { return '<li>' + esc(c[0]) + '</li>'; }).join('') + '</ul></div>' : '') +
+         '<p><a class="kmp-btn" href="' + esc(HO.file) + '.html">' + esc(fill(M.handoutLink)) + '</a></p>';
   }
 
   /* 4. STORAGE, from the shared patient wording. Injectables only. */

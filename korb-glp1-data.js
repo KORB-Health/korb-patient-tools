@@ -7035,6 +7035,76 @@ KORB_GLP1.farmakeioConversion = {
   }
 };
 
+/* PATIENT MEDICATION PAGE WORDING: why the pharmacy changed, what to expect,
+   what the added vitamin is for, and the 12-week start window. Read by
+   korb-med-page.js. DRAFT 2026-10-25 for Don's review; not live until he
+   approves it and the eight pages are re-signed.
+
+   The why is written from the GLP-1 Pharmacy Selection Policy (POL-PHARM-GLP1)
+   and is meant to become the "approved wording when patients ask why their
+   pharmacy changed" that policy names and does not yet have. It names no fault
+   in FarmaKeio: a public page says what KORB chose, not what it left.
+
+   Side effects are NOT written here. The page reads the `common` list from the
+   signed Semaglutide and Tirzepatide handouts in korb-patient-ed-data.js, so a
+   patient sees the same words on both pages. */
+KORB_GLP1.medPage = {
+  status: 'draft',
+
+  /* Shown only with ?was=, i.e. to a patient moving from FarmaKeio. */
+  switchWhy: [
+    'KORB now uses one pharmacy for each state, so every prescription in your state is filled the same way. Your state’s pharmacy is {pharmacy}.',
+    'We chose our pharmacies for quality and reliability: they hold LegitScript certification, an independent check of a pharmacy’s licensing and practices; they ship on time; and our providers can reach their pharmacists directly when a question comes up.',
+    'Your treatment plan has not changed. If you would rather use a brand-name medication instead of a compounded one, ask your provider at your next visit.'
+  ],
+
+  /* Shown only with ?was=. `injection` for vials, `oral` for tablets. */
+  switchExpect: {
+    injection: [
+      'Your new vial will look different from your FarmaKeio vial, and the label will be from {pharmacy}.',
+      'Most patients notice no difference in how the medication works. Because it is made differently, some notice mild nausea again for the first week or two. Smaller, lower-fat meals usually help.',
+      'If your dose was set a little lower to match the new strength, you may notice your appetite come back slightly. Tell your provider at your next visit rather than changing your dose yourself.'
+    ],
+    oral: [
+      'Your new tablets and label will be from {pharmacy}, and they may look different from your FarmaKeio tablets.',
+      'Most patients notice no difference in how the medication works. Some notice mild nausea again for the first week or two.'
+    ],
+    /* Shown when the vitamin changes, which is every FarmaKeio injectable
+       patient moving to B-12 or L-carnitine: all FarmaKeio GLP-1 was B-6. */
+    vitaminChanged: 'Your FarmaKeio medication had vitamin B-6 added. Your new medication has {additive} instead. See What is in your vial below.'
+  },
+
+  /* Shown on every page, after "What is in your vial". Keyed by the name
+     korb-med-page.js derives from product.additive. */
+  additives: {
+    'vitamin B-12': 'Vitamin B-12 is a vitamin your body needs to make energy, red blood cells and healthy nerves. A small amount is added to your medication. It is the usual choice at KORB.',
+    'vitamin B-6': 'Vitamin B-6 is a vitamin your body uses to turn food into energy. A small amount is added to your medication. Your provider chose it because B-12 did not agree with you.',
+    'L-carnitine': 'L-carnitine is a nutrient your body makes and also gets from food. It helps your cells use fat for energy. A small amount is added to your medication. It is not a weight loss medication on its own.'
+  },
+
+  /* Premier injectables only: the products with a 12-week programme. The link
+     carries the dose and not the supply length, so every Premier page shows it
+     with "If you received a 12-week supply". See acceptedLimitations
+     PREMIER-12WK-BUD-WINDOW for the arithmetic behind five days. */
+  twelveWeek: {
+    appliesTo: ['premier_sema', 'premier_sema_b6', 'premier_tirz', 'premier_tirz_b6'],
+    heading: 'If you received a 12-week supply',
+    p: [
+      'Start your first dose within 5 days of your package arriving.',
+      'Your vials have a use-by date set on the day they were made, and a 12-week supply only just fits inside it. Starting late means your last doses would be past that date.',
+      'If you cannot start within 5 days, contact KORB before you start.'
+    ]
+  },
+
+  /* What to expect, for every patient. Side effects come from the handout. */
+  expectHeading: 'What to expect',
+  expectLead: 'Common side effects, most often in the first weeks and after a dose increase:',
+  /* Followed by the handout's monitorAndTell symptoms, names only. */
+  urgentLead: 'Go to urgent care or the ER the same day, then let KORB know, if you have:',
+  handout: { semaglutide: 'semaglutide', tirzepatide: 'tirzepatide' },
+  handoutLink: 'Read the full {drug} guide'
+};
+
 if (typeof module !== 'undefined' && module.exports) { module.exports = KORB_GLP1; }
 
 /* Auto-wire when korb-pharmacies.js is already on the page. Kept at the very
