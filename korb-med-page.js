@@ -45,9 +45,15 @@
   var oral = !(P.doses[0] && P.doses[0].units !== undefined);
   var pharmacy = (G.pharmacies[P.pharmacy] || {}).name || P.pharmacy;
   var drug = P.drug.charAt(0).toUpperCase() + P.drug.slice(1);
-  var addName = /B-?6|pyridox/i.test(P.additive || '') ? 'vitamin B-6'
-              : /B-?12|cobalamin/i.test(P.additive || '') ? 'vitamin B-12'
-              : /carn/i.test(P.additive || '') ? 'L-carnitine' : '';
+  /* Every additive, in label order. Glycine rides with B-12 on the one Premier
+     product that has it, so this is a list, not a single name. */
+  var adds = [];
+  if (/B-?6|pyridox/i.test(P.additive || '')) adds.push('vitamin B-6');
+  if (/B-?12|cobalamin/i.test(P.additive || '')) adds.push('vitamin B-12');
+  if (/carn/i.test(P.additive || '')) adds.push('L-carnitine');
+  if (/glycine/i.test(P.additive || '')) adds.push('glycine');
+  var addName = adds.join(' and ');
+  var hasB12 = adds.indexOf('vitamin B-12') !== -1;
   var num = function (d) { return String(d.dose).replace(/\s*mg\s*$/i, ''); };
 
   /* window.__KORB_MED_SEARCH is set only by artifact-signoff.js, which renders
@@ -77,7 +83,7 @@
 
   if (!dose) {
     h += '<div class="kmp-box teal"><strong>Choose your dose</strong> from your prescription label.' +
-         '<select id="kmpDose" class="kmp-select"><option value="">Select your weekly dose...</option>' +
+         '<select id="kmpDose" class="kmp-select"><option value="">Select your ' + (oral ? 'daily' : 'weekly') + ' dose...</option>' +
          P.doses.map(function (d) { return '<option value="' + esc(num(d)) + '">' + esc(d.dose) + (oral ? ' daily' : ' once a week') + '</option>'; }).join('') +
          '</select></div>';
     host.innerHTML = h;
@@ -147,7 +153,10 @@
       /* The "dose set a little lower" line only when it was. */
       return oral || i !== M.switchExpect.injection.length - 1 || dose.mg < was.mg;
     });
-    if (!oral && fromProd && fromProd.additive !== P.additive && addName) sx.unshift(M.switchExpect.vitaminChanged);
+    if (!oral && fromProd && fromProd.additive !== P.additive && addName) {
+      if (hasB12 && M.b12Colour) sx.unshift(M.b12Colour.switchLine);
+      sx.unshift(M.switchExpect.vitaminChanged);
+    }
     h += '<h2>What to expect from the switch</h2><ul>' + sx.map(function (p) { return '<li>' + esc(fill(p)) + '</li>'; }).join('') + '</ul>';
   }
 
@@ -159,7 +168,8 @@
     h += '<h2>What is in your vial</h2><p>Each mL holds ' + esc(drug.toLowerCase()) + ' ' + esc(mgPerMl) + ' mg' +
          (addName ? ', with ' + esc(addName) + ' added' : '') + '. ' +
          'It is given once a week as an injection just under the skin.</p>' +
-         (M && addName && M.additives[addName] ? '<p>' + esc(M.additives[addName]) + '</p>' : '') +
+         (M ? adds.map(function (a) { return M.additives[a] ? '<p>' + esc(M.additives[a]) + '</p>' : ''; }).join('') : '') +
+         (M && hasB12 && M.b12Colour ? '<p>' + esc(M.b12Colour.vial) + '</p>' : '') +
          '<h2>Your label</h2><p>Your label from ' + esc(pharmacy) + ' shows your name, the medication and its strength, your dose, and the date it was made. ' +
          '<strong>If your label says something different from this page, follow your label and contact KORB.</strong></p>';
   }
@@ -190,7 +200,11 @@
   if (!oral && S) {
     h += '<h2>Storing your medication</h2><div class="kmp-cards">' + S.cards.map(function (c) {
       return '<div><strong>' + esc(c[0]) + '</strong><span>' + esc(c[1]) + '</span></div>'; }).join('') + '</div>' +
-      '<ul>' + S.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>';
+      '<ul>' + S.notes.map(function (n) {
+        /* The shared note says do not use a discolored solution. On a B-12
+           product red or pink IS the colour, so that note is replaced. */
+        return '<li>' + esc(hasB12 && M && M.b12Colour && /discolou?red/i.test(n) ? M.b12Colour.storage : n) + '</li>';
+      }).join('') + '</ul>';
   }
 
   h += '<h2>More help</h2><p>' +

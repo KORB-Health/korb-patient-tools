@@ -2,7 +2,7 @@
 /*
    build-med-pages.js — writes the "My GLP-1 medication" patient pages.
 
-   One shell per product, listed in KORB_GLP1.farmakeioConversion.patientPages
+   One shell per compounded product, listed in KORB_GLP1.farmakeioConversion.patientPages
    in korb-glp1-data.js. The shell holds no clinical content: korb-med-page.js
    renders everything in the browser from the data files, so a dose, vial or
    pharmacy change reaches these pages on the next load with no rebuild.
@@ -78,12 +78,13 @@ function title(key) {
   const drug = p.drug.charAt(0).toUpperCase() + p.drug.slice(1);
   const oral = !(p.doses[0] && p.doses[0].units !== undefined);
   const ph = G.pharmacies[p.pharmacy].name;
-  const add = /B-?6|pyridox/i.test(p.additive || '') ? ' with B-6' : '';
+  const add = /B-?6|pyridox/i.test(p.additive || '') ? ' with B-6'
+            : /glycine/i.test(p.additive || '') ? ' with Glycine' : '';
   return 'Your ' + drug + (oral ? ' Tablets' : '') + add + ', ' + ph;
 }
 
-function shell(key) {
-  const t = title(key);
+function shell(key, t0) {
+  const t = t0 || title(key);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,16 +117,40 @@ ${CSS}
 `;
 }
 
+/* THE CHOOSER, Patient_Education/KORB_My_GLP1.html (Don, 2026-10-25): state,
+   then compounded or name-brand, then only that state's medications. Same
+   masthead and CSS as the medication pages, rendered by korb-med-chooser.js. */
+const CHOOSER_CSS = `
+.kmp-step{margin:14px 0;}
+.kmc-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
+.kmc-opt{font:inherit;font-weight:700;font-size:16px;color:var(--navy);background:#fff;border:2px solid var(--rule);border-radius:10px;padding:12px;min-height:72px;text-align:left;cursor:pointer;}
+.kmc-opt span{display:block;font-weight:400;font-size:13px;color:var(--mu);margin-top:3px;}
+.kmc-opt.on{border-color:var(--navy);background:#EEF0F8;}
+.kmc-opt:disabled{opacity:.5;cursor:not-allowed;}
+.kmc-list{display:grid;gap:8px;margin-top:8px;}
+.kmc-med{display:block;border:2px solid var(--teal);border-radius:10px;padding:12px 14px;min-height:44px;color:var(--navy);font-weight:700;font-size:16px;text-decoration:none;}
+.kmc-med span{display:block;font-weight:400;font-size:13px;color:var(--mu);margin-top:2px;}
+@media(max-width:380px){.kmc-two{grid-template-columns:1fr;}}
+`.trim();
+function chooserShell() {
+  const t = 'Your GLP-1 Medication';
+  return shell('__chooser', t)
+    .replace('</style>', CHOOSER_CSS + '\n</style>')
+    .replace('<p>Loading your medication instructions...</p>', '<p>Loading...</p>')
+    .replace(/<script src="\.\.\/korb-syringe\.js"><\/script>\s*<script src="\.\.\/korb-quest\.js"><\/script>\s*<script src="\.\.\/korb-patient-ed-data\.js"><\/script>\s*<script src="\.\.\/korb-med-page\.js" data-product="__chooser"><\/script>/,
+             '<script src="../korb-med-chooser.js"></script>');
+}
+
 /* Compare ignoring the cache stamps stamp-cache.js adds to script and link tags. */
 const unstamp = s => s.replace(/\r\n/g, '\n').replace(/\?v=[0-9a-f]+/g, '');
 
-const pages = G.farmakeioConversion.patientPages;
+const pages = Object.assign({}, G.farmakeioConversion.patientPages, { __chooser: 'Patient_Education/KORB_My_GLP1.html' });
 const check = process.argv.includes('--check');
 let bad = 0, wrote = 0;
 Object.keys(pages).forEach(key => {
-  if (!G.products[key]) { console.error('  MISSING PRODUCT ' + key); bad++; return; }
+  if (key !== '__chooser' && !G.products[key]) { console.error('  MISSING PRODUCT ' + key); bad++; return; }
   const file = path.join(__dirname, pages[key]);
-  const want = shell(key);
+  const want = key === '__chooser' ? chooserShell() : shell(key);
   const have = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
   if (check) {
     if (have === null) { console.error('  MISSING ' + pages[key]); bad++; }

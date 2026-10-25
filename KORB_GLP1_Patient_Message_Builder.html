@@ -3,204 +3,171 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KORB GLP-1 Patient Message Builder</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KORB — GLP-1 Prescriptions and Patient Messages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+<!--
+  PROVIDER TOOL. ONE TOOL FOR EVERY COMPOUNDED GLP-1 PRESCRIPTION MESSAGE.
+  Don, 2026-10-25: the Patient Message Builder and the FarmaKeio Conversion
+  tool are merged here so providers have one place to go. The conversion URL
+  (KORB_GLP1_FarmaKeio_Conversion.html) redirects to this page with
+  ?mode=convert, so links already handed out keep working.
+
+  State first, always. The state decides the one pharmacy (Premier or Belmar,
+  no backup, no override), and only that pharmacy's products are offered.
+
+    New prescription or dose change: medication, dose, program length. Writes
+      the Tebra entry, the plan, and the portal message with the link to the
+      patient's own medication page at that dose.
+    Moving from FarmaKeio: the conversion as built 2026-10-22 (same step for
+      semaglutide, nearest lower for tirzepatide, same dose for oral), plus the
+      cancel-and-rewrite rule: the FarmaKeio prescription is cancelled and a new
+      one written, never renewed (Don, 2026-10-25).
+
+  Nothing clinical is typed here. Routing is KORB_GLP1.states.routeTo, the
+  conversion is KORB_GLP1.farmakeioConversion, the Tebra entry is the dose
+  record through korb-rx-block.js, and the patient links are
+  farmakeioConversion.patientPages. Copy boxes are ASCII only, because they go
+  into Tebra and the portal. Brand-name GLP-1 is in the Provider Reference.
+
+  KORB_MSG_SELFCHECK() in the console builds every message for every product,
+  dose and program length in both modes and fails anything over the Tebra
+  portal's 1000-character cap.
+-->
 <style>
-  :root{
-    --navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--ln:#EEF0F7;--bd:#D6E0E3;
-    --tx:#1A1A2E;--mu:#5A6070;--gb:#F5F5F5;--amber:#FFF8E1;--amberbd:#F9A825;
-    --premier:#1565C0;--premierlt:#E3F2FD;
-    --belmar:#6A1B9A;--belmarlt:#F3E5F5;
-    --farmakeio:#EF6C00;--farmakeiolt:#FFF3E0;
-    --greenwich:#2E7D32;--greenwichlt:#E8F5E9;
-    --err:#C62828;--errlt:#FDECEA;--errbd:#E57373;
-    --ok:#2E7D32;--oklt:#E8F5E9;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;background:#ECE9D1;color:var(--tx);font-size:13px;line-height:1.5;}
-  .wrap{max-width:1080px;margin:0 auto;padding:22px 20px 60px;background:#fff;min-height:100vh;}
-
-  .top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-bottom:14px;border-bottom:2.5px solid var(--teal);margin-bottom:18px;}
-  .top-bar img{height:32px;width:auto;}
-  .top-bar-title h1{font-size:20px;font-weight:700;color:var(--navy);}
-  .top-bar-title p{font-size:11.5px;color:var(--mu);margin-top:2px;}
-  .badge{background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .badge.warn{background:var(--amberbd);}
-
-  .controls{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:16px 18px;margin-bottom:14px;}
-  .cg-row{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;}
-  .cg{display:flex;flex-direction:column;gap:5px;}
-  .cg label{font-size:11.5px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.3px;}
-  .cg select{padding:7px 10px;border:1.5px solid var(--teal);border-radius:6px;font-size:13px;color:var(--navy);background:#fff;font-family:inherit;min-width:190px;}
-  .cg select:disabled{background:#F0F0F0;color:#999;border-color:#CCC;}
-  .seg{display:flex;border:1.5px solid var(--teal);border-radius:6px;overflow:hidden;}
-  .seg button{padding:7px 16px;font-size:13px;font-weight:700;border:none;background:#fff;color:var(--navy);cursor:pointer;font-family:inherit;}
-  .seg button.on{background:var(--navy);color:#fff;}
-
-  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;}
-  .btn{background:var(--navy);color:#fff;border:none;border-radius:6px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:700;font-family:inherit;}
-  .btn.alt{background:#fff;color:var(--navy);border:1.5px solid var(--navy);padding:7.5px 16px;}
-  .btn:disabled{background:#BBB;cursor:not-allowed;}
-  .btn.ok{background:var(--ok);}
-  .count{font-size:12px;color:var(--mu);font-weight:700;}
-
-  .alert{border-radius:8px;padding:11px 14px;margin-bottom:12px;font-size:12.5px;border:1.5px solid;}
-  .alert.warn{background:var(--amber);border-color:var(--amberbd);color:#5D4200;}
-  .alert.err{background:var(--errlt);border-color:var(--errbd);color:#8E1B1B;}
-  .alert.info{background:var(--lt);border-color:var(--teal);color:#004E58;}
-  .alert strong{display:block;margin-bottom:2px;}
-
-  .sec{font-size:15px;font-weight:700;color:var(--navy);border-left:4px solid var(--teal);padding-left:10px;margin:22px 0 12px;}
-
-  .dose-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
-  .dose-chip{display:flex;align-items:center;gap:7px;border:1.5px solid var(--bd);border-radius:7px;padding:8px 13px;cursor:pointer;background:#fff;font-size:13px;font-weight:700;color:var(--navy);user-select:none;}
-  .dose-chip:hover{border-color:var(--teal);}
-  .dose-chip.on{border-color:var(--teal);background:var(--lt);}
-  .dose-chip input{accent-color:var(--teal);width:15px;height:15px;cursor:pointer;}
-  .dose-chip .sub{font-weight:400;font-size:11px;color:var(--mu);}
-
-  .msg{border:1.5px solid var(--navy);border-radius:8px;overflow:hidden;margin-bottom:14px;}
-  .msg-hdr{background:var(--navy);color:#fff;padding:9px 14px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .msg-body{padding:0;}
-  .msg pre{margin:0;padding:14px 16px;font-family:'SF Mono',Menlo,Consolas,'Courier New',monospace;font-size:12.5px;line-height:1.62;white-space:pre-wrap;word-wrap:break-word;color:var(--tx);background:#fff;}
-  .copy-btn{background:var(--teal);color:#fff;border:none;border-radius:4px;padding:4px 13px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;}
-  .copy-btn.ok{background:#7CD992;color:#0A3D18;}
-  .pill{display:inline-block;border-radius:4px;padding:2px 8px;font-size:10.5px;font-weight:700;letter-spacing:.3px;}
-  .pill.premier{background:var(--premierlt);color:var(--premier);}
-  .pill.belmar{background:var(--belmarlt);color:var(--belmar);}
-  .pill.farmakeio{background:var(--farmakeiolt);color:var(--farmakeio);}
-  .pill.greenwich{background:var(--greenwichlt);color:var(--greenwich);}
-  .msg-note{background:var(--gb);border-top:1px solid var(--bd);padding:8px 16px;font-size:11.5px;color:var(--mu);}
-  .msg-note.over{background:var(--errlt);color:#8E1B1B;font-weight:700;}
-  .cc{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:2px 8px;margin-right:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .cc.ok{background:#7CD992;color:#0A3D18;}
-  .cc.near{background:var(--amberbd);color:#3D2A00;}
-  .cc.over{background:var(--err);color:#fff;}
-  .subj-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 14px;background:var(--ln);border-bottom:1px solid var(--bd);}
-  .subj-lbl{font-size:10.5px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;}
-  .subj-val{flex:1;min-width:200px;font-family:'SF Mono',Menlo,Consolas,'Courier New',monospace;font-size:12.5px;color:var(--tx);}
-  .copy-btn.subj{background:var(--navy);}
-
-  .empty{text-align:center;padding:44px 20px;color:var(--mu);font-size:13px;background:var(--gb);border-radius:8px;border:1px dashed var(--bd);}
-  .foot{margin-top:30px;padding-top:14px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu);line-height:1.7;}
-  .foot code{background:var(--ln);padding:1px 5px;border-radius:3px;font-size:10.5px;}
-
-  @media print{
-    body{background:#fff;}
-    .wrap{max-width:none;padding:0;}
-    .controls,.btn-row,.copy-btn,.dose-grid{display:none !important;}
-    .msg{break-inside:avoid;}
-  }
-  @media (max-width:640px){
-    .cg select{min-width:100%;}
-    .cg{width:100%;}
-  }
+:root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--gold:#FBB040;
+      --muted:#5A6070;--line:#DCD9C4;--err:#B3261E;}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+     background:var(--cream);color:var(--navy);-webkit-font-smoothing:antialiased;font-size:14px}
+.wrap{max-width:900px;margin:0 auto;padding:14px 16px 24px}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);margin:0 0 3px}
+h1{font-size:21px;font-weight:800;margin:0;line-height:1.25}
+.rule{height:3px;width:48px;background:var(--teal);border-radius:2px;margin:7px 0 12px}
+.lead{font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.55;max-width:72ch}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:400px){.grid{grid-template-columns:1fr}}
+.f label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.f select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-family:inherit;font-size:14px;color:var(--navy);background:#fff;min-height:44px}
+.f select:focus{outline:3px solid var(--teal);outline-offset:2px}
+.f select:disabled{background:#F4F3EC;color:var(--muted)}
+.chk{display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:13px;line-height:1.45}
+.chk input{width:18px;height:18px;margin-top:1px}
+.chk.off{color:var(--muted)}
+.empty{color:var(--muted);font-size:13px}
+.sendto{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-top:12px;padding:10px 12px;border-radius:9px;background:#E0F6F9;border-left:4px solid var(--teal);font-size:13px}
+.sendto strong{font-size:16px}
+.move{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+@media(max-width:560px){.move{grid-template-columns:1fr}.move .arrow{display:none}}
+.side{border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.side.now{border:2px solid var(--navy)}
+.side .k{font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.side .v{font-size:18px;font-weight:800;margin-top:3px}
+.side .s{font-size:12.5px;color:var(--muted);margin-top:2px}
+.arrow{font-size:22px;font-weight:800;color:var(--teal)}
+.alert{border-radius:8px;padding:10px 12px;margin-top:12px;font-size:13px;line-height:1.5}
+.alert.warn{background:#FFF6E3;border-left:4px solid var(--gold)}
+.alert.info{background:#E0F6F9;border-left:4px solid var(--teal)}
+.alert.err{background:#FDECEC;border-left:4px solid var(--err)}
+h2{font-size:15px;font-weight:800;margin:0 0 4px}
+.sub{font-size:12px;color:var(--muted);margin:0 0 8px}
+.copybox{width:100%;min-height:72px;font-family:Consolas,Menlo,monospace;font-size:12.5px;line-height:1.5;border:1px solid var(--line);border-radius:8px;padding:10px;color:#1F2330;background:#FBFAF6;resize:vertical}
+.btn{margin-top:8px;font-family:inherit;font-weight:800;font-size:13px;padding:9px 16px;min-height:40px;border-radius:8px;border:none;background:var(--navy);color:#fff;cursor:pointer}
+.btn.done{background:#2E7D32}
+.cc{font-size:12px;font-weight:700;margin-left:10px}
+.cc.over{color:var(--err)}
+a{color:var(--navy)}
+.stepwrap{margin-top:14px}
+.steplbl{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg.two{grid-template-columns:repeat(2,1fr)}
+.seg button{font-family:inherit;font-size:13px;font-weight:800;color:var(--navy);background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:8px 6px;min-height:52px;cursor:pointer;line-height:1.3}
+.seg button span{display:block;font-weight:600;font-size:12px;color:var(--muted)}
+.seg button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.seg button.on span{color:#DCE3F5}
+.seg button:disabled{opacity:.45;cursor:not-allowed}
+.seg button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.stephint{font-size:12px;color:var(--muted);margin:6px 0 0}
+.hide{display:none}
+@media(max-width:420px){.seg button{font-size:12px}}
+@media print{.btn{display:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <p class="eyebrow">GLP-1 / Weight Loss · Provider tool</p>
+  <h1>GLP-1 Prescriptions and Patient Messages</h1>
+  <div class="rule"></div>
+  <p class="lead">Every compounded GLP-1 prescription, in one place. Pick the patient's state first: it decides the one pharmacy, and only that pharmacy's medications are offered. Copy the Tebra entry, the plan and the portal message. The message carries a link to the patient's own medication page at their dose. Brand-name GLP-1 is in the <a href="KORB_GLP1_Provider_Reference.html">Provider Reference</a>.</p>
 
-  <div class="top-bar">
-    <img id="logoImg" alt="KORB Health">
-    <div class="top-bar-title">
-      <h1>GLP-1 Patient Message Builder</h1>
-      <p>Dosing messages for the Tebra patient portal. Generated from the shared data file.</p>
+  <div class="panel">
+    <div class="grid">
+      <div class="f"><label for="st">1. Patient state</label><select id="st"><option value="">Select...</option></select></div>
     </div>
-    <div>
-      <span class="badge" id="verBadge">data v—</span>
-      <span class="badge warn" id="phiBadge">No PHI</span>
-    </div>
-  </div>
-
-  <div id="loadErr"></div>
-
-  <div class="controls">
-    <div class="cg-row">
-      <div class="cg">
-        <label for="selState">Patient state</label>
-        <select id="selState"><option value="">— all pharmacies —</option></select>
-      </div>
-      <div class="cg">
-        <label for="selPharm">Pharmacy</label>
-        <select id="selPharm"><option value="">— select —</option></select>
-      </div>
-      <div class="cg">
-        <label for="selProd">Product</label>
-        <select id="selProd" disabled><option value="">— select pharmacy —</option></select>
-      </div>
-      <div class="cg">
-        <label>Supply</label>
-        <div class="seg" id="segSupply">
-          <button type="button" data-s="4" class="on">4 week</button>
-          <button type="button" data-s="8">8 week</button>
-        </div>
+    <div id="sendto"></div>
+    <div class="stepwrap">
+      <div class="steplbl">2. What is this prescription?</div>
+      <div class="seg two" id="mode" role="radiogroup" aria-label="Prescription type">
+        <button type="button" data-mode="new" role="radio" aria-checked="true" class="on">New prescription or dose change<span>Any patient at Premier or Belmar</span></button>
+        <button type="button" data-mode="convert" role="radio" aria-checked="false">Moving from FarmaKeio<span>Converts the dose to the new pharmacy</span></button>
       </div>
     </div>
   </div>
 
-  <div id="routing"></div>
-  <div id="alerts"></div>
-
-  <div id="doseWrap" style="display:none">
-    <div class="sec">Select one or more doses</div>
-    <div class="dose-grid" id="doseGrid"></div>
-    <div class="btn-row" style="margin-top:12px">
-      <button class="btn alt" id="btnAll" type="button">Select all</button>
-      <button class="btn alt" id="btnNone" type="button">Clear</button>
-      <span class="count" id="selCount"></span>
+  <!-- NEW PRESCRIPTION OR DOSE CHANGE -->
+  <div class="panel" id="newPanel">
+    <div class="grid">
+      <div class="f"><label for="nmed">3. Medication</label><select id="nmed" disabled><option value="">Select state first</option></select></div>
+      <div class="f"><label for="ndose">4. Dose</label><select id="ndose" disabled><option value="">Select medication first</option></select></div>
+      <div class="f"><label for="nsup">5. Program length</label><select id="nsup" disabled><option value="">-</option></select></div>
     </div>
   </div>
 
-  <div id="msgSection"></div>
-
-  <div class="foot">
-    <strong>Source of truth.</strong> Every value below the pharmacy name is read live from
-    <code>korb-glp1-data.js</code> in this same folder. Nothing on this page is typed by hand.
-    Change the data file and these messages change with it, with no rebuild.<br>
-    <strong>No patient information is entered, stored or transmitted by this page.</strong>
-    It holds no state, writes nothing, and makes no network requests. Paste the copied text
-    into the Tebra portal, which is the HIPAA-covered system.<br>
-    <span id="footVer"></span>
+  <!-- MOVING FROM FARMAKEIO -->
+  <div class="panel hide" id="convPanel">
+    <div class="grid">
+      <div class="f"><label for="med">3. Current FarmaKeio medication</label><select id="med"><option value="">Select...</option></select></div>
+      <div class="f"><label for="dose">4. Current FarmaKeio dose</label><select id="dose" disabled><option value="">Select medication first</option></select></div>
+      <div class="f"><label for="sup">5. New program length</label><select id="sup" disabled><option value="">-</option></select></div>
+    </div>
+    <div class="stepwrap">
+      <div class="steplbl">6. Dose at conversion</div>
+      <div class="seg" id="seg" role="radiogroup" aria-label="Dose at conversion">
+        <button type="button" data-step="-1" role="radio" aria-checked="false" disabled>One step lower<span>-</span></button>
+        <button type="button" data-step="0" role="radio" aria-checked="true" class="on" disabled>Equivalent<span>-</span></button>
+        <button type="button" data-step="1" role="radio" aria-checked="false" disabled>One step higher<span>-</span></button>
+      </div>
+      <p class="stephint">Equivalent is the default. Step lower for side effects, higher if the patient is ready to titrate. One step only.</p>
+    </div>
+    <label class="chk off" id="b6wrap"><input type="checkbox" id="b6" disabled>
+      <span><strong>Patient cannot tolerate B-12</strong> (Premier only). B-12 is the default. Use B-6 only for documented B-12 intolerance, not preference.</span></label>
   </div>
+
+  <div id="out"><div class="panel empty">Pick a state.</div></div>
 </div>
 
-<!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
-     pharmacy footprints from it at load, and throws on routing without it. -->
 <script src="korb-pharmacies.js?v=7c407f07"></script>
-<script src="korb-glp1-data.js?v=31d31d95"></script>
+<script src="korb-glp1-data.js?v=7fecd7ab"></script>
+<script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
 (function(){
-  "use strict";
+  var G = KORB_GLP1, C = G.farmakeioConversion, P = KORB_PHARMACIES;
+  var $ = function(id){ return document.getElementById(id); };
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  /* Copy boxes go into Tebra and the portal: plain ASCII only. */
+  function ascii(s){ return String(s).replace(/[–—]/g,'-').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[^\x00-\x7E]/g,''); }
+  var isOral = function(p){ return !(p.doses[0] && p.doses[0].units !== undefined); };
+  var phName = function(k){ return (G.pharmacies[k] || {}).name || k; };
+  var drugName = function(p){ return p.drug.charAt(0).toUpperCase() + p.drug.slice(1); };
+  var num = function(d){ return String(d.dose).replace(/\s*mg\s*$/i, ''); };
+  var shortLabel = function(p){ return p.label.replace(/^[^—]*—\s*/, ''); };
+  var MSG_LIMIT = 1000;
 
-  var D = window.KORB_GLP1 || (typeof KORB_GLP1 !== 'undefined' ? KORB_GLP1 : null);
-
-  if (!D || !D.products) {
-    document.getElementById('loadErr').innerHTML =
-      '<div class="alert err"><strong>Data file not loaded.</strong>' +
-      'This page needs <code>korb-glp1-data.js</code> in the same folder. ' +
-      'It was not found, or it loaded without defining KORB_GLP1. ' +
-      'Nothing below is safe to use until that is fixed.</div>';
-    return;
-  }
-
-  /* ---------- logo ---------- */
-  var LOGO = "data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgMTIyIDMyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMwMEIxQzM7fQoJLnN0MXtmaWxsOiMyMTI3NUI7fQo8L3N0eWxlPjxnPjxnPjxnPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS43LDIzLjdsNi44LDcuM2w1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNmwtNS4xLTUuNGw1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNkwzMi41LDBsLTYuOCw3LjMKCQkJCUMyMS40LDExLjgsMjEuNCwxOS4yLDI1LjcsMjMuN3oiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMi41LDE4LjhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xbC0yLjEtMi4yYy0wLjUtMC42LTEuNC0wLjYtMS45LDBsLTIuMSwyLjIKCQkJCWMtMC41LDAuNi0wLjUsMS41LDAsMi4xTDIuNSwxOC44eiIvPjwvZz48Zz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNOS45LDE1LjVsLTUuMSw1LjRjLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMzFsNi44LTcuM2M0LjMtNC41LDQuMy0xMS45LDAtMTYuNUw5LjksMEw0LjgsNS40CgkJCQljLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMTUuNUw5LjksMTUuNXoiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMzcuNiwxMi4ybC0yLjEsMi4yYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFsMi4xLDIuMmMwLjUsMC42LDEuNCwwLjYsMS45LDBsMi4xLTIuMmMwLjUtMC42LDAuNS0xLjUsMC0yLjEKCQkJCWwtMi4xLTIuMkMzOSwxMS43LDM4LjEsMTEuNywzNy42LDEyLjJ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTIwLDhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xTDIyLDEuNUMyMS40LDEsMjAuNiwxLDIwLDEuNWwtMi4xLDIuMgoJCQkJYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFMMjAsOHoiLz48L2c+PC9nPjxnPjxwb2x5Z29uIGNsYXNzPSJzdDEiIHBvaW50cz0iNjkuMSw3LjQgNjYuNSw3LjQgNTcuNywxNi40IDU3LjcsNy40IDU1LjQsNy40IDU1LjQsMjMuNSA1Ny43LDIzLjUgNTcuNywxOS4zIDYwLjcsMTYuMyA2Ni44LDIzLjUgCgkJCTY5LjUsMjMuNSA2Mi4yLDE0LjcgCQkiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTAwLjYsMTcuOWMxLTAuNCwxLjgtMS4xLDIuMy0xLjljMC41LTAuOCwwLjgtMS44LDAuOC0zYzAtMS4yLTAuMy0yLjItMC44LTNjLTAuNS0wLjgtMS4zLTEuNS0yLjMtMS45CgkJCWMtMS0wLjQtMi4yLTAuNy0zLjYtMC43aC02LjN2MTYuMUg5M3YtNC45aDRjMC40LDAsMC43LDAsMSwwbDMuNSw0LjloMi41bC0zLjgtNS40QzEwMC4zLDE4LDEwMC40LDE4LDEwMC42LDE3Ljl6IE05Ni45LDE2LjZIOTMKCQkJVjkuNGgzLjljMS41LDAsMi42LDAuMywzLjMsMC45YzAuOCwwLjYsMS4yLDEuNSwxLjIsMi43YzAsMS4xLTAuNCwyLTEuMiwyLjdDOTkuNSwxNi4zLDk4LjQsMTYuNiw5Ni45LDE2LjZ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTg0LjcsOS42Qzg0LDguOCw4My4xLDguMiw4Miw3LjhjLTEtMC40LTIuMi0wLjYtMy40LTAuNmMtMS4yLDAtMi40LDAuMi0zLjQsMC42Yy0xLDAuNC0xLjksMS0yLjcsMS43CgkJCWMtMC44LDAuNy0xLjQsMS42LTEuOCwyLjZjLTAuNCwxLTAuNiwyLjEtMC42LDMuM2MwLDEuMiwwLjIsMi4zLDAuNiwzLjNjMC40LDEsMSwxLjksMS44LDIuNmMwLjgsMC43LDEuNywxLjMsMi43LDEuNwoJCQljMS4xLDAuNCwyLjIsMC42LDMuNCwwLjZjMS4yLDAsMi40LTAuMiwzLjQtMC42YzEtMC40LDEuOS0xLDIuNy0xLjdjMC44LTAuOCwxLjQtMS42LDEuOC0yLjZjMC40LTEsMC42LTIuMSwwLjYtMy4zCgkJCXMtMC4yLTIuMy0wLjYtMy4zQzg2LjEsMTEuMiw4NS41LDEwLjMsODQuNyw5LjZ6IE04NC40LDE3LjljLTAuMywwLjgtMC43LDEuNC0xLjMsMmMtMC42LDAuNi0xLjIsMS0yLDEuMwoJCQljLTAuOCwwLjMtMS42LDAuNS0yLjUsMC41Yy0wLjksMC0xLjctMC4yLTIuNS0wLjVjLTAuOC0wLjMtMS40LTAuNy0yLTEuM2MtMC42LTAuNi0xLTEuMi0xLjMtMmMtMC4zLTAuOC0wLjUtMS42LTAuNS0yLjUKCQkJczAuMi0xLjcsMC41LTIuNWMwLjMtMC44LDAuOC0xLjQsMS4zLTJjMC42LTAuNiwxLjItMSwyLTEuM2MwLjgtMC4zLDEuNi0wLjUsMi41LTAuNWMwLjksMCwxLjcsMC4yLDIuNSwwLjUKCQkJYzAuOCwwLjMsMS40LDAuNywyLDEuM2MwLjYsMC42LDEsMS4yLDEuMywyYzAuMywwLjgsMC41LDEuNiwwLjUsMi41Uzg0LjcsMTcuMiw4NC40LDE3Ljl6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTEyMC42LDE2LjljLTAuNC0wLjYtMS0xLjEtMS43LTEuNGMtMC4yLTAuMS0wLjUtMC4yLTAuNy0wLjNjMCwwLDAsMCwwLDBjMC43LTAuMywxLjItMC44LDEuNi0xLjQKCQkJYzAuNC0wLjYsMC42LTEuMywwLjYtMi4yYzAtMS4zLTAuNS0yLjMtMS41LTNjLTEtMC44LTIuNC0xLjEtNC4zLTEuMWgtNy4ydjE2LjFoNy43YzIsMCwzLjYtMC40LDQuNi0xLjFjMS0wLjgsMS42LTEuOCwxLjYtMy4yCgkJCUMxMjEuMiwxOC4yLDEyMSwxNy41LDEyMC42LDE2Ljl6IE0xMTQuNCw5LjNjMS4yLDAsMi4xLDAuMiwyLjcsMC42YzAuNiwwLjQsMSwxLjEsMSwxLjlzLTAuMywxLjUtMSwxLjljLTAuNiwwLjQtMS41LDAuNi0yLjcsMC42CgkJCWgtNC43VjkuM0gxMTQuNHogTTExNy45LDIxYy0wLjcsMC40LTEuNiwwLjYtMi45LDAuNmgtNS4zdi01LjRoNS4zYzEuMywwLDIuMiwwLjIsMi45LDAuNmMwLjcsMC40LDEsMS4xLDEsMgoJCQlDMTE4LjksMTkuOSwxMTguNiwyMC42LDExNy45LDIxeiIvPjwvZz48L2c+PC9zdmc+";
-  if (LOGO.indexOf('data:') === 0) document.getElementById('logoImg').src = LOGO;
-  else document.getElementById('logoImg').style.display = 'none';
-
-  document.getElementById('verBadge').textContent = 'data v' + (D.meta && D.meta.version || '?');
-  document.getElementById('footVer').textContent =
-    'Data file v' + (D.meta && D.meta.version || '?') +
-    ', last updated ' + (D.meta && D.meta.lastUpdated || '?') + '. Page read it at ' +
-    new Date().toLocaleString() + '.';
-
-  /* ---------- helpers ---------- */
-
-  function esc(s){
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
-                    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
+  /* Plain-English vials and strength, kept from the old Message Builder. */
   var NUM_WORD = ['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
   function numWord(n){ return NUM_WORD[n] || String(n); }
   function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -216,10 +183,6 @@
       var cm   = seg.match(/x\s*(\d+)/i);
       return { size: size || null, count: cm ? parseInt(cm[1],10) : 1 };
     }).filter(function(s){ return s.size !== null; });
-  }
-
-  function vialCount(str){
-    return parseVials(str).reduce(function(n,s){ return n + s.count; }, 0);
   }
 
   /* "Two 1 mL vials", "One 0.6 mL vial and one 1 mL vial" */
@@ -240,657 +203,388 @@
   function ingredient(name){
     var n = String(name).trim().replace(/\s+/g,' ');
     if (/^b-?12$/i.test(n)) return 'Vitamin B-12';
-    if (/^b-?6$/i.test(n) || /pyridoxine/i.test(n))  return 'Vitamin B-6';   // Premier B-6, 2026-10-22
-    if (/carnatine|carnitine/i.test(n)) return 'L-Carnitine';   // data file spells it Carnatine
+    if (/^b-?6$/i.test(n) || /pyridoxine/i.test(n))  return 'Vitamin B-6';
+    if (/carnatine|carnitine/i.test(n)) return 'L-Carnitine';
     if (/^glycine$/i.test(n)) return 'Glycine';
     return cap(n);
   }
 
-  /* Turn a per-dose drugFormulation string into a patient-readable concentration.
-     "Semaglutide/B-12 3mg/0.5mg per mL inj"          -> Semaglutide 3 mg / Vitamin B-12 0.5 mg per mL
-     "KBH Tirzepatide + B12 Injection 5mg/0.5mg/mL"   -> Tirzepatide 5 mg / Vitamin B-12 0.5 mg per mL
+  /* "Semaglutide/B-12 3mg/0.5mg per mL inj" -> Semaglutide 3 mg / Vitamin B-12 0.5 mg per mL.
      Falls back to the raw string if names and numbers do not pair up. */
   function concentration(df){
     var raw = String(df || '').replace(/\s+/g,' ').trim();
     if (!raw) return '';
-
     var m = raw.match(/^(.*?)\s*((?:[\d.]+\s*(?:mcg|mg|g))(?:\s*\/\s*[\d.]+\s*(?:mcg|mg|g))*)\s*(?:per\s*m[lL]|\/\s*m[lL])/);
     if (!m) return raw;
-
-    var namePart = m[1]
-      .replace(/^KBH\s*/i,'')
-      .replace(/\bInjection\b/ig,'')
-      .replace(/\bHome Kit\b/ig,'')
-      .replace(/\binj\b/ig,'')
-      .trim();
-
+    var namePart = m[1].replace(/^KBH\s*/i,'').replace(/\bInjection\b/ig,'').replace(/\bHome Kit\b/ig,'').replace(/\binj\b/ig,'').trim();
     var names = namePart.split(/\s*[\/+]\s*/).filter(Boolean).map(ingredient);
-    var nums  = m[2].split(/\s*\/\s*/).map(function(x){
-      return x.replace(/([\d.]+)\s*(mcg|mg|g)/i, '$1 $2').trim();
-    });
-
+    var nums  = m[2].split(/\s*\/\s*/).map(function(x){ return x.replace(/([\d.]+)\s*(mcg|mg|g)/i, '$1 $2').trim(); });
     if (!names.length || names.length !== nums.length) return raw;
-
     return names.map(function(n,i){ return n + ' ' + nums[i]; }).join(' / ') + ' per mL';
   }
+  var SUP = [['supply4','4 weeks',4],['supply8','8 weeks',8],['supply12','12 weeks',12]];
 
-  /* Read the discard ceiling out of the dispensed sig rather than assuming it.
-     Every compounded injectable sig carries "Discard after N doses or N days."
-     (applied program-wide 2026-09-05). If a sig ever loses it, this returns null
-     and selfCheck fails rather than the message quietly printing a wrong limit. */
-  function discardRule(sig){
-    var m = String(sig || '').match(/Discard after\s+(\d+)\s+doses?\s+or\s+(\d+)\s+days?/i);
-    return m ? { doses: parseInt(m[1],10), days: parseInt(m[2],10) } : null;
-  }
+  KORB_RX_BLOCK.install(document);
 
-  /* ---------- message template ---------- */
-
-  /* Tebra's portal message box caps at 1000 characters and counts a newline as one.
-     Measured against a real paste: our count was within 2 of Tebra's. LIMIT is the
-     hard cap; TARGET leaves headroom so a data edit that lengthens a field does not
-     silently push a message over. selfCheck fails on anything above LIMIT. */
-  var MSG_LIMIT = 1000, MSG_TARGET = 950, SUBJ_LIMIT = 100;
-
-  function buildSubject(pharm, prod, dose, weeks){
-    return cap(prod.drug) + ' ' + dose.dose + ' - ' + weeks +
-           '-week supply - ' + pharm.name;
-  }
-
-  function buildMessage(pharm, prod, dose, weeks){
-    var supply = weeks === 8 ? dose.supply8 : dose.supply4;
-    var vials  = weeks === 8 ? dose.vials8  : dose.vials4;
-    var n      = vialCount(vials);
-    var drug   = cap(prod.drug || 'medication');
-    var L = [];
-
-    // Flush left, no indentation. The portal box is narrow, indentation wraps badly
-    // in it, and leading spaces cost characters against the 1000 cap.
-    L.push('I sent your ' + drug + ' prescription to ' + pharm.name + '. Check your');
-    L.push('label against the details below before your first dose, and message me');
-    L.push('with any questions.');
-    L.push('');
-    L.push(drug.toUpperCase() + ' ' + dose.dose + ' WEEKLY - ' + weeks + '-WEEK SUPPLY');
-    L.push('');
-    L.push('DIRECTIONS');
-    L.push('Inject ' + dose.units + ' units (' + dose.dose +
-           ') under the skin once a week for ' + weeks + ' weeks.');
-    L.push('');
-    L.push('CONCENTRATION');
-    L.push(concentration(dose.drugFormulation));
-    L.push('');
-    L.push('QUANTITY');
-
-    // HOW MANY PACKS IS DERIVED, not read out of the sig's prose.
-    // This used to test for the literal string "(Include one pack of insulin
-    // syringes)". On 2026-09-20 Belmar tirzepatide 12.5 mg and 15 mg went to
-    // TWO packs on the 8-week supply, the test stopped matching, and this
-    // message silently dropped the syringe line altogether - for exactly the
-    // two doses that need the most syringes. Whether syringes ship is read
-    // from the sig; HOW MANY comes from the shared rule, which is the same
-    // one the sig follows, so the two cannot disagree.
-    if (!window.KORB_PHARMACIES || !KORB_PHARMACIES.supplies) {
-      throw new Error('korb-pharmacies.js must load before this page: ' +
-        'KORB_PHARMACIES.supplies carries the syringe pack size.');
-    }
-    var sup      = KORB_PHARMACIES.supplies;
-    var ships    = /packs? of insulin syringes/i.test(supply.ptInstructions || '');
-    var packs    = Math.ceil(Math.ceil(dose.units / sup.syringeCapacityUnits) *
-                             weeks / sup.insulinSyringePack);
-    var packWord = (packs === 1 ? 'one pack' : (packs === 2 ? 'two packs' : packs + ' packs'));
-    L.push(vialProse(vials) + (ships ? ', plus ' + packWord + ' of insulin syringes' : '') + '.');
-    if (ships && packs > 1) {
-      L.push('Each weekly dose is ' + Math.ceil(dose.units / sup.syringeCapacityUnits) +
-             ' injections, because one syringe does not hold the full amount.');
-    }
-    if (n > 1) L.push('Tell us right away if your shipment is missing a vial.');
-    L.push('');
-
-    // Concentration varies by dose on Belmar semaglutide and Greenwich tirzepatide.
-    // Suppressed on the lowest rung, where there is no previous vial to compare against.
-    var varies = prod.doses.some(function(d){
-      return d.drugFormulation !== prod.doses[0].drugFormulation;
-    });
-    var isFirstRung = prod.doses[0].dose === dose.dose;
-    if (varies && !isFirstRung) {
-      L.push('YOUR UNITS MAY HAVE CHANGED');
-      L.push('The strength of this vial is set for this dose. Go by the units');
-      L.push('above, not by how your last syringe looked.');
-      L.push('');
-    }
-
-    // The dose ceiling and day limit are read out of the dispensed sig, not assumed.
-    // On the oversize Belmar vials this block IS the mitigation, not a reminder —
-    // see acceptedLimitations BELMAR-SEMA-VIAL-OVERSIZE.
-    //
-    // Per USP <797>, a multiple-dose container may be used for 28 days from initial
-    // entry OR its assigned beyond-use date, WHICHEVER IS SHORTER. The chapter is not
-    // named in patient text; "the safety standard for compounded sterile medicines"
-    // carries the same point in plainer words. The limit does not depend on whether
-    // the preparation is preserved, so no preservative rationale is given. The
-    // beyond-use date is referenced as printed on the label rather than as a fixed
-    // number of days, because only Belmar and Greenwich carry a documented BUD in the
-    // data file and the label date is always the governing one.
-    var dc = discardRule(supply.ptInstructions);
-    L.push('WHEN TO DISCARD');
-    if (dc) {
-      L.push('Throw a vial away at whichever comes first: ' + dc.doses + ' doses, ' +
-             dc.days + ' days after');
-      L.push('you first use it, or the beyond-use date on the label. Discard it even');
-      L.push('if medicine is left. This is the safety standard for compounded');
-      L.push('sterile medicines.');
-    } else {
-      // Should be unreachable — selfCheck fails if any sig loses its discard clause.
-      L.push('Follow the discard instructions printed on your label. Contact us if');
-      L.push('the label does not say when to discard the vial.');
-    }
-
-    return L.join('\n');
-  }
-
-  /* ---------- state ---------- */
-
-  var S = { state:'', pharm:'', prod:'', weeks:4, doses:{} };
-
-  /* Injectable compounded products only. */
-  /* Retired products are excluded here rather than further down, because
-     PHARM_KEYS is derived from this list and PHARM_KEYS is what the no-state
-     fallback offers. Without this, a retired product's pharmacy stayed in the
-     dropdown until a state was picked — Greenwich showed as "restricted" on
-     first load, which reads as usable-with-care rather than closed.
-     Added 2026-09-11 with the Greenwich GLP-1 retirement. */
-  function injectables(){
-    return Object.keys(D.products).map(function(k){ return D.products[k]; })
-      .filter(function(p){
-        if (p.retired || p.status === 'retired') return false;
-        return p.compounded && p.doses && p.doses.length &&
-               p.doses[0].units !== undefined && p.doses[0].supply4;
-      });
-  }
-
-  var PRODS = injectables();
-
-  var PHARM_KEYS = [];
-  PRODS.forEach(function(p){
-    if (PHARM_KEYS.indexOf(p.pharmacy) === -1) PHARM_KEYS.push(p.pharmacy);
+  (G.states.korbActive || []).slice().sort().forEach(function(s){
+    var o = document.createElement('option'); o.value = s; o.textContent = s + ' - ' + P.stateName(s); $('st').appendChild(o);
+  });
+  C.rules.forEach(function(r){
+    var p = G.products[r.from], o = document.createElement('option');
+    o.value = r.from; o.textContent = drugName(p) + (isOral(p) ? ' (oral)' : ' (injection)'); $('med').appendChild(o);
   });
 
-  /* ---------- populate controls ---------- */
+  var mode = /[?&]mode=convert\b/.test(location.search) ? 'convert' : 'new';
+  var chosenSup = 'supply4', chosenStep = 0;
 
-  var selState = document.getElementById('selState'),
-      selPharm = document.getElementById('selPharm'),
-      selProd  = document.getElementById('selProd');
+  function patientLink(key, dose, wasDose){
+    return C.siteBase + C.patientPages[key] + '?dose=' + encodeURIComponent(num(dose)) + (wasDose ? '&was=' + encodeURIComponent(num(wasDose)) : '');
+  }
+  function today(){ var d = new Date(); return (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear(); }
 
-  /* Display names only. Which states are usable, and which pharmacy serves each,
-     comes entirely from the data file — nothing about coverage is decided here. */
-  var STATE_NAMES = {
-    AL:'Alabama', AK:'Alaska', AZ:'Arizona', AR:'Arkansas', CA:'California',
-    CO:'Colorado', CT:'Connecticut', DE:'Delaware', DC:'District of Columbia',
-    FL:'Florida', GA:'Georgia', HI:'Hawaii', ID:'Idaho', IL:'Illinois', IN:'Indiana',
-    IA:'Iowa', KS:'Kansas', KY:'Kentucky', LA:'Louisiana', ME:'Maine', MD:'Maryland',
-    MA:'Massachusetts', MI:'Michigan', MN:'Minnesota', MS:'Mississippi', MO:'Missouri',
-    MT:'Montana', NE:'Nebraska', NV:'Nevada', NH:'New Hampshire', NJ:'New Jersey',
-    NM:'New Mexico', NY:'New York', NC:'North Carolina', ND:'North Dakota', OH:'Ohio',
-    OK:'Oklahoma', OR:'Oregon', PA:'Pennsylvania', RI:'Rhode Island', SC:'South Carolina',
-    SD:'South Dakota', TN:'Tennessee', TX:'Texas', UT:'Utah', VT:'Vermont',
-    VA:'Virginia', WA:'Washington', WV:'West Virginia', WI:'Wisconsin', WY:'Wyoming'
-  };
-
-  /* All states KORB is active in, from the data file (50 + DC). */
-  var ALL_STATES = ((D.states && D.states.korbActive) || []).slice().sort();
-  ALL_STATES.forEach(function(code){
-    var o = document.createElement('option');
-    o.value = code;
-    o.textContent = code + ' — ' + (STATE_NAMES[code] || code);
-    selState.appendChild(o);
-  });
-
-  /* Options for a state, restricted to the pharmacies this tool covers.
-     Status comes from the data file: ok = default, info = allowed override,
-     warning = allowed but discouraged or restricted, error = cannot ship. */
-  function optionsForState(state){
-    if (!state || typeof D.pharmacyOptionsForState !== 'function') {
-      return PHARM_KEYS.map(function(k){
-        return { key:k, name:D.pharmacies[k].name, status:'info',
-                 selectable:true, message:'' };
-      });
-    }
-    return (D.pharmacyOptionsForState(state) || []).filter(function(o){
-      return PHARM_KEYS.indexOf(o.key) !== -1;
-    });
+  /* Program lengths a product offers, read from its first dose. */
+  function fillSupply(sel, prod){
+    var keep = chosenSup;
+    if (!prod || isOral(prod)){ sel.innerHTML = '<option value="rx">90 days</option>'; sel.disabled = true; return; }
+    var d = prod.doses[0], opts = SUP.filter(function(o){ return d[o[0]]; });
+    sel.disabled = false;
+    sel.innerHTML = opts.map(function(o){ return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
+    if (opts.some(function(o){ return o[0] === keep; })) sel.value = keep;
   }
 
-  /* 1-based on purpose: a 0 rank would be falsy and fall through the default below. */
-  var RANK = { ok:1, info:2, warning:3, error:4 };
-  function rank(s){ return RANK[s] || 9; }
-
-  function fillPharmacies(){
-    var opts = optionsForState(S.state).slice().sort(function(a,b){
-      return rank(a.status) - rank(b.status);
-    });
-
-    selPharm.innerHTML = '<option value="">— select —</option>';
-
-    opts.forEach(function(o){
-      // A pharmacy that cannot ship to this state is not offered at all.
-      if (o.selectable === false) return;
-      var ph = D.pharmacies[o.key];
-      var tag = '';
-      if (S.state) {
-        if (o.status === 'ok') tag = '  · recommended';
-        else if (o.status === 'warning') tag = '  · ⚠ exception';
-        else tag = '  · alternate';
-      } else if (ph.status && ph.status !== 'active') {
-        tag = '  · ⚠ restricted';
-      }
-      var el = document.createElement('option');
-      el.value = o.key;
-      el.textContent = ph.name + tag;
-      selPharm.appendChild(el);
-    });
-
-    // Choosing a state resets to that state's recommended pharmacy. Keeping a
-    // previous pick would silently carry, say, Belmar into Texas — Belmar ships
-    // to every state, so the "is it still offered" test would never catch it.
-    var def = opts.filter(function(o){
-      return o.status === 'ok' && o.selectable !== false;
-    })[0];
-    S.pharm = def ? def.key : '';
-
-    // Still guard the no-state case, where nothing is recommended.
-    var stillThere = Array.prototype.some.call(selPharm.options, function(o){
-      return o.value === S.pharm;
-    });
-    if (!stillThere) S.pharm = '';
-
-    selPharm.value = S.pharm || '';
+  function copyBox(id, title, sub, text, limit){
+    var over = limit && text.length > limit;
+    return '<div class="panel"><h2>' + esc(title) + (limit ? '<span class="cc' + (over ? ' over' : '') + '">' + text.length + ' / ' + limit + '</span>' : '') + '</h2><p class="sub">' + esc(sub) + '</p>' +
+      '<textarea class="copybox" id="' + id + '" readonly rows="' + Math.min(16, text.split('\n').length + 1) + '">' + esc(text) + '</textarea>' +
+      (over ? '<div class="alert err">This message is over the Tebra portal limit and would be cut off. Do not send it as is; tell Don.</div>' : '') +
+      '<button class="btn" type="button" data-copy-from="' + id + '">Copy</button></div>';
   }
 
-  /* Panel showing what routes where for the chosen state. */
-  function renderRouting(){
-    var host = document.getElementById('routing');
-    if (!S.state) { host.innerHTML = ''; return; }
-
-    var opts = optionsForState(S.state);
-    var rec  = opts.filter(function(o){ return o.status === 'ok'; })[0];
-    var blocked = opts.filter(function(o){ return o.selectable === false; });
-    var alt = opts.filter(function(o){
-      return o.selectable !== false && (!rec || o.key !== rec.key);
-    });
-
-    var route = (typeof D.states.routeTo === 'function') ? D.states.routeTo(S.state) : null;
-    var name = STATE_NAMES[S.state] || S.state;
-    var h = '';
-
-    if (rec) {
-      h += '<strong>Recommended for ' + esc(name) + ': ' + esc(rec.name) + '</strong> ' +
-           (route && route.basis
-              ? esc(route.basis.charAt(0).toUpperCase() + route.basis.slice(1)) + '. ' : '');
-    } else {
-      h += '<strong>No default pharmacy for ' + esc(name) + '.</strong> ';
-    }
-
-    if (alt.length) {
-      var plain = alt.filter(function(o){ return o.status === 'info'; });
-      var flagged = alt.filter(function(o){ return o.status !== 'info'; });
-      if (plain.length) {
-        h += 'Also ships to ' + esc(S.state) + ', available as a backup if the patient ' +
-             'or provider prefers: ' + plain.map(function(o){ return esc(o.name); }).join(', ') + '. ';
-      }
-      if (flagged.length) {
-        h += 'Allowed but discouraged: ' +
-             flagged.map(function(o){ return esc(o.name); }).join(', ') +
-             ' — selecting one shows the reason. ';
-      }
-    }
-    if (blocked.length) {
-      h += '<br><strong style="display:inline">Cannot ship to ' + esc(S.state) + ':</strong> ' +
-           blocked.map(function(o){ return esc(o.name); }).join(', ') +
-           '. This is a licensing limit and cannot be overridden, so these are not offered above.';
-    }
-
-    host.innerHTML = '<div class="alert info">' + h + '</div>';
+  /* ---------- the Tebra rule, Don 2026-10-25 ---------- */
+  function tebraRule(ph){
+    return '<div class="alert err"><strong>In Tebra: cancel, do not renew.</strong> Cancel the patient\'s FarmaKeio GLP-1 prescription and write a NEW prescription to ' + esc(ph) +
+      ' from the entry below. A renewal goes back to FarmaKeio. Delete your own FarmaKeio GLP-1 drug favorites so they cannot be picked again. Prescriptions to FarmaKeio are being monitored.</div>';
   }
 
-  function fillProducts(){
-    selProd.innerHTML = '';
-    var list = PRODS.filter(function(p){ return p.pharmacy === S.pharm; });
-    if (!S.pharm) {
-      selProd.innerHTML = '<option value="">— select pharmacy —</option>';
-      selProd.disabled = true;
-      return;
-    }
-    selProd.disabled = false;
-    var ph = document.createElement('option');
-    ph.value = ''; ph.textContent = '— select —';
-    selProd.appendChild(ph);
-    list.forEach(function(p){
-      var o = document.createElement('option');
-      o.value = p.key;
-      o.textContent = p.label.replace(/^[^—]*—\s*/, '') +
-        (p.restrictedUse ? '  (B-12 intolerance only)' : '');
-      selProd.appendChild(o);
-    });
-    if (list.length === 1) { selProd.value = list[0].key; S.prod = list[0].key; }
+  /* ---------- NEW PRESCRIPTION OR DOSE CHANGE ---------- */
+  function newProducts(pharm){
+    return Object.keys(C.patientPages).map(function(k){ return G.products[k]; })
+      .filter(function(p){ return p && p.pharmacy === pharm && !p.retired && p.status !== 'retired'; });
   }
-
-  /* ---------- alerts ---------- */
-
-  function renderAlerts(){
-    var el = document.getElementById('alerts');
-    var out = [];
-    var ph = D.pharmacies[S.pharm];
-    var prod = D.products[S.prod];
-
-    if (ph && ph.status && ph.status !== 'active') {
-      out.push('<div class="alert err"><strong>' + esc(ph.name) + ' is restricted.</strong>' +
-        esc(ph.statusNote || '') +
-        (ph.overrideOnlyFor ? ' <em>Use only for: ' + esc(ph.overrideOnlyFor) + '</em>' : '') +
-        '</div>');
-    }
-
-    if (ph && ph.addressWarning) {
-      out.push('<div class="alert warn"><strong>Check the pharmacy address.</strong>' +
-        esc(ph.addressWarning) + '</div>');
-    }
-
-    if (S.pharm === 'belmar' && S.weeks === 8) {
-      var t = ph.transition;
-      if (t && t.active) {
-        out.push('<div class="alert warn"><strong>Belmar 8-week is now a single fill.</strong>' +
-          esc(t.providerScript || '') + '</div>');
-      }
-    }
-
-    if (S.state && ph && typeof D.checkPharmacyForState === 'function') {
-      try {
-        var chk = D.checkPharmacyForState(S.pharm, S.state);
-        if (chk && chk.status === 'error') {
-          out.push('<div class="alert err"><strong>' + esc(ph.name) +
-            ' cannot be used for ' + esc(S.state) + '.</strong>' + esc(chk.message || '') + '</div>');
-        } else if (chk && chk.status === 'warning') {
-          out.push('<div class="alert warn"><strong>Override · ' + esc(ph.name) +
-            ' is not the default for ' + esc(S.state) + '.</strong>' + esc(chk.message || '') + '</div>');
-        }
-      } catch(e){ /* never let a routing helper block a message */ }
-    }
-
-    /* Premier B-6, 2026-10-22: B-12 is the default and B-6 is an override. */
-    if (prod && prod.restrictedUse) {
-      out.push('<div class="alert warn"><strong>Not the default.</strong>' + esc(prod.restrictedUse) + '</div>');
-    }
-
-    if (prod && prod.exclusiveNote) {
-      out.push('<div class="alert info"><strong>' +
-        esc(prod.label.replace(/^[^—]*—\s*/,'')) + '</strong>' + esc(prod.exclusiveNote) + '</div>');
-    }
-
-    el.innerHTML = out.join('');
-  }
-
-  /* ---------- dose chips ---------- */
-
-  function renderDoses(){
-    var wrap = document.getElementById('doseWrap');
-    var grid = document.getElementById('doseGrid');
-    var prod = D.products[S.prod];
-
-    if (!prod) { wrap.style.display = 'none'; grid.innerHTML = ''; return; }
-    wrap.style.display = '';
-
-    grid.innerHTML = prod.doses.map(function(d, i){
-      var vials = S.weeks === 8 ? d.vials8 : d.vials4;
-      var on = !!S.doses[d.dose];
-      return '<label class="dose-chip' + (on ? ' on' : '') + '">' +
-        '<input type="checkbox" data-i="' + i + '"' + (on ? ' checked' : '') + '>' +
-        '<span>' + esc(d.dose) +
-        '<span class="sub"> · ' + esc(d.units) + ' units · ' + esc(vialCount(vials)) +
-        ' vial' + (vialCount(vials) === 1 ? '' : 's') + '</span></span></label>';
+  function fillNewMeds(route){
+    var sel = $('nmed'), keep = sel.value;
+    if (!route){ sel.disabled = true; sel.innerHTML = '<option value="">Select state first</option>'; return; }
+    var list = newProducts(route.pharmacy);
+    sel.disabled = false;
+    sel.innerHTML = '<option value="">Select...</option>' + list.map(function(p){
+      return '<option value="' + p.key + '">' + esc(shortLabel(p)) + (isOral(p) ? ' (oral)' : '') + (p.restrictedUse ? ' - B-12 intolerance only' : '') + '</option>';
     }).join('');
-
-    Array.prototype.forEach.call(grid.querySelectorAll('input'), function(cb){
-      cb.addEventListener('change', function(){
-        var d = prod.doses[parseInt(cb.dataset.i,10)];
-        if (cb.checked) S.doses[d.dose] = true; else delete S.doses[d.dose];
-        cb.parentNode.classList.toggle('on', cb.checked);
-        renderMessages();
-      });
-    });
+    if (list.some(function(p){ return p.key === keep; })) sel.value = keep;
+  }
+  function fillNewDoses(){
+    var sel = $('ndose'), p = G.products[$('nmed').value], keep = sel.value;
+    if (!p){ sel.disabled = true; sel.innerHTML = '<option value="">Select medication first</option>'; return; }
+    sel.disabled = false;
+    sel.innerHTML = '<option value="">Select...</option>' + p.doses.map(function(d){
+      return '<option value="' + esc(d.dose) + '">' + esc(d.dose) + (d.units !== undefined ? ' (' + d.units + ' units)' : ' daily') + '</option>';
+    }).join('');
+    if (p.doses.some(function(d){ return d.dose === keep; })) sel.value = keep;
   }
 
-  /* ---------- messages ---------- */
-
-  var CURRENT = [];
-
-  function renderMessages(){
-    var host = document.getElementById('msgSection');
-    var prod = D.products[S.prod];
-    var ph   = D.pharmacies[S.pharm];
-    var keys = Object.keys(S.doses);
-
-    document.getElementById('selCount').textContent =
-      keys.length ? keys.length + ' selected' : '';
-
-    if (!prod) {
-      host.innerHTML = '<div class="empty">Choose a pharmacy and a product to begin.</div>';
-      CURRENT = [];
-      return;
-    }
-    if (!keys.length) {
-      host.innerHTML = '<div class="empty">Select one or more doses above. ' +
-        'Each one becomes a message you can copy on its own.</div>';
-      CURRENT = [];
-      return;
-    }
-
-    CURRENT = prod.doses.filter(function(d){ return S.doses[d.dose]; })
-      .map(function(d){
-        return { dose:d,
-                 subject: buildSubject(ph, prod, d, S.weeks),
-                 text:    buildMessage(ph, prod, d, S.weeks) };
-      });
-
-    var html = '<div class="sec">' + esc(prod.label) + ' — ' + S.weeks + '-week supply</div>';
-
-    html += '<div class="btn-row">' +
-      '<button class="btn" id="btnCopyAll" type="button">Copy all ' + CURRENT.length +
-      ' message' + (CURRENT.length === 1 ? '' : 's') + '</button>' +
-      '<button class="btn alt" id="btnPrint" type="button">Print</button>' +
-      '</div>';
-
-    CURRENT.forEach(function(item, i){
-      var len = item.text.length;
-      var over = len > MSG_LIMIT, near = !over && len > MSG_TARGET;
-      var cls = over ? 'over' : (near ? 'near' : 'ok');
-      html += '<div class="msg">' +
-        '<div class="msg-hdr"><span>' +
-          '<span class="pill ' + esc(S.pharm) + '">' + esc(ph.name) + '</span> &nbsp;' +
-          esc(cap(prod.drug)) + ' ' + esc(item.dose.dose) + ' · ' + S.weeks + '-week' +
-        '</span>' +
-        '<span><span class="cc ' + cls + '">' + len + ' / ' + MSG_LIMIT + '</span>' +
-        '<button class="copy-btn" data-i="' + i + '" type="button">Copy message</button></span></div>' +
-
-        '<div class="subj-row">' +
-          '<span class="subj-lbl">Subject</span>' +
-          '<span class="subj-val" id="s' + i + '">' + esc(item.subject) + '</span>' +
-          '<button class="copy-btn subj" data-s="' + i + '" type="button">Copy subject</button>' +
-        '</div>' +
-
-        '<div class="msg-body"><pre id="m' + i + '">' + esc(item.text) + '</pre></div>' +
-        (over
-          ? '<div class="msg-note over">This message is ' + (len - MSG_LIMIT) +
-            ' characters over the Tebra portal limit and will be cut off. Do not send it as is.</div>'
-          : '<div class="msg-note">Paste into the Tebra portal message. ' +
-            'Do not add the patient name here — the portal already identifies them.</div>') +
-        '</div>';
-    });
-
-    host.innerHTML = html;
-
-    Array.prototype.forEach.call(host.querySelectorAll('.copy-btn'), function(b){
-      b.addEventListener('click', function(){
-        if (b.dataset.s !== undefined) {
-          copy(CURRENT[parseInt(b.dataset.s,10)].subject, b, 'Copy subject');
-        } else {
-          copy(CURRENT[parseInt(b.dataset.i,10)].text, b, 'Copy message');
-        }
-      });
-    });
-    document.getElementById('btnCopyAll').addEventListener('click', function(){
-      var b = this;
-      // Each block carries its own subject so a batch stays usable one message at a time.
-      copy(CURRENT.map(function(c){
-        return 'SUBJECT: ' + c.subject + '\n\n' + c.text;
-      }).join('\n\n' + '-'.repeat(60) + '\n\n'), b, b.textContent);
-    });
-    document.getElementById('btnPrint').addEventListener('click', function(){ window.print(); });
-  }
-
-  function copy(text, btn, label){
-    function done(){
-      var old = label || btn.textContent;
-      btn.textContent = 'Copied';
-      btn.classList.add('ok');
-      setTimeout(function(){ btn.textContent = old; btn.classList.remove('ok'); }, 1400);
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function(){ fallback(text, done); });
+  /* The patient's portal message for a new prescription or a dose change.
+     Directions, strength, quantity and discard come from the dispensed record;
+     the link opens the patient's page at this dose. */
+  function newMessage(prod, dose, supKey){
+    var ph = phName(prod.pharmacy), drug = drugName(prod), oral = isOral(prod), L = [];
+    var link = patientLink(prod.key, dose);
+    if (oral){
+      var sig = String((dose.rx || {}).ptInstructions || '').toLowerCase().replace(/(^|\.\s+)([a-z])/g, function(m,a,b){ return a + b.toUpperCase(); });
+      L.push('I sent your ' + drug + ' tablets prescription to ' + ph + '. Check your label against the details below before your first dose, and message me with any questions.');
+      L.push('');
+      L.push(drug.toUpperCase() + ' ' + dose.dose + ' DAILY - 90-DAY SUPPLY');
+      L.push('');
+      L.push('DIRECTIONS');
+      L.push(sig);
     } else {
-      fallback(text, done);
+      var w = SUP.filter(function(o){ return o[0] === supKey; })[0][2];
+      var vials = dose['vials' + w];
+      L.push('I sent your ' + drug + ' prescription to ' + ph + '. Check your label against the details below before your first dose, and message me with any questions.');
+      L.push('');
+      L.push(drug.toUpperCase() + ' ' + dose.dose + ' WEEKLY - ' + w + '-WEEK SUPPLY');
+      L.push('');
+      L.push('DIRECTIONS');
+      L.push('Inject ' + dose.units + ' units (' + dose.dose + ') under the skin once a week.' +
+             (dose.units > 100 ? ' This dose takes two syringes: fill one to 100 units and a second to ' + (dose.units - 100) + ' units.' : ''));
+      L.push('');
+      L.push('WHAT YOU WILL RECEIVE');
+      L.push(vialProse(vials) + '. Strength: ' + concentration(dose.drugFormulation) + '.');
+      /* Short forms of the page's wording: the page carries the full text and
+         the message has 1000 characters. */
+      if (C.isHighDose(prod.key, dose)) { L.push(''); L.push('HIGHER DOSE: follow the instructions I gave you for this dose. Your page below explains.'); }
+      if (w === 12) { L.push(''); L.push('12-WEEK SUPPLY: start your first dose within 5 days of delivery.'); }
+      L.push('');
+      L.push('WHEN TO DISCARD');
+      L.push('28 days after you first use a vial, or the beyond-use date on the label if sooner, even if medicine is left.');
     }
+    L.push('');
+    L.push('Your instructions' + (oral ? '' : ', with a picture of your syringe') + ', copy and paste into your browser:');
+    L.push(link);
+    return ascii(L.join('\n'));
   }
 
-  function fallback(text, done){
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); done(); } catch(e){ alert('Copy failed. Select the text manually.'); }
-    document.body.removeChild(ta);
+  function renderNew(st, route){
+    var out = $('out'), prod = G.products[$('nmed').value], ds = $('ndose').value;
+    fillSupply($('nsup'), prod);
+    if (!prod || !ds){ out.innerHTML = '<div class="panel empty">Pick a medication and a dose.</div>'; return; }
+    var dose = prod.doses.filter(function(d){ return d.dose === ds; })[0];
+    var oral = isOral(prod), sup = $('nsup').value || 'rx', rec = oral ? dose.rx : dose[sup];
+    var ph = phName(prod.pharmacy), drug = drugName(prod), units = dose.units !== undefined ? ' (' + dose.units + ' units)' : '';
+    var supText = oral ? '90-day supply' : $('nsup').selectedOptions[0].textContent.replace(' weeks', '-week') + ' supply';
+    var high = C.isHighDose(prod.key, dose);
+    var h = '<div class="panel">' +
+      (prod.restrictedUse ? '<div class="alert warn"><strong>Not the default.</strong> ' + esc(prod.restrictedUse) + '</div>' : '') +
+      (prod.exclusiveNote ? '<div class="alert info"><strong>Premier only.</strong> ' + esc(prod.exclusiveNote) + '</div>' : '') +
+      (high ? '<div class="alert warn"><strong>' + esc(dose.dose) + ' is a higher dose.</strong> ' + esc(C.highDose.provider) + '</div>' : '') +
+      (sup === 'supply12' ? '<div class="alert warn"><strong>12-week supply.</strong> The patient must start within 5 days of delivery; the beyond-use date leaves no room. Use 8-week for anyone who cannot start promptly.</div>' : '') +
+      '<div class="alert info"><strong>Changing pharmacy from FarmaKeio?</strong> Use "Moving from FarmaKeio" above instead, so the dose converts.</div>' +
+      '</div>';
+    if (rec){
+      h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">Send to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' +
+        KORB_RX_BLOCK.block({ fields: KORB_RX_BLOCK.fieldsFrom(rec, { drugFormulation: dose.drugFormulation }),
+          accent: KORB_RX_BLOCK.accentFor(prod.pharmacy), pharmacy: ph, label: rec.name, tag: oral ? '90 days' : $('nsup').selectedOptions[0].textContent }) + '</div>';
+    }
+    var summary = today() + ': ' + shortLabel(prod) + ' ' + dose.dose + units + (oral ? ' daily' : ' weekly') + ', ' + supText + ', ' + ph + '.';
+    var plan = [
+      'Rx: ' + (rec ? rec.name : shortLabel(prod) + ' ' + dose.dose) + '. Sent to ' + ph + ', the GLP-1 pharmacy for ' + P.stateName(st) + '.',
+      'Dose: ' + dose.dose + units + (oral ? ' daily' : ' weekly') + ', ' + supText + '.',
+      prod.restrictedUse ? 'B-6 formulation for documented B-12 intolerance: [document reaction].' : null,
+      high ? C.highDose.plan : null,
+      sup === 'supply12' ? '12-week supply: patient counseled to start within 5 days of delivery.' : null,
+      'Portal message sent with link to the patient medication page. Patient to contact KORB with questions.'
+    ].filter(Boolean).map(function(l){ return '- ' + l; }).join('\n');
+    var msg = newMessage(prod, dose, sup);
+    h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', ascii(summary));
+    h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', ascii(plan));
+    h += copyBox('cbMsg', 'Portal message to the patient', 'Send through the patient portal. The link opens the patient\'s own dose; it carries nothing else about them.', msg, MSG_LIMIT);
+    h += '<div class="panel"><a href="' + esc(patientLink(prod.key, dose)) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
+    out.innerHTML = h;
   }
 
-  /* ---------- wiring ---------- */
+  /* ---------- MOVING FROM FARMAKEIO ---------- */
+  function fillDoses(){
+    var sel = $('dose'), p = G.products[$('med').value];
+    sel.innerHTML = '';
+    if (!p){ sel.disabled = true; sel.innerHTML = '<option value="">Select medication first</option>'; return; }
+    sel.disabled = false;
+    sel.innerHTML = '<option value="">Select...</option>' + p.doses.map(function(d){
+      return '<option value="' + esc(d.dose) + '">' + esc(d.dose) + (d.units !== undefined ? ' (' + d.units + ' units)' : '') + '</option>';
+    }).join('');
+  }
 
-  selState.addEventListener('change', function(){
-    S.state = this.value;
-    fillPharmacies();     // may clear S.pharm if it cannot ship here
-    fillProducts();
-    S.prod = selProd.value || '';
-    S.doses = {};
-    renderRouting(); renderAlerts(); renderDoses(); renderMessages();
-  });
+  /* The conversion's text, apart from the page, so the self-check can build it. */
+  function convertTexts(c, st, sup){
+    var e = c.equivDose, eu = e.units !== undefined ? ' (' + e.units + ' units)' : '';
+    var stepWord = c.step > 0 ? 'increased' : c.step < 0 ? 'decreased' : '';
+    var high = C.isHighDose(c.toProduct.key, c.toDose);
+    var oral = isOral(c.toProduct);
+    var rec = oral ? c.toDose.rx : c.toDose[sup];
+    var ph = phName(c.pharmacy), drug = drugName(c.toProduct);
+    var f = c.fromDose, t = c.toDose;
+    var fu = f.units !== undefined ? ' (' + f.units + ' units)' : '', tu = t.units !== undefined ? ' (' + t.units + ' units)' : '';
+    var ruleText = { sameStep: 'same step on the new dose ladder', nearestLower: 'nearest lower dose on the new ladder', sameDose: 'same dose' }[c.rule];
+    var unitsNote = '';
+    if (!oral){
+      if (f.units === t.units && f.mg !== t.mg) unitsNote = 'Units stay at ' + t.units + ', but the new medication is a different strength, so ' + t.units + ' units is now ' + t.dose + ' (was ' + f.dose + ').';
+      else if (f.units !== t.units) unitsNote = 'Units change from ' + f.units + ' to ' + t.units + '. The patient must draw ' + t.units + ' units with the new medication.';
+      if (t.units > 100) unitsNote += ' This dose takes two syringes: one full (100 units) and one to ' + (t.units - 100) + ' units.';
+    } else {
+      var os = String((f.rx||{}).ptInstructions||''), ns = String((t.rx||{}).ptInstructions||'');
+      if (os && ns && os.toUpperCase() !== ns.toUpperCase()) unitsNote = 'Same dose, different directions: ' + ns.toLowerCase();
+    }
+    var b12 = !oral && /B-?12|cobalamin/i.test(c.toProduct.additive || '');
+    var summary = today() + ': GLP-1 pharmacy changed FarmaKeio to ' + ph + ' (FarmaKeio phased out for GLP-1). ' +
+      drug + ' ' + f.dose + fu + ' converted to ' + shortLabel(c.toProduct) + ' ' +
+      (c.step ? e.dose + eu + ' (' + ruleText + '), then ' + stepWord + ' one step to ' + t.dose + tu + '.'
+              : t.dose + tu + ', ' + ruleText + '.');
+    var plan = [
+      'Pharmacy change: FarmaKeio to ' + ph + '. KORB has phased out FarmaKeio for GLP-1; ' + ph + ' is the pharmacy for ' + P.stateName(st) + '.',
+      'FarmaKeio GLP-1 prescription cancelled in Tebra. New Rx written to ' + ph + ' (not a renewal): ' + (rec ? rec.name : shortLabel(c.toProduct) + ' ' + t.dose) + '. ' + (t.drugFormulation || '') + '.',
+      'Dose: FarmaKeio ' + f.dose + fu + ' converts to ' + ph + ' ' + e.dose + eu + ' (' + ruleText + ', per KORB conversion rule).',
+      c.step ? 'Dose adjusted at conversion: ' + stepWord + ' one step to ' + t.dose + tu + '. Reason: [' +
+        (c.step > 0 ? 'tolerating current dose, ready to titrate' : 'side effects') + ' - document].' : null,
+      unitsNote ? 'Patient instructed: ' + unitsNote : null,
+      b12 ? 'Patient told the new medication is red or pink from the vitamin B-12, which is expected.' : null,
+      c.toProduct.restrictedUse ? 'B-6 formulation for documented B-12 intolerance: [document reaction].' : null,
+      high ? C.highDose.plan : null,
+      sup === 'supply12' ? '12-week supply: patient counseled to start within 5 days of delivery.' : null,
+      'Patient counseled to finish current FarmaKeio supply first using FarmaKeio instructions, then start the new ' + ph + ' medication at the new dose and units.',
+      'Portal message sent with link to the patient dosing page. Patient to contact KORB with questions.'
+    ].filter(Boolean).map(function(l){ return '- ' + l; }).join('\n');
+    var msg = 'Hi,\n\nKORB is moving all of our GLP-1 patients from FarmaKeio Pharmacy to ' + ph + ', so your next prescription will come from ' + ph + '.\n\n' +
+      (oral ? 'Your dose stays ' + t.dose + ' a day.' : 'Your new dose is ' + t.dose + ' once a week, which is ' + t.units + ' units on your syringe.') +
+      (oral ? (unitsNote ? ' How you take it has changed, so please follow the new directions.' : '')
+            : (f.units === t.units && f.mg === t.mg ? ' That is the same dose and the same number of units as now.'
+               : f.units === t.units ? ' The number of units is the same as before, but the new medication is a different strength, so ' + t.units + ' units now gives you ' + t.dose + '.'
+                                   : ' Please note this is a change from the ' + f.units + ' units you draw now.') +
+               (t.units > 100 ? ' This dose takes two syringes: fill one completely (100 units), then fill a second to ' + (t.units - 100) + ' units.' : '')) +
+      (c.step ? ' Your provider has also moved your dose one step ' + (c.step > 0 ? 'up' : 'down') + ' with this change.' : '') +
+      (b12 ? ' The new medication is red or pink because of the vitamin B-12. That is normal.' : '') +
+      (high ? '\n\n' + C.highDose.patient : '') +
+      (sup === 'supply12' ? '\n\nThis is a 12-week supply. Start your first dose within 5 days of your package arriving.' : '') +
+      '\n\nCopy and paste this link into your browser to see your instructions' + (oral ? '' : ' and a picture of your syringe') + ':\n' + c.patientLink +
+      '\n\nPlease finish your current FarmaKeio supply first, using your FarmaKeio instructions. Then start your new ' + ph + ' medication using the new instructions. If you have any questions, reply to this message and we will help.';
+    return { summary: ascii(summary), plan: ascii(plan), msg: ascii(msg), rec: rec, unitsNote: unitsNote, high: high, ruleText: ruleText, stepWord: stepWord, eu: eu, fu: fu, tu: tu };
+  }
 
-  selPharm.addEventListener('change', function(){
-    S.pharm = this.value; S.prod = ''; S.doses = {};
-    fillProducts();
-    S.prod = selProd.value || '';
-    renderAlerts(); renderDoses(); renderMessages();
-  });
+  function renderConvert(st, route){
+    var from = $('med').value, ds = $('dose').value, out = $('out');
+    var b6ok = !!(route && route.pharmacy === 'premier' && C.ruleFor(from) && C.ruleFor(from).b6);
+    $('b6').disabled = !b6ok; $('b6wrap').className = 'chk' + (b6ok ? '' : ' off');
+    if (!b6ok) $('b6').checked = false;
+    if (!from || !ds){ fillSupply($('sup'), null); paintSeg(null); out.innerHTML = '<div class="panel empty">Pick the current FarmaKeio medication and dose.</div>'; return; }
+    var opt = { b6: $('b6').checked };
+    paintSeg(function(step){ return C.convert(from, ds, st, { b6: opt.b6, step: step }); });
+    var c = C.convert(from, ds, st, { b6: opt.b6, step: chosenStep });
+    if (c.error){ out.innerHTML = '<div class="panel"><div class="alert err"><strong>Cannot convert.</strong> ' + esc(c.error) + '</div></div>'; return; }
+    fillSupply($('sup'), c.toProduct);
+    var oral = isOral(c.toProduct), sup = $('sup').value || 'rx';
+    var T = convertTexts(c, st, sup);
+    var ph = phName(c.pharmacy), drug = drugName(c.toProduct), f = c.fromDose, t = c.toDose, e = c.equivDose;
 
-  selProd.addEventListener('change', function(){
-    S.prod = this.value; S.doses = {};
-    renderAlerts(); renderDoses(); renderMessages();
-  });
+    var h = '<div class="panel"><div class="move">' +
+      '<div class="side"><div class="k">Now, FarmaKeio</div><div class="v">' + esc(f.dose) + esc(T.fu) + '</div><div class="s">' + esc(G.products[from].label.replace(/\s*\(RETIRED\)\s*$/,'')) + '</div></div>' +
+      '<div class="arrow">&rarr;</div>' +
+      '<div class="side now"><div class="k">Convert to, ' + esc(ph) + '</div><div class="v">' + esc(t.dose) + esc(T.tu) + '</div><div class="s">' + esc(c.toProduct.label) +
+        (c.step ? '<br><strong>' + (c.step > 0 ? 'One step higher' : 'One step lower') + '</strong> than the equivalent ' + esc(e.dose) + esc(T.eu) : '') + '</div></div></div>' +
+      '<div class="alert info"><strong>Dose rule:</strong> ' + esc(T.ruleText) + ', equivalent ' + esc(e.dose) + esc(T.eu) + '.' + (c.step ? ' <strong>Provider ' + T.stepWord + ' one step to ' + esc(t.dose) + '.</strong>' : '') + '</div>' +
+      tebraRule(ph) +
+      (T.unitsNote ? '<div class="alert warn"><strong>Tell the patient:</strong> ' + esc(T.unitsNote) + '</div>' : '') +
+      (c.toProduct.restrictedUse ? '<div class="alert warn"><strong>B-6 selected.</strong> ' + esc(c.toProduct.restrictedUse) + '</div>' : '') +
+      (T.high ? '<div class="alert warn"><strong>' + esc(t.dose) + ' is a higher dose.</strong> ' + esc(C.highDose.provider) + '</div>' : '') +
+      (sup === 'supply12' ? '<div class="alert warn"><strong>12-week supply.</strong> The patient must start within 5 days of delivery. Use 8-week for anyone who cannot start promptly.</div>' : '') +
+      '</div>';
+    if (T.rec){
+      h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">New prescription to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' +
+        KORB_RX_BLOCK.block({ fields: KORB_RX_BLOCK.fieldsFrom(T.rec, { drugFormulation: t.drugFormulation }),
+          accent: KORB_RX_BLOCK.accentFor(c.pharmacy), pharmacy: ph, label: T.rec.name,
+          tag: oral ? '90 days' : $('sup').selectedOptions[0].textContent }) + '</div>';
+    }
+    h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', T.summary);
+    h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', T.plan);
+    h += copyBox('cbMsg', 'Portal message to the patient', 'Send through the patient portal. The link opens the patient\'s own dose; it carries nothing else about them.', T.msg, MSG_LIMIT);
+    h += '<div class="panel"><a href="' + esc(c.patientLink) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
+    out.innerHTML = h;
+  }
 
-  Array.prototype.forEach.call(document.querySelectorAll('#segSupply button'), function(b){
-    b.addEventListener('click', function(){
-      document.querySelectorAll('#segSupply button').forEach(function(x){ x.classList.remove('on'); });
-      b.classList.add('on');
-      S.weeks = parseInt(b.dataset.s, 10);
-      renderAlerts(); renderDoses(); renderMessages();
+  /* DOSE AT CONVERSION. Equivalent by default; one step either way on the new
+     ladder. Each button shows the dose it lands on and is disabled where the
+     ladder ends. Resets to equivalent when the patient, medication or dose
+     changes, so a choice made for one patient is never carried to the next. */
+  function paintSeg(conv){
+    [].forEach.call(document.querySelectorAll('#seg button'), function(b){
+      var s = +b.getAttribute('data-step'), r = conv ? conv(s) : null;
+      var ok = !!(r && !r.error);
+      b.disabled = !ok;
+      b.querySelector('span').textContent = ok ? r.toDose.dose + (r.toDose.units !== undefined ? ' (' + r.toDose.units + ' u)' : '') : (conv ? 'not available' : '-');
+      if (!ok && s === chosenStep) chosenStep = 0;
     });
-  });
+    [].forEach.call(document.querySelectorAll('#seg button'), function(b){
+      var on = +b.getAttribute('data-step') === chosenStep;
+      b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+  }
 
-  document.getElementById('btnAll').addEventListener('click', function(){
-    var prod = D.products[S.prod];
-    if (!prod) return;
-    prod.doses.forEach(function(d){ S.doses[d.dose] = true; });
-    renderDoses(); renderMessages();
+  /* ---------- top level ---------- */
+  function render(){
+    var st = $('st').value, route = st ? G.states.routeTo(st) : null;
+    [].forEach.call(document.querySelectorAll('#mode button'), function(b){
+      var on = b.getAttribute('data-mode') === mode;
+      b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    $('newPanel').classList.toggle('hide', mode !== 'new');
+    $('convPanel').classList.toggle('hide', mode !== 'convert');
+    $('sendto').innerHTML = route ? '<div class="sendto"><span>Send to</span><strong>' + esc(phName(route.pharmacy)) + '</strong><span>' + esc(cap(String(route.basis || ''))) + '. Only this pharmacy is offered below.</span></div>' : '';
+    fillNewMeds(route);
+    if (!st){ $('out').innerHTML = '<div class="panel empty">Pick a state.</div>'; return; }
+    if (mode === 'new') renderNew(st, route); else renderConvert(st, route);
+  }
+
+  $('mode').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    mode = b.getAttribute('data-mode'); chosenStep = 0; render();
   });
-  document.getElementById('btnNone').addEventListener('click', function(){
-    S.doses = {};
-    renderDoses(); renderMessages();
+  $('seg').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b || b.disabled) return;
+    chosenStep = +b.getAttribute('data-step'); render();
   });
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('[data-copy-from]');
+    if (!b) return;
+    var ta = $(b.getAttribute('data-copy-from'));
+    var done = function(){ b.textContent = 'Copied'; b.classList.add('done'); setTimeout(function(){ b.textContent = 'Copy'; b.classList.remove('done'); }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(ta.value).then(done, function(){ ta.select(); document.execCommand('copy'); done(); });
+    else { ta.select(); document.execCommand('copy'); done(); }
+  });
+  $('st').addEventListener('change', function(){ chosenStep = 0; render(); });
+  $('nmed').addEventListener('change', function(){ fillNewDoses(); render(); });
+  $('ndose').addEventListener('change', render);
+  $('nsup').addEventListener('change', function(){ chosenSup = $('nsup').value; render(); });
+  $('med').addEventListener('change', function(){ chosenStep = 0; fillDoses(); render(); });
+  $('dose').addEventListener('change', function(){ chosenStep = 0; render(); });
+  $('sup').addEventListener('change', function(){ chosenSup = $('sup').value; render(); });
+  $('b6').addEventListener('change', render);
 
   /* ---------- self check ---------- */
-
   window.KORB_MSG_SELFCHECK = function(){
-    var problems = [];
-
-    /* Routing: every KORB state must resolve, must never offer a pharmacy that
-       hard-excludes it, and must never hide one that can ship there. */
-    if (ALL_STATES.length !== 51)
-      problems.push('state list is ' + ALL_STATES.length + ' entries, expected 51 (50 + DC)');
-    ALL_STATES.forEach(function(st){
-      if (!STATE_NAMES[st]) problems.push(st + ': no display name');
-      var opts = optionsForState(st);
-      var sel  = opts.filter(function(o){ return o.selectable !== false; });
-      var def  = opts.filter(function(o){ return o.status === 'ok'; });
-      if (!sel.length)   problems.push(st + ': no selectable compounding pharmacy');
-      if (def.length !== 1) problems.push(st + ': ' + def.length + ' default pharmacies, expected 1');
-      opts.forEach(function(o){
-        var ph = D.pharmacies[o.key];
-        var excluded = (ph.hardExcludes || []).indexOf(st) !== -1;
-        var ships    = (ph.shipsTo || []).indexOf(st) !== -1;
-        if (excluded && o.selectable !== false)
-          problems.push(st + ': ' + o.key + ' hard-excludes this state but is offered');
-        if (!excluded && ships && o.selectable === false)
-          problems.push(st + ': ' + o.key + ' ships here but is blocked');
-        if (o.status === 'ok' && !ships)
-          problems.push(st + ': ' + o.key + ' is the default but does not ship here');
-      });
+    var problems = [], n = 0;
+    var states = (G.states.korbActive || []);
+    if (states.length !== 51) problems.push('state list is ' + states.length + ', expected 51');
+    states.forEach(function(st){
+      var r = G.states.routeTo(st);
+      if (!r || !G.pharmacies[r.pharmacy]) { problems.push(st + ': no route'); return; }
+      if (!newProducts(r.pharmacy).length) problems.push(st + ': no product offered for ' + r.pharmacy);
     });
-    PRODS.forEach(function(p){
-      var ph = D.pharmacies[p.pharmacy];
-      if (!ph) { problems.push(p.key + ': unknown pharmacy ' + p.pharmacy); return; }
-      p.doses.forEach(function(d){
-        [4,8].forEach(function(w){
-          var vials = w === 8 ? d.vials8 : d.vials4;
-          var sup   = w === 8 ? d.supply8 : d.supply4;
-          var t = buildMessage(ph, p, d, w);
-
-          if (vialCount(vials) < 1)
-            problems.push(p.key+' '+d.dose+' '+w+'wk: vial count parsed as 0 from "'+vials+'"');
-          if (vialProse(vials) === String(vials))
-            problems.push(p.key+' '+d.dose+' '+w+'wk: vial prose fell back to raw "'+vials+'"');
-          if (concentration(d.drugFormulation) === String(d.drugFormulation).replace(/\s+/g,' ').trim())
-            problems.push(p.key+' '+d.dose+': concentration fell back to raw "'+d.drugFormulation+'"');
-          if (d.units === undefined || d.units === null)
-            problems.push(p.key+' '+d.dose+': no units');
-          // the mg in the message must match the mg in the dispensed sig
-          var sigMg = (String(sup.ptInstructions).match(/([\d.]+)\s*MG/i) || [])[1];
-          if (sigMg && parseFloat(sigMg) !== parseFloat(d.mg))
-            problems.push(p.key+' '+d.dose+' '+w+'wk: sig says '+sigMg+' mg, dose record says '+d.mg);
-          if (sup.days !== (w === 8 ? 56 : 28))
-            problems.push(p.key+' '+d.dose+' '+w+'wk: supply days is '+sup.days);
-          var dc = discardRule(sup.ptInstructions);
-          if (!dc)
-            problems.push(p.key+' '+d.dose+' '+w+'wk: sig carries no "Discard after N doses or N days" clause');
-          else if (dc.doses !== 4 || dc.days !== 28)
-            problems.push(p.key+' '+d.dose+' '+w+'wk: discard rule is '+dc.doses+' doses / '+dc.days+' days');
-          if (/undefined|NaN|null/.test(t))
-            problems.push(p.key+' '+d.dose+' '+w+'wk: message contains undefined/NaN/null');
-          // Tebra's portal box caps at 1000 characters and truncates silently.
-          if (t.length > MSG_LIMIT)
-            problems.push(p.key+' '+d.dose+' '+w+'wk: message is '+t.length+
-                          ' chars, over the '+MSG_LIMIT+'-char Tebra limit');
-          var subj = buildSubject(ph, p, d, w);
-          if (subj.length > SUBJ_LIMIT)
-            problems.push(p.key+' '+d.dose+' '+w+'wk: subject is '+subj.length+' chars');
-          if (/USP|797/.test(t))
-            problems.push(p.key+' '+d.dose+' '+w+'wk: patient text names USP/797');
+    ['premier','belmar'].forEach(function(ph){
+      newProducts(ph).forEach(function(p){
+        p.doses.forEach(function(d){
+          (isOral(p) ? ['rx'] : SUP.map(function(o){ return o[0]; }).filter(function(k){ return d[k]; })).forEach(function(k){
+            n++;
+            var m = newMessage(p, d, k);
+            if (m.length > MSG_LIMIT) problems.push('new ' + p.key + ' ' + d.dose + ' ' + k + ': ' + m.length + ' chars');
+            if (/undefined|NaN|null/.test(m)) problems.push('new ' + p.key + ' ' + d.dose + ' ' + k + ': undefined in message');
+            if (!isOral(p)) {
+              var w = SUP.filter(function(o){ return o[0] === k; })[0][2], v = d['vials' + w];
+              if (vialProse(v) === String(v).trim()) problems.push(p.key + ' ' + d.dose + ' ' + k + ': vials not readable "' + v + '"');
+              if (concentration(d.drugFormulation) === String(d.drugFormulation).replace(/\s+/g,' ').trim()) problems.push(p.key + ' ' + d.dose + ': strength not readable "' + d.drugFormulation + '"');
+            }
+          });
         });
       });
     });
-    return { products: PRODS.length, problems: problems };
+    var probe = { premier: 'TX', belmar: 'CA' };
+    C.rules.forEach(function(r){
+      G.products[r.from].doses.forEach(function(d){
+        Object.keys(probe).forEach(function(ph){
+          [false, true].forEach(function(b6){
+            if (b6 && !(r.b6 && r.b6[ph])) return;
+            var c = C.convert(r.from, d.dose, probe[ph], { b6: b6 });
+            if (c.error) { problems.push('convert ' + r.from + ' ' + d.dose + ' ' + ph + ': ' + c.error); return; }
+            (isOral(c.toProduct) ? ['rx'] : SUP.map(function(o){ return o[0]; }).filter(function(k){ return c.toDose[k]; })).forEach(function(k){
+              n++;
+              var T = convertTexts(c, probe[ph], k);
+              if (T.msg.length > MSG_LIMIT) problems.push('convert ' + r.from + ' ' + d.dose + ' to ' + ph + (b6 ? ' B-6' : '') + ' ' + k + ': ' + T.msg.length + ' chars');
+              if (/undefined|NaN|null/.test(T.msg + T.plan)) problems.push('convert ' + r.from + ' ' + d.dose + ' ' + k + ': undefined in text');
+            });
+          });
+        });
+      });
+    });
+    return { messages: n, problems: problems };
   };
 
-  /* ---------- go ---------- */
-  fillPharmacies();
-  fillProducts();
-  renderRouting();
-  renderAlerts();
-  renderMessages();
-})();
+  /* ?mode=convert is how the old conversion URL lands here. */
+  render();
+}());
 </script>
 </body>
 </html>

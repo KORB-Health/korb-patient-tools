@@ -114,7 +114,7 @@ const TOOL_META = {
   'KORB_GLP1_Dose_Guide.html':
     { probe: null, why: 'medication, pharmacy and dose selectors over the dose ladder' },
   'KORB_GLP1_Patient_Message_Builder.html':
-    { probe: null, why: 'builds portal message text against a 1000-character cap' },
+    { probe: null, why: 'state-first prescription and portal message tool, new and FarmaKeio-conversion modes, 1000-character cap; KORB_MSG_SELFCHECK() covers the messages' },
   'KORB_Provider_Clinical_Reference.html':
     { probe: null, why: 'FH&L state selector and per-programme routing' },
   '404.html':
@@ -228,6 +228,16 @@ fs.readdirSync(path.join(ROOT, 'Patient_Education'))
         records: { file: 'korb-glp1-data.js', global: 'KORB_GLP1' },
         audience: 'patient'
       });
+      return;
+    }
+    /* The chooser (2026-10-25) is a control, not a handout: state, then
+       compounded or brand, then links to the medication pages above. Nothing
+       renders until a state is picked, so a static fingerprint would read it as
+       a failed load. Listed with no probe until one drives the 51 states. */
+    if (f === 'KORB_My_GLP1.html') {
+      ARTIFACTS.push({ key: 'tool:my_glp1_chooser', kind: 'tool', probe: null,
+        why: 'patient chooser: state, then compounded or brand, then the medication page links; no clinical text of its own',
+        label: 'My GLP-1 Medication chooser', file: 'Patient_Education/' + f });
       return;
     }
     ARTIFACTS.push({

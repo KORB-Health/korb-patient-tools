@@ -49,12 +49,34 @@ are not decided; do not touch add-on routing until Don says.
   provider tool and the patient pages read it. `selfCheck()` fails if a dose
   does not convert, moves up under nearest lower, or lands on a product with
   no patient page.
-- `KORB_GLP1_FarmaKeio_Conversion.html` is the provider tool: running summary,
-  plan, Tebra entry and portal message, ASCII only.
-- Eight patient pages, `Patient_Education/KORB_My_GLP1_*.html`, one per
-  product, written by `node build-med-pages.js` and rendered by
+- **ONE PROVIDER TOOL: `KORB_GLP1_Patient_Message_Builder.html`, "GLP-1
+  Prescriptions and Patient Messages"** (Don, 2026-10-25). The old Message
+  Builder and the FarmaKeio Conversion tool are merged into it so providers have
+  one place to go. State first; the state shows its one pharmacy and only that
+  pharmacy's products. Two modes: New prescription or dose change, and Moving from
+  FarmaKeio. Writes the running summary, plan, Tebra entry and portal message,
+  ASCII only, with the patient page link. `KORB_MSG_SELFCHECK()` builds every
+  message in both modes against the 1000-character portal cap.
+  `KORB_GLP1_FarmaKeio_Conversion.html` is now a REDIRECT to it with
+  `?mode=convert`, because that URL was handed out. Do not restore content there.
+- **Tebra: cancel and rewrite, never renew** (Don, 2026-10-25). A renewal goes
+  back to FarmaKeio. Providers delete their own FarmaKeio GLP-1 favorites
+  (favorites are per provider). Prescriptions to FarmaKeio are monitored. The
+  tool shows this in red on every conversion and the plan records it.
+- Ten patient pages, `Patient_Education/KORB_My_GLP1_*.html`, one per
+  compounded product (glycine and oral tirzepatide added 2026-10-25, not
+  conversion targets), written by `node build-med-pages.js` and rendered by
   `korb-med-page.js`. They open at the dose in their link (`?dose=`, and
   `?was=` for the FarmaKeio dose). The link carries nothing else.
+- **Patients start at `Patient_Education/KORB_My_GLP1.html`** (Don,
+  2026-10-25): state, then compounded or name-brand, then only that state's
+  medications. Written by `build-med-pages.js`, rendered by
+  `korb-med-chooser.js`. `?state=TX` opens it with the state picked, for text
+  snippets. Linked from the Patient Hub as "My GLP-1 Medication".
+- **B-12 colour** (Don, 2026-10-25): vials are amber glass; medication with B-12
+  is red or pink. Every B-12 page says so, replaces the shared "discolored" storage
+  note with one that allows for it, and a converted patient is told in the switch
+  section and the portal message. All FarmaKeio GLP-1 was B-6.
 - The syringe drawing is `korb-syringe.js`, shared with the Dose Guide.
 - **Patient page wording is `KORB_GLP1.medPage`** (Don approved 2026-10-25): why the
   pharmacy changed and what to expect from the switch (only on `?was=` links), what
@@ -175,6 +197,9 @@ to check a single document against, which is the whole reason this table exists.
 | `Patient_Education/KORB_My_GLP1_Belmar_Tirzepatide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
 | `Patient_Education/KORB_My_GLP1_Premier_Oral_Semaglutide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
 | `Patient_Education/KORB_My_GLP1_Belmar_Oral_Semaglutide.html` | **Yes**, 2026-10-23. Built 2026-10-22 for the FarmaKeio conversion; Nick confirmed |
+| `Patient_Education/KORB_My_GLP1_Premier_Semaglutide_Glycine.html` | **Yes**, 2026-10-25. Built for educational send-outs and the message tool; Don asked for it live before Clinical Pulse 2026-10-26 |
+| `Patient_Education/KORB_My_GLP1_Premier_Oral_Tirzepatide.html` | **Yes**, 2026-10-25. Same reason |
+| `Patient_Education/KORB_My_GLP1.html` | **Yes**, 2026-10-25. The patient chooser, linked from the hub |
 | `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
 | `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |

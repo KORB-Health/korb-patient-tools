@@ -6992,7 +6992,12 @@ KORB_GLP1.farmakeioConversion = {
     belmar_sema:       'Patient_Education/KORB_My_GLP1_Belmar_Semaglutide.html',
     belmar_tirz:       'Patient_Education/KORB_My_GLP1_Belmar_Tirzepatide.html',
     premier_oral_sema: 'Patient_Education/KORB_My_GLP1_Premier_Oral_Semaglutide.html',
-    belmar_oral_sema:  'Patient_Education/KORB_My_GLP1_Belmar_Oral_Semaglutide.html'
+    belmar_oral_sema:  'Patient_Education/KORB_My_GLP1_Belmar_Oral_Semaglutide.html',
+    /* Not conversion targets (FarmaKeio made neither), but every compounded
+       product KORB prescribes gets a page, so the message builder and the
+       patient chooser can link any of them. Don, 2026-10-25. */
+    premier_sema_glycine: 'Patient_Education/KORB_My_GLP1_Premier_Semaglutide_Glycine.html',
+    premier_oral_tirz: 'Patient_Education/KORB_My_GLP1_Premier_Oral_Tirzepatide.html'
   },
   siteBase: 'https://korb-health.github.io/korb-patient-tools/',
 
@@ -7148,12 +7153,25 @@ KORB_GLP1.medPage = {
     vitaminChanged: 'Your FarmaKeio medication had vitamin B-6 added. Your new medication has {additive} instead. See What is in your vial below.'
   },
 
+  /* B-12 COLOUR. Don, 2026-10-25: every vial is amber glass, and a medication
+     with B-12 in it is red or pink. FarmaKeio was B-6 and colourless, so a
+     converted patient will see a colour they have never seen, next to a storage
+     note that says do not use a discolored solution. Shown on every page whose
+     product has B-12; the switch line only on a ?was= link. */
+  b12Colour: {
+    vial: 'Your vial is amber (brown) glass. The medication inside is red or pink because of the vitamin B-12. That color is normal.',
+    switchLine: 'Your new medication will be red or pink. That is the vitamin B-12 and is expected.',
+    /* Replaces the shared "cloudy or discolored" storage note on B-12 pages. */
+    storage: 'Do not use if the solution is cloudy, contains particles, or is a different color from your last vial of the same medication. Red or pink is the normal color of medication with vitamin B-12.'
+  },
+
   /* Shown on every page, after "What is in your vial". Keyed by the name
      korb-med-page.js derives from product.additive. */
   additives: {
     'vitamin B-12': 'Vitamin B-12 is a vitamin your body needs to make energy, red blood cells and healthy nerves. A small amount is added to your medication. It is the usual choice at KORB.',
     'vitamin B-6': 'Vitamin B-6 is a vitamin your body uses to turn food into energy. A small amount is added to your medication. Your provider chose it because B-12 did not agree with you.',
-    'L-carnitine': 'L-carnitine is a nutrient your body makes and also gets from food. It helps your cells use fat for energy. A small amount is added to your medication. It is not a weight loss medication on its own.'
+    'L-carnitine': 'L-carnitine is a nutrient your body makes and also gets from food. It helps your cells use fat for energy. A small amount is added to your medication. It is not a weight loss medication on its own.',
+    'glycine': 'Glycine is an amino acid, one of the building blocks your body uses to make protein. A small amount is added to your medication alongside the vitamin B-12. Only Premier Pharmacy makes this formulation.'
   },
 
   /* Premier injectables only: the products with a 12-week programme. The link
