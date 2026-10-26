@@ -164,6 +164,15 @@ a{color:var(--navy)}
   function ascii(s){ return String(s).replace(/[–—]/g,'-').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[^\x00-\x7E]/g,''); }
   var isOral = function(p){ return !(p.doses[0] && p.doses[0].units !== undefined); };
   var phName = function(k){ return (G.pharmacies[k] || {}).name || k; };
+  /* The dispensing address, right above the Tebra entry (Don, 2026-10-26).
+     Belmar has several locations and only the Arizona one is ours, so the
+     address and its warning are read from korb-glp1-data.js, never typed here. */
+  function pharmAddress(k){
+    var r = G.pharmacies[k] || {};
+    if (!r.address) return '';
+    return '<div class="alert ' + (r.addressWarning ? 'warn' : 'info') + '"><strong>Pharmacy in Tebra:</strong> ' + esc(r.address) +
+      (r.addressWarning ? '<br>' + esc(r.addressWarning) : '') + '</div>';
+  }
   var drugName = function(p){ return p.drug.charAt(0).toUpperCase() + p.drug.slice(1); };
   var num = function(d){ return String(d.dose).replace(/\s*mg\s*$/i, ''); };
   var shortLabel = function(p){ return p.label.replace(/^[^—]*—\s*/, ''); };
@@ -353,7 +362,7 @@ a{color:var(--navy)}
       '<div class="alert info"><strong>Changing pharmacy from FarmaKeio?</strong> Use "Moving from FarmaKeio" above instead, so the dose converts.</div>' +
       '</div>';
     if (rec){
-      h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">Send to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' +
+      h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">Send to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' + pharmAddress(prod.pharmacy) +
         KORB_RX_BLOCK.block({ fields: KORB_RX_BLOCK.fieldsFrom(rec, { drugFormulation: dose.drugFormulation }),
           accent: KORB_RX_BLOCK.accentFor(prod.pharmacy), pharmacy: ph, label: rec.name, tag: oral ? '90 days' : $('nsup').selectedOptions[0].textContent }) + '</div>';
     }
@@ -468,7 +477,7 @@ a{color:var(--navy)}
       (sup === 'supply12' ? '<div class="alert warn"><strong>12-week supply.</strong> The patient must start within 5 days of delivery. Use 8-week for anyone who cannot start promptly.</div>' : '') +
       '</div>';
     if (T.rec){
-      h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">New prescription to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' +
+      h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">New prescription to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' + pharmAddress(c.pharmacy) +
         KORB_RX_BLOCK.block({ fields: KORB_RX_BLOCK.fieldsFrom(T.rec, { drugFormulation: t.drugFormulation }),
           accent: KORB_RX_BLOCK.accentFor(c.pharmacy), pharmacy: ph, label: T.rec.name,
           tag: oral ? '90 days' : $('sup').selectedOptions[0].textContent }) + '</div>';
