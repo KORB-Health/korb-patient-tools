@@ -4666,7 +4666,7 @@ var KORB_GLP1 = {
       route: 'sublingual',
       frequency: 'once daily',
       orderVia: 'Tebra Compound',
-      positioning: 'Consider for patients focused on long-term metabolic resilience and longevity optimization, or who cannot tolerate injectables.',
+      positioning: 'Consider for patients who prefer a daily option to injections, or who cannot tolerate injectables. Longevity alone is not an indication: document the condition being treated.',
       doses: [
         {
           dose: '0.5 mg', mg: 0.5,
