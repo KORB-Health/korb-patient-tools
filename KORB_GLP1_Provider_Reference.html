@@ -986,10 +986,11 @@ function renderProgression(){
           pr.reasonsToStayOnFourWeek.map(function(r){ return '<tr><td>' + esc(r) + '</td></tr>'; }).join('') +
           '</tbody></table></div>';
   if (isOralProd && pr.oral){
+    var oralRule = prod.compounded ? pr.oral.compounded : pr.oral.brand;
     html += '<div class="openflag" style="background:#E0F6F9;border-color:#00B2C3;color:#004E58;">' +
             '<strong>This is an oral product \u2014 different follow-up rule.</strong><br>' +
-            esc(pr.oral.rule) + ' Options: ' + esc(pr.oral.followUpOptions.join(' or ')) + '. ' +
-            esc(pr.oral.modality) + '<br><strong>' + esc(pr.oral.supplyIsNotCadence) + '</strong></div>';
+            esc(oralRule.rule) + ' Options: ' + esc(oralRule.followUpOptions.join(' or ')) + '. ' +
+            esc(pr.oral.modality) + '<br><strong>' + esc(oralRule.supplyNote) + '</strong></div>';
   }
   html += '<div class="openflag">' + esc(pr.publishNote) + '</div>';
   $('progPanel').innerHTML = html;
