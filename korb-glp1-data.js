@@ -1461,8 +1461,9 @@ var KORB_GLP1 = {
        2026-10-26 (Don): split by product type. Compounded orals (Premier Dots,
        Belmar FastSL) are seen when the supply runs out, 30 or 90 days, never
        60. This REVERSES the earlier supplyIsNotCadence rule, which saw a
-       90-day supply at 30 or 60 days. Brand orals keep 30 or 60 until Don
-       decides them. The Provider Reference picks the block by `compounded`. */
+       90-day supply at 30 or 60 days. Brand orals follow the same principle
+       (Don, later the same day): seen at the length of the fill, 30, 60 or 90
+       days. The Provider Reference picks the block by `compounded`. */
     oral: {
       appliesTo: 'All oral products. Compounded (Premier Dots, Belmar FastSL) and brand (Foundayo, Wegovy tablet) follow different rules.',
       decisionOwner: 'Provider',
@@ -1475,9 +1476,9 @@ var KORB_GLP1 = {
       },
       brand: {
         appliesTo: 'Foundayo and Wegovy tablet.',
-        followUpOptions: ['30 days', '60 days'],
-        rule: 'The provider sets a 30-day or 60-day follow-up to keep the patient on track, rather than using the 4-week / 8-week injectable cadence.',
-        supplyNote: 'Brand orals are filled as a 30-day or 60-day supply.'
+        followUpOptions: ['30 days', '60 days', '90 days'],
+        rule: 'Follow-up matches the supply prescribed: a 30-day fill is seen at 30 days, a 60-day fill at 60, a 90-day fill at 90.',
+        supplyNote: 'The follow-up is the length of the fill.'
       }
     }
   },
