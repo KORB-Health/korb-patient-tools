@@ -1570,6 +1570,26 @@ var KORB_GLP1 = {
     rule: 'Days supply describes the fill, not the program.'
   },
 
+  /* REASON FOR COMPOUNDING IS NOT PRE-FILLED. Don, 2026-10-27, for LegitScript
+     #40. Every compounded favourite used to carry "N/V mitigation & flexibility",
+     the same words for every patient. Since the GLP-1 shortages ended, 503A
+     allows a compounded copy only when the prescriber determines a significant
+     difference for THIS patient and the determination is on the prescription.
+     A sentence stamped on every prescription is the thing that fails that test
+     (POL-COMPOUND statement 3; KORB_Note_Documentation_Requirements, clinical
+     docs). So records carry the marker below and both renderers show the
+     prompt WITHOUT a Copy button. If a renderer ever misses the marker, what
+     reaches Tebra is the marker itself, which nobody can mistake for a reason.
+     The justification sentence ("Custom Rx for N/V mitigation...") was taken
+     out of Pharmacy Instructions at the same time, for the same reason. */
+  reasonPrompt: {
+    marker: 'WRITE FOR THIS PATIENT',
+    text: 'Not pre-filled. Write the reason for this patient in Tebra, 30 characters ' +
+          'at most: what differs from the brand product, and why for this patient. ' +
+          'For example "0.3mg: N/V at 0.5mg step" or "SL form: cannot inject". ' +
+          'Price, convenience or preference are never a reason.'
+  },
+
   tebraLimits: {
     reasonForCompounding: 30,
     patientInstructions: 140,
@@ -2614,8 +2634,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Semaglutide 0.3 mg - 8-Week Supply',
@@ -2625,8 +2645,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Semaglutide 0.3 mg - 12-Week Supply',
@@ -2636,8 +2656,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -2653,8 +2673,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Semaglutide 0.6 mg - 8-Week Supply',
@@ -2664,8 +2684,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Semaglutide 0.6 mg - 12-Week Supply',
@@ -2675,8 +2695,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -2692,8 +2712,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Semaglutide 1.2 mg - 8-Week Supply',
@@ -2703,8 +2723,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Semaglutide 1.2 mg - 12-Week Supply',
@@ -2714,8 +2734,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -2731,8 +2751,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Semaglutide 1.8 mg - 8-Week Supply',
@@ -2742,8 +2762,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Semaglutide 1.8 mg - 12-Week Supply',
@@ -2753,8 +2773,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -2770,8 +2790,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Semaglutide 2.7 mg - 8-Week Supply',
@@ -2781,8 +2801,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Semaglutide 2.7 mg - 12-Week Supply',
@@ -2792,8 +2812,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         /* 4.5 mg AND 6 mg, added 2026-09-23 (v2.24). Vial combinations are
@@ -2824,8 +2844,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.',
             vialPlan: {
               ship: '1 x 3.6 ml & 1 x 2.4 ml @ 3 mg/ml',
               totalMl: 6,
@@ -2848,8 +2868,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: '(Include two syringe packs) INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.',
             vialPlan: {
               ship: '2 x 3.6 ml & 2 x 2.4 ml @ 3 mg/ml',
               totalMl: 12,
@@ -2872,8 +2892,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include three syringe packs) INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.',
             vialPlan: {
               ship: '3 x 3.6 ml & 3 x 2.4 ml @ 3 mg/ml',
               totalMl: 18,
@@ -2899,8 +2919,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.',
             vialPlan: {
               ship: '4 x 2 ml @ 3 mg/ml',
               totalMl: 8,
@@ -2919,8 +2939,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: '(Include two syringe packs) INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.',
             vialPlan: {
               ship: '8 x 2 ml @ 3 mg/ml',
               totalMl: 16,
@@ -2939,8 +2959,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include three syringe packs) INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.',
             vialPlan: {
               ship: '12 x 2 ml @ 3 mg/ml',
               totalMl: 24,
@@ -2987,8 +3007,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'GLYCINE - INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Glycine Semaglutide 0.3 mg - 8-Week Supply',
@@ -2998,8 +3018,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'Maintenance - GLYCINE - INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Glycine Semaglutide 0.3 mg - 12-Week Supply',
@@ -3009,8 +3029,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 0.3 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3026,8 +3046,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'GLYCINE - INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Glycine Semaglutide 0.6 mg - 8-Week Supply',
@@ -3037,8 +3057,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'Maintenance - GLYCINE - INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Glycine Semaglutide 0.6 mg - 12-Week Supply',
@@ -3048,8 +3068,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 0.6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3065,8 +3085,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'GLYCINE - INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Glycine Semaglutide 1.2 mg - 8-Week Supply',
@@ -3076,8 +3096,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'Maintenance - GLYCINE - INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Glycine Semaglutide 1.2 mg - 12-Week Supply',
@@ -3087,8 +3107,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 1.2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3104,8 +3124,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'GLYCINE - INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Glycine Semaglutide 1.8 mg - 8-Week Supply',
@@ -3123,8 +3143,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'Maintenance - GLYCINE - INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Glycine Semaglutide 1.8 mg - 12-Week Supply',
@@ -3134,8 +3154,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 1.8 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3151,8 +3171,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'GLYCINE - INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Glycine Semaglutide 2.7 mg - 8-Week Supply',
@@ -3162,8 +3182,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'Maintenance - GLYCINE - INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Glycine Semaglutide 2.7 mg - 12-Week Supply',
@@ -3173,8 +3193,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         }
       ]
@@ -3228,8 +3248,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Tirzepatide 2 mg - 8-Week Supply',
@@ -3239,8 +3259,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Tirzepatide 2 mg - 12-Week Supply',
@@ -3250,8 +3270,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 2 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3267,8 +3287,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Tirzepatide 4 mg - 8-Week Supply',
@@ -3278,8 +3298,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Tirzepatide 4 mg - 12-Week Supply',
@@ -3289,8 +3309,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3306,8 +3326,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Tirzepatide 6.5 mg - 8-Week Supply',
@@ -3317,8 +3337,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Tirzepatide 6.5 mg - 12-Week Supply',
@@ -3328,8 +3348,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 6.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3345,8 +3365,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Tirzepatide 8.5 mg - 8-Week Supply',
@@ -3356,8 +3376,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Tirzepatide 8.5 mg - 12-Week Supply',
@@ -3367,8 +3387,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 8.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3387,8 +3407,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Tirzepatide 13.5 mg - 8-Week Supply',
@@ -3398,8 +3418,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Tirzepatide 13.5 mg - 12-Week Supply',
@@ -3409,8 +3429,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 13.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -3426,8 +3446,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'PREMIER - Tirzepatide 16 mg - 8-Week Supply',
@@ -3437,8 +3457,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply12: {
             name: 'PREMIER - Tirzepatide 16 mg - 12-Week Supply',
@@ -3448,8 +3468,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 84,
             ptInstructions: '(Include two syringe packs) INJECT 16 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         }
       ]
@@ -3486,8 +3506,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.25 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '1 x 1 ml @ 1 mg/ml',
               totalMl: 1,
@@ -3506,8 +3526,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.25 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3561,8 +3581,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '2 x 1 ml @ 1 mg/ml',
               totalMl: 2,
@@ -3581,8 +3601,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3612,8 +3632,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 1 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '1 x 5 ml @ 1 mg/ml',
               totalMl: 5,
@@ -3633,8 +3653,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 1 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3664,8 +3684,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 1.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '1 x 5 ml @ 2.5 mg/ml',
               totalMl: 5,
@@ -3685,8 +3705,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 1.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3719,8 +3739,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 2.4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '1 x 5 ml @ 2.5 mg/ml',
               totalMl: 5,
@@ -3740,8 +3760,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 2.4 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3793,8 +3813,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 2.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '1 x 1 ml',
               totalMl: 1,
@@ -3813,8 +3833,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 2.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3842,8 +3862,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '2 x 1 ml',
               totalMl: 2,
@@ -3862,8 +3882,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3891,8 +3911,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '3 x 1 ml',
               totalMl: 3,
@@ -3911,8 +3931,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 7.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3943,8 +3963,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 10 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '1 x 4 ml',
               totalMl: 4,
@@ -3963,8 +3983,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 10 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include one pack of insulin syringes) Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -3992,8 +4012,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '1 x 4 ml + 1 x 1 ml',
               totalMl: 5,
@@ -4012,8 +4032,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 12.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include two packs of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -4044,8 +4064,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS, (Include one pack of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             vialPlan: {
               ship: '1 x 4 ml + 2 x 1 ml',
               totalMl: 6,
@@ -4064,8 +4084,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 15 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS, (Include two packs of insulin syringes) Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation and dosing flexibility. Allergies:',
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Allergies:',
             /* Vial plan verified 2026-09-05 against the 28-day puncture limit.
                dosesPerVial is what ONE full vial yields, which is the number that
                matters - not the total shipped. Above 4 the vial still holds drug
@@ -4138,8 +4158,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Semaglutide 0.25 mg - 8-Week Supply',
@@ -4149,8 +4169,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.10ML (10 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4165,8 +4185,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Semaglutide 0.5 mg - 8-Week Supply',
@@ -4176,8 +4196,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.20ML (20 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4192,8 +4212,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Semaglutide 1.0 mg - 8-Week Supply',
@@ -4203,8 +4223,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.40ML (40 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4219,8 +4239,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.68ML (68 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Semaglutide 1.7 mg - 8-Week Supply',
@@ -4230,8 +4250,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.68ML (68 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4246,8 +4266,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 1.00ML (100 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Semaglutide 2.5 mg - 8-Week Supply',
@@ -4257,8 +4277,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 1.00ML (100 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         }
       ]
@@ -4326,8 +4346,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Tirzepatide 2.5 mg - 8-Week Supply',
@@ -4337,8 +4357,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.13ML (13 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard 28 days after first use.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4353,8 +4373,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.25ML (25 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Tirzepatide 4.5 mg - 8-Week Supply',
@@ -4364,8 +4384,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.25ML (25 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4380,8 +4400,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.42ML (42 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Tirzepatide 7.5 mg - 8-Week Supply',
@@ -4391,8 +4411,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.42ML (42 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4407,8 +4427,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Tirzepatide 9 mg - 8-Week Supply',
@@ -4418,8 +4438,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4434,8 +4454,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.75ML (75 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Tirzepatide 13.5 mg - 8-Week Supply',
@@ -4445,8 +4465,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.75ML (75 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         },
         {
@@ -4461,8 +4481,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.83ML (83 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           },
           supply8: {
             name: 'FARMAKEIO - Tirzepatide 15 mg - 8-Week Supply',
@@ -4472,8 +4492,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.83ML (83 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit. Custom Rx for N/V mitigation, dosing flexibility, and added B-6.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Home Kit.'
           }
         }
       ]
@@ -4513,8 +4533,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'GREENWICH - Tirzepatide 2.5 mg - 8-Week Supply',
@@ -4524,8 +4544,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4541,8 +4561,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'GREENWICH - Tirzepatide 5 mg - 8-Week Supply',
@@ -4552,8 +4572,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4569,8 +4589,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'GREENWICH - Tirzepatide 7.5 mg - 8-Week Supply',
@@ -4580,8 +4600,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4597,8 +4617,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'GREENWICH - Tirzepatide 10 mg - 8-Week Supply',
@@ -4608,8 +4628,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4625,8 +4645,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'GREENWICH - Tirzepatide 12.5 mg - 8-Week Supply',
@@ -4636,8 +4656,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4653,8 +4673,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 28,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           },
           supply8: {
             name: 'GREENWICH - Tirzepatide 15 mg - 8-Week Supply',
@@ -4664,8 +4684,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 56,
             ptInstructions: 'INJECT 0.50ML (50 UNITS) SUBCUTANEOUSLY ONCE WEEKLY. Discard after 4 doses or 28 days.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         }
       ]
@@ -4696,8 +4716,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 90,
             ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4713,8 +4733,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 90,
             ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         }
       ]
@@ -4747,8 +4767,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 90,
             ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4764,8 +4784,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 90,
             ptInstructions: 'DISSOLVE 2 DOTS UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         }
       ]
@@ -4795,8 +4815,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 90,
             ptInstructions: 'DISSOLVE 1/2 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4812,8 +4832,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 90,
             ptInstructions: 'DISSOLVE 1 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         }
       ]
@@ -4849,8 +4869,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 90,
             ptInstructions: 'DISSOLVE 1 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         },
         {
@@ -4866,8 +4886,8 @@ var KORB_GLP1 = {
             refill: 0,
             days: 90,
             ptInstructions: 'DISSOLVE 1 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+            reasonForCompounding: 'WRITE FOR THIS PATIENT',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient.'
           }
         }
       ]
@@ -6445,6 +6465,18 @@ var KORB_GLP1 = {
       var prod = KORB_GLP1.products[pk];
       var vc = (KORB_GLP1.pharmacies[prod.pharmacy] || {}).vialConstraints;
       (prod.doses || []).forEach(function (dd) {
+        /* No compounded record may pre-fill Reason for Compounding (LegitScript
+           #40, 2026-10-27). Every supply length, not just 4 and 8 weeks. */
+        Object.keys(dd).forEach(function (sk) {
+          var rr = dd[sk];
+          if (!/^supply\d+$/.test(sk) || !rr || typeof rr !== 'object') return;
+          if (rr.reasonForCompounding !== undefined &&
+              rr.reasonForCompounding !== KORB_GLP1.reasonPrompt.marker) {
+            problems.push(pk + ' ' + dd.dose + ' ' + sk + ': Reason for Compounding is pre-filled ("' +
+                          rr.reasonForCompounding + '"). It must be reasonPrompt.marker; the ' +
+                          'provider writes the reason for each patient.');
+          }
+        });
         ['supply4', 'supply8'].forEach(function (sup) {
           var rec = dd[sup];
           if (!rec) return;

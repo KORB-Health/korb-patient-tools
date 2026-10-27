@@ -260,7 +260,7 @@
      this page calls billingFor and reads pricing.* directly, and without it
      every price is null - a blank where a number belongs, not an error. -->
 <script src="korb-charges.js?v=ddc0bb2c"></script>
-<script src="korb-glp1-data.js?v=d7460849"></script>
+<script src="korb-glp1-data.js?v=e22fc247"></script>
 <!-- korb-rx-block.js owns the ONE Copy button and clipboard handler. This
      page uses it for the charge code, so the code copies the same way a
      charge code does on every monograph. Its own .copy-btn on the Tebra
@@ -837,7 +837,14 @@ function renderRx(p){
   add('Refill',                 r.refill);
   add('Days',                   r.days);
   add('Patient Instructions',   r.ptInstructions);
-  add('Reason for Compounding', r.reasonForCompounding);
+  /* Not pre-filled (LegitScript #40, 2026-10-27). The prompt shows with no Copy
+     button and is left out of "Copy all fields", so nothing generic can reach
+     Tebra. See reasonPrompt in korb-glp1-data.js. */
+  if (K.reasonPrompt && r.reasonForCompounding === K.reasonPrompt.marker) {
+    rows.push({ l:'Reason for Compounding', v:K.reasonPrompt.text, noCopy:true });
+  } else {
+    add('Reason for Compounding', r.reasonForCompounding);
+  }
   add('Pharmacy Instructions',  r.pharmacyNotes);
 
   /* This said 4-week for anything that was not supply8, so a 12-week
@@ -849,8 +856,9 @@ function renderRx(p){
   html += rows.map(function(row, i){
     return '<div class="rx-row">' +
            '<div class="rx-lbl">' + esc(row.l) + '</div>' +
-           '<div class="rx-val" id="rxv' + i + '">' + esc(row.v) + '</div>' +
-           '<div><button class="copy-btn" onclick="copyVal(\'rxv' + i + '\',this)">Copy</button></div>' +
+           '<div class="rx-val" id="rxv' + i + '"' + (row.noCopy ? ' style="color:#8A5A00;font-weight:600;"' : '') + '>' + esc(row.v) + '</div>' +
+           (row.noCopy ? '<div></div>'
+                       : '<div><button class="copy-btn" onclick="copyVal(\'rxv' + i + '\',this)">Copy</button></div>') +
            '</div>';
   }).join('');
 
@@ -873,7 +881,8 @@ function copyVal(id, btn){
 }
 function copyAll(){
   if (!window._rxRows) return;
-  var t = window._rxRows.map(function(r){ return r.l + ': ' + r.v; }).join('\n');
+  var t = window._rxRows.filter(function(r){ return !r.noCopy; })
+                        .map(function(r){ return r.l + ': ' + r.v; }).join('\n');
   navigator.clipboard.writeText(t);
 }
 
