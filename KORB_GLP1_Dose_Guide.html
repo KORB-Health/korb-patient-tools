@@ -75,8 +75,8 @@ footer{margin-top:30px;font-size:11px;color:var(--mu);text-align:center;line-hei
 </div>
 <!-- Both MUST load before the inline script below: the dose table is built
      from them at load and this page throws if korb-glp1-data.js is absent. -->
-<script src="korb-pharmacies.js?v=7c407f07"></script>
-<script src="korb-glp1-data.js?v=e22fc247"></script>
+<script src="korb-pharmacies.js?v=023a20a7"></script>
+<script src="korb-glp1-data.js?v=b9a3dcd9"></script>
 <script src="korb-syringe.js?v=85a23abb"></script>
 <script>
 /* ── THE DOSE TABLE IS NOT TYPED HERE ──────────────────────────────────────
@@ -132,9 +132,13 @@ const DATA = (function () {
          they still hold its vials, and FarmaKeio doses by volume, so its units
          differ from Premier's. Labelled so the patient knows it is ending. */
       const leaving = !!prod.patientGuideUntilConverted;
-      if ((prod.retired || prod.status === 'retired') && !leaving) return;
+      const isRetired = !!(prod.retired || prod.status === 'retired');
+      if (isRetired && !leaving) return;
+      /* FarmaKeio is active again for Arkansas (2026-10-28), and patients in
+         other states may still be finishing a FarmaKeio supply. */
       (out[group] = out[group] || {})[ph] = {
-        label: leaving ? phName(ph) + ' (current supply only: your provider will move you to a new pharmacy at your next visit)'
+        label: leaving && !isRetired ? phName(ph) + ' (Arkansas patients, or if you are finishing a FarmaKeio supply)'
+             : leaving ? phName(ph) + ' (current supply only: your provider will move you to a new pharmacy at your next visit)'
              : group === 'semaglutide_glycine' ? phName(ph) + ' (with glycine, an amino acid the pharmacy adds)'
              : /_b6$/.test(group) ? phName(ph) + ' (with vitamin B-6 instead of B-12)' : phName(ph),
         additive: prod.additive || '',

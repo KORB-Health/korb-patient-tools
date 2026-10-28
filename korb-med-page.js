@@ -103,7 +103,13 @@
     h += '<div class="kmp-dose"><div class="kmp-lbl">Your daily dose</div><div class="kmp-big">' + esc(dose.dose) + '</div>' +
          '<p class="kmp-how">' + esc(sig) + '</p></div>';
   } else {
-    var mgPerMl = Math.round(dose.mg * 100 / dose.units * 10) / 10;
+    /* Strength per mL from the formulation the pharmacy labels, not dose divided
+       by units: units are rounded to whole marks, so the division gave 18.2 mg/mL
+       for an 18 mg/mL vial (Premier tirzepatide 2 mg) and 19.2 for FarmaKeio's
+       2.5 mg. Fixed 2026-10-28. Falls back to the division only if the
+       formulation carries no number. */
+    var fm = String(dose.drugFormulation || '').match(/([\d.]+)\s*mg/i);
+    var mgPerMl = fm ? +fm[1] : Math.round(dose.mg * 100 / dose.units * 10) / 10;
     h += '<div class="kmp-dose"><div class="kmp-row">' +
          '<div><div class="kmp-lbl">Your weekly dose</div><div class="kmp-big">' + esc(dose.dose) + '</div></div>' +
          '<div><div class="kmp-lbl">Draw to</div><div class="kmp-big teal">' + esc(dose.units) + ' units</div></div></div>' +
@@ -168,7 +174,7 @@
     h += '<h2>What is in your vial</h2><p>Each mL holds ' + esc(drug.toLowerCase()) + ' ' + esc(mgPerMl) + ' mg' +
          (addName ? ', with ' + esc(addName) + ' added' : '') + '. ' +
          'It is given once a week as an injection just under the skin.</p>' +
-         (M ? adds.map(function (a) { return M.additives[a] ? '<p>' + esc(M.additives[a]) + '</p>' : ''; }).join('') : '') +
+         (M ? adds.map(function (a) { var t = ((M.additivesByPharmacy || {})[P.pharmacy] || {})[a] || M.additives[a]; return t ? '<p>' + esc(t) + '</p>' : ''; }).join('') : '') +
          (M && hasB12 && M.b12Colour ? '<p>' + esc(M.b12Colour.vial) + '</p>' : '') +
          '<h2>Your label</h2><p>Your label from ' + esc(pharmacy) + ' shows your name, the medication and its strength, your dose, and the date it was made. ' +
          '<strong>If your label says something different from this page, follow your label and contact KORB.</strong></p>';

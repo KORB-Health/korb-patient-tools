@@ -63,7 +63,7 @@
            '<button type="button" class="kmc-opt' + (S.kind === 'compounded' ? ' on' : '') + '" data-kind="compounded">Compounded<span>Made by a KORB pharmacy and shipped to you</span></button>' +
            '<button type="button" class="kmc-opt' + (S.kind === 'brand' ? ' on' : '') + '" data-kind="brand"' + (brandOk ? '' : ' disabled') + '>Name-brand<span>' +
              (brandOk ? 'Zepbound, Wegovy or Foundayo' : 'Not offered through KORB in ' + esc(P.stateName(S.state))) + '</span></button>' +
-           '</div><p class="kmp-fine">Not sure? Your prescription label names the pharmacy. A label from Premier Pharmacy or Belmar Pharmacy is compounded.</p></div>';
+           '</div><p class="kmp-fine">Not sure? Your prescription label names the pharmacy. A label from Premier Pharmacy, Belmar Pharmacy or FarmaKeio Pharmacy is compounded.</p></div>';
     }
     if (S.state && S.kind === 'compounded') {
       var route = G.states.routeTo(S.state);
@@ -87,8 +87,12 @@
            '<p><a class="kmp-btn" href="KORB_Patient_Ed_Semaglutide.html">Semaglutide guide (Wegovy)</a> ' +
            '<a class="kmp-btn" href="KORB_Patient_Ed_Tirzepatide.html">Tirzepatide guide (Zepbound)</a></p></div>';
     }
-    h += '<div class="kmp-box teal"><strong>Still using medication from FarmaKeio?</strong> Keep using your FarmaKeio instructions until that supply is finished. ' +
-         '<a href="../KORB_GLP1_Dose_Guide.html">Open the dose guide</a> for FarmaKeio doses.</div>';
+    /* Arkansas stays on FarmaKeio (2026-10-28), so the "finish your FarmaKeio
+       supply" note is for every other state only. */
+    var stateRoute = S.state ? G.states.routeTo(S.state) : null;
+    if (!stateRoute || stateRoute.pharmacy !== 'farmakeio')
+      h += '<div class="kmp-box teal"><strong>Still using medication from FarmaKeio?</strong> Keep using your FarmaKeio instructions until that supply is finished. ' +
+           '<a href="../KORB_GLP1_Dose_Guide.html">Open the dose guide</a> for FarmaKeio doses.</div>';
     h += '<p class="kmp-fine">General information for KORB patients. Your prescription label and your KORB provider are always the final word on your dose.</p>';
     host.innerHTML = h;
 

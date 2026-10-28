@@ -39,11 +39,27 @@ checked for in the others, because nobody could say what had been pushed where.
 ## GLP-1: FARMAKEIO OUT, PREMIER OR BELMAR. LIVE 2026-10-23. (Don, 2026-10-22)
 
 Premier wherever Premier can fill GLP-1 (42 states, no backup); Belmar
-everywhere else (9: AL, AR, CA, HI, MA, MS, SC, VA, WA). New Hampshire moved to
+everywhere else (8: AL, CA, HI, MA, MS, SC, VA, WA); **FarmaKeio for Arkansas
+only** (see below). New Hampshire moved to
 Premier the same day: licence NR2802, expires 2028-10-21 (Miguel, Premier). Mississippi left
 Premier because its Mississippi licence is non-sterile only. FarmaKeio ADD-ONS
 are not decided; do not touch add-on routing until Don says.
 
+- **ARKANSAS BACK TO FARMAKEIO** (Don, 2026-10-28). Belmar cannot collect
+  payment from KORB for Arkansas prescriptions: Arkansas only lets it collect
+  from the patient. One routing rule, `states: ['AR'] -> farmakeio`, sits above
+  the Belmar catch-all; FarmaKeio's pharmacy record and its injectable
+  semaglutide and tirzepatide are active again, and routing reaches them only
+  in Arkansas. **FarmaKeio oral semaglutide stays retired**: Arkansas has brand
+  oral only (Don). The conversion does not apply in Arkansas: `convert()`
+  returns `stays`, and the message tool tells the provider to continue the
+  FarmaKeio prescription, and to cancel and rewrite any Arkansas prescription
+  sent to Belmar after 10/23. `selfCheck()` fails if any state but Arkansas
+  routes to FarmaKeio, or Arkansas does not; negative-tested both halves.
+  Two patient pages, `KORB_My_GLP1_FarmaKeio_Semaglutide` and `_Tirzepatide`.
+  **Not changed, and flagged to Don:** Women's Health and add-ons in Arkansas
+  still name Belmar, and the same payment limit may apply; the GLP-1 Pharmacy
+  Selection Policy in korb-governance still says Premier or Belmar.
 - `korb-glp1-data.js` `farmakeioConversion` holds the dose rules: same step for
   semaglutide, nearest lower for tirzepatide, same dose for oral. Both the
   provider tool and the patient pages read it. `selfCheck()` fails if a dose
@@ -200,6 +216,8 @@ to check a single document against, which is the whole reason this table exists.
 | `Patient_Education/KORB_My_GLP1_Premier_Semaglutide_Glycine.html` | **Yes**, 2026-10-25. Built for educational send-outs and the message tool; Don asked for it live before Clinical Pulse 2026-10-26 |
 | `Patient_Education/KORB_My_GLP1_Premier_Oral_Tirzepatide.html` | **Yes**, 2026-10-25. Same reason |
 | `Patient_Education/KORB_My_GLP1.html` | **Yes**, 2026-10-25. The patient chooser, linked from the hub |
+| `Patient_Education/KORB_My_GLP1_FarmaKeio_Semaglutide.html` | **No.** Built 2026-10-28 for Arkansas patients, who stay on FarmaKeio. Goes live with the Arkansas push |
+| `Patient_Education/KORB_My_GLP1_FarmaKeio_Tirzepatide.html` | **No.** Built 2026-10-28 for Arkansas patients, who stay on FarmaKeio. Goes live with the Arkansas push |
 | `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
 | `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |

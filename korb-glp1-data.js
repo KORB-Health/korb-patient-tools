@@ -568,9 +568,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.32',
+    version: '2.33',
     created: '2026-08-06',
-    lastUpdated: '2026-10-22',
+    lastUpdated: '2026-10-28',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -588,6 +588,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-10-28 (v2.33): ARKANSAS GLP-1 BACK TO FARMAKEIO (Don). Belmar cannot collect payment from KORB for Arkansas prescriptions, because Arkansas only lets it collect from the patient. A routing rule sends Arkansas to FarmaKeio, above the Belmar catch-all; every other state is unchanged (Premier 42, Belmar 8, FarmaKeio 1). FarmaKeio is an active GLP-1 pharmacy again and its injectable semaglutide and tirzepatide are active again; routing reaches them only in Arkansas. FarmaKeio oral semaglutide stays retired, so Arkansas has brand oral only. The FarmaKeio conversion does not apply in Arkansas: convert() says the patient stays on FarmaKeio. Two patient pages added, KORB_My_GLP1_FarmaKeio_Semaglutide and _Tirzepatide. selfCheck asserts Arkansas routes to FarmaKeio and no other state does.',
       '2026-10-22 (v2.32): NO BACKUP, NO OVERRIDE (Don). One pharmacy per state for every compounded GLP-1 prescription: Premier where it can fill, Belmar everywhere else. routing has no backup; checkPharmacyForState returns error for any compounding pharmacy that is not the state pharmacy, so no tool can select it; the backup and default-override branches are removed. pharmacySelection.overrideAllowed false, no override reasons. Brand channels (LillyDirect, NovoCare, local pharmacy) unchanged.',
       '2026-10-22 (v2.31): FARMAKEIO OUT OF GLP-1; TWO PHARMACIES. Routing is Premier wherever Premier can fill GLP-1 (backup Belmar) and Belmar everywhere else (no backup): Premier 41, Belmar 10 (AL, AR, CA, HI, MA, MS, NH, SC, VA, WA). Mississippi moves Premier to Belmar: Premier holds a non-sterile licence there. The NC special rule is gone, NC is an ordinary Premier state. FarmaKeio pharmacy is glp1-retired and its three products are retired for prescribing but flagged patientGuideUntilConverted, so the patient Dose Guide keeps them until each patient is converted. selfCheck now fails if a routing rule names a retired pharmacy as default or backup. Don Stevenson, PA-C.',
       '2026-10-22 (v2.30): NEW PRODUCTS, PREMIER B-6. premier_sema_b6 (semaglutide 3 mg / pyridoxine 10 mg per mL) and premier_tirz_b6 (tirzepatide 18 mg / pyridoxine 10 mg per mL), 4-, 8- and 12-week, every dose. No glycine B-6. Derived at load from premier_sema and premier_tirz by deriveB6 at the end of this file: doses, units, volumes, vials, patient instructions and charge codes are the B-12 ones, and only the additive, compound name, Tebra name (PREMIER - B6 ...) and pharmacy note differ. B-12 stays the default; B-6 is for patients who cannot tolerate B-12 and carries restrictedUse. selfCheck fails if any B-12 wording reaches a B-6 record. Don Stevenson, PA-C.',
@@ -1694,6 +1695,15 @@ var KORB_GLP1 = {
         basis: 'sole California pharmacy \u2014 semaglutide and tirzepatide',
         note: 'Belmar is the only California option. Premier cannot ship to CA, and ' +
               'FarmaKeio and Greenwich no longer fill GLP-1 in any state.' },
+      /* 2026-10-28: ARKANSAS GOES TO FARMAKEIO (Don). Belmar cannot collect
+         payment from KORB for an Arkansas prescription: Arkansas only lets it
+         collect from the patient. FarmaKeio fills Arkansas, injectable
+         semaglutide and tirzepatide. It must stay ABOVE the catch-all. */
+      { states: ['AR'],                   pharmacy: 'farmakeio', backup: null,
+        basis: 'FarmaKeio is the GLP-1 pharmacy for Arkansas',
+        note: 'Belmar cannot collect payment for Arkansas prescriptions, so Arkansas ' +
+              'stays on FarmaKeio. Injectable semaglutide and tirzepatide only; there is ' +
+              'no compounded oral semaglutide for Arkansas.' },
       { states: ['*'],                    pharmacy: 'belmar', backup: null,
         basis: 'Premier cannot fill GLP-1 in this state' }
     ],
@@ -1899,20 +1909,22 @@ var KORB_GLP1 = {
       color: '#EF6C00',
       type: 'compounding',
       visibility: 'provider',
-      status: 'glp1-retired',
-      statusNote: 'NOT A GLP-1 PHARMACY from 2026-10-22. KORB is phasing FarmaKeio out of ' +
-                  'GLP-1 in every state. Do not start or continue a GLP-1 patient here. ' +
-                  'Convert each FarmaKeio patient at their next follow-up: Premier in a ' +
-                  'Premier state, Belmar otherwise. FarmaKeio add-ons are a separate decision.',
-      glp1Retired: {
-        retired: true,
-        retiredOn: '2026-10-22',
-        movesTo: 'premier',
-        movesToNote: 'Premier where Premier can fill GLP-1; Belmar in every other state.',
+      status: 'active',
+      statusNote: 'ARKANSAS ONLY from 2026-10-28. FarmaKeio is the GLP-1 pharmacy for ' +
+                  'Arkansas, injectable semaglutide and tirzepatide, because Belmar cannot ' +
+                  'collect payment for Arkansas prescriptions. In every other state KORB no ' +
+                  'longer uses FarmaKeio for GLP-1: Premier where Premier can fill, Belmar ' +
+                  'otherwise. FarmaKeio oral semaglutide stays retired.',
+      /* History. FarmaKeio left GLP-1 in every state on 2026-10-22 (Premier now
+         carries B-6) and came back for Arkansas alone on 2026-10-28. The routing
+         rule is what limits it to Arkansas; checkPharmacyForState answers
+         'Do not send to FarmaKeio' everywhere else. */
+      arkansasOnly: {
+        since: '2026-10-28',
         decidedBy: 'Don Stevenson',
-        reason: 'Premier now offers B-6 as well as B-12, which covers the FarmaKeio ' +
-                'formulation, and two pharmacies are simpler than three.',
-        opsAction: 'Providers convert each patient at their next follow-up.'
+        reason: 'Belmar cannot collect payment from KORB for Arkansas prescriptions; ' +
+                'Arkansas only lets it collect from the patient.',
+        previouslyRetiredOn: '2026-10-22'
       },
       /* FILLED BY hydrate() FROM korb-pharmacies.js. */
       preferredStates: [],
@@ -4127,11 +4139,12 @@ var KORB_GLP1 = {
          read Premier's 2.7 as an overshoot. Three pharmacies, three ladders,
          all below the ceiling. */
       key: 'farmakeio_sema',
-      status: 'retired',
-      retired: true,
-      retiredOn: '2026-10-22',
+      status: 'active',
+      /* Arkansas only, by routing (2026-10-28). Outside Arkansas a patient may
+         still hold FarmaKeio vials until converted, so the Dose Guide keeps it
+         for them too. */
       patientGuideUntilConverted: true,
-      statusNote: 'RETIRED FOR PRESCRIBING 2026-10-22 with the rest of FarmaKeio GLP-1. Kept so a patient still holding FarmaKeio vials can read their draw-up in the Dose Guide until they are converted, and so a provider can see what the patient was on.',
+      statusNote: 'ARKANSAS ONLY from 2026-10-28: active for Arkansas patients, who stay on FarmaKeio. Retired for every other state on 2026-10-22; patients elsewhere convert at their next follow-up.',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */
       additive: 'Pyridoxine (Vitamin B-6)',
@@ -4315,11 +4328,12 @@ var KORB_GLP1 = {
          with what FarmaKeio actually compounds and labels. If it is ever
          revisited, it is revisited with the pharmacy first. */
       key: 'farmakeio_tirz',
-      status: 'retired',
-      retired: true,
-      retiredOn: '2026-10-22',
+      status: 'active',
+      /* Arkansas only, by routing (2026-10-28). Outside Arkansas a patient may
+         still hold FarmaKeio vials until converted, so the Dose Guide keeps it
+         for them too. */
       patientGuideUntilConverted: true,
-      statusNote: 'RETIRED FOR PRESCRIBING 2026-10-22 with the rest of FarmaKeio GLP-1. Kept so a patient still holding FarmaKeio vials can read their draw-up in the Dose Guide until they are converted, and so a provider can see what the patient was on.',
+      statusNote: 'ARKANSAS ONLY from 2026-10-28: active for Arkansas patients, who stay on FarmaKeio. Retired for every other state on 2026-10-22; patients elsewhere convert at their next follow-up.',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */
       additive: 'Pyridoxine (Vitamin B-6)',
@@ -4845,7 +4859,7 @@ var KORB_GLP1 = {
       retired: true,
       retiredOn: '2026-10-22',
       patientGuideUntilConverted: true,
-      statusNote: 'RETIRED FOR PRESCRIBING 2026-10-22 with the rest of FarmaKeio GLP-1. Kept so a patient still holding FarmaKeio vials can read their draw-up in the Dose Guide until they are converted, and so a provider can see what the patient was on.',
+      statusNote: 'RETIRED FOR PRESCRIBING 2026-10-22 with the rest of FarmaKeio GLP-1, and still retired in Arkansas when FarmaKeio injectables came back there on 2026-10-28 (Don): Arkansas has brand oral only. Kept so a patient still holding FarmaKeio vials can read their draw-up in the Dose Guide until they are converted, and so a provider can see what the patient was on.',
       compounded: true,   // compounded by the pharmacy
       pharmacy: 'farmakeio',
       drug: 'semaglutide',
@@ -6120,7 +6134,7 @@ var KORB_GLP1 = {
     overrideAllowed: false,
     overrideReasons: [],
     overrideRule: 'Every compounded GLP-1 prescription goes to the pharmacy for the ' +
-                  'patient' + '\u2019' + 's state: Premier where Premier can fill, Belmar everywhere ' +
+                  'patient' + '\u2019' + 's state: Premier where Premier can fill, FarmaKeio in Arkansas, Belmar everywhere ' +
                   'else. There is no backup and no override.',
     brandProgramsNote: 'LillyDirect and NovoCare are manufacturer programs and are not ' +
                        'state-routed. They never appear as a state default and are ' +
@@ -6745,6 +6759,17 @@ var KORB_GLP1 = {
       KORB_GLP1.farmakeioConversion.check().forEach(function (p) { problems.push(p); });
     }
 
+    /* ARKANSAS IS THE ONLY FARMAKEIO STATE (Don, 2026-10-28). Belmar cannot be
+       paid for Arkansas; nowhere else goes back to FarmaKeio. */
+    if (KORB_GLP1.hydrated) {
+      var fkStates = [];
+      Object.keys(KORB_GLP1.pharmacies.premier ? (typeof KORB_PHARMACIES !== 'undefined' ? KORB_PHARMACIES.stateNames : {}) : {}).forEach(function (st) {
+        var rt = KORB_GLP1.states.routeTo(st);
+        if (rt && rt.pharmacy === 'farmakeio') fkStates.push(st);
+      });
+      if (fkStates.join(',') !== 'AR') problems.push('FarmaKeio GLP-1 must route Arkansas only; routes: ' + (fkStates.join(',') || 'none'));
+    }
+
     // Legacy products should never be reachable from a routing rule.
     KORB_GLP1.states.routing.forEach(function (r) {
       var ph = KORB_GLP1.pharmacies[r.pharmacy];
@@ -7062,6 +7087,9 @@ KORB_GLP1.farmakeioConversion = {
        product KORB prescribes gets a page, so the message builder and the
        patient chooser can link any of them. Don, 2026-10-25. */
     premier_sema_glycine: 'Patient_Education/KORB_My_GLP1_Premier_Semaglutide_Glycine.html',
+    /* Arkansas patients stay on FarmaKeio (2026-10-28). Not conversion targets. */
+    farmakeio_sema:    'Patient_Education/KORB_My_GLP1_FarmaKeio_Semaglutide.html',
+    farmakeio_tirz:    'Patient_Education/KORB_My_GLP1_FarmaKeio_Tirzepatide.html',
     premier_oral_tirz: 'Patient_Education/KORB_My_GLP1_Premier_Oral_Tirzepatide.html'
   },
   siteBase: 'https://korb-health.github.io/korb-patient-tools/',
@@ -7125,6 +7153,16 @@ KORB_GLP1.farmakeioConversion = {
     var route = KORB_GLP1.states.routeTo(state);
     if (!route) return { error: 'No GLP-1 route for ' + state + '.' };
     var ph = route.pharmacy;
+    /* Arkansas stays on FarmaKeio (2026-10-28): nothing to convert, except
+       oral semaglutide, which FarmaKeio no longer makes for anyone. */
+    if (ph === fromProd.pharmacy) {
+      if (fromProd.retired || fromProd.status === 'retired') {
+        return { error: fromProd.label + ' is retired, in ' + state + ' too, and there is no ' +
+                 'compounded equivalent for ' + state + '. Only brand options are available.' };
+      }
+      return { stays: true, error: KORB_GLP1.pharmacies[ph].name + ' is still the GLP-1 pharmacy for ' +
+               state + '. Do not convert: continue the FarmaKeio prescription.' };
+    }
     var key = (opts.b6 && r.b6 && r.b6[ph]) || r.to[ph];
     if (!key) return { error: 'No ' + ph + ' product to convert ' + fromKey + ' to.' };
     var toProd = KORB_GLP1.products[key];
@@ -7237,6 +7275,15 @@ KORB_GLP1.medPage = {
     'vitamin B-6': 'Vitamin B-6 is a vitamin your body uses to turn food into energy. A small amount is added to your medication. Your provider chose it because B-12 did not agree with you.',
     'L-carnitine': 'L-carnitine is a nutrient your body makes and also gets from food. It helps your cells use fat for energy. A small amount is added to your medication. It is not a weight loss medication on its own.',
     'glycine': 'Glycine is an amino acid, one of the building blocks your body uses to make protein. A small amount is added to your medication alongside the vitamin B-12. Only Premier Pharmacy makes this formulation.'
+  },
+
+  /* Where one pharmacy's reason for an additive differs. FarmaKeio adds B-6 to
+     everything it makes, so "your provider chose it because B-12 did not agree
+     with you" is wrong on a FarmaKeio page (Arkansas, 2026-10-28). */
+  additivesByPharmacy: {
+    farmakeio: {
+      'vitamin B-6': 'Vitamin B-6 is a vitamin your body uses to turn food into energy. A small amount is added to your medication. It is the vitamin FarmaKeio Pharmacy adds to its GLP-1 medications.'
+    }
   },
 
   /* Premier injectables only: the products with a 12-week programme. The link

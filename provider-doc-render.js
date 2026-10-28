@@ -536,6 +536,11 @@ function sectionCallouts(doc, ph) {
   if (ph.status === 'glp1-retired' || (ph.glp1Retired && ph.glp1Retired.retired)) {
     h += `<div class="callout warn"><h3>Retired — do not prescribe in any state</h3><p>${esc(ph.statusNote || 'Retired.')}</p></div>`;
   }
+  /* FarmaKeio came back for Arkansas alone on 2026-10-28. Its monographs must
+     say so at the top, or a provider in another state reads an active document. */
+  if (ph.arkansasOnly) {
+    h += `<div class="callout warn"><h3>Arkansas only</h3><p>${esc(ph.statusNote || 'Arkansas only.')}</p></div>`;
+  }
   return h;
 }
 
@@ -644,6 +649,12 @@ function sectionRx(doc) {
     const p = K.getProduct(key);
     if (!p) return;
     h += `<h3 class="prodhead">${esc(p.label)} <span class="via">${esc(p.orderVia || '')}</span></h3>`;
+    /* A retired product inside an active pharmacy's document (FarmaKeio oral
+       semaglutide once FarmaKeio returned for Arkansas, 2026-10-28). Its entries
+       stay for reference; the heading must say not to use them. */
+    if (p.retired || p.status === 'retired') {
+      h += `<div class="callout warn"><h3>Retired — do not prescribe</h3><p>${esc(p.statusNote || 'Retired.')}</p></div>`;
+    }
     if (p.restrictedUse) {
       h += `<div class="callout warn"><h3>Not the default: B-12 intolerance only</h3><p>${esc(p.restrictedUse)}</p></div>`;
     }

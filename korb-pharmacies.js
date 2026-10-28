@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.12",
+    version: "1.13",
     created: "2026-09-11",
     updated: "2026-10-22",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-10-28 (v1.13): ARKANSAS GLP-1 BACK TO FARMAKEIO. Belmar cannot collect payment from KORB for Arkansas prescriptions: Arkansas only lets it collect from the patient (Don, 2026-10-28). FarmaKeio programs.glp1 is active again and its preferredStates is AR; Belmar preferredStates loses AR. The GLP-1 routing rule that sends Arkansas to FarmaKeio lives in korb-glp1-data.js; this file only records the pharmacy fact. Injectable semaglutide and tirzepatide only: FarmaKeio oral semaglutide stays retired. Women's Health and add-ons in Arkansas still name Belmar and are NOT changed here; the same payment limit may apply, flagged to Don. Don Stevenson, PA-C.",
       "2026-10-22 (v1.12): PREMIER GAINS NEW HAMPSHIRE. Licence NR2802, expires 2028-10-21 (Miguel Sanchez, Premier, by email 2026-10-22). NH added to the Premier footprint and removed from footprintExcludes; Premier preferredStates gains NH and Belmar loses it, so NH GLP-1 and Women's Health route to Premier. Premier 42 for GLP-1, Belmar 9. FH&L still lists NH as closed for no pharmacy, which is no longer true; that is Don's call and is not changed here.",
       "2026-10-22 (v1.11): FARMAKEIO OUT OF GLP-1; MISSISSIPPI TO BELMAR. FarmaKeio programs.glp1 retired (add-ons untouched, a separate decision). Premier glp1 and peptides exclude MS: its Mississippi licence is non-sterile only and injections are sterile. GLP-1 routing is now Premier wherever it can fill, Belmar everywhere else: Belmar preferredStates widened from CA to the 10 non-Premier states (AL, AR, CA, HI, MA, MS, NH, SC, VA, WA); Premier preferred drops MS; FarmaKeio preferred emptied. Don Stevenson, PA-C.",
       "2026-10-16 (v1.10): PREMIER LOSES VIRGINIA. Premier is no longer licensed in VA and would need an NABP inspection to return (Miguel Sanchez, Premier, by email 2026-10-16). VA removed from the footprint and added to footprintExcludes, out of Premier preferredStates and into FarmaKeio preferredStates. Every program on the footprint follows: GLP-1 VA routes to FarmaKeio, Women's health VA routes to Belmar, and Functional Health & Longevity CLOSES in VA because Premier was its only peptide pharmacy there (korb-dosing-data.js v2.16, Don 2026-10-16). The same email confirmed Connecticut renewed to 2027-08-31 and Colorado to 2028-10-31, recorded in licenceExpires. Michigan renewal is still being checked: MI stays on Premier on Don's call and carries a licencePending caution that the GLP-1 routing pages print. Mississippi non-sterile-only from v1.8 is still open. Don Stevenson, PA-C.",
@@ -400,7 +401,6 @@ var KORB_PHARMACIES = {
       "footprintNote": "Ships to all 50 states and DC. Preferred for California only.",
       "preferredStates": [
         "AL",
-        "AR",
         "CA",
         "HI",
         "MA",
@@ -431,6 +431,7 @@ var KORB_PHARMACIES = {
         }
       },
       "notes": [
+        "ARKANSAS PAYMENT LIMIT, 2026-10-28: Belmar cannot collect payment from KORB for an Arkansas prescription, because Arkansas only lets it collect from the patient. Arkansas GLP-1 goes to FarmaKeio (Don). Women's Health and add-ons in Arkansas still name Belmar and are not yet reviewed for this.",
         "Carries both semaglutide and tirzepatide. All new California starts go here regardless of drug.",
         "SINGLE FILL as of 2026-09-05. Belmar now ships the full 8-week supply at one time for both semaglutide and tirzepatide. The split fill is retired. Belmar no longer differs from the other pharmacies on fill structure.",
         "Belmar 8-week now bills on the standard 8-week charge code. The Belmar-specific codes are retired — they existed only to trigger the second fill, and there is no second fill.",
@@ -504,15 +505,20 @@ var KORB_PHARMACIES = {
         "NC"
       ],
       "footprintNote": "Ships to 48 states plus DC. FarmaKeio will not ship to California or North Carolina, and that cannot be overridden. North Carolina was removed 2026-10-12 when Don learned FarmaKeio does not ship there; NC routes to Premier. From 2026-10-16 FarmaKeio is the GLP-1 default only where Premier cannot ship (AL, AR, HI, MA, NH, SC, WA) and the backup in every Premier state except NC.",
-      "preferredStates": [],
+      "preferredStates": [
+        "AR"
+      ],
       "programs": {
         "glp1": {
-          "status": "retired",
-          "retiredOn": "2026-10-22",
-          "movesTo": "premier, or belmar where Premier cannot fill",
+          "status": "active",
+          "arkansasOnly": true,
+          "reactivatedOn": "2026-10-28",
+          "reactivatedNote": "ARKANSAS ONLY. Belmar cannot collect payment for Arkansas prescriptions, so Arkansas GLP-1 (injectable semaglutide and tirzepatide) goes back to FarmaKeio (Don, 2026-10-28). In every other state FarmaKeio is still out of GLP-1: the routing in korb-glp1-data.js sends no other state here. The footprint is left whole because shipping is not the reason; routing is.",
+          "previouslyRetiredOn": "2026-10-22",
+          "movesToOutsideArkansas": "premier, or belmar where Premier cannot fill",
           "decidedBy": "Don Stevenson",
           "reason": "KORB is phasing FarmaKeio out of GLP-1. Premier now offers B-6 as well as B-12, so every patient Premier can reach moves to Premier, and every other patient moves to Belmar. Add-ons at FarmaKeio are a separate decision and are NOT retired here.",
-          "opsAction": "Providers convert each FarmaKeio GLP-1 patient at their next follow-up: Premier in a Premier state, Belmar otherwise."
+          "opsAction": "Outside Arkansas, providers convert each FarmaKeio GLP-1 patient at their next follow-up: Premier in a Premier state, Belmar otherwise. Arkansas patients stay on FarmaKeio."
         },
         "peptides": {
           "status": "not-offered"

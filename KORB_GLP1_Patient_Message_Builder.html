@@ -152,8 +152,8 @@ a{color:var(--navy)}
   <div id="out"><div class="panel empty">Pick a state.</div></div>
 </div>
 
-<script src="korb-pharmacies.js?v=7c407f07"></script>
-<script src="korb-glp1-data.js?v=e22fc247"></script>
+<script src="korb-pharmacies.js?v=023a20a7"></script>
+<script src="korb-glp1-data.js?v=b9a3dcd9"></script>
 <script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
 (function(){
@@ -279,6 +279,16 @@ a{color:var(--navy)}
       ' from the entry below, rather than renewing it, since a renewal goes back to FarmaKeio. Please delete your FarmaKeio drug favorites so a prescription is not sent there by mistake. FarmaKeio bills still come to KORB, so prescriptions sent there will be flagged and reviewed.</div>';
   }
 
+  /* ARKANSAS STAYS ON FARMAKEIO (Don, 2026-10-28). Belmar cannot collect
+     payment for Arkansas prescriptions, so Arkansas went back to FarmaKeio after
+     five days on Belmar. A prescription sent to Belmar in between must be
+     cancelled and rewritten here. */
+  function arkansasNote(st){
+    return '<div class="alert warn"><strong>' + esc(P.stateName(st)) + ' stays on FarmaKeio.</strong> Belmar cannot be paid for ' +
+      esc(P.stateName(st)) + ' prescriptions, so KORB sends them to FarmaKeio. Renewing a FarmaKeio prescription is fine here. ' +
+      'If a prescription for this patient went to Belmar after 10/23, cancel it in Tebra and write a new one to FarmaKeio.</div>';
+  }
+
   /* ---------- NEW PRESCRIPTION OR DOSE CHANGE ---------- */
   function newProducts(pharm){
     return Object.keys(C.patientPages).map(function(k){ return G.products[k]; })
@@ -359,7 +369,8 @@ a{color:var(--navy)}
       (prod.exclusiveNote ? '<div class="alert info"><strong>Premier only.</strong> ' + esc(prod.exclusiveNote) + '</div>' : '') +
       (high ? '<div class="alert warn"><strong>' + esc(dose.dose) + ' is a higher dose.</strong> ' + esc(C.highDose.provider) + '</div>' : '') +
       (sup === 'supply12' ? '<div class="alert warn"><strong>12-week supply.</strong> The patient must start within 5 days of delivery; the beyond-use date leaves no room. Use 8-week for anyone who cannot start promptly.</div>' : '') +
-      '<div class="alert info"><strong>Changing pharmacy from FarmaKeio?</strong> Use "Moving from FarmaKeio" above instead, so the dose converts.</div>' +
+      (prod.pharmacy === 'farmakeio' ? arkansasNote(st)
+        : '<div class="alert info"><strong>Changing pharmacy from FarmaKeio?</strong> Use "Moving from FarmaKeio" above instead, so the dose converts.</div>') +
       '</div>';
     if (rec){
       h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">Send to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' + pharmAddress(prod.pharmacy) +
@@ -458,6 +469,8 @@ a{color:var(--navy)}
     var opt = { b6: $('b6').checked };
     paintSeg(function(step){ return C.convert(from, ds, st, { b6: opt.b6, step: step }); });
     var c = C.convert(from, ds, st, { b6: opt.b6, step: chosenStep });
+    if (c.stays){ out.innerHTML = '<div class="panel">' + arkansasNote(st) + '<div class="alert info"><strong>No conversion.</strong> ' + esc(c.error) +
+      ' Use "New prescription or dose change" above for the Tebra entry, plan and portal message.</div></div>'; return; }
     if (c.error){ out.innerHTML = '<div class="panel"><div class="alert err"><strong>Cannot convert.</strong> ' + esc(c.error) + '</div></div>'; return; }
     fillSupply($('sup'), c.toProduct);
     var oral = isOral(c.toProduct), sup = $('sup').value || 'rx';
@@ -557,7 +570,7 @@ a{color:var(--navy)}
       if (!r || !G.pharmacies[r.pharmacy]) { problems.push(st + ': no route'); return; }
       if (!newProducts(r.pharmacy).length) problems.push(st + ': no product offered for ' + r.pharmacy);
     });
-    ['premier','belmar'].forEach(function(ph){
+    ['premier','belmar','farmakeio'].forEach(function(ph){
       newProducts(ph).forEach(function(p){
         p.doses.forEach(function(d){
           (isOral(p) ? ['rx'] : SUP.map(function(o){ return o[0]; }).filter(function(k){ return d[k]; })).forEach(function(k){
@@ -575,6 +588,16 @@ a{color:var(--navy)}
       });
     });
     var probe = { premier: 'TX', belmar: 'CA' };
+    /* Arkansas stays on FarmaKeio: every FarmaKeio injectable dose must answer
+       "stays" there, never a conversion. */
+    C.rules.forEach(function(r){
+      var fp = G.products[r.from];
+      if (fp.retired || fp.status === 'retired') return;
+      fp.doses.forEach(function(d){
+        var c = C.convert(r.from, d.dose, 'AR', {});
+        if (!c.stays) problems.push('convert ' + r.from + ' ' + d.dose + ' in AR: expected no conversion, got ' + (c.error || (c.toProduct && c.toProduct.key)));
+      });
+    });
     C.rules.forEach(function(r){
       G.products[r.from].doses.forEach(function(d){
         Object.keys(probe).forEach(function(ph){

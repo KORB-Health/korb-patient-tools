@@ -143,7 +143,7 @@
   </div>
 
   <div class="convert-link">
-    <span><strong>Writing a prescription or moving a patient from FarmaKeio?</strong> KORB now sends GLP-1 to Premier or Belmar. The message tool gives the Tebra entry, plan and portal message with the patient's page link. For a FarmaKeio patient, cancel and write a new prescription rather than renewing.</span>
+    <span><strong>Writing a prescription or moving a patient from FarmaKeio?</strong> KORB now sends GLP-1 to Premier or Belmar, and to FarmaKeio for Arkansas only. The message tool gives the Tebra entry, plan and portal message with the patient's page link. For a FarmaKeio patient outside Arkansas, cancel and write a new prescription rather than renewing.</span>
     <a href="KORB_GLP1_Patient_Message_Builder.html">Prescriptions and Patient Messages</a>
   </div>
 
@@ -255,12 +255,12 @@
 
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
-<script src="korb-pharmacies.js?v=7c407f07"></script>
+<script src="korb-pharmacies.js?v=023a20a7"></script>
 <!-- korb-charges.js carries the prices. It must load BEFORE the data file:
      this page calls billingFor and reads pricing.* directly, and without it
      every price is null - a blank where a number belongs, not an error. -->
 <script src="korb-charges.js?v=ddc0bb2c"></script>
-<script src="korb-glp1-data.js?v=e22fc247"></script>
+<script src="korb-glp1-data.js?v=b9a3dcd9"></script>
 <!-- korb-rx-block.js owns the ONE Copy button and clipboard handler. This
      page uses it for the charge code, so the code copies the same way a
      charge code does on every monograph. Its own .copy-btn on the Tebra
