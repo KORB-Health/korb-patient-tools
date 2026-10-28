@@ -365,6 +365,24 @@ var KORB_GLP1 = {
      than as a check that still passes. */
   artifactSignoff: {
     records: {
+      "medpage:farmakeio_tirzepatide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-28",
+        "fingerprint": "fp-ba6f6b9f-17507",
+        "covers": "17425 characters, 6 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered. New page for Arkansas patients, who stay on FarmaKeio."
+      },
+      "medpage:farmakeio_semaglutide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-10-28",
+        "fingerprint": "fp-5257764d-14615",
+        "covers": "14533 characters, 5 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered. New page for Arkansas patients, who stay on FarmaKeio."
+      },
       "medpage:premier_semaglutide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
@@ -404,37 +422,55 @@ var KORB_GLP1 = {
       "medpage:premier_tirzepatide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-25",
-        "fingerprint": "fp-f08e30b0-51718",
-        "covers": "51637 characters, 12 dose cases",
+        "date": "2026-10-28",
+        "fingerprint": "fp-2549bff6-51702",
+        "covers": "51621 characters, 12 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\") for the B-12 colour lines: amber vial, red or pink medication is normal, the storage note that allows for it, and the switch line for converted patients.",
+        "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after the strength per mL was read from the formulation (18 mg) instead of dose over rounded units (18.1 to 18.2 at four doses).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
           "date": "2026-10-25",
-          "fingerprint": "fp-aa36e7bc-48424",
-          "covers": "48343 characters, 12 dose cases",
+          "fingerprint": "fp-f08e30b0-51718",
+          "covers": "51637 characters, 12 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
+          "note": "Re-signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\") for the B-12 colour lines: amber vial, red or pink medication is normal, the storage note that allows for it, and the switch line for converted patients.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-10-25",
+            "fingerprint": "fp-aa36e7bc-48424",
+            "covers": "48343 characters, 12 dose cases",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
+          }
         }
       },
       "medpage:premier_tirzepatide_b6": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-25",
-        "fingerprint": "fp-742d8126-47638",
-        "covers": "47557 characters, 12 dose cases",
+        "date": "2026-10-28",
+        "fingerprint": "fp-cf0c3c24-47622",
+        "covers": "47541 characters, 12 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
+        "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after the strength per mL was read from the formulation (18 mg) instead of dose over rounded units (18.1 to 18.2 at four doses).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-22",
-          "fingerprint": "fp-21a1e01a-23223",
-          "covers": "23142 characters, 12 dose cases",
+          "date": "2026-10-25",
+          "fingerprint": "fp-742d8126-47638",
+          "covers": "47557 characters, 12 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+          "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-10-22",
+            "fingerprint": "fp-21a1e01a-23223",
+            "covers": "23142 characters, 12 dose cases",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+          }
         }
       },
       "medpage:belmar_semaglutide": {
@@ -530,35 +566,44 @@ var KORB_GLP1 = {
       "tool:glp1routing": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-22",
-        "fingerprint": "fp-5362c512-2297",
+        "date": "2026-10-28",
+        "fingerprint": "fp-4d368fe0-2300",
         "covers": "51 states, 0 prescribing blocks",
         "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-        "note": "Re-signed 2026-10-22 on Don's review in chat (\"signed, routing tool and both handouts\") of the tool as rendered, after FarmaKeio left GLP-1 (Premier 42, Belmar 9, NH added, MS to Belmar), one pharmacy per state with no backup, and the card cut to \"Send to\" the state's pharmacy.",
+        "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after Arkansas went back to FarmaKeio: Premier 42, Belmar 8, FarmaKeio Arkansas only.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-16",
-          "fingerprint": "fp-45992a70-27126",
+          "date": "2026-10-22",
+          "fingerprint": "fp-5362c512-2297",
           "covers": "51 states, 0 prescribing blocks",
           "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-          "note": "Re-signed 2026-10-16 on Don's review in chat (\"This looks good\") of the live tool, for the routing change of the same day: Premier is the default in every state it ships GLP-1 to (43) with FarmaKeio as backup, NC Premier with Belmar as backup, CA Belmar with no backup, FarmaKeio default in AL, AR, HI, MA, NH, SC, WA. Also covers the five Premier states added 2026-10-15 (AK, ID, IA, IN, MN), which had already made the 2026-10-13 signature stale, and the override reasons losing Provider preference (v2.29). KORB_ROUTING_SELFCHECK() returns 51 states, problems: [].",
+          "note": "Re-signed 2026-10-22 on Don's review in chat (\"signed, routing tool and both handouts\") of the tool as rendered, after FarmaKeio left GLP-1 (Premier 42, Belmar 9, NH added, MS to Belmar), one pharmacy per state with no backup, and the card cut to \"Send to\" the state's pharmacy.",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-10-13",
-            "fingerprint": "fp-fdaa203b-25648",
+            "date": "2026-10-16",
+            "fingerprint": "fp-45992a70-27126",
             "covers": "51 states, 0 prescribing blocks",
             "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-            "note": "Re-signed 2026-10-13 on Don's instruction in chat, for one change: North Carolina moved from FarmaKeio to Premier on 2026-10-12 (e7e8b27; FarmaKeio does not ship to NC). Verified the NC move was the ONLY routing change since the 2026-09-17 signature: at e7e8b27^ this tool was still current against it. Now FarmaKeio 39, Premier 11, Belmar 1 (CA); KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio; NC shows Premier Pharmacy, preferred.",
+            "note": "Re-signed 2026-10-16 on Don's review in chat (\"This looks good\") of the live tool, for the routing change of the same day: Premier is the default in every state it ships GLP-1 to (43) with FarmaKeio as backup, NC Premier with Belmar as backup, CA Belmar with no backup, FarmaKeio default in AL, AR, HI, MA, NH, SC, WA. Also covers the five Premier states added 2026-10-15 (AK, ID, IA, IN, MN), which had already made the 2026-10-13 signature stale, and the override reasons losing Provider preference (v2.29). KORB_ROUTING_SELFCHECK() returns 51 states, problems: [].",
             "superseded": {
               "signedBy": "Donald Stevenson, PA-C",
               "role": "Director of Clinical Operations and Lead Provider",
-              "date": "2026-09-17",
-              "fingerprint": "fp-79fb1a74-25617",
+              "date": "2026-10-13",
+              "fingerprint": "fp-fdaa203b-25648",
               "covers": "51 states, 0 prescribing blocks",
               "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-              "note": "Approved 2026-09-17. Don: \"we used the other day and it is good to go.\" KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio."
+              "note": "Re-signed 2026-10-13 on Don's instruction in chat, for one change: North Carolina moved from FarmaKeio to Premier on 2026-10-12 (e7e8b27; FarmaKeio does not ship to NC). Verified the NC move was the ONLY routing change since the 2026-09-17 signature: at e7e8b27^ this tool was still current against it. Now FarmaKeio 39, Premier 11, Belmar 1 (CA); KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio; NC shows Premier Pharmacy, preferred.",
+              "superseded": {
+                "signedBy": "Donald Stevenson, PA-C",
+                "role": "Director of Clinical Operations and Lead Provider",
+                "date": "2026-09-17",
+                "fingerprint": "fp-79fb1a74-25617",
+                "covers": "51 states, 0 prescribing blocks",
+                "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+                "note": "Approved 2026-09-17. Don: \"we used the other day and it is good to go.\" KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio."
+              }
             }
           }
         }
