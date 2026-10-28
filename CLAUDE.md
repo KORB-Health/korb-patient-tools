@@ -216,8 +216,8 @@ to check a single document against, which is the whole reason this table exists.
 | `Patient_Education/KORB_My_GLP1_Premier_Semaglutide_Glycine.html` | **Yes**, 2026-10-25. Built for educational send-outs and the message tool; Don asked for it live before Clinical Pulse 2026-10-26 |
 | `Patient_Education/KORB_My_GLP1_Premier_Oral_Tirzepatide.html` | **Yes**, 2026-10-25. Same reason |
 | `Patient_Education/KORB_My_GLP1.html` | **Yes**, 2026-10-25. The patient chooser, linked from the hub |
-| `Patient_Education/KORB_My_GLP1_FarmaKeio_Semaglutide.html` | **No.** Built 2026-10-28 for Arkansas patients, who stay on FarmaKeio. Goes live with the Arkansas push |
-| `Patient_Education/KORB_My_GLP1_FarmaKeio_Tirzepatide.html` | **No.** Built 2026-10-28 for Arkansas patients, who stay on FarmaKeio. Goes live with the Arkansas push |
+| `Patient_Education/KORB_My_GLP1_FarmaKeio_Semaglutide.html` | **Yes**, 2026-10-28. For Arkansas patients, who stay on FarmaKeio. Signed and pushed the same day |
+| `Patient_Education/KORB_My_GLP1_FarmaKeio_Tirzepatide.html` | **Yes**, 2026-10-28. For Arkansas patients, who stay on FarmaKeio. Signed and pushed the same day |
 | `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
 | `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |
