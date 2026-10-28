@@ -746,11 +746,6 @@ function sectionRx(doc) {
           if (isBrand && SELECT_ONLY.indexOf(label) !== -1) {
             return { field: label, val: v, copy: false, select: true };
           }
-          /* Not pre-filled (LegitScript #40, 2026-10-27): show the prompt, never
-             a Copy button. See reasonPrompt in korb-glp1-data.js. */
-          if (label === 'Reason for Compounding' && K.reasonPrompt && v === K.reasonPrompt.marker) {
-            return { field: label, val: K.reasonPrompt.text, copy: false };
-          }
           return { field: label, val: v, copy: label !== 'Allow Substitution' };
         })
         .filter(Boolean);
