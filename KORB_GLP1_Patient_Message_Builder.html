@@ -130,7 +130,7 @@ a{color:var(--navy)}
     <div class="stepwrap hide" id="nvitWrap">
       <div class="steplbl">Added vitamin (Premier)</div>
       <div class="seg two vit" id="nvit" role="radiogroup" aria-label="Added vitamin">
-        <button type="button" data-vit="b12" role="radio" aria-checked="true" class="on">B-12<span>Cobalamin, the default</span></button>
+        <button type="button" data-vit="b12" role="radio" aria-checked="true" class="on">B-12<span>Cobalamin</span></button>
         <button type="button" data-vit="b6" role="radio" aria-checked="false">B-6<span>Pyridoxine</span></button>
       </div>
       <p class="stephint" id="nvitHint"></p>
@@ -156,7 +156,7 @@ a{color:var(--navy)}
     <div class="stepwrap hide" id="cvitWrap">
       <div class="steplbl">Added vitamin (Premier)</div>
       <div class="seg two vit" id="cvit" role="radiogroup" aria-label="Added vitamin">
-        <button type="button" data-vit="b12" role="radio" aria-checked="true" class="on">B-12<span>Cobalamin, the default</span></button>
+        <button type="button" data-vit="b12" role="radio" aria-checked="true" class="on">B-12<span>Cobalamin</span></button>
         <button type="button" data-vit="b6" role="radio" aria-checked="false">B-6<span>Pyridoxine</span></button>
       </div>
       <p class="stephint" id="cvitHint"></p>
@@ -166,8 +166,8 @@ a{color:var(--navy)}
   <div id="out"><div class="panel empty">Pick a state.</div></div>
 </div>
 
-<script src="korb-pharmacies.js?v=023a20a7"></script>
-<script src="korb-glp1-data.js?v=5a7124d9"></script>
+<script src="korb-pharmacies.js?v=470c3178"></script>
+<script src="korb-glp1-data.js?v=919bbc9b"></script>
 <script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
 (function(){
@@ -323,8 +323,7 @@ a{color:var(--navy)}
       var on = b.getAttribute('data-vit') === chosenVit;
       b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
     });
-    /* The B-6 rule itself shows in the amber box once B-6 is picked. */
-    $(pre + 'vitHint').textContent = 'B-12 is the default. B-6 is Premier only.';
+    $(pre + 'vitHint').textContent = 'Same doses, units and charge codes either way. B-6 is Premier only.';
   }
   function fillNewMeds(route){
     var sel = $('nmed'), keep = sel.value;
@@ -401,7 +400,6 @@ a{color:var(--navy)}
     var supText = oral ? rec.days + '-day supply' : $('nsup').selectedOptions[0].textContent.replace(' weeks', '-week') + ' supply';
     var high = C.isHighDose(prod.key, dose);
     var h = '<div class="panel">' +
-      (prod.restrictedUse ? '<div class="alert warn"><strong>Not the default.</strong> ' + esc(prod.restrictedUse) + '</div>' : '') +
       (prod.exclusiveNote ? '<div class="alert info"><strong>Premier only.</strong> ' + esc(prod.exclusiveNote) + '</div>' : '') +
       (high ? '<div class="alert warn"><strong>' + esc(dose.dose) + ' is a higher dose.</strong> ' + esc(C.highDose.provider) + '</div>' : '') +
       (sup === 'supply12' ? '<div class="alert warn"><strong>12-week supply.</strong> The patient must start within 5 days of delivery; the beyond-use date leaves no room. Use 8-week for anyone who cannot start promptly.</div>' : '') +
@@ -418,7 +416,6 @@ a{color:var(--navy)}
     var plan = [
       'Rx: ' + (rec ? rec.name : shortLabel(prod) + ' ' + dose.dose) + '. Sent to ' + ph + ', the GLP-1 pharmacy for ' + P.stateName(st) + '.',
       'Dose: ' + dn + units + (oral ? ' daily' : ' weekly') + ', ' + supText + '.',
-      prod.restrictedUse ? 'B-6 formulation for documented B-12 intolerance: [document reaction].' : null,
       high ? C.highDose.plan : null,
       sup === 'supply12' ? '12-week supply: patient counseled to start within 5 days of delivery.' : null,
       'Portal message sent with link to the patient medication page. Patient to contact KORB with questions.'
@@ -476,7 +473,6 @@ a{color:var(--navy)}
         (c.step > 0 ? 'tolerating current dose, ready to titrate' : 'side effects') + ' - document].' : null,
       unitsNote ? 'Patient instructed: ' + unitsNote : null,
       b12 ? 'Patient told the new medication is red or pink from the vitamin B-12, which is expected.' : null,
-      c.toProduct.restrictedUse ? 'B-6 formulation for documented B-12 intolerance: [document reaction].' : null,
       high ? C.highDose.plan : null,
       sup === 'supply12' ? '12-week supply: patient counseled to start within 5 days of delivery.' : null,
       'Patient counseled to finish current FarmaKeio supply first using FarmaKeio instructions, then start the new ' + ph + ' medication at the new dose and units.',
@@ -523,7 +519,6 @@ a{color:var(--navy)}
       '<div class="alert info"><strong>Dose rule:</strong> ' + esc(T.ruleText) + ', equivalent ' + esc(e.dose) + esc(T.eu) + '.' + (c.step ? ' <strong>Provider ' + T.stepWord + ' one step to ' + esc(t.dose) + '.</strong>' : '') + '</div>' +
       tebraRule(ph) +
       (T.unitsNote ? '<div class="alert warn"><strong>Tell the patient:</strong> ' + esc(T.unitsNote) + '</div>' : '') +
-      (c.toProduct.restrictedUse ? '<div class="alert warn"><strong>B-6 selected.</strong> ' + esc(c.toProduct.restrictedUse) + '</div>' : '') +
       (T.high ? '<div class="alert warn"><strong>' + esc(t.dose) + ' is a higher dose.</strong> ' + esc(C.highDose.provider) + '</div>' : '') +
       (sup === 'supply12' ? '<div class="alert warn"><strong>12-week supply.</strong> The patient must start within 5 days of delivery. Use 8-week for anyone who cannot start promptly.</div>' : '') +
       '</div>';

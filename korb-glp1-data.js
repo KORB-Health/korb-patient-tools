@@ -611,7 +611,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.35',
+    version: '2.36',
     created: '2026-08-06',
     lastUpdated: '2026-10-28',
     owner: 'Director of Clinical Operations',
@@ -631,6 +631,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-10-29 (v2.36): B-6 IS AN ORDINARY CHOICE (Don). Providers pick B-12 or B-6 for Premier semaglutide and tirzepatide as they would any formulation; a B-12 intolerance no longer has to be documented. restrictedUse is removed from the derived B-6 records, so no tool, monograph or plan note carries the intolerance wording. B-12 stays the first choice listed. Patient wording: the semaglutide and tirzepatide handouts and the B-6 medication pages no longer tie B-6 to not tolerating B-12.',
       '2026-10-28 (v2.35): SEMAGLUTIDE DOTS 1, 5, 10 AND 20 MG; 0.5 MG ORAL RETIRED (Don). premier_oral_sema now carries 1 mg #90 FITSemOrl90 (moved from FITSemOrl180; Metabolic Low-Dose Pathway and maintenance only), 5 mg #90 FITSemOrlLOW_90, 5 mg #30 FITSemOrlLOW_30 (the 30-day starter, dose label "5 mg (30 days)" so the tools can tell the two 5 mg records apart), 10 mg #90 FITSemOrlMID_90 and 20 mg #90 FITSemOrlHIGH_90. Codes and prices are from Don’s pricing summary of 2026-10-27; the four new codes are not yet in Nick’s published sheet, so korb-charges.js has no price for them and the Provider Reference shows Varies until the daily charge check picks them up. Formulation names follow the existing pattern (Semaglutide Oral Dot Nmg), set by KORB. Positioning carries the weight loss titration (start 5 mg, 10 mg after 4 weeks if needed, 20 mg only after 10 mg stalls, never a start; restart at 5 mg from injections, never convert by equivalence). 0.5 mg retired at Premier and Belmar (the Belmar half tablet). farmakeioConversion sameDose now sends FarmaKeio 0.5 mg oral to 1 mg, the lowest dose left, and the message tool and patient page say the dose changed instead of that it stays. Message tool: oral supply length now comes from the dose record, not a fixed 90 days. Patient page lists each strength once. NOT CHANGED: tirzepatide Dots; reason for compounding (Don handles wording with snippets). Sign-offs left stale for Don: rx Premier and Belmar semaglutide, medpage premier_oral_semaglutide and belmar_oral_semaglutide.',
       '2026-10-28 (v2.34): REASON FOR COMPOUNDING PRE-FILLED AGAIN (Don). The change of 2026-10-27 (545fd41, LegitScript #40) is reverted: all 118 compounded favourites carry "N/V mitigation & flexibility" again, Pharmacy Instructions carry the "Custom Rx for..." justification again, and the WRITE FOR THIS PATIENT marker, reasonPrompt and the selfCheck that refused a pre-filled reason are gone. Don: the default goes back on the prescription information, and providers customize the reason for each patient in the prescription, the order or the note. POL-COMPOUND statement 3 and the LegitScript #40 response still describe the removed version; flagged to Don.',
       '2026-10-28 (v2.33): ARKANSAS GLP-1 BACK TO FARMAKEIO (Don). Belmar cannot collect payment from KORB for Arkansas prescriptions, because Arkansas only lets it collect from the patient. A routing rule sends Arkansas to FarmaKeio, above the Belmar catch-all; every other state is unchanged (Premier 42, Belmar 8, FarmaKeio 1). FarmaKeio is an active GLP-1 pharmacy again and its injectable semaglutide and tirzepatide are active again; routing reaches them only in Arkansas. FarmaKeio oral semaglutide stays retired, so Arkansas has brand oral only. The FarmaKeio conversion does not apply in Arkansas: convert() says the patient stays on FarmaKeio. Two patient pages added, KORB_My_GLP1_FarmaKeio_Semaglutide and _Tirzepatide. selfCheck asserts Arkansas routes to FarmaKeio and no other state does.',
@@ -6982,7 +6983,7 @@ var KORB_GLP1 = {
       if (!KORB_GLP1.products[p.derivedFrom]) problems.push(k + ': its B-12 source ' + p.derivedFrom + ' is missing');
       (function walk (o, path) {
         if (typeof o === 'string') {
-          if (/B-?12|cobalamin/i.test(o) && !/^\.restrictedUse$/.test(path)) {
+          if (/B-?12|cobalamin/i.test(o)) {
             problems.push(k + path + ': still says B-12: "' + o.slice(0, 80) + '"');
           }
           return;
@@ -7025,9 +7026,8 @@ var KORB_GLP1 = {
    pharmacy, as Glycine does) and the "added B-12" in pharmacy notes. Patient
    instructions are the B-12 ones word for word, at Don's direction.
 
-   B-12 IS THE DEFAULT. B-6 is for a patient who cannot tolerate B-12, not a
-   preference, so the record carries restrictedUse and the tools list it after
-   B-12 and say so.
+   B-12 is listed first. B-6 is an ordinary choice (Don, 2026-10-29): no
+   intolerance has to be documented, so the records carry no restrictedUse.
 
    If Premier ever changes a B-6 vial size, add the override to b6VialOverrides
    below. Doses do not change (Don, 2026-10-22). selfCheck fails if any B-12
@@ -7056,8 +7056,6 @@ var KORB_GLP1 = {
     p.additive = 'Pyridoxine (Vitamin B-6)';
     p.label = 'Premier — ' + s.drug + ' / B-6';
     p.formulation = s.formulation;
-    p.restrictedUse = 'B-12 is the default. Use B-6 only for a patient who cannot tolerate ' +
-                      'B-12, and document why in the note.';
     p.doses.forEach(function (d) {
       if (d.drugFormulation !== s.b12Form) throw new Error('korb-glp1-data.js: ' + s.from +
         ' ' + d.dose + ' drugFormulation is "' + d.drugFormulation + '", expected "' + s.b12Form +
@@ -7099,9 +7097,8 @@ var KORB_GLP1 = {
                    retired 2026-10-28, so FarmaKeio 0.5 mg goes to 1 mg, the
                    lowest dose left, and is told its dose changed.
 
-   B-12 is the default at Premier. B-6 is only for a patient who cannot
-   tolerate B-12 (Don, 2026-10-22), and FarmaKeio's product carried B-6, so the
-   tool asks rather than assuming either way.
+   At Premier the provider chooses B-12 or B-6 (Don, 2026-10-29). FarmaKeio's
+   product carried B-6, so the tool asks rather than assuming either way.
 
    THE UNITS CHANGE EVEN WHEN THE STEP DOES NOT. FarmaKeio semaglutide is
    2.5 mg/mL and Premier's is 3 mg/mL, so 40 units is 1.0 mg at FarmaKeio and
@@ -7198,7 +7195,7 @@ KORB_GLP1.farmakeioConversion = {
   },
 
   /* fromKey: a FarmaKeio product key. doseStr: its dose, e.g. '1.0 mg'.
-     state: two-letter code. opts.b6: true only for B-12 intolerance (Premier). */
+     state: two-letter code. opts.b6: true for the B-6 formulation (Premier). */
   convert: function (fromKey, doseStr, state, opts) {
     opts = opts || {};
     var r = this.ruleFor(fromKey);
@@ -7328,14 +7325,13 @@ KORB_GLP1.medPage = {
      korb-med-page.js derives from product.additive. */
   additives: {
     'vitamin B-12': 'Vitamin B-12 is a vitamin your body needs to make energy, red blood cells and healthy nerves. A small amount is added to your medication. It is the usual choice at KORB.',
-    'vitamin B-6': 'Vitamin B-6 is a vitamin your body uses to turn food into energy. A small amount is added to your medication. Your provider chose it because B-12 did not agree with you.',
+    'vitamin B-6': 'Vitamin B-6 is a vitamin your body uses to turn food into energy. A small amount is added to your medication.',
     'L-carnitine': 'L-carnitine is a nutrient your body makes and also gets from food. It helps your cells use fat for energy. A small amount is added to your medication. It is not a weight loss medication on its own.',
     'glycine': 'Glycine is an amino acid, one of the building blocks your body uses to make protein. A small amount is added to your medication alongside the vitamin B-12. Only Premier Pharmacy makes this formulation.'
   },
 
   /* Where one pharmacy's reason for an additive differs. FarmaKeio adds B-6 to
-     everything it makes, so "your provider chose it because B-12 did not agree
-     with you" is wrong on a FarmaKeio page (Arkansas, 2026-10-28). */
+     everything it makes, so its page says so (Arkansas, 2026-10-28). */
   additivesByPharmacy: {
     farmakeio: {
       'vitamin B-6': 'Vitamin B-6 is a vitamin your body uses to turn food into energy. A small amount is added to your medication. It is the vitamin FarmaKeio Pharmacy adds to its GLP-1 medications.'

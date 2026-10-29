@@ -3457,8 +3457,8 @@ var KORB_PATIENT_ED = {
         'disease, heart attack and stroke in adults with heart disease who are ' +
         'overweight or obese. At KORB your provider prescribes a compounded formulation that ' +
         'includes a small amount of an added vitamin, usually cyanocobalamin (vitamin B-12), to ' +
-        'help your body handle it. If you do not tolerate B-12, your provider may prescribe it ' +
-        'with vitamin B-6 instead. Your label names exactly what is in yours.'
+        'help your body handle it. Some patients receive it with vitamin B-6 instead. ' +
+        'Your label names exactly what is in yours.'
       ],
 
       mayHelp: {
@@ -3709,9 +3709,8 @@ var KORB_PATIENT_ED = {
         'ingredient is the same one used in the brand-name medication, which is approved for ' +
         'weight management and for type 2 diabetes. At KORB your provider prescribes a ' +
         'compounded formulation that includes a small amount of an added vitamin, usually ' +
-        'cyanocobalamin (vitamin B-12), to help your body handle it. If you do not tolerate ' +
-        'B-12, your provider may prescribe it with vitamin B-6 instead. Your label names ' +
-        'exactly what is in yours.'
+        'cyanocobalamin (vitamin B-12), to help your body handle it. Some patients receive ' +
+        'it with vitamin B-6 instead. Your label names exactly what is in yours.'
       ],
 
       mayHelp: {

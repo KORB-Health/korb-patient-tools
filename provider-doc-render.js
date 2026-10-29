@@ -655,9 +655,6 @@ function sectionRx(doc) {
     if (p.retired || p.status === 'retired') {
       h += `<div class="callout warn"><h3>Retired — do not prescribe</h3><p>${esc(p.statusNote || 'Retired.')}</p></div>`;
     }
-    if (p.restrictedUse) {
-      h += `<div class="callout warn"><h3>Not the default: B-12 intolerance only</h3><p>${esc(p.restrictedUse)}</p></div>`;
-    }
     if (p.exclusiveTo && p.exclusiveNote) {
       h += `<div class="callout"><h3>Only from ${esc(K.pharmacies[p.exclusiveTo].name)} — this product</h3><p>${esc(p.exclusiveNote)}</p></div>`;
     }
