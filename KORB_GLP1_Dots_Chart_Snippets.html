@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="KORB Health provider tool: chart notes and patient messages for the semaglutide Dots and the Metabolic Low-Dose Pathway, with copy buttons and the matching Text Blaze shortcuts.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#21275B">
+<title>KORB Health &middot; Semaglutide Dots Chart Snippets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#21275B; --teal:#00B2C3; --sand:#ECE9D1; --amber:#FBB040;
+  --bg:#F7F6F0; --surface:#FFFFFF; --fg:#1C1F33; --muted:#6B6F84; --line:#D9D7C8;
+  --warnbg:#FEF6E7; --warnfg:#6A4A06; --okbg:#E8F7F8; --okfg:#0B5560;
+  --font-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --font-body:"Barlow",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);margin:0;font-size:14px;line-height:1.5}
+.wrap{max-width:820px;margin:0 auto;padding:28px 16px 48px}
+header h1{font-family:var(--font-display);font-size:clamp(26px,6vw,38px);line-height:1.05;margin:0 0 6px;color:var(--navy)}
+header .sub{color:var(--muted);margin:0;max-width:64ch}
+.tag{display:inline-block;font-family:var(--font-display);font-size:12px;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--navy);color:#fff;border-radius:3px;padding:2px 8px;margin-bottom:10px}
+hr.rule{border:0;border-top:2px solid var(--navy);opacity:.45;margin:16px 0 22px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;margin-bottom:16px}
+.lbl{display:block;font-family:var(--font-display);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+select,input[type=text]{width:100%;font-family:var(--font-body);font-size:16px;font-weight:500;color:var(--fg);
+  padding:10px 11px;border:1px solid var(--line);border-radius:5px;background:#FBFAF5;line-height:1.3;min-height:44px}
+select:focus-visible,input:focus-visible,button:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:1px}
+.shortcut{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
+.sc{font-family:ui-monospace,Consolas,monospace;font-size:18px;font-weight:700;color:var(--navy);background:var(--sand);
+  border-radius:5px;padding:4px 10px}
+.when{color:var(--muted);margin:10px 0 0}
+.fields{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:620px){.fields{grid-template-columns:1fr 1fr}}
+.fields .wide{grid-column:1/-1}
+input.ph{background:var(--warnbg);border-color:var(--amber)}
+textarea{width:100%;font-family:ui-monospace,Consolas,monospace;font-size:13.5px;line-height:1.5;color:var(--fg);
+  border:1px solid var(--line);border-radius:5px;background:#FBFAF5;padding:12px;resize:vertical;min-height:120px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;align-items:center}
+button{font-family:var(--font-display);font-size:16px;letter-spacing:.04em;font-weight:600;border-radius:5px;cursor:pointer;
+  padding:10px 20px;min-height:44px;border:1px solid var(--navy)}
+button.primary{background:var(--navy);color:#fff}
+button.ghost{background:transparent;color:var(--navy)}
+.msg{font-size:13px;color:var(--okfg)}
+.alert{border-radius:6px;padding:10px 12px;margin-top:10px;font-size:13.5px}
+.alert.warn{background:var(--warnbg);color:var(--warnfg);border:1px solid var(--amber)}
+.alert.err{background:#FDECEC;color:#7A1F1F;border:1px solid #E3A1A1}
+.count{font-size:12.5px;color:var(--muted)}
+.count.over{color:#B3261E;font-weight:700}
+details{margin-top:6px}
+summary{cursor:pointer;color:var(--navy);font-weight:600}
+table.list{width:100%;border-collapse:collapse;font-size:13.5px}
+table.list td{border:1px solid var(--line);padding:6px 8px;vertical-align:top}
+table.list td.k{font-family:ui-monospace,Consolas,monospace;font-weight:700;color:var(--navy);white-space:nowrap}
+footer{color:var(--muted);font-size:12.5px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="tag">Provider use only</span>
+  <h1>Semaglutide Dots chart snippets</h1>
+  <p class="sub">Pick a snippet, fill in what is true for this patient, and copy. Each one shows its Text Blaze shortcut if you would rather type it. Every justification asks for the real result, date and source; if no route fits, use <strong>Not eligible yet</strong>.</p>
+</header>
+<hr class="rule">
+
+<div class="panel">
+  <label class="lbl" for="pick">Snippet</label>
+  <select id="pick"></select>
+  <div class="shortcut"><span class="lbl" style="margin:0">Text Blaze shortcut</span><span class="sc" id="sc"></span></div>
+  <p class="when" id="when"></p>
+</div>
+
+<div class="panel" id="fieldsPanel">
+  <span class="lbl">Fill in</span>
+  <div class="fields" id="fields"></div>
+</div>
+
+<div class="panel">
+  <label class="lbl" for="out">Ready to paste</label>
+  <textarea id="out" readonly rows="8"></textarea>
+  <div class="btns">
+    <button type="button" class="primary" id="copy">Copy</button>
+    <span class="count" id="count"></span>
+    <span class="msg" id="copied" aria-live="polite"></span>
+  </div>
+  <div id="warn"></div>
+</div>
+
+<div class="panel">
+  <details>
+    <summary>Set it up in Text Blaze</summary>
+    <p>Create a new snippet, use the label and shortcut above, and paste this text. Text Blaze turns the braces into drop-downs and boxes.</p>
+    <textarea id="tb" readonly rows="6"></textarea>
+    <div class="btns"><button type="button" class="ghost" id="copytb">Copy Text Blaze text</button><span class="msg" id="copiedtb" aria-live="polite"></span></div>
+  </details>
+  <details>
+    <summary>All shortcuts</summary>
+    <table class="list" id="all"></table>
+  </details>
+</div>
+
+<footer id="foot">KORB Health Medical Texas PA &middot; For KORB providers. Not for patients. No patient information is stored or sent by this page.</footer>
+</div>
+
+<script src="korb-dots-snippets.js?v=dc6683a2"></script>
+<script>
+(function () {
+  var S = window.KORB_DOTS_SNIPPETS;
+  var $ = function (id) { return document.getElementById(id); };
+  if (!S) { document.body.innerHTML = '<p style="padding:24px">This page could not load korb-dots-snippets.js.</p>'; return; }
+
+  var problems = S.selfCheck();
+  if (problems.length) {
+    $('warn').innerHTML = '<div class="alert err"><strong>Snippet data problem, tell Don:</strong> ' + problems.join('; ') + '</div>';
+  }
+
+  var LABELS = {
+    pastbmi: 'Past BMI', pastdate: 'Date of past BMI', source: 'Source of past BMI', bmi: 'Current BMI', z68: 'Z68 BMI code',
+    whynow: 'Why now', dose: 'Dose', supply: 'Supply', why: 'Why this product', dx: 'Diagnosis', result: 'Result that meets it',
+    resultdate: 'Date of result', src: 'Source of result', pcp: 'PCP', marker: 'Goal marker', glu: 'Fasting glucose',
+    ins: 'Fasting insulin', homa: 'HOMA-IR', e66: 'Weight code', comorb: 'Weight-related condition', hx: 'History',
+    fu: 'Follow-up (days)', step: 'Step', weeks: 'Weeks on current dose', resp: 'Response', se: 'Side effects',
+    scoff: 'SCOFF', rel: 'Relative contraindications', rfc: 'Reason for compounding', offer: 'Offered'
+  };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+
+  /* Picker, grouped */
+  var groups = {};
+  S.snippets.forEach(function (s) { (groups[s.group] = groups[s.group] || []).push(s); });
+  $('pick').innerHTML = Object.keys(groups).map(function (g) {
+    return '<optgroup label="' + esc(g) + '">' + groups[g].map(function (s) {
+      return '<option value="' + esc(s.key) + '">' + esc(s.label) + ' · ' + esc(s.shortcut) + '</option>';
+    }).join('') + '</optgroup>';
+  }).join('');
+  $('all').innerHTML = S.snippets.map(function (s) {
+    return '<tr><td class="k">' + esc(s.shortcut) + '</td><td>' + esc(s.label) + '</td><td>' + esc(s.when) + '</td></tr>';
+  }).join('');
+
+  var current = null, parts = [];
+
+  function show(key) {
+    current = S.snippets.filter(function (s) { return s.key === key; })[0] || S.snippets[0];
+    $('pick').value = current.key;
+    $('sc').textContent = current.shortcut;
+    $('when').textContent = current.when;
+    $('tb').value = current.text;
+    parts = S.parse(current.text);
+    var fieldParts = parts.filter(function (p) { return p.type !== 'text'; });
+    $('fieldsPanel').style.display = fieldParts.length ? '' : 'none';
+    $('fields').innerHTML = fieldParts.map(function (p) {
+      var id = 'f_' + p.name, lab = LABELS[p.name] || p.name;
+      var wide = p.type === 'formmenu' && p.options.some(function (o) { return o.length > 34; });
+      if (p.type === 'formmenu') {
+        return '<div' + (wide ? ' class="wide"' : '') + '><label class="lbl" for="' + id + '">' + esc(lab) + '</label><select id="' + id + '" data-n="' + esc(p.name) + '">' +
+          p.options.map(function (o) { return '<option' + (o === p.def ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join('') + '</select></div>';
+      }
+      return '<div><label class="lbl" for="' + id + '">' + esc(lab) + '</label><input type="text" id="' + id + '" data-n="' + esc(p.name) + '" value="' + esc(p.def) + '" autocomplete="off"></div>';
+    }).join('');
+    Array.prototype.forEach.call($('fields').querySelectorAll('input,select'), function (el) {
+      el.addEventListener('input', render); el.addEventListener('change', render);
+      if (el.tagName === 'INPUT') el.addEventListener('focus', function () { if (S.isPlaceholder(el.value)) el.select(); });
+    });
+    try { history.replaceState(null, '', '?s=' + current.key); } catch (e) {}
+    render();
+  }
+
+  function render() {
+    var left = [];
+    var txt = parts.map(function (p) {
+      if (p.type === 'text') return p.value;
+      var el = $('f_' + p.name), v = el ? el.value : p.def;
+      if (p.type === 'formtext') {
+        var ph = !v.trim() || S.isPlaceholder(v);
+        el.classList.toggle('ph', ph);
+        if (ph) left.push(LABELS[p.name] || p.name);
+      }
+      return v;
+    }).join('');
+    $('out').value = txt;
+    $('out').rows = Math.min(16, Math.max(4, Math.ceil(txt.length / 80) + txt.split('\n').length));
+    var over = current.limit && txt.length > current.limit;
+    $('count').textContent = current.limit ? txt.length + ' / ' + current.limit + ' characters' : '';
+    $('count').className = 'count' + (over ? ' over' : '');
+    var w = '';
+    if (left.length) w += '<div class="alert warn"><strong>Still to fill in:</strong> ' + esc(left.join(', ')) + '. Enter what the chart shows before you copy.</div>';
+    if (problems.length) w += '<div class="alert err"><strong>Snippet data problem, tell Don:</strong> ' + esc(problems.join('; ')) + '</div>';
+    $('warn').innerHTML = w;
+    $('copied').textContent = '';
+  }
+
+  function copy(text, msgId) {
+    var done = function () { $(msgId).textContent = 'Copied'; setTimeout(function () { $(msgId).textContent = ''; }, 2000); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback);
+    else fallback();
+    function fallback() {
+      var t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch (e) { $(msgId).textContent = 'Select the text and copy it'; }
+      document.body.removeChild(t);
+    }
+  }
+
+  $('pick').addEventListener('change', function () { show($('pick').value); });
+  $('copy').addEventListener('click', function () { copy($('out').value, 'copied'); });
+  $('copytb').addEventListener('click', function () { copy($('tb').value, 'copiedtb'); });
+  $('foot').innerHTML += ' &middot; Snippets v' + esc(S.meta.version) + ', ' + esc(S.meta.updated) + '.';
+
+  var q = /[?&]s=([a-z]+)/.exec(location.search);
+  show(q ? q[1] : S.snippets[0].key);
+})();
+</script>
+</body>
+</html>

@@ -69,6 +69,15 @@ are not decided; do not touch add-on routing until Don says.
   message says the dose changed. The four new codes are not in Nick's sheet yet,
   so the Provider Reference shows the code with "Varies" until `check-charges.ps1`
   picks them up. Never hand-add them to `korb-charges.js`.
+- **DOTS CHART SNIPPETS TOOL** (Don, 2026-10-29): `KORB_GLP1_Dots_Chart_Snippets.html`,
+  provider only, for the intranet. Reads `korb-dots-snippets.js`, whose snippet text
+  is written in Text Blaze syntax so the same string is what providers paste into Text
+  Blaze (shortcuts `/po...`; `/do...` clashes) and what the page turns into drop-downs
+  and boxes. Change wording in the data file only. Its `selfCheck()` fails on a `;`
+  inside a choice (Text Blaze splits on it), a duplicate field or shortcut, non-ASCII,
+  or a Reason for Compounding choice over 30. Every justification asks for the real
+  result, date and source; the page warns while any box still holds its placeholder.
+  No PHI, prices or charge codes. Not signed (artifact-signoff lists it unclassified).
 - `korb-glp1-data.js` `farmakeioConversion` holds the dose rules: same step for
   semaglutide, nearest lower for tirzepatide, same dose for oral. Both the
   provider tool and the patient pages read it. `selfCheck()` fails if a dose
