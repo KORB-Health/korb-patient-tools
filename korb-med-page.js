@@ -54,7 +54,10 @@
   if (/glycine/i.test(P.additive || '')) adds.push('glycine');
   var addName = adds.join(' and ');
   var hasB12 = adds.indexOf('vitamin B-12') !== -1;
-  var num = function (d) { return String(d.dose).replace(/\s*mg\s*$/i, ''); };
+  var num = function (d) { return String(d.dose).replace(/\s*\(.*\)\s*$/, '').replace(/\s*mg\s*$/i, ''); };
+  /* The 5 mg Dot comes as a 30-day and a 90-day supply (2026-10-28). The
+     patient chooses a dose, not a supply, so each strength is listed once. */
+  var uniq = function (list) { var seen = {}; return list.filter(function (d) { var k = num(d); if (seen[k]) return false; seen[k] = 1; return true; }); };
 
   /* window.__KORB_MED_SEARCH is set only by artifact-signoff.js, which renders
      every dose of a page in one browser tab to fingerprint it. A patient's
@@ -84,7 +87,7 @@
   if (!dose) {
     h += '<div class="kmp-box teal"><strong>Choose your dose</strong> from your prescription label.' +
          '<select id="kmpDose" class="kmp-select"><option value="">Select your ' + (oral ? 'daily' : 'weekly') + ' dose...</option>' +
-         P.doses.map(function (d) { return '<option value="' + esc(num(d)) + '">' + esc(d.dose) + (oral ? ' daily' : ' once a week') + '</option>'; }).join('') +
+         uniq(P.doses).map(function (d) { return '<option value="' + esc(num(d)) + '">' + esc(d.dose) + (oral ? ' daily' : ' once a week') + '</option>'; }).join('') +
          '</select></div>';
     host.innerHTML = h;
     document.getElementById('kmpDose').addEventListener('change', function (e) {
@@ -131,7 +134,9 @@
          directions differ, because that is the mistake a patient would make. */
       var oldSig = String((was.rx || {}).ptInstructions || '').toUpperCase();
       var newSig = String((dose.rx || {}).ptInstructions || '').toUpperCase();
-      h += '<div class="kmp-box amber"><strong>Switching from FarmaKeio.</strong> Finish your FarmaKeio supply first, then start your new tablets. Your dose stays ' + esc(dose.dose) + ' a day. ' +
+      h += '<div class="kmp-box amber"><strong>Switching from FarmaKeio.</strong> Finish your FarmaKeio supply first, then start your new tablets. ' +
+           (was.mg === dose.mg ? 'Your dose stays ' + esc(dose.dose) + ' a day. '
+                               : 'Your new dose is ' + esc(dose.dose) + ' a day. The ' + esc(was.dose) + ' is no longer made, so this is the lowest dose available. ') +
            (oldSig && newSig && oldSig !== newSig
              ? '<p><strong>How you take it has changed.</strong> Follow the directions above and on your new label, not your old FarmaKeio directions.</p>'
              : 'Your new tablets may look different, so follow the directions on your new label.') + '</div>';

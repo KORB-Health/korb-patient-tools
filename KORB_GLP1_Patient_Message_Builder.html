@@ -153,7 +153,7 @@ a{color:var(--navy)}
 </div>
 
 <script src="korb-pharmacies.js?v=023a20a7"></script>
-<script src="korb-glp1-data.js?v=c2a73704"></script>
+<script src="korb-glp1-data.js?v=763f2495"></script>
 <script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
 (function(){
@@ -174,7 +174,7 @@ a{color:var(--navy)}
       (r.addressWarning ? '<br>' + esc(r.addressWarning) : '') + '</div>';
   }
   var drugName = function(p){ return p.drug.charAt(0).toUpperCase() + p.drug.slice(1); };
-  var num = function(d){ return String(d.dose).replace(/\s*mg\s*$/i, ''); };
+  var num = function(d){ return String(d.dose).replace(/\s*\(.*\)\s*$/, '').replace(/\s*mg\s*$/i, ''); };
   var shortLabel = function(p){ return p.label.replace(/^[^—]*—\s*/, ''); };
   var MSG_LIMIT = 1000;
 
@@ -256,7 +256,9 @@ a{color:var(--navy)}
   /* Program lengths a product offers, read from its first dose. */
   function fillSupply(sel, prod){
     var keep = chosenSup;
-    if (!prod || isOral(prod)){ sel.innerHTML = '<option value="rx">90 days</option>'; sel.disabled = true; return; }
+    /* Oral supply is set by the dose record: the 5 mg Dot has a 30-day and a
+       90-day record (2026-10-28), every other oral is 90 days. */
+    if (!prod || isOral(prod)){ sel.innerHTML = '<option value="rx">Set by the dose chosen</option>'; sel.disabled = true; return; }
     var d = prod.doses[0], opts = SUP.filter(function(o){ return d[o[0]]; });
     sel.disabled = false;
     sel.innerHTML = opts.map(function(o){ return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
@@ -324,7 +326,7 @@ a{color:var(--navy)}
       var sig = String((dose.rx || {}).ptInstructions || '').toLowerCase().replace(/(^|\.\s+)([a-z])/g, function(m,a,b){ return a + b.toUpperCase(); });
       L.push('I sent your ' + drug + ' tablets prescription to ' + ph + '. Check your label against the details below before your first dose, and message me with any questions.');
       L.push('');
-      L.push(drug.toUpperCase() + ' ' + dose.dose + ' DAILY - 90-DAY SUPPLY');
+      L.push(drug.toUpperCase() + ' ' + num(dose) + ' mg DAILY - ' + dose.rx.days + '-DAY SUPPLY');
       L.push('');
       L.push('DIRECTIONS');
       L.push(sig);
@@ -362,7 +364,7 @@ a{color:var(--navy)}
     var dose = prod.doses.filter(function(d){ return d.dose === ds; })[0];
     var oral = isOral(prod), sup = $('nsup').value || 'rx', rec = oral ? dose.rx : dose[sup];
     var ph = phName(prod.pharmacy), drug = drugName(prod), units = dose.units !== undefined ? ' (' + dose.units + ' units)' : '';
-    var supText = oral ? '90-day supply' : $('nsup').selectedOptions[0].textContent.replace(' weeks', '-week') + ' supply';
+    var supText = oral ? rec.days + '-day supply' : $('nsup').selectedOptions[0].textContent.replace(' weeks', '-week') + ' supply';
     var high = C.isHighDose(prod.key, dose);
     var h = '<div class="panel">' +
       (prod.restrictedUse ? '<div class="alert warn"><strong>Not the default.</strong> ' + esc(prod.restrictedUse) + '</div>' : '') +
@@ -375,12 +377,13 @@ a{color:var(--navy)}
     if (rec){
       h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">Send to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' + pharmAddress(prod.pharmacy) +
         KORB_RX_BLOCK.block({ fields: KORB_RX_BLOCK.fieldsFrom(rec, { drugFormulation: dose.drugFormulation }),
-          accent: KORB_RX_BLOCK.accentFor(prod.pharmacy), pharmacy: ph, label: rec.name, tag: oral ? '90 days' : $('nsup').selectedOptions[0].textContent }) + '</div>';
+          accent: KORB_RX_BLOCK.accentFor(prod.pharmacy), pharmacy: ph, label: rec.name, tag: oral ? rec.days + ' days' : $('nsup').selectedOptions[0].textContent }) + '</div>';
     }
-    var summary = today() + ': ' + shortLabel(prod) + ' ' + dose.dose + units + (oral ? ' daily' : ' weekly') + ', ' + supText + ', ' + ph + '.';
+    var dn = oral ? num(dose) + ' mg' : dose.dose;
+    var summary = today() + ': ' + shortLabel(prod) + ' ' + dn + units + (oral ? ' daily' : ' weekly') + ', ' + supText + ', ' + ph + '.';
     var plan = [
       'Rx: ' + (rec ? rec.name : shortLabel(prod) + ' ' + dose.dose) + '. Sent to ' + ph + ', the GLP-1 pharmacy for ' + P.stateName(st) + '.',
-      'Dose: ' + dose.dose + units + (oral ? ' daily' : ' weekly') + ', ' + supText + '.',
+      'Dose: ' + dn + units + (oral ? ' daily' : ' weekly') + ', ' + supText + '.',
       prod.restrictedUse ? 'B-6 formulation for documented B-12 intolerance: [document reaction].' : null,
       high ? C.highDose.plan : null,
       sup === 'supply12' ? '12-week supply: patient counseled to start within 5 days of delivery.' : null,
@@ -416,6 +419,7 @@ a{color:var(--navy)}
     var f = c.fromDose, t = c.toDose;
     var fu = f.units !== undefined ? ' (' + f.units + ' units)' : '', tu = t.units !== undefined ? ' (' + t.units + ' units)' : '';
     var ruleText = { sameStep: 'same step on the new dose ladder', nearestLower: 'nearest lower dose on the new ladder', sameDose: 'same dose' }[c.rule];
+    if (c.rule === 'sameDose' && c.fromDose.mg !== c.toDose.mg) ruleText = 'lowest dose available, ' + c.fromDose.dose + ' is no longer made';
     var unitsNote = '';
     if (!oral){
       if (f.units === t.units && f.mg !== t.mg) unitsNote = 'Units stay at ' + t.units + ', but the new medication is a different strength, so ' + t.units + ' units is now ' + t.dose + ' (was ' + f.dose + ').';
@@ -423,7 +427,7 @@ a{color:var(--navy)}
       if (t.units > 100) unitsNote += ' This dose takes two syringes: one full (100 units) and one to ' + (t.units - 100) + ' units.';
     } else {
       var os = String((f.rx||{}).ptInstructions||''), ns = String((t.rx||{}).ptInstructions||'');
-      if (os && ns && os.toUpperCase() !== ns.toUpperCase()) unitsNote = 'Same dose, different directions: ' + ns.toLowerCase();
+      if (os && ns && os.toUpperCase() !== ns.toUpperCase()) unitsNote = (f.mg === t.mg ? 'Same dose, different directions: ' : 'New directions: ') + ns.toLowerCase();
     }
     var b12 = !oral && /B-?12|cobalamin/i.test(c.toProduct.additive || '');
     var summary = today() + ': GLP-1 pharmacy changed FarmaKeio to ' + ph + ' (FarmaKeio phased out for GLP-1). ' +
@@ -445,7 +449,7 @@ a{color:var(--navy)}
       'Portal message sent with link to the patient dosing page. Patient to contact KORB with questions.'
     ].filter(Boolean).map(function(l){ return '- ' + l; }).join('\n');
     var msg = 'Hi,\n\nKORB is moving all of our GLP-1 patients from FarmaKeio Pharmacy to ' + ph + ', so your next prescription will come from ' + ph + '.\n\n' +
-      (oral ? 'Your dose stays ' + t.dose + ' a day.' : 'Your new dose is ' + t.dose + ' once a week, which is ' + t.units + ' units on your syringe.') +
+      (oral ? (f.mg === t.mg ? 'Your dose stays ' + t.dose + ' a day.' : 'Your new dose is ' + t.dose + ' a day. The ' + f.dose + ' is no longer made, so this is the lowest dose available.') : 'Your new dose is ' + t.dose + ' once a week, which is ' + t.units + ' units on your syringe.') +
       (oral ? (unitsNote ? ' How you take it has changed, so please follow the new directions.' : '')
             : (f.units === t.units && f.mg === t.mg ? ' That is the same dose and the same number of units as now.'
                : f.units === t.units ? ' The number of units is the same as before, but the new medication is a different strength, so ' + t.units + ' units now gives you ' + t.dose + '.'
@@ -493,7 +497,7 @@ a{color:var(--navy)}
       h += '<div class="panel"><h2>Tebra prescription</h2><p class="sub">New prescription to ' + esc(ph) + '. Same fields as the ' + esc(drug) + ' monograph.</p>' + pharmAddress(c.pharmacy) +
         KORB_RX_BLOCK.block({ fields: KORB_RX_BLOCK.fieldsFrom(T.rec, { drugFormulation: t.drugFormulation }),
           accent: KORB_RX_BLOCK.accentFor(c.pharmacy), pharmacy: ph, label: T.rec.name,
-          tag: oral ? '90 days' : $('sup').selectedOptions[0].textContent }) + '</div>';
+          tag: oral ? T.rec.days + ' days' : $('sup').selectedOptions[0].textContent }) + '</div>';
     }
     h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', T.summary);
     h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', T.plan);

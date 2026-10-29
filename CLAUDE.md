@@ -60,6 +60,15 @@ are not decided; do not touch add-on routing until Don says.
   **Not changed, and flagged to Don:** Women's Health and add-ons in Arkansas
   still name Belmar, and the same payment limit may apply; the GLP-1 Pharmacy
   Selection Policy in korb-governance still says Premier or Belmar.
+- **SEMAGLUTIDE DOTS LIVE 2026-10-28** (Don, v2.35). Premier oral semaglutide is
+  1 mg #90 (`FITSemOrl90`, low-dose pathway and maintenance only), 5 mg #30
+  starter, 5 mg #90, 10 mg #90, 20 mg #90. The 30-day 5 mg is a separate record
+  labelled "5 mg (30 days)": the message tool selects by that string, and the
+  patient page strips the bracket and lists each strength once. Oral 0.5 mg is
+  retired at Premier and Belmar; FarmaKeio 0.5 mg converts to 1 mg and every
+  message says the dose changed. The four new codes are not in Nick's sheet yet,
+  so the Provider Reference shows the code with "Varies" until `check-charges.ps1`
+  picks them up. Never hand-add them to `korb-charges.js`.
 - `korb-glp1-data.js` `farmakeioConversion` holds the dose rules: same step for
   semaglutide, nearest lower for tirzepatide, same dose for oral. Both the
   provider tool and the patient pages read it. `selfCheck()` fails if a dose

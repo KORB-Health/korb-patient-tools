@@ -613,7 +613,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.34',
+    version: '2.35',
     created: '2026-08-06',
     lastUpdated: '2026-10-28',
     owner: 'Director of Clinical Operations',
@@ -633,6 +633,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-10-28 (v2.35): SEMAGLUTIDE DOTS 1, 5, 10 AND 20 MG; 0.5 MG ORAL RETIRED (Don). premier_oral_sema now carries 1 mg #90 FITSemOrl90 (moved from FITSemOrl180; Metabolic Low-Dose Pathway and maintenance only), 5 mg #90 FITSemOrlLOW_90, 5 mg #30 FITSemOrlLOW_30 (the 30-day starter, dose label "5 mg (30 days)" so the tools can tell the two 5 mg records apart), 10 mg #90 FITSemOrlMID_90 and 20 mg #90 FITSemOrlHIGH_90. Codes and prices are from Don’s pricing summary of 2026-10-27; the four new codes are not yet in Nick’s published sheet, so korb-charges.js has no price for them and the Provider Reference shows Varies until the daily charge check picks them up. Formulation names follow the existing pattern (Semaglutide Oral Dot Nmg), set by KORB. Positioning carries the weight loss titration (start 5 mg, 10 mg after 4 weeks if needed, 20 mg only after 10 mg stalls, never a start; restart at 5 mg from injections, never convert by equivalence). 0.5 mg retired at Premier and Belmar (the Belmar half tablet). farmakeioConversion sameDose now sends FarmaKeio 0.5 mg oral to 1 mg, the lowest dose left, and the message tool and patient page say the dose changed instead of that it stays. Message tool: oral supply length now comes from the dose record, not a fixed 90 days. Patient page lists each strength once. NOT CHANGED: tirzepatide Dots; reason for compounding (Don handles wording with snippets). Sign-offs left stale for Don: rx Premier and Belmar semaglutide, medpage premier_oral_semaglutide and belmar_oral_semaglutide.',
       '2026-10-28 (v2.34): REASON FOR COMPOUNDING PRE-FILLED AGAIN (Don). The change of 2026-10-27 (545fd41, LegitScript #40) is reverted: all 118 compounded favourites carry "N/V mitigation & flexibility" again, Pharmacy Instructions carry the "Custom Rx for..." justification again, and the WRITE FOR THIS PATIENT marker, reasonPrompt and the selfCheck that refused a pre-filled reason are gone. Don: the default goes back on the prescription information, and providers customize the reason for each patient in the prescription, the order or the note. POL-COMPOUND statement 3 and the LegitScript #40 response still describe the removed version; flagged to Don.',
       '2026-10-28 (v2.33): ARKANSAS GLP-1 BACK TO FARMAKEIO (Don). Belmar cannot collect payment from KORB for Arkansas prescriptions, because Arkansas only lets it collect from the patient. A routing rule sends Arkansas to FarmaKeio, above the Belmar catch-all; every other state is unchanged (Premier 42, Belmar 8, FarmaKeio 1). FarmaKeio is an active GLP-1 pharmacy again and its injectable semaglutide and tirzepatide are active again; routing reaches them only in Arkansas. FarmaKeio oral semaglutide stays retired, so Arkansas has brand oral only. The FarmaKeio conversion does not apply in Arkansas: convert() says the patient stays on FarmaKeio. Two patient pages added, KORB_My_GLP1_FarmaKeio_Semaglutide and _Tirzepatide. selfCheck asserts Arkansas routes to FarmaKeio and no other state does.',
       '2026-10-22 (v2.32): NO BACKUP, NO OVERRIDE (Don). One pharmacy per state for every compounded GLP-1 prescription: Premier where it can fill, Belmar everywhere else. routing has no backup; checkPharmacyForState returns error for any compounding pharmacy that is not the state pharmacy, so no tool can select it; the backup and default-override branches are removed. pharmacySelection.overrideAllowed false, no override reasons. Brand channels (LillyDirect, NovoCare, local pharmacy) unchanged.',
@@ -4741,15 +4742,15 @@ var KORB_GLP1 = {
       route: 'sublingual',
       frequency: 'once daily',
       orderVia: 'Tebra Compound',
-      positioning: 'Consider for patients who prefer a daily option to injections, or who cannot tolerate injectables. Longevity alone is not an indication: document the condition being treated.',
+      positioning: 'Consider for patients who prefer a daily option to injections, or who cannot tolerate injectables. Longevity alone is not an indication: document the condition being treated. Weight loss: start at 5 mg (30-day starter or 90 days); 10 mg after at least 4 weeks if response is short and side effects are mild; 20 mg only if 10 mg has stalled and is tolerated, never as a start. 1 mg is the Metabolic Low-Dose Pathway and maintenance only. Coming from injections, restart at 5 mg: never convert by equivalence. Prescribe by Dot strength.',
       doses: [
         {
-          dose: '0.5 mg', mg: 0.5,
+          dose: '1 mg', mg: 1,
           presentation: 'Oral Dot #90',
           chargeCode: 'FITSemOrl90',
-          drugFormulation: 'Semaglutide Oral Dot 0.5mg',
+          drugFormulation: 'Semaglutide Oral Dot 1mg',
           rx: {
-            name: 'PREMIER - Oral Semaglutide 0.5 mg - 90 Day Supply',
+            name: 'PREMIER - Oral Semaglutide 1 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -4761,12 +4762,63 @@ var KORB_GLP1 = {
           }
         },
         {
-          dose: '1 mg', mg: 1,
+          dose: '5 mg', mg: 5,
           presentation: 'Oral Dot #90',
-          chargeCode: 'FITSemOrl180',
-          drugFormulation: 'Semaglutide Oral Dot 1mg',
+          chargeCode: 'FITSemOrlLOW_90',
+          drugFormulation: 'Semaglutide Oral Dot 5mg',
           rx: {
-            name: 'PREMIER - Oral Semaglutide 1 mg - 90 Day Supply',
+            name: 'PREMIER - Oral Semaglutide 5 mg - 90 Day Supply',
+            allowSubstitution: true,
+            quantity: 90,
+            unit: 'each',
+            refill: 0,
+            days: 90,
+            ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+          }
+        },
+        {
+          dose: '5 mg (30 days)', mg: 5,
+          presentation: 'Oral Dot #30',
+          chargeCode: 'FITSemOrlLOW_30',
+          drugFormulation: 'Semaglutide Oral Dot 5mg',
+          rx: {
+            name: 'PREMIER - Oral Semaglutide 5 mg - 30 Day Supply',
+            allowSubstitution: true,
+            quantity: 30,
+            unit: 'each',
+            refill: 0,
+            days: 30,
+            ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+          }
+        },
+        {
+          dose: '10 mg', mg: 10,
+          presentation: 'Oral Dot #90',
+          chargeCode: 'FITSemOrlMID_90',
+          drugFormulation: 'Semaglutide Oral Dot 10mg',
+          rx: {
+            name: 'PREMIER - Oral Semaglutide 10 mg - 90 Day Supply',
+            allowSubstitution: true,
+            quantity: 90,
+            unit: 'each',
+            refill: 0,
+            days: 90,
+            ptInstructions: 'DISSOLVE 1 DOT UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+          }
+        },
+        {
+          dose: '20 mg', mg: 20,
+          presentation: 'Oral Dot #90',
+          chargeCode: 'FITSemOrlHIGH_90',
+          drugFormulation: 'Semaglutide Oral Dot 20mg',
+          rx: {
+            name: 'PREMIER - Oral Semaglutide 20 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -4842,23 +4894,6 @@ var KORB_GLP1 = {
       frequency: 'once daily',
       orderVia: 'Tebra Compound',
       doses: [
-        {
-          dose: '0.5 mg', mg: 0.5,
-          presentation: 'FastSL Tablet #45',
-          chargeCode: 'FITSemOrl90',
-          drugFormulation: 'Semaglutide FastSL 1mg',
-          rx: {
-            name: 'BELMAR - Oral Semaglutide 0.5 mg - 90 Day Supply',
-            allowSubstitution: true,
-            quantity: 45,
-            unit: 'each',
-            refill: 0,
-            days: 90,
-            ptInstructions: 'DISSOLVE 1/2 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
-            reasonForCompounding: 'N/V mitigation & flexibility',
-            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
-          }
-        },
         {
           dose: '1 mg', mg: 1,
           presentation: 'FastSL Tablet #90',
@@ -7062,7 +7097,9 @@ var KORB_GLP1 = {
      nearestLower  Tirzepatide. The highest new dose that is not above the
                    current one, so no patient is moved up, or into a higher
                    price tier, by a pharmacy change.
-     sameDose      Oral semaglutide. 0.5 and 1 mg exist at every pharmacy.
+     sameDose      Oral semaglutide. 1 mg exists at every pharmacy. 0.5 mg was
+                   retired 2026-10-28, so FarmaKeio 0.5 mg goes to 1 mg, the
+                   lowest dose left, and is told its dose changed.
 
    B-12 is the default at Premier. B-6 is only for a patient who cannot
    tolerate B-12 (Don, 2026-10-22), and FarmaKeio's product carried B-6, so the
@@ -7150,7 +7187,14 @@ KORB_GLP1.farmakeioConversion = {
       return best;
     }
     if (rule === 'sameDose') {
-      return t.filter(function (d) { return d.mg === fromDose.mg; })[0] || null;
+      /* 0.5 mg oral is retired at Premier and Belmar (Don, 2026-10-28), so a
+         FarmaKeio 0.5 mg patient goes to the lowest dose that is left (1 mg).
+         Every message and page says the dose changed when mg differs. */
+      var same = t.filter(function (d) { return d.mg === fromDose.mg; })[0];
+      if (same) return same;
+      var up = null;
+      t.forEach(function (d) { if (d.mg > fromDose.mg && (!up || d.mg < up.mg)) up = d; });
+      return up;
     }
     return null;
   },
