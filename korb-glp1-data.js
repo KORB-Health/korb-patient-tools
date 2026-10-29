@@ -255,11 +255,21 @@ var KORB_GLP1 = {
       "glp1:belmar_sema": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-15",
-        "dataVersion": "2.22",
-        "fingerprint": "fp-fadb2bb3-30516",
-        "blocks": 12,
-        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        "date": "2026-10-28",
+        "dataVersion": "2.35",
+        "fingerprint": "fp-8174c5d8-28034",
+        "blocks": 11,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Re-signed 2026-10-28 on Don's approval in chat (\"Yes, re-sign\") after the Semaglutide Dots change (v2.35): 1, 5 (30 and 90 days), 10 and 20 mg Dots, 1 mg on FITSemOrl90, oral 0.5 mg retired at Premier and Belmar.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-15",
+          "dataVersion": "2.22",
+          "fingerprint": "fp-fadb2bb3-30516",
+          "blocks": 12,
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+        }
       },
       "glp1:foundayo": {
         "signedBy": "Donald Stevenson, PA-C",
@@ -273,34 +283,22 @@ var KORB_GLP1 = {
       "glp1:premier_sema": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-28",
-        "dataVersion": "2.25",
-        "fingerprint": "fp-073778e7-58056",
-        "blocks": 23,
-        "document": "Premier \u2014 Semaglutide",
+        "date": "2026-10-28",
+        "dataVersion": "2.35",
+        "fingerprint": "fp-4bee6869-65470",
+        "blocks": 26,
         "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-        "note": "Re-signed after the 12-week Premier programme was added, 2026-09-28. SEVEN new blocks, one per dose: quantity three times the 4-week, days 84, refill 0, single shipment. The two 8-WEEK sigs were also reworded, from \"(Include two packs of insulin syringes)\" to \"(Include two syringe packs)\" - at twelve weeks even a one-syringe dose needs two packs, so every 12-week sig carries a pack count and the longer wording would not fit 140 characters. One wording across Premier; Belmar keeps its own, placed at the end of the sig by its recorded instruction. Don read the rendered page and found three defects that were fixed before he signed: the 12-week price rows named one dose instead of the mg range, Vials dispensed had no 12-week column, and Before you prescribe still said Premier offers 4-week and 8-week only. Approved 2026-09-28: \"these three monograms look good ... Go ahead and sign off on those now.\"",
+        "note": "Re-signed 2026-10-28 on Don's approval in chat (\"Yes, re-sign\") after the Semaglutide Dots change (v2.35): 1, 5 (30 and 90 days), 10 and 20 mg Dots, 1 mg on FITSemOrl90, oral 0.5 mg retired at Premier and Belmar.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-23",
-          "dataVersion": "2.24",
-          "fingerprint": "fp-e0fbc8d1-40146",
-          "blocks": 16,
-          "document": "Premier \u2014 Semaglutide",
+          "date": "2026-09-28",
+          "dataVersion": "2.25",
+          "fingerprint": "fp-073778e7-58056",
+          "blocks": 23,
+          "document": "Premier — Semaglutide",
           "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-          "note": "Re-signed after 4.5 mg and 6 mg were added, per Kelby Wilson's vial table of 2026-09-22: four new blocks, the MAX charge codes (FITSema001MAX, FITSemaCP9MAX, FITSemaMNTMAX; prices are held by Operations per costPolicy), and both 8-week sigs opening with \"(Include two packs of insulin syringes)\". Don reviewed on the live site and approved 2026-09-23: \"they look good. go ahead and sign off on them for me now. Good to go\".",
-          "superseded": {
-            "signedBy": "Donald Stevenson, PA-C",
-            "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-15",
-            "dataVersion": "2.22",
-            "fingerprint": "fp-bd2c8d83-29998",
-            "blocks": 12,
-            "document": "Premier \u2014 Semaglutide",
-            "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-            "note": "Approved 2026-09-15 after reviewing branding, typeface and block format: \"This one is great.\""
-          }
+          "note": "Re-signed after the 12-week Premier programme was added, 2026-09-28. SEVEN new blocks, one per dose: quantity three times the 4-week, days 84, refill 0, single shipment. The two 8-WEEK sigs were also reworded, from \"(Include two packs of insulin syringes)\" to \"(Include two syringe packs)\" - at twelve weeks even a one-syringe dose needs two packs, so every 12-week sig carries a pack count and the longer wording would not fit 140 characters. One wording across Premier; Belmar keeps its own, placed at the end of the sig by its recorded instruction. Don read the rendered page and found three defects that were fixed before he signed: the 12-week price rows named one dose instead of the mg range, Vials dispensed had no 12-week column, and Before you prescribe still said Premier offers 4-week and 8-week only. Approved 2026-09-28: \"these three monograms look good ... Go ahead and sign off on those now.\""
         }
       },
       "glp1:zepbound": {
@@ -512,37 +510,37 @@ var KORB_GLP1 = {
       "medpage:premier_oral_semaglutide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-25",
-        "fingerprint": "fp-4f1c57ae-8424",
-        "covers": "8337 characters, 4 dose cases",
+        "date": "2026-10-28",
+        "fingerprint": "fp-670c1f91-11754",
+        "covers": "11667 characters, 7 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
+        "note": "Re-signed 2026-10-28 on Don's approval in chat (\"Yes, re-sign\") after the Semaglutide Dots change (v2.35): 1, 5 (30 and 90 days), 10 and 20 mg Dots, 1 mg on FITSemOrl90, oral 0.5 mg retired at Premier and Belmar.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-22",
-          "fingerprint": "fp-623cfe7c-3138",
-          "covers": "3051 characters, 4 dose cases",
+          "date": "2026-10-25",
+          "fingerprint": "fp-4f1c57ae-8424",
+          "covers": "8337 characters, 4 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+          "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
         }
       },
       "medpage:belmar_oral_semaglutide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-25",
-        "fingerprint": "fp-09eab3a1-8399",
-        "covers": "8313 characters, 4 dose cases",
+        "date": "2026-10-28",
+        "fingerprint": "fp-a59ae3cc-6873",
+        "covers": "6787 characters, 3 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
+        "note": "Re-signed 2026-10-28 on Don's approval in chat (\"Yes, re-sign\") after the Semaglutide Dots change (v2.35): 1, 5 (30 and 90 days), 10 and 20 mg Dots, 1 mg on FITSemOrl90, oral 0.5 mg retired at Premier and Belmar.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-22",
-          "fingerprint": "fp-dca3650d-3117",
-          "covers": "3031 characters, 4 dose cases",
+          "date": "2026-10-25",
+          "fingerprint": "fp-09eab3a1-8399",
+          "covers": "8313 characters, 4 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+          "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
         }
       },
       "medpage:premier_oral_tirzepatide": {
