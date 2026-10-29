@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.13",
+    version: "1.14",
     created: "2026-09-11",
-    updated: "2026-10-22",
+    updated: "2026-10-29",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-10-29 (v1.14): PREMIER GAINS MASSACHUSETTS. Premier confirmed 2026-10-29 that it can send sterile products to Massachusetts, for existing and new patients (Don). The 2026-10-15 licence list had shown MA as non-sterile only, which is why it was held back. MA added to the Premier footprint and preferredStates and removed from footprintExcludes; Belmar preferredStates loses MA. Every program on the footprint follows: GLP-1 and Women's Health route MA to Premier, add-ons and peptides can reach it. Premier 43 for GLP-1, Belmar 7. FH&L stays closed in MA: it is in korb-dosing-data.js unavailable for provider coverage, not for a pharmacy, and is not changed here. Don Stevenson, PA-C.",
       "2026-10-28 (v1.13): ARKANSAS GLP-1 BACK TO FARMAKEIO. Belmar cannot collect payment from KORB for Arkansas prescriptions: Arkansas only lets it collect from the patient (Don, 2026-10-28). FarmaKeio programs.glp1 is active again and its preferredStates is AR; Belmar preferredStates loses AR. The GLP-1 routing rule that sends Arkansas to FarmaKeio lives in korb-glp1-data.js; this file only records the pharmacy fact. Injectable semaglutide and tirzepatide only: FarmaKeio oral semaglutide stays retired. Women's Health and add-ons in Arkansas still name Belmar and are NOT changed here; the same payment limit may apply, flagged to Don. Don Stevenson, PA-C.",
       "2026-10-22 (v1.12): PREMIER GAINS NEW HAMPSHIRE. Licence NR2802, expires 2028-10-21 (Miguel Sanchez, Premier, by email 2026-10-22). NH added to the Premier footprint and removed from footprintExcludes; Premier preferredStates gains NH and Belmar loses it, so NH GLP-1 and Women's Health route to Premier. Premier 42 for GLP-1, Belmar 9. FH&L still lists NH as closed for no pharmacy, which is no longer true; that is Don's call and is not changed here.",
       "2026-10-22 (v1.11): FARMAKEIO OUT OF GLP-1; MISSISSIPPI TO BELMAR. FarmaKeio programs.glp1 retired (add-ons untouched, a separate decision). Premier glp1 and peptides exclude MS: its Mississippi licence is non-sterile only and injections are sterile. GLP-1 routing is now Premier wherever it can fill, Belmar everywhere else: Belmar preferredStates widened from CA to the 10 non-Premier states (AL, AR, CA, HI, MA, MS, NH, SC, VA, WA); Premier preferred drops MS; FarmaKeio preferred emptied. Don Stevenson, PA-C.",
@@ -202,6 +203,7 @@ var KORB_PHARMACIES = {
         "KY",
         "LA",
         "MD",
+        "MA",
         "ME",
         "MI",
         "MN",
@@ -235,7 +237,6 @@ var KORB_PHARMACIES = {
         "AR",
         "CA",
         "HI",
-        "MA",
         "SC",
         "VA",
         "WA"
@@ -266,6 +267,7 @@ var KORB_PHARMACIES = {
         "KY",
         "LA",
         "MD",
+        "MA",
         "ME",
         "MI",
         "MN",
@@ -403,7 +405,6 @@ var KORB_PHARMACIES = {
         "AL",
         "CA",
         "HI",
-        "MA",
         "MS",
         "SC",
         "VA",

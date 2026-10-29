@@ -38,9 +38,12 @@ checked for in the others, because nobody could say what had been pushed where.
 
 ## GLP-1: FARMAKEIO OUT, PREMIER OR BELMAR. LIVE 2026-10-23. (Don, 2026-10-22)
 
-Premier wherever Premier can fill GLP-1 (42 states, no backup); Belmar
-everywhere else (8: AL, CA, HI, MA, MS, SC, VA, WA); **FarmaKeio for Arkansas
-only** (see below). New Hampshire moved to
+Premier wherever Premier can fill GLP-1 (43 states, no backup); Belmar
+everywhere else (7: AL, CA, HI, MS, SC, VA, WA); **FarmaKeio for Arkansas
+only** (see below). **Massachusetts moved to Premier 2026-10-29** (Don):
+Premier confirmed it can send sterile products there; it had been held back
+because the 10/15 licence list showed MA as non-sterile only. Every program
+follows, except FH&L, which stays closed in MA for provider coverage. New Hampshire moved to
 Premier the same day: licence NR2802, expires 2028-10-21 (Miguel, Premier). Mississippi left
 Premier because its Mississippi licence is non-sterile only. FarmaKeio ADD-ONS
 are not decided; do not touch add-on routing until Don says.
