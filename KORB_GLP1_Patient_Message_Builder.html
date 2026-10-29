@@ -127,6 +127,14 @@ a{color:var(--navy)}
       <div class="f"><label for="ndose">4. Dose</label><select id="ndose" disabled><option value="">Select medication first</option></select></div>
       <div class="f"><label for="nsup">5. Program length</label><select id="nsup" disabled><option value="">-</option></select></div>
     </div>
+    <div class="stepwrap hide" id="nvitWrap">
+      <div class="steplbl">Added vitamin (Premier)</div>
+      <div class="seg two vit" id="nvit" role="radiogroup" aria-label="Added vitamin">
+        <button type="button" data-vit="b12" role="radio" aria-checked="true" class="on">B-12<span>Cobalamin, the default</span></button>
+        <button type="button" data-vit="b6" role="radio" aria-checked="false">B-6<span>Pyridoxine</span></button>
+      </div>
+      <p class="stephint" id="nvitHint"></p>
+    </div>
   </div>
 
   <!-- MOVING FROM FARMAKEIO -->
@@ -145,8 +153,14 @@ a{color:var(--navy)}
       </div>
       <p class="stephint">Equivalent is the default. Step lower for side effects, higher if the patient is ready to titrate. One step only.</p>
     </div>
-    <label class="chk off" id="b6wrap"><input type="checkbox" id="b6" disabled>
-      <span><strong>Patient cannot tolerate B-12</strong> (Premier only). B-12 is the default. Use B-6 only for documented B-12 intolerance, not preference.</span></label>
+    <div class="stepwrap hide" id="cvitWrap">
+      <div class="steplbl">Added vitamin (Premier)</div>
+      <div class="seg two vit" id="cvit" role="radiogroup" aria-label="Added vitamin">
+        <button type="button" data-vit="b12" role="radio" aria-checked="true" class="on">B-12<span>Cobalamin, the default</span></button>
+        <button type="button" data-vit="b6" role="radio" aria-checked="false">B-6<span>Pyridoxine</span></button>
+      </div>
+      <p class="stephint" id="cvitHint"></p>
+    </div>
   </div>
 
   <div id="out"><div class="panel empty">Pick a state.</div></div>
@@ -246,7 +260,7 @@ a{color:var(--navy)}
   });
 
   var mode = /[?&]mode=convert\b/.test(location.search) ? 'convert' : 'new';
-  var chosenSup = 'supply4', chosenStep = 0;
+  var chosenSup = 'supply4', chosenStep = 0, chosenVit = 'b12';
 
   function patientLink(key, dose, wasDose){
     return C.siteBase + C.patientPages[key] + '?dose=' + encodeURIComponent(num(dose)) + (wasDose ? '&was=' + encodeURIComponent(num(wasDose)) : '');
@@ -296,13 +310,30 @@ a{color:var(--navy)}
     return Object.keys(C.patientPages).map(function(k){ return G.products[k]; })
       .filter(function(p){ return p && p.pharmacy === pharm && !p.retired && p.status !== 'retired'; });
   }
+  /* B-12 or B-6 (Don, 2026-10-29). The B-6 records are derived from their B-12
+     source (derivedFrom in korb-glp1-data.js), so a medication offers the choice
+     exactly when a B-6 twin exists for it. B-12 stays the default. */
+  function b6Twin(key){
+    var ks = Object.keys(G.products).filter(function(k){ var p = G.products[k]; return p.derivedFrom === key && !p.retired && p.status !== 'retired'; });
+    return ks.length ? G.products[ks[0]] : null;
+  }
+  function paintVit(pre, show, product){
+    $(pre + 'vitWrap').classList.toggle('hide', !show);
+    [].forEach.call(document.querySelectorAll('#' + pre + 'vit button'), function(b){
+      var on = b.getAttribute('data-vit') === chosenVit;
+      b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    /* The B-6 rule itself shows in the amber box once B-6 is picked. */
+    $(pre + 'vitHint').textContent = 'B-12 is the default. B-6 is Premier only.';
+  }
   function fillNewMeds(route){
     var sel = $('nmed'), keep = sel.value;
     if (!route){ sel.disabled = true; sel.innerHTML = '<option value="">Select state first</option>'; return; }
-    var list = newProducts(route.pharmacy);
+    var list = newProducts(route.pharmacy).filter(function(p){ return !p.derivedFrom; });
     sel.disabled = false;
     sel.innerHTML = '<option value="">Select...</option>' + list.map(function(p){
-      return '<option value="' + p.key + '">' + esc(shortLabel(p)) + (isOral(p) ? ' (oral)' : '') + (p.restrictedUse ? ' - B-12 intolerance only' : '') + '</option>';
+      var lbl = b6Twin(p.key) ? shortLabel(p).replace(/\s*\/\s*B-12/, '') + ' (B-12 or B-6)' : shortLabel(p);
+      return '<option value="' + p.key + '">' + esc(lbl) + (isOral(p) ? ' (oral)' : '') + '</option>';
     }).join('');
     if (list.some(function(p){ return p.key === keep; })) sel.value = keep;
   }
@@ -358,7 +389,10 @@ a{color:var(--navy)}
   }
 
   function renderNew(st, route){
-    var out = $('out'), prod = G.products[$('nmed').value], ds = $('ndose').value;
+    var out = $('out'), base = G.products[$('nmed').value], ds = $('ndose').value;
+    var twin = base ? b6Twin(base.key) : null;
+    var prod = twin && chosenVit === 'b6' ? twin : base;
+    paintVit('n', !!twin, twin);
     fillSupply($('nsup'), prod);
     if (!prod || !ds){ out.innerHTML = '<div class="panel empty">Pick a medication and a dose.</div>'; return; }
     var dose = prod.doses.filter(function(d){ return d.dose === ds; })[0];
@@ -466,11 +500,11 @@ a{color:var(--navy)}
 
   function renderConvert(st, route){
     var from = $('med').value, ds = $('dose').value, out = $('out');
-    var b6ok = !!(route && route.pharmacy === 'premier' && C.ruleFor(from) && C.ruleFor(from).b6);
-    $('b6').disabled = !b6ok; $('b6wrap').className = 'chk' + (b6ok ? '' : ' off');
-    if (!b6ok) $('b6').checked = false;
+    var b6rule = C.ruleFor(from) && C.ruleFor(from).b6;
+    var b6ok = !!(route && route.pharmacy === 'premier' && b6rule);
+    paintVit('c', b6ok, b6ok ? G.products[b6rule.premier] : null);
     if (!from || !ds){ fillSupply($('sup'), null); paintSeg(null); out.innerHTML = '<div class="panel empty">Pick the current FarmaKeio medication and dose.</div>'; return; }
-    var opt = { b6: $('b6').checked };
+    var opt = { b6: b6ok && chosenVit === 'b6' };
     paintSeg(function(step){ return C.convert(from, ds, st, { b6: opt.b6, step: step }); });
     var c = C.convert(from, ds, st, { b6: opt.b6, step: chosenStep });
     if (c.stays){ out.innerHTML = '<div class="panel">' + arkansasNote(st) + '<div class="alert info"><strong>No conversion.</strong> ' + esc(c.error) +
@@ -562,7 +596,12 @@ a{color:var(--navy)}
   $('med').addEventListener('change', function(){ chosenStep = 0; fillDoses(); render(); });
   $('dose').addEventListener('change', function(){ chosenStep = 0; render(); });
   $('sup').addEventListener('change', function(){ chosenSup = $('sup').value; render(); });
-  $('b6').addEventListener('change', render);
+  ['nvit', 'cvit'].forEach(function(id){
+    $(id).addEventListener('click', function(e){
+      var b = e.target.closest('button'); if (!b) return;
+      chosenVit = b.getAttribute('data-vit'); render();
+    });
+  });
 
   /* ---------- self check ---------- */
   window.KORB_MSG_SELFCHECK = function(){
@@ -590,6 +629,9 @@ a{color:var(--navy)}
           });
         });
       });
+    });
+    newProducts('premier').filter(function(p){ return p.derivedFrom; }).forEach(function(p){
+      if (!G.products[p.derivedFrom] || b6Twin(p.derivedFrom) !== p) problems.push(p.key + ': B-6 product not reachable through the vitamin choice');
     });
     var probe = { premier: 'TX', belmar: 'CA' };
     /* Arkansas stays on FarmaKeio: every FarmaKeio injectable dose must answer
