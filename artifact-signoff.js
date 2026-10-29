@@ -133,6 +133,12 @@ const TOOL_META = {
   'Provider_Reference/KORB_FHL_Peptide_Counseling_Guide.html':
     { key: 'fhlcounsel', kind: 'document', probe: 'static', label: 'FH&L Peptide Q&A and Counseling Guide',
       records: { file: 'korb-fhl-counsel-data.js', global: 'KORB_FHL_COUNSEL' } },
+  /* Chart and patient wording a provider pastes, read from korb-dots-snippets.js.
+     No routing and no prescribing blocks. Fingerprinted on its text, drop-down
+     choices included, by PROBES.dotsSnippets: the wording IS the content. */
+  'KORB_GLP1_Dots_Chart_Snippets.html':
+    { key: 'dotssnippets', kind: 'document', probe: 'dotsSnippets', label: 'GLP-1 Dots Chart Snippets',
+      records: { file: 'korb-dots-snippets.js', global: 'KORB_DOTS_SNIPPETS' } },
   'KORB_Lab_Interpretation_Tool.html':
     { probe: null, why: 'hand-built, no data file - see open item 5' },
   'KORB_Testosterone_Tracker.html':
@@ -338,6 +344,27 @@ PROBES.static = function () {
       return h.tagName + ':' + h.innerText.replace(/\s+/g, ' ').trim();
     }),
     body: document.body.innerText.replace(/\s+/g, ' ').trim()
+  };
+};
+
+/* Dots chart snippets. Most of the wording a provider pastes sits inside
+   drop-downs and text boxes, which innerText does not read, so the static
+   probe saw under 2000 characters. This takes the page text PLUS every
+   snippet as the page reads it from korb-dots-snippets.js: shortcut, label,
+   when, and the full Text Blaze text with every choice and default. A change
+   to any choice moves the fingerprint. Added 2026-10-29. */
+PROBES.dotsSnippets = function () {
+  [].forEach.call(document.querySelectorAll('.k-feedback'), function (e) { e.remove(); });
+  var S = KORB_DOTS_SNIPPETS.snippets.map(function (s) {
+    return [s.shortcut, s.label, s.group, s.when, s.limit || '', s.text].join(' | ');
+  });
+  return {
+    kind: 'handout',
+    title: document.title,
+    headings: [].map.call(document.querySelectorAll('h1,h2,h3'), function (h) {
+      return h.tagName + ':' + h.innerText.replace(/\s+/g, ' ').trim();
+    }),
+    body: (document.body.innerText + ' ' + S.join(' ')).replace(/\s+/g, ' ').trim()
   };
 };
 
