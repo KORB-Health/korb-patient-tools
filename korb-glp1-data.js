@@ -582,43 +582,52 @@ var KORB_GLP1 = {
       "tool:glp1routing": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-28",
-        "fingerprint": "fp-4d368fe0-2300",
+        "date": "2026-10-29",
+        "fingerprint": "fp-a239a04f-2301",
         "covers": "51 states, 0 prescribing blocks",
         "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-        "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after Arkansas went back to FarmaKeio: Premier 42, Belmar 8, FarmaKeio Arkansas only.",
+        "note": "Re-signed 2026-10-29 on Don's approval in chat (\"Sign and push\") after Massachusetts moved to Premier: Premier 43, Belmar 7, FarmaKeio 1 (AR).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-22",
-          "fingerprint": "fp-5362c512-2297",
+          "date": "2026-10-28",
+          "fingerprint": "fp-4d368fe0-2300",
           "covers": "51 states, 0 prescribing blocks",
           "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-          "note": "Re-signed 2026-10-22 on Don's review in chat (\"signed, routing tool and both handouts\") of the tool as rendered, after FarmaKeio left GLP-1 (Premier 42, Belmar 9, NH added, MS to Belmar), one pharmacy per state with no backup, and the card cut to \"Send to\" the state's pharmacy.",
+          "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after Arkansas went back to FarmaKeio: Premier 42, Belmar 8, FarmaKeio Arkansas only.",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-10-16",
-            "fingerprint": "fp-45992a70-27126",
+            "date": "2026-10-22",
+            "fingerprint": "fp-5362c512-2297",
             "covers": "51 states, 0 prescribing blocks",
             "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-            "note": "Re-signed 2026-10-16 on Don's review in chat (\"This looks good\") of the live tool, for the routing change of the same day: Premier is the default in every state it ships GLP-1 to (43) with FarmaKeio as backup, NC Premier with Belmar as backup, CA Belmar with no backup, FarmaKeio default in AL, AR, HI, MA, NH, SC, WA. Also covers the five Premier states added 2026-10-15 (AK, ID, IA, IN, MN), which had already made the 2026-10-13 signature stale, and the override reasons losing Provider preference (v2.29). KORB_ROUTING_SELFCHECK() returns 51 states, problems: [].",
+            "note": "Re-signed 2026-10-22 on Don's review in chat (\"signed, routing tool and both handouts\") of the tool as rendered, after FarmaKeio left GLP-1 (Premier 42, Belmar 9, NH added, MS to Belmar), one pharmacy per state with no backup, and the card cut to \"Send to\" the state's pharmacy.",
             "superseded": {
               "signedBy": "Donald Stevenson, PA-C",
               "role": "Director of Clinical Operations and Lead Provider",
-              "date": "2026-10-13",
-              "fingerprint": "fp-fdaa203b-25648",
+              "date": "2026-10-16",
+              "fingerprint": "fp-45992a70-27126",
               "covers": "51 states, 0 prescribing blocks",
               "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-              "note": "Re-signed 2026-10-13 on Don's instruction in chat, for one change: North Carolina moved from FarmaKeio to Premier on 2026-10-12 (e7e8b27; FarmaKeio does not ship to NC). Verified the NC move was the ONLY routing change since the 2026-09-17 signature: at e7e8b27^ this tool was still current against it. Now FarmaKeio 39, Premier 11, Belmar 1 (CA); KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio; NC shows Premier Pharmacy, preferred.",
+              "note": "Re-signed 2026-10-16 on Don's review in chat (\"This looks good\") of the live tool, for the routing change of the same day: Premier is the default in every state it ships GLP-1 to (43) with FarmaKeio as backup, NC Premier with Belmar as backup, CA Belmar with no backup, FarmaKeio default in AL, AR, HI, MA, NH, SC, WA. Also covers the five Premier states added 2026-10-15 (AK, ID, IA, IN, MN), which had already made the 2026-10-13 signature stale, and the override reasons losing Provider preference (v2.29). KORB_ROUTING_SELFCHECK() returns 51 states, problems: [].",
               "superseded": {
                 "signedBy": "Donald Stevenson, PA-C",
                 "role": "Director of Clinical Operations and Lead Provider",
-                "date": "2026-09-17",
-                "fingerprint": "fp-79fb1a74-25617",
+                "date": "2026-10-13",
+                "fingerprint": "fp-fdaa203b-25648",
                 "covers": "51 states, 0 prescribing blocks",
                 "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-                "note": "Approved 2026-09-17. Don: \"we used the other day and it is good to go.\" KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio."
+                "note": "Re-signed 2026-10-13 on Don's instruction in chat, for one change: North Carolina moved from FarmaKeio to Premier on 2026-10-12 (e7e8b27; FarmaKeio does not ship to NC). Verified the NC move was the ONLY routing change since the 2026-09-17 signature: at e7e8b27^ this tool was still current against it. Now FarmaKeio 39, Premier 11, Belmar 1 (CA); KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio; NC shows Premier Pharmacy, preferred.",
+                "superseded": {
+                  "signedBy": "Donald Stevenson, PA-C",
+                  "role": "Director of Clinical Operations and Lead Provider",
+                  "date": "2026-09-17",
+                  "fingerprint": "fp-79fb1a74-25617",
+                  "covers": "51 states, 0 prescribing blocks",
+                  "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+                  "note": "Approved 2026-09-17. Don: \"we used the other day and it is good to go.\" KORB_ROUTING_SELFCHECK() returns 51 states, problems: [], scope premier/belmar/farmakeio."
+                }
               }
             }
           }
