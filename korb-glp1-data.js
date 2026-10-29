@@ -640,7 +640,7 @@ var KORB_GLP1 = {
   meta: {
     version: '2.37',
     created: '2026-08-06',
-    lastUpdated: '2026-10-28',
+    lastUpdated: '2026-10-29',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
