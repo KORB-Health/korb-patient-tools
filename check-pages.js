@@ -47,6 +47,7 @@ const { execSync } = require('child_process');
 const PRICE_PAGES = [
   'KORB_GLP1_Provider_Reference.html',
   'KORB_GLP1_12Week_Savings.html',
+  'KORB_GLP1_Dots_Quick_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Belmar_Semaglutide_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Belmar_Tirzepatide_Reference.html',
   'Provider_Reference/GLP1/KORB_GLP1_Brand_Foundayo_Reference.html',

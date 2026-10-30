@@ -658,6 +658,7 @@ cosmetic — these are plain scripts assigning globals.
 | `KORB_GLP1_Pharmacy_Routing.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
 | `KORB_GLP1_Dose_Guide.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
 | `KORB_GLP1_12Week_Savings.html` | `korb-pharmacies.js`, `korb-charges.js`, `korb-glp1-data.js`. Provider and Ops quick reference, 2026-10-15. Never shows the grandfathered 8-week rate: `costPolicy` forbids it in this public repo |
+| `KORB_GLP1_Dots_Quick_Reference.html` | `korb-pharmacies.js`, `korb-charges.js`, `korb-glp1-data.js`. Provider quick reference for oral Dots, 2026-10-30, for the intranet. Products, codes, quantities, prices and routing are read live; the four codes not yet in Nick's sheet use the page's `PENDING` prices until `korb-charges.js` has them (delete each entry then). The low-dose qualifying diagnoses are typed in the page |
 | `KORB_GLP1_Premier_Shipping_States.html` | `korb-pharmacies.js` only. Provider and Ops reference, 2026-10-15. Every state is `statesFor('premier','glp1')`; none is typed |
 | `Provider_Reference/GLP1/*.html` (10) | `../../korb-pharmacies.js`, `../../korb-glp1-data.js` |
 | `KORB_Provider_Clinical_Reference.html` | `korb-pharmacies.js`, `korb-dosing-data.js` |
