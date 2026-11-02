@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="KORB Health provider tool: chart notes and patient messages for the semaglutide Dots and the Metabolic Low-Dose Pathway, with copy buttons and the matching Text Blaze shortcuts.">
+<meta name="description" content="KORB Health provider tool: chart notes and patient messages for the semaglutide Dots, the Metabolic Low-Dose Pathway and compounded GLP-1 injections, with copy buttons and the matching Text Blaze shortcuts.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#21275B">
-<title>KORB Health &middot; Semaglutide Dots Chart Snippets</title>
+<title>KORB Health &middot; GLP-1 Chart Snippets</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap">
@@ -66,7 +66,7 @@ footer{color:var(--muted);font-size:12.5px;margin-top:20px}
 <div class="wrap">
 <header>
   <span class="tag">Provider use only</span>
-  <h1>Semaglutide Dots chart snippets</h1>
+  <h1>GLP-1 chart snippets: Dots and compounded injections</h1>
   <p class="sub">Pick a snippet, fill in what is true for this patient, and copy. Each one shows its Text Blaze shortcut if you would rather type it. Every justification asks for the real result, date and source; if no route fits, use <strong>Not eligible yet</strong>.</p>
 </header>
 <hr class="rule">
@@ -110,7 +110,7 @@ footer{color:var(--muted);font-size:12.5px;margin-top:20px}
 <footer id="foot">KORB Health Medical Texas PA &middot; For KORB providers. Not for patients. No patient information is stored or sent by this page.</footer>
 </div>
 
-<script src="korb-dots-snippets.js?v=dc6683a2"></script>
+<script src="korb-dots-snippets.js?v=64aa3d78"></script>
 <script>
 (function () {
   var S = window.KORB_DOTS_SNIPPETS;
@@ -128,7 +128,11 @@ footer{color:var(--muted);font-size:12.5px;margin-top:20px}
     resultdate: 'Date of result', src: 'Source of result', pcp: 'PCP', marker: 'Goal marker', glu: 'Fasting glucose',
     ins: 'Fasting insulin', homa: 'HOMA-IR', e66: 'Weight code', comorb: 'Weight-related condition', hx: 'History',
     fu: 'Follow-up (days)', step: 'Step', weeks: 'Weeks on current dose', resp: 'Response', se: 'Side effects',
-    scoff: 'SCOFF', rel: 'Relative contraindications', rfc: 'Reason for compounding', offer: 'Offered'
+    scoff: 'SCOFF', rel: 'Relative contraindications', rfc: 'Reason for compounding', offer: 'Offered',
+    drug: 'Medication', reason: 'Clinical reason', comm: 'Nearest commercial strengths', diff: 'Clinical difference',
+    pharm: 'Pharmacy', wk: 'Review every (weeks)', brand: 'FDA-approved option', route: 'Available through',
+    how: 'How consent was given', mgr: 'Managing clinician', meds: 'Diabetes medications', hypo: 'Insulin or sulfonylurea',
+    a1c: 'Most recent A1c', a1cdate: 'Date of A1c', notify: 'Managing clinician informed', out: 'Outcome'
   };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
 

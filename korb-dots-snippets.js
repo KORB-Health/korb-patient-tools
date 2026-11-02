@@ -1,6 +1,7 @@
 /* korb-dots-snippets.js
    Chart and patient snippets for the Premier semaglutide Dots and the Metabolic
-   Low-Dose Pathway. Don, 2026-10-29.
+   Low-Dose Pathway. Don, 2026-10-29. Compounded injection snippets (/poinj...)
+   added 2026-11-02.
 
    ONE SOURCE FOR TWO PLACES. Each `text` is written in Text Blaze syntax, so a
    provider can paste it into Text Blaze under its `shortcut`, and
@@ -18,8 +19,8 @@
    No PHI, no prices, no charge codes: this file is public (GitHub Pages). */
 var KORB_DOTS_SNIPPETS = {
   meta: {
-    version: '1.0',
-    updated: '2026-10-29',
+    version: '1.1',
+    updated: '2026-11-02',
     owner: 'Donald Stevenson, PA-C, Director of Clinical Operations',
     policy: 'GLP-1 Therapy Clinical Governance Policy v2.0 (draft for Medical Director signature)'
   },
@@ -92,6 +93,48 @@ var KORB_DOTS_SNIPPETS = {
       when: 'Send after /ponotyet.',
       text: 'Thank you for meeting with me today. Based on what we have on file right now, a GLP-1 is not the right fit yet. If you have recent lab results from your primary care provider, such as A1c, fasting glucose, fasting insulin or cholesterol, send them to us and I will review them. I am also happy to talk about other KORB programs that may help with your goals.'
     },
+    /* COMPOUNDED INJECTABLES, 2026-11-02 (Don, from Clinical Pulse). Built on the
+       Compounded Medications Policy (POL-COMPOUND): a patient-specific clinical
+       reason in the note and in Reason for Compounding, the FDA-approved option
+       offered, consent. Price, convenience or supply alone are not a clinical
+       reason, so no choice here names cost; /poinjnone is the route when no
+       clinical reason exists. */
+    {
+      key: 'injrsn', shortcut: '/poinjrsn', label: 'Clinical reason', group: 'Compounded injection',
+      when: 'Every compounded semaglutide or tirzepatide injection. Pick only a reason the chart supports.',
+      text: 'COMPOUNDED {formmenu: semaglutide; tirzepatide; name=drug} INJECTION - CLINICAL REASON\n' +
+        'Why an FDA-approved product does not meet this patient\'s need: {formmenu: intolerance at a labeled dose, needs a dose between commercial strengths; dose below the lowest commercial strength (maintenance or low dose); allergy or intolerance to an ingredient in the commercial product; name=reason}.\n' +
+        'Supporting history: {formtext: name=hx; default=e.g. nausea and vomiting at 0.5 mg, 08/2026, prior provider records}.\n' +
+        'Prescribed {formtext: name=dose; default=x.x mg} weekly. Nearest commercial strengths: {formtext: name=comm; default=e.g. 0.25 mg and 0.5 mg}. Clinical difference for this patient: {formtext: name=diff; default=e.g. smaller step to limit GI side effects}.\n' +
+        'Pharmacy: {formmenu: Premier; Belmar; FarmaKeio (Arkansas only); name=pharm}, licensed for the patient\'s state.\n' +
+        'Monitoring: weight, GI tolerance and dose review every {formmenu: 4; 8; 12; name=wk} weeks.'
+    },
+    {
+      key: 'injbrand', shortcut: '/poinjbrand', label: 'FDA-approved option offered', group: 'Compounded injection',
+      when: 'Every first compounded prescription. Add under /poinjrsn.',
+      text: 'FDA-approved option discussed: {formmenu: Wegovy or Ozempic; Zepbound or Mounjaro; name=brand}, available through {formmenu: the manufacturer self-pay program; the patient\'s local pharmacy and insurance; name=route}. Patient chose the compounded product after discussion. Cost was discussed as part of the options and is not the clinical reason for compounding.'
+    },
+    {
+      key: 'injconsent', shortcut: '/poinjconsent', label: 'Compounded consent', group: 'Compounded injection',
+      when: 'Every first compounded prescription, and again on any change of drug or pharmacy.',
+      text: 'Consent: {formmenu: signed compounded medication consent on file in Tebra; verbal consent obtained and recorded here; name=how}. Discussed: compounded by a state-licensed pharmacy for this patient, not FDA-approved, with less evidence than the FDA-approved product; FDA-approved options exist and were discussed. Dosing, injection technique, storage and common GI side effects reviewed. Stop and contact KORB or go to the ER for severe abdominal pain, pain to the back, persistent vomiting or a neck mass. Patient verbalized understanding and agrees.'
+    },
+    {
+      key: 'injdm', shortcut: '/poinjdm', label: 'Diabetes managed elsewhere', group: 'Compounded injection',
+      when: 'Type 2 diabetes managed by another clinician. Diabetes terms in GLP-1 governance v2.0 are not settled: confirm with the Medical Director before relying on this.',
+      text: 'Type 2 diabetes (E11.9), managed by {formtext: name=mgr; default=PCP or endocrinologist name}. Current diabetes medications: {formtext: name=meds; default=list}. Insulin or sulfonylurea: {formmenu: no; yes, hypoglycemia precautions reviewed and dose plan coordinated with the managing clinician; name=hypo}. Most recent A1c {formtext: name=a1c; default=x.x%} on {formtext: name=a1cdate; default=MM/DD/YYYY}, source {formmenu: PCP labs; specialist records; prior lab report; name=src}. KORB prescribes the GLP-1 only; all other diabetes care stays with the managing clinician, who {formmenu: has been notified; the patient will notify; name=notify}.'
+    },
+    {
+      key: 'injrfc', shortcut: '/poinjrfc', label: 'Reason for compounding (Tebra, 30 max)', group: 'Compounded injection',
+      when: 'Pick the one that matches /poinjrsn. Paste into Reason for Compounding.',
+      limit: 30,
+      text: '{formmenu: GI intol, step between doses; Dose below lowest comm str; Excipient allergy, see note; name=rfc}'
+    },
+    {
+      key: 'injnone', shortcut: '/poinjnone', label: 'No clinical reason (offer brand)', group: 'Compounded injection',
+      when: 'The patient wants compounded but the chart shows no clinical reason, for example price is the only reason.',
+      text: 'Compounded GLP-1 requested. No patient-specific clinical reason found for a compounded product over an FDA-approved one; price alone is not a clinical reason under KORB policy. Offered: {formmenu: FDA-approved product through the manufacturer self-pay program; FDA-approved product through local pharmacy and insurance; name=offer}. {formmenu: Patient will proceed with the FDA-approved product.; Patient declined. No prescription written.; name=out}'
+    },
     {
       key: 'pt', shortcut: '/popt', label: 'Low dose 1 mg (patient message)', group: 'Patient message',
       when: 'After prescribing the 1 mg Dot.',
@@ -122,7 +165,7 @@ KORB_DOTS_SNIPPETS.parse = function (text) {
 
 /* Placeholders that mean "not filled in yet". The page warns while any remain. */
 KORB_DOTS_SNIPPETS.isPlaceholder = function (v) {
-  return /^(xx(\.x)?|x\.x|MM\/DD\/YYYY|Z68\.xx|mg\/dL|uIU\/mL|e\.g\. .*|name, or advised to establish)$/.test(String(v).trim());
+  return /^(xx(\.x)?|x\.x( mg|%)?|MM\/DD\/YYYY|Z68\.xx|mg\/dL|uIU\/mL|e\.g\. .*|name, or advised to establish|PCP or endocrinologist name|list)$/.test(String(v).trim());
 };
 
 KORB_DOTS_SNIPPETS.selfCheck = function () {
