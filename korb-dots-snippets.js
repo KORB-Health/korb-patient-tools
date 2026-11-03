@@ -70,7 +70,7 @@ var KORB_DOTS_SNIPPETS = {
     {
       key: 'consent', shortcut: '/poconsent', label: 'Compounded consent', group: 'Chart note',
       when: 'Every first compounded prescription, and again on any change of drug or form (LegitScript #40).',
-      text: 'Consent: verbal consent obtained for compounded medication. Discussed: compounded by Premier Pharmacy, not FDA-approved, no commercial equivalent, off-label at this dose; how much is absorbed under the tongue is not known, so the dose is adjusted by response and tolerance; FDA-approved options exist and were discussed. Take on an empty stomach, let it dissolve fully, nothing by mouth for 15 minutes. Common GI side effects reviewed. Stop and contact KORB or go to the ER for severe abdominal pain, pain to the back, persistent vomiting or a neck mass. Patient verbalized understanding and agrees.'
+      text: 'Consent: verbal consent obtained for compounded medication. Discussed: compounded by {formmenu: Premier Pharmacy; Belmar Pharmacy; FarmaKeio Pharmacy; name=cpharm}, not FDA-approved, no commercial equivalent, off-label at this dose; how much is absorbed under the tongue is not known, so the dose is adjusted by response and tolerance; FDA-approved options exist and were discussed. Take on an empty stomach, let it dissolve fully, nothing by mouth for 15 minutes. Common GI side effects reviewed. Stop and contact KORB or go to the ER for severe abdominal pain, pain to the back, persistent vomiting or a neck mass. Patient verbalized understanding and agrees.'
     },
     {
       key: 'screen', shortcut: '/poscreen', label: 'Safety screen', group: 'Chart note',
@@ -138,7 +138,7 @@ var KORB_DOTS_SNIPPETS = {
     {
       key: 'pt', shortcut: '/popt', label: 'Low dose 1 mg (patient message)', group: 'Patient message',
       when: 'After prescribing the 1 mg Dot.',
-      text: 'I sent your semaglutide prescription to Premier Pharmacy: one 1 mg Dot under your tongue each morning on an empty stomach. Let it dissolve fully, and wait 15 minutes before you eat or drink. This is a low daily dose. Most people have mild or no side effects; the most common are nausea, fullness or constipation, usually early on. If you have severe stomach pain, pain that goes to your back, or vomiting you cannot stop, stop the medication and contact us or go to the ER.'
+      text: 'I sent your semaglutide prescription to {formmenu: Premier Pharmacy; Belmar Pharmacy; FarmaKeio Pharmacy; name=ppharm}: one 1 mg tablet under your tongue each morning on an empty stomach. Let it dissolve fully, and wait 15 minutes before you eat or drink. This is a low daily dose. Most people have mild or no side effects; the most common are nausea, fullness or constipation, usually early on. If you have severe stomach pain, pain that goes to your back, or vomiting you cannot stop, stop the medication and contact us or go to the ER.'
     }
   ]
 };

@@ -638,7 +638,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.37',
+    version: '2.38',
     created: '2026-08-06',
     lastUpdated: '2026-10-29',
     owner: 'Director of Clinical Operations',
@@ -658,6 +658,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-11-02 (v2.38): ARKANSAS ORAL SEMAGLUTIDE 1 MG (Don). FarmaKeio confirmed it fills oral semaglutide for Arkansas. New product farmakeio_oral_sema_ar: 1 mg RDT #90, 90 days, FITSemOrl90, own patient page. ONE 1 MG PRICE (Nick, 2026-11-03): every 1 mg 90-day supply is FITSemOrl90 ($299) at all three pharmacies; belmar_oral_sema 1 mg FastSL moves from FITSemOrl180 ($399) to FITSemOrl90. FITSemOrl180 is left only on the retired farmakeio_oral_sema record, as history. farmakeio_oral_sema stays retired and unchanged so FarmaKeio 0.5 mg patients elsewhere still convert. In Arkansas the conversion tool now points to a new prescription for the Arkansas product instead of brand only. Which Arkansas patients it is for is internal, not in this file.',
       '2026-10-29 (v2.37): MASSACHUSETTS BACK TO PREMIER (Don). Premier confirmed it can send sterile products to Massachusetts for existing and new patients (korb-pharmacies.js v1.14). No edit to routing here: the Premier rule reads its states from the Premier footprint, so MA moves from Belmar to Premier on its own. Premier 43, Belmar 7 (AL, CA, HI, MS, SC, VA, WA), FarmaKeio 1 (AR).',
       '2026-10-29 (v2.36): B-6 IS AN ORDINARY CHOICE (Don). Providers pick B-12 or B-6 for Premier semaglutide and tirzepatide as they would any formulation; a B-12 intolerance no longer has to be documented. restrictedUse is removed from the derived B-6 records, so no tool, monograph or plan note carries the intolerance wording. B-12 stays the first choice listed. Patient wording: the semaglutide and tirzepatide handouts and the B-6 medication pages no longer tie B-6 to not tolerating B-12.',
       '2026-10-28 (v2.35): SEMAGLUTIDE DOTS 1, 5, 10 AND 20 MG; 0.5 MG ORAL RETIRED (Don). premier_oral_sema now carries 1 mg #90 FITSemOrl90 (moved from FITSemOrl180; Metabolic Low-Dose Pathway and maintenance only), 5 mg #90 FITSemOrlLOW_90, 5 mg #30 FITSemOrlLOW_30 (the 30-day starter, dose label "5 mg (30 days)" so the tools can tell the two 5 mg records apart), 10 mg #90 FITSemOrlMID_90 and 20 mg #90 FITSemOrlHIGH_90. Codes and prices are from Don’s pricing summary of 2026-10-27; the four new codes are not yet in Nick’s published sheet, so korb-charges.js has no price for them and the Provider Reference shows Varies until the daily charge check picks them up. Formulation names follow the existing pattern (Semaglutide Oral Dot Nmg), set by KORB. Positioning carries the weight loss titration (start 5 mg, 10 mg after 4 weeks if needed, 20 mg only after 10 mg stalls, never a start; restart at 5 mg from injections, never convert by equivalence). 0.5 mg retired at Premier and Belmar (the Belmar half tablet). farmakeioConversion sameDose now sends FarmaKeio 0.5 mg oral to 1 mg, the lowest dose left, and the message tool and patient page say the dose changed instead of that it stays. Message tool: oral supply length now comes from the dose record, not a fixed 90 days. Patient page lists each strength once. NOT CHANGED: tirzepatide Dots; reason for compounding (Don handles wording with snippets). Sign-offs left stale for Don: rx Premier and Belmar semaglutide, medpage premier_oral_semaglutide and belmar_oral_semaglutide.',
@@ -1968,7 +1969,7 @@ var KORB_GLP1 = {
                   'Arkansas, injectable semaglutide and tirzepatide, because Belmar cannot ' +
                   'collect payment for Arkansas prescriptions. In every other state KORB no ' +
                   'longer uses FarmaKeio for GLP-1: Premier where Premier can fill, Belmar ' +
-                  'otherwise. FarmaKeio oral semaglutide stays retired.',
+                  'otherwise. Oral semaglutide 1 mg for Arkansas is back from 2026-11-02 as farmakeio_oral_sema_ar; the old FarmaKeio oral record stays retired.',
       /* History. FarmaKeio left GLP-1 in every state on 2026-10-22 (Premier now
          carries B-6) and came back for Arkansas alone on 2026-10-28. The routing
          rule is what limits it to Arkansas; checkPharmacyForState answers
@@ -4924,10 +4925,52 @@ var KORB_GLP1 = {
         {
           dose: '1 mg', mg: 1,
           presentation: 'FastSL Tablet #90',
-          chargeCode: 'FITSemOrl180',
+          chargeCode: 'FITSemOrl90',
           drugFormulation: 'Semaglutide FastSL 1mg',
           rx: {
             name: 'BELMAR - Oral Semaglutide 1 mg - 90 Day Supply',
+            allowSubstitution: true,
+            quantity: 90,
+            unit: 'each',
+            refill: 0,
+            days: 90,
+            ptInstructions: 'DISSOLVE 1 TABLET UNDER TONGUE DAILY ON EMPTY STOMACH. NO FOOD OR DRINK 15 MIN AFTER.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx - no FDA-approved or commercially available equivalent.'
+          }
+        }
+      ]
+    },
+
+    /* ARKANSAS ORAL LOW DOSE (Don, 2026-11-02). FarmaKeio confirmed it fills
+       oral semaglutide for Arkansas. A separate product from the retired
+       farmakeio_oral_sema, which stays as it is so FarmaKeio 0.5 mg patients in
+       other states can still be converted. 1 mg only, matching the 0.5 mg
+       retirement everywhere else. FITSemOrl90 ($299): Nick, 2026-11-03, set
+       every 1 mg 90-day supply to one code and price at all three pharmacies
+       (Premier Dot, Belmar FastSL, FarmaKeio RDT). Which Arkansas
+       patients it is for is in the internal provider reference, not here. */
+    farmakeio_oral_sema_ar: {
+      key: 'farmakeio_oral_sema_ar',
+      compounded: true,   // compounded by the pharmacy
+      pharmacy: 'farmakeio',
+      drug: 'semaglutide',
+      label: 'FarmaKeio — Oral Semaglutide (Arkansas)',
+      exclusiveTo: 'farmakeio',
+      exclusiveNote: 'Arkansas only. 1 mg low daily dose: Metabolic Low-Dose Pathway and maintenance. No weight loss strengths. Check the internal provider reference for which Arkansas patients it is for.',
+      visibility: 'provider',
+      route: 'sublingual',
+      frequency: 'once daily',
+      orderVia: 'Tebra Compound',
+      positioning: 'Arkansas only. A low daily dose (1 mg) for maintenance or a documented metabolic diagnosis, for patients who prefer a daily option to injections. Prescribe by tablet strength; never convert from an injected dose.',
+      doses: [
+        {
+          dose: '1 mg', mg: 1,
+          presentation: 'Oral RDT #90',
+          chargeCode: 'FITSemOrl90',
+          drugFormulation: 'Semaglutide Oral RDT 1mg',
+          rx: {
+            name: 'FARMAKEIO - Oral Semaglutide 1 mg - 90 Day Supply',
             allowSubstitution: true,
             quantity: 90,
             unit: 'each',
@@ -5749,7 +5792,13 @@ var KORB_GLP1 = {
 
        DO NOT "fix" Premier or FarmaKeio to #180 to make the names line up. The
        quantities are correct as they stand and changing them would under- or
-       over-supply the patient. */
+       over-supply the patient.
+
+       UPDATED 2026-11-03 (Nick): the table above is history. 0.5 mg is retired,
+       and EVERY 1 mg 90-day supply, Premier Dot, Belmar FastSL and FarmaKeio
+       RDT (Arkansas), is FITSemOrl90 at one price. FITSemOrl180 stays only on
+       the retired farmakeio_oral_sema record. The rule about not changing
+       quantities still stands. */
     oral: {
       semaglutide90:  { price: null, code: 'FITSemOrl90'  },
       semaglutide180: { price: null, code: 'FITSemOrl180' },
@@ -7164,7 +7213,8 @@ KORB_GLP1.farmakeioConversion = {
     /* Arkansas patients stay on FarmaKeio (2026-10-28). Not conversion targets. */
     farmakeio_sema:    'Patient_Education/KORB_My_GLP1_FarmaKeio_Semaglutide.html',
     farmakeio_tirz:    'Patient_Education/KORB_My_GLP1_FarmaKeio_Tirzepatide.html',
-    premier_oral_tirz: 'Patient_Education/KORB_My_GLP1_Premier_Oral_Tirzepatide.html'
+    premier_oral_tirz: 'Patient_Education/KORB_My_GLP1_Premier_Oral_Tirzepatide.html',
+    farmakeio_oral_sema_ar: 'Patient_Education/KORB_My_GLP1_FarmaKeio_Oral_Semaglutide.html'
   },
   siteBase: 'https://korb-health.github.io/korb-patient-tools/',
 
@@ -7238,8 +7288,11 @@ KORB_GLP1.farmakeioConversion = {
        oral semaglutide, which FarmaKeio no longer makes for anyone. */
     if (ph === fromProd.pharmacy) {
       if (fromProd.retired || fromProd.status === 'retired') {
-        return { error: fromProd.label + ' is retired, in ' + state + ' too, and there is no ' +
-                 'compounded equivalent for ' + state + '. Only brand options are available.' };
+        /* Arkansas oral (2026-11-02): FarmaKeio makes a 1 mg for Arkansas
+           again, as its own product. Same pharmacy, so nothing converts:
+           the provider writes a new prescription for it. */
+        return { error: fromProd.label + ' is retired. In ' + state + ', write a new prescription ' +
+                 'for FarmaKeio Oral Semaglutide (Arkansas) 1 mg under New prescription, or use a brand option.' };
       }
       return { stays: true, error: KORB_GLP1.pharmacies[ph].name + ' is still the GLP-1 pharmacy for ' +
                state + '. Do not convert: continue the FarmaKeio prescription.' };

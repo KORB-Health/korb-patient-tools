@@ -72,6 +72,14 @@ are not decided; do not touch add-on routing until Don says.
   message says the dose changed. The four new codes are not in Nick's sheet yet,
   so the Provider Reference shows the code with "Varies" until `check-charges.ps1`
   picks them up. Never hand-add them to `korb-charges.js`.
+- **ARKANSAS ORAL 1 MG** (Don, 2026-11-02, v2.38). FarmaKeio confirmed it fills oral
+  semaglutide for Arkansas. New product `farmakeio_oral_sema_ar`, 1 mg RDT #90 only,
+  page `Patient_Education/KORB_My_GLP1_FarmaKeio_Oral_Semaglutide.html`. Code
+  `FITSemOrl90`. **One 1 mg price (Nick, 2026-11-03):** every 1 mg 90-day supply,
+  Premier Dot, Belmar FastSL and FarmaKeio RDT, is `FITSemOrl90`; Belmar moved from
+  `FITSemOrl180` the same day. `FITSemOrl180` is left only on the retired FarmaKeio record. The retired `farmakeio_oral_sema` stays untouched so FarmaKeio
+  0.5 mg patients elsewhere still convert. Which Arkansas patients it is for is a
+  partner question and lives in the private docs, never in this repo.
 - **DOTS CHART SNIPPETS TOOL** (Don, 2026-10-29): `KORB_GLP1_Dots_Chart_Snippets.html`,
   provider only, for the intranet. Reads `korb-dots-snippets.js`, whose snippet text
   is written in Text Blaze syntax so the same string is what providers paste into Text

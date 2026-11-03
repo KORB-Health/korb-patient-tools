@@ -910,8 +910,13 @@ function selfCheck(rows) {
     if (seen[r.key]) problems.push('duplicate artifact key: ' + r.key);
     seen[r.key] = true;
     if (r.undrivable || r.error) return;
-    if (r.kind !== 'tool' && (!r.shot || (r.shot.body || '').length < 2000)) {
-      problems.push(r.key + ' rendered under 2000 characters of body text. A handout ' +
+    /* A medication page with one dose and no FarmaKeio conversion onto it
+       renders once: 1,546 characters of real content (Arkansas oral,
+       2026-11-02). A page that failed to load its data shows a few hundred, so
+       1,000 still catches that. Every other handout keeps 2,000. */
+    var minBody = r.shot && r.shot.cases === 1 ? 1000 : 2000;
+    if (r.kind !== 'tool' && (!r.shot || (r.shot.body || '').length < minBody)) {
+      problems.push(r.key + ' rendered under ' + minBody + ' characters of body text. A handout ' +
         'that short is a page that failed to load its data file, not a short handout.');
     }
     if (r.kind === 'tool') {

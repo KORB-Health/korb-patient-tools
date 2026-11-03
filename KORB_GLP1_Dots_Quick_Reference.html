@@ -120,7 +120,7 @@ ul{padding-left:20px;margin:6px 0;} li{margin:4px 0;}
 <!-- korb-pharmacies.js FIRST, then korb-charges.js (the prices), then korb-glp1-data.js. -->
 <script src="korb-pharmacies.js?v=e2125c00"></script>
 <script src="korb-charges.js?v=ddc0bb2c"></script>
-<script src="korb-glp1-data.js?v=b9643956"></script>
+<script src="korb-glp1-data.js?v=b1b1dc79"></script>
 <script>
 (function () {
   var out = document.getElementById('out');
@@ -179,6 +179,12 @@ ul{padding-left:20px;margin:6px 0;} li{margin:4px 0;}
   if (pt) doseList(pt).forEach(function (d) { body += row('Tirzepatide Dots', d, false); });
   body += group('Belmar', by.belmar.length);
   doseList(bs).forEach(function (d) { body += row('Semaglutide FastSL', d, d.mg === 1); });
+  /* Arkansas oral 1 mg, FarmaKeio (2026-11-02). FITSemOrl90, one 1 mg price at all three pharmacies (Nick, 2026-11-03). */
+  var fa = live('farmakeio_oral_sema_ar');
+  if (fa && by.farmakeio.length) {
+    body += group('FarmaKeio (Arkansas)', by.farmakeio.length);
+    doseList(fa).forEach(function (d) { body += row('Semaglutide tablet', d, d.mg === 1); });
+  }
   if (bad) return fail('A Dots price, code or quantity is missing, so this table cannot be shown.');
 
   var belmarLow = doseList(bs).every(function (d) { return d.mg <= 1; });
@@ -186,7 +192,8 @@ ul{padding-left:20px;margin:6px 0;} li{margin:4px 0;}
     '<div class="chip"><b>Premier: ' + by.premier.length + ' states</b>Every Premier Dot in the table.</div>' +
     '<div class="chip b"><b>Belmar: ' + by.belmar.length + ' states</b>' + esc(by.belmar.join(', ')) + '.' +
       (belmarLow ? ' FastSL 1 mg only, no weight loss strengths.' : '') + '</div>' +
-    (by.farmakeio.length ? '<div class="chip a"><b>' + esc(by.farmakeio.map(function (s) { return P.stateName(s); }).join(', ')) + ': brand only</b>No compounded oral. Offer Foundayo or the Wegovy tablet.</div>' : '');
+    (by.farmakeio.length ? '<div class="chip a"><b>' + esc(by.farmakeio.map(function (s) { return P.stateName(s); }).join(', ')) + ': FarmaKeio 1 mg only</b>' +
+      (fa ? 'Low daily dose tablet, no weight loss strengths. Check which Arkansas patients it is for before prescribing.' : 'No compounded oral. Offer Foundayo or the Wegovy tablet.') + '</div>' : '');
 
   out.innerHTML = '<h2>Products, quantities and prices</h2><div class="tblwrap"><table>' +
     '<thead><tr><th>Medication</th><th>Strength</th><th>Quantity</th><th class="n">Price</th><th>Charge code</th></tr></thead>' +
