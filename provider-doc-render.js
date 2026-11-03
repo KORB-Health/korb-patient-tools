@@ -512,11 +512,17 @@ function sectionGlance(doc, ph) {
       ['Medication pricing', 'Not held by KORB — see below']
     ])}</table>`;
   }
+  /* An Arkansas-only pharmacy shows no shipping footprint. Don, 2026-11-03: a
+     "Ships to" list of 49 states on the FarmaKeio page reads as permission to
+     use it in any of them, and KORB uses it for Arkansas alone. */
+  const where = ph.arkansasOnly
+    ? [['Used for', 'Arkansas patients only. Not used for GLP-1 in any other state']]
+    : [['Preferred states', (ph.preferredStates || []).join(', ') || '—'],
+       ['Ships to', (ph.shipsTo || []).join(', ')],
+       ['CANNOT ship to', (ph.hardExcludes || []).length ? ph.hardExcludes.join(', ') : 'No hard exclusions']];
   return `<h2>${esc(ph.name)} at a glance</h2><table class="kv">${rows([
     ['Status', ph.status === 'active' ? 'Active' : esc(ph.status)],
-    ['Preferred states', (ph.preferredStates || []).join(', ') || '—'],
-    ['Ships to', (ph.shipsTo || []).join(', ')],
-    ['CANNOT ship to', (ph.hardExcludes || []).length ? ph.hardExcludes.join(', ') : 'No hard exclusions'],
+    ...where,
     ['Order via', ph.orderVia],
     ['Billing', ph.billing],
     ['Dispensing address', ph.address],
