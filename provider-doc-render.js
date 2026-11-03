@@ -410,6 +410,10 @@ const DOCS = [
   { id: 'premier_tirz_b6',  file: 'KORB_GLP1_Premier_Tirzepatide_B6_Reference',    title: 'Premier — Tirzepatide with B-6',      products: ['premier_tirz_b6'] },
   { id: 'farmakeio_sema',   file: 'KORB_GLP1_Farmakeio_Semaglutide_Reference',     title: 'FarmaKeio — Semaglutide',             products: ['farmakeio_sema', 'farmakeio_oral_sema'] },
   { id: 'farmakeio_tirz',   file: 'KORB_GLP1_Farmakeio_Tirzepatide_Reference',     title: 'FarmaKeio — Tirzepatide',             products: ['farmakeio_tirz'] },
+  /* Arkansas oral 1 mg added 2026-11-03. Its own document, not bundled into the
+     FarmaKeio semaglutide one above: that document is for patients still finishing
+     a retired FarmaKeio supply, and this product is live for new prescriptions. */
+  { id: 'farmakeio_oral_ar', file: 'KORB_GLP1_Farmakeio_Oral_Semaglutide_Arkansas_Reference', title: 'FarmaKeio — Oral Semaglutide (Arkansas)', products: ['farmakeio_oral_sema_ar'] },
   /* greenwich_tirz removed 2026-09-11. Greenwich GLP-1 is retired in every state
      and all tirzepatide moves to Belmar, so a provider reference for it would be a
      document describing a route nobody may use. The product record stays in
@@ -571,8 +575,12 @@ function sectionPreparation(doc) {
   return `<div class="callout"><h3>${esc(prep.heading)}</h3><p>${esc(prep.note)}</p></div>`;
 }
 
-function sectionNotes(ph) {
+function sectionNotes(doc, ph) {
   if (!ph || !(ph.notes || []).length) return '';
+  /* A pharmacy's notes describe its injectables: home kit, syringes, vial
+     concentration. A document holding only tablets would print them as if they
+     applied, which is what the Arkansas oral page did on 2026-11-03. */
+  if (doc.products.every(k => (K.products[k] || {}).route === 'sublingual')) return '';
   return `<h2>Before you prescribe</h2>${bullets(ph.notes)}`;
 }
 
@@ -1107,7 +1115,7 @@ ${sectionPricing(doc)}
 ${sectionCallouts(doc, ph)}
 ${sectionPreparation(doc)}
 ${sectionLimitations(doc)}
-${sectionNotes(ph)}
+${sectionNotes(doc, ph)}
 ${sectionLadder(doc)}
 ${sectionRx(doc)}
 ${sectionClinical(doc)}
