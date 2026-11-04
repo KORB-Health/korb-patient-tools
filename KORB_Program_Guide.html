@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KORB Health — Programs and Pricing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
+<!--
+  PARTNER GUIDE. Built 2026-11-04 for Dave Appel (Don). Shown to gyms, employers
+  and other partners as a demonstration of what KORB offers and what it costs.
+
+  STANDARD PRICES ONLY. Don's ruling of 2026-11-04: standard prices are already
+  public on the website, so they may appear here. Partner rates, the discounted
+  semaglutide band, corporate contract rates, partner-funded rates and the
+  grandfathered 8-week rate NEVER appear on this page. Dave's internal guide with
+  partner rates is a private link, not a page in this repo.
+
+  NOTHING CLINICAL OR PRICED IS TYPED HERE. Every price, product, dose, supply
+  and state list is read at load from korb-charges.js and the program data
+  files. The program descriptions are the only typed prose. The one exception
+  is PENDING below, the same four Dots prices KORB_GLP1_Dots_Quick_Reference.html
+  carries until Nick's sheet has them.
+
+  Not a patient page: no feedback button (provider and partner pages are
+  undecided). A no-price patient version is planned from the same data.
+-->
+<style>
+:root{--navy:#21275B;--teal:#00B2C3;--tealink:#007C87;--cream:#ECE9D1;--orange:#FBB040;--ln:#F3F1E4;--bd:#D6DAE3;--tx:#1A1A2E;--mu:#5A6070;--tealbg:#EEF9FA;--orbg:#FFF4DE;--orink:#7A4E00;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;color:var(--tx);background:#fff;line-height:1.5;}
+.wrap{max-width:980px;margin:0 auto;padding:24px 20px 48px;}
+.mast{border-bottom:1.5px solid var(--teal);padding-bottom:8px;margin-bottom:16px;}
+.mast img{height:34px;display:block;}
+.titleband{background:var(--navy);color:#fff;padding:22px 24px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.titleband h1{margin:0;font-size:28px;font-weight:800;}
+.titleband .sub{margin:6px 0 0;color:var(--teal);font-weight:600;font-size:14px;}
+.lede{margin:16px 0 6px;max-width:70ch;}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0;padding:0;list-style:none;}
+.facts li{background:var(--ln);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;color:var(--navy);}
+
+nav.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:22px 0 4px;}
+nav.tiles a{display:flex;flex-direction:column;justify-content:space-between;min-height:92px;padding:12px 14px;border:1px solid var(--bd);border-top:4px solid var(--teal);background:#fff;text-decoration:none;color:var(--navy);font-weight:800;font-size:15px;line-height:1.25;}
+nav.tiles a span{display:block;font-weight:600;font-size:12px;color:var(--mu);margin-top:6px;}
+nav.tiles a:hover{background:var(--tealbg);}
+nav.tiles a[aria-current="true"]{background:var(--navy);color:#fff;border-top-color:var(--orange);}
+nav.tiles a[aria-current="true"] span{color:#C9CCE6;}
+nav.tiles a:focus-visible{outline:3px solid var(--orange);outline-offset:2px;}
+.showall{margin:8px 0 0;font-size:13px;} .showall a{color:var(--tealink);font-weight:700;}
+
+section.prog{margin-top:26px;scroll-margin-top:12px;}
+section.prog > h2{background:var(--navy);color:#fff;font-size:20px;font-weight:800;margin:0;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+section.prog > h2 small{font-weight:600;font-size:13px;color:var(--teal);}
+.about{margin:12px 0 4px;max-width:72ch;}
+.incl{margin:6px 0 0;font-size:13px;color:var(--mu);}
+h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);margin:20px 0 8px;}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;}
+th{background:var(--navy);color:#fff;text-align:left;font-size:12px;padding:7px 10px;vertical-align:bottom;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+td{padding:7px 10px;border:1px solid var(--bd);vertical-align:top;}
+tbody tr:nth-child(even) td{background:#FAF9F3;}
+tr.group td{background:var(--ln)!important;font-weight:800;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);}
+td.price{font-weight:800;color:var(--navy);white-space:nowrap;}
+td.price .ask{font-weight:600;color:var(--mu);}
+.avail{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.avail.all{background:var(--tealbg);color:var(--tealink);}
+.avail.some{background:var(--orbg);color:var(--orink);}
+.note{border-left:4px solid var(--teal);background:var(--tealbg);padding:10px 14px;margin:12px 0 0;font-size:14px;}
+.note.warm{border-left-color:var(--orange);background:var(--orbg);}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+.compare > div{border:1px solid var(--bd);padding:14px;}
+.compare b.big{display:block;font-size:26px;color:var(--navy);}
+.states{font-size:13px;color:var(--mu);}
+.fine{font-size:12px;color:var(--mu);margin-top:26px;border-top:1px solid var(--bd);padding-top:12px;}
+.err{background:#FDECEA;border:1.5px solid #E57373;color:#7A1F1F;padding:12px 16px;border-radius:6px;font-weight:600;}
+.tools{float:right;font-size:12px;} .tools a{color:var(--navy);}
+@media print{.tools,nav.tiles,.showall{display:none!important;} section.prog[hidden]{display:block!important;} body{font-size:11px;} .wrap{padding:0;} section.prog{margin-top:14px;} section.prog > h2{font-size:15px;padding:6px 10px;} td,th{padding:3px 7px;} tr{break-inside:avoid;} h3{break-after:avoid;}}
+@media(max-width:640px){.compare{grid-template-columns:1fr;} .titleband h1{font-size:22px;}}
+</style>
+<link rel="stylesheet" href="korb-page-chrome.css?v=07993117">
+</head>
+<body class="korb-sheet">
+<div class="wrap">
+<div class="mast"><span class="tools"><a href="#" onclick="window.print();return false;">Print</a></span><img alt="KORB Health" src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgMTIyIDMyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMwMEIxQzM7fQoJLnN0MXtmaWxsOiMyMTI3NUI7fQo8L3N0eWxlPjxnPjxnPjxnPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS43LDIzLjdsNi44LDcuM2w1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNmwtNS4xLTUuNGw1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNkwzMi41LDBsLTYuOCw3LjMKCQkJCUMyMS40LDExLjgsMjEuNCwxOS4yLDI1LjcsMjMuN3oiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMi41LDE4LjhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xbC0yLjEtMi4yYy0wLjUtMC42LTEuNC0wLjYtMS45LDBsLTIuMSwyLjIKCQkJCWMtMC41LDAuNi0wLjUsMS41LDAsMi4xTDIuNSwxOC44eiIvPjwvZz48Zz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNOS45LDE1LjVsLTUuMSw1LjRjLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMzFsNi44LTcuM2M0LjMtNC41LDQuMy0xMS45LDAtMTYuNUw5LjksMEw0LjgsNS40CgkJCQljLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMTUuNUw5LjksMTUuNXoiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMzcuNiwxMi4ybC0yLjEsMi4yYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFsMi4xLDIuMmMwLjUsMC42LDEuNCwwLjYsMS45LDBsMi4xLTIuMmMwLjUtMC42LDAuNS0xLjUsMC0yLjEKCQkJCWwtMi4xLTIuMkMzOSwxMS43LDM4LjEsMTEuNywzNy42LDEyLjJ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTIwLDhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xTDIyLDEuNUMyMS40LDEsMjAuNiwxLDIwLDEuNWwtMi4xLDIuMgoJCQkJYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFMMjAsOHoiLz48L2c+PC9nPjxnPjxwb2x5Z29uIGNsYXNzPSJzdDEiIHBvaW50cz0iNjkuMSw3LjQgNjYuNSw3LjQgNTcuNywxNi40IDU3LjcsNy40IDU1LjQsNy40IDU1LjQsMjMuNSA1Ny43LDIzLjUgNTcuNywxOS4zIDYwLjcsMTYuMyA2Ni44LDIzLjUgCgkJCTY5LjUsMjMuNSA2Mi4yLDE0LjcgCQkiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTAwLjYsMTcuOWMxLTAuNCwxLjgtMS4xLDIuMy0xLjljMC41LTAuOCwwLjgtMS44LDAuOC0zYzAtMS4yLTAuMy0yLjItMC44LTNjLTAuNS0wLjgtMS4zLTEuNS0yLjMtMS45CgkJCWMtMS0wLjQtMi4yLTAuNy0zLjYtMC43aC02LjN2MTYuMUg5M3YtNC45aDRjMC40LDAsMC43LDAsMSwwbDMuNSw0LjloMi41bC0zLjgtNS40QzEwMC4zLDE4LDEwMC40LDE4LDEwMC42LDE3Ljl6IE05Ni45LDE2LjZIOTMKCQkJVjkuNGgzLjljMS41LDAsMi42LDAuMywzLjMsMC45YzAuOCwwLjYsMS4yLDEuNSwxLjIsMi43YzAsMS4xLTAuNCwyLTEuMiwyLjdDOTkuNSwxNi4zLDk4LjQsMTYuNiw5Ni45LDE2LjZ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTg0LjcsOS42Qzg0LDguOCw4My4xLDguMiw4Miw3LjhjLTEtMC40LTIuMi0wLjYtMy40LTAuNmMtMS4yLDAtMi40LDAuMi0zLjQsMC42Yy0xLDAuNC0xLjksMS0yLjcsMS43CgkJCWMtMC44LDAuNy0xLjQsMS42LTEuOCwyLjZjLTAuNCwxLTAuNiwyLjEtMC42LDMuM2MwLDEuMiwwLjIsMi4zLDAuNiwzLjNjMC40LDEsMSwxLjksMS44LDIuNmMwLjgsMC43LDEuNywxLjMsMi43LDEuNwoJCQljMS4xLDAuNCwyLjIsMC42LDMuNCwwLjZjMS4yLDAsMi40LTAuMiwzLjQtMC42YzEtMC40LDEuOS0xLDIuNy0xLjdjMC44LTAuOCwxLjQtMS42LDEuOC0yLjZjMC40LTEsMC42LTIuMSwwLjYtMy4zCgkJCXMtMC4yLTIuMy0wLjYtMy4zQzg2LjEsMTEuMiw4NS41LDEwLjMsODQuNyw5LjZ6IE04NC40LDE3LjljLTAuMywwLjgtMC43LDEuNC0xLjMsMmMtMC42LDAuNi0xLjIsMS0yLDEuMwoJCQljLTAuOCwwLjMtMS42LDAuNS0yLjUsMC41Yy0wLjksMC0xLjctMC4yLTIuNS0wLjVjLTAuOC0wLjMtMS40LTAuNy0yLTEuM2MtMC42LTAuNi0xLTEuMi0xLjMtMmMtMC4zLTAuOC0wLjUtMS42LTAuNS0yLjUKCQkJczAuMi0xLjcsMC41LTIuNWMwLjMtMC44LDAuOC0xLjQsMS4zLTJjMC42LTAuNiwxLjItMSwyLTEuM2MwLjgtMC4zLDEuNi0wLjUsMi41LTAuNWMwLjksMCwxLjcsMC4yLDIuNSwwLjUKCQkJYzAuOCwwLjMsMS40LDAuNywyLDEuM2MwLjYsMC42LDEsMS4yLDEuMywyYzAuMywwLjgsMC41LDEuNiwwLjUsMi41Uzg0LjcsMTcuMiw4NC40LDE3Ljl6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTEyMC42LDE2LjljLTAuNC0wLjYtMS0xLjEtMS43LTEuNGMtMC4yLTAuMS0wLjUtMC4yLTAuNy0wLjNjMCwwLDAsMCwwLDBjMC43LTAuMywxLjItMC44LDEuNi0xLjQKCQkJYzAuNC0wLjYsMC42LTEuMywwLjYtMi4yYzAtMS4zLTAuNS0yLjMtMS41LTNjLTEtMC44LTIuNC0xLjEtNC4zLTEuMWgtNy4ydjE2LjFoNy43YzIsMCwzLjYtMC40LDQuNi0xLjFjMS0wLjgsMS42LTEuOCwxLjYtMy4yCgkJCUMxMjEuMiwxOC4yLDEyMSwxNy41LDEyMC42LDE2Ljl6IE0xMTQuNCw5LjNjMS4yLDAsMi4xLDAuMiwyLjcsMC42YzAuNiwwLjQsMSwxLjEsMSwxLjlzLTAuMywxLjUtMSwxLjljLTAuNiwwLjQtMS41LDAuNi0yLjcsMC42CgkJCWgtNC43VjkuM0gxMTQuNHogTTExNy45LDIxYy0wLjcsMC40LTEuNiwwLjYtMi45LDAuNmgtNS4zdi01LjRoNS4zYzEuMywwLDIuMiwwLjIsMi45LDAuNmMwLjcsMC40LDEsMS4xLDEsMgoJCQlDMTE4LjksMTkuOSwxMTguNiwyMC42LDExNy45LDIxeiIvPjwvZz48L2c+PC9zdmc+"></div>
+<div class="titleband"><h1>Programs and Pricing</h1><p class="sub">Cash-pay telehealth · Weight loss, longevity, men's and women's health</p></div>
+<p class="lede">KORB Health offers physician-led telehealth programs, with medication shipped to the patient's door. Pick a program to see what it includes and what it costs.</p>
+<ul class="facts">
+  <li>No insurance needed</li>
+  <li>Visit, medication and shipping in one price</li>
+  <li>Licensed providers, US pharmacies</li>
+</ul>
+
+<nav class="tiles" id="tiles" aria-label="Programs"></nav>
+<p class="showall" id="showall" hidden><a href="#all">Show all programs</a></p>
+
+<div id="out"></div>
+
+<p class="fine">Clinical services are provided by KORB Health Medical Texas PA. Prices are standard cash-pay prices and can change; every program starts with a visit with a KORB provider, who decides whether a treatment is right for the patient. Compounded medications are prepared by a licensed pharmacy and are not FDA-approved. <span id="asof"></span></p>
+</div>
+
+<!-- korb-pharmacies.js FIRST (every program file takes its state lists from it),
+     then korb-charges.js (the prices), then the program files. -->
+<script src="korb-pharmacies.js?v=e2125c00"></script>
+<script src="korb-charges.js?v=ddc0bb2c"></script>
+<script src="korb-glp1-data.js?v=b1b1dc79"></script>
+<script src="korb-dosing-data.js?v=f8cd4312"></script>
+<script src="korb-mens-data.js?v=eb22e66d"></script>
+<script src="korb-womens-data.js?v=0033c87e"></script>
+<script src="korb-addons-data.js?v=fcd636b7"></script>
+<script>
+(function () {
+  var out = document.getElementById('out');
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fail(m) { out.innerHTML = '<p class="err">' + esc(m) + ' Reload the page; if this stays, contact KORB Health.</p>'; }
+  var need = [['KORB_PHARMACIES', 'korb-pharmacies.js'], ['KORB_CHARGES', 'korb-charges.js'], ['KORB_GLP1', 'korb-glp1-data.js'],
+              ['KORB_DOSING', 'korb-dosing-data.js'], ['KORB_MENS', 'korb-mens-data.js'], ['KORB_WOMENS', 'korb-womens-data.js'], ['KORB_ADDONS', 'korb-addons-data.js']];
+  for (var i = 0; i < need.length; i++) { if (typeof window[need[i][0]] === 'undefined') return fail('Could not load ' + need[i][1] + '.'); }
+  if (!KORB_GLP1.hydrated || !KORB_DOSING.hydrated || !KORB_WOMENS.hydrated) return fail('A data file did not finish loading.');
+  var P = KORB_PHARMACIES, C = KORB_CHARGES, G = KORB_GLP1, D = KORB_DOSING, M = KORB_MENS, W = KORB_WOMENS, A = KORB_ADDONS;
+
+  /* The same four Dots prices KORB_GLP1_Dots_Quick_Reference.html carries (Don,
+     2026-10-28), used ONLY while korb-charges.js has no price for the code. The
+     sheet wins the moment it has one. Delete an entry once its code is live, here
+     and in the Dots page. Never copy these into korb-charges.js. */
+  var PENDING = { FITSemOrlLOW_30: 149, FITSemOrlLOW_90: 299, FITSemOrlMID_90: 399, FITSemOrlHIGH_90: 499 };
+
+  function price(code) {
+    if (code && C.has(code) && typeof C.priceFor(code) === 'number' && C.priceFor(code) > 0) return C.priceFor(code);
+    if (PENDING[code]) return PENDING[code];
+    return null;
+  }
+  function money(n) { return n == null ? '<span class="ask">Ask us</span>' : '$' + Number(n).toLocaleString('en-US'); }
+  function pcell(n) { return '<td class="price">' + money(n) + '</td>'; }
+  function table(head, rows) {
+    return '<div class="tblwrap"><table><thead><tr>' + head.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') +
+           '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>';
+  }
+  function stateList(arr) { return arr.slice().sort().join(', '); }
+  var ALL = P.states && P.states.korbActive ? P.states.korbActive : G.states.korbActive;
+  function availText(states) {
+    var n = states.length, hasDC = states.indexOf('DC') !== -1;
+    if (n >= ALL.length) return 'All 50 states and DC';
+    return (hasDC ? (n - 1) + ' states and DC' : n + ' states');
+  }
+
+  /* -------- program list. Prose is the only typed content. -------- */
+  var programs = [];
+
+  /* WEIGHT LOSS */
+  (function () {
+    var routed = { premier: [], belmar: [], farmakeio: [] };
+    ALL.forEach(function (st) { var r = G.states.routeTo(st); if (r && routed[r.pharmacy]) routed[r.pharmacy].push(st); });
+    var S = G.pricing.semaglutide, T = G.pricing.tirzepatideTiers, max = S.doseBands.max;
+    var semaRows = [
+      '<tr><td>4 weeks</td><td>Every dose up to 2.7 mg</td>' + pcell(price(S.fourWeek.bands[0].code)) + '</tr>',
+      '<tr><td>4 weeks</td><td>' + esc(max.label) + '</td>' + pcell(price(max.fourWeek.bands[0].code)) + '</tr>',
+      '<tr><td>8 weeks</td><td>Every dose up to 2.7 mg</td>' + pcell(price(S.eightWeek.codes.standard.code)) + '</tr>',
+      '<tr><td>8 weeks</td><td>' + esc(max.label) + '</td>' + pcell(price(max.eightWeek.codes.standard.code)) + '</tr>'
+    ];
+    S.twelveWeek.bands.forEach(function (b) { semaRows.push('<tr><td>12 weeks</td><td>' + esc(b.label.replace(' - ', ' to ')) + '</td>' + pcell(price(b.code)) + '</tr>'); });
+    semaRows.push('<tr><td>12 weeks</td><td>' + esc(max.label) + '</td>' + pcell(price(max.twelveWeek.code)) + '</tr>');
+
+    var tirzRows = ['T1A', 'T2A', 'T3A'].map(function (k, i) {
+      var t = T[k], name = ['Low', 'Mid', 'High'][i];
+      var range = (t.appliesTo.split('—')[1] || '').replace(/depending on pharmacy/, '').trim();
+      return '<tr><td><strong>' + name + '</strong> <span class="states">' + esc(range) + '</span></td>' +
+             pcell(price(t.fourWeek.code)) + pcell(price(t.eightWeek.codes.standard.code)) + pcell(price(t.twelveWeek.code)) + '</tr>';
+    });
+
+    /* Oral: group doses across every active oral product, so a dose sold by all
+       three pharmacies reads "every state" and one only Premier sells reads as
+       Premier's states. Derived, not typed. */
+    var orals = Object.keys(G.products).map(function (k) { return G.products[k]; })
+      .filter(function (p) { return !p.retired && !p.brandName && /oral/i.test(p.key); });
+    var byDose = {};
+    orals.forEach(function (p) {
+      (p.doses || []).forEach(function (d) {
+        if (d.retired) return;
+        var key = p.drug + '|' + d.dose;
+        var e = byDose[key] = byDose[key] || { drug: p.drug, dose: d.dose, mg: d.mg, code: d.chargeCode, days: (d.rx && d.rx.days) || null, pharm: [] };
+        if (e.pharm.indexOf(p.pharmacy) === -1) e.pharm.push(p.pharmacy);
+      });
+    });
+    var oralList = Object.keys(byDose).map(function (k) { return byDose[k]; });
+    oralList.forEach(function (e) {
+      var st = [];
+      e.pharm.forEach(function (ph) { st = st.concat(routed[ph] || []); });
+      e.states = st;
+      var m = /\((\d+) days\)/.exec(e.dose);
+      e.label = (e.drug === 'tirzepatide' ? 'Oral tirzepatide ' : 'Oral semaglutide ') + e.dose.replace(/\s*\(.*\)/, '') + (m ? ' (starter)' : '');
+    });
+    oralList.sort(function (a, b) { return (b.states.length - a.states.length) || a.drug.localeCompare(b.drug) || (a.mg - b.mg) || (a.days - b.days); });
+    var everywhere = oralList.filter(function (e) { return e.states.length >= ALL.length; });
+    var limited = oralList.filter(function (e) { return e.states.length < ALL.length; });
+    var limitedStates = limited.length ? limited[0].states : [];
+    var missing = ALL.filter(function (s) { return limitedStates.indexOf(s) === -1; });
+    function oralRow(e, cls, txt) {
+      return '<tr><td>' + esc(e.label) + (e.mg === 1 && e.drug === 'semaglutide' ? ' <span class="states">low dose and maintenance</span>' : '') + '</td><td>' +
+             (e.days ? e.days + ' days' : '') + '</td>' + pcell(price(e.code)) + '<td><span class="avail ' + cls + '">' + esc(txt) + '</span></td></tr>';
+    }
+    var oralRows = [];
+    if (everywhere.length) { oralRows.push('<tr class="group"><td colspan="4">Available in every state</td></tr>'); everywhere.forEach(function (e) { oralRows.push(oralRow(e, 'all', 'All 50 states and DC')); }); }
+    if (limited.length) { oralRows.push('<tr class="group"><td colspan="4">Not available in ' + esc(stateList(missing)) + '</td></tr>'); limited.forEach(function (e) { oralRows.push(oralRow(e, 'some', availText(e.states))); }); }
+
+    programs.push({
+      id: 'weight-loss', name: 'Weight Loss', tag: 'GLP-1 medication',
+      avail: availText(ALL),
+      html:
+        '<p class="about">Weekly GLP-1 injections or a daily dissolving tablet, with a KORB provider adjusting the dose as the patient goes. Semaglutide and tirzepatide are compounded by a licensed US pharmacy. Longer supplies lower the cost per week.</p>' +
+        '<p class="incl">' + esc(G.pricing.includes) + '. No labs required.</p>' +
+        '<h3>Semaglutide injection</h3>' + table(['Supply', 'Dose', 'Price'], semaRows) +
+        '<p class="incl">The price stays the same as the dose goes up, through 2.7 mg.</p>' +
+        '<h3>Tirzepatide injection</h3>' + table(['Dose tier', '4 weeks', '8 weeks', '12 weeks'], tirzRows) +
+        '<h3>Oral tablet (once daily, dissolves under the tongue)</h3>' + table(['Product', 'Supply', 'Price', 'Available'], oralRows) +
+        (limited.length ? '<div class="note warm">In ' + esc(stateList(missing)) + ', the oral option is semaglutide ' + esc(everywhere.map(function (e) { return e.dose; }).join(', ')) + ' only. Every injection is available in every state.</div>' : '')
+    });
+
+    /* BRAND */
+    var brands = Object.keys(G.products).map(function (k) { return G.products[k]; }).filter(function (p) { return p.brandName && !p.retired; });
+    var names = {}; brands.forEach(function (b) { var n = (b.label || b.key).replace(/\s*(pen|pill|\(.*\))\s*/ig, ' ').split(/[—-]/)[0].trim(); names[n] = 1; });
+    var cheapest = price(S.fourWeek.bands[0].code);
+    programs.push({
+      id: 'brand', name: 'Brand-Name GLP-1', tag: 'Zepbound, Wegovy, Foundayo',
+      avail: availText(ALL),
+      html:
+        '<p class="about">For patients who want a manufacturer brand. KORB does the visit and writes the prescription; the patient buys the medication from the manufacturer program or their own pharmacy.</p>' +
+        '<div class="compare"><div><strong>Brand name through KORB</strong><b class="big">' + money(price(G.pricing.brandName.billingCode)) + '</b>per prescription visit, plus the medication<ul>' +
+        '<li>The patient pays LillyDirect, NovoCare or their pharmacy for the medication directly.</li>' +
+        '<li>Manufacturer prices change; patients check price and coverage with the manufacturer.</li>' +
+        '<li>Same fee for a new prescription or a dose change.</li></ul></div>' +
+        '<div><strong>Compounded through KORB</strong><b class="big">from ' + money(cheapest) + '</b>per 4 weeks, all in<ul>' +
+        '<li>Visit, medication, shipping and supplies in one price.</li><li>8- and 12-week supplies lower the weekly cost.</li></ul></div></div>'
+    });
+  })();
+
+  /* FUNCTIONAL HEALTH & LONGEVITY */
+  (function () {
+    var closed = D.states.unavailable || [];
+    var open = ALL.filter(function (s) { return closed.indexOf(s) === -1; });
+    function agentName(k) { return (D.agents[k] && (D.agents[k].name || D.agents[k].label)) || k; }
+    var pr = D.pricing;
+    var rows = [
+      '<tr><td><strong>Baseline labs</strong></td><td>One-time lab draw at Quest before choosing a program</td>' + pcell(pr.baseline.website) + '</tr>'
+    ];
+    [['foundation', 'One of: ' + D.programs.foundation.agentChoices.map(agentName).join(', ')],
+     ['gateway', D.programs.gateway.baseProtocol.map(agentName).join(' plus ')],
+     ['peakA', D.programs.peakA.baseProtocol.map(agentName).join(' plus ')],
+     ['peakB', 'Tesamorelin plus ' + agentName('bpc157')]].forEach(function (r) {
+      var p = pr[r[0]];
+      rows.push('<tr><td><strong>' + esc(p.label.replace('—', '').replace(/\s+/g, ' ')) + '</strong></td><td>' + esc(r[1]) + '</td><td class="price"><span class="ask">See korbhealth.com</span></td></tr>');
+    });
+    rows.push('<tr><td><strong>GHK-Cu add-on</strong></td><td>Optional with Gateway or Peak Performance</td>' + pcell(pr.ghkcu.website) + '</tr>');
+    programs.push({
+      id: 'longevity', name: 'Functional Health & Longevity', tag: 'peptide programs',
+      avail: availText(open),
+      html:
+        '<p class="about">16-week peptide programs for recovery, sleep, body composition and healthy aging. Each starts with baseline labs, and a KORB provider builds the plan from them. Programs step up from a single agent to two-agent protocols.</p>' +
+        table(['Program', 'What it includes', 'Price'], rows) +
+        '<p class="incl">Not available in ' + esc(stateList(closed)) + '.</p>'
+    });
+  })();
+
+  /* MEN'S HEALTH */
+  programs.push({
+    id: 'mens', name: "Men's Health", tag: 'testosterone therapy',
+    avail: M.states.offered.map(function (s) { return P.stateName ? P.stateName(s) : s; }).join(' and ') + ' only',
+    html:
+      '<p class="about">Testosterone replacement for men with low testosterone confirmed by labs, with regular monitoring. Add-ons for hair loss, sexual health and skin care are available too.</p>' +
+      table(['Item', 'Price'], M.pricing.rows.map(function (r) { return '<tr><td>' + esc(r.item.replace(' - ', ': ').replace(/\bTRT\b/g, 'testosterone')) + '</td><td class="price">' + esc(r.price) + '</td></tr>'; })) +
+      '<p class="incl">Testosterone is a controlled substance; KORB providers prescribe it in ' + esc(M.states.offered.map(function (s) { return P.stateName ? P.stateName(s) : s; }).join(' and ')) + ' only.</p>'
+  });
+
+  /* WOMEN'S HEALTH */
+  (function () {
+    var pr = W.pricing, routed = Object.keys(W.states.routing);
+    function lab(n, kind) { var r = pr.withLabs.filter(function (x) { return x.hormones === n && x.labs.indexOf(kind) === 0; })[0]; return r ? r.price : ''; }
+    var rows = ['<tr><td>Prescription to the patient\'s own pharmacy <span class="states">patient pays the pharmacy for medication</span></td><td class="price">' + esc(pr.insurance.price) + '</td><td></td><td></td></tr>'];
+    pr.tiers.forEach(function (t, i) {
+      var label = t.ingredients + (i === pr.tiers.length - 1 ? ' or more hormones' : (t.ingredients === 1 ? ' hormone' : ' hormones')) + ', shipped';
+      rows.push('<tr><td>' + esc(label) + '</td><td class="price">' + esc(t.price) + '</td><td class="price">' + esc(lab(t.ingredients, 'Basic')) + '</td><td class="price">' + esc(lab(t.ingredients, 'Complete')) + '</td></tr>');
+    });
+    programs.push({
+      id: 'womens', name: "Women's Health", tag: 'hormone therapy',
+      avail: availText(routed),
+      html:
+        '<p class="about">Hormone therapy for perimenopause and menopause: ' + esc(W.hormones.filter(function (h) { return h.id !== 'estr'; }).map(function (h) { return h.name.toLowerCase(); }).join(', ')) +
+        '. One visit and one 12-week supply every 12 weeks, with optional at-home hormone testing.</p>' +
+        table(['Option', 'Hormones only', 'With basic labs', 'With complete labs'], rows) +
+        '<p class="incl">Shipped prices include the visit, a 12-week supply and shipping. At-home labs on their own: ' +
+        pr.labsAlone.map(function (l) { return esc(l.label.replace(/^Women( Health)? /, '').toLowerCase()) + ' ' + esc(l.price); }).join(', ') +
+        '. Testosterone for women is available in ' + esc(W.testosterone.states.map(function (s) { return P.stateName ? P.stateName(s) : s; }).join(' and ')) + ' only.</p>'
+    });
+  })();
+
+  /* ADD-ONS: one row per product name, whichever pharmacy carries it.
+     FarmaKeio add-ons are left out: FarmaKeio fills add-ons only for a patient
+     whose GLP-1 already comes from FarmaKeio, which since 2026-10-28 means
+     Arkansas only. PERFORM and the topical hair spray are FarmaKeio-only, and
+     PERFORM's price is unsourced besides. */
+  (function () {
+    var seen = {}, rows = [], lastGroup = null;
+    var order = A.groups.map(function (g) { return g.key; });
+    var list = A.products.filter(function (p) { return !p.retired && p.pharmacy !== 'farmakeio'; }).slice().sort(function (a, b) { return order.indexOf(a.group) - order.indexOf(b.group); });
+    list.forEach(function (p) {
+      var name = p.name.replace(/ (nasal spray|injection|FastSL sublingual)$/i, '');
+      if (/^NAD\+/.test(p.name)) name = 'NAD+';
+      if (/^PT-141/.test(p.name)) name = 'PT-141';
+      var k = p.group + '|' + name;
+      if (seen[k]) return; seen[k] = 1;
+      if (p.group !== lastGroup) { rows.push('<tr class="group"><td colspan="3">' + esc(A.groupLabel ? A.groupLabel(p.group) : p.category) + '</td></tr>'); lastGroup = p.group; }
+      var priceHtml = esc(p.price.replace(' / ', ', ').replace('standalone', 'on its own'));
+      rows.push('<tr><td>' + esc(name) + '</td><td>' + esc(p.supply.replace(/–/g, ' to ')) + '</td><td class="price">' + priceHtml + '</td></tr>');
+    });
+    programs.push({
+      id: 'add-ons', name: 'Add-ons', tag: 'sexual health, hair, skin, anti-aging',
+      avail: 'Most states',
+      html:
+        '<p class="about">Single products a patient can add to any program, or start on their own after a visit.</p>' +
+        table(['Product', 'Supply', 'Price'], rows) +
+        '<p class="incl">Hair loss products are for adults 18 and over. In California, only PT-141 and NAD+ are available.</p>'
+    });
+  })();
+
+  /* -------- render -------- */
+  document.getElementById('tiles').innerHTML = programs.map(function (p) {
+    return '<a href="#' + p.id + '" data-id="' + p.id + '">' + esc(p.name) + '<span>' + esc(p.avail) + '</span></a>';
+  }).join('');
+  out.innerHTML = programs.map(function (p) {
+    return '<section class="prog" id="sec-' + p.id + '"><h2>' + esc(p.name) + ' <small>' + esc(p.tag) + ' · ' + esc(p.avail) + '</small></h2>' + p.html + '</section>';
+  }).join('');
+  document.getElementById('asof').textContent = 'Prices are read live from KORB\'s price list, last updated ' + (C.meta.generated || '') + '.';
+
+  function show() {
+    var id = (location.hash || '').slice(1), known = programs.some(function (p) { return p.id === id; });
+    programs.forEach(function (p) { document.getElementById('sec-' + p.id).hidden = known && p.id !== id; });
+    Array.prototype.forEach.call(document.querySelectorAll('#tiles a'), function (a) { a.setAttribute('aria-current', known && a.getAttribute('data-id') === id ? 'true' : 'false'); });
+    document.getElementById('showall').hidden = !known;
+    if (known) document.getElementById('sec-' + id).scrollIntoView({ block: 'start' });
+  }
+  window.addEventListener('hashchange', show);
+  show();
+
+  /* Self-check, logged: no partner rate or code reached the page. */
+  var html = out.innerHTML, bad = [];
+  /* The discounted semaglutide bands are the partner rates. Their figures must not
+     appear in the weight loss section (they can legitimately appear elsewhere:
+     $199 is also the GHK-Cu add-on). Read from the data, not typed. */
+  var wl = document.getElementById('sec-weight-loss').innerHTML;
+  var S2 = G.pricing.semaglutide;
+  [S2.fourWeek.bands[1].price, price(S2.doseBands.max.fourWeek.bands[1].code)].forEach(function (n) {
+    if (n && wl.indexOf('$' + n + '<') !== -1) bad.push('semaglutide partner rate $' + n + ' appears in Weight Loss');
+  });
+  Object.keys(C.codes).forEach(function (code) { if (new RegExp('\\b' + code + '\\b').test(html)) bad.push('charge code ' + code + ' appears'); });
+  if (/partner rate|F&amp;F|friends and family|military/i.test(html)) bad.push('partner-rate language appears');
+  window.KORB_PROGRAM_GUIDE_SELFCHECK = function () { return { programs: programs.length, problems: bad }; };
+  if (bad.length) console.error('Program guide self-check:', bad); else console.log('Program guide self-check: ok,', programs.length, 'programs');
+})();
+</script>
+</body>
+</html>

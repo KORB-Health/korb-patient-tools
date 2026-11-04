@@ -600,6 +600,19 @@ because they are linked from the intranet, not sent to patients. That is a
 choice about audience, not about secrecy, and it does not license putting
 anything patient-specific on any page here.
 
+**ONE EXCEPTION FOR PRICES: THE PARTNER GUIDE** (Don, 2026-11-04).
+`KORB_Program_Guide.html` shows STANDARD cash prices, for Dave Appel to show
+gyms, employers and partners. Don's reasoning: the standard prices are already
+public on the website. The exception is that page only, and standard prices
+only. **Never** on it, or on any page here: partner rates (the $199 and $249
+semaglutide bands), corporate contract rates, partner-funded rates, the
+grandfathered 8-week rate, charge codes. Its `KORB_PROGRAM_GUIDE_SELFCHECK()`
+fails if a semaglutide partner band, any charge code or partner-rate wording
+reaches the page; negative-tested both halves 2026-11-04 (a planted $199 row
+failed by name, removing it passed). Dave's internal guide WITH partner rates
+is a private claude.ai link, not a file in this repo. Patient pages still carry
+no pricing; a no-price patient version of the guide is planned from the same data.
+
 **This is the rule to check a new block against before writing it**, not after.
 From Monday 2026-09-22 these URLs go out by text message and in Operations
 email, so anything added to a patient page is a thing that gets sent.
@@ -667,6 +680,7 @@ cosmetic — these are plain scripts assigning globals.
 | `KORB_GLP1_Dose_Guide.html` | `korb-pharmacies.js`, `korb-glp1-data.js` |
 | `KORB_GLP1_12Week_Savings.html` | `korb-pharmacies.js`, `korb-charges.js`, `korb-glp1-data.js`. Provider and Ops quick reference, 2026-10-15. Never shows the grandfathered 8-week rate: `costPolicy` forbids it in this public repo |
 | `KORB_GLP1_Dots_Quick_Reference.html` | `korb-pharmacies.js`, `korb-charges.js`, `korb-glp1-data.js`. Provider quick reference for oral Dots, 2026-10-30, for the intranet. Products, codes, quantities, prices and routing are read live; the four codes not yet in Nick's sheet use the page's `PENDING` prices until `korb-charges.js` has them (delete each entry then). The low-dose qualifying diagnoses are typed in the page |
+| `KORB_Program_Guide.html` | `korb-pharmacies.js`, `korb-charges.js`, `korb-glp1-data.js`, `korb-dosing-data.js`, `korb-mens-data.js`, `korb-womens-data.js`, `korb-addons-data.js`. Partner guide, 2026-11-04 (Don), standard prices only (see the exception under "The public pages carry nothing patient-specific"). Programs as tiles with `#weight-loss`, `#brand`, `#longevity`, `#mens`, `#womens`, `#add-ons` links. Every price, dose, supply and state list is read live; oral availability is derived by grouping each dose across the active oral products, so 1 mg reads "every state" and Premier-only doses read Premier's states. Uses the Dots page's `PENDING` prices for the same four codes, so delete an entry in BOTH pages when Nick's sheet has it. FH&L program prices show "See korbhealth.com" until Nick releases website codes. FarmaKeio add-ons are left out (Arkansas only). In `PRICE_PAGES`. Not signed (unclassified in artifact-signoff), no feedback button. Not yet pushed or released |
 | `KORB_GLP1_Premier_Shipping_States.html` | `korb-pharmacies.js` only. Provider and Ops reference, 2026-10-15. Every state is `statesFor('premier','glp1')`; none is typed |
 | `Provider_Reference/GLP1/*.html` (10) | `../../korb-pharmacies.js`, `../../korb-glp1-data.js` |
 | `KORB_Provider_Clinical_Reference.html` | `korb-pharmacies.js`, `korb-dosing-data.js` |
