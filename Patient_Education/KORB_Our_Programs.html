@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KORB Health — Our Programs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
+<!--
+  PATIENT PROGRAM GUIDE. Built 2026-11-04 (Don), the patient twin of
+  KORB_Program_Guide.html (the partner guide).
+
+  NO PRICES, NO DOSE LADDERS, NO STATE LISTS. This page does not load
+  korb-charges.js and must never show a price (CLAUDE.md, "The public pages
+  carry nothing patient-specific"). It names no mg doses, because patients never
+  see dose ladders (korb-glp1-data.js, patientSafeProducts). It names no states,
+  because state availability lives on the website (CLAUDE.md item 52); a
+  provider confirms what is available where the patient lives.
+
+  What it reads live: the peptide program list and what each includes
+  (korb-dosing-data.js), how each GLP-1 form is taken (korb-glp1-data.js
+  patientView), the women's hormones (korb-womens-data.js) and the add-on
+  products and supplies (korb-addons-data.js). The program descriptions and the
+  handout links are the only typed content. Clinical detail stays in the signed
+  handouts this page links to.
+
+  KORB_OUR_PROGRAMS_SELFCHECK() fails on a dollar sign, a charge code, an mg dose
+  or a state list reaching the page.
+-->
+<style>
+:root{--navy:#21275B;--teal:#00B2C3;--tealink:#007C87;--cream:#ECE9D1;--orange:#FBB040;--ln:#F3F1E4;--bd:#D6DAE3;--tx:#1A1A2E;--mu:#5A6070;--tealbg:#EEF9FA;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;color:var(--tx);background:#fff;line-height:1.55;}
+.wrap{max-width:900px;margin:0 auto;padding:24px 20px 48px;}
+.mast{border-bottom:1.5px solid var(--teal);padding-bottom:8px;margin-bottom:16px;}
+.mast img{height:34px;display:block;}
+.titleband{background:var(--navy);color:#fff;padding:22px 24px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.titleband h1{margin:0;font-size:28px;font-weight:800;}
+.titleband .sub{margin:6px 0 0;color:var(--teal);font-weight:600;font-size:14px;}
+.lede{margin:16px 0 6px;max-width:66ch;}
+
+nav.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:22px 0 4px;}
+nav.tiles a{display:flex;flex-direction:column;justify-content:space-between;min-height:96px;padding:12px 14px;border:1px solid var(--bd);border-top:4px solid var(--teal);background:#fff;text-decoration:none;color:var(--navy);font-weight:800;font-size:16px;line-height:1.25;}
+nav.tiles a span{display:block;font-weight:600;font-size:13px;color:var(--mu);margin-top:6px;}
+nav.tiles a:hover{background:var(--tealbg);}
+nav.tiles a[aria-current="true"]{background:var(--navy);color:#fff;border-top-color:var(--orange);}
+nav.tiles a[aria-current="true"] span{color:#C9CCE6;}
+nav.tiles a:focus-visible,.btn:focus-visible{outline:3px solid var(--orange);outline-offset:2px;}
+.showall{margin:8px 0 0;font-size:14px;} .showall a{color:var(--tealink);font-weight:700;}
+
+section.prog{margin-top:26px;scroll-margin-top:12px;}
+section.prog > h2{background:var(--navy);color:#fff;font-size:20px;font-weight:800;margin:0;padding:10px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+section.prog > h2 small{display:block;font-weight:600;font-size:13px;color:var(--teal);margin-top:2px;}
+.about{margin:12px 0 4px;max-width:68ch;}
+h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);margin:20px 0 8px;}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;}
+.card{border:1px solid var(--bd);background:#fff;padding:12px 14px;min-width:0;}
+.card b{display:block;color:var(--navy);font-size:15px;margin-bottom:2px;}
+.card p{margin:0;font-size:14px;color:var(--mu);}
+.card a{color:var(--tealink);font-weight:700;font-size:14px;}
+ul.inc{margin:8px 0 0;padding-left:20px;} ul.inc li{margin:3px 0;}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border:2px solid var(--teal);color:var(--navy);background:#fff;text-decoration:none;font-weight:700;font-size:14px;border-radius:999px;}
+.btn:hover{background:var(--tealbg);}
+.note{border-left:4px solid var(--teal);background:var(--tealbg);padding:10px 14px;margin:14px 0 0;font-size:14px;}
+.fine{font-size:12.5px;color:var(--mu);margin-top:26px;border-top:1px solid var(--bd);padding-top:12px;}
+.err{background:#FDECEA;border:1.5px solid #E57373;color:#7A1F1F;padding:12px 16px;border-radius:6px;font-weight:600;}
+.tools{float:right;font-size:12px;} .tools a{color:var(--navy);}
+@media print{.tools,nav.tiles,.showall,.btns{display:none!important;} section.prog[hidden]{display:block!important;} body{font-size:11.5px;} .wrap{padding:0;} section.prog{margin-top:14px;break-inside:avoid-page;}}
+@media(max-width:640px){.titleband h1{font-size:22px;}}
+</style>
+<link rel="stylesheet" href="../korb-page-chrome.css?v=07993117">
+</head>
+<body class="korb-sheet">
+<div class="wrap">
+<div class="mast"><span class="tools"><a href="#" onclick="window.print();return false;">Print</a></span><img alt="KORB Health" src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgMTIyIDMyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMwMEIxQzM7fQoJLnN0MXtmaWxsOiMyMTI3NUI7fQo8L3N0eWxlPjxnPjxnPjxnPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS43LDIzLjdsNi44LDcuM2w1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNmwtNS4xLTUuNGw1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNkwzMi41LDBsLTYuOCw3LjMKCQkJCUMyMS40LDExLjgsMjEuNCwxOS4yLDI1LjcsMjMuN3oiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMi41LDE4LjhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xbC0yLjEtMi4yYy0wLjUtMC42LTEuNC0wLjYtMS45LDBsLTIuMSwyLjIKCQkJCWMtMC41LDAuNi0wLjUsMS41LDAsMi4xTDIuNSwxOC44eiIvPjwvZz48Zz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNOS45LDE1LjVsLTUuMSw1LjRjLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMzFsNi44LTcuM2M0LjMtNC41LDQuMy0xMS45LDAtMTYuNUw5LjksMEw0LjgsNS40CgkJCQljLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMTUuNUw5LjksMTUuNXoiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMzcuNiwxMi4ybC0yLjEsMi4yYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFsMi4xLDIuMmMwLjUsMC42LDEuNCwwLjYsMS45LDBsMi4xLTIuMmMwLjUtMC42LDAuNS0xLjUsMC0yLjEKCQkJCWwtMi4xLTIuMkMzOSwxMS43LDM4LjEsMTEuNywzNy42LDEyLjJ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTIwLDhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xTDIyLDEuNUMyMS40LDEsMjAuNiwxLDIwLDEuNWwtMi4xLDIuMgoJCQkJYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFMMjAsOHoiLz48L2c+PC9nPjxnPjxwb2x5Z29uIGNsYXNzPSJzdDEiIHBvaW50cz0iNjkuMSw3LjQgNjYuNSw3LjQgNTcuNywxNi40IDU3LjcsNy40IDU1LjQsNy40IDU1LjQsMjMuNSA1Ny43LDIzLjUgNTcuNywxOS4zIDYwLjcsMTYuMyA2Ni44LDIzLjUgCgkJCTY5LjUsMjMuNSA2Mi4yLDE0LjcgCQkiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTAwLjYsMTcuOWMxLTAuNCwxLjgtMS4xLDIuMy0xLjljMC41LTAuOCwwLjgtMS44LDAuOC0zYzAtMS4yLTAuMy0yLjItMC44LTNjLTAuNS0wLjgtMS4zLTEuNS0yLjMtMS45CgkJCWMtMS0wLjQtMi4yLTAuNy0zLjYtMC43aC02LjN2MTYuMUg5M3YtNC45aDRjMC40LDAsMC43LDAsMSwwbDMuNSw0LjloMi41bC0zLjgtNS40QzEwMC4zLDE4LDEwMC40LDE4LDEwMC42LDE3Ljl6IE05Ni45LDE2LjZIOTMKCQkJVjkuNGgzLjljMS41LDAsMi42LDAuMywzLjMsMC45YzAuOCwwLjYsMS4yLDEuNSwxLjIsMi43YzAsMS4xLTAuNCwyLTEuMiwyLjdDOTkuNSwxNi4zLDk4LjQsMTYuNiw5Ni45LDE2LjZ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTg0LjcsOS42Qzg0LDguOCw4My4xLDguMiw4Miw3LjhjLTEtMC40LTIuMi0wLjYtMy40LTAuNmMtMS4yLDAtMi40LDAuMi0zLjQsMC42Yy0xLDAuNC0xLjksMS0yLjcsMS43CgkJCWMtMC44LDAuNy0xLjQsMS42LTEuOCwyLjZjLTAuNCwxLTAuNiwyLjEtMC42LDMuM2MwLDEuMiwwLjIsMi4zLDAuNiwzLjNjMC40LDEsMSwxLjksMS44LDIuNmMwLjgsMC43LDEuNywxLjMsMi43LDEuNwoJCQljMS4xLDAuNCwyLjIsMC42LDMuNCwwLjZjMS4yLDAsMi40LTAuMiwzLjQtMC42YzEtMC40LDEuOS0xLDIuNy0xLjdjMC44LTAuOCwxLjQtMS42LDEuOC0yLjZjMC40LTEsMC42LTIuMSwwLjYtMy4zCgkJCXMtMC4yLTIuMy0wLjYtMy4zQzg2LjEsMTEuMiw4NS41LDEwLjMsODQuNyw5LjZ6IE04NC40LDE3LjljLTAuMywwLjgtMC43LDEuNC0xLjMsMmMtMC42LDAuNi0xLjIsMS0yLDEuMwoJCQljLTAuOCwwLjMtMS42LDAuNS0yLjUsMC41Yy0wLjksMC0xLjctMC4yLTIuNS0wLjVjLTAuOC0wLjMtMS40LTAuNy0yLTEuM2MtMC42LTAuNi0xLTEuMi0xLjMtMmMtMC4zLTAuOC0wLjUtMS42LTAuNS0yLjUKCQkJczAuMi0xLjcsMC41LTIuNWMwLjMtMC44LDAuOC0xLjQsMS4zLTJjMC42LTAuNiwxLjItMSwyLTEuM2MwLjgtMC4zLDEuNi0wLjUsMi41LTAuNWMwLjksMCwxLjcsMC4yLDIuNSwwLjUKCQkJYzAuOCwwLjMsMS40LDAuNywyLDEuM2MwLjYsMC42LDEsMS4yLDEuMywyYzAuMywwLjgsMC41LDEuNiwwLjUsMi41Uzg0LjcsMTcuMiw4NC40LDE3Ljl6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTEyMC42LDE2LjljLTAuNC0wLjYtMS0xLjEtMS43LTEuNGMtMC4yLTAuMS0wLjUtMC4yLTAuNy0wLjNjMCwwLDAsMCwwLDBjMC43LTAuMywxLjItMC44LDEuNi0xLjQKCQkJYzAuNC0wLjYsMC42LTEuMywwLjYtMi4yYzAtMS4zLTAuNS0yLjMtMS41LTNjLTEtMC44LTIuNC0xLjEtNC4zLTEuMWgtNy4ydjE2LjFoNy43YzIsMCwzLjYtMC40LDQuNi0xLjFjMS0wLjgsMS42LTEuOCwxLjYtMy4yCgkJCUMxMjEuMiwxOC4yLDEyMSwxNy41LDEyMC42LDE2Ljl6IE0xMTQuNCw5LjNjMS4yLDAsMi4xLDAuMiwyLjcsMC42YzAuNiwwLjQsMSwxLjEsMSwxLjlzLTAuMywxLjUtMSwxLjljLTAuNiwwLjQtMS41LDAuNi0yLjcsMC42CgkJCWgtNC43VjkuM0gxMTQuNHogTTExNy45LDIxYy0wLjcsMC40LTEuNiwwLjYtMi45LDAuNmgtNS4zdi01LjRoNS4zYzEuMywwLDIuMiwwLjIsMi45LDAuNmMwLjcsMC40LDEsMS4xLDEsMgoJCQlDMTE4LjksMTkuOSwxMTguNiwyMC42LDExNy45LDIxeiIvPjwvZz48L2c+PC9zdmc+"></div>
+<div class="titleband"><h1>Our Programs</h1><p class="sub">Telehealth care from KORB providers, with medication shipped to your door</p></div>
+<p class="lede">Choose a program to see what it is, how the medication is taken and what comes with it. Every program starts with a visit, where your KORB provider decides what is right for you and confirms what is available where you live.</p>
+
+<nav class="tiles" id="tiles" aria-label="Programs"></nav>
+<p class="showall" id="showall" hidden><a href="#all">Show all programs</a></p>
+
+<div id="out"></div>
+
+<p class="fine">Clinical care is provided by KORB Health Medical Texas PA. This page is general information, not medical advice. Compounded medications are prepared by a licensed pharmacy and are not FDA-approved. Questions about cost or your plan: call or message the KORB team.</p>
+</div>
+
+<!-- korb-pharmacies.js FIRST: every program file takes its pharmacy facts from it.
+     korb-charges.js is deliberately NOT loaded: this page never shows a price. -->
+<script src="../korb-pharmacies.js?v=e2125c00"></script>
+<script src="../korb-glp1-data.js?v=b1b1dc79"></script>
+<script src="../korb-dosing-data.js?v=f8cd4312"></script>
+<script src="../korb-womens-data.js?v=0033c87e"></script>
+<script src="../korb-addons-data.js?v=fcd636b7"></script>
+<script>
+(function () {
+  var out = document.getElementById('out');
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fail(m) { out.innerHTML = '<p class="err">' + esc(m) + ' Please reload the page. If this keeps happening, contact KORB Health.</p>'; }
+  var need = [['KORB_PHARMACIES', 'korb-pharmacies.js'], ['KORB_GLP1', 'korb-glp1-data.js'], ['KORB_DOSING', 'korb-dosing-data.js'],
+              ['KORB_WOMENS', 'korb-womens-data.js'], ['KORB_ADDONS', 'korb-addons-data.js']];
+  for (var i = 0; i < need.length; i++) { if (typeof window[need[i][0]] === 'undefined') return fail('Part of this page did not load (' + need[i][1] + ').'); }
+  if (!KORB_GLP1.hydrated || !KORB_DOSING.hydrated || !KORB_WOMENS.hydrated) return fail('Part of this page did not finish loading.');
+  var G = KORB_GLP1, D = KORB_DOSING, W = KORB_WOMENS, A = KORB_ADDONS;
+
+  function btns(list) { return '<div class="btns">' + list.map(function (l) { return '<a class="btn" href="' + l[1] + '">' + esc(l[0]) + '</a>'; }).join('') + '</div>'; }
+  function card(title, text, link) { return '<div class="card"><b>' + esc(title) + '</b><p>' + esc(text) + '</p>' + (link ? '<p><a href="' + link[1] + '">' + esc(link[0]) + '</a></p>' : '') + '</div>'; }
+  function lc(s) { return String(s || '').charAt(0).toLowerCase() + String(s || '').slice(1); }
+  var programs = [];
+
+  /* WEIGHT LOSS. How each form is taken is read from patientView, the
+     sanctioned patient-side projection: route and frequency, never a dose. */
+  (function () {
+    function how(key) { var v = G.patientView(key); return v && v.frequency ? ' (' + lc(v.frequency) + ')' : ''; }
+    programs.push({
+      id: 'weight-loss', name: 'Weight Loss', tag: 'GLP-1 medication',
+      html:
+        '<p class="about">GLP-1 medication helps you feel full sooner and reduces cravings, alongside changes to what you eat and how you move. Your KORB provider starts you on a low dose and adjusts it as you go.</p>' +
+        '<h3>Ways to take it</h3><div class="cards">' +
+        card('Semaglutide injection', 'A small shot under the skin' + how('premier_sema') + '.', ['About semaglutide', 'KORB_Patient_Ed_Semaglutide.html']) +
+        card('Tirzepatide injection', 'A small shot under the skin' + how('premier_tirz') + '.', ['About tirzepatide', 'KORB_Patient_Ed_Tirzepatide.html']) +
+        card('Oral tablet', 'A tablet that dissolves under your tongue' + how('premier_oral_sema') + '. No needles.', null) +
+        card('Brand-name medication', 'Zepbound, Wegovy or Foundayo, bought from the manufacturer or your own pharmacy after your KORB visit.', null) +
+        '</div>' +
+        '<h3>What comes with it</h3><ul class="inc"><li>Visits with your KORB provider</li><li>Medication, syringes and supplies, shipped to you</li><li>Supplies of 4, 8 or 12 weeks for injections, and 30 or 90 days for tablets, depending on your plan</li><li>No lab work needed to start</li></ul>' +
+        btns([['Program overview', 'KORB_WeightLoss_Program_Overview.html'], ['Already taking a GLP-1? Find your medication', 'KORB_My_GLP1.html'], ['Injection and storage safety', 'KORB_Injection_Storage_Safety_Guide.html']])
+    });
+  })();
+
+  /* FUNCTIONAL HEALTH & LONGEVITY: program names and what each includes come
+     from korb-dosing-data.js, so a change to a program reaches this page. */
+  (function () {
+    var HANDOUT = { sermorelin: 'Sermorelin', bpc157: 'BPC157', cjcipam: 'CJC_Ipamorelin', ghkcu: 'GHK_Cu', ghkcu1mg: 'GHK_Cu', tesamorelin: 'Tesamorelin' };
+    var OVERVIEW = { foundation: 'Foundation', gateway: 'Gateway', peakA: 'Peak', peakB: 'Peak' };
+    function nm(k) { var a = D.agents[k]; return ((a && (a.name || a.label)) || k).replace(/\s+\d+(\.\d+)?\s*mg$/i, ''); }
+    var P = D.programs;
+    var rows = [
+      ['foundation', 'One peptide of your choice: ' + P.foundation.agentChoices.map(nm).join(', ') + '.'],
+      ['gateway', P.gateway.baseProtocol.map(nm).join(' and ') + ', with ' + nm(P.gateway.optionalAddon) + ' as an option.'],
+      ['peakA', P.peakA.baseProtocol.map(nm).join(' and ') + ', with ' + nm(P.peakA.optionalAddon) + ' as an option.'],
+      ['peakB', P.peakB.baseProtocol.map(function (k) { return /^tesamorelin/.test(k) ? 'Tesamorelin' : nm(k); }).join(' and ') + ', with ' + nm(P.peakB.optionalAddon) + ' as an option.']
+    ];
+    var agents = {};
+    [].concat(P.foundation.agentChoices, P.gateway.baseProtocol, P.peakA.baseProtocol, P.peakB.baseProtocol, [P.gateway.optionalAddon]).forEach(function (k) {
+      var key = /^tesamorelin/.test(k) ? 'tesamorelin' : k; var h = HANDOUT[key]; if (h) agents[h] = /^tesamorelin/.test(k) ? 'Tesamorelin' : nm(k);
+    });
+    programs.push({
+      id: 'longevity', name: 'Functional Health & Longevity', tag: 'peptide programs',
+      html:
+        '<p class="about">16-week peptide programs for recovery, sleep, body composition and healthy aging. You start with a lab draw at Quest, and your KORB provider builds your plan from the results. Peptides are small daily injections you give yourself at home.</p>' +
+        '<h3>The programs</h3><div class="cards">' +
+        rows.map(function (r) { return card(D.pricing[r[0]].label.replace(/\s*—\s*/, ': '), r[1], ['Program overview', 'KORB_' + OVERVIEW[r[0]] + '_Program_Overview.html']); }).join('') +
+        '</div><h3>About each peptide</h3><div class="btns">' +
+        Object.keys(agents).map(function (h) { return '<a class="btn" href="KORB_Patient_Ed_' + h + '.html">' + esc(agents[h]) + '</a>'; }).join('') + '</div>' +
+        btns([['Functional Health & Longevity overview', 'KORB_Longevity_Program_Overview.html'], ['Book your lab draw', '../KORB_Schedule_Your_Lab_Appointment.html'], ['Peptide tracker', '../KORB_Functional_Health_Tracker.html']])
+    });
+  })();
+
+  /* MEN'S HEALTH */
+  programs.push({
+    id: 'mens', name: "Men's Health", tag: 'testosterone therapy',
+    html:
+      '<p class="about">Testosterone replacement for men whose labs confirm low testosterone, with regular check-ins and lab monitoring. It starts with a lab draw at Quest. Testosterone is available in a limited number of states; your provider will confirm yours.</p>' +
+      '<h3>What comes with it</h3><ul class="inc"><li>Initial labs and a visit with your KORB provider</li><li>Testosterone, a small injection you give yourself at home, shipped every 12 weeks</li><li>Follow-up labs and visits to keep your levels safe</li></ul>' +
+      btns([["Men's Health overview", 'KORB_MensHealth_Program_Overview.html'], ['About testosterone', 'KORB_Patient_Ed_Testosterone.html'], ['Testosterone tracker', '../KORB_Testosterone_Tracker.html']])
+  });
+
+  /* WOMEN'S HEALTH: the hormone list is read from korb-womens-data.js. */
+  (function () {
+    var hs = W.hormones.filter(function (h) { return h.id !== 'estr'; });
+    programs.push({
+      id: 'womens', name: "Women's Health", tag: 'hormone therapy',
+      html:
+        '<p class="about">Hormone therapy for perimenopause and menopause, with optional at-home hormone testing. You see your KORB provider once every 12 weeks and get a 12-week supply each time.</p>' +
+        '<h3>Hormones we prescribe</h3><div class="cards">' +
+        hs.map(function (h) { return card(h.name, h.restricted ? 'Available in a limited number of states. Your provider will confirm yours.' : 'As a ' + h.form.replace(/,.*$/, '') + '.', null); }).join('') +
+        '</div><h3>Ways to fill it</h3><ul class="inc"><li>Shipped to you from KORB\'s partner pharmacy, with the visit included</li><li>Or sent to your own local pharmacy, where you pay for the medication</li></ul>' +
+        btns([["Women's Health overview", 'KORB_WomensHealth_Program_Overview.html'], ['About hormone therapy', 'KORB_Patient_Ed_HormoneTherapy.html']])
+    });
+  })();
+
+  /* ADD-ONS: one card per product, from korb-addons-data.js. FarmaKeio add-ons
+     are left out (Arkansas GLP-1 patients only), as on the partner guide. */
+  (function () {
+    var HANDOUT = { sexual: 'Sexual_Health', hair: 'Hair_Loss', skin: 'Skin_Care', antiaging: 'Anti_Aging' };
+    var seen = {}, html = '';
+    A.groups.forEach(function (g) {
+      var items = A.products.filter(function (p) { return p.group === g.key && !p.retired && p.pharmacy !== 'farmakeio'; });
+      var cards = '';
+      items.forEach(function (p) {
+        var name = /^NAD\+/.test(p.name) ? 'NAD+' : /^PT-141/.test(p.name) ? 'PT-141' : p.name;
+        if (seen[name]) return; seen[name] = 1;
+        var plain = name.replace(/\s+\d+(\.\d+)?\s*(mg|%)\b.*$/i, '').replace(/\s+\d+(\.\d+)?%$/, '');
+        cards += card(plain, 'Supply: ' + p.supply.replace(/–/g, ' to ').replace(/\b\d+(\.\d+)?\s*mg\b/gi, '').replace(/\s+,/g, ','), null);
+      });
+      if (!cards) return;
+      html += '<h3>' + esc(g.label) + '</h3><div class="cards">' + cards + '</div>' +
+              (HANDOUT[g.key] ? '<div class="btns"><a class="btn" href="KORB_Patient_Ed_' + HANDOUT[g.key] + '.html">About ' + esc(g.label.toLowerCase()) + '</a></div>' : '');
+    });
+    programs.push({
+      id: 'add-ons', name: 'Add-ons', tag: 'sexual health, hair, skin and anti-aging',
+      html: '<p class="about">Products you can add to any program, or start on their own after a visit. Your provider decides which are right for you.</p>' + html +
+            '<p class="note">Hair loss products are for adults 18 and over.</p>'
+    });
+  })();
+
+  /* -------- render -------- */
+  document.getElementById('tiles').innerHTML = programs.map(function (p) {
+    return '<a href="#' + p.id + '" data-id="' + p.id + '">' + esc(p.name) + '<span>' + esc(p.tag) + '</span></a>';
+  }).join('');
+  out.innerHTML = programs.map(function (p) {
+    return '<section class="prog" id="sec-' + p.id + '"><h2>' + esc(p.name) + '<small>' + esc(p.tag) + '</small></h2>' + p.html + '</section>';
+  }).join('') +
+  '<section class="prog" id="sec-help"><h2>Getting started<small>for every program</small></h2>' +
+  btns([['Start here', 'KORB_Start_Here_Guide.html'], ['When to contact KORB or go to the ER', 'KORB_When_to_Contact_KORB_or_ER.html'], ['Glossary of terms', 'KORB_Glossary_of_Terms.html'], ['Patient hub', '../KORB_Patient_Hub.html']]) + '</section>';
+
+  function show() {
+    var id = (location.hash || '').slice(1), known = programs.some(function (p) { return p.id === id; });
+    programs.forEach(function (p) { document.getElementById('sec-' + p.id).hidden = known && p.id !== id; });
+    Array.prototype.forEach.call(document.querySelectorAll('#tiles a'), function (a) { a.setAttribute('aria-current', known && a.getAttribute('data-id') === id ? 'true' : 'false'); });
+    document.getElementById('showall').hidden = !known;
+    if (known) document.getElementById('sec-' + id).scrollIntoView({ block: 'start' });
+  }
+  window.addEventListener('hashchange', show);
+  show();
+
+  /* Self-check, logged: nothing priced, dosed or state-listed reached the page. */
+  var text = out.innerText, bad = [];
+  if (/\$\s?\d/.test(text)) bad.push('a price appears');
+  if (/\b\d+(\.\d+)?\s?(mg|mcg)\b/i.test(text)) bad.push('an mg or mcg dose appears: ' + text.match(/\b\d+(\.\d+)?\s?(mg|mcg)\b/i)[0]);
+  if (/\b(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NC|ND|NE|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY),\s(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NC|ND|NE|NH|NJ|NM|NV|NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)\b/.test(text)) bad.push('a state list appears');
+  if (/\b(FIT|WMN|AGE|INT|LAB|BASE|Fndn|Gate|Peak)[A-Za-z]*\d{2,}/.test(text)) bad.push('a charge code appears');
+  if (typeof window.KORB_CHARGES !== 'undefined') bad.push('korb-charges.js is loaded on a patient page');
+  window.KORB_OUR_PROGRAMS_SELFCHECK = function () { return { programs: programs.length, problems: bad }; };
+  if (bad.length) console.error('Our Programs self-check:', bad); else console.log('Our Programs self-check: ok,', programs.length, 'programs');
+})();
+</script>
+<script src="../korb-feedback.js?v=c3970e9a" data-page="Our Programs"></script>
+</body>
+</html>
