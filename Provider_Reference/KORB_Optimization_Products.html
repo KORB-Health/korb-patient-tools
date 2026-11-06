@@ -178,6 +178,7 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
   color:#B26A00; }
 </style>
 <script src="../korb-plan-block.js?v=e4167983"></script>
+<script src="../korb-pharmacies.js?v=e2125c00"></script>
 </head>
 <body>
 
@@ -230,9 +231,9 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
         </select>
       </div>
     </div>
-    <label class="chk">
+    <label class="chk" id="fkoRow" style="display:none;">
       <input type="checkbox" id="fko">
-      <span>Patient already receives GLP-1 from FarmaKeio. Route add-ons to FarmaKeio to keep one pharmacy.</span>
+      <span>Arkansas only: patient's GLP-1 already comes from FarmaKeio. Route add-ons to FarmaKeio to keep one pharmacy.</span>
     </label>
 
     <!-- The add-on choice lives INSIDE the panel with the patient details.
@@ -253,34 +254,42 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 
   <footer>
     KORB internal provider reference. Not patient-facing.<br>
-    Clinical detail lives in the Add-On Clinical Reference. Pharmacy sourcing is under review; confirm before
-    relying on routing for a new product.
+    Clinical detail lives in the Add-On Clinical Reference. Premier's states come from the shared pharmacy
+    list, so a licence change reaches this tool without an edit here.
   </footer>
 </div>
 
 <script>
 var STATE_NAME = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
 function stName(a){ return (STATE_NAME[a]||a)+" ("+a+")"; }
-var PREMIER = ["AZ","CO","CT","DC","DE","FL","GA","IL","KS","KY","LA","MD","ME","MI","MO","MS","MT","NC","ND",
-  "NE","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SD","TN","TX","UT","VA","VT","WI","WV","WY"];
-var FKO = ["AK","AL","AR","AZ","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD",
-  "ME","MI","MN","MO","MS","MT","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD",
-  "TN","TX","UT","VA","VT","WA","WI","WV","WY"];
+/* PREMIER IS READ FROM korb-pharmacies.js, NEVER TYPED HERE. This tool kept its
+   own copy of Premier's states and it went stale twice: it still listed Virginia
+   after Premier lost it on 2026-10-16, and it never picked up AK, IA, ID, IN, MA,
+   MN or NH. Mississippi is taken out because Premier's MS licence is non-sterile
+   only; Don, 2026-11-06: Mississippi add-ons go to Belmar, all of them. */
+var PH = (typeof KORB_PHARMACIES !== "undefined") ? KORB_PHARMACIES : null;
+var PREMIER = PH ? PH.statesFor("premier", "addons").filter(function(s){ return s !== "MS"; }) : [];
 var ALL = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME",
   "MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 
-/* FKO above is the ship-to list and matches korb-glp1-data.js pharmacies.farmakeio.shipsTo:
-   California is the only state FarmaKeio will not ship to. The Add-On Clinical Reference
-   states FarmaKeio "ships to all states except AZ, CA, FL, NV, TX", which is the PREFERRED
-   list for GLP-1 routing, not the ship-to list, and preferred states do not govern add-ons.
-   Add-on routing is: follow the pharmacy the patient's GLP-1 already uses if it stocks the
-   product, otherwise Premier. Confirmed by Don 2026-09-10. */
+/* ADD-ON ROUTING, Don 2026-11-06. FarmaKeio is out for add-ons, as it already was
+   for GLP-1 (2026-10-22). Premier wherever it is licensed; Belmar everywhere else,
+   which today is AL, AR, CA, HI, MS, SC, VA and WA. The one exception is Arkansas:
+   a patient whose GLP-1 still comes from FarmaKeio may keep add-ons there, so the
+   FarmaKeio checkbox shows for Arkansas only. Patients already on a FarmaKeio
+   add-on move at their next refill. This replaces the 2026-09-10 rule "follow the
+   GLP-1 pharmacy, otherwise Premier". */
 
 var sel=document.getElementById("st");
 ALL.forEach(function(s){ var o=document.createElement("option"); o.value=s; o.textContent=stName(s); sel.appendChild(o); });
 ["st","prog","sex","fko"].forEach(function(id){
   document.getElementById(id).addEventListener("change", function(){ gateGender(); render(); });
+});
+document.getElementById("st").addEventListener("change", function(){
+  var ar = document.getElementById("st").value === "AR";
+  document.getElementById("fkoRow").style.display = ar ? "" : "none";
+  if(!ar) document.getElementById("fko").checked = false;
 });
 
 /* GENDER GATES THE PROGRAMME. A male patient is not in Women's Health and a
@@ -564,43 +573,52 @@ function render(){
     out.innerHTML='<div class="empty">Select state, gender and program to see available add-ons.</div>'; return;
   }
 
-  var inP=PREMIER.indexOf(st)>-1, inF=FKO.indexOf(st)>-1;
+  if(!PH){
+    out.innerHTML='<div class="box red"><b>The pharmacy list did not load.</b> Reload the page. Do not route '+
+      'from this tool until it shows a pharmacy.</div>'; return;
+  }
 
-  if(!inP && !inF){
-    /* Belmar ships to all 50 states and DC, so this is not a no-add-on state.
-       It carries PT-141 and the two NAD+ forms and nothing else. Those three
-       now render as real cards with Tebra fields rather than as a note telling
-       the provider to go and build the prescription from the reference. */
-    var bel = products("Belmar", sex);
-    out.innerHTML='<div class="route block"><div class="k">Route to</div>'+
-      '<div class="v">Belmar Pharmacy</div><div class="s">Neither Premier nor FarmaKeio ships to '+
-      STATE_NAME[st]+'. Belmar ships to all 50 states and DC and is the only pharmacy that will ship '+
-      'into California.</div></div>'+
-      '<div class="box red"><b>Do not offer KORB Rise, PERFORM, KORB Electric, hair loss or skin care to this '+
-      'patient.</b> This is a sourcing limitation with no workaround. Raising it and then withdrawing it is '+
-      'worse than not raising it.</div>'+
-      '<div class="box teal"><b>Why only these three.</b> Belmar\'s pricing on the rest of the catalogue does '+
-      'not fit KORB\'s patient pricing once shipping is added, so those would be dispensed at a loss. This is '+
-      'a cost decision, not a licensure one, and it is under review.</div>'+
+  var inP = PREMIER.indexOf(st)>-1;
+  var ph, why, h;
+
+  if(st==="AR" && preferFko){
+    ph="FarmaKeio";
+    why="Arkansas patient whose GLP-1 already comes from FarmaKeio. Add-ons go to FarmaKeio to keep one pharmacy.";
+  } else if(inP){
+    ph="Premier";
+    why="Premier is licensed in "+STATE_NAME[st]+".";
+  } else {
+    /* Belmar ships to all 50 states and DC. It carries PT-141 and the two NAD+
+       forms for KORB and nothing else; the rest of its catalogue does not fit
+       KORB's patient pricing once shipping is added (Finance's call). */
+    var reason = st==="MS"
+      ? "Premier's Mississippi licence covers non-sterile products only, so Mississippi add-ons go to Belmar."
+      : "Premier is not licensed in "+STATE_NAME[st]+". Belmar ships to all 50 states and DC.";
+    h='<div class="route block"><div class="k">Route to</div>'+
+      '<div class="v">Belmar Pharmacy</div><div class="s">'+reason+'</div></div>'+
+      '<div class="box red"><b>Belmar carries only NAD+ nasal spray, NAD+ FastSL sublingual and PT-141 nasal '+
+      'spray for KORB.</b> Do not offer NAD+ injection, KORB Rise, PERFORM, KORB Electric, compounded hair loss '+
+      'products or skin care to this patient.</div>'+
+      '<div class="box teal"><b>Commercial generics can go to a local pharmacy.</b> Finasteride 1 mg, '+
+      'spironolactone 50 mg and metformin ER 500 mg are standard prescriptions, not compounds. If the patient '+
+      'wants one, prescribe it to their local pharmacy. KORB does not dispense it.</div>'+
+      (st==="AR" ? '<div class="box amber">If this patient\'s GLP-1 still comes from FarmaKeio, tick the box above '+
+      'to keep their add-ons at FarmaKeio.</div>' : '')+
       '<div class="sec">Available for '+prog+' · '+stName(st)+'</div>'+
-      cardsFor(bel, prog);
+      cardsFor(products("Belmar", sex), prog);
+    out.innerHTML=h;
     return;
   }
 
-  var ph, why;
-  if(inP && inF){
-    if(preferFko){ ph="FarmaKeio"; why="Both pharmacies serve "+STATE_NAME[st]+". Routed to FarmaKeio to keep this patient on one pharmacy alongside their GLP-1."; }
-    else { ph="Premier"; why="Both pharmacies serve "+STATE_NAME[st]+". Premier is the default. Tick the box above to consolidate with FarmaKeio instead."; }
-  } else if(inP){ ph="Premier"; why="Premier is licensed in "+STATE_NAME[st]+"."; }
-  else { ph="FarmaKeio"; why="Premier is not licensed in "+STATE_NAME[st]+", so FarmaKeio is the only option."; }
-
-  var h='<div class="route"><div class="k">Route to</div><div class="v">'+ph+' Pharmacy</div>'+
+  h='<div class="route"><div class="k">Route to</div><div class="v">'+ph+' Pharmacy</div>'+
         '<div class="s">'+why+'</div></div>';
 
   if(ph==="FarmaKeio"){
-    h+='<div class="box amber"><b>Skin care is not available through FarmaKeio.</b> It is sourced from Premier '+
-       'only, so this patient cannot receive tretinoin, estriol, or combo cream'+
-       (inP?' unless you route them back to Premier.':' at all.')+'</div>';
+    h+='<div class="box amber"><b>Skin care is not available through FarmaKeio,</b> and Premier does not ship to '+
+       'Arkansas, so this patient cannot receive tretinoin, estriol or combo cream.</div>';
+  }
+  if(ph==="Premier" && PH.pharmacies.premier.licencePending && PH.pharmacies.premier.licencePending[st]){
+    h+='<div class="box amber">'+esc(PH.pharmacies.premier.licencePending[st])+'</div>';
   }
 
   h+='<div class="sec">Available for '+prog+' · '+stName(st)+'</div>';
