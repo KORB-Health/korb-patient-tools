@@ -614,6 +614,24 @@ failed by name, removing it passed). Dave's internal guide WITH partner rates
 is a private claude.ai link, not a file in this repo. Patient pages still carry
 no pricing; a no-price patient version of the guide is planned from the same data.
 
+**A SECOND, DELIBERATE EXCEPTION: THE INTERNAL PRICING PAGE** (Don, 2026-11-06).
+`KORB_Pricing_Internal_4c174262e4.html` is the internal guide WITH partner
+rates (the $199 and $249 semaglutide bands), the same content as the private
+claude.ai artifact, put here so Don can share it with sales staff and keep it
+updated until a private home exists. **Don's call as compliance, made knowing
+this repo is public. Do not remove it, and do not copy it, without his say.**
+- **Unlisted, not private.** The random suffix and the `noindex` meta tags keep
+  it out of search results and away from guessing. Anyone who has the URL, or
+  who browses the repo on GitHub, can still read it, and git history keeps every
+  version even after the file is deleted.
+- **Nothing may link to it**, from any page, the hub, a sitemap or `robots.txt`
+  (listing it there would publish the name). Grep before adding any link.
+- **Static HTML, hand-maintained**: prices are typed, not read from the data
+  files. When a price or pharmacy changes, update it here and in the artifact.
+- Still never on it: charge codes, corporate contract rates, partner-funded
+  figures, the grandfathered 8-week rate, and anything patient-specific.
+- Move it off Pages (and delete it here) once a private home is set up.
+
 **This is the rule to check a new block against before writing it**, not after.
 From Monday 2026-09-22 these URLs go out by text message and in Operations
 email, so anything added to a patient page is a thing that gets sent.

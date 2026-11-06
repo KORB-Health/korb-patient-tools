@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- INTERNAL. Partner rates. Unlisted on purpose: nothing links here, and search
+     engines are told not to index it. Don, 2026-11-06. See CLAUDE.md, the
+     "internal pricing page" exception. Not a patient page. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>KORB Partner Pricing Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: one reading column of program sections, each a price table; a sticky jump bar for use on a phone in a meeting. */
+:root{
+  --navy:#21275B; --teal:#00B2C3; --orange:#FBB040; --cream:#ECE9D1;
+  --bg:#F6F4E8; --surface:#FFFFFF; --fg:#1C2147; --muted:#5A5F7D; --line:#D9D5BC;
+  --head-bg:#21275B; --head-fg:#FFFFFF; --chip:#E3F6F8; --chip-fg:#0B6D78;
+  --warn-bg:#FFF4DE; --warn-fg:#7A4E00;
+  --display:"Fraunces", Georgia, "Times New Roman", serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12152E; --surface:#1B1F40; --fg:#ECEAF7; --muted:#A9ACC8; --line:#2E3360;
+  --head-bg:#2B3270; --head-fg:#FFFFFF; --chip:#103C45; --chip-fg:#7FE3EE;
+  --warn-bg:#3A2C10; --warn-fg:#FFD58A; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12152E; --surface:#1B1F40; --fg:#ECEAF7; --muted:#A9ACC8; --line:#2E3360;
+  --head-bg:#2B3270; --head-fg:#FFFFFF; --chip:#103C45; --chip-fg:#7FE3EE;
+  --warn-bg:#3A2C10; --warn-fg:#FFD58A; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.wrap{max-width:880px;margin:0 auto}
+header.top{padding-block:28px 18px;border-bottom:4px solid var(--teal)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font-family:var(--display);font-size:clamp(28px,5vw,40px);line-height:1.1;margin:6px 0 8px;text-wrap:balance}
+.lede{margin:0;color:var(--muted);max-width:62ch}
+.internal{display:inline-block;margin-top:12px;background:var(--warn-bg);color:var(--warn-fg);font-weight:700;font-size:13px;padding:4px 10px;border-radius:4px}
+nav.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav.jump a{flex:0 0 auto;text-decoration:none;color:var(--chip-fg);background:var(--chip);font-weight:600;font-size:14px;padding:8px 12px;border-radius:999px;min-height:36px;display:inline-flex;align-items:center}
+nav.jump a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+section{padding-top:28px;scroll-margin-top:64px}
+h2{font-family:var(--display);font-size:24px;margin:0 0 4px;color:var(--fg);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+h2 .tag{font-family:var(--body);font-size:13px;font-weight:600;color:var(--muted)}
+.intro{margin:0 0 12px;color:var(--muted);max-width:68ch}
+h3{font-size:15px;text-transform:uppercase;letter-spacing:.06em;margin:18px 0 6px;color:var(--fg)}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{background:var(--head-bg);color:var(--head-fg);font-size:13px;font-weight:700;letter-spacing:.02em}
+tbody tr:last-child td{border-bottom:0}
+td.p{white-space:nowrap;font-weight:700}
+td.p .na{font-weight:400;color:var(--muted)}
+.sm{font-size:13px;color:var(--muted)}
+ul.notes{margin:10px 0 0;padding-left:20px;color:var(--fg)}
+ul.notes li{margin:3px 0}
+.rx{border-left:4px solid var(--orange);background:var(--surface);padding:10px 14px;margin-top:10px;border-radius:0 6px 6px 0}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.compare > div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px;min-width:0}
+.compare h4{margin:0 0 6px;font-size:16px}
+.compare .big{font-family:var(--display);font-size:26px;font-weight:700}
+@media (max-width:620px){.compare{grid-template-columns:1fr}}
+.states{font-size:14px;letter-spacing:.02em}
+tr.grp td{background:var(--chip);color:var(--chip-fg);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding-block:6px}
+.ph{display:inline-block;font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.ph.all{background:var(--chip);color:var(--chip-fg)}
+.ph.prem{background:var(--warn-bg);color:var(--warn-fg)}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media print{
+  nav.jump{display:none} body{background:#fff;color:#000;padding:0;font-size:11.5px;line-height:1.35}
+  .wrap{max-width:none} header.top{padding-block:0 10px} h1{font-size:26px;margin:4px 0}
+  .internal{margin-top:6px} section{padding-top:14px} h2{font-size:18px} h3{font-size:12px;margin:10px 0 4px}
+  .intro{margin-bottom:6px} th,td{padding:4px 8px} ul.notes{margin-top:5px} .compare .big{font-size:20px}
+  .compare > div{padding:10px} footer{margin-top:16px}
+  h2,h3{break-after:avoid} tr,.compare > div{break-inside:avoid} thead th{background:#21275B!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.theme-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:600 13px/1 var(--body);cursor:pointer}
+.theme-btn:hover{border-color:var(--teal)}
+.theme-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+@media print{
+  .theme-btn{display:none}
+  :root{--bg:#FFFFFF!important;--surface:#FFFFFF!important;--fg:#000000!important;--muted:#444444!important;--line:#CCCCCC!important;
+    --chip:#E3F6F8!important;--chip-fg:#0B6D78!important;--warn-bg:#FFF4DE!important;--warn-fg:#7A4E00!important;color-scheme:light}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="toprow">
+    <div class="eyebrow">KORB Health &middot; Internal use</div>
+    <button type="button" class="theme-btn" id="themeBtn" aria-label="Switch colour theme"><span aria-hidden="true" id="themeIcon"></span><span id="themeLabel"></span></button>
+  </div>
+  <h1>Products, Pricing and Pharmacies</h1>
+  <p class="lede">Every program KORB sells, grouped by category, with the standard price and the partner rate where one exists. Cash pay only; KORB does not bill insurance. Prices include the telehealth visit, medication, shipping and supplies unless a row says otherwise.</p>
+  <span class="internal">Internal reference. Partner rates are not for handouts.</span>
+</header>
+
+<nav class="jump" aria-label="Jump to section">
+  <a href="#weightloss">Weight loss</a>
+  <a href="#brand">Brand vs compounded</a>
+  <a href="#fhl">Functional Health</a>
+  <a href="#mens">Men's Health</a>
+  <a href="#womens">Women's Health</a>
+  <a href="#addons">Add-ons</a>
+  <a href="#labs">Labs</a>
+  <a href="#pharmacies">Pharmacies</a>
+</nav>
+
+<!-- ============ WEIGHT LOSS ============ -->
+<section id="weightloss">
+  <h2>Weight Loss (GLP-1) <span class="tag">all 50 states and DC</span></h2>
+  <p class="intro">Compounded semaglutide and tirzepatide, injectable or oral. Longer supplies cost less per week. The 12-week supply is Premier only.</p>
+
+  <h3>Semaglutide injection</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Supply</th><th>Dose</th><th>Standard</th><th>Partner rate</th></tr></thead>
+    <tbody>
+      <tr><td>4 weeks</td><td>Up to 2.7 mg (flat as the dose goes up)</td><td class="p">$269</td><td class="p">$199</td></tr>
+      <tr><td>4 weeks</td><td>4.5 mg and 6 mg</td><td class="p">$319</td><td class="p">$249</td></tr>
+      <tr><td>8 weeks</td><td>Up to 2.7 mg</td><td class="p">$349</td><td class="p"><span class="na">same</span></td></tr>
+      <tr><td>8 weeks</td><td>4.5 mg and 6 mg</td><td class="p">$449</td><td class="p"><span class="na">same</span></td></tr>
+      <tr><td>12 weeks</td><td>0.3 to 0.6 mg</td><td class="p">$399</td><td class="p"><span class="na">same</span></td></tr>
+      <tr><td>12 weeks</td><td>1.2 to 2.7 mg</td><td class="p">$449</td><td class="p"><span class="na">same</span></td></tr>
+      <tr><td>12 weeks</td><td>4.5 mg and 6 mg</td><td class="p">$569</td><td class="p"><span class="na">same</span></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="notes">
+    <li>The partner rate is one price for corporate partners, friends and family, and military. It applies to the 4-week supply only.</li>
+    <li>Partner-funded or partly covered arrangements vary by organization. Operations confirms those at scheduling; do not quote a figure.</li>
+  </ul>
+
+  <h3>Tirzepatide injection</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Dose tier</th><th>4 weeks</th><th>8 weeks</th><th>12 weeks</th></tr></thead>
+    <tbody>
+      <tr><td>Low (2 to 5 mg)</td><td class="p">$349</td><td class="p">$599</td><td class="p">$699</td></tr>
+      <tr><td>Mid (6.5 to 10 mg)</td><td class="p">$399</td><td class="p">$649</td><td class="p">$799</td></tr>
+      <tr><td>High (12.5 to 16 mg)</td><td class="p">$449</td><td class="p">$799</td><td class="p">$949</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="notes"><li><strong>No partner discount on tirzepatide.</strong> A partner pays the standard price. Do not present it as a saving.</li></ul>
+
+  <h3>Oral GLP-1 (daily dissolving tablet)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Product</th><th>Supply</th><th>Standard</th><th>Pharmacy</th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="4">Available everywhere, from all three pharmacies</td></tr>
+      <tr><td>Oral semaglutide 1 mg (low-dose pathway and maintenance only)</td><td>90 days</td><td class="p">$299</td><td><span class="ph all">Premier, Belmar, FarmaKeio</span></td></tr>
+      <tr class="grp"><td colspan="4">Premier only (not in AL, AR, CA, HI, MS, SC, VA, WA)</td></tr>
+      <tr><td>Oral semaglutide 5 mg (starter)</td><td>30 days</td><td class="p">$149</td><td><span class="ph prem">Premier only</span></td></tr>
+      <tr><td>Oral semaglutide 5 mg</td><td>90 days</td><td class="p">$299</td><td><span class="ph prem">Premier only</span></td></tr>
+      <tr><td>Oral semaglutide 10 mg</td><td>90 days</td><td class="p">$399</td><td><span class="ph prem">Premier only</span></td></tr>
+      <tr><td>Oral semaglutide 20 mg</td><td>90 days</td><td class="p">$499</td><td><span class="ph prem">Premier only</span></td></tr>
+      <tr><td>Oral tirzepatide 3 mg</td><td>90 days</td><td class="p">$499</td><td><span class="ph prem">Premier only</span></td></tr>
+      <tr><td>Oral tirzepatide 6 mg</td><td>90 days</td><td class="p">$599</td><td><span class="ph prem">Premier only</span></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="notes">
+    <li><strong>1 mg is the only oral dose in every state.</strong> Premier, Belmar (AL, CA, HI, MS, SC, VA, WA) and FarmaKeio (AR) all fill it.</li>
+    <li><strong>The 5, 10 and 20 mg semaglutide and all oral tirzepatide are Premier only</strong>, so they are available only in Premier's 42 states and DC. In the Belmar and FarmaKeio states, oral means 1 mg.</li>
+  </ul>
+  <p class="sm">Weight loss starts at 5 mg oral semaglutide. The 5, 10 and 20 mg prices are confirmed by Don and are waiting to appear on Finance's charge sheet.</p>
+</section>
+
+<!-- ============ BRAND ============ -->
+<section id="brand">
+  <h2>Brand name vs compounded</h2>
+  <p class="intro">Some clients will ask about Zepbound, Wegovy or Foundayo. KORB prescribes them too, for a flat visit fee.</p>
+  <div class="compare">
+    <div>
+      <h4>Compounded through KORB</h4>
+      <div class="big">from $269</div>
+      <p class="sm">per 4 weeks, all in</p>
+      <ul class="notes">
+        <li>Visit, medication, shipping and supplies in one price</li>
+        <li>Shipped from KORB's partner pharmacy</li>
+        <li>8- and 12-week supplies lower the weekly cost</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Brand name through KORB</h4>
+      <div class="big">$79</div>
+      <p class="sm">per prescription visit, plus the medication</p>
+      <ul class="notes">
+        <li>The client pays LillyDirect, NovoCare or their local pharmacy for the medication directly</li>
+        <li>KORB does not quote brand medication prices; they change without notice. The client checks price and coverage with the manufacturer</li>
+        <li>Same $79 for a new prescription or a dose change. Non-refundable once the visit happens</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FH&L ============ -->
+<section id="fhl">
+  <h2>Functional Health &amp; Longevity <span class="tag">peptide programs, 34 states</span></h2>
+  <p class="intro">16-week peptide programs billed in four monthly payments. Each starts with a one-time baseline lab draw at Quest.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Program</th><th>What it includes</th><th>Partner rate</th><th>Partner total</th></tr></thead>
+    <tbody>
+      <tr><td>Baseline labs</td><td>One time, before choosing a program</td><td class="p">$99</td><td class="p"><span class="na">once</span></td></tr>
+      <tr><td><strong>Foundation</strong></td><td>One agent: BPC-157, Sermorelin, CJC-1295/Ipamorelin, or GHK-Cu</td><td class="p">$199/mo</td><td class="p">$796</td></tr>
+      <tr><td><strong>Gateway</strong></td><td>Sermorelin plus BPC-157</td><td class="p">$299/mo</td><td class="p">$1,196</td></tr>
+      <tr><td><strong>Peak Performance A</strong></td><td>CJC-1295/Ipamorelin plus BPC-157</td><td class="p">$399/mo</td><td class="p">$1,596</td></tr>
+      <tr><td><strong>Peak Performance B</strong></td><td>Tesamorelin plus BPC-157</td><td class="p">$399/mo</td><td class="p">$1,596</td></tr>
+      <tr><td>GHK-Cu add-on</td><td>Gateway or Peak, one time</td><td class="p">$199</td><td class="p"><span class="na">once</span></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="notes"><li><strong>Standard (website) pricing for these programs has not been released to staff.</strong> Point new clients to korbhealth.com for it, or ask Nick.</li></ul>
+</section>
+
+<!-- ============ MEN'S ============ -->
+<section id="mens">
+  <h2>Men's Health <span class="tag">testosterone, Texas and California only</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>Standard</th></tr></thead>
+    <tbody>
+      <tr><td>Initial testosterone labs</td><td class="p">$99</td></tr>
+      <tr><td>Quarterly testosterone: visit, medication and shipping</td><td class="p">$399</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sm">Testosterone is a controlled substance. KORB providers hold the registration in Texas and California only. Hair loss, sexual health and skin care add-ons are sold under Men's Health too; see Add-ons.</p>
+</section>
+
+<!-- ============ WOMEN'S ============ -->
+<section id="womens">
+  <h2>Women's Health <span class="tag">hormone therapy, all 50 states and DC</span></h2>
+  <p class="intro">One visit and one 12-week supply every 12 weeks. Price depends on how many hormones are prescribed.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Option</th><th>Hormones only</th><th>With basic labs</th><th>With complete labs</th></tr></thead>
+    <tbody>
+      <tr><td>Own local pharmacy (client pays the pharmacy for medication)</td><td class="p">$79</td><td class="p"><span class="na">n/a</span></td><td class="p"><span class="na">n/a</span></td></tr>
+      <tr><td>1 hormone, shipped</td><td class="p">$220</td><td class="p">$339</td><td class="p">$469</td></tr>
+      <tr><td>2 hormones, shipped</td><td class="p">$250</td><td class="p">$369</td><td class="p">$499</td></tr>
+      <tr><td>3 or 4 hormones, shipped</td><td class="p">$299</td><td class="p">$418</td><td class="p">$548</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="notes">
+    <li>Shipped prices include the visit, a 12-week supply and shipping. A visit between supplies is $79.</li>
+    <li>The $79 local pharmacy option is cash pay. KORB does not do prior authorizations or insurance paperwork.</li>
+    <li>Testosterone for women is Texas and California only, like Men's Health.</li>
+  </ul>
+</section>
+
+<!-- ============ ADD-ONS ============ -->
+<section id="addons">
+  <h2>Add-ons <span class="tag">with any program, or on their own</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Category</th><th>Product</th><th>Supply</th><th>Standard</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4">Sexual health</td><td>PT-141 (nasal spray or injection)</td><td>28 days</td><td class="p">$119 add-on<br>$149 alone</td></tr>
+      <tr><td>KORB Electric</td><td>About 20 uses</td><td class="p">$99</td></tr>
+      <tr><td>KORB Rise</td><td>20 troches</td><td class="p">$99</td></tr>
+      <tr><td>PERFORM</td><td>20 tablets</td><td class="p">$99*</td></tr>
+      <tr><td rowspan="3">Hair loss</td><td>Finasteride 1 mg</td><td>90 days</td><td class="p">$99</td></tr>
+      <tr><td>Spironolactone 50 mg</td><td>90 days</td><td class="p">$99</td></tr>
+      <tr><td>Topical spray or foam</td><td>6 to 8 weeks at twice daily</td><td class="p">$149</td></tr>
+      <tr><td rowspan="3">Skin care</td><td>Combo cream</td><td>120 days</td><td class="p">$99</td></tr>
+      <tr><td>Estriol cream 0.3%</td><td>120 days</td><td class="p">$49</td></tr>
+      <tr><td>Tretinoin cream</td><td>About 80 days</td><td class="p">$49</td></tr>
+      <tr><td rowspan="2">Anti-aging</td><td>NAD+ (injection, nasal or sublingual)</td><td>28 days</td><td class="p">$179</td></tr>
+      <tr><td>Metformin ER 500 mg</td><td>90 days</td><td class="p">$99</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sm">*PERFORM's price is carried over from KORB Rise and has not been confirmed by Finance. Check before quoting. Hair loss products are for adults 18 and over.</p>
+</section>
+
+<!-- ============ LABS ============ -->
+<section id="labs">
+  <h2>Labs</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Lab</th><th>Used for</th><th>Where</th><th>Price</th></tr></thead>
+    <tbody>
+      <tr><td>Peptide baseline panel</td><td>Functional Health &amp; Longevity</td><td>Quest</td><td class="p">$99</td></tr>
+      <tr><td>Initial testosterone panel</td><td>Men's Health</td><td>Quest</td><td class="p">$99</td></tr>
+      <tr><td>Women's basic hormones (saliva)</td><td>Women's Health</td><td>At-home kit</td><td class="p">$119</td></tr>
+      <tr><td>Women's complete hormones (saliva and blood spot)</td><td>Women's Health</td><td>At-home kit</td><td class="p">$249</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sm">Weight loss has no required labs. Women's labs can also be bundled with a hormone supply (see Women's Health).</p>
+</section>
+
+<!-- ============ PHARMACIES ============ -->
+<section id="pharmacies">
+  <h2>Which pharmacy ships where</h2>
+  <p class="intro">One pharmacy per state per program, chosen by KORB. Clients do not pick the pharmacy, and there is no backup.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Program</th><th>Pharmacy and states</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Weight loss</strong> (compounded)</td><td><strong>Premier</strong>: 42 states and DC, everywhere not listed here.<br><strong>Belmar</strong>: <span class="states">AL, CA, HI, MS, SC, VA, WA</span>.<br><strong>FarmaKeio</strong>: <span class="states">AR</span> only.</td></tr>
+      <tr><td><strong>Weight loss</strong> (brand)</td><td>LillyDirect, NovoCare or the client's local pharmacy.</td></tr>
+      <tr><td><strong>Functional Health &amp; Longevity</strong></td><td><strong>Premier</strong> in all 34 open states.<br>Not offered in: <span class="states">AK, AL, AR, CA, DC, GA, HI, MA, MN, MS, NJ, NY, RI, SC, VA, WA, WV</span>.</td></tr>
+      <tr><td><strong>Men's Health</strong> (testosterone)</td><td><strong>Premier</strong> in Texas. <strong>Empower</strong> in California.</td></tr>
+      <tr><td><strong>Women's Health</strong></td><td><strong>Premier</strong>: 43 states and DC.<br><strong>Belmar</strong>: <span class="states">AL, AR, CA, HI, SC, VA, WA</span>.<br>Or the client's own local pharmacy for commercial products ($79 option).</td></tr>
+      <tr><td><strong>Add-ons</strong></td><td><strong>Premier</strong> by default. Skin care is Premier only.<br>Arkansas weight loss clients on FarmaKeio take add-ons from FarmaKeio where it stocks them.<br>California: PT-141 and NAD+ only, from <strong>Belmar</strong>.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  Clinical services are provided by KORB Health Medical Texas PA. Prices from Finance's charge sheet and KORB's program data as of 4 November 2026. Prices change; check with Nick before quoting a contract rate. Corporate partner contract rates are not on this sheet.
+</footer>
+</div>
+<script>
+(function(){
+  var root=document.documentElement, KEY='korb-guide-theme';
+  function current(){
+    var t=root.getAttribute('data-theme');
+    if(t) return t;
+    return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  }
+  function paint(){
+    var dark=current()==='dark';
+    document.getElementById('themeIcon').textContent=dark?'☀':'☾';
+    document.getElementById('themeLabel').textContent=dark?'Light mode':'Dark mode';
+    document.getElementById('themeBtn').setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
+  }
+  try{var saved=localStorage.getItem(KEY); if(saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);}catch(e){}
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    var next=current()==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem(KEY,next);}catch(e){}
+    paint();
+  });
+  if(window.matchMedia){var mq=window.matchMedia('(prefers-color-scheme: dark)'); if(mq.addEventListener) mq.addEventListener('change',paint);}
+  paint();
+})();
+</script>
+
+</body>
+</html>
