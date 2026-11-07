@@ -260,7 +260,7 @@
      this page calls billingFor and reads pricing.* directly, and without it
      every price is null - a blank where a number belongs, not an error. -->
 <script src="korb-charges.js?v=ddc0bb2c"></script>
-<script src="korb-glp1-data.js?v=b1b1dc79"></script>
+<script src="korb-glp1-data.js?v=4223c697"></script>
 <!-- korb-rx-block.js owns the ONE Copy button and clipboard handler. This
      page uses it for the charge code, so the code copies the same way a
      charge code does on every monograph. Its own .copy-btn on the Tebra
@@ -986,6 +986,9 @@ function renderProgression(){
     .map(function (k) { return CADENCE_LABEL[k] + ': ' + esc(pr.visitCadence[k]); })
     .join(' &middot; ');
   html += '<tr><td>Visit cadence</td><td>' + cadence + '</td></tr>';
+  /* The visit-type rule was in the data but never shown (Don, 2026-11-06).
+     Injectables only: orals carry their own visit-type line in the oral callout. */
+  if (pr.visitCadence.modality && !isOralProd) html += '<tr><td>Visit type</td><td>' + esc(pr.visitCadence.modality) + '</td></tr>';
   html += '<tr><td>Weaning</td><td>' + esc(pr.weaning.note) + '</td></tr>';
   html += '<tr><td>Applies to</td><td>' + esc(pr.appliesTo.join(', ')) + ' \u2014 ' + esc(pr.appliesToNote) + '</td></tr>';
   html += '</tbody></table></div>';

@@ -638,9 +638,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.38',
+    version: '2.39',
     created: '2026-08-06',
-    lastUpdated: '2026-10-29',
+    lastUpdated: '2026-11-06',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -1531,7 +1531,10 @@ var KORB_GLP1 = {
          him as the one value here that was. If a 12-week patient should still
          be seen at 8 weeks, this is the line to change and nothing else. */
       twelveWeek: 'Provider visit every 12 weeks',
-      modality: 'Either a video visit or an asynchronous visit. Both are acceptable for 4-week, 8-week and 12-week follow-ups.'
+      /* Matched to POL-ASYNC v2.0 (Don, 2026-11-06). The old line said video
+         or async at any length, with no word that a new patient is video only;
+         a new provider could have booked an async first follow-up from it. */
+      modality: 'Video until the patient meets the Async Visit Eligibility standard: established by video, at least one follow-up video visit, and at least 8 weeks of continuous therapy. After that, video or asynchronous at 4, 8 or 12 weeks. Any dose increase is a video visit.'
     },
     /* Oral products do not follow the injectable 4-week / 8-week rhythm.
        2026-10-26 (Don): split by product type. Compounded orals (Premier Dots,
@@ -1543,7 +1546,7 @@ var KORB_GLP1 = {
     oral: {
       appliesTo: 'All oral products. Compounded (Premier Dots, Belmar FastSL) and brand (Foundayo, Wegovy tablet) follow different rules.',
       decisionOwner: 'Provider',
-      modality: 'Video or asynchronous, same as the injectable programs.',
+      modality: 'Visit type as for injectables: video until the patient meets the Async Visit Eligibility standard, then video or asynchronous.',
       compounded: {
         appliesTo: 'Premier Dots and Belmar FastSL.',
         followUpOptions: ['30 days', '90 days'],
