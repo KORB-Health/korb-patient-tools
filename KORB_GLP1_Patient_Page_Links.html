@@ -98,7 +98,7 @@ a{color:var(--navy)}
 </div>
 
 <script src="korb-pharmacies.js?v=e2125c00"></script>
-<script src="korb-glp1-data.js?v=4223c697"></script>
+<script src="korb-glp1-data.js?v=2787c9a8"></script>
 <script>
 (function(){
   var G = KORB_GLP1, C = G.farmakeioConversion;
@@ -160,6 +160,7 @@ a{color:var(--navy)}
     if (was) {
       L.push('KORB Health: Your GLP-1 medication is moving from FarmaKeio Pharmacy to ' + ph + '. Here are the instructions for your new ' + sup + ' supply, with your dose and ' + what + ':');
       L.push(url);
+      if (!isOral(p)) L.push('Your new medication is a different strength, so the number of units you draw may be different. The mg is your dose, and the page shows both.');
       L.push('Finish your current FarmaKeio supply first, then start the new medication using these instructions. Questions? Reply here and we will help.');
     } else {
       L.push('KORB Health: Here are the instructions for your ' + sup + ' supply from ' + ph + ', with your dose and ' + what + ':');

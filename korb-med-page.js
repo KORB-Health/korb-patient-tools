@@ -55,6 +55,16 @@
   var addName = adds.join(' and ');
   var hasB12 = adds.indexOf('vitamin B-12') !== -1;
   var num = function (d) { return String(d.dose).replace(/\s*\(.*\)\s*$/, '').replace(/\s*mg\s*$/i, ''); };
+  /* Strength per mL from the formulation the pharmacy labels, not dose divided
+     by units: units are rounded to whole marks, so the division gave 18.2 mg/mL
+     for an 18 mg/mL vial (Premier tirzepatide 2 mg) and 19.2 for FarmaKeio's
+     2.5 mg. Fixed 2026-10-28. Falls back to the division only if the
+     formulation carries no number. Shared by the dose box and, from
+     2026-11-09, the FarmaKeio comparison. */
+  var strengthOf = function (d) {
+    var fm = String(d.drugFormulation || '').match(/([\d.]+)\s*mg/i);
+    return fm ? +fm[1] : Math.round(d.mg * 100 / d.units * 10) / 10;
+  };
   /* The 5 mg Dot comes as a 30-day and a 90-day supply (2026-10-28). The
      patient chooses a dose, not a supply, so each strength is listed once. */
   var uniq = function (list) { var seen = {}; return list.filter(function (d) { var k = num(d); if (seen[k]) return false; seen[k] = 1; return true; }); };
@@ -111,8 +121,7 @@
        for an 18 mg/mL vial (Premier tirzepatide 2 mg) and 19.2 for FarmaKeio's
        2.5 mg. Fixed 2026-10-28. Falls back to the division only if the
        formulation carries no number. */
-    var fm = String(dose.drugFormulation || '').match(/([\d.]+)\s*mg/i);
-    var mgPerMl = fm ? +fm[1] : Math.round(dose.mg * 100 / dose.units * 10) / 10;
+    var mgPerMl = strengthOf(dose);
     h += '<div class="kmp-dose"><div class="kmp-row">' +
          '<div><div class="kmp-lbl">Your weekly dose</div><div class="kmp-big">' + esc(dose.dose) + '</div></div>' +
          '<div><div class="kmp-lbl">Draw to</div><div class="kmp-big teal">' + esc(dose.units) + ' units</div></div></div>' +
@@ -141,14 +150,36 @@
              ? '<p><strong>How you take it has changed.</strong> Follow the directions above and on your new label, not your old FarmaKeio directions.</p>'
              : 'Your new tablets may look different, so follow the directions on your new label.') + '</div>';
     } else {
+      /* STRENGTH, NOT JUST UNITS (Don, 2026-11-09). Patients read fewer units
+         as less medicine. The comparison shows the strength of each vial, a
+         syringe for each, and one sentence for this patient's case, worded in
+         KORB_GLP1.medPage.strength. */
       var same = was.units === dose.units;
+      var sOld = strengthOf(was), sNew = strengthOf(dose), SW = (G.medPage || {}).strength || null;
+      var perMl = function (s) { return s + ' mg per mL'; };
+      var sfill = function (t) {
+        return String(t).replace(/\{oldStrength\}/g, perMl(sOld)).replace(/\{newStrength\}/g, perMl(sNew))
+          .replace(/\{oldDose\}/g, was.dose).replace(/\{newDose\}/g, dose.dose).replace(/\{pharmacy\}/g, pharmacy);
+      };
+      var syr = function (who, d, colour) {
+        return '<div style="border:1px solid #DCD9C4;border-radius:10px;padding:8px 10px;background:#fff">' +
+               '<div class="kmp-lbl">' + esc(who) + '</div>' +
+               '<div style="font-weight:800;margin:2px 0 4px">' + esc(d.units) + ' units = ' + esc(d.dose) + '</div>' +
+               KORB_SYRINGE.svg(d.units, colour) + '</div>';
+      };
+      var why = SW ? [
+        sfill(sNew > sOld ? SW.stronger : sNew < sOld ? SW.weaker : SW.sameStrength),
+        sfill(dose.mg > was.mg ? SW.doseUp : dose.mg < was.mg ? SW.doseDown : SW.doseSame),
+        sfill(SW.rule)
+      ] : [];
       h += '<div class="kmp-box amber"><strong>Switching from FarmaKeio? Read this first.</strong>' +
-           '<table class="kmp-cmp"><tr><th></th><th>Dose</th><th>Draw to</th></tr>' +
-           '<tr><td>Before, FarmaKeio</td><td>' + esc(was.dose) + '</td><td>' + esc(was.units) + ' units</td></tr>' +
-           '<tr class="now"><td>Now, ' + esc(pharmacy) + '</td><td>' + esc(dose.dose) + '</td><td>' + esc(dose.units) + ' units</td></tr></table>' +
-           (same
-             ? '<p>The number of units is the same as before, but your new medication is a different strength, so the same units now give you ' + esc(dose.dose) + '. That is expected.</p>'
-             : '<p><strong>Your number of units has changed.</strong> Draw to ' + esc(dose.units) + ' units, not your old ' + esc(was.units) + '.</p>') +
+           '<table class="kmp-cmp"><tr><th></th><th>Strength</th><th>Dose</th><th>Draw to</th></tr>' +
+           '<tr><td>Before, FarmaKeio</td><td>' + esc(perMl(sOld)) + '</td><td>' + esc(was.dose) + '</td><td>' + esc(was.units) + ' units</td></tr>' +
+           '<tr class="now"><td>Now, ' + esc(pharmacy) + '</td><td>' + esc(perMl(sNew)) + '</td><td>' + esc(dose.dose) + '</td><td>' + esc(dose.units) + ' units</td></tr></table>' +
+           '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0">' +
+             syr('Before, FarmaKeio', was, '#8A8F98') + syr('Now, ' + pharmacy, dose, '#00B2C3') + '</div>' +
+           why.map(function (t, i) { return '<p>' + (i === why.length - 1 ? '<strong>' + esc(t) + '</strong>' : esc(t)) + '</p>'; }).join('') +
+           (same ? '' : '<p><strong>Your number of units has changed.</strong> Draw to ' + esc(dose.units) + ' units, not your old ' + esc(was.units) + '.</p>') +
            '<p><strong>Finish your FarmaKeio supply first</strong>, using your FarmaKeio instructions. Then start your new ' + esc(pharmacy) + ' medication at the units on this page. Do not use these instructions with a FarmaKeio vial.</p></div>';
     }
   }

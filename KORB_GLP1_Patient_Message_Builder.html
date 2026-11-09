@@ -167,7 +167,7 @@ a{color:var(--navy)}
 </div>
 
 <script src="korb-pharmacies.js?v=e2125c00"></script>
-<script src="korb-glp1-data.js?v=4223c697"></script>
+<script src="korb-glp1-data.js?v=2787c9a8"></script>
 <script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
 (function(){
@@ -483,7 +483,7 @@ a{color:var(--navy)}
       (oral ? (unitsNote ? ' How you take it has changed, so please follow the new directions.' : '')
             : (f.units === t.units && f.mg === t.mg ? ' That is the same dose and the same number of units as now.'
                : f.units === t.units ? ' The number of units is the same as before, but the new medication is a different strength, so ' + t.units + ' units now gives you ' + t.dose + '.'
-                                   : ' Please note this is a change from the ' + f.units + ' units you draw now.') +
+                                   : ' Please note this is a change from the ' + f.units + ' units you draw now. The new medication is a different strength, so the units are different. The mg is your dose.') +
                (t.units > 100 ? ' This dose takes two syringes: fill one completely (100 units), then fill a second to ' + (t.units - 100) + ' units.' : '')) +
       (c.step ? ' Your provider has also moved your dose one step ' + (c.step > 0 ? 'up' : 'down') + ' with this change.' : '') +
       (b12 ? ' The new medication is red or pink because of the vitamin B-12. That is normal.' : '') +

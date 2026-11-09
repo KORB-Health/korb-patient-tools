@@ -7393,6 +7393,21 @@ KORB_GLP1.medPage = {
     vitaminChanged: 'Your FarmaKeio medication had vitamin B-6 added. Your new medication has {additive} instead. See What is in your vial below.'
   },
 
+  /* STRENGTH, NOT UNITS (Don, 2026-11-09). Patients moving from FarmaKeio read
+     fewer units as less medicine, when the new vial is simply stronger. Shown
+     only with ?was=, under the before-and-now table and the two syringes: one
+     strength line, one dose line, then the rule in bold. {oldStrength} and
+     {newStrength} read "2.5 mg per mL"; {oldDose}, {newDose}, {pharmacy}. */
+  strength: {
+    stronger: 'Your new medication is stronger: {newStrength}, instead of {oldStrength} before. A stronger medication needs less liquid for the same amount of medicine, so you draw fewer units.',
+    weaker: 'Your new medication is not as strong: {newStrength}, instead of {oldStrength} before. A weaker medication needs more liquid for the same amount of medicine, so you draw more units.',
+    sameStrength: 'Your new medication is the same strength as before: {newStrength}.',
+    doseUp: 'You are not getting less medicine. Your dose is {newDose}, slightly more than your {oldDose} before.',
+    doseSame: 'You are not getting less medicine. Your dose is {newDose}, the same as before.',
+    doseDown: 'Your dose is {newDose}, a little lower than your {oldDose} before, because that is the closest dose {pharmacy} makes. Your provider chose it on purpose.',
+    rule: 'The mg is your dose. The units are only how much liquid holds it.'
+  },
+
   /* B-12 COLOUR. Don, 2026-10-25: every vial is amber glass, and a medication
      with B-12 in it is red or pink. FarmaKeio was B-6 and colourless, so a
      converted patient will see a colour they have never seen, next to a storage
