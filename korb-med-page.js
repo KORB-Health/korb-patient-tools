@@ -177,7 +177,9 @@
            '<tr><td>Before, FarmaKeio</td><td>' + esc(perMl(sOld)) + '</td><td>' + esc(was.dose) + '</td><td>' + esc(was.units) + ' units</td></tr>' +
            '<tr class="now"><td>Now, ' + esc(pharmacy) + '</td><td>' + esc(perMl(sNew)) + '</td><td>' + esc(dose.dose) + '</td><td>' + esc(dose.units) + ' units</td></tr></table>' +
            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0">' +
-             syr('Before, FarmaKeio', was, '#8A8F98') + syr('Now, ' + pharmacy, dose, '#00B2C3') + '</div>' +
+             /* Same colour both sides (Don, 2026-11-09): grey fill at the drawing's
+                light opacity read as an empty syringe. The labels say which is which. */
+             syr('Before, FarmaKeio', was, '#00B2C3') + syr('Now, ' + pharmacy, dose, '#00B2C3') + '</div>' +
            why.map(function (t, i) { return '<p>' + (i === why.length - 1 ? '<strong>' + esc(t) + '</strong>' : esc(t)) + '</p>'; }).join('') +
            (same ? '' : '<p><strong>Your number of units has changed.</strong> Draw to ' + esc(dose.units) + ' units, not your old ' + esc(was.units) + '.</p>') +
            '<p><strong>Finish your FarmaKeio supply first</strong>, using your FarmaKeio instructions. Then start your new ' + esc(pharmacy) + ' medication at the units on this page. Do not use these instructions with a FarmaKeio vial.</p></div>';
