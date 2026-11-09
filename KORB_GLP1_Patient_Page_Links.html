@@ -41,6 +41,14 @@ h1{font-size:21px;font-weight:800;margin:0;line-height:1.25}
 .lead{font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.55;max-width:72ch}
 .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
 .grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px 16px;align-items:end}
+.steplbl{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(max-width:560px){.seg{grid-template-columns:1fr}}
+.seg button{font-family:inherit;font-size:13px;font-weight:800;color:var(--navy);background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:8px 6px;min-height:52px;cursor:pointer;line-height:1.3}
+.seg button span{display:block;font-weight:600;font-size:12px;color:var(--muted)}
+.seg button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.seg button.on span{color:#DCE3F5}
+.seg button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
 .f label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
 .f select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-family:inherit;font-size:14px;color:var(--navy);background:#fff;min-height:44px}
@@ -69,13 +77,15 @@ a{color:var(--navy)}
   <p class="eyebrow">GLP-1 / Weight Loss · Operations and providers</p>
   <h1>GLP-1 Patient Page Links</h1>
   <div class="rule"></div>
-  <p class="lead">The quick way to send a patient the page for their medication. Pick what is on the patient's new label: the medication, the dose and the supply. Copy the message and text or email it to the patient. Only text a patient who has agreed to receive texts. For the Tebra entry and the full portal message, use <a href="KORB_GLP1_Patient_Message_Builder.html">GLP-1 Prescriptions and Patient Messages</a>.</p>
+  <p class="lead">The quick way to send a patient the page for their medication. Pick what is on the patient's new label: the pharmacy, the medication, the dose and the supply. Copy the message and text or email it to the patient. Only text a patient who has agreed to receive texts. For the Tebra entry and the full portal message, use <a href="KORB_GLP1_Patient_Message_Builder.html">GLP-1 Prescriptions and Patient Messages</a>.</p>
 
   <div class="panel">
-    <div class="grid">
-      <div class="f"><label for="med">1. Medication and pharmacy</label><select id="med"><option value="">Select...</option></select></div>
-      <div class="f"><label for="dose">2. Dose</label><select id="dose" disabled><option value="">Select medication first</option></select></div>
-      <div class="f"><label for="sup">3. Supply</label><select id="sup" disabled><option value="">-</option></select></div>
+    <div class="steplbl">1. Pharmacy on the label</div>
+    <div class="seg" id="ph" role="radiogroup" aria-label="Pharmacy"></div>
+    <div class="grid" style="margin-top:14px">
+      <div class="f"><label for="med">2. Medication</label><select id="med" disabled><option value="">Pick the pharmacy first</option></select></div>
+      <div class="f"><label for="dose">3. Dose</label><select id="dose" disabled><option value="">Select medication first</option></select></div>
+      <div class="f"><label for="sup">4. Supply</label><select id="sup" disabled><option value="">-</option></select></div>
     </div>
     <label class="chk" id="fkwrap"><input type="checkbox" id="fk"> Moving from FarmaKeio</label>
     <div class="fk" id="fkrow" hidden>
@@ -109,10 +119,21 @@ a{color:var(--navy)}
     .sort(function(a, b){
       return (ORDER.indexOf(a.pharmacy) - ORDER.indexOf(b.pharmacy)) || (isOral(a) - isOral(b)) || 0;
     });
+  /* Every injection names what is added to it, read from the product's
+     additive (Don, 2026-11-09): B-12, B-6, B-12 and glycine, or L-carnitine.
+     Tablets name their form from the product label (Dots, FastSL). */
   function label(p){
-    var add = /B-?6|pyridox/i.test(p.additive || '') ? ' with vitamin B-6' : /glycine/i.test(p.label || '') ? ' with glycine' : '';
     var drug = p.drug.charAt(0).toUpperCase() + p.drug.slice(1);
-    return drug + (isOral(p) ? ' tablets (oral)' : ' injection') + add;
+    if (isOral(p)) {
+      var form = String(p.label || '').split(/\s+[—-]\s+/).pop().replace(/^Oral\s+/i, '').replace(/\s*\(.*\)\s*$/, '');
+      return (form && form !== drug ? form : drug + ' tablets') + ' (oral)';
+    }
+    var a = String(p.additive || ''), parts = [];
+    if (/B-?12|cobalamin/i.test(a)) parts.push('vitamin B-12');
+    if (/B-?6|pyridox/i.test(a)) parts.push('vitamin B-6');
+    if (/glycine/i.test(a)) parts.push('glycine');
+    if (/carnitine/i.test(a)) parts.push('L-carnitine');
+    return drug + ' injection' + (parts.length ? ' with ' + parts.join(' and ') : '');
   }
   /* The FarmaKeio product this one replaces, from the conversion rules. */
   function fromProduct(key){
@@ -152,12 +173,27 @@ a{color:var(--navy)}
   }
 
   // ---- pickers ----
-  var groups = {};
+  var groups = {}, pharm = '';
   products.forEach(function(p){ (groups[p.pharmacy] = groups[p.pharmacy] || []).push(p); });
-  $('med').innerHTML = '<option value="">Select...</option>' + ORDER.filter(function(k){ return groups[k]; }).map(function(k){
-    return '<optgroup label="' + esc(phName(k) + (k === 'farmakeio' ? ' (Arkansas)' : '')) + '">' +
-      groups[k].map(function(p){ return '<option value="' + p.key + '">' + esc(label(p)) + '</option>'; }).join('') + '</optgroup>';
+  $('ph').innerHTML = ORDER.filter(function(k){ return groups[k]; }).map(function(k){
+    return '<button type="button" role="radio" aria-checked="false" data-ph="' + k + '">' + esc(phName(k)) +
+      '<span>' + (k === 'farmakeio' ? 'Arkansas only' : groups[k].length + ' medications') + '</span></button>';
   }).join('');
+  function fillMeds(){
+    [].forEach.call(document.querySelectorAll('#ph button'), function(b){
+      var on = b.getAttribute('data-ph') === pharm;
+      b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    var sel = $('med'), keep = sel.value, list = groups[pharm] || [];
+    if (!list.length){ sel.disabled = true; sel.innerHTML = '<option value="">Pick the pharmacy first</option>'; return; }
+    sel.disabled = false;
+    sel.innerHTML = '<option value="">Select...</option>' + list.map(function(p){ return '<option value="' + p.key + '">' + esc(label(p)) + '</option>'; }).join('');
+    if (list.some(function(p){ return p.key === keep; })) sel.value = keep;
+  }
+  $('ph').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    pharm = b.getAttribute('data-ph'); fillMeds(); fillDoses(); fillSupply(); fillWas(); render();
+  });
 
   function fillDoses(){
     var p = G.products[$('med').value], sel = $('dose');
