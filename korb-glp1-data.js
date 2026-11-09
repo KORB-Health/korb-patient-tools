@@ -384,107 +384,143 @@ var KORB_GLP1 = {
       "medpage:premier_semaglutide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-25",
-        "fingerprint": "fp-ebe7a4dc-50268",
-        "covers": "50187 characters, 12 dose cases",
+        "date": "2026-11-09",
+        "fingerprint": "fp-f399c4f3-52249",
+        "covers": "52168 characters, 12 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\") for the B-12 colour lines: amber vial, red or pink medication is normal, the storage note that allows for it, and the switch line for converted patients.",
+        "note": "Re-signed 2026-11-09 on Don's approval in chat (\"Sign and push\") of the FarmaKeio switch box: strength column, before-and-now syringes, and the strength and dose sentences from medPage.strength (\"The mg is your dose\").",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
           "date": "2026-10-25",
-          "fingerprint": "fp-30dcc4f0-47057",
-          "covers": "46976 characters, 12 dose cases",
-          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
-        }
-      },
-      "medpage:premier_semaglutide_b6": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-29",
-        "fingerprint": "fp-91530b97-45678",
-        "covers": "45597 characters, 12 dose cases",
-        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-29 on Don's approval in chat (\"Sign and push\") after B-6 became an ordinary choice: the sentence tying B-6 to not tolerating B-12 was removed.",
-        "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-25",
-          "fingerprint": "fp-e749ddcf-46398",
-          "covers": "46317 characters, 12 dose cases",
-          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
-          "superseded": {
-            "signedBy": "Donald Stevenson, PA-C",
-            "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-10-22",
-            "fingerprint": "fp-eba7d5b9-23842",
-            "covers": "23761 characters, 12 dose cases",
-            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-            "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
-          }
-        }
-      },
-      "medpage:premier_tirzepatide": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-28",
-        "fingerprint": "fp-2549bff6-51702",
-        "covers": "51621 characters, 12 dose cases",
-        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after the strength per mL was read from the formulation (18 mg) instead of dose over rounded units (18.1 to 18.2 at four doses).",
-        "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-25",
-          "fingerprint": "fp-f08e30b0-51718",
-          "covers": "51637 characters, 12 dose cases",
+          "fingerprint": "fp-ebe7a4dc-50268",
+          "covers": "50187 characters, 12 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
           "note": "Re-signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\") for the B-12 colour lines: amber vial, red or pink medication is normal, the storage note that allows for it, and the switch line for converted patients.",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
             "date": "2026-10-25",
-            "fingerprint": "fp-aa36e7bc-48424",
-            "covers": "48343 characters, 12 dose cases",
+            "fingerprint": "fp-30dcc4f0-47057",
+            "covers": "46976 characters, 12 dose cases",
             "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
             "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
           }
         }
       },
-      "medpage:premier_tirzepatide_b6": {
+      "medpage:premier_semaglutide_b6": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-29",
-        "fingerprint": "fp-f3807a5c-46902",
-        "covers": "46821 characters, 12 dose cases",
+        "date": "2026-11-09",
+        "fingerprint": "fp-2a363d36-47659",
+        "covers": "47578 characters, 12 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-29 on Don's approval in chat (\"Sign and push\") after B-6 became an ordinary choice: the sentence tying B-6 to not tolerating B-12 was removed.",
+        "note": "Re-signed 2026-11-09 on Don's approval in chat (\"Sign and push\") of the FarmaKeio switch box: strength column, before-and-now syringes, and the strength and dose sentences from medPage.strength (\"The mg is your dose\").",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-28",
-          "fingerprint": "fp-cf0c3c24-47622",
-          "covers": "47541 characters, 12 dose cases",
+          "date": "2026-10-29",
+          "fingerprint": "fp-91530b97-45678",
+          "covers": "45597 characters, 12 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after the strength per mL was read from the formulation (18 mg) instead of dose over rounded units (18.1 to 18.2 at four doses).",
+          "note": "Re-signed 2026-10-29 on Don's approval in chat (\"Sign and push\") after B-6 became an ordinary choice: the sentence tying B-6 to not tolerating B-12 was removed.",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
             "date": "2026-10-25",
-            "fingerprint": "fp-742d8126-47638",
-            "covers": "47557 characters, 12 dose cases",
+            "fingerprint": "fp-e749ddcf-46398",
+            "covers": "46317 characters, 12 dose cases",
             "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
             "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
             "superseded": {
               "signedBy": "Donald Stevenson, PA-C",
               "role": "Director of Clinical Operations and Lead Provider",
               "date": "2026-10-22",
-              "fingerprint": "fp-21a1e01a-23223",
-              "covers": "23142 characters, 12 dose cases",
+              "fingerprint": "fp-eba7d5b9-23842",
+              "covers": "23761 characters, 12 dose cases",
               "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
               "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+            }
+          }
+        }
+      },
+      "medpage:premier_tirzepatide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-09",
+        "fingerprint": "fp-1fdd7eb6-54058",
+        "covers": "53977 characters, 12 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Re-signed 2026-11-09 on Don's approval in chat (\"Sign and push\") of the FarmaKeio switch box: strength column, before-and-now syringes, and the strength and dose sentences from medPage.strength (\"The mg is your dose\").",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-10-28",
+          "fingerprint": "fp-2549bff6-51702",
+          "covers": "51621 characters, 12 dose cases",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after the strength per mL was read from the formulation (18 mg) instead of dose over rounded units (18.1 to 18.2 at four doses).",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-10-25",
+            "fingerprint": "fp-f08e30b0-51718",
+            "covers": "51637 characters, 12 dose cases",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Re-signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\") for the B-12 colour lines: amber vial, red or pink medication is normal, the storage note that allows for it, and the switch line for converted patients.",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-10-25",
+              "fingerprint": "fp-aa36e7bc-48424",
+              "covers": "48343 characters, 12 dose cases",
+              "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+              "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
+            }
+          }
+        }
+      },
+      "medpage:premier_tirzepatide_b6": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-09",
+        "fingerprint": "fp-90414cd0-49258",
+        "covers": "49177 characters, 12 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Re-signed 2026-11-09 on Don's approval in chat (\"Sign and push\") of the FarmaKeio switch box: strength column, before-and-now syringes, and the strength and dose sentences from medPage.strength (\"The mg is your dose\").",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-10-29",
+          "fingerprint": "fp-f3807a5c-46902",
+          "covers": "46821 characters, 12 dose cases",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Re-signed 2026-10-29 on Don's approval in chat (\"Sign and push\") after B-6 became an ordinary choice: the sentence tying B-6 to not tolerating B-12 was removed.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-10-28",
+            "fingerprint": "fp-cf0c3c24-47622",
+            "covers": "47541 characters, 12 dose cases",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Signed 2026-10-28 on Don's review in chat (\"signed, all five pages\") of the page as rendered, after the strength per mL was read from the formulation (18 mg) instead of dose over rounded units (18.1 to 18.2 at four doses).",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-10-25",
+              "fingerprint": "fp-742d8126-47638",
+              "covers": "47557 characters, 12 dose cases",
+              "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+              "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
+              "superseded": {
+                "signedBy": "Donald Stevenson, PA-C",
+                "role": "Director of Clinical Operations and Lead Provider",
+                "date": "2026-10-22",
+                "fingerprint": "fp-21a1e01a-23223",
+                "covers": "23142 characters, 12 dose cases",
+                "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+                "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+              }
             }
           }
         }
@@ -492,37 +528,55 @@ var KORB_GLP1 = {
       "medpage:belmar_semaglutide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-25",
-        "fingerprint": "fp-1afecae0-39193",
-        "covers": "39113 characters, 10 dose cases",
+        "date": "2026-11-09",
+        "fingerprint": "fp-85f9a037-41240",
+        "covers": "41160 characters, 10 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\") for the B-12 colour lines: amber vial, red or pink medication is normal, the storage note that allows for it, and the switch line for converted patients.",
+        "note": "Re-signed 2026-11-09 on Don's approval in chat (\"Sign and push\") of the FarmaKeio switch box: strength column, before-and-now syringes, and the strength and dose sentences from medPage.strength (\"The mg is your dose\").",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
           "date": "2026-10-25",
-          "fingerprint": "fp-6540d29e-36448",
-          "covers": "36368 characters, 10 dose cases",
+          "fingerprint": "fp-1afecae0-39193",
+          "covers": "39113 characters, 10 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
+          "note": "Re-signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\") for the B-12 colour lines: amber vial, red or pink medication is normal, the storage note that allows for it, and the switch line for converted patients.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-10-25",
+            "fingerprint": "fp-6540d29e-36448",
+            "covers": "36368 characters, 10 dose cases",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
+          }
         }
       },
       "medpage:belmar_tirzepatide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-25",
-        "fingerprint": "fp-054ece6b-44824",
-        "covers": "44744 characters, 12 dose cases",
+        "date": "2026-11-09",
+        "fingerprint": "fp-c137bc8c-47878",
+        "covers": "47798 characters, 12 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
+        "note": "Re-signed 2026-11-09 on Don's approval in chat (\"Sign and push\") of the FarmaKeio switch box: strength column, before-and-now syringes, and the strength and dose sentences from medPage.strength (\"The mg is your dose\").",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-22",
-          "fingerprint": "fp-4c19cf31-23671",
-          "covers": "23591 characters, 12 dose cases",
+          "date": "2026-10-25",
+          "fingerprint": "fp-054ece6b-44824",
+          "covers": "44744 characters, 12 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+          "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-10-22",
+            "fingerprint": "fp-4c19cf31-23671",
+            "covers": "23591 characters, 12 dose cases",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Signed 2026-10-22 on Don's review in chat (\"signed, all eight medication pages\") of the page as rendered, after the house logo masthead was added. Not released: goes live with the FarmaKeio conversion once Nick confirms."
+          }
         }
       },
       "medpage:premier_oral_semaglutide": {
