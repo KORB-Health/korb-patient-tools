@@ -139,6 +139,12 @@ const TOOL_META = {
   'KORB_GLP1_Dots_Chart_Snippets.html':
     { key: 'dotssnippets', kind: 'document', probe: 'dotsSnippets', label: 'GLP-1 Dots Chart Snippets',
       records: { file: 'korb-dots-snippets.js', global: 'KORB_DOTS_SNIPPETS' } },
+  /* Built 2026-11-04. A probe would answer every question in
+     korb-fhl-intake-data.js across sex, age and state, and fingerprint the
+     verdict and every chart note section. KORB_FHL_INTAKE.selfCheck() covers
+     the screen rule and the note until then. */
+  'Provider_Reference/KORB_FHL_Intake_Provider_Tool.html':
+    { probe: null, why: 'FH&L intake asked by the provider; a probe would drive every answer x sex x age x state and fingerprint the verdict and the note sections' },
   'KORB_Lab_Interpretation_Tool.html':
     { probe: null, why: 'hand-built, no data file - see open item 5' },
   'KORB_Testosterone_Tracker.html':

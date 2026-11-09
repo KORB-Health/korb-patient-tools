@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<title>KORB - FH&amp;L Intake Provider Tool</title>
+<!--
+  FH&L new consultation intake, asked by the provider. Hand-built page, LIVE data:
+  every question, flag and note line is in korb-fhl-intake-data.js; lab panel,
+  baseline fee and closed states are read from korb-dosing-data.js. This page
+  draws buttons, keeps answers in memory and copies text. It stores nothing:
+  no localStorage, no network. Answers are gone on reload, on purpose.
+-->
+<style>
+:root{
+  --navy:#21275B;--teal:#00B2C3;--lt:#E0F6F9;--bd:#D6E0E3;--mu:#5A6070;--cream:#ECE9D1;
+  --amber:#FFF8E1;--amberbd:#F9A825;--gb:#F8F9FA;--red:#C62828;--redbg:#FDECEA;
+  --green:#2E7D32;--greenbg:#E8F5E9;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+ font-size:15px;color:#1A1A2E;background:var(--cream);line-height:1.55;}
+.wrap{max-width:960px;margin:0 auto 34px;padding:22px 20px 40px;background:#fff;border:1px solid var(--bd);
+  border-radius:12px;box-shadow:0 1px 3px rgba(33,39,91,.06);}
+@media(max-width:620px){.wrap{border-radius:0;border-left:0;border-right:0;padding:18px 14px 30px;}}
+
+.korb-top{background:var(--navy);color:#fff;border-bottom:4px solid var(--teal);padding:20px 16px 18px;margin:0 0 20px;}
+.korb-top .inner{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;}
+.korb-top .eyebrow{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--teal);text-transform:uppercase;margin-bottom:5px;}
+.korb-top h1{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.15;}
+.korb-top p{font-size:13px;color:#C3CBE8;margin-top:6px;max-width:62ch;}
+.korb-top .tagpill{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;font-size:10px;font-weight:800;
+ letter-spacing:.9px;padding:7px 13px;border-radius:20px;white-space:nowrap;align-self:center;}
+
+.controls{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:16px 18px;margin-bottom:14px;}
+.ctrl-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+@media(min-width:700px){.ctrl-grid{grid-template-columns:2fr 1.3fr 1fr 1fr;}}
+.cg{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.cg label{font-size:11.5px;font-weight:700;color:var(--navy);}
+.cg select,.cg input{width:100%;min-height:46px;padding:10px 12px;border:1.5px solid var(--teal);border-radius:8px;
+  font-size:16px;color:var(--navy);background:#fff;font-family:inherit;-webkit-appearance:none;appearance:none;}
+.ctrl-note{font-size:11.5px;color:var(--mu);margin-top:11px;line-height:1.6;}
+
+.info-box{border-radius:8px;padding:11px 15px;margin:12px 0;font-size:13px;line-height:1.6;}
+.info-box.teal{background:var(--lt);border:1px solid var(--teal);}
+.info-box.red{background:var(--redbg);border:1px solid var(--red);color:#7A1F1F;}
+.info-box.amber{background:var(--amber);border:1px solid var(--amberbd);color:#5C4200;}
+
+.sec{font-size:13.5px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
+  padding:8px 14px;margin:26px 0 6px;border-radius:4px;}
+.sec-sub{font-size:12.5px;color:var(--mu);margin:0 2px 6px;}
+.sec-sub .added{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#7A5200;background:var(--amber);
+  border:1px solid var(--amberbd);border-radius:10px;padding:1px 8px;margin-right:6px;}
+
+/* Status bar: sticky so the verdict is always in view while asking. */
+.ps-bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 0;
+  background:#fff;border-bottom:1px solid var(--bd);font-size:13px;font-weight:700;}
+.ps-bar span{padding:6px 12px;border-radius:16px;background:var(--gb);border:1px solid var(--bd);color:var(--navy);}
+.ps-bar .v-stop{background:var(--redbg);border-color:var(--red);color:var(--red);}
+.ps-bar .v-rev{background:var(--amber);border-color:var(--amberbd);color:#7A5200;}
+.ps-bar .v-ok{background:var(--greenbg);border-color:var(--green);color:var(--green);}
+.ps-bar .grow{flex:1;background:none;border:0;padding:0;}
+.ps-bar a{color:var(--navy);font-size:12.5px;}
+
+.ps-row{padding:10px 10px;border-bottom:1px solid var(--bd);border-left:4px solid transparent;}
+.ps-row.sub{margin-left:22px;border-left-color:var(--teal);background:#FBFEFE;}
+.ps-row.lv-stop{border-left-color:var(--red);background:var(--redbg);}
+.ps-row.lv-review{border-left-color:var(--amberbd);background:var(--amber);}
+.ps-q{font-size:15px;font-weight:600;color:#1A1A2E;line-height:1.35;margin-bottom:7px;}
+.ps-btns{display:flex;flex-wrap:wrap;gap:6px;}
+.ps-b{min-height:44px;padding:0 14px;border:1.5px solid var(--navy);border-radius:22px;background:#fff;color:var(--navy);
+  font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-align:left;line-height:1.25;}
+.ps-b.m-stop{border-color:var(--red);}
+.ps-b.m-review{border-color:var(--amberbd);}
+.ps-b.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.ps-b.multi.on{background:var(--teal);border-color:var(--teal);color:var(--navy);}
+.ps-b.m-stop.on{background:var(--red);border-color:var(--red);color:#fff;}
+.ps-b.m-review.on{background:var(--amberbd);border-color:var(--amberbd);color:#1A1A2E;}
+.ps-b.none{font-weight:800;}
+.ps-in{min-height:44px;font:inherit;font-size:15px;padding:8px 10px;border:1.5px solid var(--teal);border-radius:8px;width:100%;}
+textarea.ps-in{min-height:76px;resize:vertical;}
+.ps-in.num{max-width:160px;}
+.ps-hint{font-size:12.5px;color:var(--navy);margin-top:7px;}
+.ps-flag{font-size:13px;font-weight:700;margin-top:7px;}
+.lv-stop .ps-flag{color:var(--red);} .lv-review .ps-flag{color:#7A5200;}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--mu);margin-top:8px;}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+
+.note-hdr{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:30px 0 4px;}
+.note-hdr h2{font-size:18px;color:var(--navy);}
+.ncard{border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin-top:12px;}
+.ncard-h{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--navy);color:#fff;padding:8px 10px 8px 14px;}
+.ncard-h strong{font-size:13px;letter-spacing:.3px;}
+.ncard-h .tag{font-size:10.5px;font-weight:700;color:var(--teal);margin-left:8px;}
+.copybox{background:var(--gb);padding:12px 14px;font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;
+  font-size:12.5px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;color:#1A1A2E;}
+.copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;min-height:40px;padding:8px 18px;
+  font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;}
+.copybtn:hover{background:#fff;color:var(--navy);}
+.copybtn.done{background:var(--green);color:#fff;}
+.copybtn.big{min-height:46px;}
+.reset{min-height:44px;padding:0 16px;border:1.5px solid var(--navy);border-radius:22px;background:#fff;color:var(--navy);
+  font:inherit;font-size:13px;font-weight:700;cursor:pointer;}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu);text-align:center;line-height:1.8;}
+@media print{
+  .korb-top,.controls,.ps-bar,.copybtn,.reset,#form,.legend{display:none !important;}
+  body{background:#fff;} .wrap{border:0;box-shadow:none;}
+}
+</style>
+</head>
+<body>
+
+<header class="korb-top">
+  <div class="inner">
+    <div>
+      <div class="eyebrow">KORB Health Medical Texas PA</div>
+      <h1>FH&amp;L Intake Provider Tool</h1>
+      <p>For a Functional Health and Longevity new consult when the patient did not complete the online intake. Ask the intake questions here, then paste each chart note section into the visit note.</p>
+    </div>
+    <div class="tagpill">PROVIDER USE ONLY</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="ctrl-grid">
+      <div class="cg"><label for="state">Patient location (state)</label><select id="state"></select></div>
+      <div class="cg"><label for="vdate">Visit date</label><input type="date" id="vdate"></div>
+      <div class="cg"><label for="sex">Sex</label>
+        <select id="sex"><option value="">Select</option><option value="M">Male</option><option value="F">Female</option></select></div>
+      <div class="cg"><label for="age">Age</label><input type="number" id="age" min="0" max="120" inputmode="numeric" placeholder="Years"></div>
+    </div>
+    <p class="ctrl-note">Sex and age decide which questions appear (pregnancy, PSA, mammogram, colonoscopy at 45 and over) and which lab panel the plan names. <b>Nothing you enter is saved or sent anywhere.</b> It stays in this browser tab and is cleared when you reload or press Start over. Enter age, not date of birth.</p>
+  </div>
+
+  <div id="stateBox"></div>
+
+  <div class="ps-bar" id="bar"></div>
+  <div class="legend">
+    <span><i style="background:var(--red)"></i>Part B, declines</span>
+    <span><i style="background:var(--amberbd)"></i>Flag, discuss, never declines</span>
+    <span>Click a selected answer again to clear it.</span>
+  </div>
+
+  <div id="form"></div>
+
+  <div class="note-hdr" id="note">
+    <h2>Chart note</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button type="button" class="copybtn big" id="copyAll">Copy whole note</button>
+      <button type="button" class="reset" id="reset">Start over</button>
+    </div>
+  </div>
+  <p class="sec-sub">Unanswered questions print as [not asked], never as a denial. ASCII only, safe to paste into Tebra.</p>
+  <div id="noteOut"></div>
+
+  <footer>
+    KORB Health Medical Texas PA &middot; Provider use only &middot; Not for patients<br>
+    Questions: Tebra New Consultation Peptide Questionnaire, 29 June 2026 &middot; <span id="ver"></span>
+  </footer>
+</div>
+
+<script src="../korb-plan-block.js?v=e4167983"></script>
+<script src="../korb-pharmacies.js?v=e2125c00"></script>
+<script src="../korb-dosing-data.js?v=f8cd4312"></script>
+<script src="../korb-fhl-intake-data.js?v=8868edeb"></script>
+<script>
+(function(){
+  if (typeof KORB_FHL_INTAKE === 'undefined' || typeof KORB_DOSING === 'undefined' || typeof KORB_PHARMACIES === 'undefined') {
+    document.getElementById('form').innerHTML = '<div class="info-box red"><b>Could not load the intake data.</b> This page needs korb-pharmacies.js, korb-dosing-data.js and korb-fhl-intake-data.js. Open it from its GitHub Pages address, not a saved copy.</div>';
+    return;
+  }
+  var I = KORB_FHL_INTAKE, A = {};
+  var $ = function(id){ return document.getElementById(id); };
+  function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+  var fold = (typeof KORB_PLAN !== 'undefined' && KORB_PLAN.ascii) ? KORB_PLAN.ascii : function(s){ return s; };
+
+  /* state picker, from the shared layer */
+  var names = KORB_PHARMACIES.stateNames;
+  $('state').innerHTML = '<option value="">Select state</option>' + Object.keys(names).sort(function(a,b){
+    return names[a] < names[b] ? -1 : 1; }).map(function(k){
+    return '<option value="' + k + '">' + esc(names[k]) + '</option>'; }).join('');
+  var t = new Date(); $('vdate').value = t.getFullYear() + '-' + ('0'+(t.getMonth()+1)).slice(-2) + '-' + ('0'+t.getDate()).slice(-2);
+  $('ver').textContent = 'intake data v' + I.meta.version + ', ' + I.meta.date;
+
+  function ctx(){
+    var st = $('state').value, a = parseInt($('age').value, 10), d = $('vdate').value;
+    return { state: st, stateName: st ? KORB_PHARMACIES.stateName(st) : '', sex: $('sex').value,
+      age: isNaN(a) ? null : a, date: d ? d.slice(5,7) + '/' + d.slice(8,10) + '/' + d.slice(0,4) : '' };
+  }
+
+  function levelOf(it){
+    var v = A[it.id], lv = '';
+    (it.options || []).forEach(function(o){
+      var on = it.type === 'multi' ? (v || []).indexOf(o.v) >= 0 : v === o.v;
+      if (on && o.lv === 'stop') lv = 'stop';
+      else if (on && o.lv === 'review' && lv !== 'stop') lv = 'review';
+    });
+    return lv;
+  }
+
+  function draw(){
+    var c = ctx(); I.prune(A, c);
+    var h = '';
+    I.sections(A, c).forEach(function(sec){
+      if (!sec.items.length) return;
+      h += '<div class="sec">' + esc(sec.head) + '</div>';
+      if (sec.sub) h += '<p class="sec-sub">' + (sec.korbAdded ? '<span class="added">KORB ADDED</span>' : '') + esc(sec.sub) + '</p>';
+      sec.items.forEach(function(it){
+        var v = A[it.id], lv = levelOf(it);
+        h += '<div class="ps-row' + (it.sub ? ' sub' : '') + (lv ? ' lv-' + lv : '') + '">';
+        h += '<div class="ps-q">' + esc(it.q) + '</div>';
+        if (it.options) {
+          h += '<div class="ps-btns">' + it.options.map(function(o){
+            var on = it.type === 'multi' ? (v || []).indexOf(o.v) >= 0 : v === o.v;
+            return '<button type="button" class="ps-b' + (it.type === 'multi' ? ' multi' : '') + (o.lv ? ' m-' + o.lv : '') +
+              (o.none ? ' none' : '') + (on ? ' on' : '') + '" data-id="' + it.id + '" data-v="' + esc(o.v) + '">' + esc(o.v) + '</button>';
+          }).join('') + '</div>';
+        } else if (it.type === 'area') {
+          h += '<textarea class="ps-in" data-t="' + it.id + '" placeholder="One per line">' + esc(v || '') + '</textarea>';
+        } else {
+          h += '<input class="ps-in' + (it.type === 'num' ? ' num' : '') + '" ' + (it.type === 'num' ? 'type="number" inputmode="decimal"' : 'type="text"') +
+               ' data-t="' + it.id + '" value="' + esc(v == null ? '' : v) + '">';
+        }
+        if (it.hint && v === it.hint.when) h += '<div class="ps-hint">' + esc(it.hint.text) + '</div>';
+        if (it.note && I.answered(v)) h += '<div class="ps-hint">' + esc(it.note) + '</div>';
+        if (lv === 'stop') h += '<div class="ps-flag">Part B. Does not qualify unless a follow-up below clears it.</div>';
+        h += '</div>';
+      });
+    });
+    $('form').innerHTML = h;
+    out();
+  }
+
+  function out(){
+    var c = ctx(), n = I.note(A, c), r = n.result;
+    var total = 0, done = 0;
+    I.sections(A, c).forEach(function(s){ s.items.forEach(function(it){ total++; if (I.answered(A[it.id])) done++; }); });
+    var cls = (r.stops.length || r.state.closed) ? 'v-stop' : r.revs.length ? 'v-rev' : 'v-ok';
+    $('bar').innerHTML = '<span class="' + cls + '">' + esc(r.verdict) + '</span>' +
+      (r.stops.length ? '<span class="v-stop">' + r.stops.length + ' Part B</span>' : '') +
+      (r.revs.length ? '<span class="v-rev">' + r.revs.length + ' to discuss</span>' : '') +
+      '<span>Answered ' + done + ' of ' + total + '</span><span class="grow"></span><a href="#note">Jump to note</a>';
+    $('stateBox').innerHTML = r.state.closed ? '<div class="info-box red"><b>' + esc(c.stateName) + ':</b> ' + esc(r.state.line) + '</div>' : '';
+    $('noteOut').innerHTML = n.sections.map(function(s, i){
+      return '<div class="ncard"><div class="ncard-h"><strong>' + esc(s.t) + (s.tebra ? '<span class="tag">ENTER IN TEBRA</span>' : '') +
+        '</strong><button type="button" class="copybtn" data-copy="' + i + '">Copy</button></div>' +
+        '<div class="copybox" id="nb' + i + '">' + esc(fold(s.body)) + '</div></div>';
+    }).join('');
+    out.last = n.sections;
+  }
+
+  function copy(text, btn, label){
+    text = fold(text);
+    function ok(){ btn.textContent = 'Copied'; btn.classList.add('done');
+      setTimeout(function(){ btn.textContent = label; btn.classList.remove('done'); }, 1400); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, function(){ legacy(text); ok(); });
+    else { legacy(text); ok(); }
+  }
+  function legacy(text){
+    var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch(e){} document.body.removeChild(ta);
+  }
+
+  $('form').addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.ps-b') : null; if (!b) return;
+    var id = b.getAttribute('data-id'), v = b.getAttribute('data-v'), it = I.item(id);
+    if (it.type === 'multi') {
+      var o = null; it.options.forEach(function(x){ if (x.v === v) o = x; });
+      var arr = (A[id] || []).slice(), at = arr.indexOf(v);
+      if (at >= 0) arr.splice(at, 1);
+      else if (o.none) arr = [v];                       /* None is exclusive */
+      else { arr = arr.filter(function(x){ return !it.options.some(function(y){ return y.none && y.v === x; }); }); arr.push(v); }
+      A[id] = arr;
+    } else A[id] = A[id] === v ? null : v;
+    var y = window.scrollY; draw(); window.scrollTo(0, y);
+  });
+  $('form').addEventListener('input', function(e){
+    var id = e.target.getAttribute && e.target.getAttribute('data-t'); if (!id) return;
+    A[id] = e.target.value; out();                        /* no redraw, so the cursor stays put */
+  });
+  $('noteOut').addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('[data-copy]') : null; if (!b) return;
+    var s = out.last[+b.getAttribute('data-copy')];
+    copy(s.body, b, 'Copy');
+  });
+  $('copyAll').addEventListener('click', function(){
+    copy(out.last.map(function(s){ return s.t + '\n' + s.body; }).join('\n\n'), this, 'Copy whole note');
+  });
+  $('reset').addEventListener('click', function(){
+    if (!confirm('Clear every answer on this page?')) return;
+    A = {}; $('age').value = ''; $('sex').value = ''; $('state').value = ''; draw(); window.scrollTo(0, 0);
+  });
+  ['state','vdate','sex','age'].forEach(function(id){
+    $(id).addEventListener(id === 'age' ? 'input' : 'change', function(){ var y = window.scrollY; draw(); window.scrollTo(0, y); });
+  });
+
+  window.KORB_FHL_INTAKE_SELFCHECK = function(){ return I.selfCheck(); };
+  draw();
+})();
+</script>
+</body>
+</html>
