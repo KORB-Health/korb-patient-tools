@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KORB — GLP-1 Patient Page Links</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+<!--
+  OPERATIONS AND PROVIDER TOOL. THE QUICK WAY TO A PATIENT'S MEDICATION PAGE.
+  Don, 2026-11-09, from the afternoon Ops meeting: the full message tool
+  (KORB_GLP1_Patient_Message_Builder.html) is too much work when a patient is
+  on the phone. This page asks only for the medication, the dose and the
+  supply, and gives back the link to the patient's own medication page and a
+  short message to text or email with the patient's permission.
+
+  No state, no Tebra entry, no plan. Pharmacy is part of the medication picked,
+  because each pharmacy has its own page. Nothing clinical is typed here: the
+  products, doses, supplies, page links and the FarmaKeio dose that a product
+  replaces are all read from korb-glp1-data.js (farmakeioConversion.patientPages
+  and farmakeioConversion.rules). Messages are ASCII only, because they go into
+  a text message or an email.
+
+  KORB_LINKS_SELFCHECK() in the console builds every link and message for every
+  product, dose and supply and fails anything that does not resolve.
+-->
+<style>
+:root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--gold:#FBB040;
+      --muted:#5A6070;--line:#DCD9C4;--err:#B3261E;}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+     background:var(--cream);color:var(--navy);-webkit-font-smoothing:antialiased;font-size:14px}
+.wrap{max-width:900px;margin:0 auto;padding:14px 16px 24px}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);margin:0 0 3px}
+h1{font-size:21px;font-weight:800;margin:0;line-height:1.25}
+.rule{height:3px;width:48px;background:var(--teal);border-radius:2px;margin:7px 0 12px}
+.lead{font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.55;max-width:72ch}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px 16px;align-items:end}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.f label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.f select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-family:inherit;font-size:14px;color:var(--navy);background:#fff;min-height:44px}
+.f select:focus{outline:3px solid var(--teal);outline-offset:2px}
+.f select:disabled{background:#F4F3EC;color:var(--muted)}
+.chk{display:flex;gap:8px;align-items:center;margin-top:14px;font-size:13px;line-height:1.45;font-weight:700}
+.chk input{width:18px;height:18px}
+.fk{display:grid;grid-template-columns:1fr 2fr;gap:12px 16px;align-items:end;margin-top:10px}
+@media(max-width:640px){.fk{grid-template-columns:1fr}}
+.empty{color:var(--muted);font-size:13px}
+.alert{border-radius:8px;padding:10px 12px;margin-top:12px;font-size:13px;line-height:1.5}
+.alert.warn{background:#FFF6E3;border-left:4px solid var(--gold)}
+.alert.info{background:#E0F6F9;border-left:4px solid var(--teal)}
+h2{font-size:15px;font-weight:800;margin:0 0 4px}
+.sub{font-size:12px;color:var(--muted);margin:0 0 8px}
+.copybox{width:100%;min-height:44px;font-family:Consolas,Menlo,monospace;font-size:12.5px;line-height:1.5;border:1px solid var(--line);border-radius:8px;padding:10px;color:#1F2330;background:#FBFAF6;resize:vertical}
+.btn{margin-top:8px;font-family:inherit;font-weight:800;font-size:13px;padding:9px 16px;min-height:40px;border-radius:8px;border:none;background:var(--navy);color:#fff;cursor:pointer}
+.btn.done{background:#2E7D32}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--navy);margin-left:8px;text-decoration:none;display:inline-block}
+a{color:var(--navy)}
+@media print{.btn{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">GLP-1 / Weight Loss · Operations and providers</p>
+  <h1>GLP-1 Patient Page Links</h1>
+  <div class="rule"></div>
+  <p class="lead">The quick way to send a patient the page for their medication. Pick what is on the patient's new label: the medication, the dose and the supply. Copy the message and text or email it to the patient. Only text a patient who has agreed to receive texts. For the Tebra entry and the full portal message, use <a href="KORB_GLP1_Patient_Message_Builder.html">GLP-1 Prescriptions and Patient Messages</a>.</p>
+
+  <div class="panel">
+    <div class="grid">
+      <div class="f"><label for="med">1. Medication and pharmacy</label><select id="med"><option value="">Select...</option></select></div>
+      <div class="f"><label for="dose">2. Dose</label><select id="dose" disabled><option value="">Select medication first</option></select></div>
+      <div class="f"><label for="sup">3. Supply</label><select id="sup" disabled><option value="">-</option></select></div>
+    </div>
+    <label class="chk" id="fkwrap"><input type="checkbox" id="fk"> Moving from FarmaKeio</label>
+    <div class="fk" id="fkrow" hidden>
+      <div class="f"><label for="was">FarmaKeio dose</label><select id="was"><option value="">Select...</option></select></div>
+      <p class="sub" style="margin:0">The patient's page then explains why the pharmacy changed and compares the old dose and units with the new ones.</p>
+    </div>
+  </div>
+
+  <div id="out"><div class="panel empty">Pick the medication and dose.</div></div>
+</div>
+
+<script src="korb-pharmacies.js?v=e2125c00"></script>
+<script src="korb-glp1-data.js?v=4223c697"></script>
+<script>
+(function(){
+  var G = KORB_GLP1, C = G.farmakeioConversion;
+  var $ = function(id){ return document.getElementById(id); };
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  /* Messages go into a text or an email: plain ASCII only. */
+  function ascii(s){ return String(s).replace(/[–—]/g,'-').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[^\x00-\x7E]/g,''); }
+  var num = function(d){ return String(d.dose).replace(/\s*\(.*\)\s*$/, '').replace(/\s*mg\s*$/i, ''); };
+  var isOral = function(p){ return !(p.doses[0] && p.doses[0].units !== undefined); };
+  var phName = function(k){ return (G.pharmacies[k] || {}).name || k; };
+  var live = function(p){ return p && !p.retired && p.status !== 'retired'; };
+  var SUP = [['supply4', '4 weeks', 4], ['supply8', '8 weeks', 8], ['supply12', '12 weeks', 12]];
+
+  /* Every product with a patient page, Premier first, then Belmar, then
+     FarmaKeio (Arkansas). Injections before tablets inside each pharmacy. */
+  var ORDER = ['premier', 'belmar', 'farmakeio'];
+  var products = Object.keys(C.patientPages).map(function(k){ return G.products[k]; }).filter(live)
+    .sort(function(a, b){
+      return (ORDER.indexOf(a.pharmacy) - ORDER.indexOf(b.pharmacy)) || (isOral(a) - isOral(b)) || 0;
+    });
+  function label(p){
+    var add = /B-?6|pyridox/i.test(p.additive || '') ? ' with vitamin B-6' : /glycine/i.test(p.label || '') ? ' with glycine' : '';
+    var drug = p.drug.charAt(0).toUpperCase() + p.drug.slice(1);
+    return drug + (isOral(p) ? ' tablets (oral)' : ' injection') + add;
+  }
+  /* The FarmaKeio product this one replaces, from the conversion rules. */
+  function fromProduct(key){
+    var hit = null;
+    C.rules.forEach(function(r){
+      var to = Object.keys(r.to).some(function(k){ return r.to[k] === key; }) ||
+               Object.keys(r.b6 || {}).some(function(k){ return r.b6[k] === key; });
+      if (to) hit = G.products[r.from];
+    });
+    return hit;
+  }
+  function link(key, dose, was){
+    return C.siteBase + C.patientPages[key] + '?dose=' + encodeURIComponent(num(dose)) + (was ? '&was=' + encodeURIComponent(num(was)) : '');
+  }
+  function supplyText(p, d, supKey){
+    if (isOral(p)) return ((d.rx || {}).days || 90) + '-day';
+    var s = SUP.filter(function(o){ return o[0] === supKey; })[0];
+    return s ? s[2] + '-week' : '';
+  }
+  function message(p, d, supKey, was){
+    var ph = phName(p.pharmacy), url = link(p.key, d, was), sup = supplyText(p, d, supKey);
+    var what = isOral(p) ? 'how to take it' : 'how much to draw';
+    var L = [];
+    if (was) {
+      L.push('KORB Health: Your GLP-1 medication is moving from FarmaKeio Pharmacy to ' + ph + '. Here are the instructions for your new ' + sup + ' supply, with your dose and ' + what + ':');
+      L.push(url);
+      L.push('Finish your current FarmaKeio supply first, then start the new medication using these instructions. Questions? Reply here and we will help.');
+    } else {
+      L.push('KORB Health: Here are the instructions for your ' + sup + ' supply from ' + ph + ', with your dose and ' + what + ':');
+      L.push(url);
+      L.push('Please read them before your next dose. Questions? Reply here and we will help.');
+    }
+    return ascii(L.join('\n\n'));
+  }
+  function subject(p, was){
+    return ascii(was ? 'Your new GLP-1 medication from ' + phName(p.pharmacy) : 'Instructions for your GLP-1 medication');
+  }
+
+  // ---- pickers ----
+  var groups = {};
+  products.forEach(function(p){ (groups[p.pharmacy] = groups[p.pharmacy] || []).push(p); });
+  $('med').innerHTML = '<option value="">Select...</option>' + ORDER.filter(function(k){ return groups[k]; }).map(function(k){
+    return '<optgroup label="' + esc(phName(k) + (k === 'farmakeio' ? ' (Arkansas)' : '')) + '">' +
+      groups[k].map(function(p){ return '<option value="' + p.key + '">' + esc(label(p)) + '</option>'; }).join('') + '</optgroup>';
+  }).join('');
+
+  function fillDoses(){
+    var p = G.products[$('med').value], sel = $('dose');
+    if (!p){ sel.disabled = true; sel.innerHTML = '<option value="">Select medication first</option>'; return; }
+    var keep = sel.value; sel.disabled = false;
+    sel.innerHTML = '<option value="">Select...</option>' + p.doses.map(function(d){
+      return '<option value="' + esc(d.dose) + '">' + esc(d.dose) + (d.units !== undefined ? ' (' + d.units + ' units)' : ' daily') + '</option>';
+    }).join('');
+    if (p.doses.some(function(d){ return d.dose === keep; })) sel.value = keep;
+  }
+  function fillSupply(){
+    var p = G.products[$('med').value], sel = $('sup');
+    var d = p && p.doses.filter(function(x){ return x.dose === $('dose').value; })[0];
+    if (!p || !d){ sel.disabled = true; sel.innerHTML = '<option value="">-</option>'; return; }
+    if (isOral(p)){ sel.disabled = true; sel.innerHTML = '<option value="rx">' + (((d.rx || {}).days) || 90) + ' days</option>'; return; }
+    var keep = sel.value, opts = SUP.filter(function(o){ return d[o[0]]; });
+    sel.disabled = false;
+    sel.innerHTML = opts.map(function(o){ return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
+    if (opts.some(function(o){ return o[0] === keep; })) sel.value = keep;
+  }
+  function fillWas(){
+    var p = G.products[$('med').value], fp = p && fromProduct(p.key);
+    $('fkwrap').hidden = !fp;
+    if (!fp){ $('fk').checked = false; }
+    $('fkrow').hidden = !$('fk').checked;
+    var sel = $('was'), keep = sel.value;
+    sel.innerHTML = '<option value="">Select...</option>' + (fp ? fp.doses.map(function(d){
+      return '<option value="' + esc(d.dose) + '">' + esc(d.dose) + (d.units !== undefined ? ' (' + d.units + ' units)' : ' daily') + '</option>';
+    }).join('') : '');
+    if (fp && fp.doses.some(function(d){ return d.dose === keep; })) sel.value = keep;
+  }
+  function box(id, title, sub, text, rows){
+    return '<div class="panel"><h2>' + esc(title) + '</h2><p class="sub">' + esc(sub) + '</p>' +
+      '<textarea class="copybox" id="' + id + '" readonly rows="' + rows + '">' + esc(text) + '</textarea>' +
+      '<button class="btn" type="button" data-copy-from="' + id + '">Copy</button></div>';
+  }
+
+  function render(){
+    var p = G.products[$('med').value], out = $('out');
+    var d = p && p.doses.filter(function(x){ return x.dose === $('dose').value; })[0];
+    if (!p || !d){ out.innerHTML = '<div class="panel empty">Pick the medication and dose.</div>'; return; }
+    var fp = fromProduct(p.key), was = null;
+    if ($('fk').checked && fp){
+      was = fp.doses.filter(function(x){ return x.dose === $('was').value; })[0] || null;
+      if (!was){ out.innerHTML = '<div class="panel empty">Pick the FarmaKeio dose the patient is on now.</div>'; return; }
+    }
+    var url = link(p.key, d, was), msg = message(p, d, $('sup').value, was);
+    out.innerHTML =
+      box('cbMsg', 'Message to text or email', 'Text it only if the patient has agreed to receive texts. The same message works in an email.', msg, 9) +
+      box('cbSubj', 'Email subject', 'If you send it by email.', subject(p, was), 1) +
+      '<div class="panel"><h2>Link only</h2><p class="sub">The patient\'s page, opened at this dose.</p>' +
+      '<textarea class="copybox" id="cbLink" readonly rows="2">' + esc(url) + '</textarea>' +
+      '<button class="btn" type="button" data-copy-from="cbLink">Copy</button>' +
+      '<a class="btn ghost" href="' + esc(url) + '" target="_blank" rel="noopener">Preview the page</a></div>';
+  }
+
+  $('med').addEventListener('change', function(){ fillDoses(); fillSupply(); fillWas(); render(); });
+  $('dose').addEventListener('change', function(){ fillSupply(); render(); });
+  $('sup').addEventListener('change', render);
+  $('fk').addEventListener('change', function(){ fillWas(); render(); });
+  $('was').addEventListener('change', render);
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('[data-copy-from]');
+    if (!b) return;
+    var ta = $(b.getAttribute('data-copy-from'));
+    var done = function(){ b.textContent = 'Copied'; b.classList.add('done'); setTimeout(function(){ b.textContent = 'Copy'; b.classList.remove('done'); }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(ta.value).then(done, function(){ ta.select(); document.execCommand('copy'); done(); });
+    else { ta.select(); document.execCommand('copy'); done(); }
+  });
+  fillWas();
+
+  /* Every product, dose and supply, with and without a FarmaKeio dose: the
+     link names a page that exists, the dose resolves, and the message is ASCII. */
+  window.KORB_LINKS_SELFCHECK = function(){
+    var problems = [], n = 0;
+    if (!products.length) problems.push('no products with a patient page');
+    products.forEach(function(p){
+      if (!C.patientPages[p.key]) problems.push(p.key + ': no patient page');
+      p.doses.forEach(function(d){
+        var sups = isOral(p) ? ['rx'] : SUP.map(function(o){ return o[0]; }).filter(function(k){ return d[k]; });
+        if (!sups.length) problems.push(p.key + ' ' + d.dose + ': no supply');
+        var fp = fromProduct(p.key), wases = [null].concat(fp ? fp.doses : []);
+        sups.forEach(function(s){
+          wases.forEach(function(w){
+            n++;
+            var m = message(p, d, s, w);
+            if (/undefined|NaN|null/.test(m)) problems.push(p.key + ' ' + d.dose + ' ' + s + ': undefined in message');
+            if (/[^\x00-\x7E]/.test(m)) problems.push(p.key + ' ' + d.dose + ': non-ASCII in message');
+            if (m.indexOf(link(p.key, d, w)) < 0) problems.push(p.key + ' ' + d.dose + ': link missing from message');
+            if (!/-(week|day) supply/.test(m)) problems.push(p.key + ' ' + d.dose + ' ' + s + ': no supply length in message');
+          });
+        });
+      });
+    });
+    return { messages: n, products: products.length, problems: problems };
+  };
+})();
+</script>
+</body>
+</html>
