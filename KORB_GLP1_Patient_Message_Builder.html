@@ -96,6 +96,19 @@ a{color:var(--navy)}
 .stephint{font-size:12px;color:var(--muted);margin:6px 0 0}
 .hide{display:none}
 @media(max-width:420px){.seg button{font-size:12px}}
+/* Hover, so a button reads as clickable (Don, 2026-11-09). Choice buttons take a
+   teal edge and wash; filled buttons lighten, as on the other KORB tools. */
+.seg button,.btn{transition:background-color .15s,border-color .15s,color .15s}
+.f select:not(:disabled),.chk{cursor:pointer}
+@media (hover:hover){
+  .seg button:not(.on):not(:disabled):hover{border-color:var(--teal);background:#E0F6F9}
+  .seg button.on:hover{background:#2C3474;border-color:#2C3474}
+  .btn:hover{background:#2C3474}
+  .btn.ghost:hover{background:#E0F6F9;border-color:var(--teal)}
+  .btn.done:hover{background:#2E7D32}
+  .f select:not(:disabled):hover{border-color:var(--teal)}
+  .chk:hover{color:#2C3474}
+}
 @media print{.btn{display:none}}
 </style>
 </head>
