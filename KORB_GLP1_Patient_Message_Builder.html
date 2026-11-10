@@ -33,8 +33,10 @@
   into Tebra and the portal. Brand-name GLP-1 is in the Provider Reference.
 
   KORB_MSG_SELFCHECK() in the console builds every message for every product,
-  dose and program length in both modes and fails anything over the Tebra
-  portal's 1000-character cap.
+  dose and program length in both modes, every conversion step included, and
+  fails any portal message part over the Tebra portal's 1000-character cap or a
+  message that needs more than two parts. A message over the cap is split into
+  numbered parts between paragraphs (2026-11-10); `split` lists which ones.
 -->
 <style>
 :root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--gold:#FBB040;
@@ -300,6 +302,34 @@ a{color:var(--navy)}
       '<button class="btn" type="button" data-copy-from="' + id + '">Copy</button></div>';
   }
 
+  /* TWO MESSAGES WHEN ONE WILL NOT FIT (Don, 2026-11-10). A provider was told
+     "tell Don" for a conversion message of 1,289 characters. Instead of a
+     warning, a message over the cap is split between paragraphs into numbered
+     parts, each under the cap, so nothing is cut and nothing is reworded. */
+  function splitMsg(text, limit){
+    if (text.length <= limit) return [text];
+    var paras = text.split('\n\n'), parts = [], cur = '';
+    var room = limit - 12; /* the "(1 of 2)" line and its blank line */
+    paras.forEach(function(p){
+      var next = cur ? cur + '\n\n' + p : p;
+      if (cur && next.length > room){ parts.push(cur); cur = p; } else cur = next;
+    });
+    if (cur) parts.push(cur);
+    var n = parts.length;
+    return parts.map(function(p, i){
+      return (i ? '(' + (i + 1) + ' of ' + n + ')\n\n' : '') + p + (i < n - 1 ? '\n\n(' + (i + 1) + ' of ' + n + ')' : '');
+    });
+  }
+  function msgBoxes(text){
+    var sub = 'Send through the patient portal. The link opens the patient\'s own dose; it carries nothing else about them.';
+    var parts = splitMsg(text, MSG_LIMIT);
+    if (parts.length === 1) return copyBox('cbMsg', 'Portal message to the patient', sub, text, MSG_LIMIT);
+    return '<div class="panel"><div class="alert info" style="margin-top:0"><strong>Two portal messages.</strong> This one is too long for a single Tebra portal message, so it is split in ' + parts.length + '. Send all ' + parts.length + ', in order.</div></div>' +
+      parts.map(function(p, i){
+        return copyBox('cbMsg' + (i ? i + 1 : ''), 'Portal message ' + (i + 1) + ' of ' + parts.length, i ? 'Send right after message ' + i + '.' : sub, p, MSG_LIMIT);
+      }).join('');
+  }
+
   /* ---------- the Tebra rule, Don 2026-10-25 ---------- */
   function tebraRule(ph){
     /* Worded softly on purpose (Don, 2026-10-25): KORB no longer uses FarmaKeio
@@ -379,8 +409,19 @@ a{color:var(--navy)}
     }).join('');
     if (list.some(function(p){ return p.key === keep; })) sel.value = keep;
   }
+  /* The dose list is the ladder of the product that will be dispensed, so it
+     follows the B-12 / B-6 choice (2026-11-10). Under the B-6 exception that is
+     FarmaKeio, whose ladder is not Belmar's: listing Belmar's doses offered
+     2.4 mg semaglutide and 5, 10, 12.5 mg tirzepatide, which FarmaKeio does not
+     make, and the page went blank. */
+  function chosenNewProduct(){
+    var base = G.products[$('nmed').value];
+    if (!base) return null;
+    var exc = b6Exception(base, $('st').value), twin = b6Twin(base.key) || (exc && exc.product);
+    return twin && chosenVit === 'b6' ? twin : base;
+  }
   function fillNewDoses(){
-    var sel = $('ndose'), p = G.products[$('nmed').value], keep = sel.value;
+    var sel = $('ndose'), p = chosenNewProduct(), keep = sel.value;
     if (!p){ sel.disabled = true; sel.innerHTML = '<option value="">Select medication first</option>'; return; }
     sel.disabled = false;
     sel.innerHTML = '<option value="">Select...</option>' + p.doses.map(function(d){
@@ -440,6 +481,7 @@ a{color:var(--navy)}
     fillSupply($('nsup'), prod);
     if (!prod || !ds){ out.innerHTML = '<div class="panel empty">Pick a medication and a dose.</div>'; return; }
     var dose = prod.doses.filter(function(d){ return d.dose === ds; })[0];
+    if (!dose){ out.innerHTML = '<div class="panel empty">' + esc(ds) + ' is not made in this version. Pick a dose from the list.</div>'; return; }
     var oral = isOral(prod), sup = $('nsup').value || 'rx', rec = oral ? dose.rx : dose[sup];
     var ph = phName(prod.pharmacy), drug = drugName(prod), units = dose.units !== undefined ? ' (' + dose.units + ' units)' : '';
     var supText = oral ? rec.days + '-day supply' : $('nsup').selectedOptions[0].textContent.replace(' weeks', '-week') + ' supply';
@@ -471,7 +513,7 @@ a{color:var(--navy)}
     var msg = newMessage(prod, dose, sup);
     h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', ascii(summary));
     h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', ascii(plan));
-    h += copyBox('cbMsg', 'Portal message to the patient', 'Send through the patient portal. The link opens the patient\'s own dose; it carries nothing else about them.', msg, MSG_LIMIT);
+    h += msgBoxes(msg);
     h += '<div class="panel"><a href="' + esc(patientLink(prod.key, dose)) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
     out.innerHTML = h;
   }
@@ -526,19 +568,23 @@ a{color:var(--navy)}
       'Patient counseled to finish current FarmaKeio supply first using FarmaKeio instructions, then start the new ' + ph + ' medication at the new dose and units.',
       'Portal message sent with link to the patient dosing page. Patient to contact KORB with questions.'
     ].filter(Boolean).map(function(l){ return '- ' + l; }).join('\n');
-    var msg = 'Hi,\n\nKORB is moving all of our GLP-1 patients from FarmaKeio Pharmacy to ' + ph + ', so your next prescription will come from ' + ph + '.\n\n' +
+    /* Tightened 2026-11-10 (Don): with a step chosen, the message ran to 1,454
+       characters against the portal's 1000. The higher-dose line is the short
+       form the new-prescription message already uses; the patient page carries
+       the full C.highDose.patient text. */
+    var msg = 'Hi,\n\nKORB is moving GLP-1 patients from FarmaKeio to ' + ph + ', so your next prescription will come from ' + ph + '.\n\n' +
       (oral ? (f.mg === t.mg ? 'Your dose stays ' + t.dose + ' a day.' : 'Your new dose is ' + t.dose + ' a day. The ' + f.dose + ' is no longer made, so this is the lowest dose available.') : 'Your new dose is ' + t.dose + ' once a week, which is ' + t.units + ' units on your syringe.') +
       (oral ? (unitsNote ? ' How you take it has changed, so please follow the new directions.' : '')
             : (f.units === t.units && f.mg === t.mg ? ' That is the same dose and the same number of units as now.'
-               : f.units === t.units ? ' The number of units is the same as before, but the new medication is a different strength, so ' + t.units + ' units now gives you ' + t.dose + '.'
-                                   : ' Please note this is a change from the ' + f.units + ' units you draw now. The new medication is a different strength, so the units are different. The mg is your dose.') +
-               (t.units > 100 ? ' This dose takes two syringes: fill one completely (100 units), then fill a second to ' + (t.units - 100) + ' units.' : '')) +
-      (c.step ? ' Your provider has also moved your dose one step ' + (c.step > 0 ? 'up' : 'down') + ' with this change.' : '') +
-      (b12 ? ' The new medication is red or pink because of the vitamin B-12. That is normal.' : '') +
-      (high ? '\n\n' + C.highDose.patient : '') +
-      (sup === 'supply12' ? '\n\nThis is a 12-week supply. Start your first dose within 5 days of your package arriving.' : '') +
-      '\n\nCopy and paste this link into your browser to see your instructions' + (oral ? '' : ' and a picture of your syringe') + ':\n' + c.patientLink +
-      '\n\nPlease finish your current FarmaKeio supply first, using your FarmaKeio instructions. Then start your new ' + ph + ' medication using the new instructions. If you have any questions, reply to this message and we will help.';
+               : f.units === t.units ? ' The units are the same, but the new medication is a different strength, so ' + t.units + ' units now gives you ' + t.dose + '.'
+                                   : ' That is different from the ' + f.units + ' units you draw now because the new medication is a different strength. The mg is your dose.') +
+               (t.units > 100 ? ' This dose takes two syringes: fill one to 100 units, then a second to ' + (t.units - 100) + ' units.' : '')) +
+      (c.step ? ' Your provider also moved your dose one step ' + (c.step > 0 ? 'up' : 'down') + '.' : '') +
+      (b12 ? ' The new medication is red or pink from the vitamin B-12. That is normal.' : '') +
+      (high ? '\n\nHIGHER DOSE: follow the instructions your provider gave you for this dose. If you are not sure, contact KORB before your next injection.' : '') +
+      (sup === 'supply12' ? '\n\nThis is a 12-week supply. Start your first dose within 5 days of delivery.' : '') +
+      '\n\nCopy and paste this link into your browser for your instructions' + (oral ? '' : ' and a picture of your syringe') + ':\n' + c.patientLink +
+      '\n\nFinish your current FarmaKeio supply first, using your FarmaKeio instructions. Then start the ' + ph + ' medication with the new instructions. Questions? Reply to this message and we will help.';
     return { summary: ascii(summary), plan: ascii(plan), msg: ascii(msg), rec: rec, unitsNote: unitsNote, high: high, ruleText: ruleText, stepWord: stepWord, eu: eu, fu: fu, tu: tu };
   }
 
@@ -585,7 +631,7 @@ a{color:var(--navy)}
     }
     h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', T.summary);
     h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', T.plan);
-    h += copyBox('cbMsg', 'Portal message to the patient', 'Send through the patient portal. The link opens the patient\'s own dose; it carries nothing else about them.', T.msg, MSG_LIMIT);
+    h += msgBoxes(T.msg);
     h += '<div class="panel"><a href="' + esc(c.patientLink) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
     out.innerHTML = h;
   }
@@ -649,13 +695,21 @@ a{color:var(--navy)}
   ['nvit', 'cvit'].forEach(function(id){
     $(id).addEventListener('click', function(e){
       var b = e.target.closest('button'); if (!b) return;
-      chosenVit = b.getAttribute('data-vit'); render();
+      chosenVit = b.getAttribute('data-vit'); fillNewDoses(); render();
     });
   });
 
   /* ---------- self check ---------- */
   window.KORB_MSG_SELFCHECK = function(){
-    var problems = [], n = 0;
+    var problems = [], n = 0, split = [];
+    /* A message may go out as two portal messages, never three, and no part may
+       be over the cap. */
+    function checkMsg(label, m){
+      var parts = splitMsg(m, MSG_LIMIT);
+      if (parts.length > 2) problems.push(label + ': needs ' + parts.length + ' portal messages (' + m.length + ' chars)');
+      parts.forEach(function(p, i){ if (p.length > MSG_LIMIT) problems.push(label + ' part ' + (i + 1) + ': ' + p.length + ' chars'); });
+      if (parts.length > 1) split.push(label + ' (' + m.length + ')');
+    }
     var states = (G.states.korbActive || []);
     if (states.length !== 51) problems.push('state list is ' + states.length + ', expected 51');
     states.forEach(function(st){
@@ -669,7 +723,7 @@ a{color:var(--navy)}
           (isOral(p) ? ['rx'] : SUP.map(function(o){ return o[0]; }).filter(function(k){ return d[k]; })).forEach(function(k){
             n++;
             var m = newMessage(p, d, k);
-            if (m.length > MSG_LIMIT) problems.push('new ' + p.key + ' ' + d.dose + ' ' + k + ': ' + m.length + ' chars');
+            checkMsg('new ' + p.key + ' ' + d.dose + ' ' + k, m);
             if (/undefined|NaN|null/.test(m)) problems.push('new ' + p.key + ' ' + d.dose + ' ' + k + ': undefined in message');
             if (!isOral(p)) {
               var w = SUP.filter(function(o){ return o[0] === k; })[0][2], v = d['vials' + w];
@@ -694,24 +748,30 @@ a{color:var(--navy)}
         if (!c.stays) problems.push('convert ' + r.from + ' ' + d.dose + ' in AR: expected no conversion, got ' + (c.error || (c.toProduct && c.toProduct.key)));
       });
     });
+    /* Every step choice, not just the equivalent dose (2026-11-10): the one-step
+       up and down buttons are where the long messages were, and the old check
+       never pressed them. A step off the end of the ladder is an error the page
+       disables, so it is skipped here, not failed. */
     C.rules.forEach(function(r){
       G.products[r.from].doses.forEach(function(d){
         Object.keys(probe).forEach(function(ph){
           [false, true].forEach(function(b6){
             if (b6 && !(r.b6 && r.b6[ph])) return;
-            var c = C.convert(r.from, d.dose, probe[ph], { b6: b6 });
-            if (c.error) { problems.push('convert ' + r.from + ' ' + d.dose + ' ' + ph + ': ' + c.error); return; }
-            (isOral(c.toProduct) ? ['rx'] : SUP.map(function(o){ return o[0]; }).filter(function(k){ return c.toDose[k]; })).forEach(function(k){
-              n++;
-              var T = convertTexts(c, probe[ph], k);
-              if (T.msg.length > MSG_LIMIT) problems.push('convert ' + r.from + ' ' + d.dose + ' to ' + ph + (b6 ? ' B-6' : '') + ' ' + k + ': ' + T.msg.length + ' chars');
-              if (/undefined|NaN|null/.test(T.msg + T.plan)) problems.push('convert ' + r.from + ' ' + d.dose + ' ' + k + ': undefined in text');
+            [0, -1, 1].forEach(function(step){
+              var c = C.convert(r.from, d.dose, probe[ph], { b6: b6, step: step });
+              if (c.error) { if (!step) problems.push('convert ' + r.from + ' ' + d.dose + ' ' + ph + ': ' + c.error); return; }
+              (isOral(c.toProduct) ? ['rx'] : SUP.map(function(o){ return o[0]; }).filter(function(k){ return c.toDose[k]; })).forEach(function(k){
+                n++;
+                var T = convertTexts(c, probe[ph], k);
+                checkMsg('convert ' + r.from + ' ' + d.dose + ' to ' + ph + (b6 ? ' B-6' : '') + (step ? ' step ' + step : '') + ' ' + k, T.msg);
+                if (/undefined|NaN|null/.test(T.msg + T.plan)) problems.push('convert ' + r.from + ' ' + d.dose + ' ' + k + ': undefined in text');
+              });
             });
           });
         });
       });
     });
-    return { messages: n, problems: problems };
+    return { messages: n, split: split, problems: problems };
   };
 
   /* ?mode=convert is how the old conversion URL lands here. */
