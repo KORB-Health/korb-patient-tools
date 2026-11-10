@@ -102,11 +102,13 @@ are not decided; do not touch add-on routing until Don says.
   FarmaKeio. Writes the running summary, plan, Tebra entry and portal message,
   ASCII only, with the patient page link. `KORB_MSG_SELFCHECK()` builds every
   message in both modes, every conversion step included, against the
-  1000-character portal cap. A message over the cap is split between paragraphs
-  into "Portal message 1 of 2" and "2 of 2" rather than warned about (Don,
-  2026-11-10, after a 1,289-character conversion reached a provider: the old
-  check never pressed the one-step up or down buttons). Only the semaglutide
-  2.5 mg one-step-up conversion splits today.
+  1000-character portal cap. **Every message fits in ONE portal message, never
+  split** (Don, 2026-11-10, after a 1,289-character conversion reached a
+  provider: the old check never pressed the one-step up or down buttons). The
+  conversion wording is cut to its shortest form for that; the patient page
+  behind the link carries the full text. Each message has a fixed, generic
+  portal subject (`SUBJECT`: no drug or dose, since a subject can show in the
+  patient's notification email).
   `KORB_GLP1_FarmaKeio_Conversion.html` is now a REDIRECT to it with
   `?mode=convert`, because that URL was handed out. Do not restore content there.
 - **Tebra: cancel and rewrite, never renew** (Don, 2026-10-25). A renewal goes

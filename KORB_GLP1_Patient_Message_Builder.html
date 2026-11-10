@@ -34,9 +34,10 @@
 
   KORB_MSG_SELFCHECK() in the console builds every message for every product,
   dose and program length in both modes, every conversion step included, and
-  fails any portal message part over the Tebra portal's 1000-character cap or a
-  message that needs more than two parts. A message over the cap is split into
-  numbered parts between paragraphs (2026-11-10); `split` lists which ones.
+  fails any portal message over the Tebra portal's 1000-character cap. Every
+  message must fit in ONE portal message, never split (Don, 2026-11-10);
+  `longest` names the case closest to the cap. Each message comes with a fixed
+  portal subject (SUBJECT).
 -->
 <style>
 :root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--gold:#FBB040;
@@ -302,32 +303,14 @@ a{color:var(--navy)}
       '<button class="btn" type="button" data-copy-from="' + id + '">Copy</button></div>';
   }
 
-  /* TWO MESSAGES WHEN ONE WILL NOT FIT (Don, 2026-11-10). A provider was told
-     "tell Don" for a conversion message of 1,289 characters. Instead of a
-     warning, a message over the cap is split between paragraphs into numbered
-     parts, each under the cap, so nothing is cut and nothing is reworded. */
-  function splitMsg(text, limit){
-    if (text.length <= limit) return [text];
-    var paras = text.split('\n\n'), parts = [], cur = '';
-    var room = limit - 12; /* the "(1 of 2)" line and its blank line */
-    paras.forEach(function(p){
-      var next = cur ? cur + '\n\n' + p : p;
-      if (cur && next.length > room){ parts.push(cur); cur = p; } else cur = next;
-    });
-    if (cur) parts.push(cur);
-    var n = parts.length;
-    return parts.map(function(p, i){
-      return (i ? '(' + (i + 1) + ' of ' + n + ')\n\n' : '') + p + (i < n - 1 ? '\n\n(' + (i + 1) + ' of ' + n + ')' : '');
-    });
-  }
-  function msgBoxes(text){
-    var sub = 'Send through the patient portal. The link opens the patient\'s own dose; it carries nothing else about them.';
-    var parts = splitMsg(text, MSG_LIMIT);
-    if (parts.length === 1) return copyBox('cbMsg', 'Portal message to the patient', sub, text, MSG_LIMIT);
-    return '<div class="panel"><div class="alert info" style="margin-top:0"><strong>Two portal messages.</strong> This one is too long for a single Tebra portal message, so it is split in ' + parts.length + '. Send all ' + parts.length + ', in order.</div></div>' +
-      parts.map(function(p, i){
-        return copyBox('cbMsg' + (i ? i + 1 : ''), 'Portal message ' + (i + 1) + ' of ' + parts.length, i ? 'Send right after message ' + i + '.' : sub, p, MSG_LIMIT);
-      }).join('');
+  /* PORTAL SUBJECT (Don, 2026-11-10). One fixed subject per kind of message,
+     so providers do not make one up and every patient sees the same. Kept
+     generic on purpose: no drug name or dose, because a portal subject can show
+     in the patient's notification email. */
+  var SUBJECT = { new: 'Your KORB prescription details', convert: 'Your KORB pharmacy change' };
+  function msgBoxes(kind, text){
+    return copyBox('cbSubj', 'Portal subject', 'Paste into the Subject line of the portal message.', SUBJECT[kind]) +
+      copyBox('cbMsg', 'Portal message to the patient', 'Send through the patient portal. The link opens the patient\'s own dose; it carries nothing else about them.', text, MSG_LIMIT);
   }
 
   /* ---------- the Tebra rule, Don 2026-10-25 ---------- */
@@ -513,7 +496,7 @@ a{color:var(--navy)}
     var msg = newMessage(prod, dose, sup);
     h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', ascii(summary));
     h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', ascii(plan));
-    h += msgBoxes(msg);
+    h += msgBoxes('new', msg);
     h += '<div class="panel"><a href="' + esc(patientLink(prod.key, dose)) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
     out.innerHTML = h;
   }
@@ -568,23 +551,25 @@ a{color:var(--navy)}
       'Patient counseled to finish current FarmaKeio supply first using FarmaKeio instructions, then start the new ' + ph + ' medication at the new dose and units.',
       'Portal message sent with link to the patient dosing page. Patient to contact KORB with questions.'
     ].filter(Boolean).map(function(l){ return '- ' + l; }).join('\n');
-    /* Tightened 2026-11-10 (Don): with a step chosen, the message ran to 1,454
-       characters against the portal's 1000. The higher-dose line is the short
-       form the new-prescription message already uses; the patient page carries
-       the full C.highDose.patient text. */
-    var msg = 'Hi,\n\nKORB is moving GLP-1 patients from FarmaKeio to ' + ph + ', so your next prescription will come from ' + ph + '.\n\n' +
+    /* ONE PORTAL MESSAGE, ALWAYS (Don, 2026-11-10). With a step chosen the
+       message ran to 1,454 characters against the portal's 1000, and Don does
+       not want it split. Every sentence is in its shortest form; the patient
+       page behind the link carries the full text, including C.highDose.patient.
+       The longest case (semaglutide 2.5 mg one step up, B-12, 12 weeks) must
+       stay under 1000: KORB_MSG_SELFCHECK fails it otherwise. */
+    var msg = 'Hi,\n\nYour next GLP-1 prescription will come from ' + ph + ' instead of FarmaKeio.\n\n' +
       (oral ? (f.mg === t.mg ? 'Your dose stays ' + t.dose + ' a day.' : 'Your new dose is ' + t.dose + ' a day. The ' + f.dose + ' is no longer made, so this is the lowest dose available.') : 'Your new dose is ' + t.dose + ' once a week, which is ' + t.units + ' units on your syringe.') +
       (oral ? (unitsNote ? ' How you take it has changed, so please follow the new directions.' : '')
-            : (f.units === t.units && f.mg === t.mg ? ' That is the same dose and the same number of units as now.'
-               : f.units === t.units ? ' The units are the same, but the new medication is a different strength, so ' + t.units + ' units now gives you ' + t.dose + '.'
-                                   : ' That is different from the ' + f.units + ' units you draw now because the new medication is a different strength. The mg is your dose.') +
-               (t.units > 100 ? ' This dose takes two syringes: fill one to 100 units, then a second to ' + (t.units - 100) + ' units.' : '')) +
+            : (f.units === t.units && f.mg === t.mg ? ' Same dose, same units as now.'
+               : f.units === t.units ? ' Same units, but the new medication is a different strength, so ' + t.units + ' units is now ' + t.dose + '.'
+                                   : ' The new medication is a different strength, so the units differ from the ' + f.units + ' you draw now. The mg is your dose.') +
+               (t.units > 100 ? ' This dose takes two syringes: 100 units, then ' + (t.units - 100) + ' units.' : '')) +
       (c.step ? ' Your provider also moved your dose one step ' + (c.step > 0 ? 'up' : 'down') + '.' : '') +
-      (b12 ? ' The new medication is red or pink from the vitamin B-12. That is normal.' : '') +
-      (high ? '\n\nHIGHER DOSE: follow the instructions your provider gave you for this dose. If you are not sure, contact KORB before your next injection.' : '') +
-      (sup === 'supply12' ? '\n\nThis is a 12-week supply. Start your first dose within 5 days of delivery.' : '') +
-      '\n\nCopy and paste this link into your browser for your instructions' + (oral ? '' : ' and a picture of your syringe') + ':\n' + c.patientLink +
-      '\n\nFinish your current FarmaKeio supply first, using your FarmaKeio instructions. Then start the ' + ph + ' medication with the new instructions. Questions? Reply to this message and we will help.';
+      (b12 ? ' It is red or pink from the vitamin B-12, which is normal.' : '') +
+      (high ? '\n\nHIGHER DOSE: follow your provider\'s instructions for this dose. Unsure? Contact KORB before your next injection.' : '') +
+      (sup === 'supply12' ? '\n\n12-week supply: start your first dose within 5 days of delivery.' : '') +
+      '\n\nYour instructions' + (oral ? '' : ' and syringe picture') + ' (copy and paste into your browser):\n' + c.patientLink +
+      '\n\nFinish your FarmaKeio supply first, at your current FarmaKeio dose. Then start ' + ph + ' with the new instructions. Questions? Reply here.';
     return { summary: ascii(summary), plan: ascii(plan), msg: ascii(msg), rec: rec, unitsNote: unitsNote, high: high, ruleText: ruleText, stepWord: stepWord, eu: eu, fu: fu, tu: tu };
   }
 
@@ -631,7 +616,7 @@ a{color:var(--navy)}
     }
     h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', T.summary);
     h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', T.plan);
-    h += msgBoxes(T.msg);
+    h += msgBoxes('convert', T.msg);
     h += '<div class="panel"><a href="' + esc(c.patientLink) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
     out.innerHTML = h;
   }
@@ -701,15 +686,13 @@ a{color:var(--navy)}
 
   /* ---------- self check ---------- */
   window.KORB_MSG_SELFCHECK = function(){
-    var problems = [], n = 0, split = [];
-    /* A message may go out as two portal messages, never three, and no part may
-       be over the cap. */
+    var problems = [], n = 0, longest = { len: 0, label: '' };
+    /* One portal message, never split (Don, 2026-11-10). */
     function checkMsg(label, m){
-      var parts = splitMsg(m, MSG_LIMIT);
-      if (parts.length > 2) problems.push(label + ': needs ' + parts.length + ' portal messages (' + m.length + ' chars)');
-      parts.forEach(function(p, i){ if (p.length > MSG_LIMIT) problems.push(label + ' part ' + (i + 1) + ': ' + p.length + ' chars'); });
-      if (parts.length > 1) split.push(label + ' (' + m.length + ')');
+      if (m.length > MSG_LIMIT) problems.push(label + ': ' + m.length + ' chars');
+      if (m.length > longest.len) longest = { len: m.length, label: label };
     }
+    Object.keys(SUBJECT).forEach(function(k){ if (/[^\x20-\x7E]/.test(SUBJECT[k]) || SUBJECT[k].length > 60) problems.push('subject ' + k + ' not short ASCII'); });
     var states = (G.states.korbActive || []);
     if (states.length !== 51) problems.push('state list is ' + states.length + ', expected 51');
     states.forEach(function(st){
@@ -771,7 +754,7 @@ a{color:var(--navy)}
         });
       });
     });
-    return { messages: n, split: split, problems: problems };
+    return { messages: n, longest: longest, problems: problems };
   };
 
   /* ?mode=convert is how the old conversion URL lands here. */
