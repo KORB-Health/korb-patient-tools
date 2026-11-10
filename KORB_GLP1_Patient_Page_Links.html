@@ -111,7 +111,7 @@ a{color:var(--navy)}
 </div>
 
 <script src="korb-pharmacies.js?v=e2125c00"></script>
-<script src="korb-glp1-data.js?v=b76625cd"></script>
+<script src="korb-glp1-data.js?v=ec61f7b5"></script>
 <script>
 (function(){
   var G = KORB_GLP1, C = G.farmakeioConversion;
@@ -126,7 +126,7 @@ a{color:var(--navy)}
   var SUP = [['supply4', '4 weeks', 4], ['supply8', '8 weeks', 8], ['supply12', '12 weeks', 12]];
 
   /* Every product with a patient page, Premier first, then Belmar, then
-     FarmaKeio (Arkansas). Injections before tablets inside each pharmacy. */
+     FarmaKeio (Arkansas, and the B-6 exception from 2026-11-09). Injections before tablets inside each pharmacy. */
   var ORDER = ['premier', 'belmar', 'farmakeio'];
   var products = Object.keys(C.patientPages).map(function(k){ return G.products[k]; }).filter(live)
     .sort(function(a, b){
@@ -191,7 +191,7 @@ a{color:var(--navy)}
   products.forEach(function(p){ (groups[p.pharmacy] = groups[p.pharmacy] || []).push(p); });
   $('ph').innerHTML = ORDER.filter(function(k){ return groups[k]; }).map(function(k){
     return '<button type="button" role="radio" aria-checked="false" data-ph="' + k + '">' + esc(phName(k)) +
-      '<span>' + (k === 'farmakeio' ? 'Arkansas only' : groups[k].length + ' medications') + '</span></button>';
+      '<span>' + (k === 'farmakeio' ? 'Arkansas, and B-6 by exception' : groups[k].length + ' medications') + '</span></button>';
   }).join('');
   function fillMeds(){
     [].forEach.call(document.querySelectorAll('#ph button'), function(b){

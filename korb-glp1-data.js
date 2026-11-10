@@ -692,9 +692,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.39',
+    version: '2.40',
     created: '2026-08-06',
-    lastUpdated: '2026-11-06',
+    lastUpdated: '2026-11-09',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -712,6 +712,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-11-09 (v2.40): THE B-6 EXCEPTION (Don, after talking with Nick). Belmar has no B-6 GLP-1: its semaglutide carries B-12 and its tirzepatide L-carnitine. In a Belmar state a patient who cannot have that additive (documented allergy, or a documented reaction they have had to it) may go to FarmaKeio for the B-6 version of the same drug: farmakeio_sema for semaglutide, farmakeio_tirz for tirzepatide. New states.b6Exception and states.b6ExceptionFor(state); the states are derived (Belmar-routed and FarmaKeio ships there: AL, HI, MS, SC, VA, WA today), never typed. California is Belmar-routed but FarmaKeio will not ship there, so it gets noOption advice: the other drug at Belmar or brand. checkPharmacyForState answers warning, not error, for FarmaKeio in an exception state. FarmaKeio is otherwise still Arkansas only. Expected to be very few patients. Don Stevenson, PA-C.',
       '2026-11-02 (v2.38): ARKANSAS ORAL SEMAGLUTIDE 1 MG (Don). FarmaKeio confirmed it fills oral semaglutide for Arkansas. New product farmakeio_oral_sema_ar: 1 mg RDT #90, 90 days, FITSemOrl90, own patient page. ONE 1 MG PRICE (Nick, 2026-11-03): every 1 mg 90-day supply is FITSemOrl90 ($299) at all three pharmacies; belmar_oral_sema 1 mg FastSL moves from FITSemOrl180 ($399) to FITSemOrl90. FITSemOrl180 is left only on the retired farmakeio_oral_sema record, as history. farmakeio_oral_sema stays retired and unchanged so FarmaKeio 0.5 mg patients elsewhere still convert. In Arkansas the conversion tool now points to a new prescription for the Arkansas product instead of brand only. Which Arkansas patients it is for is internal, not in this file.',
       '2026-10-29 (v2.37): MASSACHUSETTS BACK TO PREMIER (Don). Premier confirmed it can send sterile products to Massachusetts for existing and new patients (korb-pharmacies.js v1.14). No edit to routing here: the Premier rule reads its states from the Premier footprint, so MA moves from Belmar to Premier on its own. Premier 43, Belmar 7 (AL, CA, HI, MS, SC, VA, WA), FarmaKeio 1 (AR).',
       '2026-10-29 (v2.36): B-6 IS AN ORDINARY CHOICE (Don). Providers pick B-12 or B-6 for Premier semaglutide and tirzepatide as they would any formulation; a B-12 intolerance no longer has to be documented. restrictedUse is removed from the derived B-6 records, so no tool, monograph or plan note carries the intolerance wording. B-12 stays the first choice listed. Patient wording: the semaglutide and tirzepatide handouts and the B-6 medication pages no longer tie B-6 to not tolerating B-12.',
@@ -1831,6 +1832,55 @@ var KORB_GLP1 = {
         if (r.states.indexOf('*') !== -1 || r.states.indexOf(s) !== -1) return r;
       }
       return null;
+    },
+
+    /* 2026-11-09: THE B-6 EXCEPTION (Don, after talking with Nick). Belmar
+       semaglutide carries B-12 and Belmar tirzepatide carries L-carnitine, and
+       Belmar has no B-6 version of either. Premier has B-6 for both, so this
+       only matters where the state pharmacy is Belmar. A Belmar-state patient
+       who CANNOT have the Belmar additive may go to FarmaKeio for the B-6
+       version of the same drug, and only then. "Cannot have" means a documented
+       allergy to it, or a documented reaction the patient has had to it. A
+       preference is not a reason. It should be few patients; if it grows, Don
+       revisits it. The states are NOT typed: they are every state routed to
+       Belmar that FarmaKeio can ship to, so California (FarmaKeio will not ship
+       there) is left out and gets the noOption advice instead. */
+    b6Exception: {
+      since: '2026-11-09',
+      decidedBy: 'Don Stevenson, with Nick',
+      pharmacy: 'farmakeio',
+      appliesWhereRoutedTo: 'belmar',
+      drugs: {
+        semaglutide: { from: 'belmar_sema', to: 'farmakeio_sema', avoids: 'B-12',
+                       label: 'Semaglutide with B-6 (cannot have B-12)' },
+        tirzepatide: { from: 'belmar_tirz', to: 'farmakeio_tirz', avoids: 'L-carnitine',
+                       label: 'Tirzepatide with B-6 (cannot have L-carnitine)' }
+      },
+      qualifies: 'Only when the patient cannot have the additive in the Belmar product: ' +
+                 'B-12 for semaglutide, L-carnitine for tirzepatide. That means a documented ' +
+                 'allergy to it, or a documented reaction the patient has had to it. ' +
+                 'A preference for B-6 is not a reason.',
+      chartLine: 'Sent to FarmaKeio under the B-6 exception: the patient cannot have ' +
+                 '{additive} ({reason}). Belmar, the state pharmacy, has no B-6 version.',
+      noOption: 'FarmaKeio does not ship to {state}, so there is no compounded B-6 here. ' +
+                'A patient who cannot have B-12 can take Belmar tirzepatide (L-carnitine) or a ' +
+                'brand-name medication. A patient who cannot have L-carnitine can take Belmar ' +
+                'semaglutide (B-12) or a brand-name medication.',
+      watch: 'Expected to be very few patients. If it grows, Don revisits it.'
+    },
+
+    /* The B-6 exception for a state: { drugs, qualifies, ... } where it applies,
+       { noOption: text } in a Belmar state FarmaKeio cannot ship to, or null. */
+    b6ExceptionFor: function (stateCode) {
+      var s = String(stateCode || '').toUpperCase();
+      var r = KORB_GLP1.states.routeTo(s);
+      var x = KORB_GLP1.states.b6Exception;
+      if (!r || r.pharmacy !== x.appliesWhereRoutedTo) return null;
+      var fko = KORB_GLP1.pharmacies[x.pharmacy] || {};
+      var hard = (fko.hardExcludes || []).concat(fko.excludes || []);
+      if (hard.indexOf(s) !== -1) return { state: s, noOption: x.noOption.replace('{state}', s) };
+      return { state: s, drugs: x.drugs, qualifies: x.qualifies, chartLine: x.chartLine,
+               since: x.since, pharmacy: x.pharmacy };
     }
   },
 
@@ -2022,11 +2072,11 @@ var KORB_GLP1 = {
       type: 'compounding',
       visibility: 'provider',
       status: 'active',
-      statusNote: 'ARKANSAS ONLY from 2026-10-28. FarmaKeio is the GLP-1 pharmacy for ' +
-                  'Arkansas, injectable semaglutide and tirzepatide, because Belmar cannot ' +
-                  'collect payment for Arkansas prescriptions. In every other state KORB no ' +
-                  'longer uses FarmaKeio for GLP-1: Premier where Premier can fill, Belmar ' +
-                  'otherwise. Oral semaglutide 1 mg for Arkansas is back from 2026-11-02 as farmakeio_oral_sema_ar; the old FarmaKeio oral record stays retired.',
+      statusNote: 'Used for two groups only. (1) Arkansas: injectable semaglutide and ' +
+                  'tirzepatide, and oral semaglutide 1 mg, because Belmar cannot collect payment ' +
+                  'for Arkansas prescriptions. (2) The B-6 exception: a patient in a Belmar state ' +
+                  'who cannot have B-12 (semaglutide) or L-carnitine (tirzepatide), with the reason ' +
+                  'documented. Everyone else goes to Premier or Belmar.',
       /* History. FarmaKeio left GLP-1 in every state on 2026-10-22 (Premier now
          carries B-6) and came back for Arkansas alone on 2026-10-28. The routing
          rule is what limits it to Arkansas; checkPharmacyForState answers
@@ -4256,7 +4306,7 @@ var KORB_GLP1 = {
          still hold FarmaKeio vials until converted, so the Dose Guide keeps it
          for them too. */
       patientGuideUntilConverted: true,
-      statusNote: 'ARKANSAS ONLY from 2026-10-28: active for Arkansas patients, who stay on FarmaKeio. Retired for every other state on 2026-10-22; patients elsewhere convert at their next follow-up.',
+      statusNote: 'Arkansas patients, and Belmar-state patients under the B-6 exception (cannot have the Belmar additive, reason documented, from 2026-11-09). Everyone else converts to Premier or Belmar at their next follow-up.',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */
       additive: 'Pyridoxine (Vitamin B-6)',
@@ -4445,7 +4495,7 @@ var KORB_GLP1 = {
          still hold FarmaKeio vials until converted, so the Dose Guide keeps it
          for them too. */
       patientGuideUntilConverted: true,
-      statusNote: 'ARKANSAS ONLY from 2026-10-28: active for Arkansas patients, who stay on FarmaKeio. Retired for every other state on 2026-10-22; patients elsewhere convert at their next follow-up.',
+      statusNote: 'Arkansas patients, and Belmar-state patients under the B-6 exception (cannot have the Belmar additive, reason documented, from 2026-11-09). Everyone else converts to Premier or Belmar at their next follow-up.',
       /* What this product carries besides the GLP-1. Shown by the Dose Guide,
          which used to type it in its own table. */
       additive: 'Pyridoxine (Vitamin B-6)',
@@ -6544,6 +6594,16 @@ var KORB_GLP1 = {
        override, so no tool can offer it. Brand channels (LillyDirect, NovoCare,
        the patient's local pharmacy) returned above and are unaffected. */
     var routed = KORB_GLP1.states.routeTo(st);
+    /* THE B-6 EXCEPTION, 2026-11-09: in a Belmar state FarmaKeio is allowed for
+       a patient who cannot have the Belmar additive. A warning, not ok: the
+       provider must have the reason documented before sending. */
+    var b6 = KORB_GLP1.states.b6ExceptionFor(st);
+    if (b6 && b6.drugs && pharmacyKey === b6.pharmacy) {
+      return { status: 'warning', message: ph.name + ' for ' + st + ' only under the B-6 ' +
+               'exception. ' + b6.qualifies + ' Document the reason in the chart. Everyone ' +
+               'else in ' + st + ' goes to ' + ((KORB_GLP1.pharmacies[routed.pharmacy] || {}).name ||
+               routed.pharmacy) + '.' };
+    }
     if (ph.type === 'compounding' && routed && routed.pharmacy !== pharmacyKey) {
       var routedName = (KORB_GLP1.pharmacies[routed.pharmacy] || {}).name || routed.pharmacy;
       return { status: 'error', message: 'Do not send to ' + ph.name + ' for ' + st + '. ' +

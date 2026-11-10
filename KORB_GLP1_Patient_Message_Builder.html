@@ -180,7 +180,7 @@ a{color:var(--navy)}
 </div>
 
 <script src="korb-pharmacies.js?v=e2125c00"></script>
-<script src="korb-glp1-data.js?v=b76625cd"></script>
+<script src="korb-glp1-data.js?v=ec61f7b5"></script>
 <script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
 (function(){
@@ -330,13 +330,41 @@ a{color:var(--navy)}
     var ks = Object.keys(G.products).filter(function(k){ var p = G.products[k]; return p.derivedFrom === key && !p.retired && p.status !== 'retired'; });
     return ks.length ? G.products[ks[0]] : null;
   }
-  function paintVit(pre, show, product){
+  /* THE B-6 EXCEPTION (Don, 2026-11-09). Belmar has no B-6. In a Belmar state a
+     patient who cannot have the Belmar additive (B-12 for semaglutide,
+     L-carnitine for tirzepatide) may go to FarmaKeio for the B-6 version. The
+     same B-6 button offers it, relabelled so the provider sees what it costs:
+     a different pharmacy, and a reason that has to be in the chart. */
+  function b6Exception(base, st){
+    var x = st ? G.states.b6ExceptionFor(st) : null;
+    if (!base || !x || !x.drugs) return null;
+    for (var d in x.drugs) if (x.drugs[d].from === base.key) return { drug: d, avoids: x.drugs[d].avoids, product: G.products[x.drugs[d].to], qualifies: x.qualifies };
+    return null;
+  }
+  function paintVit(pre, show, product, exc){
     $(pre + 'vitWrap').classList.toggle('hide', !show);
     [].forEach.call(document.querySelectorAll('#' + pre + 'vit button'), function(b){
       var on = b.getAttribute('data-vit') === chosenVit;
       b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
     });
-    $(pre + 'vitHint').textContent = 'Same doses, units and charge codes either way. B-6 is Premier only.';
+    var first = document.querySelector('#' + pre + 'vit button[data-vit="b12"]');
+    var second = document.querySelector('#' + pre + 'vit button[data-vit="b6"]');
+    if (exc){
+      first.innerHTML = esc(exc.avoids) + '<span>Belmar</span>';
+      second.innerHTML = 'B-6<span>FarmaKeio, by exception</span>';
+      $(pre + 'vitWrap').querySelector('.steplbl').textContent = 'Added ingredient';
+      $(pre + 'vitHint').textContent = 'B-6 only if the patient cannot have ' + exc.avoids + ': a documented allergy, or a documented reaction they have had to it. It goes to FarmaKeio, not Belmar.';
+    } else {
+      first.innerHTML = 'B-12<span>Cobalamin</span>';
+      second.innerHTML = 'B-6<span>Pyridoxine</span>';
+      $(pre + 'vitWrap').querySelector('.steplbl').textContent = 'Added vitamin (Premier)';
+      $(pre + 'vitHint').textContent = 'Same doses, units and charge codes either way. B-6 is Premier only.';
+    }
+  }
+  function b6ExceptionNote(st, avoids){
+    return '<div class="alert warn"><strong>B-6 exception.</strong> ' + esc(P.stateName(st)) + ' goes to Belmar, which has no B-6. ' +
+      'FarmaKeio is used here only because the patient cannot have ' + esc(avoids) + ' (documented allergy, or a documented reaction to it). ' +
+      'Put the reason in the plan before sending. A preference for B-6 is not a reason.</div>';
   }
   function fillNewMeds(route){
     var sel = $('nmed'), keep = sel.value;
@@ -344,7 +372,9 @@ a{color:var(--navy)}
     var list = newProducts(route.pharmacy).filter(function(p){ return !p.derivedFrom; });
     sel.disabled = false;
     sel.innerHTML = '<option value="">Select...</option>' + list.map(function(p){
-      var lbl = b6Twin(p.key) ? shortLabel(p).replace(/\s*\/\s*B-12/, '') + ' (B-12 or B-6)' : shortLabel(p);
+      var exc = b6Exception(p, $('st').value);
+      var lbl = b6Twin(p.key) ? shortLabel(p).replace(/\s*\/\s*B-12/, '') + ' (B-12 or B-6)'
+              : exc ? shortLabel(p) + ' (B-6 by exception)' : shortLabel(p);
       return '<option value="' + p.key + '">' + esc(lbl) + (isOral(p) ? ' (oral)' : '') + '</option>';
     }).join('');
     if (list.some(function(p){ return p.key === keep; })) sel.value = keep;
@@ -402,9 +432,11 @@ a{color:var(--navy)}
 
   function renderNew(st, route){
     var out = $('out'), base = G.products[$('nmed').value], ds = $('ndose').value;
-    var twin = base ? b6Twin(base.key) : null;
+    var exc = b6Exception(base, st);
+    var twin = base ? (b6Twin(base.key) || (exc && exc.product)) : null;
     var prod = twin && chosenVit === 'b6' ? twin : base;
-    paintVit('n', !!twin, twin);
+    var byException = !!(exc && prod === exc.product);
+    paintVit('n', !!twin, twin, exc);
     fillSupply($('nsup'), prod);
     if (!prod || !ds){ out.innerHTML = '<div class="panel empty">Pick a medication and a dose.</div>'; return; }
     var dose = prod.doses.filter(function(d){ return d.dose === ds; })[0];
@@ -416,7 +448,8 @@ a{color:var(--navy)}
       (prod.exclusiveNote ? '<div class="alert info"><strong>Premier only.</strong> ' + esc(prod.exclusiveNote) + '</div>' : '') +
       (high ? '<div class="alert warn"><strong>' + esc(dose.dose) + ' is a higher dose.</strong> ' + esc(C.highDose.provider) + '</div>' : '') +
       (sup === 'supply12' ? '<div class="alert warn"><strong>12-week supply.</strong> The patient must start within 5 days of delivery; the beyond-use date leaves no room. Use 8-week for anyone who cannot start promptly.</div>' : '') +
-      (prod.pharmacy === 'farmakeio' ? arkansasNote(st)
+      (function(){ var xs = G.states.b6ExceptionFor(st); return xs && xs.noOption && !isOral(prod) ? '<div class="alert info"><strong>No B-6 in ' + esc(P.stateName(st)) + '.</strong> ' + esc(xs.noOption) + '</div>' : ''; })() +
+      (byException ? b6ExceptionNote(st, exc.avoids) : prod.pharmacy === 'farmakeio' ? arkansasNote(st)
         : '<div class="alert info"><strong>Changing pharmacy from FarmaKeio?</strong> Use "Moving from FarmaKeio" above instead, so the dose converts.</div>') +
       '</div>';
     if (rec){
@@ -427,7 +460,9 @@ a{color:var(--navy)}
     var dn = oral ? num(dose) + ' mg' : dose.dose;
     var summary = today() + ': ' + shortLabel(prod) + ' ' + dn + units + (oral ? ' daily' : ' weekly') + ', ' + supText + ', ' + ph + '.';
     var plan = [
-      'Rx: ' + (rec ? rec.name : shortLabel(prod) + ' ' + dose.dose) + '. Sent to ' + ph + ', the GLP-1 pharmacy for ' + P.stateName(st) + '.',
+      'Rx: ' + (rec ? rec.name : shortLabel(prod) + ' ' + dose.dose) + '. Sent to ' + ph +
+        (byException ? ' under the B-6 exception: patient cannot have ' + exc.avoids + ' [allergy or reaction: describe]. Belmar, the ' + P.stateName(st) + ' pharmacy, has no B-6 version.'
+                     : ', the GLP-1 pharmacy for ' + P.stateName(st) + '.'),
       'Dose: ' + dn + units + (oral ? ' daily' : ' weekly') + ', ' + supText + '.',
       high ? C.highDose.plan : null,
       sup === 'supply12' ? '12-week supply: patient counseled to start within 5 days of delivery.' : null,
@@ -513,6 +548,13 @@ a{color:var(--navy)}
     var b6ok = !!(route && route.pharmacy === 'premier' && b6rule);
     paintVit('c', b6ok, b6ok ? G.products[b6rule.premier] : null);
     if (!from || !ds){ fillSupply($('sup'), null); paintSeg(null); out.innerHTML = '<div class="panel empty">Pick the current FarmaKeio medication and dose.</div>'; return; }
+    /* B-6 exception: a FarmaKeio patient in a Belmar state who cannot have the
+       Belmar additive stays on FarmaKeio. Said before the conversion, so the
+       provider decides which applies before reading the new prescription. */
+    var xs = G.states.b6ExceptionFor(st), stayNote = '';
+    if (xs && xs.drugs) for (var dk in xs.drugs) if (xs.drugs[dk].to === from)
+      stayNote = '<div class="alert warn"><strong>Can this patient have ' + esc(xs.drugs[dk].avoids) + '?</strong> If not (a documented allergy, or a documented reaction to it), ' +
+        'they stay on FarmaKeio under the B-6 exception: renew the FarmaKeio prescription and put the reason in the plan. If they can, convert to Belmar below.</div>';
     var opt = { b6: b6ok && chosenVit === 'b6' };
     paintSeg(function(step){ return C.convert(from, ds, st, { b6: opt.b6, step: step }); });
     var c = C.convert(from, ds, st, { b6: opt.b6, step: chosenStep });
@@ -524,7 +566,7 @@ a{color:var(--navy)}
     var T = convertTexts(c, st, sup);
     var ph = phName(c.pharmacy), drug = drugName(c.toProduct), f = c.fromDose, t = c.toDose, e = c.equivDose;
 
-    var h = '<div class="panel"><div class="move">' +
+    var h = (stayNote ? '<div class="panel">' + stayNote + '</div>' : '') + '<div class="panel"><div class="move">' +
       '<div class="side"><div class="k">Now, FarmaKeio</div><div class="v">' + esc(f.dose) + esc(T.fu) + '</div><div class="s">' + esc(G.products[from].label.replace(/\s*\(RETIRED\)\s*$/,'')) + '</div></div>' +
       '<div class="arrow">&rarr;</div>' +
       '<div class="side now"><div class="k">Convert to, ' + esc(ph) + '</div><div class="v">' + esc(t.dose) + esc(T.tu) + '</div><div class="s">' + esc(c.toProduct.label) +

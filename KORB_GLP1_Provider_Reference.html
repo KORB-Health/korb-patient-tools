@@ -143,7 +143,7 @@
   </div>
 
   <div class="convert-link">
-    <span><strong>Writing a prescription or moving a patient from FarmaKeio?</strong> KORB now sends GLP-1 to Premier or Belmar, and to FarmaKeio for Arkansas only. The message tool gives the Tebra entry, plan and portal message with the patient's page link. For a FarmaKeio patient outside Arkansas, cancel and write a new prescription rather than renewing.</span>
+    <span><strong>Writing a prescription or moving a patient from FarmaKeio?</strong> KORB now sends GLP-1 to Premier or Belmar. FarmaKeio is for Arkansas, and for a Belmar-state patient who cannot have B-12 or L-carnitine (the B-6 exception). The message tool gives the Tebra entry, plan and portal message with the patient's page link. For a FarmaKeio patient outside Arkansas, cancel and write a new prescription rather than renewing.</span>
     <a href="KORB_GLP1_Patient_Message_Builder.html">Prescriptions and Patient Messages</a>
   </div>
 
@@ -260,7 +260,7 @@
      this page calls billingFor and reads pricing.* directly, and without it
      every price is null - a blank where a number belongs, not an error. -->
 <script src="korb-charges.js?v=ddc0bb2c"></script>
-<script src="korb-glp1-data.js?v=b76625cd"></script>
+<script src="korb-glp1-data.js?v=ec61f7b5"></script>
 <!-- korb-rx-block.js owns the ONE Copy button and clipboard handler. This
      page uses it for the charge code, so the code copies the same way a
      charge code does on every monograph. Its own .copy-btn on the Tebra
@@ -358,7 +358,9 @@ function init(){
 
   buildDrugs();
   $('stateSel').onchange   = function(){ S.state = this.value; S.pharmacy=''; onStateOrDrug(); };
-  $('drugSel').onchange    = function(){ S.drug = this.value; S.pharmacy = ''; setPharmacy(); buildProducts(); render(); };
+  $('drugSel').onchange    = function(){
+    var v = this.value; S.b6 = v.indexOf('b6|') === 0; S.drug = S.b6 ? v.slice(3) : v;
+    S.pharmacy = ''; setPharmacy(); buildProducts(); render(); };
   $('pharmSel').onchange   = function(){ S.pharmacy = this.value; buildProducts(); render(); };
   $('prodSel').onchange    = function(){ S.product = this.value; buildDoses(); render(); };
   $('supplySel').onchange  = function(){ S.supply = this.value; render(); };
@@ -415,10 +417,23 @@ function buildDrugs(){
   h += brandOk
     ? '<optgroup label="Brand name">' + brand.map(function(d){ return '<option value="' + esc(d) + '">' + esc(drugLabel(d)) + '</option>'; }).join('') + '</optgroup>'
     : '<optgroup label="Brand name"><option value="" disabled>Not offered in ' + esc(stateName(S.state)) + '</option></optgroup>';
+  /* THE B-6 EXCEPTION (Don, 2026-11-09). In a Belmar state, a patient who cannot
+     have B-12 (semaglutide) or L-carnitine (tirzepatide) may go to FarmaKeio for
+     the B-6 version. Its own group, labelled with the reason, so it is never
+     picked by habit. California gets advice instead: FarmaKeio cannot ship there. */
+  var b6 = K.states.b6ExceptionFor(S.state), b6Drugs = [];
+  if (b6 && b6.drugs){
+    b6Drugs = Object.keys(b6.drugs);
+    h += '<optgroup label="B-6 exception · FarmaKeio">' + b6Drugs.map(function(d){
+      return '<option value="b6|' + esc(d) + '">' + esc(b6.drugs[d].label) + '</option>'; }).join('') + '</optgroup>';
+  }
   sel.innerHTML = h; sel.disabled = false;
-  if (comp.concat(brand).indexOf(S.drug) === -1) S.drug = '';
-  sel.value = S.drug || '';
-  if (hint) hint.textContent = 'Compounded goes to ' + phName + '.' + (brandOk ? ' Brand name goes to the maker’s program or a local pharmacy.' : '');
+  var ok = S.b6 ? b6Drugs.indexOf(S.drug) !== -1 : comp.concat(brand).indexOf(S.drug) !== -1;
+  if (!ok){ S.drug = ''; S.b6 = false; }
+  sel.value = S.drug ? (S.b6 ? 'b6|' + S.drug : S.drug) : '';
+  if (hint) hint.textContent = 'Compounded goes to ' + phName + '.' + (brandOk ? ' Brand name goes to the maker’s program or a local pharmacy.' : '') +
+    (b6 && b6.drugs ? ' B-6 only if the patient cannot have the Belmar additive.' : '') +
+    (b6 && b6.noOption ? ' ' + b6.noOption : '');
 }
 
 /* The pharmacy follows from the state and the drug. Brand-name is the only
@@ -426,6 +441,7 @@ function buildDrugs(){
 function setPharmacy(){
   var cg = $('sendToCg'), sel = $('pharmSel');
   if (!S.state || !S.drug){ S.pharmacy = ''; cg.style.display = 'none'; return; }
+  if (S.b6){ S.pharmacy = K.states.b6Exception.pharmacy; cg.style.display = 'none'; return; }
   if (!isBrandDrug(S.drug)){
     var r = stateRoute(); S.pharmacy = r ? r.pharmacy : ''; cg.style.display = 'none'; return;
   }
@@ -440,7 +456,7 @@ function setPharmacy(){
 }
 
 function resetAll(){
-  S = { state:'', drug:'', pharmacy:'', product:'', supply:'supply4', dose:'' };
+  S = { state:'', drug:'', b6:false, pharmacy:'', product:'', supply:'supply4', dose:'' };
   $('stateSel').value=''; $('drugSel').value=''; $('supplySel').value='supply4';
   $('sendToCg').style.display='none';
   $('prodSel').innerHTML='<option value="">—</option>'; $('prodSel').disabled=true;
@@ -474,6 +490,7 @@ function isRetiredProduct(p){ return !!(p && (p.retired || p.status === 'retired
 function matchingProducts(){
   if (!S.pharmacy || !S.drug) return [];
   return K.listProducts({ pharmacy:S.pharmacy }).filter(function(p){
+    if (S.b6) return S.pharmacy === K.states.b6Exception.pharmacy && p.key === K.states.b6Exception.drugs[S.drug].to;
     return selectorDrug(p) === S.drug && !isRetiredProduct(p);
   });
 }

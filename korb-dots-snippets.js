@@ -106,7 +106,7 @@ var KORB_DOTS_SNIPPETS = {
         'Why an FDA-approved product does not meet this patient\'s need: {formmenu: intolerance at a labeled dose, needs a dose between commercial strengths; dose below the lowest commercial strength (maintenance or low dose); allergy or intolerance to an ingredient in the commercial product; name=reason}.\n' +
         'Supporting history: {formtext: name=hx; default=e.g. nausea and vomiting at 0.5 mg, 08/2026, prior provider records}.\n' +
         'Prescribed {formtext: name=dose; default=x.x mg} weekly. Nearest commercial strengths: {formtext: name=comm; default=e.g. 0.25 mg and 0.5 mg}. Clinical difference for this patient: {formtext: name=diff; default=e.g. smaller step to limit GI side effects}.\n' +
-        'Pharmacy: {formmenu: Premier; Belmar; FarmaKeio (Arkansas only); name=pharm}, licensed for the patient\'s state.\n' +
+        'Pharmacy: {formmenu: Premier; Belmar; FarmaKeio (Arkansas, or the B-6 exception); name=pharm}, licensed for the patient\'s state.\n' +
         'Monitoring: weight, GI tolerance and dose review every {formmenu: 4; 8; 12; name=wk} weeks.'
     },
     {
@@ -118,6 +118,14 @@ var KORB_DOTS_SNIPPETS = {
       key: 'injconsent', shortcut: '/poinjconsent', label: 'Compounded consent', group: 'Compounded injection',
       when: 'Every first compounded prescription, and again on any change of drug or pharmacy.',
       text: 'Consent: {formmenu: signed compounded medication consent on file in Tebra; verbal consent obtained and recorded here; name=how}. Discussed: compounded by a state-licensed pharmacy for this patient, not FDA-approved, with less evidence than the FDA-approved product; FDA-approved options exist and were discussed. Dosing, injection technique, storage and common GI side effects reviewed. Stop and contact KORB or go to the ER for severe abdominal pain, pain to the back, persistent vomiting or a neck mass. Patient verbalized understanding and agrees.'
+    },
+    /* THE B-6 EXCEPTION, 2026-11-09 (Don, with Nick). A Belmar-state patient who
+       cannot have the Belmar additive goes to FarmaKeio for the B-6 version. The
+       reason has to be in the chart; a preference is not one. */
+    {
+      key: 'injb6', shortcut: '/poinjb6', label: 'B-6 exception (FarmaKeio)', group: 'Compounded injection',
+      when: 'Only a Belmar-state patient sent to FarmaKeio for B-6. Not for Premier states (Premier has B-6) or Arkansas.',
+      text: 'Pharmacy: FarmaKeio, under the B-6 exception. The state pharmacy is Belmar, which has no B-6 version. Patient cannot have {formmenu: B-12 (semaglutide); L-carnitine (tirzepatide); name=add} because of {formmenu: a documented allergy; a documented reaction to it; name=why}: {formtext: name=hx; default=e.g. hives after B-12 injection, 2025}. B-6 formulation prescribed instead of the Belmar product.'
     },
     {
       key: 'injdm', shortcut: '/poinjdm', label: 'Diabetes managed elsewhere', group: 'Compounded injection',

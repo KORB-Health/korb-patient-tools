@@ -89,7 +89,7 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
 <!-- korb-pharmacies.js MUST load first: korb-glp1-data.js takes its
      pharmacy footprints from it at load, and throws on routing without it. -->
 <script src="korb-pharmacies.js?v=e2125c00"></script>
-<script src="korb-glp1-data.js?v=b76625cd"></script>
+<script src="korb-glp1-data.js?v=ec61f7b5"></script>
 <script>
 (function(){
   "use strict";
@@ -190,6 +190,15 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
       && (KORB_PHARMACIES.pharmacies[def.key].licencePending || {})[st];
     if(pend) h += '<div class="callout"><strong>Licence renewal pending.</strong> ' + esc(pend) + '</div>';
 
+    /* THE B-6 EXCEPTION (Don, 2026-11-09). Belmar has no B-6 GLP-1. */
+    var b6 = D.states.b6ExceptionFor(st);
+    if(b6 && b6.drugs)
+      h += '<div class="callout"><strong>B-6 exception: FarmaKeio.</strong> Only for a patient who cannot have B-12 '
+         + '(semaglutide) or L-carnitine (tirzepatide): a documented allergy, or a documented reaction to it. '
+         + 'Put the reason in the chart. Everyone else goes to ' + esc(def ? def.name : 'the state pharmacy') + '.</div>';
+    else if(b6 && b6.noOption)
+      h += '<div class="callout"><strong>No B-6 here.</strong> ' + esc(b6.noOption) + '</div>';
+
     h += '</div></div>';
     host.innerHTML = h;
   }
@@ -232,7 +241,9 @@ h2{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2
       var r = D.states.routeTo(st);
       if(r && r.backup) problems.push(st + ': routing names a backup (' + r.backup + ')');
       optsFor(st).forEach(function(x){
-        if(x.status !== 'ok' && x.selectable !== false)
+        var b6 = D.states.b6ExceptionFor(st);
+        var byException = b6 && b6.drugs && x.key === b6.pharmacy && x.status === 'warning';
+        if(x.status !== 'ok' && x.selectable !== false && !byException)
           problems.push(st + ': ' + x.key + ' is selectable but is not the state pharmacy');
       });
     });

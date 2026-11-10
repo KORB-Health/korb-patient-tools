@@ -516,7 +516,7 @@ function sectionGlance(doc, ph) {
      "Ships to" list of 49 states on the FarmaKeio page reads as permission to
      use it in any of them, and KORB uses it for Arkansas alone. */
   const where = ph.arkansasOnly
-    ? [['Used for', 'Arkansas patients only. Not used for GLP-1 in any other state']]
+    ? [['Used for', 'Arkansas patients, and Belmar-state patients under the B-6 exception (cannot have B-12 or L-carnitine, reason documented). No one else']]
     : [['Preferred states', (ph.preferredStates || []).join(', ') || '—'],
        ['Ships to', (ph.shipsTo || []).join(', ')],
        ['CANNOT ship to', (ph.hardExcludes || []).length ? ph.hardExcludes.join(', ') : 'No hard exclusions']];
@@ -549,7 +549,7 @@ function sectionCallouts(doc, ph) {
   /* FarmaKeio came back for Arkansas alone on 2026-10-28. Its monographs must
      say so at the top, or a provider in another state reads an active document. */
   if (ph.arkansasOnly) {
-    h += `<div class="callout warn"><h3>Arkansas only</h3><p>${esc(ph.statusNote || 'Arkansas only.')}</p></div>`;
+    h += `<div class="callout warn"><h3>Arkansas and the B-6 exception only</h3><p>${esc(ph.statusNote || 'Arkansas only.')}</p></div>`;
   }
   return h;
 }

@@ -80,6 +80,21 @@
              return '<a class="kmc-med" href="' + esc(PAGES[k].replace(/^Patient_Education\//, '')) + '">' + esc(plainName(p)) + '<span>' + esc(sub(p)) + '</span></a>';
            }).join('') + '</div></div>';
     }
+    /* THE B-6 EXCEPTION (Don, 2026-11-09). In a Belmar state a few patients get
+       the B-6 version from FarmaKeio instead. Worded for the patient: what the
+       label says, never why they qualified. */
+    var b6x = S.state ? G.states.b6ExceptionFor(S.state) : null;
+    if (S.state && S.kind === 'compounded' && b6x && b6x.drugs) {
+      var fk = Object.keys(b6x.drugs).map(function (d) { return b6x.drugs[d].to; })
+        .filter(function (k) { return PAGES[k] && G.products[k]; });
+      if (fk.length)
+        h += '<div class="kmp-step"><strong>Does your label say FarmaKeio Pharmacy?</strong>' +
+             '<p>A few patients in ' + esc(P.stateName(S.state)) + ' get their medication from FarmaKeio Pharmacy, with vitamin B-6. If that is your label, pick yours here.</p>' +
+             '<div class="kmc-list">' + fk.map(function (k) {
+               var p = G.products[k];
+               return '<a class="kmc-med" href="' + esc(PAGES[k].replace(/^Patient_Education\//, '')) + '">' + esc(plainName(p)) + '<span>' + esc(sub(p)) + ', from FarmaKeio</span></a>';
+             }).join('') + '</div></div>';
+    }
     if (S.state && S.kind === 'brand') {
       h += '<div class="kmp-step"><strong>3. Your name-brand medication</strong>' +
            '<p>Name-brand medications come from the maker’s own program or a local pharmacy, with the maker’s instructions in the box. Follow those instructions and your provider’s directions.</p>' +
@@ -90,7 +105,7 @@
     /* Arkansas stays on FarmaKeio (2026-10-28), so the "finish your FarmaKeio
        supply" note is for every other state only. */
     var stateRoute = S.state ? G.states.routeTo(S.state) : null;
-    if (!stateRoute || stateRoute.pharmacy !== 'farmakeio')
+    if ((!stateRoute || stateRoute.pharmacy !== 'farmakeio') && !(b6x && b6x.drugs))
       h += '<div class="kmp-box teal"><strong>Still using medication from FarmaKeio?</strong> Keep using your FarmaKeio instructions until that supply is finished. ' +
            '<a href="../KORB_GLP1_Dose_Guide.html">Open the dose guide</a> for FarmaKeio doses.</div>';
     h += '<p class="kmp-fine">General information for KORB patients. Your prescription label and your KORB provider are always the final word on your dose.</p>';
