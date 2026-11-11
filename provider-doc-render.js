@@ -507,7 +507,7 @@ function signoffLine(doc) {
    provider read "Ships to" on a live patient and saw a list that was not the
    rule. So the box now prints only what states.routeTo answers, for every
    state, and where the rest go. Read live from the routing table: nothing typed. */
-function routedRows(ph) {
+function routedRows(ph, doc) {
   const codes = Object.keys(KORB_PHARMACIES.stateNames);
   const by = {};
   codes.forEach(s => {
@@ -521,8 +521,30 @@ function routedRows(ph) {
   return [
     ['Send to ' + ph.name + ' for patients in', mine.length ? mine.join(', ') : 'No state'],
     ['Every other state goes to', others.join('  ·  ')],
-    ['Rule', 'One pharmacy per state. No backup, no override.']
+    ['Rule', 'One pharmacy per state. No backup, no override.'],
+    ...b6ExceptionRows(doc)
   ];
+}
+
+/* The B-6 exception on the BELMAR pages (Don, 2026-11-11). Belmar has no B-6
+   GLP-1, so the Belmar box says where a patient who cannot have its additive
+   goes. Only on a page whose products are an exception's "from"; states from
+   b6ExceptionFor, never typed. */
+function b6ExceptionRows(doc) {
+  const x = K.states.b6Exception;
+  const prods = doc.products || [];
+  const hit = Object.keys(x.drugs).map(k => Object.assign({ drug: k }, x.drugs[k])).filter(d => prods.indexOf(d.from) !== -1);
+  if (!hit.length) return [];
+  const codes = Object.keys(KORB_PHARMACIES.stateNames);
+  const ok = codes.filter(s => { const e = K.states.b6ExceptionFor(s); return e && e.drugs; });
+  const none = codes.filter(s => { const e = K.states.b6ExceptionFor(s); return e && e.noOption; });
+  return hit.map(d => {
+    const toName = (K.pharmacies[x.pharmacy] && K.pharmacies[x.pharmacy].name) || x.pharmacy;
+    return ['B-6 exception (cannot have ' + d.avoids + ')',
+      'In ' + ok.join(', ') + ' only: send ' + toName + ' ' + d.drug + ' with B-6' +
+      ' instead. ' + x.qualifies + ' Document the justification in the chart.' +
+      none.map(s => ' ' + K.states.b6ExceptionFor(s).noOption).join('')];
+  });
 }
 
 /* FarmaKeio is used for TWO groups and no one else (Don, 2026-11-11): every
@@ -564,7 +586,7 @@ function sectionGlance(doc, ph) {
      use it in any of them, and KORB uses it for Arkansas alone. */
   const where = ph.arkansasOnly
     ? farmakeioRows(doc)
-    : routedRows(ph);
+    : routedRows(ph, doc);
   return `<h2>${esc(ph.name)} at a glance</h2><table class="kv">${rows([
     ['Status', ph.status === 'active' ? 'Active' : esc(ph.status)],
     ...where,
