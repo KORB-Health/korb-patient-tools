@@ -501,6 +501,53 @@ function signoffLine(doc) {
     covers the text.</p></div>`;
 }
 
+/* ONE PHARMACY PER STATE (Don, 2026-10-22; box fixed 2026-11-11). The box used
+   to print the pharmacy's preferred states, its shipping footprint and its hard
+   exclusions. Since 10/22 none of those decide anything: routing does. A
+   provider read "Ships to" on a live patient and saw a list that was not the
+   rule. So the box now prints only what states.routeTo answers, for every
+   state, and where the rest go. Read live from the routing table: nothing typed. */
+function routedRows(ph) {
+  const codes = Object.keys(KORB_PHARMACIES.stateNames);
+  const by = {};
+  codes.forEach(s => {
+    const r = K.states.routeTo(s);
+    const key = r ? r.pharmacy : 'none';
+    (by[key] = by[key] || []).push(s);
+  });
+  const mine = by[ph.key] || [];
+  const others = Object.keys(by).filter(k => k !== ph.key)
+    .map(k => ((K.pharmacies[k] && K.pharmacies[k].name) || k) + ': ' + by[k].join(', '));
+  return [
+    ['Send to ' + ph.name + ' for patients in', mine.length ? mine.join(', ') : 'No state'],
+    ['Every other state goes to', others.join('  ·  ')],
+    ['Rule', 'One pharmacy per state. No backup, no override.']
+  ];
+}
+
+/* FarmaKeio is used for TWO groups and no one else (Don, 2026-11-11): every
+   Arkansas patient, and a Belmar-state patient with a documented justification
+   for B-6. Both state lists come from the routing table and b6ExceptionFor, so
+   California (FarmaKeio does not ship there) drops out on its own. */
+function farmakeioRows(doc) {
+  const codes = Object.keys(KORB_PHARMACIES.stateNames);
+  const ar = codes.filter(s => { const r = K.states.routeTo(s); return r && r.pharmacy === 'farmakeio'; });
+  const b6 = codes.filter(s => { const x = K.states.b6ExceptionFor(s); return x && x.drugs; });
+  const none = codes.filter(s => { const x = K.states.b6ExceptionFor(s); return x && x.noOption; });
+  const x = K.states.b6Exception;
+  /* Oral semaglutide is Arkansas only: the exception covers the injectables. */
+  const targets = Object.keys(x.drugs).map(k => x.drugs[k].to);
+  const hasB6 = (doc.products || []).some(k => targets.indexOf(k) !== -1);
+  if (!hasB6) return [['Use FarmaKeio for', 'Patients in ' + ar.join(', ') + ' only. Everyone else goes to Premier or Belmar.']];
+  return [
+    ['Use FarmaKeio for', 'Only these two groups. Everyone else goes to Premier or Belmar.'],
+    ['1. Every patient in', ar.join(', ')],
+    ['2. B-6 exception only, in', b6.join(', ') + ' (Belmar states). ' + x.qualifies +
+      ' Document the justification in the chart.' +
+      (none.length ? ' Not available in ' + none.join(', ') + ': FarmaKeio does not ship there.' : '')]
+  ];
+}
+
 function sectionGlance(doc, ph) {
   if (doc.brand) {
     const b = K.pricing.brandName;
@@ -516,10 +563,8 @@ function sectionGlance(doc, ph) {
      "Ships to" list of 49 states on the FarmaKeio page reads as permission to
      use it in any of them, and KORB uses it for Arkansas alone. */
   const where = ph.arkansasOnly
-    ? [['Used for', 'Arkansas patients, and Belmar-state patients under the B-6 exception (cannot have B-12 or L-carnitine, reason documented). No one else']]
-    : [['Preferred states', (ph.preferredStates || []).join(', ') || '—'],
-       ['Ships to', (ph.shipsTo || []).join(', ')],
-       ['CANNOT ship to', (ph.hardExcludes || []).length ? ph.hardExcludes.join(', ') : 'No hard exclusions']];
+    ? farmakeioRows(doc)
+    : routedRows(ph);
   return `<h2>${esc(ph.name)} at a glance</h2><table class="kv">${rows([
     ['Status', ph.status === 'active' ? 'Active' : esc(ph.status)],
     ...where,
