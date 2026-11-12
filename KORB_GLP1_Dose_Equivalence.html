@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KORB — GLP-1 Dose Equivalence Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+<!--
+  PROVIDER TOOL. SAME WEEKLY MG AT ANOTHER PHARMACY'S STRENGTH.
+  Don, 2026-11-11: providers have patients sitting between two ladder doses
+  (FarmaKeio semaglutide 90 units, say) and need the same dose in units at
+  Premier or Belmar, by ratio and proportion on the two concentrations.
+
+    new units = current units x (current mg/mL / new mg/mL)
+
+  Every direction between FarmaKeio, Premier and Belmar, semaglutide and
+  tirzepatide. Belmar semaglutide has two strengths (1 mg/mL and 2.5 mg/mL by
+  dose band), so a Belmar starting dose asks which vial, and a Belmar result
+  shows both vials and marks the one Belmar dispenses for that dose.
+
+  NOTHING CLINICAL IS TYPED HERE. Concentrations are read from the formulation
+  string (or the per-dose `conc` on belmar_sema) in korb-glp1-data.js, and the
+  ladders are that file's doses. A FarmaKeio LADDER dose also shows what the
+  standing conversion rule (farmakeioConversion.pickDose: same step for
+  semaglutide, nearest lower for tirzepatide) gives, because for semaglutide
+  that is NOT the mg equivalent: FarmaKeio 1.0 mg moves to Premier 1.2 mg by
+  step. This page answers the in-between doses the rule has no step for.
+
+  KORB_EQUIV_SELFCHECK() in the console: every concentration parses, every
+  ladder dose's units agree with mg / concentration to within one unit, every
+  pair round-trips, and FarmaKeio semaglutide 90 units gives Premier 75 units.
+-->
+<style>
+:root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--gold:#FBB040;
+      --muted:#5A6070;--line:#DCD9C4;--err:#B3261E;}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+[hidden]{display:none !important}
+body{font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+     background:var(--cream);color:var(--navy);-webkit-font-smoothing:antialiased;font-size:14px}
+.wrap{max-width:900px;margin:0 auto;padding:14px 16px 24px}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);margin:0 0 3px}
+h1{font-size:21px;font-weight:800;margin:0;line-height:1.25}
+.rule{height:3px;width:48px;background:var(--teal);border-radius:2px;margin:7px 0 12px}
+.lead{font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.55;max-width:72ch}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.steplbl{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:0 0 5px}
+.row{margin-top:14px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg.two{grid-template-columns:repeat(2,1fr)}
+@media(max-width:560px){.seg,.seg.two{grid-template-columns:1fr}}
+.seg button{font-family:inherit;font-size:13px;font-weight:800;color:var(--navy);background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:8px 6px;min-height:52px;cursor:pointer;line-height:1.3}
+.seg button span{display:block;font-weight:600;font-size:12px;color:var(--muted)}
+.seg button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.seg button.on span{color:#DCE3F5}
+.seg button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.inputs{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;max-width:460px}
+.inputs .or{font-size:12px;font-weight:700;color:var(--muted);padding-bottom:13px}
+.f label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.f input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-family:inherit;font-size:18px;font-weight:700;color:var(--navy);background:#fff;min-height:44px}
+.f input:focus{outline:3px solid var(--teal);outline-offset:2px}
+.empty{color:var(--muted);font-size:13px}
+.alert{border-radius:8px;padding:10px 12px;margin-top:12px;font-size:13px;line-height:1.5}
+.alert.warn{background:#FFF6E3;border-left:4px solid var(--gold)}
+.alert.info{background:#E0F6F9;border-left:4px solid var(--teal)}
+.alert.err{background:#FBEAEA;border-left:4px solid var(--err)}
+h2{font-size:15px;font-weight:800;margin:0 0 2px}
+.sub{font-size:12px;color:var(--muted);margin:0 0 8px;line-height:1.5}
+.res{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:baseline;border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+.res:first-of-type{border-top:none;margin-top:4px;padding-top:4px}
+.big{font-size:30px;font-weight:800;line-height:1.1;white-space:nowrap}
+.big small{font-size:14px;font-weight:700}
+.tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:var(--teal);color:#fff;border-radius:4px;padding:2px 6px;margin-left:6px;vertical-align:middle}
+.tag.grey{background:#B9BCC6}
+.det{font-size:13px;line-height:1.55}
+.det b{font-weight:800}
+.math{font-family:Consolas,Menlo,monospace;font-size:12.5px;background:#FBFAF6;border:1px solid var(--line);border-radius:6px;padding:4px 8px;display:inline-block;margin:3px 0}
+.flag{color:#8A5A00;font-weight:700}
+.btn{margin-top:8px;font-family:inherit;font-weight:800;font-size:12.5px;padding:7px 14px;min-height:36px;border-radius:8px;border:none;background:var(--navy);color:#fff;cursor:pointer}
+.btn.done{background:#2E7D32}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{text-align:left;padding:6px 8px;border:1px solid var(--line)}
+th{background:var(--navy);color:#fff;font-weight:800;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+td.lbl{background:#F4F3EC;font-weight:800}
+a{color:var(--navy)}
+.seg button,.btn{transition:background-color .15s,border-color .15s,color .15s}
+@media (hover:hover){
+  .seg button:not(.on):hover{border-color:var(--teal);background:#E0F6F9}
+  .seg button.on:hover{background:#2C3474;border-color:#2C3474}
+  .btn:hover{background:#2C3474}
+  .btn.done:hover{background:#2E7D32}
+  .f input:hover{border-color:var(--teal)}
+}
+@media(max-width:560px){.res{grid-template-columns:1fr}.inputs{grid-template-columns:1fr}.inputs .or{padding:0}}
+@media print{.btn{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">GLP-1 / Weight Loss · Providers</p>
+  <h1>GLP-1 Dose Equivalence Calculator</h1>
+  <div class="rule"></div>
+  <p class="lead">For a patient whose dose sits between two ladder steps. Enter what they inject now and see the same weekly mg in units at the other pharmacies, worked by ratio and proportion on each pharmacy's strength. Units only mean something next to a strength, so check the strength on the patient's current label. This gives the equivalent. The dose you prescribe is your decision.</p>
+
+  <div class="panel">
+    <div class="steplbl">1. Medication</div>
+    <div class="seg two" id="drug" role="radiogroup" aria-label="Medication"></div>
+
+    <div class="row">
+      <div class="steplbl">2. Pharmacy now</div>
+      <div class="seg" id="from" role="radiogroup" aria-label="Current pharmacy"></div>
+    </div>
+
+    <div class="row" id="vialrow" hidden>
+      <div class="steplbl">Belmar vial strength on the label</div>
+      <div class="seg two" id="vial" role="radiogroup" aria-label="Belmar vial strength"></div>
+    </div>
+
+    <div class="row">
+      <div class="steplbl">3. Current weekly dose</div>
+      <div class="inputs">
+        <div class="f"><label for="units">Units</label><input id="units" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 90"></div>
+        <div class="or">or</div>
+        <div class="f"><label for="mg">mg</label><input id="mg" type="number" inputmode="decimal" min="0" step="0.05" placeholder="e.g. 2.25"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="out"><div class="panel empty">Pick the medication and pharmacy, then enter the dose.</div></div>
+
+  <div class="panel">
+    <h2>Strengths used</h2>
+    <p class="sub">Read from the GLP-1 data file that every KORB GLP-1 tool uses. Premier's glycine and B-6 versions have the same GLP-1 strength as its B-12 version, so their units are the same.</p>
+    <div id="ref"></div>
+  </div>
+</div>
+
+<script src="korb-pharmacies.js?v=e2125c00"></script>
+<script src="korb-glp1-data.js?v=14239212"></script>
+<script>
+(function(){
+  var G = KORB_GLP1, C = G.farmakeioConversion;
+  var $ = function(id){ return document.getElementById(id); };
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  /* Trim to dp places and drop trailing zeros: 75.0 -> 75, 2.250 -> 2.25. */
+  function fmt(x, dp){ return String(+(+x).toFixed(dp == null ? 2 : dp)); }
+
+  var PH = ['farmakeio', 'premier', 'belmar'];
+  var PROD = {
+    semaglutide: { farmakeio: 'farmakeio_sema', premier: 'premier_sema', belmar: 'belmar_sema' },
+    tirzepatide: { farmakeio: 'farmakeio_tirz', premier: 'premier_tirz', belmar: 'belmar_tirz' }
+  };
+  var phName = function(k){ return (G.pharmacies[k] || {}).name || k; };
+  var cap = function(s){ return s.charAt(0).toUpperCase() + s.slice(1); };
+
+  /* The GLP-1 strength in mg/mL: the first "N mg" in the dose's own conc
+     (belmar_sema) or the product formulation. */
+  function concOf(src){ var m = /(\d+(?:\.\d+)?)\s*mg/i.exec(src || ''); return m ? +m[1] : null; }
+
+  /* Each product's strengths. One for most; Belmar semaglutide has two, each
+     with the top ladder mg it is dispensed for, so a dose can be put in its band. */
+  function strengths(key){
+    var p = G.products[key], by = {};
+    p.doses.forEach(function(d){
+      var c = concOf(d.conc) || concOf(p.formulation);
+      if (c == null) return;
+      if (!by[c] || d.mg > by[c].topMg) by[c] = { conc: c, topMg: d.mg };
+    });
+    return Object.keys(by).map(function(c){ return by[c]; }).sort(function(a, b){ return a.conc - b.conc; });
+  }
+  /* The strength the pharmacy dispenses for a weekly mg. */
+  function bandFor(list, mg){
+    for (var i = 0; i < list.length; i++) if (mg <= list[i].topMg + 1e-9) return list[i];
+    return list[list.length - 1];
+  }
+
+  /* Where a mg sits on a product's ladder. */
+  function ladderPos(key, mg){
+    var ds = G.products[key].doses.slice().sort(function(a, b){ return a.mg - b.mg; });
+    var u = function(d){ return d.dose + ' (' + d.units + ' units)'; };
+    for (var i = 0; i < ds.length; i++) if (Math.abs(ds[i].mg - mg) < 0.005) return { text: 'Same mg as the ' + u(ds[i]) + ' ladder dose.', exact: ds[i] };
+    if (mg < ds[0].mg) return { text: 'Below the lowest ladder dose, ' + u(ds[0]) + '.', flag: true };
+    if (mg > ds[ds.length - 1].mg) return { text: 'Above the highest ladder dose, ' + u(ds[ds.length - 1]) + '. Confirm this is intended.', flag: true };
+    for (i = 0; i < ds.length - 1; i++) if (mg > ds[i].mg && mg < ds[i + 1].mg)
+      return { text: 'Between the ' + u(ds[i]) + ' and ' + u(ds[i + 1]) + ' ladder doses.' };
+    return { text: '' };
+  }
+
+  /* Ratio and proportion. Returned so the self-check uses the same arithmetic. */
+  function convertUnits(units, fromConc, toConc){ return units * fromConc / toConc; }
+
+  var st = { drug: null, from: null, vial: null };
+
+  function seg(el, items, cur, onPick){
+    el.innerHTML = items.map(function(it){
+      return '<button type="button" role="radio" aria-checked="' + (it.v === cur) + '" class="' + (it.v === cur ? 'on' : '') +
+        '" data-v="' + esc(it.v) + '">' + esc(it.t) + (it.s ? '<span>' + esc(it.s) + '</span>' : '') + '</button>';
+    }).join('');
+    Array.prototype.forEach.call(el.querySelectorAll('button'), function(b){
+      b.onclick = function(){ onPick(b.getAttribute('data-v')); };
+    });
+  }
+
+  function fromStrength(){
+    if (!st.drug || !st.from) return null;
+    var list = strengths(PROD[st.drug][st.from]);
+    if (list.length === 1) return list[0].conc;
+    return st.vial ? +st.vial : null;
+  }
+
+  function drawControls(){
+    seg($('drug'), [{ v: 'semaglutide', t: 'Semaglutide' }, { v: 'tirzepatide', t: 'Tirzepatide' }], st.drug, function(v){
+      st.drug = v; st.vial = null; drawControls(); syncFrom('units'); render();
+    });
+    seg($('from'), PH.map(function(k){
+      var s = st.drug ? strengths(PROD[st.drug][k]).map(function(x){ return fmt(x.conc) + ' mg/mL'; }).join(' or ') : '';
+      return { v: k, t: phName(k), s: s };
+    }), st.from, function(v){ st.from = v; st.vial = null; drawControls(); syncFrom('units'); render(); });
+    var list = st.drug && st.from ? strengths(PROD[st.drug][st.from]) : [];
+    $('vialrow').hidden = list.length < 2;
+    if (list.length > 1) seg($('vial'), list.map(function(x, i){
+      return { v: String(x.conc), t: fmt(x.conc) + ' mg/mL', s: (i === 0 ? 'up to ' : 'above ' + fmt(list[i - 1].topMg) + ' mg, up to ') + fmt(x.topMg) + ' mg' };
+    }), st.vial, function(v){ st.vial = v; drawControls(); syncFrom('units'); render(); });
+  }
+
+  /* Units and mg are two views of one dose: typing in one fills the other. */
+  function syncFrom(which){
+    var c = fromStrength();
+    if (!c) return;
+    if (which === 'units' && $('units').value !== '') $('mg').value = fmt(+$('units').value * c / 100, 3);
+    if (which === 'mg' && $('mg').value !== '') $('units').value = fmt(+$('mg').value * 100 / c, 1);
+  }
+  $('units').addEventListener('input', function(){ if ($('units').value === '') $('mg').value = ''; syncFrom('units'); render(); });
+  $('mg').addEventListener('input', function(){ if ($('mg').value === '') $('units').value = ''; syncFrom('mg'); render(); });
+
+  function resultRow(units, toConc, toPh, mg, isBand, showBand){
+    var whole = Math.round(units), delivered = whole * toConc / 100, diff = mg ? (delivered - mg) / mg * 100 : 0;
+    var h = '<div class="res"><div class="big">' + esc(fmt(units, 1)) + ' <small>units</small></div><div class="det">';
+    h += 'at <b>' + esc(fmt(toConc)) + ' mg/mL</b>';
+    if (showBand) h += isBand ? '<span class="tag">' + esc(phName(toPh)) + ' dispenses this vial for ' + esc(fmt(mg, 3)) + ' mg</span>' : '<span class="tag grey">other vial</span>';
+    h += '<br><span class="math">' + esc(fmt(+$('units').value, 1)) + ' units &times; ' + esc(fmt(fromStrength())) + ' mg/mL &divide; ' + esc(fmt(toConc)) + ' mg/mL = ' + esc(fmt(units, 2)) + ' units</span>';
+    if (Math.abs(units - whole) > 0.05) h += '<br>Nearest whole unit: <b>' + whole + ' units</b>, which delivers ' + esc(fmt(delivered, 3)) + ' mg (' + (diff >= 0 ? '+' : '') + esc(fmt(diff, 1)) + '%).';
+    if (units > 100) h += '<br><span class="flag">Over 100 units: more than one 1 mL syringe, so two injections each week.</span>';
+    return h + '</div></div>';
+  }
+
+  function chartLine(fromKey, toKey, toConc, units){
+    return 'Dose equivalence: ' + phName(st.from) + ' ' + st.drug + ' ' + fmt(fromStrength()) + ' mg/mL, ' + fmt(+$('units').value, 1) +
+      ' units (' + fmt(+$('mg').value, 3) + ' mg weekly) = ' + phName(G.products[toKey].pharmacy) + ' ' + st.drug + ' ' + fmt(toConc) +
+      ' mg/mL, ' + fmt(units, 1) + ' units (' + fmt(+$('mg').value, 3) + ' mg weekly).';
+  }
+
+  /* For a FarmaKeio ladder dose, the standing conversion rule's answer, which
+     for semaglutide is the same STEP, not the same mg. */
+  function fkRuleNote(fromKey, units){
+    if (st.from !== 'farmakeio') return '';
+    var p = G.products[fromKey], fd = p.doses.filter(function(d){ return Math.abs(d.units - units) < 0.05; })[0];
+    var r = C.ruleFor && C.ruleFor(fromKey);
+    if (!fd || !r || !C.pickDose) return '';
+    var parts = ['premier', 'belmar'].map(function(ph){
+      var tk = r.to[ph], td = tk && C.pickDose(r.rule, p, fd, G.products[tk]);
+      return td ? phName(ph) + ' ' + td.dose + ' (' + td.units + ' units)' : null;
+    }).filter(Boolean);
+    if (!parts.length) return '';
+    var how = r.rule === 'sameStep' ? 'same ladder step' : r.rule === 'nearestLower' ? 'nearest lower dose' : r.rule;
+    return '<div class="alert info"><b>' + esc(fd.dose) + ' is a FarmaKeio ladder dose.</b> For a move off FarmaKeio the standing rule (' + esc(how) + ') gives ' +
+      esc(parts.join(' or ')) + ', and <a href="KORB_GLP1_Patient_Message_Builder.html?mode=convert">GLP-1 Prescriptions and Patient Messages</a> writes that prescription. ' +
+      'The equivalents below are the exact mg, for reference.</div>';
+  }
+
+  function render(){
+    var out = $('out'), units = parseFloat($('units').value), fc = fromStrength();
+    if (!st.drug || !st.from) { out.innerHTML = '<div class="panel empty">Pick the medication and pharmacy, then enter the dose.</div>'; return; }
+    if (!fc) { out.innerHTML = '<div class="panel empty">Pick the Belmar vial strength on the patient\'s label.</div>'; return; }
+    if (!(units > 0)) { out.innerHTML = '<div class="panel empty">Enter the current dose in units or mg.</div>'; return; }
+    var fromKey = PROD[st.drug][st.from], mg = units * fc / 100;
+    var h = '<div class="panel"><h2>' + esc(fmt(mg, 3)) + ' mg weekly</h2><p class="sub">' + esc(phName(st.from)) + ' ' + esc(st.drug) + ', ' +
+      esc(fmt(units, 1)) + ' units at ' + esc(fmt(fc)) + ' mg/mL. ' + esc(ladderPos(fromKey, mg).text) + '</p>' + fkRuleNote(fromKey, units) + '</div>';
+    PH.filter(function(k){ return k !== st.from; }).forEach(function(toPh){
+      var toKey = PROD[st.drug][toPh], list = strengths(toKey), band = bandFor(list, mg), pos = ladderPos(toKey, mg);
+      h += '<div class="panel"><h2>' + esc(phName(toPh)) + ' ' + esc(st.drug) + '</h2><p class="sub' + (pos.flag ? ' flag' : '') + '">' + esc(pos.text) + '</p>';
+      /* The vial Belmar dispenses for this dose first, the other after it. */
+      [band].concat(list.filter(function(s){ return s !== band; })).forEach(function(s){ h += resultRow(convertUnits(units, fc, s.conc), s.conc, toPh, mg, s === band, list.length > 1); });
+      var u = convertUnits(units, fc, band.conc);
+      h += '<button type="button" class="btn" data-copy="' + esc(chartLine(fromKey, toKey, band.conc, u)) + '">Copy for chart note</button></div>';
+    });
+    out.innerHTML = h;
+    Array.prototype.forEach.call(out.querySelectorAll('[data-copy]'), function(b){
+      b.onclick = function(){
+        var t = b.getAttribute('data-copy');
+        (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function(){
+          b.textContent = 'Copied'; b.classList.add('done');
+          setTimeout(function(){ b.textContent = 'Copy for chart note'; b.classList.remove('done'); }, 1600);
+        }, function(){ window.prompt('Copy this:', t); });
+      };
+    });
+  }
+
+  function drawRef(){
+    var h = '<table><thead><tr><th>Pharmacy</th><th>Semaglutide</th><th>Tirzepatide</th></tr></thead><tbody>';
+    PH.forEach(function(k){
+      h += '<tr><td class="lbl">' + esc(phName(k)) + '</td>' + ['semaglutide', 'tirzepatide'].map(function(d){
+        var list = strengths(PROD[d][k]);
+        return '<td>' + list.map(function(s, i){
+          return esc(fmt(s.conc)) + ' mg/mL' + (list.length > 1 ? ' (' + (i === 0 ? 'up to ' : 'above ' + fmt(list[i - 1].topMg) + ' mg, up to ') + esc(fmt(s.topMg)) + ' mg)' : '');
+        }).join('<br>') + '</td>';
+      }).join('') + '</tr>';
+    });
+    $('ref').innerHTML = h + '</tbody></table>';
+  }
+
+  drawControls(); drawRef();
+
+  window.KORB_EQUIV_SELFCHECK = function(){
+    var fails = [];
+    Object.keys(PROD).forEach(function(drug){
+      PH.forEach(function(ph){
+        var key = PROD[drug][ph], p = G.products[key];
+        if (!p) { fails.push(key + ': product missing'); return; }
+        var list = strengths(key);
+        if (!list.length) fails.push(key + ': no strength parsed');
+        p.doses.forEach(function(d){
+          var c = concOf(d.conc) || concOf(p.formulation);
+          if (Math.abs(d.mg * 100 / c - d.units) >= 1) fails.push(key + ' ' + d.dose + ': ' + d.units + ' units does not match ' + c + ' mg/mL');
+          PH.forEach(function(ph2){
+            strengths(PROD[drug][ph2]).forEach(function(s){
+              var there = convertUnits(d.units, c, s.conc), back = convertUnits(there, s.conc, c);
+              if (Math.abs(back - d.units) > 1e-9) fails.push(key + ' ' + d.dose + ' to ' + ph2 + ': round trip');
+              if (Math.abs(there * s.conc / 100 - d.units * c / 100) > 1e-9) fails.push(key + ' ' + d.dose + ' to ' + ph2 + ': mg changed');
+            });
+          });
+        });
+      });
+    });
+    /* Premier variants must share the strength the page uses for Premier. */
+    ['premier_sema_glycine', 'premier_sema_b6'].forEach(function(k){ if (G.products[k] && strengths(k)[0].conc !== strengths('premier_sema')[0].conc) fails.push(k + ': strength differs from premier_sema'); });
+    if (G.products.premier_tirz_b6 && strengths('premier_tirz_b6')[0].conc !== strengths('premier_tirz')[0].conc) fails.push('premier_tirz_b6: strength differs');
+    /* Don's worked example, 2026-11-11. */
+    var ex = convertUnits(90, strengths('farmakeio_sema')[0].conc, strengths('premier_sema')[0].conc);
+    if (Math.abs(ex - 75) > 1e-9) fails.push('FarmaKeio sema 90 units should be Premier 75 units, got ' + ex);
+    if (strengths('belmar_sema').length !== 2) fails.push('belmar_sema should have two strengths');
+    console[fails.length ? 'error' : 'log']('KORB_EQUIV_SELFCHECK: ' + (fails.length ? fails.length + ' failure(s)\n' + fails.join('\n') : 'all pass'));
+    return fails;
+  };
+}());
+</script>
+</body>
+</html>
