@@ -388,7 +388,7 @@ body{background:var(--cream);}
      They now come from korb-mens-data.js. ORDER MATTERS - korb-pharmacies.js
      must load first or the data file throws by name rather than answering
      from an empty footprint. -->
-<script src="../korb-pharmacies.js?v=fbb9adc4"></script>
+<script src="../korb-pharmacies.js?v=d8172a35"></script>
 <script src="../korb-mens-data.js?v=935997e3"></script>
 <script>
 if (typeof KORB_MENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
@@ -619,7 +619,7 @@ function render(){
      See korb-mens-data.js scheduling.followUpCountsFrom. */
   var hasDates = !!(exam && pmp);   // the visit note needs both
   var release, sendToday, holdDays, runsOut, supplyGone, gapDays;
-  var nextRelease, visitBy, labDraw, sendNext;
+  var nextRelease, visitBy, visitMoved, labDraw, sendNext;
   if(pmp){
     release   = addD(pmp, rxDays);           // pharmacy can release today's Rx
     runsOut   = release;                     // current supply ends
@@ -632,7 +632,12 @@ function render(){
   if(exam){
     nextRelease = addD(exam, rxDays);          // next cycle, counted from today
     sendNext    = addD(nextRelease, -SEND_LEAD);
-    visitBy     = sendNext;                    // see patient on or before
+    /* A visit that lands on a weekend moves to the Friday before. Don,
+       2026-11-12. Earlier is safe for a visit; the labs follow the visit.
+       The send date does NOT move: sending more than SEND_LEAD days before
+       release is what triggers the too-early callback. */
+    visitBy     = addD(sendNext, {6:-1, 0:-2}[sendNext.getDay()] || 0);
+    visitMoved  = visitBy.getTime() !== sendNext.getTime();
     labDraw     = addD(visitBy, -LAB_LEAD);    // labs 2 weeks before visit
   }
 
@@ -697,10 +702,16 @@ function render(){
   h += '<div class="dcell"><div class="lbl">Order labs for</div><div class="val">'
      + fmtShort(labDraw)+'</div><div class="sub">'+LAB_LEAD+' days before visit</div></div>';
   h += '<div class="dcell key"><div class="lbl">See patient by</div><div class="val">'
-     + fmtShort(visitBy)+'</div><div class="sub">'+fmt(visitBy).split(", ")[0]+'</div></div>';
+     + fmtShort(visitBy)+'</div><div class="sub">'+fmt(visitBy).split(", ")[0]
+     + (visitMoved ? ', moved off the weekend' : '')+'</div></div>';
   h += '<div class="dcell"><div class="lbl">Send next Rx on</div><div class="val">'
      + fmtShort(sendNext)+'</div><div class="sub">'+SEND_LEAD+' days before '+fmtShort(nextRelease)+'</div></div>';
   h += '</div>';
+  if(visitMoved){
+    h += '<div class="info-box amber"><b>The visit is on Friday '+fmtShort(visitBy)+', but send the next Rx on '
+       + fmtShort(sendNext)+', not at the visit.</b> The visit was moved off the weekend; the send date was not, '
+       + 'because sending more than '+SEND_LEAD+' days before the pharmacy can release triggers the too-early callback.</div>';
+  }
   if(pmp && !sendToday && !supplyGone){
     h += '<div class="info-box teal">Today\'s prescription will not start until about '+fmtShort(release)
        + ', so the patient will still have medication at this follow-up. Seeing them on this date is deliberate: '

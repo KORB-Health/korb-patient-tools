@@ -159,14 +159,17 @@ prescription** (pharmacy release, send-or-hold) runs from the PMP last fill;
 **Next visit and labs** runs from the visit date
 (`korb-mens-data.js` `scheduling.followUpCountsFrom`). A patient who filled
 recently is seen at the normal interval from the visit and still has medication
-then; that is deliberate. The Men's probe in `artifact-signoff.js` enters no
+then; that is deliberate. A visit that lands on Saturday or Sunday moves to
+the Friday before and the labs follow it; the next-Rx send date does NOT move,
+because sending early triggers the too-early callback, and the tool says so.
+The Men's probe in `artifact-signoff.js` enters no
 dates, so no signature covers this schedule.
 
 **PMP login buttons** on the Men's and Women's tools read
 `korb-pharmacies.js` `pdmp` (Texas PMP Aware, California CURES), one entry
 per state, and `selfCheck()` fails if a TRT state has no database or https
-link. The CURES link (`cures.doj.ca.gov`) is marked unconfirmed until Don
-opens it once; set `verified: true` then.
+link. Don opened the CURES link (`cures.doj.ca.gov`) on 2026-11-12 and confirmed
+it lands on the CURES login.
 
 ## TRT IS MEN'S HEALTH. ONE PROGRAM, NOT TWO.
 
