@@ -29,9 +29,19 @@
   that is NOT the mg equivalent: FarmaKeio 1.0 mg moves to Premier 1.2 mg by
   step. This page answers the in-between doses the rule has no step for.
 
+  APPROVED LADDER UNITS WIN (Don, 2026-11-12). Ladder units are rounded to whole
+  units and are what the pharmacies approved and every KORB document lists, so
+  FarmaKeio tirzepatide 2.5 mg is 13 units though 13 units is 2.34 mg by
+  arithmetic. A dose entered as a ladder's units reads as that ladder dose and
+  its mg, and a result that lands on another pharmacy's ladder dose shows that
+  dose's approved units. Off the ladder it is plain ratio and proportion on the
+  units actually drawn up, so FarmaKeio tirzepatide 13 units is 13 units at
+  Premier, which has the same strength.
+
   KORB_EQUIV_SELFCHECK() in the console: every concentration parses, every
   ladder dose's units agree with mg / concentration to within one unit, every
-  pair round-trips, and FarmaKeio semaglutide 90 units gives Premier 75 units.
+  pair round-trips, every ladder dose reads as itself in units and in mg, and
+  FarmaKeio semaglutide 90 units gives Premier 75 units.
 -->
 <style>
 :root{--navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--gold:#FBB040;
@@ -176,14 +186,33 @@ a{color:var(--navy)}
     return list[list.length - 1];
   }
 
-  /* Where a mg sits on a product's ladder. */
-  function ladderPos(key, mg){
+  function doseConc(key, d){ return concOf(d.conc) || concOf(G.products[key].formulation); }
+
+  /* The approved ladder dose a dose IS, at that dose's own strength. Ladder
+     units are rounded to whole units and are what the pharmacy approved and
+     every KORB document lists: FarmaKeio tirzepatide 2.5 mg is 13 units, which
+     is 2.34 mg by arithmetic. So a dose entered in UNITS is a ladder dose only
+     when it is the ladder's units, and is then read as the ladder's mg. A dose
+     given in MG (typed, or a converted result) is a ladder dose when it is
+     within half a unit of the ladder mg. Don, 2026-11-12. */
+  function ladderMatch(key, conc, units, mg){
+    var ds = G.products[key].doses;
+    for (var i = 0; i < ds.length; i++){
+      var d = ds[i], c = doseConc(key, d);
+      if (c !== conc) continue;
+      if (units != null ? Math.abs(d.units - units) < 0.05 : Math.abs(d.mg - mg) <= 0.5 * c / 100 + 1e-9) return d;
+    }
+    return null;
+  }
+
+  /* Where a mg sits on a product's ladder. `exact` is the ladderMatch, if any. */
+  function ladderPos(key, mg, exact){
     var ds = G.products[key].doses.slice().sort(function(a, b){ return a.mg - b.mg; });
     var u = function(d){ return d.dose + ' (' + d.units + ' units)'; };
-    for (var i = 0; i < ds.length; i++) if (Math.abs(ds[i].mg - mg) < 0.005) return { text: 'Same mg as the ' + u(ds[i]) + ' ladder dose.', exact: ds[i] };
+    if (exact) return { text: 'This is the ' + u(exact) + ' ladder dose.', exact: exact };
     if (mg < ds[0].mg) return { text: 'Below the lowest ladder dose, ' + u(ds[0]) + '.', flag: true };
     if (mg > ds[ds.length - 1].mg) return { text: 'Above the highest ladder dose, ' + u(ds[ds.length - 1]) + '. Confirm this is intended.', flag: true };
-    for (i = 0; i < ds.length - 1; i++) if (mg > ds[i].mg && mg < ds[i + 1].mg)
+    for (var i = 0; i < ds.length - 1; i++) if (mg > ds[i].mg && mg < ds[i + 1].mg)
       return { text: 'Between the ' + u(ds[i]) + ' and ' + u(ds[i + 1]) + ' ladder doses.' };
     return { text: '' };
   }
@@ -191,7 +220,38 @@ a{color:var(--navy)}
   /* Ratio and proportion. Returned so the self-check uses the same arithmetic. */
   function convertUnits(units, fromConc, toConc){ return units * fromConc / toConc; }
 
-  var st = { drug: null, from: null, vial: null };
+  /* The current dose in units at another strength. When it is that pharmacy's
+     ladder dose (by the ladder mg, or by what the units actually deliver), the
+     approved ladder units are shown. Otherwise it is plain ratio and
+     proportion on what is actually drawn up, so FarmaKeio tirzepatide 13 units
+     is 13 units at Premier, which has the same 18 mg/mL. */
+  function target(toKey, toConc, cur){
+    var exact = cur.mgActual * 100 / toConc;
+    var d = ladderMatch(toKey, toConc, null, cur.mg) || ladderMatch(toKey, toConc, null, cur.mgActual);
+    return { exact: exact, ladder: d, units: d ? d.units : exact };
+  }
+
+  /* src: which box the provider typed in, units or mg. That box is the dose;
+     the other is filled from it. */
+  var st = { drug: null, from: null, vial: null, src: null };
+
+  /* The current dose. A ladder dose reads as the ladder's units and mg. */
+  function current(){
+    var fc = fromStrength();
+    if (!fc || !st.src) return null;
+    var key = PROD[st.drug][st.from], u, mg, d;
+    if (st.src === 'mg'){
+      mg = parseFloat($('mg').value); if (!(mg > 0)) return null;
+      d = ladderMatch(key, fc, null, mg); u = d ? d.units : mg * 100 / fc; if (d) mg = d.mg;
+    } else {
+      u = parseFloat($('units').value); if (!(u > 0)) return null;
+      d = ladderMatch(key, fc, u, null); mg = d ? d.mg : u * fc / 100;
+    }
+    /* mg is the dose as prescribed (a ladder dose's own mg); mgActual is what
+       the units deliver at this strength, which differs only where approved
+       ladder units are rounded. A typed mg is both. */
+    return { key: key, fc: fc, units: u, mg: mg, mgActual: st.src === 'mg' ? mg : u * fc / 100, ladder: d };
+  }
 
   function seg(el, items, cur, onPick){
     el.innerHTML = items.map(function(it){
@@ -212,51 +272,63 @@ a{color:var(--navy)}
 
   function drawControls(){
     seg($('drug'), [{ v: 'semaglutide', t: 'Semaglutide' }, { v: 'tirzepatide', t: 'Tirzepatide' }], st.drug, function(v){
-      st.drug = v; st.vial = null; drawControls(); syncFrom('units'); render();
+      /* A dose in one drug's units means nothing in the other's: start over. */
+      if (v !== st.drug) { $('units').value = ''; $('mg').value = ''; st.src = null; }
+      st.drug = v; st.vial = null; drawControls(); syncFrom(); render();
     });
     seg($('from'), PH.map(function(k){
       var s = st.drug ? strengths(PROD[st.drug][k]).map(function(x){ return fmt(x.conc) + ' mg/mL'; }).join(' or ') : '';
       return { v: k, t: phName(k), s: s };
-    }), st.from, function(v){ st.from = v; st.vial = null; drawControls(); syncFrom('units'); render(); });
+    }), st.from, function(v){ st.from = v; st.vial = null; drawControls(); syncFrom(); render(); });
     var list = st.drug && st.from ? strengths(PROD[st.drug][st.from]) : [];
     $('vialrow').hidden = list.length < 2;
     if (list.length > 1) seg($('vial'), list.map(function(x, i){
       return { v: String(x.conc), t: fmt(x.conc) + ' mg/mL', s: (i === 0 ? 'up to ' : 'above ' + fmt(list[i - 1].topMg) + ' mg, up to ') + fmt(x.topMg) + ' mg' };
-    }), st.vial, function(v){ st.vial = v; drawControls(); syncFrom('units'); render(); });
+    }), st.vial, function(v){ st.vial = v; drawControls(); syncFrom(); render(); });
   }
 
-  /* Units and mg are two views of one dose: typing in one fills the other. */
-  function syncFrom(which){
-    var c = fromStrength();
-    if (!c) return;
-    if (which === 'units' && $('units').value !== '') $('mg').value = fmt(+$('units').value * c / 100, 3);
-    if (which === 'mg' && $('mg').value !== '') $('units').value = fmt(+$('mg').value * 100 / c, 1);
+  /* Units and mg are two views of one dose: the box typed in is the dose, and
+     the other is filled from it. A typed mg is kept exactly as typed. */
+  function syncFrom(){
+    var cur = current();
+    if (!cur) return;
+    if (st.src === 'units') $('mg').value = fmt(cur.mg, 3);
+    else $('units').value = fmt(cur.units, 1);
   }
-  $('units').addEventListener('input', function(){ if ($('units').value === '') $('mg').value = ''; syncFrom('units'); render(); });
-  $('mg').addEventListener('input', function(){ if ($('mg').value === '') $('units').value = ''; syncFrom('mg'); render(); });
+  $('units').addEventListener('input', function(){ st.src = 'units'; if ($('units').value === '') $('mg').value = ''; syncFrom(); render(); });
+  $('mg').addEventListener('input', function(){ st.src = 'mg'; if ($('mg').value === '') $('units').value = ''; syncFrom(); render(); });
 
-  function resultRow(units, toConc, toPh, mg, isBand, showBand){
-    var whole = Math.round(units), delivered = whole * toConc / 100, diff = mg ? (delivered - mg) / mg * 100 : 0;
+  function resultRow(cur, toKey, toPh, toConc, isBand, showBand){
+    var t = target(toKey, toConc, cur), units = t.units;
     var h = '<div class="res"><div class="big">' + esc(fmt(units, 1)) + ' <small>units</small></div><div class="det">';
     h += 'at <b>' + esc(fmt(toConc)) + ' mg/mL</b>';
-    if (showBand) h += isBand ? '<span class="tag">' + esc(phName(toPh)) + ' dispenses this vial for ' + esc(fmt(mg, 3)) + ' mg</span>' : '<span class="tag grey">other vial</span>';
-    h += '<br><span class="math">' + esc(fmt(+$('units').value, 1)) + ' units &times; ' + esc(fmt(fromStrength())) + ' mg/mL &divide; ' + esc(fmt(toConc)) + ' mg/mL = ' + esc(fmt(units, 2)) + ' units</span>';
-    if (Math.abs(units - whole) > 0.05) h += '<br>Nearest whole unit: <b>' + whole + ' units</b>, which delivers ' + esc(fmt(delivered, 3)) + ' mg (' + (diff >= 0 ? '+' : '') + esc(fmt(diff, 1)) + '%).';
+    if (showBand) h += isBand ? '<span class="tag">' + esc(phName(toPh)) + ' dispenses this vial for ' + esc(fmt(cur.mg, 3)) + ' mg</span>' : '<span class="tag grey">other vial</span>';
+    /* Ratio and proportion on the units, or from the mg when mg was typed. */
+    h += '<br><span class="math">' + (st.src === 'units'
+      ? esc(fmt(cur.units, 1)) + ' units &times; ' + esc(fmt(cur.fc)) + ' mg/mL &divide; ' + esc(fmt(toConc)) + ' mg/mL = ' + esc(fmt(t.exact, 2)) + ' units'
+      : esc(fmt(cur.mg, 3)) + ' mg &divide; ' + esc(fmt(toConc)) + ' mg/mL = ' + esc(fmt(t.exact / 100, 4)) + ' mL = ' + esc(fmt(t.exact, 2)) + ' units') + '</span>';
+    if (t.ladder) {
+      if (Math.abs(t.exact - t.ladder.units) > 0.05) h += '<br>This is the ' + esc(t.ladder.dose) + ' ladder dose, approved as <b>' + t.ladder.units + ' units</b>.';
+    } else {
+      var whole = Math.round(units), delivered = whole * toConc / 100, diff = (delivered - cur.mgActual) / cur.mgActual * 100;
+      if (Math.abs(units - whole) > 0.05) h += '<br>Nearest whole unit: <b>' + whole + ' units</b>, which delivers ' + esc(fmt(delivered, 3)) + ' mg (' + (diff >= 0 ? '+' : '') + esc(fmt(diff, 1)) + '%).';
+    }
     if (units > 100) h += '<br><span class="flag">Over 100 units: more than one 1 mL syringe, so two injections each week.</span>';
     return h + '</div></div>';
   }
 
-  function chartLine(fromKey, toKey, toConc, units){
-    return 'Dose equivalence: ' + phName(st.from) + ' ' + st.drug + ' ' + fmt(fromStrength()) + ' mg/mL, ' + fmt(+$('units').value, 1) +
-      ' units (' + fmt(+$('mg').value, 3) + ' mg weekly) = ' + phName(G.products[toKey].pharmacy) + ' ' + st.drug + ' ' + fmt(toConc) +
-      ' mg/mL, ' + fmt(units, 1) + ' units (' + fmt(+$('mg').value, 3) + ' mg weekly).';
+  function chartLine(cur, toKey, toConc){
+    var t = target(toKey, toConc, cur);
+    return 'Dose equivalence: ' + phName(st.from) + ' ' + st.drug + ' ' + fmt(cur.fc) + ' mg/mL, ' + fmt(cur.units, 1) +
+      ' units (' + fmt(cur.mg, 3) + ' mg weekly) = ' + phName(G.products[toKey].pharmacy) + ' ' + st.drug + ' ' + fmt(toConc) +
+      ' mg/mL, ' + fmt(t.units, 1) + ' units (' + fmt(cur.mg, 3) + ' mg weekly).';
   }
 
   /* For a FarmaKeio ladder dose, the standing conversion rule's answer, which
      for semaglutide is the same STEP, not the same mg. */
-  function fkRuleNote(fromKey, units){
+  function fkRuleNote(fromKey, cur){
     if (st.from !== 'farmakeio') return '';
-    var p = G.products[fromKey], fd = p.doses.filter(function(d){ return Math.abs(d.units - units) < 0.05; })[0];
+    var p = G.products[fromKey], fd = cur.ladder;
     var r = C.ruleFor && C.ruleFor(fromKey);
     if (!fd || !r || !C.pickDose) return '';
     var parts = ['premier', 'belmar'].map(function(ph){
@@ -271,20 +343,20 @@ a{color:var(--navy)}
   }
 
   function render(){
-    var out = $('out'), units = parseFloat($('units').value), fc = fromStrength();
+    var out = $('out'), fc = fromStrength();
     if (!st.drug || !st.from) { out.innerHTML = '<div class="panel empty">Pick the medication and pharmacy, then enter the dose.</div>'; return; }
     if (!fc) { out.innerHTML = '<div class="panel empty">Pick the Belmar vial strength on the patient\'s label.</div>'; return; }
-    if (!(units > 0)) { out.innerHTML = '<div class="panel empty">Enter the current dose in units or mg.</div>'; return; }
-    var fromKey = PROD[st.drug][st.from], mg = units * fc / 100;
+    var cur = current();
+    if (!cur) { out.innerHTML = '<div class="panel empty">Enter the current dose in units or mg.</div>'; return; }
+    var fromKey = cur.key, mg = cur.mg;
     var h = '<div class="panel"><h2>' + esc(fmt(mg, 3)) + ' mg weekly</h2><p class="sub">' + esc(phName(st.from)) + ' ' + esc(st.drug) + ', ' +
-      esc(fmt(units, 1)) + ' units at ' + esc(fmt(fc)) + ' mg/mL. ' + esc(ladderPos(fromKey, mg).text) + '</p>' + fkRuleNote(fromKey, units) + '</div>';
+      esc(fmt(cur.units, 1)) + ' units at ' + esc(fmt(fc)) + ' mg/mL. ' + esc(ladderPos(fromKey, mg, cur.ladder).text) + '</p>' + fkRuleNote(fromKey, cur) + '</div>';
     PH.filter(function(k){ return k !== st.from; }).forEach(function(toPh){
-      var toKey = PROD[st.drug][toPh], list = strengths(toKey), band = bandFor(list, mg), pos = ladderPos(toKey, mg);
+      var toKey = PROD[st.drug][toPh], list = strengths(toKey), band = bandFor(list, mg), pos = ladderPos(toKey, mg, ladderMatch(toKey, band.conc, null, mg));
       h += '<div class="panel"><h2>' + esc(phName(toPh)) + ' ' + esc(st.drug) + '</h2><p class="sub' + (pos.flag ? ' flag' : '') + '">' + esc(pos.text) + '</p>';
       /* The vial Belmar dispenses for this dose first, the other after it. */
-      [band].concat(list.filter(function(s){ return s !== band; })).forEach(function(s){ h += resultRow(convertUnits(units, fc, s.conc), s.conc, toPh, mg, s === band, list.length > 1); });
-      var u = convertUnits(units, fc, band.conc);
-      h += '<button type="button" class="btn" data-copy="' + esc(chartLine(fromKey, toKey, band.conc, u)) + '">Copy for chart note</button></div>';
+      [band].concat(list.filter(function(s){ return s !== band; })).forEach(function(s){ h += resultRow(cur, toKey, toPh, s.conc, s === band, list.length > 1); });
+      h += '<button type="button" class="btn" data-copy="' + esc(chartLine(cur, toKey, band.conc)) + '">Copy for chart note</button></div>';
     });
     out.innerHTML = h;
     Array.prototype.forEach.call(out.querySelectorAll('[data-copy]'), function(b){
@@ -341,6 +413,30 @@ a{color:var(--navy)}
     var ex = convertUnits(90, strengths('farmakeio_sema')[0].conc, strengths('premier_sema')[0].conc);
     if (Math.abs(ex - 75) > 1e-9) fails.push('FarmaKeio sema 90 units should be Premier 75 units, got ' + ex);
     if (strengths('belmar_sema').length !== 2) fails.push('belmar_sema should have two strengths');
+    /* Every approved ladder dose reads as itself, whether entered in its units
+       or its mg, even where its units are rounded (FarmaKeio tirzepatide 2.5 mg
+       is 13 units). Before 2026-11-12, 8 of 12 tirzepatide ladder doses read as
+       off the ladder. */
+    Object.keys(PROD).forEach(function(drug){
+      PH.forEach(function(ph){
+        var key = PROD[drug][ph];
+        G.products[key].doses.forEach(function(d){
+          var c = doseConc(key, d);
+          if (ladderMatch(key, c, d.units, null) !== d) fails.push(key + ' ' + d.dose + ': ' + d.units + ' units not read as the ladder dose');
+          if (ladderMatch(key, c, null, d.mg) !== d) fails.push(key + ' ' + d.dose + ': ' + d.mg + ' mg not read as the ladder dose');
+        });
+      });
+    });
+    /* A ladder dose that is another pharmacy's ladder dose shows that
+       pharmacy's approved units. */
+    var fk13d = ladderMatch('farmakeio_tirz', 18, 13, null);
+    var fk13 = { mg: fk13d ? fk13d.mg : 13 * 18 / 100, mgActual: 13 * 18 / 100 };
+    var tz = target('belmar_tirz', strengths('belmar_tirz')[0].conc, fk13);
+    if (tz.units !== 25) fails.push('FarmaKeio tirz 13 units (2.5 mg) should be Belmar 25 units, got ' + tz.units);
+    var tp = target('premier_tirz', 18, fk13);
+    if (Math.abs(tp.units - 13) > 1e-9) fails.push('FarmaKeio tirz 13 units should be Premier 13 units at the same 18 mg/mL, got ' + tp.units);
+    var fk = target('farmakeio_tirz', 18, { mg: 7.5, mgActual: 7.5 });
+    if (fk.units !== 42) fails.push('7.5 mg tirzepatide at FarmaKeio should show its approved 42 units, got ' + fk.units);
     console[fails.length ? 'error' : 'log']('KORB_EQUIV_SELFCHECK: ' + (fails.length ? fails.length + ' failure(s)\n' + fails.join('\n') : 'all pass'));
     return fails;
   };
