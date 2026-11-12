@@ -54,6 +54,12 @@ body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,
 @media(max-width:380px){.date-grid{grid-template-columns:1fr;}}
 @media(min-width:700px){.date-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}}
 .dcell{border:1px solid var(--bd);border-radius:8px;padding:11px 13px;background:var(--gb);}
+.pmp-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;}
+.pmp-links .lbl{font-size:11.5px;font-weight:700;color:var(--navy);margin-right:2px;}
+.pmp-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:8px;
+  border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-size:14px;font-weight:700;text-decoration:none;}
+.pmp-btn:hover,.pmp-btn.on{background:var(--navy);color:#fff;}
+.pmp-btn .unv{font-weight:600;font-size:11.5px;margin-left:6px;opacity:.8;}
 .dcell.key{background:var(--lt);border-color:var(--teal);border-width:2px;}
 .dcell.warn{background:var(--redbg);border-color:var(--red);border-width:2px;}
 .dcell .lbl{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
@@ -193,7 +199,7 @@ body{background:var(--cream);}
     <div>
       <div class="eyebrow">KORB Health Medical Texas PA</div>
       <h1>TRT Provider Tool</h1>
-      <p>Visit timing, refill release dates, dosing, and Tebra fields for testosterone cypionate. Enter the exam date and the PMP last fill date to get the whole schedule.</p>
+      <p>Visit timing, refill release dates, dosing, and Tebra fields for testosterone cypionate. Enter today's visit date for the follow-up and lab dates, and the PMP last fill date for when the pharmacy can release today's prescription.</p>
     </div>
     <div class="tagpill">PROVIDER USE ONLY</div>
   </div>
@@ -241,6 +247,8 @@ body{background:var(--cream);}
         <span class="hint">SQ 3x is second-line</span>
       </div>
     </div>
+    <!-- Filled at load from korb-pharmacies.js pdmp. Don, 2026-11-12. -->
+    <div class="pmp-links" id="pmpLinks"></div>
     <div class="ctrl-note fu-only">
       Testosterone cypionate 200 mg/mL, 10 mL vial (2000 mg). Days supply is calculated from the actual
       dose, not a flat 90 days. Schedule III: confirm dispense length is permitted in the patient's state
@@ -380,8 +388,8 @@ body{background:var(--cream);}
      They now come from korb-mens-data.js. ORDER MATTERS - korb-pharmacies.js
      must load first or the data file throws by name rather than answering
      from an empty footprint. -->
-<script src="../korb-pharmacies.js?v=e2125c00"></script>
-<script src="../korb-mens-data.js?v=eb22e66d"></script>
+<script src="../korb-pharmacies.js?v=fbb9adc4"></script>
+<script src="../korb-mens-data.js?v=935997e3"></script>
 <script>
 if (typeof KORB_MENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
   document.addEventListener("DOMContentLoaded", function () {
@@ -555,6 +563,20 @@ function buildTables(){
 var els = ["examDate","pmpDate","state","dose","route"];
 els.forEach(function(id){ document.getElementById(id).addEventListener("change", render); });
 
+/* PRESCRIPTION MONITORING LOGINS, one button per testosterone state, read from
+   korb-pharmacies.js pdmp. The patient's state is highlighted once picked. */
+(function(){
+  var box = document.getElementById("pmpLinks"), PD = KORB_PHARMACIES.pdmp || {};
+  box.innerHTML = '<span class="lbl">Check the PMP:</span>' + ["TX","CA"].filter(function(s){ return PD[s]; })
+    .map(function(s){
+      return '<a class="pmp-btn" data-st="'+s+'" href="'+PD[s].url+'" target="_blank" rel="noopener" title="'+PD[s].name+'">'
+           + 'Open '+PD[s].short+(PD[s].verified ? '' : '<span class="unv">(link not yet confirmed)</span>')+'</a>';
+    }).join('');
+  function mark(){ var st=document.getElementById("state").value;
+    [].forEach.call(box.querySelectorAll(".pmp-btn"), function(a){ a.className = "pmp-btn" + (a.getAttribute("data-st")===st ? " on" : ""); }); }
+  document.getElementById("state").addEventListener("change", mark); mark();
+})();
+
 function renderEmpty(msg){
   document.getElementById("output").innerHTML =
     '<div class="empty"><h2>Select state, dose, and route</h2><p>'+msg+'</p></div>';
@@ -574,7 +596,7 @@ function render(){
   }
 
   if(!st || !W || !rk){
-    renderEmpty("Dosing and the Tebra favorite need only state, dose, and route. Add the exam date and PMP last fill date to also get visit, refill, and lab scheduling.");
+    renderEmpty("Dosing and the Tebra favorite need only state, dose, and route. Add the visit date for the follow-up and lab dates, and the PMP last fill date for the release date of today's prescription.");
     return;
   }
 
@@ -587,67 +609,103 @@ function render(){
   var rxDays = c.rxDays;
   var capped = c.days > MAX_DAYS;
 
-  var hasDates = !!(exam && pmp);
-  var release, sendRx, visitBy, labDraw, runsOut, daysToSend, sendPast, sendSoon, labPast;
-  if(hasDates){
-    release   = addD(pmp, rxDays);          // pharmacy can release
-    sendRx    = addD(release, -SEND_LEAD);  // send Rx 4 days before
-    visitBy   = sendRx;                     // see patient on or before
-    labDraw   = addD(visitBy, -LAB_LEAD);   // labs 2 weeks before visit
-    runsOut   = addD(pmp, rxDays);
-    daysToSend = daysBetween(exam, sendRx);
-    sendPast   = daysToSend < 0;
-    sendSoon   = daysToSend >= 0 && daysToSend <= 7;
-    labPast    = daysBetween(exam, labDraw) < 0;
+  /* TWO CLOCKS, AND WHICH DATE DRIVES EACH. Don, 2026-11-12.
+     Until then every date below ran from the PMP last fill, so a patient seen
+     today whose last fill was 90 days ago was told their NEXT visit was a week
+     in the past. The PMP fill is the supply they are on now. The prescription
+     written at this visit starts the next cycle, so:
+       - the pharmacy release of TODAY's prescription  <- PMP last fill
+       - next visit, lab order, next prescription      <- the visit date
+     See korb-mens-data.js scheduling.followUpCountsFrom. */
+  var hasDates = !!(exam && pmp);   // the visit note needs both
+  var release, sendToday, holdDays, runsOut, supplyGone, gapDays;
+  var nextRelease, visitBy, labDraw, sendNext;
+  if(pmp){
+    release   = addD(pmp, rxDays);           // pharmacy can release today's Rx
+    runsOut   = release;                     // current supply ends
+    var sendOn = addD(release, -SEND_LEAD);  // send 4 days before release
+    holdDays  = exam ? daysBetween(exam, sendOn) : null;
+    sendToday = exam ? holdDays <= 0 : null;
+    gapDays   = exam ? daysBetween(runsOut, exam) : null;
+    supplyGone = exam ? gapDays > 0 : false;
+  }
+  if(exam){
+    nextRelease = addD(exam, rxDays);          // next cycle, counted from today
+    sendNext    = addD(nextRelease, -SEND_LEAD);
+    visitBy     = sendNext;                    // see patient on or before
+    labDraw     = addD(visitBy, -LAB_LEAD);    // labs 2 weeks before visit
   }
 
   var h = "";
 
-  if(!hasDates){
-    h += '<div class="info-box amber"><b>Scheduling is hidden until both dates are entered.</b> '
-       + 'Add the exam date and the PMP last fill date to get the refill release date, the Rx send date, '
-       + 'the follow-up date, and the lab order date. Dosing and the Tebra favorite below are ready now.</div>';
+  if(!exam || !pmp){
+    h += '<div class="info-box amber"><b>'+(!exam && !pmp ? 'Scheduling is hidden until both dates are entered.'
+                                         : (!exam ? 'Add the visit date.' : 'Add the PMP last fill date.'))+'</b> '
+       + 'The visit date gives the follow-up, lab order and next prescription dates. '
+       + 'The PMP last fill date gives when the pharmacy can release the prescription written today. '
+       + 'The visit note appears when both are in. Dosing and the Tebra favorite below are ready now.</div>';
   }
 
-  /* ===== TIMELINE ===== */
-  if(hasDates){
+  /* ===== TODAY'S PRESCRIPTION (from the PMP) ===== */
+  if(pmp){
   h += '<div class="card"><div class="card-hdr">'
-     + '<strong>Schedule</strong>'
-     + '<span>PMP last fill '+fmtShort(pmp)+' &middot; '+rxDays+'-day supply</span>'
+     + '<strong>Today\'s prescription</strong>'
+     + '<span>From the PMP last fill '+fmtShort(pmp)+' &middot; '+rxDays+'-day supply</span>'
      + '</div><div class="card-body">';
-
   h += '<div class="date-grid">';
-  h += '<div class="dcell'+(labPast?' warn':'')+'"><div class="lbl">Order labs for</div><div class="val">'
-     + fmtShort(labDraw)+'</div><div class="sub">'+(labPast?'ALREADY PAST':'14 days before visit')+'</div></div>';
-  h += '<div class="dcell key"><div class="lbl">See patient by</div><div class="val">'
-     + fmtShort(visitBy)+'</div><div class="sub">'+fmt(visitBy).split(", ")[0]+'</div></div>';
-  h += '<div class="dcell key'+(sendPast?' warn':'')+'"><div class="lbl">Send Rx on</div><div class="val">'
-     + fmtShort(sendRx)+'</div><div class="sub">'
-     + (sendPast ? 'OVERDUE by '+Math.abs(daysToSend)+' days'
-                 : (sendSoon ? 'in '+daysToSend+' days' : SEND_LEAD+' days before release'))
-     + '</div></div>';
-  h += '<div class="dcell"><div class="lbl">Pharmacy can release</div><div class="val">'
-     + fmtShort(release)+'</div><div class="sub">Not before this date</div></div>';
-  h += '<div class="dcell"><div class="lbl">'+(capped?'Discard remainder':'Patient runs out')+'</div><div class="val">'
+  h += '<div class="dcell"><div class="lbl">PMP last fill</div><div class="val">'+fmtShort(pmp)+'</div><div class="sub">Supply the patient is on now</div></div>';
+  h += '<div class="dcell'+(supplyGone?' warn':'')+'"><div class="lbl">'+(capped?'Discard remainder':'Current supply ends')+'</div><div class="val">'
      + fmtShort(runsOut)+'</div><div class="sub">'
-     + (capped?'90-day limit, vial not empty':'Last dose from current vial')+'</div></div>';
-  h += '</div>';
-
-  if(sendPast){
-    h += '<div class="info-box red"><b>The send date has already passed.</b> Based on the PMP last fill, '
-       + 'the Rx should have gone in on '+fmtShort(sendRx)+'. Send it now and check whether the patient '
-       + 'has a gap before the pharmacy will release on '+fmtShort(release)+'.</div>';
-  } else if(sendSoon){
-    h += '<div class="info-box amber"><b>Send window is open or opening shortly.</b> Send the Rx on '
-       + fmtShort(sendRx)+'. Sending earlier is what triggers the too-early callback.</div>';
+     + (supplyGone ? gapDays+' days before this visit' : (capped?'90-day limit, vial not empty':'Last dose from current vial'))+'</div></div>';
+  h += '<div class="dcell key"><div class="lbl">Pharmacy can release</div><div class="val">'
+     + fmtShort(release)+'</div><div class="sub">Not before this date</div></div>';
+  if(exam){
+    h += '<div class="dcell key"><div class="lbl">Send today\'s Rx</div><div class="val">'
+       + (sendToday ? 'Today' : fmtShort(addD(release, -SEND_LEAD)))+'</div><div class="sub">'
+       + (sendToday ? 'Release date is within '+SEND_LEAD+' days or past' : 'Hold '+holdDays+' days, then send')
+       + '</div></div>';
   }
-
+  h += '</div>';
+  if(exam && supplyGone){
+    h += '<div class="info-box amber"><b>The last fill ran out '+gapDays+' days ago, on '+fmtShort(runsOut)+'.</b> '
+       + 'Send today\'s prescription now; the pharmacy can release it straight away. Ask whether the patient '
+       + 'has been without testosterone, or filled it somewhere else, and check the PMP for any other fill.</div>';
+  } else if(exam && !sendToday){
+    h += '<div class="info-box amber"><b>Hold today\'s prescription until '+fmtShort(addD(release, -SEND_LEAD))+'.</b> '
+       + 'The pharmacy cannot release before '+fmtShort(release)+', and sending earlier than '+SEND_LEAD
+       + ' days ahead is what triggers the too-early callback.</div>';
+  }
+  if(exam && daysBetween(exam, release) <= 0){
+    h += '<div class="info-box teal"><b>What to tell the patient:</b> the release date has passed, so '
+       + P.name+' can fill this prescription as soon as it arrives.</div>';
+  } else
   h += '<div class="info-box teal">'
      + '<b>What to tell the patient:</b> the pharmacy cannot release before '+fmtShort(release)+'. '
      + P.name+' ships a few days ahead of the release date on controlled medications, so expect delivery '
      + 'around that date rather than well before it. Confirm the shipping window with the pharmacy if the '
      + 'patient is travelling.</div>';
+  h += '</div></div>';
+  }
 
+  /* ===== NEXT CYCLE (from today's visit) ===== */
+  if(exam){
+  h += '<div class="card"><div class="card-hdr">'
+     + '<strong>Next visit and labs</strong>'
+     + '<span>From today\'s visit '+fmtShort(exam)+' &middot; '+rxDays+'-day supply</span>'
+     + '</div><div class="card-body">';
+  h += '<div class="date-grid">';
+  h += '<div class="dcell"><div class="lbl">Order labs for</div><div class="val">'
+     + fmtShort(labDraw)+'</div><div class="sub">'+LAB_LEAD+' days before visit</div></div>';
+  h += '<div class="dcell key"><div class="lbl">See patient by</div><div class="val">'
+     + fmtShort(visitBy)+'</div><div class="sub">'+fmt(visitBy).split(", ")[0]+'</div></div>';
+  h += '<div class="dcell"><div class="lbl">Send next Rx on</div><div class="val">'
+     + fmtShort(sendNext)+'</div><div class="sub">'+SEND_LEAD+' days before '+fmtShort(nextRelease)+'</div></div>';
+  h += '</div>';
+  if(pmp && !sendToday && !supplyGone){
+    h += '<div class="info-box teal">Today\'s prescription will not start until about '+fmtShort(release)
+       + ', so the patient will still have medication at this follow-up. Seeing them on this date is deliberate: '
+       + 'the follow-up runs from the visit, not the fill.</div>';
+  }
   h += '</div></div>';
   }
 
@@ -753,7 +811,7 @@ function render(){
     (capped
       ? "Patient to discard any remaining medication on " + fmtShort(runsOut) + " (90 days from fill).\n"
       : "Current fill supports therapy through " + fmtShort(runsOut) + ".\n") +
-    "Next fill may be released on or after " + fmtShort(release) + ".\n" +
+    "Prescription written today may be released on or after " + fmtShort(release) + ".\n" +
     "\nLABS\n" +
     "Standard TRT panel ordered: FSH & LH, PSA total, prolactin, CBC, estradiol, total testosterone (LC/MS).\n" +
     "Future-dated collection: " + fmtShort(labDraw) + ".\n" +

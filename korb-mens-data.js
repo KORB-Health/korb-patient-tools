@@ -57,15 +57,27 @@
 var KORB_MENS = {
 
   meta: {
-    version: '1.7',
+    version: '1.8',
     created: '2026-09-16',
-    updated: '2026-10-19',
+    updated: '2026-11-12',
     owner: 'Director of Clinical Operations',
     extractedFrom: 'Provider_Reference/KORB_Mens_Health_Provider_Tool.html as at 2026-09-16',
     scope: 'Male testosterone replacement only. Female testosterone is a women\'s ' +
            'health question and belongs in korb-womens-data.js, not here.',
     entity: 'KORB Health Medical Texas PA',
     changelog: [
+      '2026-11-12 (v1.8): NEXT VISIT FROM THE VISIT DATE. Don, 2026-11-12: a patient seen ' +
+      'that morning was shown a next visit a week in the past, because the tool counted the ' +
+      'next visit, the lab order and the next prescription from the PMP last fill date. ' +
+      'The PMP fill is the supply the patient is on now; the prescription written at this ' +
+      'visit starts the next cycle. So the follow-up, labs and next send date now count ' +
+      'from the visit date, and the PMP last fill date decides only when the pharmacy can ' +
+      'release the prescription written today. scheduling.followUpCountsFrom added, ' +
+      'refillCountsFrom reworded, and the two reference sentences that said refills run ' +
+      'from the PMP and not the visit date corrected. pdmp is no longer typed here: it is ' +
+      'read from korb-pharmacies.js at hydrate, with a login link per state, so the Men\'s ' +
+      'and Women\'s tools show the same buttons. No dose, route, sig or Tebra field changed. ' +
+      'Don Stevenson, PA-C.',
       '2026-10-19 (v1.7): TWO VISITS. Don asked for a toggle between the initial consult, ' +
       'which screens and orders baseline labs, and the follow-up, which reviews labs and is ' +
       'where testosterone is prescribed and dosed. Every preScreen section names its visit; ' +
@@ -307,21 +319,17 @@ var KORB_MENS = {
                 'remainder is discarded; at 168 it runs out at 83 days and the ' +
                 'prescription is written for 83. Never tell a patient the vial ' +
                 'lasts longer than 90 days.',
-    refillCountsFrom: 'PMP last fill date, not the visit date.',
+    refillCountsFrom: 'PMP last fill date. It decides only when the pharmacy can release ' +
+                      'the prescription written at this visit.',
+    followUpCountsFrom: 'Visit date. The next visit, the lab order and the next ' +
+                        'prescription count from the day the patient is seen, because the ' +
+                        'prescription written that day starts the next cycle. Don, 2026-11-12.',
     /* Checking the state prescription-monitoring database before writing a
        Schedule III is a per-state legal requirement, and the database has a
-       different name in each state - which is exactly why a single line saying
-       "check the PMP" is not enough for a provider working in two states.
-       Added at Don's request 2026-09-16. CONFIRM the California entry before
-       relying on it: the Texas system is the one KORB uses daily. */
-    pdmp: {
-      TX: { name: 'Texas Prescription Monitoring Program (PMP Aware)', verified: true },
-      CA: { name: 'CURES - Controlled Substance Utilization Review and Evaluation System',
-            verified: false,
-            note: 'Named from general knowledge of California controlled-substance ' +
-                  'requirements, NOT from a KORB source document. Confirm before the ' +
-                  'first California prescription.' }
-    },
+       different name in each state. Added at Don's request 2026-09-16. Since
+       2026-11-12 the name and login link live in korb-pharmacies.js `pdmp`,
+       a state fact both testosterone tools read, and hydrate() fills this. */
+    pdmp: {},
     pdmpRule: 'Check the patient prescription-monitoring database in THEIR state before ' +
       'every controlled-substance prescription, not just the first. It is how you find ' +
       'a patient receiving testosterone or other controlled substances from another ' +
@@ -1112,7 +1120,8 @@ var KORB_MENS = {
             'prescription - the drug is selected from the drop-down and there is no ' +
             'reason for compounding, because nothing is compounded.',
           'Testosterone is a Schedule ' + T.product.schedule + ' controlled substance. ' +
-            'Refills run from the PMP last fill date, not the visit date, and nothing ' +
+            'The pharmacy releases a refill no earlier than the PMP last fill date plus ' +
+            'the days supply. The next visit and labs count from the visit date. Nothing ' +
             'is dispensed or scheduled beyond ' + T.scheduling.maxDays + ' days.',
           'Storage: ' + T.product.storage
         ]
@@ -1271,9 +1280,12 @@ var KORB_MENS = {
           T.scheduling.pdmpRule,
           'Texas: ' + T.scheduling.pdmp.TX.name + '.',
           'California: ' + T.scheduling.pdmp.CA.name + '. ' +
-            (T.scheduling.pdmp.CA.verified ? '' : 'CONFIRM this before the first ' +
-             'California prescription - it has not been checked against a KORB source.'),
-          'Refills count from the PMP last fill date, not the visit date.',
+            (T.scheduling.pdmp.CA.verified ? '' : 'CONFIRM the login link before the first ' +
+             'California prescription - it has not been opened from a KORB login.'),
+          'The pharmacy can release the prescription written at this visit no earlier ' +
+            'than the PMP last fill date plus the days supply.',
+          'The next visit, the lab order and the next prescription count from the visit ' +
+            'date, not the PMP last fill date.',
           'Order labs ' + T.scheduling.labLeadDays + ' days before the next visit. ' +
             T.scheduling.labLeadWhy,
           'Send the prescription ' + T.scheduling.sendLeadDays + ' days before the ' +
@@ -1330,6 +1342,13 @@ var KORB_MENS = {
     });
     this.states.routing = routing;
     this.states.offered = offered.sort();
+    var pd = {};
+    offered.forEach(function (st) {
+      if (!PH.pdmp || !PH.pdmp[st]) throw new Error('korb-mens-data.js: ' + st +
+        ' offers TRT but korb-pharmacies.js names no prescription-monitoring database for it.');
+      pd[st] = PH.pdmp[st];
+    });
+    this.scheduling.pdmp = pd;
     this.hydrated = true;
     return this;
   },

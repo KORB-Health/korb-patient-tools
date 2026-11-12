@@ -67,6 +67,13 @@ body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,
 .stat .lbl{font-size:9.5px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
 .stat .val{font-size:17px;font-weight:800;color:var(--navy);margin-top:3px;}
 
+.pmp-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;}
+.pmp-links .lbl{font-size:11.5px;font-weight:700;color:var(--navy);margin-right:2px;}
+.pmp-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:8px;
+  border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-size:14px;font-weight:700;text-decoration:none;}
+.pmp-btn:hover,.pmp-btn.on{background:var(--navy);color:#fff;}
+.pmp-btn .unv{font-weight:600;font-size:11.5px;margin-left:6px;opacity:.8;}
+.info-box .pmp-btn{margin-top:8px;}
 .info-box{border-radius:8px;padding:11px 15px;margin-top:12px;font-size:12px;line-height:1.7;}
 /* One vertical rhythm inside a card: spacing comes from each block's own top
    margin, so no pair of blocks can end up touching because one of them only
@@ -247,6 +254,10 @@ body{background:var(--cream);}
       <div id="hormones" class="hpick"></div>
       <span class="hint">Tick a hormone, then choose the exact product</span>
     </div>
+    <!-- Testosterone is Schedule III: check the PMP first. Filled at load from
+         korb-pharmacies.js pdmp, the same entry the Men's Health tool reads.
+         Don, 2026-11-12. -->
+    <div class="pmp-links" id="pmpLinks"></div>
   </div>
 
   <div id="out"><div class="empty">Select the patient's state, uterus status, and hormones.</div></div>
@@ -266,7 +277,7 @@ body{background:var(--cream);}
      to sexual health. It reads the data file now.
      ORDER MATTERS - korb-pharmacies.js must load first or the data file
      throws by name rather than routing from an empty footprint. -->
-<script src="../korb-pharmacies.js?v=e2125c00"></script>
+<script src="../korb-pharmacies.js?v=fbb9adc4"></script>
 <script src="../korb-womens-data.js?v=0033c87e"></script>
 <script>
 if (typeof KORB_WOMENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
@@ -332,6 +343,24 @@ var TIERS = {};
 });
 
 var TEST_STATES = W.testosterone.prescribers;
+
+/* PRESCRIPTION MONITORING LOGINS for the testosterone states, from
+   korb-pharmacies.js pdmp. The patient's state is highlighted once picked. */
+var PDMP = KORB_PHARMACIES.pdmp || {};
+function pmpButton(s){
+  var d = PDMP[s]; if (!d) return "";
+  return '<a class="pmp-btn" data-st="' + s + '" href="' + d.url + '" target="_blank" rel="noopener" title="' + d.name + '">'
+       + 'Open ' + d.short + (d.verified ? '' : '<span class="unv">(link not yet confirmed)</span>') + '</a>';
+}
+(function(){
+  var box = document.getElementById("pmpLinks");
+  box.innerHTML = '<span class="lbl">Testosterone? Check the PMP:</span>'
+                + W.testosterone.states.map(pmpButton).join("");
+  function mark(){ var st = document.getElementById("st").value;
+    [].forEach.call(box.querySelectorAll(".pmp-btn"), function(a){
+      a.className = "pmp-btn" + (a.getAttribute("data-st") === st ? " on" : ""); }); }
+  document.getElementById("st").addEventListener("change", mark); mark();
+})();
 
 /* ---- controls -------------------------------------------------------------
    The state select, the pharmacy select, and one row per hormone. Everything is
@@ -718,7 +747,8 @@ function render(){
     if (W.testosterone.states.indexOf(st) > -1){
       g += '<div class="info-box red"><b>Prescriber restriction.</b> In ' + esc(STATE_NAME[st])
          + ', testosterone may only be prescribed by <b>' + esc(W.testosterone.prescribers[st])
-         + '</b>. If that is not you, do not send this prescription.</div>';
+         + '</b>. If that is not you, do not send this prescription. '
+         + 'Check the PMP before every testosterone prescription.<br>' + pmpButton(st) + '</div>';
     } else {
       /* BACKSTOP. gateHormones() makes this unreachable by unticking and
          disabling testosterone outside its two states, so reaching here means

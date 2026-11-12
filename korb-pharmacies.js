@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.14",
+    version: "1.15",
     created: "2026-09-11",
-    updated: "2026-10-29",
+    updated: "2026-11-12",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-11-12 (v1.15): PRESCRIPTION MONITORING DATABASES. pdmp holds the name and login link of each state's prescription-monitoring database, for the states where KORB writes a controlled substance (testosterone, TX and CA). Moved here from korb-mens-data.js so the Men's and Women's Health provider tools read one entry; both show a button per state. Texas link from Don. California is CURES, run by the California Department of Justice; its link is from DOJ CURES material and still needs Don to open it once. selfCheck fails if a state where any pharmacy offers TRT has no database or no https link. No pharmacy, footprint or routing changed. Don Stevenson, PA-C.",
       "2026-10-29 (v1.14): PREMIER GAINS MASSACHUSETTS. Premier confirmed 2026-10-29 that it can send sterile products to Massachusetts, for existing and new patients (Don). The 2026-10-15 licence list had shown MA as non-sterile only, which is why it was held back. MA added to the Premier footprint and preferredStates and removed from footprintExcludes; Belmar preferredStates loses MA. Every program on the footprint follows: GLP-1 and Women's Health route MA to Premier, add-ons and peptides can reach it. Premier 43 for GLP-1, Belmar 7. FH&L stays closed in MA: it is in korb-dosing-data.js unavailable for provider coverage, not for a pharmacy, and is not changed here. Don Stevenson, PA-C.",
       "2026-10-28 (v1.13): ARKANSAS GLP-1 BACK TO FARMAKEIO. Belmar cannot collect payment from KORB for Arkansas prescriptions: Arkansas only lets it collect from the patient (Don, 2026-10-28). FarmaKeio programs.glp1 is active again and its preferredStates is AR; Belmar preferredStates loses AR. The GLP-1 routing rule that sends Arkansas to FarmaKeio lives in korb-glp1-data.js; this file only records the pharmacy fact. Injectable semaglutide and tirzepatide only: FarmaKeio oral semaglutide stays retired. Women's Health and add-ons in Arkansas still name Belmar and are NOT changed here; the same payment limit may apply, flagged to Don. Don Stevenson, PA-C.",
       "2026-10-22 (v1.12): PREMIER GAINS NEW HAMPSHIRE. Licence NR2802, expires 2028-10-21 (Miguel Sanchez, Premier, by email 2026-10-22). NH added to the Premier footprint and removed from footprintExcludes; Premier preferredStates gains NH and Belmar loses it, so NH GLP-1 and Women's Health route to Premier. Premier 42 for GLP-1, Belmar 9. FH&L still lists NH as closed for no pharmacy, which is no longer true; that is Don's call and is not changed here.",
@@ -893,6 +894,23 @@ var KORB_PHARMACIES = {
 
   stateName: function (abbr) { return this.stateNames[abbr] || abbr; },
 
+  /* PRESCRIPTION MONITORING DATABASE PER STATE. Checked before every
+     controlled-substance prescription, in the PATIENT'S state. A state fact,
+     not a program fact, so it lives here and both testosterone tools read it.
+     Don, 2026-11-12. `verified` means someone at KORB has logged in through
+     this exact link; the California link has not been opened yet. */
+  pdmp: {
+    TX: { name: "Texas Prescription Monitoring Program (PMP Aware)", short: "Texas PMP Aware",
+          url: "https://texas.pmpaware.net/login", verified: true,
+          source: "Don, 2026-11-12. The system KORB uses daily." },
+    CA: { name: "CURES - Controlled Substance Utilization Review and Evaluation System", short: "California CURES",
+          url: "https://cures.doj.ca.gov/", verified: false,
+          source: "California Department of Justice CURES 2.0 material. Not opened from a KORB login yet: " +
+                  "Don to click it once and confirm before relying on it." }
+  },
+
+  pdmpFor: function (abbr) { return this.pdmp[abbr] || null; },
+
   servesState: function (pharmacyKey, state, program) {
     var p = this.pharmacies[pharmacyKey];
     if (!p) return false;
@@ -982,6 +1000,15 @@ var KORB_PHARMACIES = {
       }
       (p.preferredStates || []).forEach(function (s) {
         if (!self.shipsTo(k, s)) problems.push(k + ": preferred in " + s + " but cannot ship there");
+      });
+    });
+    /* Every state where a testosterone prescription can be written must name
+       its monitoring database and link to it. */
+    Object.keys(this.pharmacies).forEach(function (k) {
+      self.statesFor(k, "trt").forEach(function (s) {
+        var d = self.pdmp[s];
+        if (!d || !d.name) problems.push("pdmp: " + s + " offers TRT but has no prescription-monitoring database");
+        else if (!/^https:\/\//.test(d.url || "")) problems.push("pdmp: " + s + " has no https login link");
       });
     });
     if (problems.length) { console.warn("KORB_PHARMACIES.selfCheck found " + problems.length + " problem(s):");
