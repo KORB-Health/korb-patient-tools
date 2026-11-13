@@ -701,9 +701,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.40',
+    version: '2.41',
     created: '2026-08-06',
-    lastUpdated: '2026-11-09',
+    lastUpdated: '2026-11-13',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -721,6 +721,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-11-13 (v2.41): DOTS PRICES FROM THE CHARGE SHEET. The four Dots codes (FITSemOrlLOW_30, FITSemOrlLOW_90, FITSemOrlMID_90, FITSemOrlHIGH_90) reached the sheet in a new Oral Semaglutide section and are added to pricing.oral, so priceForCode() finds them; prices are filled from korb-charges.js, none typed here. Don Stevenson, PA-C.',
       '2026-11-09 (v2.40): THE B-6 EXCEPTION (Don, after talking with Nick). Belmar has no B-6 GLP-1: its semaglutide carries B-12 and its tirzepatide L-carnitine. In a Belmar state a patient who cannot have that additive (documented allergy, or a documented reaction they have had to it) may go to FarmaKeio for the B-6 version of the same drug: farmakeio_sema for semaglutide, farmakeio_tirz for tirzepatide. New states.b6Exception and states.b6ExceptionFor(state); the states are derived (Belmar-routed and FarmaKeio ships there: AL, HI, MS, SC, VA, WA today), never typed. California is Belmar-routed but FarmaKeio will not ship there, so it gets noOption advice: the other drug at Belmar or brand. checkPharmacyForState answers warning, not error, for FarmaKeio in an exception state. FarmaKeio is otherwise still Arkansas only. Expected to be very few patients. Don Stevenson, PA-C.',
       '2026-11-02 (v2.38): ARKANSAS ORAL SEMAGLUTIDE 1 MG (Don). FarmaKeio confirmed it fills oral semaglutide for Arkansas. New product farmakeio_oral_sema_ar: 1 mg RDT #90, 90 days, FITSemOrl90, own patient page. ONE 1 MG PRICE (Nick, 2026-11-03): every 1 mg 90-day supply is FITSemOrl90 ($299) at all three pharmacies; belmar_oral_sema 1 mg FastSL moves from FITSemOrl180 ($399) to FITSemOrl90. FITSemOrl180 is left only on the retired farmakeio_oral_sema record, as history. farmakeio_oral_sema stays retired and unchanged so FarmaKeio 0.5 mg patients elsewhere still convert. In Arkansas the conversion tool now points to a new prescription for the Arkansas product instead of brand only. Which Arkansas patients it is for is internal, not in this file.',
       '2026-10-29 (v2.37): MASSACHUSETTS BACK TO PREMIER (Don). Premier confirmed it can send sterile products to Massachusetts for existing and new patients (korb-pharmacies.js v1.14). No edit to routing here: the Premier rule reads its states from the Premier footprint, so MA moves from Belmar to Premier on its own. Premier 43, Belmar 7 (AL, CA, HI, MS, SC, VA, WA), FarmaKeio 1 (AR).',
@@ -5919,7 +5920,14 @@ var KORB_GLP1 = {
       semaglutide90:  { price: null, code: 'FITSemOrl90'  },
       semaglutide180: { price: null, code: 'FITSemOrl180' },
       tirzepatide90:  { price: null, code: 'FITTirOrl90'  },
-      tirzepatide180: { price: null, code: 'FITTirOrl180' }
+      tirzepatide180: { price: null, code: 'FITTirOrl180' },
+      /* The Dots strengths (2026-10-28). Prices come from Nick's sheet like the
+         rest; they reached it 2026-11-13. Without these entries priceForCode()
+         answered null for all four even with the codes in korb-charges.js. */
+      semaglutide5mg30:  { price: null, code: 'FITSemOrlLOW_30'  },
+      semaglutide5mg90:  { price: null, code: 'FITSemOrlLOW_90'  },
+      semaglutide10mg90: { price: null, code: 'FITSemOrlMID_90'  },
+      semaglutide20mg90: { price: null, code: 'FITSemOrlHIGH_90' }
     },
 
     brandName: {

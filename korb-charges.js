@@ -26,11 +26,11 @@
   var KORB_CHARGES = {
     meta: {
       version: '1.0',
-      generated: '2026-10-13',
+      generated: '2026-11-13',
       source: 'KORB x TEBRA Charge Codes, Nick Ellison',
       sourceTab: 'Charge Codes_Master, columns A-F',
       owner: 'Nick Ellison, VP Finance - the codes and prices are his',
-      count: 99,
+      count: 103,
       excludes: 'TPA, Employee, Employer Paid, the whole Corporate Partner tab, ' +
                 'four rows naming AISD, HISD, NISD or InShape/Fitness19, and ' +
                 'KORBURGENTE, a staff rate filed outside the Employee group. ' +
@@ -41,10 +41,6 @@
       /* --- Semaglutide --- */
       'FITGLP1001': { price: 79, grouping: 'Semaglutide',
         description: 'KORB Get Fit Now GLP1 RX submission Novo/Lily' },
-      'FITSemOrl180': { price: 399, grouping: 'Semaglutide',
-        description: 'KORB Get Fit Oral Semaglutide 180' },
-      'FITSemOrl90': { price: 299, grouping: 'Semaglutide',
-        description: 'KORB Get Fit Oral Semagultide 90' },
       'FITSema001': { price: 269, grouping: 'Semaglutide',
         description: 'KORB Get Fit Now Semaglutide Standard' },
       'FITSema001MAX': { price: 319, grouping: 'Semaglutide',
@@ -79,6 +75,20 @@
         description: 'KORB Get Fit Now Semaglutide Veteran Discount' },
       'KORBWegovy': { price: 599, grouping: 'Semaglutide',
         description: 'KORB Wegovy Pen All doses' },
+
+      /* --- Oral Semaglutide --- */
+      'FITSemOrl180': { price: 399, grouping: 'Oral Semaglutide',
+        description: 'KORB Get Fit Oral Semaglutide 180' },
+      'FITSemOrl90': { price: 299, grouping: 'Oral Semaglutide',
+        description: 'KORB Get Fit Oral Semagultide 1mg Microdose 90 Day' },
+      'FITSemOrlHIGH_90': { price: 499, grouping: 'Oral Semaglutide',
+        description: 'KORB Get Fit Oral Semaglutide 20mg HIGH 90 Day' },
+      'FITSemOrlLOW_30': { price: 149, grouping: 'Oral Semaglutide',
+        description: 'KORB Get Fit Oral Semaglutide 5mg LOW 30 Day' },
+      'FITSemOrlLOW_90': { price: 299, grouping: 'Oral Semaglutide',
+        description: 'KORB Get Fit Oral Semaglutide 5mg LOW 90 Day' },
+      'FITSemOrlMID_90': { price: 399, grouping: 'Oral Semaglutide',
+        description: 'KORB Get Fit Oral Semaglutide 10mg MID 90 Day' },
 
       /* --- Tirzepatide --- */
       'FITTirOrl180': { price: 599, grouping: 'Tirzepatide',

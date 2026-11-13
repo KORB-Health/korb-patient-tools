@@ -119,8 +119,8 @@ ul{padding-left:20px;margin:6px 0;} li{margin:4px 0;}
 </div>
 <!-- korb-pharmacies.js FIRST, then korb-charges.js (the prices), then korb-glp1-data.js. -->
 <script src="korb-pharmacies.js?v=d8172a35"></script>
-<script src="korb-charges.js?v=ddc0bb2c"></script>
-<script src="korb-glp1-data.js?v=14239212"></script>
+<script src="korb-charges.js?v=e7b351c1"></script>
+<script src="korb-glp1-data.js?v=6ec92058"></script>
 <script>
 (function () {
   var out = document.getElementById('out');
@@ -134,7 +134,7 @@ ul{padding-left:20px;margin:6px 0;} li{margin:4px 0;}
      while korb-charges.js has no price for the code; the moment check-charges.ps1 pulls
      the code in, the sheet's price wins and the pending dot disappears. Delete an entry
      once its code is live. Never copy these into korb-charges.js. */
-  var PENDING = { FITSemOrlLOW_30: 149, FITSemOrlLOW_90: 299, FITSemOrlMID_90: 399, FITSemOrlHIGH_90: 499 };
+  var PENDING = {};  /* all four Dots codes reached Nick's sheet 2026-11-13 */
   var anyPending = false;
   function price(code) {
     var p = null;

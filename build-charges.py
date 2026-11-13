@@ -20,10 +20,20 @@ WHAT THIS PULLS, AND WHAT IT REFUSES TO.
 Codes and prices only. Nothing else in that workbook comes near this repo,
 because this repo is PUBLIC and the workbook is not. Two gates, both deliberate:
 
-  1. GROUPING allow-list. Keeps the clinical cash-pay groups. Drops TPA (the
-     New Edge copay tiers), Employee, Employer Paid, and the whole Corporate
-     Partner Pricing tab, which names 133 organisations and their negotiated
-     rates. Those are contracts. They do not belong on GitHub Pages.
+  1. GROUPING block-list. Every section of Charge Codes_Master comes through
+     EXCEPT the private ones: TPA (the New Edge copay tiers), Employee and
+     Employer Paid, plus any section whose name says employer, employee, TPA,
+     corporate, partner or contract. The Corporate Partner Pricing tab, which
+     names 133 organisations and their negotiated rates, is never read at all.
+     Those are contracts. They do not belong on GitHub Pages.
+
+     It was an ALLOW-list until 2026-11-13. Nick moved the oral semaglutide
+     codes into a new "Oral Semaglutide" section, the allow-list dropped all
+     six without a word, and the check reported two of them as retired. Don's
+     ruling: Nick lays out his sheet however he wants and this side adapts, so
+     a new cash-pay section now flows through on its own and is named in the
+     report. The same block-list sits in the QUERY of the Clinical Export
+     sheet that publishes the CSV; change one, change both.
 
   2. NAMED-ORGANISATION block-list. Four rows sit INSIDE an allowed grouping
      and still name a partner in their description - three school districts
@@ -75,7 +85,19 @@ except ImportError:
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'korb-charges.js')
 
-ALLOW = ['Semaglutide', 'Tirzepatide', 'Peptide', 'Womans Health', 'Sermorelin',
+# Never published: contract and staff rates. Exact names, and a keyword net for a
+# private section Nick adds later under a new name.
+PRIVATE = ['Employer Paid', 'TPA', 'Employee']
+PRIVATE_RE = re.compile(r'employ|tpa|corporate|partner|contract', re.I)
+
+
+def is_private(grouping):
+    return grouping in PRIVATE or bool(PRIVATE_RE.search(grouping))
+
+
+# Display order only. A section not listed here is still pulled; it sorts after
+# these and the report names it as new.
+ORDER = ['Semaglutide', 'Oral Semaglutide', 'Tirzepatide', 'Peptide', 'Womans Health', 'Sermorelin',
          'Sexual Health', 'Testosterone', 'Urgent', 'Ageless', 'Hairloss',
          'Mental Health', 'Lab', 'Skincare', 'MISC']
 
@@ -100,7 +122,18 @@ INTERNAL_RATE = {
     'KORBURGENTE': 'staff rate filed under Urgent rather than Employee',
 }
 
-CODE_RE = re.compile(r'^[A-Za-z][A-Za-z0-9]{2,}$')
+# Underscores allowed: Nick's Dots codes are FITSemOrlLOW_30 and the like, and
+# without it all four were dropped without a word (2026-11-13).
+CODE_RE = re.compile(r'^[A-Za-z][A-Za-z0-9_]{2,}$')
+
+
+def sort_key(x):
+    g = x['grouping']
+    return (ORDER.index(g) if g in ORDER else len(ORDER), g, x['code'])
+
+
+def new_sections(rows):
+    return sorted({x['grouping'] for x in rows} - set(ORDER))
 
 
 def read_csv(path):
@@ -118,7 +151,7 @@ def read_csv(path):
             code = (rec.get('Charge Code') or '').strip()
             desc = (rec.get('Description') or '').strip()
             fee = (rec.get('Fee') or '').strip()
-            if not code or grouping not in ALLOW:
+            if not code or not grouping or is_private(grouping):
                 continue
             if code in NAMED_ORG or code in INTERNAL_RATE:
                 continue
@@ -135,7 +168,7 @@ def read_csv(path):
             entry = {'code': code, 'grouping': grouping, 'description': desc, 'price': price}
             seen[code] = entry
             rows.append(entry)
-    rows.sort(key=lambda x: (ALLOW.index(x['grouping']), x['code']))
+    rows.sort(key=sort_key)
     # The published tab cannot show the master/Tebra disagreement - it carries
     # one fee column. That check only runs on the .xlsx path, and the task
     # prompt says so rather than pretending otherwise.
@@ -168,7 +201,7 @@ def read(path):
         code = str(ws.cell(row=r, column=3).value or '').strip()
         fee = ws.cell(row=r, column=5).value
         desc = str(ws.cell(row=r, column=6).value or '').strip()
-        if not code or grouping not in ALLOW:
+        if not code or not grouping or is_private(grouping):
             continue
         if code in NAMED_ORG or code in INTERNAL_RATE:
             continue
@@ -189,7 +222,7 @@ def read(path):
         entry = {'code': code, 'grouping': grouping, 'description': desc, 'price': price}
         seen[code] = entry
         rows.append(entry)
-    rows.sort(key=lambda x: (ALLOW.index(x['grouping']), x['code']))
+    rows.sort(key=sort_key)
     return rows, disagree, dup, conflict
 
 
@@ -316,6 +349,8 @@ def main():
     fail = False
 
     print('read %d codes from %s' % (len(rows), source))
+    for g in new_sections(rows):
+        print('   new section picked up: %s' % g)
 
     for c, g1, g2, p in dup:
         print('   %s is filed under both %s and %s at $%s - kept once'

@@ -104,8 +104,8 @@ td.price .ask{font-weight:600;color:var(--mu);}
 <!-- korb-pharmacies.js FIRST (every program file takes its state lists from it),
      then korb-charges.js (the prices), then the program files. -->
 <script src="korb-pharmacies.js?v=d8172a35"></script>
-<script src="korb-charges.js?v=ddc0bb2c"></script>
-<script src="korb-glp1-data.js?v=14239212"></script>
+<script src="korb-charges.js?v=e7b351c1"></script>
+<script src="korb-glp1-data.js?v=6ec92058"></script>
 <script src="korb-dosing-data.js?v=f8cd4312"></script>
 <script src="korb-mens-data.js?v=935997e3"></script>
 <script src="korb-womens-data.js?v=0033c87e"></script>
@@ -125,7 +125,7 @@ td.price .ask{font-weight:600;color:var(--mu);}
      2026-10-28), used ONLY while korb-charges.js has no price for the code. The
      sheet wins the moment it has one. Delete an entry once its code is live, here
      and in the Dots page. Never copy these into korb-charges.js. */
-  var PENDING = { FITSemOrlLOW_30: 149, FITSemOrlLOW_90: 299, FITSemOrlMID_90: 399, FITSemOrlHIGH_90: 499 };
+  var PENDING = {};  /* all four Dots codes reached Nick's sheet 2026-11-13 */
 
   function price(code) {
     if (code && C.has(code) && typeof C.priceFor(code) === 'number' && C.priceFor(code) > 0) return C.priceFor(code);
