@@ -16,6 +16,7 @@
 #
 #   Run it by hand:  powershell -ExecutionPolicy Bypass -File check-charges.ps1
 #   See what it did: %USERPROFILE%\.korb-charges-log.txt
+#   Last alert, plain English: %USERPROFILE%\.korb-charges-alert.txt
 #
 # Exit codes:  0 nothing changed, or changed and pushed cleanly
 #              1 something needs a person - it did NOT push
@@ -41,13 +42,47 @@ function Log($msg) {
 # It borrows PowerShell's own app id, which Windows already knows, so nothing has
 # to be registered. It shows only when Don is signed in, which the task requires
 # anyway (LogonType Interactive). A failed pop-up must never fail the job.
-function Notify($title, $body) {
+#
+# IT STAYS ON SCREEN UNTIL DON ACTS ON IT (Don, 2026-11-13). On 2026-11-13 the
+# vanished-code alert showed, timed out into the notification panel, named no
+# code, and opened nothing when clicked, so Don could not find what it was about.
+# Now: scenario "reminder" keeps it up until a button is pressed (Windows only
+# honours that with at least one button), and the body says what happened.
+#
+# CLICKING OPENS A PLAIN-ENGLISH PAGE, NOT THE LOG (Don, 2026-11-13). The log is
+# the script's running record and Don could not tell what he was looking at. Each
+# alert now rewrites %USERPROFILE%\.korb-charges-alert.txt: when, what happened,
+# whether providers saw any change, and what to do. Clicking the pop-up or "What
+# happened" opens it; the full log is still named at its foot.
+$alertFile = Join-Path $env:USERPROFILE '.korb-charges-alert.txt'
+function Notify($title, $body, $todo = 'Ask Claude to look at the charge code check.') {
+  $pushed = $title -eq 'KORB charge codes changed'
+  $page = @(
+    (Get-Date -Format 'dddd, MMMM d, yyyy, h:mm tt'),
+    '',
+    ($title -replace '^KORB charge codes: ?', 'Charge codes: '),
+    '',
+    'What happened:',
+    "  $body",
+    '',
+    'What providers see:',
+    $(if ($pushed) { '  The new prices, on their next page load.' } else { '  No change. Nothing was updated, so the pages still show the old codes and prices.' }),
+    '',
+    'What to do:',
+    "  $todo",
+    '',
+    '',
+    "Full technical log, newest at the bottom: $logFile"
+  )
+  try { Set-Content -Path $alertFile -Value $page -Encoding utf8 } catch { }
   try {
     [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
     [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null
     $esc = { param($s) [Security.SecurityElement]::Escape([string]$s) }
+    $uri = & $esc ([Uri]$alertFile).AbsoluteUri
     $xml = New-Object Windows.Data.Xml.Dom.XmlDocument
-    $xml.LoadXml("<toast duration=`"long`"><visual><binding template=`"ToastGeneric`"><text>$(& $esc $title)</text><text>$(& $esc $body)</text><text>Log: .korb-charges-log.txt</text></binding></visual></toast>")
+    $xml.LoadXml("<toast scenario=`"reminder`" activationType=`"protocol`" launch=`"$uri`"><visual><binding template=`"ToastGeneric`"><text>$(& $esc $title)</text><text>$(& $esc $body)</text></binding></visual>" +
+      "<actions><action content=`"What happened`" activationType=`"protocol`" arguments=`"$uri`"/><action content=`"Dismiss`" activationType=`"system`" arguments=`"dismiss`"/></actions></toast>")
     $appId = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe'
     [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($appId).Show(
       [Windows.UI.Notifications.ToastNotification]::new($xml))
@@ -87,13 +122,19 @@ $text = $check -join "`n"
 if ($text -match 'CODES THAT VANISHED') {
   Log "A CODE DISAPPEARED FROM THE PUBLISHED TAB. Not pushing - Don confirms first."
   Log $text
-  Notify 'KORB charge codes: a code disappeared' 'A code was removed from the sheet. Nothing pushed - confirm with Nick first.'
+  # Name the codes: the report lists each one indented under the heading.
+  $gone = @()
+  if ($text -match '(?s)CODES THAT VANISHED[^\n]*\n(.*?)(\n\s*\n|\n\S|$)') {
+    $gone = $Matches[1] -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ -match '^\S+$' }
+  }
+  $which = if ($gone) { 'Removed from Nick''s sheet: ' + ($gone -join ', ') + '.' } else { 'A code was removed from Nick''s sheet.' }
+  Notify 'KORB charge codes: a code disappeared' "$which Nothing pushed - confirm with Nick first." 'Ask Nick whether these codes were retired or moved to another tab. Once his sheet is right, the next morning check updates the pages, or ask Claude to run it sooner.'
   exit 1
 }
 if ($text -match 'TWO DIFFERENT PRICES') {
   Log "THE SOURCE CONTRADICTS ITSELF. Not pushing - that is a question for Nick."
   Log $text
-  Notify 'KORB charge codes: the sheet disagrees with itself' 'One code has two different prices. Nothing pushed - a question for Nick.'
+  Notify 'KORB charge codes: the sheet disagrees with itself' 'One code has two different prices. Nothing pushed - a question for Nick.' 'Ask Nick which price is right and to fix the other one. The full log names the code.'
   exit 1
 }
 
@@ -101,7 +142,7 @@ if ($text -match 'TWO DIFFERENT PRICES') {
 $dirty = (& git status --porcelain) | Where-Object { $_ -notmatch 'korb-charges\.js$' }
 if ($dirty) {
   Log "working tree has other changes, not touching it:"; Log ($dirty -join "`n")
-  Notify 'KORB charge codes: needs you' 'The sheet changed but the repo has uncommitted work, so nothing was pushed.'
+  Notify 'KORB charge codes: needs you' 'The sheet changed but the repo has uncommitted work, so nothing was pushed.' 'Ask Claude to commit or clear the work in C:\korb-patient-tools, then run the check again.'
   exit 1
 }
 
@@ -195,12 +236,12 @@ if ($LASTEXITCODE -ne 0) { Fail "commit failed" }
 & git push -q
 if ($LASTEXITCODE -ne 0) {
   Log "COMMITTED BUT PUSH FAILED - push by hand"
-  Notify 'KORB charge codes: push failed' 'The change is committed on this machine but not on GitHub. Push by hand.'
+  Notify 'KORB charge codes: push failed' 'The change is committed on this machine but not on GitHub. Push by hand.' 'Ask Claude to push korb-patient-tools.'
   exit 1
 }
 
 $sha = (& git rev-parse --short HEAD)
 Log "Charge codes changed and pushed as $sha. $moved"
-Notify 'KORB charge codes changed' "Pulled from Nick's sheet and pushed as $sha. $moved"
+Notify 'KORB charge codes changed' "Pulled from Nick's sheet and pushed as $sha. $moved" 'Nothing, unless a provider still sees an old price: a hard refresh (Ctrl+Shift+R) fixes it.'
 Log "Providers with a document already open need a hard refresh; browsers cache the data files."
 exit 0
