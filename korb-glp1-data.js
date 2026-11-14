@@ -6280,7 +6280,11 @@ var KORB_GLP1 = {
     }
 
     // Compounded oral: the code lives on the dose, the price resolves from it.
+    // The label is the dose's own supply (30 or 90 days), never the injectable
+    // program the page has selected: it said "4-week" under a 90-day Dot (Don,
+    // 2026-11-13).
     if (d.rx) {
+      if (d.rx.days) out.programLabel = d.rx.days + '-day';
       out.options.push({
         label: d.presentation || d.dose,
         price: d.price != null ? d.price : KORB_GLP1.priceForCode(d.chargeCode),
