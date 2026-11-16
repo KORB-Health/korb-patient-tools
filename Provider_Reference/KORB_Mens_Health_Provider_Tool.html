@@ -389,7 +389,7 @@ body{background:var(--cream);}
      must load first or the data file throws by name rather than answering
      from an empty footprint. -->
 <script src="../korb-pharmacies.js?v=d8172a35"></script>
-<script src="../korb-mens-data.js?v=935997e3"></script>
+<script src="../korb-mens-data.js?v=c7d7dac1"></script>
 <script>
 if (typeof KORB_MENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
   document.addEventListener("DOMContentLoaded", function () {
@@ -955,7 +955,7 @@ function psDraw(){
   T.preScreenItems(PS, VISIT).forEach(function(sec){
     h += '<div class="ps-sec">' + psEsc(sec.head) + '</div>';
     sec.items.forEach(function(it){
-      var v = PS[it.id], lv = it.flag && v === it.flag.when ? it.flag.level : "";
+      var v = PS[it.id], fl = T.preScreenFlagFor(it, v), lv = fl ? fl.level : "";
       var wide = it.type === "multi" || it.type === "choice";
       h += '<div class="ps-row' + (lv ? " lv-" + lv : "") + (wide ? " wide" : "") + '">';
       h += '<div class="ps-q">' + psEsc(it.q) + '</div>';
@@ -977,7 +977,7 @@ function psDraw(){
         h += '<input type="text" data-ps-text="' + it.id + '_detail" value="' + psEsc(PS[it.id + "_detail"] || "") +
              '" placeholder="' + psEsc(it.detail.label) + '">';
       }
-      if (lv) h += '<div class="ps-flag">' + psEsc(it.flag.text) + '</div>';
+      if (lv) h += '<div class="ps-flag">' + psEsc(fl.text) + '</div>';
       h += '</div>';
     });
   });

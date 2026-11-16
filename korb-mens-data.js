@@ -57,15 +57,21 @@
 var KORB_MENS = {
 
   meta: {
-    version: '1.8',
+    version: '1.9',
     created: '2026-09-16',
-    updated: '2026-11-12',
+    updated: '2026-11-16',
     owner: 'Director of Clinical Operations',
     extractedFrom: 'Provider_Reference/KORB_Mens_Health_Provider_Tool.html as at 2026-09-16',
     scope: 'Male testosterone replacement only. Female testosterone is a women\'s ' +
            'health question and belongs in korb-womens-data.js, not here.',
     entity: 'KORB Health Medical Texas PA',
     changelog: [
+      '2026-11-16 (v1.9): THE 300 ng/dL THRESHOLD. Don asked for it on the tool. The ' +
+      'follow-up screen asks the morning total testosterone band (under 300, 300 to 400, ' +
+      'over 400 ng/dL) and, under 300, how many low draws; the eligibility gates state ' +
+      'it. From SOP 1.1 and 3.2: one low draw with documented symptoms is provider ' +
+      'discretion, 300 to 400 needs free T and SHBG, over 400 looks for other causes. ' +
+      'Items can now carry `flags`, a list, read through preScreenFlagFor().',
       '2026-11-12 (v1.8): NEXT VISIT FROM THE VISIT DATE. Don, 2026-11-12: a patient seen ' +
       'that morning was shown a next visit a week in the past, because the tool counted the ' +
       'next visit, the lab order and the next prescription from the PMP last fill date. ' +
@@ -727,6 +733,11 @@ var KORB_MENS = {
       'PSA within the age-adjusted normal range for the patient (see Prostate safety).',
       'Normal liver and kidney function, if tested.',
       'No absolute contraindication present.',
+      'Morning total testosterone (7 to 10 AM) below 300 ng/dL: two low draws on ' +
+      'separate days, or one low draw with documented symptoms at provider ' +
+      'discretion. 300 to 400 ng/dL is borderline - add free testosterone and SHBG ' +
+      'before deciding. Above 400 ng/dL with symptoms, look for other causes first ' +
+      '(SOP 1.1, 3.2).',
       'Symptoms and laboratory findings align. Testosterone deficiency is diagnosed ' +
       'on both, not on a number alone.',
       'FERTILITY HAS BEEN ASKED ABOUT AND THE ANSWER DOCUMENTED. See the next section.'
@@ -864,6 +875,9 @@ var KORB_MENS = {
                  showIf only asked when another answer is set
                  flag   what an answer means: stop (do not start, refer),
                         first (settle before starting) or note (record it)
+
+                 flags  the same, as a list, for a choice where more than
+                        one answer raises a flag (read with preScreenFlagFor)
 
      The flag wording restates rules held above in this file - the
      contraindications, precautions and eligibility gates. If one of those
@@ -1004,6 +1018,18 @@ var KORB_MENS = {
         { id: 'labsReviewed', type: 'yn', q: 'Baseline labs reviewed ({BASELINE_LABS})?',
           label: 'Baseline labs reviewed ({BASELINE_LABS})',
           flag: { when: 'N', level: 'first', text: 'Baseline labs not reviewed. Review before prescribing.' } },
+        /* The diagnostic threshold, SOP 1.1 and 3.2. Don, 2026-11-16. */
+        { id: 'ttRange', type: 'choice', q: 'Morning total testosterone (7 to 10 AM draw)?',
+          label: 'Morning total testosterone',
+          options: ['Under 300 ng/dL', '300 to 400 ng/dL', 'Over 400 ng/dL'],
+          flags: [
+            { when: '300 to 400 ng/dL', level: 'first', text: 'Borderline total testosterone, 300 to 400 ng/dL. Add free testosterone and SHBG before deciding.' },
+            { when: 'Over 400 ng/dL', level: 'first', text: 'Total testosterone over 400 ng/dL. Look for other causes first: thyroid, sleep apnea, depression, medications. Do not start on symptoms alone.' }
+          ] },
+        { id: 'ttDraws', type: 'choice', q: 'How many low morning draws?', label: 'Low morning draws',
+          options: ['Two, on separate days', 'One, symptoms documented'],
+          showIf: { id: 'ttRange', is: 'Under 300 ng/dL' },
+          flag: { when: 'One, symptoms documented', level: 'note', text: 'One low draw with documented symptoms: allowed at provider discretion (SOP 1.1). National guidelines (AUA) ask for two.' } },
         { id: 'hctOk', type: 'yn', q: 'Hematocrit below 52%?', label: 'Hematocrit below 52%',
           flag: { when: 'N', level: 'stop', text: 'Hematocrit 52% or above. Hold and evaluate for erythrocytosis, dehydration or sleep apnea.' } },
         { id: 'psaOk', type: 'yn', q: 'PSA within the age-adjusted range?', label: 'PSA within age-adjusted range',
@@ -1424,13 +1450,21 @@ var KORB_MENS = {
 
   /* Which flags the answers raise, grouped by level. */
   preScreenFlags: function (answers, visit) {
-    var a = answers || {}, out = { stop: [], first: [], note: [] };
+    var self = this, a = answers || {}, out = { stop: [], first: [], note: [] };
     this.preScreenItems(a, visit).forEach(function (sec) {
       sec.items.forEach(function (it) {
-        if (it.flag && a[it.id] === it.flag.when) out[it.flag.level].push(it.flag.text);
+        var f = self.preScreenFlagFor(it, a[it.id]);
+        if (f) out[f.level].push(f.text);
       });
     });
     return out;
+  },
+
+  /* The flag an answer raises on one item, from `flag` or `flags`, or null. */
+  preScreenFlagFor: function (it, value) {
+    var fs = it.flags || (it.flag ? [it.flag] : []);
+    for (var i = 0; i < fs.length; i++) if (fs[i].when === value) return fs[i];
+    return null;
   },
 
   /* The finished chart note. answers: { id: 'Y' | 'N' | text | [ticked] },

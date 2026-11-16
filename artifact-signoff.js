@@ -595,8 +595,9 @@ PROBES.mens = function () {
               the same day. Its note is pasted into a chart, so it is inside the
               signature like the plan note. Driven twice - every question
               answered No, then every question answered Yes - which reaches
-              every follow-up question and raises every flag. Choice, tick and
-              text items are left empty. The state and date are blanked first so
+              every follow-up question and raises every yes/no flag. Choice and
+              tick items are pressed one answer at a time below; text items are
+              left empty. The state and date are blanked first so
               the fingerprint does not depend on the day it was probed. */
            preScreen: (function () {
              if (typeof psReset !== 'function') return '';
@@ -616,10 +617,36 @@ PROBES.mens = function () {
                }
                return document.getElementById('preScreenTxt').textContent;
              };
+             /* Every choice answer once, 2026-11-16. The all-No and all-Yes
+                passes never press a choice, so the testosterone band and its
+                flags were outside the signature the day they were added. Each
+                answer is pressed from a reset screen, plus the answers that
+                reveal it, so a follow-up choice (how many low draws, under 300)
+                is reached through its parent. Each is recorded once. */
+             var choices = function () {
+               var seen = {}, rec = {}, queue = [[]];
+               var press = function (p) {
+                 var b = document.querySelector('#psForm .ps-b[data-ps="' + p[0] + '"][data-ps-opt="' + CSS.escape(p[1]) + '"]');
+                 if (b && !b.classList.contains('on')) b.click();
+               };
+               while (queue.length) {
+                 var path = queue.shift();
+                 psReset(); path.forEach(press);
+                 if (path.length) rec[path.map(function (p) { return p.join('='); }).join(' > ')] =
+                   document.getElementById('preScreenTxt').textContent;
+                 var ids = path.map(function (p) { return p[0]; });
+                 [].forEach.call(document.querySelectorAll('#psForm .ps-b[data-ps-opt]'), function (b) {
+                   var pair = [b.getAttribute('data-ps'), b.getAttribute('data-ps-opt')], k = pair.join('=');
+                   if (seen[k] || ids.indexOf(pair[0]) >= 0) return;
+                   seen[k] = 1; queue.push(path.concat([pair]));
+                 });
+               }
+               return rec;
+             };
              var out = {};
              Object.keys(KORB_MENS.preScreen.visits).forEach(function (v) {
                psSetVisit(v);
-               out[v] = { allNo: run('N'), allYes: run('Y') };
+               out[v] = { allNo: run('N'), allYes: run('Y'), choices: choices() };
                psReset();
              });
              psSetVisit('followup');

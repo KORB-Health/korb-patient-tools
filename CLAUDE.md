@@ -173,6 +173,18 @@ per state, and `selfCheck()` fails if a TRT state has no database or https
 link. Don opened the CURES link (`cures.doj.ca.gov`) on 2026-11-12 and confirmed
 it lands on the CURES login.
 
+**The 300 ng/dL threshold** (Don, 2026-11-16, `korb-mens-data.js` v1.9). The
+follow-up screen asks the morning total testosterone band: under 300 (then how
+many low draws; one with documented symptoms is provider discretion, SOP 1.1),
+300 to 400 (add free T and SHBG first) or over 400 (look for other causes). The
+eligibility gates state the same. AUA asks for two low draws; KORB's one-draw
+route is a deliberate SOP choice. A choice item can carry `flags`, a list, read
+through `preScreenFlagFor()`. **The Men's probe pressed no choice answers until
+this change**, so the new flags were outside the signature the day they were
+added; it now presses every choice answer once, reaching follow-up choices
+through their parent. Negative-tested: one word of the new flag moved the
+fingerprint and restoring it brought it back exactly.
+
 ## TRT IS MEN'S HEALTH. ONE PROGRAM, NOT TWO.
 
 Confirmed by Don 2026-09-17, and the repo had it wrong. The provider side said
