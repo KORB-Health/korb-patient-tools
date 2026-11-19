@@ -1516,15 +1516,25 @@ function renderLabs(){
   }
   if(UNAVAILABLE_STATES_NO_PHARMACY.length){
     html += '<div style="margin-top:12px;padding:10px 14px;background:#FFF4E5;border:2px solid #B45309;border-radius:8px;font-size:12px;color:#7A3E00;">';
-    html += '<strong style="display:block;color:#B45309;margin-bottom:4px;">&#9888; Paused — no pharmacy can fill — '
+    html += '<strong style="display:block;color:#B45309;margin-bottom:4px;">&#9888; Closed — no pharmacy can fill — '
          + UNAVAILABLE_STATES_NO_PHARMACY.join(', ') + '</strong>';
-    html += 'Greenwich restricted itself on 11 Sep 2026 to the 23 states where it is directly licensed, so it no longer ships to '
-         + UNAVAILABLE_STATES_NO_PHARMACY.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', ')
-         + ', and Premier is not licensed in any of them. There is no peptide source while the restriction holds, so Functional Health &amp; Longevity is closed in these states: no visit, no prescription, no shipment.';
-    if(PAUSED && PAUSED.expectedRestore){
-      html += '<br><br><strong>This is a pause, not a withdrawal.</strong> Greenwich expects to restore coverage in '
-           + PAUSED.expectedRestore + '. Tell a patient the program is temporarily unavailable in their state and that coverage is expected back. Do not tell them it has been discontinued. Ops reviews this by '
-           + (PAUSED.reviewBy || 'the restore date') + '.';
+    /* Split 2026-11-19 (Don): only the Greenwich-paused states get the Greenwich story and
+       the restore promise. VA (2026-10-16) and MI (2026-11-19) closed because Premier lost
+       its licence, with no restore date. Same split as the per-state message below. */
+    var fnm = function(list){ return list.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', '); };
+    var pausedSt = UNAVAILABLE_STATES_NO_PHARMACY.filter(function(s){ return !!(PAUSED && (PAUSED.states||[]).indexOf(s) !== -1); });
+    var lostSt = UNAVAILABLE_STATES_NO_PHARMACY.filter(function(s){ return pausedSt.indexOf(s) === -1; });
+    html += 'No peptide pharmacy KORB uses can fill in these states, so Functional Health &amp; Longevity is closed there: no visit, no prescription, no shipment.';
+    if(lostSt.length){
+      html += '<br><br><strong>No restore date: ' + fnm(lostSt) + '.</strong> Premier is no longer licensed in these states and no other peptide pharmacy KORB uses ships there. Do not tell a patient coverage is coming back.';
+    }
+    if(pausedSt.length){
+      html += '<br><br><strong>Greenwich pause: ' + fnm(pausedSt) + '.</strong> Greenwich restricted itself on 11 Sep 2026 to the 23 states where it is directly licensed, and Premier is not licensed in these.';
+      if(PAUSED && PAUSED.expectedRestore){
+        html += ' This is a pause, not a withdrawal. Greenwich expects to restore coverage in '
+             + PAUSED.expectedRestore + '. Tell a patient the program is temporarily unavailable in their state and that coverage is expected back. Do not tell them it has been discontinued. Ops reviews this by '
+             + (PAUSED.reviewBy || 'the restore date') + '.';
+      }
     }
     if(PAUSED && (PAUSED.alsoLostGreenwichButAlreadyExcluded||[]).length){
       html += '<br><br>' + PAUSED.alsoLostGreenwichButAlreadyExcluded.join(', ')
