@@ -43,8 +43,9 @@ everywhere else (9: AL, CA, HI, MA, MI, MS, SC, VA, WA); **FarmaKeio for Arkansa
 only** (see below). **Michigan and Massachusetts moved to Belmar 2026-11-19**
 (Don, from the Premier weekly 2026-11-18): Premier is no longer licensed in
 Michigan (NABP now required) and has switched Massachusetts off in its portal.
-korb-pharmacies.js v1.16. **FH&L in Michigan now has no peptide pharmacy and is
-NOT closed in korb-dosing-data.js: that is Don's call, as Virginia was.**
+korb-pharmacies.js v1.16. **FH&L closed in Michigan 2026-11-19** (Don): no
+peptide pharmacy ships there, so MI is in unavailable and unavailableNoPharmacy,
+not paused (korb-dosing-data.js v2.19). Open FH&L states 33.
 Earlier: **Massachusetts moved to Premier 2026-10-29** (Don):
 Premier confirmed it can send sterile products there; it had been held back
 because the 10/15 licence list showed MA as non-sterile only. Every program

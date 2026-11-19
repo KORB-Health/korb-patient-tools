@@ -307,13 +307,14 @@ var KORB_DOSING = {
   },
 
   meta: {
-    version: '2.18',
+    version: '2.19',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-11-19 (v2.19): FUNCTIONAL HEALTH & LONGEVITY CLOSES IN MICHIGAN. Premier is no longer licensed in Michigan, which now requires NABP accreditation (Premier weekly, 2026-11-18; korb-pharmacies.js v1.16). Premier was the only peptide pharmacy KORB had in MI, so MI joins unavailable and unavailableNoPharmacy. It is NOT in pausedPharmacy: there is no restore date. Don decided 2026-11-19. Open FH&L states go from 34 to 33. Don Stevenson, PA-C.',
       '2026-10-22 (v2.18): FUNCTIONAL HEALTH & LONGEVITY REOPENS IN INDIANA. IN was closed on 2026-09-11 for the pharmacy reason only, never for providers. Premier ships peptides to Indiana and IN was already in premierRouting, so the unavailableNoPharmacy flag was stale, and it made build-fhl-docs.js refuse to build. IN leaves unavailable, unavailableNoPharmacy and pausedPharmacy and routes to Premier. Providers: Fatou Thiam (CNP, staffs IN) and Kim Hildebrant (backup), both with collaboration agreements. Open FH&L states go from 33 to 34. Don Stevenson, PA-C.',
       '2026-10-22 (v2.17): FUNCTIONAL HEALTH & LONGEVITY REOPENS IN NEW HAMPSHIRE. NH was closed on 2026-09-11 for one reason only: Greenwich stopped shipping there and Premier was not licensed, so no peptide pharmacy could fill. Premier is now licensed in NH (NR2802, expires 2028-10-21; korb-pharmacies.js v1.12), so NH leaves unavailable, unavailableNoPharmacy and pausedPharmacy and routes to Premier. Providers: Kim Yartklang and Kim Hildebrant, NH APRN, full practice authority. Open FH&L states go from 32 to 33. Don Stevenson, PA-C.',
       '2026-10-16 (v2.16): FUNCTIONAL HEALTH & LONGEVITY CLOSES IN VIRGINIA. Premier is no longer licensed in VA and would need an NABP inspection to return (Premier, by email 2026-10-16; korb-pharmacies.js v1.10). Premier was the only peptide pharmacy KORB has in VA, so VA joins unavailable and unavailableNoPharmacy. It is NOT in pausedPharmacy: there is no restore date. Don decided 2026-10-16. Open FH&L states go from 33 to 32. Don Stevenson, PA-C.',
@@ -1578,14 +1579,17 @@ var KORB_DOSING = {
        which is worse than an absent one. requireHydrated() makes the
        missing-script case loud instead. */
     premierRouting: [],
-    unavailable: ['AL','AK','AR','CA','DC','GA','HI','MA','MN','MS','NJ','NY','RI','SC','VA','WA','WV'],
+    unavailable: ['AL','AK','AR','CA','DC','GA','HI','MA','MI','MN','MS','NJ','NY','RI','SC','VA','WA','WV'],
     unavailableNoShip: ['AL','MS','SC'],
     /* VA added 2026-10-16: Premier is no longer licensed in Virginia and was the only
        peptide pharmacy there. Not paused - returning needs an NABP inspection. */
     /* NH removed 2026-10-22: Premier is licensed there now (NR2802) and FH&L reopened.
        IN removed 2026-10-22: Premier already shipped peptides to Indiana; the flag
        was the only thing keeping it closed. */
-    unavailableNoPharmacy: ['AR','CA','VA','WA'],
+    /* MI added 2026-11-19 (Don): Michigan moved off Premier to Belmar for GLP-1 the
+       same day, and no KORB pharmacy ships peptides there. Not paused - there is no
+       restore date. */
+    unavailableNoPharmacy: ['AR','CA','MI','VA','WA'],
     unavailableLabWorkflow: ['NY','NJ','RI'],
     pausedPharmacy: {
       states: ['AR','CA','WA'],
