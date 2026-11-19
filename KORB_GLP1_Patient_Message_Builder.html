@@ -185,7 +185,7 @@ a{color:var(--navy)}
 </div>
 
 <script src="korb-pharmacies.js?v=6bc08336"></script>
-<script src="korb-glp1-data.js?v=4621ca1b"></script>
+<script src="korb-glp1-data.js?v=e07bb64c"></script>
 <script src="korb-rx-block.js?v=c20c31df"></script>
 <script>
 (function(){
@@ -445,6 +445,7 @@ a{color:var(--navy)}
       /* Short forms of the page's wording: the page carries the full text and
          the message has 1000 characters. */
       if (C.isHighDose(prod.key, dose)) { L.push(''); L.push('HIGHER DOSE: follow the instructions I gave you for this dose. Your page below explains.'); }
+      if (C.glycineVialNote && C.glycineVialNote(prod.key, dose, 'message')) { L.push(C.glycineVialNote(prod.key, dose, 'message')); }
       if (w === 12) { L.push(''); L.push('12-WEEK SUPPLY: start your first dose within 5 days of delivery.'); }
       L.push('');
       L.push('WHEN TO DISCARD');
@@ -569,6 +570,7 @@ a{color:var(--navy)}
       (c.step ? ' Your provider also moved your dose one step ' + (c.step > 0 ? 'up' : 'down') + '.' : '') +
       (b12 ? ' It is red or pink from the vitamin B-12, which is normal.' : '') +
       (high ? '\n\nHIGHER DOSE: follow your provider\'s instructions for this dose. Unsure? Contact KORB before your next injection.' : '') +
+      (C.glycineVialNote && C.glycineVialNote(c.toProduct.key, t, 'message') ? ' ' + C.glycineVialNote(c.toProduct.key, t, 'message') : '') +
       (sup === 'supply12' ? '\n\n12-week supply: start your first dose within 5 days of delivery.' : '') +
       '\n\nYour instructions' + (oral ? '' : ' and syringe picture') + ' (copy and paste into your browser):\n' + c.patientLink +
       '\n\nFinish your FarmaKeio supply first, at your current FarmaKeio dose. Then start ' + ph + ' with the new instructions. Questions? Reply here.';

@@ -132,6 +132,11 @@
     if (conv && conv.isHighDose && conv.isHighDose(KEY, dose)) {
       h += '<div class="kmp-box amber"><strong>This is a higher dose.</strong> ' + esc(conv.highDose.patient) + '</div>';
     }
+    /* Glycine is 1 mL vials only: 4.5 and 6 mg use two vials every dose (Don, 2026-11-19). */
+    var glyNote = conv && conv.glycineVialNote ? conv.glycineVialNote(KEY, dose, 'page') : '';
+    if (glyNote) {
+      h += '<div class="kmp-box amber"><strong>Two vials every dose.</strong> ' + esc(glyNote) + '</div>';
+    }
     h += '<div class="kmp-box teal"><strong>Units are not milligrams.</strong> Units are the marks on your syringe. Always draw to the units number on this page and on your label, never to the mg number.</div>';
   }
 

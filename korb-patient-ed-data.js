@@ -3556,7 +3556,8 @@ var KORB_PATIENT_ED = {
            first - see acceptedLimitations PREMIER-SEMA-45-CROSS-VIAL. */
         ['If your dose uses two vials',
          'At some higher doses, one of your weekly doses is made from what is left in two ' +
-         'vials. Do not throw a vial away while it still has medication in it and it is ' +
+         'vials. With glycine semaglutide at 4.5 mg or 6 mg, every dose uses two vials. ' +
+         'Do not throw a vial away while it still has medication in it and it is ' +
          'less than 28 days since you opened it. Draw what is left in each vial into its own ' +
          'syringe, and inject both to make up your full dose. Your provider will tell you if ' +
          'this applies to your dose and which vial to open first.'],

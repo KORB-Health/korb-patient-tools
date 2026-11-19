@@ -710,9 +710,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.42',
+    version: '2.43',
     created: '2026-08-06',
-    lastUpdated: '2026-11-13',
+    lastUpdated: '2026-11-19',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -730,6 +730,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-11-19 (v2.43): GLYCINE TWO-VIAL WORDING FOR PATIENTS (Don, 19 Nov). Glycine semaglutide comes in 1 mL vials only, so at 4.5 mg every dose uses two vials and the patient keeps the half vial, and at 6 mg every dose uses two full vials. The provider reference already said so (PREMIER-GLYCINE-45-SPLIT-VIAL); the patient medication page and the portal messages did not. New glycineVials text and glycineVialNote(), read by korb-med-page.js and KORB_GLP1_Patient_Message_Builder.html. No dose, product or price change. Don Stevenson, PA-C.',
       '2026-11-18 (v2.42): GLYCINE SEMAGLUTIDE 4.5 MG AND 6 MG (Don, 18 Nov). Premier now offers both doses in all three semaglutide products. B-12 has had them since v2.24 and B-6 derives from B-12, so glycine was the gap. Glycine comes in 1 ml vials only (Don): 4.5 mg is 6 / 12 / 18 vials and every dose draws from two vials, recorded as acceptedLimitations PREMIER-GLYCINE-45-SPLIT-VIAL with patientUsesLeftover so the Dose Guide shows the two-vial note; 6 mg is 8 / 16 / 24 vials, two whole vials a dose. priceBand max, the existing FITSema001MAX / FITSemaMNTMAX / FITSema12wkMAX codes, no price or code changed. 8-week sigs drop "Maintenance - " (150 of 140 with it), as the 12-week glycine sigs already did. highDose.appliesTo gains premier_sema_glycine, so the provider escalation warning and patient line apply. Don Stevenson, PA-C.',
       '2026-11-13 (v2.41): DOTS PRICES FROM THE CHARGE SHEET. The four Dots codes (FITSemOrlLOW_30, FITSemOrlLOW_90, FITSemOrlMID_90, FITSemOrlHIGH_90) reached the sheet in a new Oral Semaglutide section and are added to pricing.oral, so priceForCode() finds them; prices are filled from korb-charges.js, none typed here. Don Stevenson, PA-C.',
       '2026-11-09 (v2.40): THE B-6 EXCEPTION (Don, after talking with Nick). Belmar has no B-6 GLP-1: its semaglutide carries B-12 and its tirzepatide L-carnitine. In a Belmar state a patient who cannot have that additive (documented allergy, or a documented reaction they have had to it) may go to FarmaKeio for the B-6 version of the same drug: farmakeio_sema for semaglutide, farmakeio_tirz for tirzepatide. New states.b6Exception and states.b6ExceptionFor(state); the states are derived (Belmar-routed and FarmaKeio ships there: AL, HI, MS, SC, VA, WA today), never typed. California is Belmar-routed but FarmaKeio will not ship there, so it gets noOption advice: the other drug at Belmar or brand. checkPharmacyForState answers warning, not error, for FarmaKeio in an exception state. FarmaKeio is otherwise still Arkansas only. Expected to be very few patients. Don Stevenson, PA-C.',
@@ -7565,6 +7566,31 @@ KORB_GLP1.farmakeioConversion = {
   isHighDose: function (productKey, dose) {
     var h = this.highDose;
     return !!(dose && h.appliesTo.indexOf(productKey) !== -1 && dose.mg >= h.minMg);
+  },
+
+  /* Glycine semaglutide comes in 1 mL vials only, so 4.5 mg and 6 mg use two vials
+     every dose (Don, 2026-11-19; acceptedLimitations PREMIER-GLYCINE-45-SPLIT-VIAL).
+     page: the patient medication page. message: one line in the portal message. */
+  glycineVials: {
+    productKey: 'premier_sema_glycine',
+    page: {
+      '4.5': 'Your medication comes in small 1 mL vials, so every dose uses two vials and two ' +
+             'syringes. Week 1: draw 100 units from a full vial, then 50 units from a new vial. ' +
+             'Keep that second vial: it still has 50 units in it. Week 2: draw the 50 units left ' +
+             'in that vial, then 100 units from a new full vial. Repeat. Do not throw a vial away ' +
+             'while it still has medication in it.',
+      '6':   'Your medication comes in small 1 mL vials, so every dose uses two full vials and two ' +
+             'syringes, 100 units from each. Nothing is left over.'
+    },
+    message: {
+      '4.5': 'Two 1 mL vials per dose. Keep the half vial.',
+      '6':   'Two full 1 mL vials per dose.'
+    }
+  },
+  glycineVialNote: function (productKey, dose, kind) {
+    var g = this.glycineVials;
+    if (!dose || productKey !== g.productKey) return '';
+    return (g[kind] || {})[String(dose.mg)] || '';
   },
 
   ruleFor: function (fromKey) {
