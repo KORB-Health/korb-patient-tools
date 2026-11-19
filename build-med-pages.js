@@ -14,6 +14,7 @@
    Usage: node build-med-pages.js           write every page
           node build-med-pages.js --check   exit 1 if a page is missing or stale
 */
+const ICONS = require('./stamp-icons.js').TAGS; // KORB tab and home-screen icon
 const fs = require('fs');
 const path = require('path');
 global.KORB_PHARMACIES = require('./korb-pharmacies.js');
@@ -89,6 +90,7 @@ function shell(key, t0) {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+${ICONS}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>${t} | KORB Health</title>

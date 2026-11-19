@@ -38,6 +38,7 @@
    inherit the page stylesheet.
    ============================================================================ */
 
+const ICONS = require('./stamp-icons.js').TAGS; // KORB tab and home-screen icon
 const fs = require('fs');
 const path = require('path');
 const R = require('./patient-ed-render.js');
@@ -284,6 +285,7 @@ function shell(t) {
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
+${ICONS}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- iOS DATA DETECTORS OFF. Don, on an iPad Air, 2026-09-21: the Quest codes in
      the lab table carried dotted underlines and tapping one opened Google Maps.
@@ -342,6 +344,7 @@ ${(doc.alsoLoad || []).map(k => `<script src="${t.up}${SOURCE_FILE[k]}"></script
 function printableHtml(DOSING, doc) {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
+${ICONS}
 <title>${R.esc(doc.title)}</title>
 <style>${R.CSS}</style></head><body>
 ${R.renderBody(DATA, DOSING, doc)}

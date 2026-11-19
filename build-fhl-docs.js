@@ -38,6 +38,7 @@
      header and footer templates here so the output is the same everywhere.
    ============================================================================ */
 
+const ICONS = require('./stamp-icons.js').TAGS; // KORB tab and home-screen icon
 const fs = require('fs');
 const path = require('path');
 const R = require('./fhl-doc-render.js');
@@ -81,6 +82,7 @@ function shell(doc) {
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
+${ICONS}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <!-- iOS DATA DETECTORS OFF. Don, on an iPad Air, 2026-09-21: the Quest codes in
