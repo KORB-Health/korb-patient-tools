@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.16",
+    version: "1.17",
     created: "2026-09-11",
     updated: "2026-11-19",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-11-19 (v1.17): MISSISSIPPI WOMEN'S HEALTH TO BELMAR. Don, 2026-11-19, on review of the Women's Health tool: Premier womens excludes MS, so Mississippi routes to Belmar for Women's Health as it already does for GLP-1 and peptides. Premier's MS licence is non-sterile only and the Women's Health products are non-sterile, so Premier could fill them; this is Don's choice of one pharmacy per state, not a licence fact. Women's Health: Premier 40 states and DC, Belmar only in AL, AR, CA, HI, MA, MI, MS, SC, VA, WA.",
       "2026-11-19 (v1.16): PREMIER LOSES MICHIGAN AND MASSACHUSETTS. Premier weekly, 2026-11-18 (Miguel Sanchez): Premier is no longer licensed in Michigan, which now requires NABP accreditation, and it has switched Massachusetts off in its portal after another telehealth company sent scripts for states it is not licensed in; Massachusetts orders already received were filled, future ones go elsewhere. MI and MA removed from the Premier footprint and preferredStates and added to footprintExcludes; Belmar preferredStates gains both. The Michigan licencePending caution is removed: the answer came. Every program on the footprint follows, as with Virginia on 2026-10-16: GLP-1 and Women's Health route MI and MA to Belmar; add-ons and peptides can no longer reach them through Premier. Premier 41 for GLP-1, Belmar 9 (AL, CA, HI, MA, MI, MS, SC, VA, WA), FarmaKeio 1 (AR). Effective 2026-11-19 (Don). Don Stevenson, PA-C.",
       "2026-11-12 (v1.15): PRESCRIPTION MONITORING DATABASES. pdmp holds the name and login link of each state's prescription-monitoring database, for the states where KORB writes a controlled substance (testosterone, TX and CA). Moved here from korb-mens-data.js so the Men's and Women's Health provider tools read one entry; both show a button per state. Texas link from Don. California is CURES, run by the California Department of Justice; Don opened the link and confirmed it the same day. selfCheck fails if a state where any pharmacy offers TRT has no database or no https link. No pharmacy, footprint or routing changed. Don Stevenson, PA-C.",
       "2026-10-29 (v1.14): PREMIER GAINS MASSACHUSETTS. Premier confirmed 2026-10-29 that it can send sterile products to Massachusetts, for existing and new patients (Don). The 2026-10-15 licence list had shown MA as non-sterile only, which is why it was held back. MA added to the Premier footprint and preferredStates and removed from footprintExcludes; Belmar preferredStates loses MA. Every program on the footprint follows: GLP-1 and Women's Health route MA to Premier, add-ons and peptides can reach it. Premier 43 for GLP-1, Belmar 7. FH&L stays closed in MA: it is in korb-dosing-data.js unavailable for provider coverage, not for a pharmacy, and is not changed here. Don Stevenson, PA-C.",
@@ -321,7 +322,9 @@ var KORB_PHARMACIES = {
         },
 "womens": {
           "status": "active",
-          "note": "Menopausal hormone therapy. Premier is the DEFAULT pharmacy wherever it is licensed - Don, 2026-09-16 - and Belmar picks up the remaining 13 states. No `only` here: the whole footprint applies, unlike trt.",
+          "excludes": ["MS"],
+          "excludesNote": "Mississippi Women's Health goes to Belmar, Don's decision 2026-11-19, so Mississippi has one pharmacy for every program. Premier's Mississippi licence is non-sterile only; the Women's Health products are non-sterile and Premier could fill them, but Don chose Belmar.",
+          "note": "Menopausal hormone therapy. Premier is the DEFAULT pharmacy wherever it is licensed - Don, 2026-09-16 - and Belmar picks up the remaining 10 states (count corrected 2026-11-19). No `only` here: the whole footprint applies, unlike trt.",
           "verified": true,
           "verifiedBy": "Don Stevenson, PA-C",
           "verifiedOn": "2026-09-16"
