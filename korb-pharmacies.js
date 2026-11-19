@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.15",
+    version: "1.16",
     created: "2026-09-11",
-    updated: "2026-11-12",
+    updated: "2026-11-19",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-11-19 (v1.16): PREMIER LOSES MICHIGAN AND MASSACHUSETTS. Premier weekly, 2026-11-18 (Miguel Sanchez): Premier is no longer licensed in Michigan, which now requires NABP accreditation, and it has switched Massachusetts off in its portal after another telehealth company sent scripts for states it is not licensed in; Massachusetts orders already received were filled, future ones go elsewhere. MI and MA removed from the Premier footprint and preferredStates and added to footprintExcludes; Belmar preferredStates gains both. The Michigan licencePending caution is removed: the answer came. Every program on the footprint follows, as with Virginia on 2026-10-16: GLP-1 and Women's Health route MI and MA to Belmar; add-ons and peptides can no longer reach them through Premier. Premier 41 for GLP-1, Belmar 9 (AL, CA, HI, MA, MI, MS, SC, VA, WA), FarmaKeio 1 (AR). Effective 2026-11-19 (Don). Don Stevenson, PA-C.",
       "2026-11-12 (v1.15): PRESCRIPTION MONITORING DATABASES. pdmp holds the name and login link of each state's prescription-monitoring database, for the states where KORB writes a controlled substance (testosterone, TX and CA). Moved here from korb-mens-data.js so the Men's and Women's Health provider tools read one entry; both show a button per state. Texas link from Don. California is CURES, run by the California Department of Justice; Don opened the link and confirmed it the same day. selfCheck fails if a state where any pharmacy offers TRT has no database or no https link. No pharmacy, footprint or routing changed. Don Stevenson, PA-C.",
       "2026-10-29 (v1.14): PREMIER GAINS MASSACHUSETTS. Premier confirmed 2026-10-29 that it can send sterile products to Massachusetts, for existing and new patients (Don). The 2026-10-15 licence list had shown MA as non-sterile only, which is why it was held back. MA added to the Premier footprint and preferredStates and removed from footprintExcludes; Belmar preferredStates loses MA. Every program on the footprint follows: GLP-1 and Women's Health route MA to Premier, add-ons and peptides can reach it. Premier 43 for GLP-1, Belmar 7. FH&L stays closed in MA: it is in korb-dosing-data.js unavailable for provider coverage, not for a pharmacy, and is not changed here. Don Stevenson, PA-C.",
       "2026-10-28 (v1.13): ARKANSAS GLP-1 BACK TO FARMAKEIO. Belmar cannot collect payment from KORB for Arkansas prescriptions: Arkansas only lets it collect from the patient (Don, 2026-10-28). FarmaKeio programs.glp1 is active again and its preferredStates is AR; Belmar preferredStates loses AR. The GLP-1 routing rule that sends Arkansas to FarmaKeio lives in korb-glp1-data.js; this file only records the pharmacy fact. Injectable semaglutide and tirzepatide only: FarmaKeio oral semaglutide stays retired. Women's Health and add-ons in Arkansas still name Belmar and are NOT changed here; the same payment limit may apply, flagged to Don. Don Stevenson, PA-C.",
@@ -204,9 +205,7 @@ var KORB_PHARMACIES = {
         "KY",
         "LA",
         "MD",
-        "MA",
         "ME",
-        "MI",
         "MN",
         "MO",
         "MS",
@@ -238,18 +237,18 @@ var KORB_PHARMACIES = {
         "AR",
         "CA",
         "HI",
+        "MA",
+        "MI",
         "SC",
         "VA",
         "WA"
       ],
-      "footprintNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09; Alaska, Idaho, Iowa, Indiana and Minnesota added 2026-10-15 from Premier's state licence list (States licensed.xlsx, Don). Texas is Premier's home state and is not on that non-resident list. Virginia REMOVED 2026-10-16: Premier is no longer licensed there and would need an NABP inspection to return (Miguel Sanchez, Premier, by email to Don). Connecticut confirmed renewed to 2027-08-31 and Colorado licensed to 2028-10-31, same email. Michigan renewal is still being checked by Premier; see licencePending.",
+      "footprintNote": "Licensed shipping list. Premier cannot ship anywhere outside it, including California. Confirmed 2026-08-09; Alaska, Idaho, Iowa, Indiana and Minnesota added 2026-10-15 from Premier's state licence list (States licensed.xlsx, Don). Texas is Premier's home state and is not on that non-resident list. Virginia REMOVED 2026-10-16: Premier is no longer licensed there and would need an NABP inspection to return (Miguel Sanchez, Premier, by email to Don). Connecticut confirmed renewed to 2027-08-31 and Colorado licensed to 2028-10-31, same email. Michigan and Massachusetts REMOVED 2026-11-19: Premier is no longer licensed in Michigan (NABP now required) and has switched Massachusetts off (Miguel Sanchez, Premier weekly, 2026-11-18).",
       "licenceExpires": {
         "CT": "2027-08-31",
         "CO": "2028-10-31"
       },
-      "licencePending": {
-        "MI": "Premier is checking on the status of its Michigan licence renewal (Premier, 2026-10-16). Michigan stays on Premier, but confirm with Operations before sending a Michigan prescription to Premier."
-      },
+      "licencePending": {},
       "footprintIsSettled": "SETTLED — do not soften this back to a preference. Two different things were being confused: the ROUTING DEFAULT for a state is overridable (a provider may choose Premier where FarmaKeio is default, or vice versa), but Premier’s LICENSED FOOTPRINT is not. States outside shipsTo are hard exclusions.",
       "preferredStates": [
         "AK",
@@ -268,9 +267,7 @@ var KORB_PHARMACIES = {
         "KY",
         "LA",
         "MD",
-        "MA",
         "ME",
-        "MI",
         "MN",
         "MO",
         "MT",
@@ -406,6 +403,8 @@ var KORB_PHARMACIES = {
         "AL",
         "CA",
         "HI",
+        "MA",
+        "MI",
         "MS",
         "SC",
         "VA",

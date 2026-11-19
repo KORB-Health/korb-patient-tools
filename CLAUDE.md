@@ -38,9 +38,14 @@ checked for in the others, because nobody could say what had been pushed where.
 
 ## GLP-1: FARMAKEIO OUT, PREMIER OR BELMAR. LIVE 2026-10-23. (Don, 2026-10-22)
 
-Premier wherever Premier can fill GLP-1 (43 states, no backup); Belmar
-everywhere else (7: AL, CA, HI, MS, SC, VA, WA); **FarmaKeio for Arkansas
-only** (see below). **Massachusetts moved to Premier 2026-10-29** (Don):
+Premier wherever Premier can fill GLP-1 (41 states, no backup); Belmar
+everywhere else (9: AL, CA, HI, MA, MI, MS, SC, VA, WA); **FarmaKeio for Arkansas
+only** (see below). **Michigan and Massachusetts moved to Belmar 2026-11-19**
+(Don, from the Premier weekly 2026-11-18): Premier is no longer licensed in
+Michigan (NABP now required) and has switched Massachusetts off in its portal.
+korb-pharmacies.js v1.16. **FH&L in Michigan now has no peptide pharmacy and is
+NOT closed in korb-dosing-data.js: that is Don's call, as Virginia was.**
+Earlier: **Massachusetts moved to Premier 2026-10-29** (Don):
 Premier confirmed it can send sterile products there; it had been held back
 because the 10/15 licence list showed MA as non-sterile only. Every program
 follows, except FH&L, which stays closed in MA for provider coverage. New Hampshire moved to
