@@ -197,20 +197,20 @@ var KORB_GLP1 = {
       "glp1:premier_glycine": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-28",
-        "dataVersion": "2.25",
-        "fingerprint": "fp-383465dc-39224",
-        "blocks": 15,
+        "date": "2026-11-18",
+        "dataVersion": "2.42",
+        "fingerprint": "fp-f3bef7f9-54954",
+        "blocks": 21,
         "document": "Premier — Semaglutide with Glycine",
         "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-        "note": "Re-signed after the 12-week Premier programme was added, 2026-09-28. FIVE new blocks. The 12-week sigs drop the \"Maintenance - \" prefix the 8-week sigs keep: with the syringe pack count they ran to 151 of 140 characters, and a 12-week fill cannot be an escalation fill, so the prefix says nothing the record does not. ALSO A CORRECTION TO THE 8-WEEK: 1.8 mg quantity 5 to 6, and six 1 ml vials rather than five. Premier ships six - it multiplies the 4-week pack rather than filling to need - so the 5 in this file was asking for something they do not send. It was the only dose in the file whose 8-week quantity was not exactly double its 4-week. Don caught it on the rendered vial table and approved the change 2026-09-28: \"they said that they actually send out 6 vials instead of 5 ... Let us go ahead and change that to 3, 6, and 9.\"",
+        "note": "Re-signed after 4.5 mg and 6 mg were added, 2026-11-18. SIX new blocks, 1 ml vials only (Don). The 8-week sigs at these two doses drop the \"Maintenance - \" prefix: with the syringe pack count they ran to 150 of 140 characters, same reasoning as the 12-week sigs on 2026-09-28. Signed 2026-11-18 on Don's approval in chat (\"Sign and push\") of the page as rendered.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-15",
-          "dataVersion": "2.22",
-          "fingerprint": "fp-3ae3d14d-25992",
-          "blocks": 10,
+          "date": "2026-09-28",
+          "dataVersion": "2.25",
+          "fingerprint": "fp-383465dc-39224",
+          "blocks": 15,
           "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
         }
       },
@@ -627,11 +627,20 @@ var KORB_GLP1 = {
       "medpage:premier_semaglutide_glycine": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-25",
-        "fingerprint": "fp-bdc79519-16844",
-        "covers": "16764 characters, 5 dose cases",
+        "date": "2026-11-18",
+        "fingerprint": "fp-b9a32ac1-24420",
+        "covers": "24340 characters, 7 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\"). New page, built for educational send-outs and the prescription message tool; not a FarmaKeio conversion target."
+        "note": "Re-signed 2026-11-18 on Don's approval in chat (\"Sign and push\") after 4.5 mg and 6 mg were added: two new dose cases, with the higher-dose line telling the patient to follow the provider's escalation instructions.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-10-25",
+          "fingerprint": "fp-bdc79519-16844",
+          "covers": "16764 characters, 5 dose cases",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\"). New page, built for educational send-outs and the prescription message tool; not a FarmaKeio conversion target."
+        }
       },
       "tool:glp1routing": {
         "signedBy": "Donald Stevenson, PA-C",
