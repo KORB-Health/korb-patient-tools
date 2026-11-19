@@ -701,7 +701,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.41',
+    version: '2.42',
     created: '2026-08-06',
     lastUpdated: '2026-11-13',
     owner: 'Director of Clinical Operations',
@@ -721,6 +721,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-11-18 (v2.42): GLYCINE SEMAGLUTIDE 4.5 MG AND 6 MG (Don, 18 Nov). Premier now offers both doses in all three semaglutide products. B-12 has had them since v2.24 and B-6 derives from B-12, so glycine was the gap. Glycine comes in 1 ml vials only (Don): 4.5 mg is 6 / 12 / 18 vials and every dose draws from two vials, recorded as acceptedLimitations PREMIER-GLYCINE-45-SPLIT-VIAL with patientUsesLeftover so the Dose Guide shows the two-vial note; 6 mg is 8 / 16 / 24 vials, two whole vials a dose. priceBand max, the existing FITSema001MAX / FITSemaMNTMAX / FITSema12wkMAX codes, no price or code changed. 8-week sigs drop "Maintenance - " (150 of 140 with it), as the 12-week glycine sigs already did. highDose.appliesTo gains premier_sema_glycine, so the provider escalation warning and patient line apply. Don Stevenson, PA-C.',
       '2026-11-13 (v2.41): DOTS PRICES FROM THE CHARGE SHEET. The four Dots codes (FITSemOrlLOW_30, FITSemOrlLOW_90, FITSemOrlMID_90, FITSemOrlHIGH_90) reached the sheet in a new Oral Semaglutide section and are added to pricing.oral, so priceForCode() finds them; prices are filled from korb-charges.js, none typed here. Don Stevenson, PA-C.',
       '2026-11-09 (v2.40): THE B-6 EXCEPTION (Don, after talking with Nick). Belmar has no B-6 GLP-1: its semaglutide carries B-12 and its tirzepatide L-carnitine. In a Belmar state a patient who cannot have that additive (documented allergy, or a documented reaction they have had to it) may go to FarmaKeio for the B-6 version of the same drug: farmakeio_sema for semaglutide, farmakeio_tirz for tirzepatide. New states.b6Exception and states.b6ExceptionFor(state); the states are derived (Belmar-routed and FarmaKeio ships there: AL, HI, MS, SC, VA, WA today), never typed. California is Belmar-routed but FarmaKeio will not ship there, so it gets noOption advice: the other drug at Belmar or brand. checkPharmacyForState answers warning, not error, for FarmaKeio in an exception state. FarmaKeio is otherwise still Arkansas only. Expected to be very few patients. Don Stevenson, PA-C.',
       '2026-11-02 (v2.38): ARKANSAS ORAL SEMAGLUTIDE 1 MG (Don). FarmaKeio confirmed it fills oral semaglutide for Arkansas. New product farmakeio_oral_sema_ar: 1 mg RDT #90, 90 days, FITSemOrl90, own patient page. ONE 1 MG PRICE (Nick, 2026-11-03): every 1 mg 90-day supply is FITSemOrl90 ($299) at all three pharmacies; belmar_oral_sema 1 mg FastSL moves from FITSemOrl180 ($399) to FITSemOrl90. FITSemOrl180 is left only on the retired farmakeio_oral_sema record, as history. farmakeio_oral_sema stays retired and unchanged so FarmaKeio 0.5 mg patients elsewhere still convert. In Arkansas the conversion tool now points to a new prescription for the Arkansas product instead of brand only. Which Arkansas patients it is for is internal, not in this file.',
@@ -1394,6 +1395,33 @@ var KORB_GLP1 = {
                'discarded the leftovers. Walk them through combining the two vials ' +
                'rather than treating it as a short fill.',
       revisitIf: 'Premier changes the vial combination for 4.5 mg.'
+    },
+
+    {
+      id: 'PREMIER-GLYCINE-45-SPLIT-VIAL',
+      severity: 'medium',
+      status: 'accepted',
+      decidedBy: 'Don',
+      decidedOn: '2026-11-18',
+      appliesTo: ['premier_sema_glycine'],
+      doses: ['4.5 mg'],
+      programs: ['4-week', '8-week', '12-week'],
+      issue: '4.5 mg is 1.5 ml a week, and glycine semaglutide comes in 1 ml vials ' +
+             'only. Every dose is drawn from two vials, and every other vial is ' +
+             'shared between two weeks. A patient who discards a vial with ' +
+             'medication in it runs short.',
+      decision: 'Ship as Premier fills it. Don, 2026-11-18: 1 ml is the only size ' +
+                'glycine comes in.',
+      mitigation: 'Counsel every glycine 4.5 mg patient to keep the half vial. Odd ' +
+                  'weeks: one full vial (100 units) and 50 units from a new vial. Even ' +
+                  'weeks: the 50 units left in that vial and one full new vial. Two ' +
+                  'syringes every week, one per vial. No opened vial is kept past the ' +
+                  'next week, so every vial stays well inside 28 days.',
+      requiresSigText: 'Discard 28 days after first use.',
+      patientUsesLeftover: true,
+      opsNote: 'A glycine 4.5 mg patient reporting they ran out early most likely ' +
+               'discarded the half vials. Walk them through using them at the next dose.',
+      revisitIf: 'Premier offers glycine semaglutide in a vial larger than 1 ml.'
     },
 
     {
@@ -3379,6 +3407,155 @@ var KORB_GLP1 = {
             ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 2.7 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
             reasonForCompounding: 'N/V mitigation & flexibility',
             pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.'
+          }
+        },
+        /* 4.5 mg AND 6 mg, added 2026-11-18 (v2.42). Don, 18 Nov: Premier now
+           offers both doses in all three semaglutide products, glycine
+           included, same price, 4-, 8- and 12-week. Glycine comes in 1 ml
+           vials ONLY (Don, 18 Nov), unlike the B-12 3.6 / 2.4 / 2 ml plan.
+
+           4.5 mg is 1.5 ml, so every dose uses two vials: dose 1 is a full
+           vial plus half the next, dose 2 is that half plus a full vial. Every
+           opened vial is finished the following week. See acceptedLimitations
+           PREMIER-GLYCINE-45-SPLIT-VIAL. 6 mg is 2 ml, two whole vials a dose,
+           nothing left over.
+
+           The 8-week sigs drop "Maintenance - ", as the 12-week glycine sigs
+           already do: with the syringe pack count it ran to 150 of 140.
+           priceBand 'max' as on premier_sema. */
+        {
+          dose: '4.5 mg', mg: 4.5, units: 150, priceBand: 'max',
+          vials4: '1 ml x 6 vials', vials8: '1 ml x 12 vials',
+          vials12: '1 ml x 18 vials',
+          drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
+          supply4: {
+            name: 'PREMIER - Glycine Semaglutide 4.5 mg - 4-Week Supply',
+            flag: 'PREMIER-GLYCINE-45-SPLIT-VIAL',
+            allowSubstitution: true,
+            quantity: 6,
+            unit: 'ml',
+            refill: 0,
+            days: 28,
+            ptInstructions: 'GLYCINE - INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.',
+            vialPlan: {
+              ship: '6 x 1 ml @ 3 mg/ml',
+              totalMl: 6,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 0.67,
+              withinPunctureLimit: true,
+              crossVialDoses: [1, 2, 3, 4]
+            }
+          },
+          supply8: {
+            name: 'PREMIER - Glycine Semaglutide 4.5 mg - 8-Week Supply',
+            flag: 'PREMIER-GLYCINE-45-SPLIT-VIAL',
+            allowSubstitution: true,
+            quantity: 12,
+            unit: 'ml',
+            refill: 0,
+            days: 56,
+            ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.',
+            vialPlan: {
+              ship: '12 x 1 ml @ 3 mg/ml',
+              totalMl: 12,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 0.67,
+              withinPunctureLimit: true,
+              crossVialDoses: [1, 2, 3, 4, 5, 6, 7, 8]
+            }
+          },
+          supply12: {
+            name: 'PREMIER - Glycine Semaglutide 4.5 mg - 12-Week Supply',
+            flag: 'PREMIER-GLYCINE-45-SPLIT-VIAL',
+            allowSubstitution: true,
+            quantity: 18,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include three syringe packs) GLYCINE - INJECT 4.5 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.',
+            vialPlan: {
+              ship: '18 x 1 ml @ 3 mg/ml',
+              totalMl: 18,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 0.67,
+              withinPunctureLimit: true,
+              crossVialDoses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            }
+          }
+        },
+        {
+          dose: '6 mg', mg: 6, units: 200, priceBand: 'max',
+          vials4: '1 ml x 8 vials', vials8: '1 ml x 16 vials',
+          vials12: '1 ml x 24 vials',
+          drugFormulation: 'Semaglutide/B-12/Glycine 3mg/0.5mg/5mg per mL inj',
+          supply4: {
+            name: 'PREMIER - Glycine Semaglutide 6 mg - 4-Week Supply',
+            allowSubstitution: true,
+            quantity: 8,
+            unit: 'ml',
+            refill: 0,
+            days: 28,
+            ptInstructions: 'GLYCINE - INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 4 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.',
+            vialPlan: {
+              ship: '8 x 1 ml @ 3 mg/ml',
+              totalMl: 8,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 0.5,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            }
+          },
+          supply8: {
+            name: 'PREMIER - Glycine Semaglutide 6 mg - 8-Week Supply',
+            allowSubstitution: true,
+            quantity: 16,
+            unit: 'ml',
+            refill: 0,
+            days: 56,
+            ptInstructions: '(Include two syringe packs) GLYCINE - INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 8 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.',
+            vialPlan: {
+              ship: '16 x 1 ml @ 3 mg/ml',
+              totalMl: 16,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 0.5,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            }
+          },
+          supply12: {
+            name: 'PREMIER - Glycine Semaglutide 6 mg - 12-Week Supply',
+            allowSubstitution: true,
+            quantity: 24,
+            unit: 'ml',
+            refill: 0,
+            days: 84,
+            ptInstructions: '(Include three syringe packs) GLYCINE - INJECT 6 MG SUBCUTANEOUSLY ONCE WEEKLY AS DIRECTED FOR 12 WEEKS. Discard 28 days after first use.',
+            reasonForCompounding: 'N/V mitigation & flexibility',
+            pharmacyNotes: 'Bill to KORB Health Group and ship to the patient. Custom Rx for N/V mitigation, dosing flexibility, and added B-12 and glycine.',
+            vialPlan: {
+              ship: '24 x 1 ml @ 3 mg/ml',
+              totalMl: 24,
+              leftoverMl: 0,
+              leftoverDoses: 0,
+              dosesPerVial: 0.5,
+              withinPunctureLimit: true,
+              crossVialDoses: []
+            }
           }
         }
       ]
@@ -7364,7 +7541,7 @@ KORB_GLP1.farmakeioConversion = {
      own escalation instructions. Read by the conversion tool, its plan and
      portal message, and the patient medication pages. */
   highDose: {
-    appliesTo: ['premier_sema', 'premier_sema_b6'],
+    appliesTo: ['premier_sema', 'premier_sema_b6', 'premier_sema_glycine'],
     minMg: 4.5,
     provider: 'Higher-dose semaglutide. 4.5 mg is 150 units, a 67% jump from 2.7 mg (90 units), ' +
               'and at 4.5 mg the patient finishes one vial and draws the rest from the next. ' +
