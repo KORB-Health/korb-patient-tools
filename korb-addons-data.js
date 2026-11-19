@@ -155,6 +155,14 @@ var KORB_ADDONS = {
   artifactSignoff: {
     records: {
       "tool:addons": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-19",
+        "fingerprint": "fp-2e4de0c1-27442",
+        "covers": "51 states, 17 prescribing blocks",
+        "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+        "note": "Re-signed 2026-11-19 on Don's review of the live tool in chat (Sign 3, add-on optimization products). What moved: Michigan and Massachusetts no longer reach Premier (korb-pharmacies.js v1.16).",
+        "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
           "date": "2026-09-21",
@@ -172,6 +180,7 @@ var KORB_ADDONS = {
                   "note": "Approved 2026-09-17 after the afternoon's rebuild: the panel layout, gender gating the programme, category-then-product selection, the strength selector, and nine products moved to Tebra Standard prescriptions. Don: \"we just sent time on this afternoon working on so it is good.\""
                 }
         }
+      }
     }
   },
 

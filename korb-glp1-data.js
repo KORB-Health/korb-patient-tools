@@ -645,6 +645,14 @@ var KORB_GLP1 = {
       "tool:glp1routing": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-19",
+        "fingerprint": "fp-8f803d34-4217",
+        "covers": "51 states, 0 prescribing blocks",
+        "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+        "note": "Re-signed 2026-11-19 on Don's review of the live tool in chat (Sign off on one). What moved: Michigan and Massachusetts route to Belmar (korb-pharmacies.js v1.16).",
+        "superseded": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
         "date": "2026-11-10",
         "fingerprint": "fp-67bcc91e-3975",
         "covers": "51 states, 0 prescribing blocks",
@@ -704,6 +712,7 @@ var KORB_GLP1 = {
             }
           }
         }
+      }
       }
     }
   },
