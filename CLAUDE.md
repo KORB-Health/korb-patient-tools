@@ -1243,6 +1243,13 @@ This repo has real self-checks. Use them, and prove they have teeth.
   released pages as having lost their feedback button when nothing had happened
   to them. **When a tag's shape changes, grep every check that pattern-matches a
   src before trusting a green run.**
+- `node stamp-icons.js --check` — expect "all 90 page(s) carry the KORB favicon and
+  webclip", exit 0. Added 2026-11-19 at Lindsay's and Jon's request: every public
+  page shows the KORB mark in the browser tab, the same image the website uses
+  (`korb-favicon.png`, `korb-webclip.png`). The five builders write the tags
+  themselves; `node stamp-icons.js` stamps hand-built pages. A new page fails
+  this check until it has them. The frozen intake prototype and redirects are
+  skipped on purpose.
 - `node check-pages.js` — expect "every dependency present and in order", exit 0.
   Every other check in this repo reads DATA. This one asks whether a generated
   page can run at all. On 2026-09-14 the Add-On Clinical Reference shipped to
