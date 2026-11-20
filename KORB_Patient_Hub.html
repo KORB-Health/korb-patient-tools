@@ -688,6 +688,8 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 .nav-jump{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:600;border-radius:999px;}
 @media (hover:hover){.nav-jump:hover{background:var(--teal);border-color:var(--teal);}}
 .nav-links{color:var(--site-text);font-weight:600;}
+/* Visit-counting notice (korb-count.js). Small, but readable on the dark footer. */
+.count-note{display:block;margin-top:8px;max-width:520px;font-size:11px;line-height:1.5;color:#9AA0C0;}
 </style>
 </head>
 <body>
@@ -1354,7 +1356,7 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
 
 <footer>
   <div class="wrap">
-    <div><strong>KORB Health Medical Texas PA</strong><br>For KORB patient education only. Do not share or reproduce.</div>
+    <div><strong>KORB Health Medical Texas PA</strong><br>For KORB patient education only. Do not share or reproduce.<br><span class="count-note">We count visits to this page and which guides, tools and videos are opened, so we know what helps. No cookies, no names, no IP addresses, nothing you type, and nothing is used for advertising. If your browser's Do Not Track or Global Privacy Control setting is on, your visit is not counted.</span></div>
     <div>Call <a href="tel:+18889597299" style="color:#fff;">(888) 959-7299</a> · <a href="mailto:info@korbhealth.com" style="color:#fff;">info@korbhealth.com</a><br>Medical questions: <a href="https://portal.kareo.com/app/new/login" style="color:#fff;">Open Patient Portal →</a></div>
   </div>
 </footer>
@@ -1370,5 +1372,6 @@ function pFallback(t,cb){var a=document.createElement("textarea");a.value=t;a.st
     KORB_VIDEO.mount(document);
   }());
 </script>
+<script src="korb-count.js"></script>
 </body>
 </html>
