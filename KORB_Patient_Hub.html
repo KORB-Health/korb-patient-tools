@@ -8,7 +8,7 @@
 <title>KORB Health — Patient Resources</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Cormorant:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -651,6 +651,43 @@ footer strong{color:#fff;}
 .card-row .pcard .links{grid-template-columns:1fr;}
 .card-row .pcard .links a{justify-content:center;text-align:center;}
 .card-row .pcard .links a:first-child:nth-last-child(odd){grid-column:auto;}
+
+/* ================= WEBSITE MATCH (Don, 20 Nov 2026) =================
+   Lindsay and Jon asked for the hub to read as part of korbhealth.com once
+   the site header linked to it. Values measured from the live site, 20 Nov:
+     text   DM Sans, #5A6080          headings  Cormorant, navy #21275B
+     h1     Cormorant, teal #00B1C3   surfaces  white, light grey #F6F6F8
+     buttons pill, weight 600, navy or teal fill
+   A first pass on fonts, colours and buttons only. The layout is untouched,
+   and this block sits LAST so it wins without editing the rules above. Jon's
+   detailed direction has not arrived yet; adjust here when it does. */
+:root{
+  --cream:#F6F6F8;   /* was #ECE9D1. The site has no beige; its quiet surface is this grey */
+  --sheet:#F6F6F8;
+  --bd:#E4E6EE;
+  --mu:#5A6080;
+  --site-text:#5A6080;
+}
+body{font-family:'DM Sans',Arial,sans-serif;color:var(--site-text);}
+button{font-family:inherit;}
+/* Serif for page and section headings only. NOT h3: the tool-card titles are
+   h3 on navy cards, and a colour rule here painted them navy on navy. Cormorant
+   runs small for its point size, so h2 goes up by about a third to match the
+   weight DM Sans had at 24px. No colour set here: every h2 already chose one. */
+h1,h2{font-family:'Cormorant',Georgia,'Times New Roman',serif;font-weight:700;letter-spacing:0;}
+h2,.sec-head h2,.psec-head h2{font-size:clamp(28px,3vw,34px);line-height:1.1;font-weight:700;}
+.safety h2{font-size:25px;font-weight:700;}
+h3,h4{font-family:'DM Sans',Arial,sans-serif;}
+.hero{background:#fff;}
+.hero h1{font-family:'Cormorant',Georgia,serif;color:var(--teal);font-weight:600;
+  font-size:clamp(36px,4.6vw,54px);line-height:1.05;}
+.hero p.lead{color:var(--site-text);}
+.hero-quote p{color:var(--site-text);}
+.btn{font-weight:600;border-radius:999px;}
+/* The nav pill now reads like the site's own "Book free consultation" button. */
+.nav-jump{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:600;border-radius:999px;}
+@media (hover:hover){.nav-jump:hover{background:var(--teal);border-color:var(--teal);}}
+.nav-links{color:var(--site-text);font-weight:600;}
 </style>
 </head>
 <body>
