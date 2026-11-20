@@ -200,7 +200,8 @@ var KORB_ADDONS = {
        should not print. Keep attribution in meta, never in a display field.
        2026-11-06: routing changed by Don. FarmaKeio is out for add-ons except an
        Arkansas patient whose GLP-1 is already there; Premier where licensed,
-       Belmar elsewhere including Mississippi. */
+       Belmar elsewhere including Mississippi. 2026-11-19: Michigan and
+       Massachusetts join Mississippi on Belmar (korb-pharmacies.js v1.16). */
     routingConfirmedBy: "Don Stevenson",
     routingConfirmedOn: "2026-11-06",
     owner: "Director of Clinical Operations",
@@ -225,7 +226,7 @@ var KORB_ADDONS = {
     ageNote: "Hair loss products are for patients 18 and older. KORB does not treat patients under 18.",
     skinCarePharmacy: "premier",
     skinCareNote: "Skin care is Premier only. It cannot be routed to FarmaKeio or Belmar.",
-    routing: "Premier wherever it is licensed. Belmar everywhere else, including Mississippi, where Premier's licence is non-sterile only. FarmaKeio is used only for an Arkansas patient whose GLP-1 already comes from FarmaKeio. Patients on a FarmaKeio add-on move at their next refill.",
+    routing: "Premier wherever it is licensed. Belmar everywhere else, including Michigan and Massachusetts, where Premier can no longer ship, and Mississippi, where Premier's licence is non-sterile only. FarmaKeio is used only for an Arkansas patient whose GLP-1 already comes from FarmaKeio. Patients on a FarmaKeio add-on move at their next refill.",
     california: "Where Premier cannot fill, Belmar supplies PT-141 and NAD+ (nasal and sublingual) only. Pricing has been vetted for those and no others; the rest would dispense at a loss once shipping is added. Finasteride, spironolactone and metformin are commercial generics and can be prescribed to the patient's local pharmacy.",
     nitrates: "Absolute contraindication for any sexual health product. Ask directly at every visit rather than relying on the medication list."
   },

@@ -401,7 +401,7 @@ var KORB_PHARMACIES = {
         "WY"
       ],
       "footprintExcludes": [],
-      "footprintNote": "Ships to all 50 states and DC. Preferred for California only.",
+      "footprintNote": "Ships to all 50 states and DC. Preferred wherever Premier cannot ship. Arkansas GLP-1 goes to FarmaKeio instead.",
       "preferredStates": [
         "AL",
         "CA",
