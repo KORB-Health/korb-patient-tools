@@ -467,6 +467,7 @@ to check a single document against, which is the whole reason this table exists.
 | `Patient_Education/KORB_My_GLP1.html` | **Yes**, 2026-10-25. The patient chooser, linked from the hub |
 | `Patient_Education/KORB_My_GLP1_FarmaKeio_Semaglutide.html` | **Yes**, 2026-10-28. For Arkansas patients, who stay on FarmaKeio. Signed and pushed the same day |
 | `Patient_Education/KORB_My_GLP1_FarmaKeio_Tirzepatide.html` | **Yes**, 2026-10-28. For Arkansas patients, who stay on FarmaKeio. Signed and pushed the same day |
+| `Patient_Education/KORB_My_GLP1_FarmaKeio_Oral_Semaglutide.html` | **Yes**, 2026-11-21 (recorded). Arkansas oral 1 mg, built 2026-11-02 (v2.38). Missing from this table until 2026-11-21, when Don confirmed it is released to patients; first signed the same day |
 | `Patient_Education/KORB_Our_Programs.html` | **No.** Built 2026-11-04 and pushed on Don's OK the same day, so it is reachable on Pages, but it is not linked from the hub or sent to patients yet. The no-price twin of the partner guide `KORB_Program_Guide.html`: programs as tiles (`#weight-loss`, `#longevity`, `#mens`, `#womens`, `#add-ons`), linking to the signed handouts. No prices, no mg doses, no state lists; `KORB_OUR_PROGRAMS_SELFCHECK()` fails on any of them or on korb-charges.js being loaded, negative-tested both halves. Has the feedback button |
 | `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
@@ -484,7 +485,7 @@ to check a single document against, which is the whole reason this table exists.
 | `404.html` | **Served**, 2026-09-21. Not a link anyone is sent - GitHub Pages shows it for any missing path |
 | `index.html` | **Served**, 2026-09-28. Redirect from the bare site address to the hub. Holds no content. It also keeps GitHub Pages from promoting `README.md` to the home page; `_config.yml` excludes `README.md` and `CLAUDE.md` from the site as well |
 
-48 rows: 45 published pages, 1 PDF, the 404 page and the index redirect. If a file exists and is not on this list, the
+54 rows: 51 published pages, 1 PDF, the 404 page and the index redirect (recounted 2026-11-21; it read 48 while the table had grown to 53). If a file exists and is not on this list, the
 list is wrong, not the file.
 
 ---
