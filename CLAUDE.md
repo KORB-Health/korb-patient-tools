@@ -278,9 +278,19 @@ standard for a prescribing block is unchanged.
   `korb-site.css` changes, WITHOUT the `@import` line. Remove that line whole:
   the font URL has semicolons in it, and cutting at the first one left junk
   that made the browser drop the entire copied sheet (found on the phone pass).
-- **Not touched:** the frozen scheduler prototype, the scheduler build page,
-  redirects, and `Provider_Reference/Tight Junction Loop (standalone).html`,
-  which this file does not describe. Ask Don what it is before styling it.
+- **Not touched:** the frozen scheduler prototype, the scheduler build page and
+  redirects.
+- **`Provider_Reference/Tight Junction Loop (standalone).html`** is a 3D
+  animated provider-education diagram of an intestinal tight junction ("remodel,
+  release, reseal"), a self-contained bundle exported from a design tool and
+  uploaded 2026-11 (`6d9f009`). Restyled 2026-11-20 on Don's say-so. Its page is
+  a JSON-encoded template inside `<script type="__bundler/template">`; the
+  edits were made in that text directly (colours `#ECE9D1` to `#F6F6F8`, the
+  caption card to white with the website hairline, DM Sans ahead of Calibri, one
+  Google Fonts link), never by re-encoding the JSON, which would not round-trip.
+  It is a fixed 1920x1080 frame scaled to fit, so on a portrait phone it is small;
+  making it phone-shaped means re-exporting it from its source, which is not in
+  this repo.
 - **THE PHONE AND TABLET PASS** (Don, 2026-11-20). Every changed page was
   measured at 375, 768 and 1366px and every provider tool was looked at by eye
   at 375 and 768. What it fixed:
