@@ -1,0 +1,76 @@
+/* ============================================================================
+   KORB HEALTH — WEBSITE LOOK FOR HAND-BUILT PATIENT PAGES  (Don, 2026-11-20)
+
+   The Patient Hub took the korbhealth.com look on 2026-11-20 (8fd4924) and the
+   25 generated patient pages followed the same day (SITE in
+   build-patient-ed.js). This file brings the hand-built patient pages into
+   line: the trackers, the Dose Guide, the Treatment Schedule, the My GLP-1
+   medication pages and Our Programs. Values are the ones the hub measured off
+   the live site:
+     text      DM Sans, #5A6080         headings  Cormorant, navy #21275B
+     surfaces  white sheet on light grey #F6F6F8, hairline #E4E6EE
+     buttons   pill, weight 600, navy fill, teal on hover
+
+   OPT-IN, like korb-page-chrome.css and for the same reason: a page asks for it
+   with class="korb-site" on <body>. Provider tools never do. Link it AFTER the
+   page's own <style> and after korb-page-chrome.css, or it loses on equal
+   specificity and does nothing, silently.
+
+   SCREEN ONLY, except the font import. Print keeps each tool's own print look
+   and stays white.
+
+   Two rules learned on the generated pages, which apply here:
+   - NO text-transform on anything a patient reads. artifact-signoff.js
+     fingerprints innerText, and innerText follows text-transform.
+   - NO display changes on text. Turning a block into inline can join two words
+     in innerText ("A" "B" becomes "AB") and move a signed fingerprint.
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant:wght@600;700&display=swap');
+
+@media screen {
+  body.korb-site {
+    --ks-sans: 'DM Sans', Arial, sans-serif;
+    --ks-serif: 'Cormorant', Georgia, 'Times New Roman', serif;
+    --ks-text: #5A6080;
+    --ks-navy: #21275B;
+    --ks-teal: #00B2C3;
+    --ks-teal-ink: #00808D;
+    --ks-grey: #F6F6F8;
+    --ks-line: #E4E6EE;
+    background: var(--ks-grey);
+    color: var(--ks-text);
+  }
+  /* One typeface everywhere. The tools set Arial, system-ui or Montserrat on
+     controls one by one, so a body rule alone would miss half of them. */
+  body.korb-site, body.korb-site * { font-family: var(--ks-sans); }
+  body.korb-site h1, body.korb-site .ks-title, body.korb-site .ks-head,
+  body.korb-site .k-feedback h2 {
+    font-family: var(--ks-serif); font-weight: 700; letter-spacing: 0;
+  }
+
+  /* The sheet: white on grey, replacing the cream desk of korb-page-chrome.css. */
+  body.korb-site .wrap { background: #fff; border-left-color: var(--ks-line);
+    border-right-color: var(--ks-line); }
+
+  /* A section head: serif on white with a hairline, the generated pages' h2.
+     Tools mark theirs with .ks-head (or have their own class mapped to it in
+     the page). */
+  body.korb-site .ks-head { color: var(--ks-navy); background: none;
+    font-size: 26px; line-height: 1.15; padding: 0 0 7px; border: 0;
+    border-bottom: 1px solid var(--ks-line); border-radius: 0; }
+
+  /* Primary and secondary buttons, as on the site. */
+  body.korb-site .ks-btn { border-radius: 999px; background: var(--ks-navy);
+    color: #fff; border: 2px solid var(--ks-navy); font-weight: 600; }
+  body.korb-site .ks-btn-ghost { border-radius: 999px; background: #fff;
+    color: var(--ks-navy); border: 1.5px solid var(--ks-navy); font-weight: 600; }
+  @media (hover: hover) {
+    body.korb-site .ks-btn:hover { background: var(--ks-teal); border-color: var(--ks-teal); color: var(--ks-navy); }
+    body.korb-site .ks-btn-ghost:hover { background: var(--ks-navy); color: #fff; }
+  }
+
+  /* A panel of controls: light grey with a hairline, not the light teal box. */
+  body.korb-site .ks-panel { background: var(--ks-grey); border: 1px solid var(--ks-line);
+    border-radius: 16px; }
+}

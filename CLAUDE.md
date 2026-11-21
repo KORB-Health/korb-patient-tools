@@ -220,8 +220,33 @@ at 375, 768 and 1366px and approved by Don before rollout.
   as changed. Removed. A style-only change made nothing stale.
 - Title is navy, not the site's teal h1, because teal on white is about 2.5:1
   at document-title size.
-- **Not yet done:** the hand-built patient tools (`korb-page-chrome.css`,
-  `body.korb-sheet`) still have the cream desk. That is the second pass.
+- **The hand-built patient pages followed the same evening** (Don: "all of my
+  branding universal"). `korb-site.css` holds the shared part: the font import,
+  the grey desk and white sheet, one typeface on every control, serif `h1`.
+  A page opts in with `class="korb-site"` on `<body>` (beside `korb-sheet`)
+  and links it AFTER `korb-page-chrome.css`. Then a short `<style>` block after
+  the link, marked "WEBSITE LOOK, 2026-11-20", maps that page's own classes
+  (its navy `.sec` bars, its teal buttons, its light teal panels) onto the
+  look. On: the Functional Health Tracker, the GLP-1 Dose Guide, the Treatment
+  Schedule, the Testosterone Tracker, Our Programs, and the 14 My GLP-1 pages
+  and chooser (in `build-med-pages.js`, so a rebuild keeps it).
+  `korb-feedback.js`, the footer on every hand-built patient page, now draws
+  the serif heading and navy pill.
+- **The Treatment Schedule's title band is inline-styled**, so its pieces
+  carry `ks-band`, `ks-band-t`, `ks-band-s`, `ks-stamp`, `ks-rule` and
+  `ks-strip`, and the screen block overrides them with `!important`. Print
+  still gets the inline navy band.
+- **`404.html` stays self-contained** (`check-404.js`: no script, no
+  stylesheet), so it takes the colours and shapes but cannot load the fonts:
+  it names DM Sans and Cormorant first and shows Arial and Georgia on a device
+  without them.
+- **Not changed, on purpose:** provider tools and references (they never take
+  `korb-site`), and the navy table headers and navy result cards inside the
+  tools. Both hubs already had the look.
+- Checked 2026-11-20: all 20 hand-built pages at 375, 768 and 1366px, no
+  overflow or script errors, fonts loaded, no cream left on screen; print
+  unchanged except the 404 page; `artifact-signoff.js` stale list identical
+  before and after (6 pages this work does not touch).
 
 ---
 

@@ -147,8 +147,37 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
 }
 </style>
 <link rel="stylesheet" href="korb-page-chrome.css?v=07993117">
+<link rel="stylesheet" href="korb-site.css?v=51349b02">
+<style>
+/* WEBSITE LOOK, 2026-11-20. korb-site.css sets the fonts and surfaces; these
+   map this page's own classes onto it. Screen only; print is unchanged. */
+@media screen{
+body.korb-site .top-bar{border-bottom:1px solid var(--ks-line);}
+body.korb-site .top-bar-title h1{font-family:var(--ks-serif);font-size:36px;line-height:1.08;}
+body.korb-site .top-bar-title p{color:var(--ks-text);font-size:14px;margin-top:4px;}
+body.korb-site .controls{background:var(--ks-grey);border:1px solid var(--ks-line);border-radius:16px;}
+body.korb-site .cg select,body.korb-site .cg input{border-color:#CDD1DE;border-radius:10px;padding:10px 12px;font-size:14px;}
+body.korb-site .cg select:disabled{background:#EEEFF3;border-color:var(--ks-line);}
+body.korb-site .info-box.teal{background:var(--ks-grey);border:0;border-left:3px solid var(--ks-teal);border-radius:0 12px 12px 0;}
+body.korb-site .stat{background:var(--ks-grey);border-color:var(--ks-line);}
+body.korb-site .result-card{border-color:var(--ks-line);border-radius:16px;}
+body.korb-site .ks-rule{height:1px !important;background:var(--ks-line) !important;}
+body.korb-site .ks-band{background:none !important;padding:4px 0 0 !important;}
+body.korb-site .ks-band-t{font-family:var(--ks-serif) !important;color:var(--ks-navy) !important;font-size:40px !important;line-height:1.05 !important;}
+body.korb-site .ks-band-s{color:var(--ks-teal-ink) !important;font-size:14px !important;font-weight:600 !important;margin-top:8px !important;}
+body.korb-site .ks-stamp{background:none !important;text-align:left !important;padding:4px 0 0 !important;color:#7A809C !important;}
+body.korb-site .top-btn{border-radius:999px;background:#fff;color:var(--ks-navy);border:1.5px solid var(--ks-navy);font-weight:600;padding:8px 16px;}
+body.korb-site .sec{font-family:var(--ks-serif);font-weight:700;font-size:26px;line-height:1.15;color:var(--ks-navy);
+  background:none;border:0;border-bottom:1px solid var(--ks-line);border-radius:0;padding:0 0 7px;margin:34px 0 14px;}
+body.korb-site .addon-row{border-color:var(--ks-line);}
+body.korb-site .ks-strip{background:var(--ks-grey) !important;color:#7A809C !important;font-size:12px !important;}
+}
+@media screen and (hover:hover){
+body.korb-site .top-btn:hover{background:var(--ks-navy);color:#fff;}
+}
+</style>
 </head>
-<body class="korb-sheet">
+<body class="korb-sheet korb-site">
 <div class="wrap">
 
 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
@@ -157,13 +186,13 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
     <div style="color:var(--navy);font-size:14px;font-weight:700;">KORB Health Medical Texas PA</div>
   </div>
 </div>
-<div style="height:2px;background:var(--teal);margin:12px 0 20px;"></div>
+<div class="ks-rule" style="height:2px;background:var(--teal);margin:12px 0 20px;"></div>
 
-<div style="background:var(--navy);border-radius:8px 8px 0 0;padding:20px 24px 15px;">
-  <div style="color:#fff;font-size:25px;font-weight:700;line-height:1.15;">My Treatment Schedule</div>
-  <div style="color:var(--teal);font-size:13px;font-weight:700;margin-top:3px;">Personalized Medication &amp; Visit Calendar</div>
+<div class="ks-band" style="background:var(--navy);border-radius:8px 8px 0 0;padding:20px 24px 15px;">
+  <div class="ks-band-t" style="color:#fff;font-size:25px;font-weight:700;line-height:1.15;">My Treatment Schedule</div>
+  <div class="ks-band-s" style="color:var(--teal);font-size:13px;font-weight:700;margin-top:3px;">Personalized Medication &amp; Visit Calendar</div>
 </div>
-<div style="background:var(--cream);border-radius:0 0 8px 8px;padding:9px 24px;font-size:12px;color:var(--navy);text-align:center;margin-bottom:20px;">Functional Health &amp; Longevity Program &nbsp;&middot;&nbsp; KORB Health Medical Texas PA &nbsp;&middot;&nbsp; For Patient Reference</div>
+<div class="ks-stamp" style="background:var(--cream);border-radius:0 0 8px 8px;padding:9px 24px;font-size:12px;color:var(--navy);text-align:center;margin-bottom:20px;">Functional Health &amp; Longevity Program &nbsp;&middot;&nbsp; KORB Health Medical Texas PA &nbsp;&middot;&nbsp; For Patient Reference</div>
 
 <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
   <button class="top-btn" onclick="window.print()">&#128438; Print / Save PDF</button>
@@ -227,7 +256,7 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
 <div id="pharmBanner" class="pharm-banner"></div>
 <div id="output"><div class="empty"><h2>Select your program and pharmacy above</h2><p>Enter your program, pharmacy, and medication start date to see your personalized schedule.</p></div></div>
 
-<div style="background:#21275B;color:rgba(255,255,255,.6);font-size:10px;padding:6px 16px;display:flex;justify-content:center;text-align:center;border-radius:4px;margin-bottom:4px;-webkit-print-color-adjust:exact;print-color-adjust:exact;"><span>For KORB patient reference only. Do not share or reproduce.</span></div>
+<div class="ks-strip" style="background:#21275B;color:rgba(255,255,255,.6);font-size:10px;padding:6px 16px;display:flex;justify-content:center;text-align:center;border-radius:4px;margin-bottom:4px;-webkit-print-color-adjust:exact;print-color-adjust:exact;"><span>For KORB patient reference only. Do not share or reproduce.</span></div>
 <div class="disc">This schedule is for personal reference only. Always follow your prescription label and pharmacy instructions. Contact KORB Operations for general questions, or use the Patient Portal for medical questions — not for emergencies. For emergencies call 911 or go to the nearest emergency room.</div>
 </div>
 
@@ -813,6 +842,6 @@ function buildWeekTable(start,prog,agentKeys,ghkOn){
   return html;
 }
 </script>
-<script src="korb-feedback.js?v=c3970e9a" data-page="My Treatment Schedule"></script>
+<script src="korb-feedback.js?v=3d32e68a" data-page="My Treatment Schedule"></script>
 </body>
 </html>

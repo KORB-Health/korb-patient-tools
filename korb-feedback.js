@@ -28,17 +28,22 @@
   function render() {
     if (document.querySelector('.k-feedback')) { return; }
     var css = document.createElement('style');
+    /* Website look, 2026-11-20: serif heading over a hairline and a navy pill,
+       matching SITE in build-patient-ed.js and korb-site.css. Every page that
+       loads this file is patient-facing. The fonts come from the page (DM Sans
+       and Cormorant via korb-site.css); without them it falls back cleanly. */
     css.textContent =
-      '.k-feedback{margin:32px 0 8px;padding-top:18px;border-top:1px solid #D5D5CC;' +
-      'font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;}' +
-      '.k-feedback h2{margin:0 0 8px;background:#21275B;color:#fff;font-size:19px;font-weight:800;' +
-      'padding:9px 14px;border-radius:3px;}' +
-      '.k-feedback p{margin:0 0 12px;font-size:14px;line-height:1.55;color:#1A1D33;}' +
+      '.k-feedback{margin:40px 0 8px;padding-top:18px;border-top:1px solid #E4E6EE;' +
+      'font-family:"DM Sans",Arial,sans-serif;}' +
+      '.k-feedback h2{margin:0 0 10px;background:none;color:#21275B;font-size:28px;font-weight:700;' +
+      'font-family:Cormorant,Georgia,"Times New Roman",serif;line-height:1.15;' +
+      'padding:0 0 7px;border-bottom:1px solid #E4E6EE;}' +
+      '.k-feedback p{margin:0 0 14px;font-size:14px;line-height:1.6;color:#5A6080;}' +
       '.k-feedback a{display:block;box-sizing:border-box;width:100%;max-width:420px;margin:0 auto;' +
-      'padding:12px 18px;min-height:44px;text-align:center;background:#00B2C3;color:#0E1236;' +
-      'border:2px solid #00808D;border-radius:6px;text-decoration:none;font-weight:700;font-size:15px;}' +
-      '.k-feedback a:focus-visible{outline:3px solid #21275B;outline-offset:2px;}' +
-      '@media (hover:hover){.k-feedback a:hover{background:#21275B;color:#fff;border-color:#21275B;}}' +
+      'padding:12px 18px;min-height:44px;text-align:center;background:#21275B;color:#fff;' +
+      'border:2px solid #21275B;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;}' +
+      '.k-feedback a:focus-visible{outline:3px solid #00B2C3;outline-offset:2px;}' +
+      '@media (hover:hover){.k-feedback a:hover{background:#00B2C3;color:#21275B;border-color:#00B2C3;}}' +
       '@media print{.k-feedback{display:none;}}';
     document.head.appendChild(css);
 

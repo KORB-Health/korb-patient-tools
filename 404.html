@@ -116,6 +116,18 @@
     .band h1{font-size:22px;}
     .body,.band,.masthead{padding-left:18px;padding-right:18px;}
   }
+  /* WEBSITE LOOK (Don, 2026-11-20), the same values as korb-site.css. This page
+     stays self-contained (check-404.js: no script, no stylesheet), so it cannot
+     load the site fonts: DM Sans and Cormorant are named first and used where a
+     device has them, otherwise Arial and Georgia. */
+  :root{ --cream:#F6F6F8; --sheet:#fff; --rule:#E4E6EE; --ink:#3F4566; --ink2:#5A6080;
+    --sans:"DM Sans",Arial,Helvetica,sans-serif; --serif:Cormorant,Georgia,"Times New Roman",serif; }
+  .sheet{border-color:var(--rule);}
+  .band{background:#fff;color:var(--navy);padding:30px 24px 8px;}
+  .band .eyebrow{color:#00808D;}
+  .band h1{font-family:var(--serif);font-weight:700;font-size:40px;line-height:1.08;color:var(--navy);}
+  .contact h2{font-family:var(--serif);font-weight:700;font-size:26px;}
+  a.btn{border-radius:999px;font-weight:600;}
 </style>
 </head>
 <body>

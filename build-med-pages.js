@@ -72,6 +72,34 @@ li{margin:4px 0;}
 @media screen{.kmp-ways a{display:inline-flex;align-items:center;min-height:44px;flex:1;}}
 .kmp-fine{font-size:12px;color:var(--mu);margin-top:18px;}
 @media print{.kmp-btn,.kmp-select{display:none;}}
+/* WEBSITE LOOK (Don, 2026-11-20). korb-site.css sets the fonts and the white
+   sheet on grey; these map the medication pages' own classes onto it, and the
+   chooser's below. Screen only; print is unchanged. No text-transform and no
+   display change on text: artifact-signoff.js fingerprints innerText. */
+@media screen{
+body.korb-site .kmp-mast{border-bottom:1px solid var(--ks-line);padding-bottom:10px;}
+body.korb-site .kmp-tools a{color:var(--ks-navy);}
+body.korb-site .kmp-by{color:#7A809C;}
+body.korb-site .kmp-title h1{font-size:40px;line-height:1.05;margin-top:22px;}
+body.korb-site .kmp-title p{color:var(--ks-teal-ink);font-weight:600;margin-top:8px;}
+body.korb-site h2{font-family:var(--ks-serif);font-weight:700;font-size:26px;line-height:1.15;color:var(--ks-navy);
+  margin:34px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--ks-line);}
+body.korb-site .k-feedback h2{font-size:28px;}
+body.korb-site .kmp-dose{border:1px solid var(--ks-line);background:var(--ks-grey);border-radius:16px;}
+body.korb-site .kmp-box.teal{background:var(--ks-grey);border-left:3px solid var(--ks-teal);border-radius:0 12px 12px 0;}
+body.korb-site .kmp-box.amber,body.korb-site .kmp-box.red{border-radius:0 12px 12px 0;}
+body.korb-site .kmp-cmp th,body.korb-site .kmp-cmp td,body.korb-site .kmp-ways li{border-bottom-color:var(--ks-line);}
+body.korb-site .kmp-cards div{border-color:var(--ks-line);background:var(--ks-grey);border-radius:12px;}
+body.korb-site .kmp-select{border-color:#CDD1DE;border-radius:10px;}
+body.korb-site .kmp-btn{border-radius:999px;border-color:var(--ks-navy);font-weight:600;}
+body.korb-site .kmc-opt{border:1.5px solid var(--ks-line);border-radius:16px;font-weight:600;}
+body.korb-site .kmc-opt.on{border-color:var(--ks-navy);background:var(--ks-grey);}
+body.korb-site .kmc-med{border:1.5px solid var(--ks-line);border-radius:16px;font-weight:600;}
+}
+@media screen and (hover:hover){
+body.korb-site .kmp-btn:hover{background:var(--ks-navy);color:#fff;}
+body.korb-site .kmc-med:hover,body.korb-site .kmc-opt:hover{border-color:var(--ks-navy);}
+}
 `.trim();
 
 function title(key) {
@@ -100,8 +128,9 @@ ${ICONS}
 ${CSS}
 </style>
 <link rel="stylesheet" href="../korb-page-chrome.css">
+<link rel="stylesheet" href="../korb-site.css">
 </head>
-<body class="korb-sheet">
+<body class="korb-sheet korb-site">
 <div class="wrap">
 <header class="kmp-mast"><img src="${LOGO_URI}" alt="KORB Health"><div class="kmp-tools"><a href="#" onclick="window.print();return false;">Print</a></div></header>
 <p class="kmp-by">KORB Health Medical Texas PA · Patient education</p>

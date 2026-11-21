@@ -44,8 +44,31 @@ body{font-family:Arial,sans-serif;font-size:14px;color:#1A1A2E;background:#fff;}
 footer{margin-top:30px;font-size:11px;color:var(--mu);text-align:center;line-height:1.8;}
 </style>
 <link rel="stylesheet" href="korb-page-chrome.css?v=07993117">
+<link rel="stylesheet" href="korb-site.css?v=51349b02">
+<style>
+/* WEBSITE LOOK, 2026-11-20. korb-site.css sets the fonts and surfaces; these
+   map this page's own classes onto it. Screen only; print is unchanged. */
+@media screen{
+body.korb-site .top-bar{border-bottom:1px solid var(--ks-line);}
+body.korb-site .top-bar-title h1{font-family:var(--ks-serif);font-size:36px;line-height:1.08;}
+body.korb-site .top-bar-title p{color:var(--ks-text);font-size:14px;margin-top:4px;}
+body.korb-site .controls{background:var(--ks-grey);border:1px solid var(--ks-line);border-radius:16px;}
+body.korb-site .cg select,body.korb-site .cg input{border-color:#CDD1DE;border-radius:10px;padding:10px 12px;font-size:14px;}
+body.korb-site .cg select:disabled{background:#EEEFF3;border-color:var(--ks-line);}
+body.korb-site .info-box.teal{background:var(--ks-grey);border:0;border-left:3px solid var(--ks-teal);border-radius:0 12px 12px 0;}
+body.korb-site .stat{background:var(--ks-grey);border-color:var(--ks-line);}
+body.korb-site .result-card{border-color:var(--ks-line);border-radius:16px;}
+body.korb-site .supply-row button{border-radius:999px;border-color:var(--ks-navy);font-weight:600;padding:10px;}
+body.korb-site .supply-row button.active{background:var(--ks-navy);border-color:var(--ks-navy);color:#fff;}
+body.korb-site .result-hdr{background:var(--ks-navy);}
+}
+@media screen and (hover:hover){
+body.korb-site .supply-row button:hover{background:var(--ks-grey);}
+body.korb-site .supply-row button.active:hover{background:var(--ks-teal);border-color:var(--ks-teal);color:var(--ks-navy);}
+}
+</style>
 </head>
-<body class="korb-sheet">
+<body class="korb-sheet korb-site">
 <div class="wrap">
   <div class="top-bar">
     <div class="top-bar-title">
@@ -249,6 +272,6 @@ function renderResult(){
   output.innerHTML=html;
 }
 </script>
-<script src="korb-feedback.js?v=c3970e9a" data-page="My GLP-1 Dose &amp; Injection Guide"></script>
+<script src="korb-feedback.js?v=3d32e68a" data-page="My GLP-1 Dose &amp; Injection Guide"></script>
 </body>
 </html>

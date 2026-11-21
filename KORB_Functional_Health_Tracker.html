@@ -170,8 +170,31 @@
   .err{background:#FDECEC;border:1px solid #F5C2C2;color:#9A2A2A;padding:10px 12px;border-radius:9px;font-size:.85em;margin-top:12px;display:none;}
 </style>
 <link rel="stylesheet" href="korb-page-chrome.css?v=07993117">
+<link rel="stylesheet" href="korb-site.css?v=51349b02">
+<style>
+/* WEBSITE LOOK, 2026-11-20. korb-site.css sets the fonts and surfaces; these
+   map this page's own classes onto it. Screen only; print is unchanged. */
+@media screen{
+body.korb-site header{background:#fff;color:var(--ks-navy);border-bottom:1px solid var(--ks-line);padding:22px 18px 18px;}
+body.korb-site header > div:first-child{background:none !important;padding:0 !important;}
+body.korb-site header .kicker{color:var(--ks-teal-ink);}
+body.korb-site header h1{font-size:38px;line-height:1.05;color:var(--ks-navy);}
+body.korb-site .card{border-color:var(--ks-line);border-radius:16px;box-shadow:none;}
+body.korb-site h2.ct{color:var(--ks-navy);}
+body.korb-site .sub{color:var(--ks-text);}
+body.korb-site select,body.korb-site input[type="date"]{border-color:#CDD1DE;border-radius:10px;}
+body.korb-site .btn-primary,body.korb-site .btn-secondary,body.korb-site .gcal-btn{background:var(--ks-navy);color:#fff;border-radius:999px;font-weight:600;}
+body.korb-site .btn-ghost,body.korb-site .btn-download{border-radius:999px;border-color:var(--ks-navy);color:var(--ks-navy);font-weight:600;}
+body.korb-site .chk-row{background:var(--ks-grey);border-color:var(--ks-line);}
+body.korb-site .today-hero{background:var(--ks-navy);box-shadow:none;}
+}
+@media screen and (hover:hover){
+body.korb-site .btn-primary:hover,body.korb-site .btn-secondary:hover,body.korb-site .gcal-btn:hover{background:var(--ks-teal);color:var(--ks-navy);}
+body.korb-site .btn-ghost:hover,body.korb-site .btn-download:hover{background:var(--ks-navy);color:#fff;border-color:var(--ks-navy);}
+}
+</style>
 </head>
-<body class="korb-sheet">
+<body class="korb-sheet korb-site">
 
 <header>
   <div style="background:#fff;display:inline-block;padding:8px 16px;border-radius:10px;margin-bottom:10px;">
@@ -1067,6 +1090,6 @@ function renderGcalButtons(){
   }
 })();
 </script>
-<script src="korb-feedback.js?v=c3970e9a" data-page="My Peptide Tracker"></script>
+<script src="korb-feedback.js?v=3d32e68a" data-page="My Peptide Tracker"></script>
 </body>
 </html>

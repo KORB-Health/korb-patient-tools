@@ -145,8 +145,33 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
  color:var(--mu);text-align:center;line-height:1.75;}
 </style>
 <link rel="stylesheet" href="korb-page-chrome.css?v=07993117">
+<link rel="stylesheet" href="korb-site.css?v=51349b02">
+<style>
+/* WEBSITE LOOK, 2026-11-20. korb-site.css sets the fonts and surfaces; these
+   map this tracker's own classes onto it. Screen only; print is unchanged. */
+@media screen{
+body.korb-site .top{border-bottom:1px solid var(--ks-line);}
+body.korb-site .top h1{font-family:var(--ks-serif);font-size:36px;line-height:1.08;}
+body.korb-site .top p{color:var(--ks-text);font-size:14px;}
+body.korb-site .sec{font-family:var(--ks-serif);font-weight:700;font-size:26px;line-height:1.15;color:var(--ks-navy);
+  background:none;border:0;border-bottom:1px solid var(--ks-line);border-radius:0;padding:0 0 7px;margin:32px 0 14px;}
+body.korb-site .panel{background:var(--ks-grey);border:1px solid var(--ks-line);border-radius:16px;}
+body.korb-site .f select,body.korb-site .f input{border-color:#CDD1DE;border-radius:10px;}
+body.korb-site .f select:focus,body.korb-site .f input:focus{border-color:var(--ks-teal);outline:none;}
+body.korb-site .btn,body.korb-site .mark button{background:var(--ks-navy);color:#fff;border-radius:999px;font-weight:600;}
+body.korb-site .btn.ghost{background:#fff;color:var(--ks-navy);border:1.5px solid var(--ks-navy);}
+body.korb-site .mark button.undo{background:#fff;}
+body.korb-site .box.teal{background:var(--ks-grey);border:0;border-left:3px solid var(--ks-teal);border-radius:0 12px 12px 0;}
+body.korb-site table.log th{background:var(--ks-grey);border-bottom-color:var(--ks-line);}
+body.korb-site .c,body.korb-site .syr{background:var(--ks-grey);border-color:var(--ks-line);}
+}
+@media screen and (hover:hover){
+body.korb-site .btn:hover,body.korb-site .mark button:hover{background:var(--ks-teal);color:var(--ks-navy);}
+body.korb-site .btn.ghost:hover{background:var(--ks-navy);color:#fff;}
+}
+</style>
 </head>
-<body class="korb-sheet">
+<body class="korb-sheet korb-site">
 <div class="wrap">
 
   <div class="top">
@@ -631,6 +656,6 @@ if(state.dose) document.getElementById("dose").value=state.dose;
 if(state.vialDate) document.getElementById("vialDate").value=state.vialDate;
 buildDayPicker(); render();
 </script>
-<script src="korb-feedback.js?v=c3970e9a" data-page="My Testosterone Tracker"></script>
+<script src="korb-feedback.js?v=3d32e68a" data-page="My Testosterone Tracker"></script>
 </body>
 </html>
