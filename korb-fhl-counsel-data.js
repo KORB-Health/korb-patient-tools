@@ -66,11 +66,20 @@ var KORB_FHL_COUNSEL = {
       "doc:fhlcounsel": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-13",
-        "fingerprint": "fp-dd790679-16565",
-        "covers": "15439 characters, 30 headings",
+        "date": "2026-11-21",
+        "fingerprint": "fp-3b362f9e-16566",
+        "covers": "15440 characters, 30 headings",
         "attests": "Reviewed this provider document as rendered - the program structure, the agent positioning, every question and answer, the regulatory language, the safety, contraindication, documentation and escalation lists, and the approved and forbidden wording - and approve it for use by the provider team.",
-        "note": "First signature, 2026-10-13, after GHK-Cu joined Foundation (four Foundation agents, one GHK-Cu formulary row, the two-regimen answer, partner-only tier prices). Don read it on screen and said \"approved\". This is both the clinical and the compliance review: Don confirmed 2026-10-13 that he is compliance for this document, so no separate review of questions 4 to 7 or the language lists is pending."
+        "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the FH&L Peptide Q&A and Counseling Guide\"). The rendered page was compared with the one signed 2026-10-13 (commit b5a42c7) and the ONLY difference is the live version line: korb-dosing-data.js v2.15 to v2.19 and korb-pharmacies.js v1.7 to v1.17. Every question, answer and language list is word for word what Don signed. Clinical and compliance review, as before.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-10-13",
+          "fingerprint": "fp-dd790679-16565",
+          "covers": "15439 characters, 30 headings",
+          "attests": "Reviewed this provider document as rendered - the program structure, the agent positioning, every question and answer, the regulatory language, the safety, contraindication, documentation and escalation lists, and the approved and forbidden wording - and approve it for use by the provider team.",
+          "note": "First signature, 2026-10-13, after GHK-Cu joined Foundation (four Foundation agents, one GHK-Cu formulary row, the two-regimen answer, partner-only tier prices). Don read it on screen and said \"approved\". This is both the clinical and the compliance review: Don confirmed 2026-10-13 that he is compliance for this document, so no separate review of questions 4 to 7 or the language lists is pending."
+        }
       }
     }
   },
