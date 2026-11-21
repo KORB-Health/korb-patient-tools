@@ -131,7 +131,13 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
 .empty p{font-size:13px;line-height:1.7;}
 
 @media(max-width:640px){
-  .ctrl-grid,.qr-grid,.pay-grid{grid-template-columns:1fr 1fr;}
+  /* The controls go to ONE column on a phone (Don, 2026-11-20). Two columns of
+     about 140px cut "Foundation (one medication)" and "Premier Pharmacy" to
+     "Foundation (on" and "Premier Pharm", on the fields that decide the
+     schedule. The quick-reference and payment grids hold short values and
+     stay two across. */
+  .ctrl-grid{grid-template-columns:1fr;}
+  .qr-grid,.pay-grid{grid-template-columns:1fr 1fr;}
   .med-grid,.edu-grid,.ms-grid,.qe-grid{grid-template-columns:1fr;}
   .week-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
   table.wk{table-layout:auto;width:auto;min-width:580px;}
@@ -147,7 +153,7 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
 }
 </style>
 <link rel="stylesheet" href="korb-page-chrome.css?v=07993117">
-<link rel="stylesheet" href="korb-site.css?v=51349b02">
+<link rel="stylesheet" href="korb-site.css?v=44f0c287">
 <style>
 /* WEBSITE LOOK, 2026-11-20. korb-site.css sets the fonts and surfaces; these
    map this page's own classes onto it. Screen only; print is unchanged. */

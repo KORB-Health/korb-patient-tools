@@ -38,6 +38,7 @@
      header and footer templates here so the output is the same everywhere.
    ============================================================================ */
 
+const SITE = require('./provider-doc-render.js'); // SITE_CSS, SITE_FONTS: the website look, one copy
 const ICONS = require('./stamp-icons.js').TAGS; // KORB tab and home-screen icon
 const fs = require('fs');
 const path = require('path');
@@ -95,6 +96,7 @@ ${ICONS}
      unaffected; this only stops the guessing. -->
 <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
 <title>${R.esc(doc.title)} — FH&amp;L Provider Reference</title>
+${SITE.SITE_FONTS}
 <style>
 ${R.CSS}
 /* Screen presentation. The rules above are shared with the PDF build. */
@@ -128,9 +130,11 @@ ${R.CSS}
   .mast img { height: 34px; width: auto; display: block; }
 }
 @media print { .live, .tools, .mast { display: none; } body { padding: 0; max-width: none; } }
+/* Website look, 2026-11-20: SITE_CSS in provider-doc-render.js, screen only. */
+${SITE.SITE_CSS}
 </style>
 </head>
-<body>
+<body class="site">
 <p>Loading…</p>
 <script src="${PH_REL}"></script>
 <script src="${DATA_REL}"></script>

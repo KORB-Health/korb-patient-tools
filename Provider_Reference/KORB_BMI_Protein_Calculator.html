@@ -12,7 +12,7 @@
 :root{
   --brand-navy:#21275B; --navy:#21275B; --teal:#00B2C3; --cream:#ECE9D1;
   --ground:#FFFFFF; --surface:#F7F9FC; --tint:#E0F6F9; --border:#D6E0E3;
-  --ink:#1A1D33; --muted:#5A6070; --track:#ECE9D1;
+  --ink:#1A1D33; --muted:#5A6070; --track:#ECEEF3; /* website grey, 2026-11-20 */
   --bar:var(--navy); --bar-ink:#FFFFFF; --rule:var(--teal);
   --ok:#00727C; --ok-fill:#E0F6F9;          /* brand teal, darkened for text contrast */
   --accent:#FBB040;                          /* brand Bright Gold */
@@ -163,6 +163,24 @@ footer{margin-top:30px; padding-top:16px; border-top:1px solid var(--border);
  white-space:nowrap;align-self:center;}
 </style>
 <link rel="stylesheet" href="../korb-page-chrome.css?v=07993117">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* WEBSITE LOOK, 2026-11-20, TYPE AND SHAPE ONLY. This page has its own light
+   and dark themes, so it does NOT take korb-site.css, whose white and grey
+   surfaces broke dark mode (light text on white). Colours stay the page's own;
+   only the typefaces and the pill shape follow the website. Screen only. */
+@media screen{
+  body, body *{font-family:'DM Sans',Arial,sans-serif;}
+  h1, .ks-title{font-family:'Cormorant',Georgia,'Times New Roman',serif;font-weight:700;letter-spacing:0;}
+  h2{font-family:'Cormorant',Georgia,'Times New Roman',serif;font-weight:700;letter-spacing:0;}
+  button, .btn{border-radius:999px;}
+  /* The desk and sheet from the theme, not korb-page-chrome.css's fixed cream,
+     so light mode is the website grey and dark mode stays dark. */
+  body.korb-sheet{background:var(--surface);}
+  body.korb-sheet .wrap{background:var(--ground);border-color:var(--border);}
+}
+</style>
 </head>
 <body class="korb-sheet">
 

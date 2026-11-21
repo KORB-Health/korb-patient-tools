@@ -248,6 +248,65 @@ at 375, 768 and 1366px and approved by Don before rollout.
   unchanged except the 404 page; `artifact-signoff.js` stale list identical
   before and after (6 pages this work does not touch).
 
+**PROVIDER PAGES TOO (Don, 2026-11-20, the third pass).** Every provider
+document and tool now has the same look, so KORB's branding is one look
+everywhere. What changed is the page AROUND the clinical content; the house
+standard for a prescribing block is unchanged.
+
+- **Generated documents** (13 GLP-1 monographs, 4 FH&L references, the Add-On,
+  Men's, Women's and FH&L counseling references): the website rules live ONCE,
+  as `SITE_CSS` and `SITE_FONTS` in `provider-doc-render.js`. All four builders
+  (`build-patient-ed.js`, `build-provider-docs.js`, `build-fhl-docs.js`,
+  `build-clinical-docs.js`) inline them and write `<body class="site">`.
+  The rules set `--sans` on `body.site`, so every `var(--sans)` rule in the
+  shared sheet, prescribing blocks included, follows to DM Sans.
+- **Kept on purpose:** the prescribing block (navy header with the pharmacy
+  accent, zebra rows, vertical rule, copy buttons), navy table column headers,
+  and the navy destination bars inside a prescribing section. **Changed:** the
+  title band, the cream byline, and the navy `h2` section bars, which are now
+  serif headings over a hairline on screen. The heading ladder below describes
+  print and the old screen look; on screen `h2` is now the serif heading.
+- **Hand-built provider tools** (20) opt into `korb-site.css`. Its "common
+  tool vocabulary" section maps the class names most tools share (`.top-bar`,
+  `.controls`, `.sec`, `.info-box.teal`, `.titleband`, `.panel`), the
+  provider masthead `.korb-top` (with `header.top` and `.band`), and, for
+  pages whose body also carries `ks-doc`, the navy `h2` and cream byline of
+  the quick-reference template. A tool without the sheet chrome stays white.
+- **`KORB_BMI_Protein_Calculator_standalone.html` carries a COPY of
+  `korb-site.css`** between BEGIN and END markers, beside its copy of the
+  chrome, because it must work as one emailed file. Paste it again if
+  `korb-site.css` changes, WITHOUT the `@import` line. Remove that line whole:
+  the font URL has semicolons in it, and cutting at the first one left junk
+  that made the browser drop the entire copied sheet (found on the phone pass).
+- **Not touched:** the frozen scheduler prototype, the scheduler build page,
+  redirects, and `Provider_Reference/Tight Junction Loop (standalone).html`,
+  which this file does not describe. Ask Don what it is before styling it.
+- **THE PHONE AND TABLET PASS** (Don, 2026-11-20). Every changed page was
+  measured at 375, 768 and 1366px and every provider tool was looked at by eye
+  at 375 and 768. What it fixed:
+  - **Treatment Schedule:** its controls were two columns of about 140px on a
+    phone, cutting "Foundation (one medication)" to "Foundation (on". One
+    column under 640px now. The signature did not move.
+  - **No zoom on tap:** iPhone Safari zooms the page when a field under 16px is
+    tapped. `korb-site.css` sets every field to 16px under 640px.
+  - **Wide tables scroll inside their own box on a phone**, never cut off: the
+    FH&L Clinical Reference week table (`.wf-wrap`, was `overflow:hidden`) and
+    the chart snippets key list. Tables that already scrolled were left alone.
+  - **Dark mode:** `KORB_Pricing_Internal_4c174262e4.html` and
+    `Provider_Reference/KORB_BMI_Protein_Calculator.html` have light and dark
+    themes, and `korb-site.css`'s fixed white and grey surfaces turned their
+    dark mode into light text on white. **They do not take `korb-site.css`.**
+    Each has a small "TYPE AND SHAPE ONLY" block (fonts, serif headings, pill
+    buttons) and its light theme variables moved to the website greys. Check
+    any page with `prefers-color-scheme` or `data-theme` in both modes before
+    opting it in.
+  - Small cream leftovers (code chips, reference table headers, the snippets
+    shortcut chip, the dose routing decision box) went grey.
+- Checked 2026-11-20: rx-signoff 19 signed and unchanged, 0 changed;
+  artifact-signoff identical stale list, and the Men's and Women's tool
+  fingerprints byte-identical to the previous commit; check-tebra-caps,
+  build-embed, check-pages and the rest green.
+
 ---
 
 ## TRT SCHEDULING: NEXT VISIT FROM THE VISIT DATE (Don, 2026-11-12)
@@ -947,7 +1006,7 @@ Health when they are built. Do not re-decide any of it per document.
 
 | rank | what | size |
 |---|---|---|
-| `h2` | section, navy filled bar | 19px |
+| `h2` | section, navy filled bar in print; serif heading over a hairline on screen since 2026-11-20 | 19px print |
 | `.prodhead` | product or agent, teal rule under | 19px |
 | `h3` | note, callout, sub-point | 12-13px |
 | `h4` | below a product | 13px |

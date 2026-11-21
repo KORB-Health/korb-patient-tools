@@ -153,85 +153,10 @@ const SCREEN = `
 @media screen and (min-width: 360px) and (max-width: 640px) {
   table.grid:not(.contact3) { display: table; width: 100%; }
 }`;
-/* WEBSITE MATCH, Don, 2026-11-20. The Patient Hub took the korbhealth.com look
-   that day (8fd4924) at Lindsay's and Jon's request, and the documents it links
-   to still read as the older cream-and-Montserrat house style. Same values the
-   hub measured off the live site:
-     text   DM Sans, #5A6080          headings  Cormorant, navy #21275B
-     surfaces white, light grey #F6F6F8, hairline #E4E6EE
-     buttons pill, weight 600, navy fill
-   SCOPED THREE WAYS, and each one matters:
-   - body.site. Every page this builder writes carries the class. It started
-     as a one-page sample (the Weight Loss overview) and Don approved the
-     rollout to all generated patient pages the same day. The hand-built
-     patient tools (korb-page-chrome.css) are a separate, later pass.
-   - this builder. The shared stylesheet in provider-doc-render.js is also the
-     provider documents' stylesheet; nothing here reaches them.
-   - @media screen. Print keeps the house print style and stays white.
-   Colours are overridden through the same custom properties the shared sheet
-   reads (--rule, --zebra, --cream), set on body so they cascade to every table
-   and callout without restating those rules. */
-const SITE_FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
-  '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-  '<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant:wght@600;700&display=swap" rel="stylesheet">';
-const SITE = `
-@media screen {
-  html:has(body.site) { background: #F6F6F8; }
-  body.site { --rule:#E4E6EE; --zebra:#F8F8FA; --cream:#F6F6F8; --panel:#F6F6F8;
-    --ink:#3F4566; --ink2:#5A6080; --ink3:#7A809C; --site-text:#5A6080;
-    --serif:'Cormorant',Georgia,'Times New Roman',serif;
-    --sans:'DM Sans',Arial,sans-serif;
-    font-family:var(--sans); color:var(--site-text); background:#fff;
-    border-color:#E4E6EE; line-height:1.6; }
-  body.site p, body.site li, body.site td { color:var(--site-text); }
-  body.site strong { color:var(--ink); }
-  body.site .mast { border-bottom:1px solid #E4E6EE; padding-bottom:12px; margin-bottom:26px; }
-  body.site .mast .tools { font-family:var(--sans); }
-  body.site .mast .tools a { color:var(--navy); }
-
-  /* The title is type on white, as on the site; the navy band and the cream
-     stamp bar were the old house style. */
-  body.site .titleband { background:none; padding:0; }
-  body.site h1 { font-family:var(--serif); font-weight:700; color:var(--navy);
-    font-size:clamp(34px,5vw,46px); line-height:1.05; letter-spacing:0; }
-  body.site .titleband .sub { font-family:var(--sans); color:#00808D; font-weight:600;
-    font-size:14px; letter-spacing:.01em; margin:12px 0 0; }
-  /* NO text-transform here, or on anything a patient reads. artifact-signoff.js
-     fingerprints innerText, and innerText follows text-transform: an uppercase
-     subtitle made this signed page read as changed. Found on the sample. */
-  body.site .byline { background:none; text-align:left; padding:0; margin:6px 0 0;
-    font-size:12px; color:var(--ink3); letter-spacing:0; }
-
-  /* Section heads: serif on white with a hairline, not a filled navy bar.
-     Cormorant runs small for its point size, so about a third larger than
-     the 19px the bar used, the same step the hub took. */
-  body.site h2 { font-family:var(--serif); font-weight:700; color:var(--navy); background:none;
-    font-size:clamp(26px,3.4vw,30px); line-height:1.15; letter-spacing:0;
-    padding:0 0 8px; margin:40px 0 14px; border-bottom:1px solid #E4E6EE; }
-  body.site h3, body.site h4 { font-family:var(--sans); font-weight:700; color:var(--navy); }
-
-  body.site .lede { background:#F6F6F8; border:0; border-left:3px solid var(--teal);
-    border-radius:0 12px 12px 0; font-style:normal; padding:14px 18px; margin:26px 0 8px;
-    color:var(--site-text); }
-  body.site .callout { border-radius:12px; }
-
-  /* Tables: hairline rules, grey zebra, row labels in navy DM Sans. */
-  body.site .grid th, body.site .kv th { font-family:var(--sans); color:var(--navy); }
-  body.site .grid thead th { background:var(--navy); color:#fff; border-color:var(--navy); }
-  body.site table.contact3 td::before { font-family:var(--sans); }
-
-  /* Buttons: the site's pill. Navy fill, white text, teal on hover. */
-  body.site .k-step { border-radius:999px; background:var(--navy); color:#fff;
-    border:2px solid var(--navy); font-family:var(--sans); font-weight:600; font-size:15px;
-    letter-spacing:0; }
-  body.site .k-step-alt { background:var(--teal); color:var(--navy); border-color:var(--teal); }
-  body.site .k-step:hover { background:var(--teal); border-color:var(--teal); color:var(--navy); }
-  body.site .k-step-n { font-size:13px; color:var(--ink3); }
-  body.site .k-pill { border-radius:999px; border-color:var(--navy); font-weight:600; }
-  body.site .k-pill:hover { background:var(--navy); color:#fff; }
-  body.site .k-panel { background:#F6F6F8; border-color:#E4E6EE; border-radius:16px; }
-  body.site .k-feedback { border-top-color:#E4E6EE; margin-top:40px; }
-}`;
+/* WEBSITE MATCH (Don, 2026-11-20). The rules live ONCE, in provider-doc-render.js
+   as SITE_CSS and SITE_FONTS, shared with the three provider builders. Every
+   page this builder writes carries body.site; print is unchanged. */
+const { SITE_CSS: SITE, SITE_FONTS } = require('./provider-doc-render.js');
 /* Not fixed, deliberately: at 320px (the 2016 iPhone SE) Hormone Therapy's table
    runs 35px wide and a CJC timeline 6px. overflow-wrap:anywhere was tried on
    2026-09-22 and broke "Estradiol" into four lines; a short sideways scroll on a

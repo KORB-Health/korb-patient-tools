@@ -161,8 +161,172 @@ footer{margin-top:30px; padding-top:16px; border-top:1px solid var(--border);
           border-right: 1px solid #DEDBC4; min-height: 100vh; box-sizing: border-box; }
 }
 </style>
+<!-- THE ONE DELIBERATE COPY of korb-site.css (website look, 2026-11-20), for the
+     same reason as the chrome copy above: this file must work on its own when
+     emailed or dropped on a share. If korb-site.css changes, paste it here again,
+     between the BEGIN and END lines. The fonts load from Google; without them
+     the page falls back to Arial and Georgia. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* BEGIN korb-site.css copy */
+/* ============================================================================
+   KORB HEALTH — WEBSITE LOOK FOR HAND-BUILT PATIENT PAGES  (Don, 2026-11-20)
+
+   The Patient Hub took the korbhealth.com look on 2026-11-20 (8fd4924) and the
+   25 generated patient pages followed the same day (SITE in
+   build-patient-ed.js). This file brings the hand-built patient pages into
+   line: the trackers, the Dose Guide, the Treatment Schedule, the My GLP-1
+   medication pages and Our Programs. Values are the ones the hub measured off
+   the live site:
+     text      DM Sans, #5A6080         headings  Cormorant, navy #21275B
+     surfaces  white sheet on light grey #F6F6F8, hairline #E4E6EE
+     buttons   pill, weight 600, navy fill, teal on hover
+
+   OPT-IN, like korb-page-chrome.css and for the same reason: a page asks for it
+   with class="korb-site" on <body>. Provider tools never do. Link it AFTER the
+   page's own <style> and after korb-page-chrome.css, or it loses on equal
+   specificity and does nothing, silently.
+
+   SCREEN ONLY, except the font import. Print keeps each tool's own print look
+   and stays white.
+
+   Two rules learned on the generated pages, which apply here:
+   - NO text-transform on anything a patient reads. artifact-signoff.js
+     fingerprints innerText, and innerText follows text-transform.
+   - NO display changes on text. Turning a block into inline can join two words
+     in innerText ("A" "B" becomes "AB") and move a signed fingerprint.
+   ============================================================================ */
+
+
+@media screen {
+  body.korb-site {
+    --ks-sans: 'DM Sans', Arial, sans-serif;
+    --ks-serif: 'Cormorant', Georgia, 'Times New Roman', serif;
+    --ks-text: #5A6080;
+    --ks-navy: #21275B;
+    --ks-teal: #00B2C3;
+    --ks-teal-ink: #00808D;
+    --ks-grey: #F6F6F8;
+    --ks-line: #E4E6EE;
+    background: var(--ks-grey);
+    color: var(--ks-text);
+  }
+  /* One typeface everywhere. The tools set Arial, system-ui or Montserrat on
+     controls one by one, so a body rule alone would miss half of them. */
+  body.korb-site, body.korb-site * { font-family: var(--ks-sans); }
+  body.korb-site h1, body.korb-site .ks-title, body.korb-site .ks-head,
+  body.korb-site .k-feedback h2 {
+    font-family: var(--ks-serif); font-weight: 700; letter-spacing: 0;
+  }
+
+  /* The sheet: white on grey, replacing the cream desk of korb-page-chrome.css. */
+  body.korb-site .wrap { background: #fff; border-left-color: var(--ks-line);
+    border-right-color: var(--ks-line); }
+
+  /* A section head: serif on white with a hairline, the generated pages' h2.
+     Tools mark theirs with .ks-head (or have their own class mapped to it in
+     the page). */
+  body.korb-site .ks-head { color: var(--ks-navy); background: none;
+    font-size: 26px; line-height: 1.15; padding: 0 0 7px; border: 0;
+    border-bottom: 1px solid var(--ks-line); border-radius: 0; }
+
+  /* Primary and secondary buttons, as on the site. */
+  body.korb-site .ks-btn { border-radius: 999px; background: var(--ks-navy);
+    color: #fff; border: 2px solid var(--ks-navy); font-weight: 600; }
+  body.korb-site .ks-btn-ghost { border-radius: 999px; background: #fff;
+    color: var(--ks-navy); border: 1.5px solid var(--ks-navy); font-weight: 600; }
+  @media (hover: hover) {
+    body.korb-site .ks-btn:hover { background: var(--ks-teal); border-color: var(--ks-teal); color: var(--ks-navy); }
+    body.korb-site .ks-btn-ghost:hover { background: var(--ks-navy); color: #fff; }
+  }
+
+  /* A panel of controls: light grey with a hairline, not the light teal box. */
+  body.korb-site .ks-panel { background: var(--ks-grey); border: 1px solid var(--ks-line);
+    border-radius: 16px; }
+
+  /* The grey desk only behind a page that has a sheet. A tool without
+     korb-page-chrome.css has no .wrap sheet, so it stays white edge to edge. */
+  body.korb-site:not(.korb-sheet) { background: #fff; }
+
+  /* ---- THE COMMON TOOL VOCABULARY (provider pass, 2026-11-20) ----------
+     Most tools were copied from one another and share these class names, so
+     they are mapped here once instead of in every page. A page whose own
+     version needs something different overrides it in its own block. */
+  body.korb-site .top-bar { border-bottom: 1px solid var(--ks-line); }
+  body.korb-site .top-bar-title h1 { font-size: 34px; line-height: 1.08; color: var(--ks-navy); }
+  body.korb-site .top-bar-title p { color: var(--ks-text); }
+  body.korb-site .controls { background: var(--ks-grey); border: 1px solid var(--ks-line); border-radius: 16px; }
+  body.korb-site .cg select, body.korb-site .cg input { border-color: #CDD1DE; border-radius: 10px; }
+  body.korb-site .sec { font-family: var(--ks-serif); font-weight: 700; font-size: 26px; line-height: 1.15;
+    color: var(--ks-navy); background: none; border: 0; border-bottom: 1px solid var(--ks-line);
+    border-radius: 0; padding: 0 0 7px; margin-top: 32px; }
+  body.korb-site .info-box.teal { background: var(--ks-grey); border: 0; border-left: 3px solid var(--ks-teal);
+    border-radius: 0 12px 12px 0; }
+  body.korb-site .titleband { background: none; color: var(--ks-navy); padding-left: 0; padding-right: 0; }
+  body.korb-site .titleband h1 { font-size: 40px; line-height: 1.05; color: var(--ks-navy); }
+  body.korb-site .titleband .sub, body.korb-site .titleband p { color: var(--ks-teal-ink); }
+
+  /* The provider masthead (.korb-top), shared by the Men's, Women's, BMI and
+     FH&L intake tools, plus its twins on Optimization Products (header.top)
+     and the Men's dose routing page (.band): white, serif title, the
+     PROVIDER USE ONLY pill kept as an outline. */
+  body.korb-site .korb-top, body.korb-site header.top, body.korb-site .band {
+    background: #fff; color: var(--ks-navy); border-bottom: 1px solid var(--ks-line); }
+  body.korb-site .korb-top h1, body.korb-site header.top h1, body.korb-site .band h1 {
+    color: var(--ks-navy); font-size: 38px; line-height: 1.05; }
+  body.korb-site .korb-top .eyebrow, body.korb-site header.top .eyebrow, body.korb-site .band .eyebrow {
+    color: var(--ks-teal-ink); }
+  body.korb-site .korb-top p, body.korb-site header.top p, body.korb-site .band p { color: var(--ks-text); }
+  body.korb-site .korb-top .tagpill, body.korb-site header.top .tagpill, body.korb-site header.top .tag {
+    background: #fff; color: var(--ks-navy); border-color: var(--ks-navy); }
+
+  /* Quick-reference pages built from one template (12-Week Savings, Dots
+     Quick Reference, Pharmacy by State) and the Program Guide mark their body
+     ks-doc: their h2 is a navy bar and their byline a cream stamp. */
+  body.korb-site.ks-doc .byline { background: none; text-align: left; padding-left: 0; padding-right: 0; color: #7A809C; }
+  body.korb-site.ks-doc .lede { background: var(--ks-grey); border: 0; border-left: 3px solid var(--ks-teal);
+    border-radius: 0 12px 12px 0; font-style: normal; }
+  body.korb-site.ks-doc h2 { font-family: var(--ks-serif); font-weight: 700; font-size: 30px; line-height: 1.12;
+    color: var(--ks-navy); background: none; padding: 0 0 8px; border-bottom: 1px solid var(--ks-line); }
+  body.korb-site.ks-doc h2 small, body.korb-site.ks-doc h2 span { font-family: var(--ks-sans); color: var(--ks-teal-ink); }
+
+  /* A page title is a page title: tools that set theirs at 18 to 24px get the
+     serif at a size it reads at. Low specificity on purpose, so a page's own
+     mapped h1 (.korb-top h1, .top-bar-title h1) still wins. */
+  body.korb-site h1 { font-size: 34px; line-height: 1.08; }
+  /* The Lab tool's navy-to-teal gradient header becomes solid navy, like the
+     other card headers. */
+  body.korb-site .priority-hdr { background: var(--ks-navy); }
+
+  /* Light teal control panels on the older tools. */
+  body.korb-site .panel { background: var(--ks-grey); border-color: var(--ks-line); }
+  body.korb-site .note.info { background: var(--ks-grey); border-color: var(--ks-line); }
+
+  /* Small cream pieces found by the phone pass: the code chips and reference
+     table headers on the Men's tool, the shortcut chip on the chart snippets,
+     the decision box on the Men's dose routing page. */
+  body.korb-site .code-chip, body.korb-site table.ref th, body.korb-site .sc, body.korb-site .q {
+    background: var(--ks-grey); }
+  /* The Program Guide's intro gets a teal edge from the ks-doc rule, so it
+     needs the padding that edge assumes. */
+  body.korb-site.ks-doc .lede { padding: 12px 16px; }
+}
+/* NO ZOOM ON TAP. iPhone Safari zooms the whole page when someone taps a field
+   whose text is under 16px, and does not zoom back out. Several tools set 13 to
+   14px fields. On a phone every field is 16px. */
+@media screen and (max-width: 640px) {
+  body.korb-site input, body.korb-site select, body.korb-site textarea { font-size: 16px; }
+  /* A wide table scrolls inside its own box on a phone, never cut off. The
+     FH&L Clinical Reference's week table sat in overflow:hidden and lost its
+     right edge at 375px; the chart snippets' key list ran past its card. */
+  body.korb-site .wf-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  body.korb-site table.list { display: block; overflow-x: auto; }
+}
+/* END korb-site.css copy */
+</style>
 </head>
-<body class="korb-sheet">
+<body class="korb-sheet korb-site">
 
 
 <header class="korb-top">
