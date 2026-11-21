@@ -724,9 +724,10 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
    Patient Hub. */
 .hero-side{display:flex;justify-content:center;}
 .hero-side .hero-quote{margin:0;}
-.hub-cards-wrap{max-width:1140px;margin:44px auto 0;padding:0 28px;}
-.lg-banner{display:block;width:100%;height:auto;aspect-ratio:4/1;object-fit:cover;object-position:50% 0%;border-radius:28px 6px 6px 6px;margin-bottom:16px;}
-.hub-cards-wrap .ptile{padding:22px 10px!important;}
+.hub-cards-wrap{max-width:1140px;margin:32px auto 0;padding:0 28px;}
+.lg-banner{display:block;width:100%;height:auto;aspect-ratio:3.3/1;object-fit:cover;object-position:50% 0%;border-radius:28px 6px 6px 6px;margin-bottom:16px;}
+.hub-cards-wrap .ptile{padding:16px 10px!important;}
+@media (min-width:901px){.hero{padding-top:44px;}}
 @media (max-width:900px){
   .hero{display:flex;flex-direction:column;}
   .hero>.wrap{display:contents;}
@@ -735,7 +736,7 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
   .hero-side{order:3;padding:0 28px;margin-top:32px;}
 }
 @media (max-width:700px){.hub-cards-wrap{margin-top:28px;padding:0 16px;}
-  .lg-banner{aspect-ratio:16/9;}
+  .lg-banner{aspect-ratio:16/9;object-position:62% 0%;}
   .hero>.wrap>div:first-child,.hero-side{padding:0 16px;}}
 /* Logo the size korbhealth.com uses: 120px wide, which is 31.5px tall for
    this mark (Don, 2026-11-21). Applies at every width. */
@@ -797,7 +798,7 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
     </div>
   </div>
   <div class="hub-cards-wrap">
-    <img class="lg-banner" src="img/hub-longevity-banner.webp" alt="" width="1440" height="540" loading="eager">
+    <img class="lg-banner" src="img/hub-longevity-banner.webp" alt="" width="1440" height="436" loading="eager">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;">
         <a class="ptile" href="#foundation" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#F2A12E);border-radius:18px;padding:30px 10px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#21275B;" onclick="return korbGo('foundation');">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#21275B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/></svg>
