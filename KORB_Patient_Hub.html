@@ -692,6 +692,21 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 .nav-links{color:var(--site-text);font-weight:600;}
 /* Visit-counting notice (korb-count.js). Small, but readable on the dark footer. */
 .count-note{display:block;margin-top:8px;max-width:520px;font-size:11px;line-height:1.5;color:#9AA0C0;}
+/* TABLETS AND TOUCH, Don 2026-11-20. Identical in KORB_Patient_Hub.html and
+   KORB_Longevity_Hub.html: change both together.
+   A row of three cards fell to two columns between about 550 and 900px and
+   left the third alone beside an empty half. Two columns there, and an odd
+   last card spans the row. On a touch screen every control is at least 44px. */
+@media (min-width:540px) and (max-width:900px){
+  .card-row{grid-template-columns:repeat(2,1fr);}
+  .card-row > :last-child:nth-child(odd){grid-column:1/-1;}
+  .card-row > :last-child:nth-child(odd) .links{grid-template-columns:1fr 1fr;}
+  .card-row > :last-child:nth-child(odd) .links a:first-child:nth-last-child(odd){grid-column:1/-1;}
+}
+@media (pointer:coarse){
+  .nav-links > a{padding:12px 0;}
+  .nav-jump,.tool-card a.launch,.res-card a.dl,.sitelink,.safety-inner a{min-height:44px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;}
+}
 </style>
 </head>
 <body>

@@ -182,6 +182,12 @@ no peptide, agent or Longevity wording.
   Guides) defines peptide, program option, cycle and the FH&L agents;
   `korb-video.js` lists the FH&L welcome video by name; and the Welcome to KORB
   video walks through the four-program page as it was.
+- **Its layout mirrors the hub's**: Foundation, Gateway and Peak are its menu
+  links and hero tiles (`#foundation`, `#gateway`, `#peak`), as the three
+  programs are on the main hub. Checked at 375, 768, 1024 and 1366px.
+- **Tablets and touch** (both hubs, one identical CSS block marked "TABLETS AND
+  TOUCH"): three-card rows go to two columns from 540 to 900px with an odd last
+  card spanning the row, and every control is 44px on a touch screen.
 - The new page's styles are a copy of the hub's, taken 2026-11-20. Its feedback
   link pre-fills "Functional Health Hub". To combine them again, move the
   `#longevity` section back and delete the forward.

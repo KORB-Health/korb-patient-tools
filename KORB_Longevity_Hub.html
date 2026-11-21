@@ -705,6 +705,21 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 .nav-links{color:var(--site-text);font-weight:600;}
 /* Visit-counting notice (korb-count.js). Small, but readable on the dark footer. */
 .count-note{display:block;margin-top:8px;max-width:520px;font-size:11px;line-height:1.5;color:#9AA0C0;}
+/* TABLETS AND TOUCH, Don 2026-11-20. Identical in KORB_Patient_Hub.html and
+   KORB_Longevity_Hub.html: change both together.
+   A row of three cards fell to two columns between about 550 and 900px and
+   left the third alone beside an empty half. Two columns there, and an odd
+   last card spans the row. On a touch screen every control is at least 44px. */
+@media (min-width:540px) and (max-width:900px){
+  .card-row{grid-template-columns:repeat(2,1fr);}
+  .card-row > :last-child:nth-child(odd){grid-column:1/-1;}
+  .card-row > :last-child:nth-child(odd) .links{grid-template-columns:1fr 1fr;}
+  .card-row > :last-child:nth-child(odd) .links a:first-child:nth-last-child(odd){grid-column:1/-1;}
+}
+@media (pointer:coarse){
+  .nav-links > a{padding:12px 0;}
+  .nav-jump,.tool-card a.launch,.res-card a.dl,.sitelink,.safety-inner a{min-height:44px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;}
+}
 </style>
 </head>
 <body>
@@ -713,7 +728,9 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
   <div class="wrap">
     <a class="nav-brand" href="https://www.korbhealth.com" target="_blank" rel="noopener"><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgMTIyIDMyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMwMEIxQzM7fQoJLnN0MXtmaWxsOiMyMTI3NUI7fQo8L3N0eWxlPjxnPjxnPjxnPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS43LDIzLjdsNi44LDcuM2w1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNmwtNS4xLTUuNGw1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNkwzMi41LDBsLTYuOCw3LjMKCQkJCUMyMS40LDExLjgsMjEuNCwxOS4yLDI1LjcsMjMuN3oiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMi41LDE4LjhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xbC0yLjEtMi4yYy0wLjUtMC42LTEuNC0wLjYtMS45LDBsLTIuMSwyLjIKCQkJCWMtMC41LDAuNi0wLjUsMS41LDAsMi4xTDIuNSwxOC44eiIvPjwvZz48Zz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNOS45LDE1LjVsLTUuMSw1LjRjLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMzFsNi44LTcuM2M0LjMtNC41LDQuMy0xMS45LDAtMTYuNUw5LjksMEw0LjgsNS40CgkJCQljLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMTUuNUw5LjksMTUuNXoiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMzcuNiwxMi4ybC0yLjEsMi4yYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFsMi4xLDIuMmMwLjUsMC42LDEuNCwwLjYsMS45LDBsMi4xLTIuMmMwLjUtMC42LDAuNS0xLjUsMC0yLjEKCQkJCWwtMi4xLTIuMkMzOSwxMS43LDM4LjEsMTEuNywzNy42LDEyLjJ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTIwLDhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xTDIyLDEuNUMyMS40LDEsMjAuNiwxLDIwLDEuNWwtMi4xLDIuMgoJCQkJYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFMMjAsOHoiLz48L2c+PC9nPjxnPjxwb2x5Z29uIGNsYXNzPSJzdDEiIHBvaW50cz0iNjkuMSw3LjQgNjYuNSw3LjQgNTcuNywxNi40IDU3LjcsNy40IDU1LjQsNy40IDU1LjQsMjMuNSA1Ny43LDIzLjUgNTcuNywxOS4zIDYwLjcsMTYuMyA2Ni44LDIzLjUgCgkJCTY5LjUsMjMuNSA2Mi4yLDE0LjcgCQkiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTAwLjYsMTcuOWMxLTAuNCwxLjgtMS4xLDIuMy0xLjljMC41LTAuOCwwLjgtMS44LDAuOC0zYzAtMS4yLTAuMy0yLjItMC44LTNjLTAuNS0wLjgtMS4zLTEuNS0yLjMtMS45CgkJCWMtMS0wLjQtMi4yLTAuNy0zLjYtMC43aC02LjN2MTYuMUg5M3YtNC45aDRjMC40LDAsMC43LDAsMSwwbDMuNSw0LjloMi41bC0zLjgtNS40QzEwMC4zLDE4LDEwMC40LDE4LDEwMC42LDE3Ljl6IE05Ni45LDE2LjZIOTMKCQkJVjkuNGgzLjljMS41LDAsMi42LDAuMywzLjMsMC45YzAuOCwwLjYsMS4yLDEuNSwxLjIsMi43YzAsMS4xLTAuNCwyLTEuMiwyLjdDOTkuNSwxNi4zLDk4LjQsMTYuNiw5Ni45LDE2LjZ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTg0LjcsOS42Qzg0LDguOCw4My4xLDguMiw4Miw3LjhjLTEtMC40LTIuMi0wLjYtMy40LTAuNmMtMS4yLDAtMi40LDAuMi0zLjQsMC42Yy0xLDAuNC0xLjksMS0yLjcsMS43CgkJCWMtMC44LDAuNy0xLjQsMS42LTEuOCwyLjZjLTAuNCwxLTAuNiwyLjEtMC42LDMuM2MwLDEuMiwwLjIsMi4zLDAuNiwzLjNjMC40LDEsMSwxLjksMS44LDIuNmMwLjgsMC43LDEuNywxLjMsMi43LDEuNwoJCQljMS4xLDAuNCwyLjIsMC42LDMuNCwwLjZjMS4yLDAsMi40LTAuMiwzLjQtMC42YzEtMC40LDEuOS0xLDIuNy0xLjdjMC44LTAuOCwxLjQtMS42LDEuOC0yLjZjMC40LTEsMC42LTIuMSwwLjYtMy4zCgkJCXMtMC4yLTIuMy0wLjYtMy4zQzg2LjEsMTEuMiw4NS41LDEwLjMsODQuNyw5LjZ6IE04NC40LDE3LjljLTAuMywwLjgtMC43LDEuNC0xLjMsMmMtMC42LDAuNi0xLjIsMS0yLDEuMwoJCQljLTAuOCwwLjMtMS42LDAuNS0yLjUsMC41Yy0wLjksMC0xLjctMC4yLTIuNS0wLjVjLTAuOC0wLjMtMS40LTAuNy0yLTEuM2MtMC42LTAuNi0xLTEuMi0xLjMtMmMtMC4zLTAuOC0wLjUtMS42LTAuNS0yLjUKCQkJczAuMi0xLjcsMC41LTIuNWMwLjMtMC44LDAuOC0xLjQsMS4zLTJjMC42LTAuNiwxLjItMSwyLTEuM2MwLjgtMC4zLDEuNi0wLjUsMi41LTAuNWMwLjksMCwxLjcsMC4yLDIuNSwwLjUKCQkJYzAuOCwwLjMsMS40LDAuNywyLDEuM2MwLjYsMC42LDEsMS4yLDEuMywyYzAuMywwLjgsMC41LDEuNiwwLjUsMi41Uzg0LjcsMTcuMiw4NC40LDE3Ljl6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTEyMC42LDE2LjljLTAuNC0wLjYtMS0xLjEtMS43LTEuNGMtMC4yLTAuMS0wLjUtMC4yLTAuNy0wLjNjMCwwLDAsMCwwLDBjMC43LTAuMywxLjItMC44LDEuNi0xLjQKCQkJYzAuNC0wLjYsMC42LTEuMywwLjYtMi4yYzAtMS4zLTAuNS0yLjMtMS41LTNjLTEtMC44LTIuNC0xLjEtNC4zLTEuMWgtNy4ydjE2LjFoNy43YzIsMCwzLjYtMC40LDQuNi0xLjFjMS0wLjgsMS42LTEuOCwxLjYtMy4yCgkJCUMxMjEuMiwxOC4yLDEyMSwxNy41LDEyMC42LDE2Ljl6IE0xMTQuNCw5LjNjMS4yLDAsMi4xLDAuMiwyLjcsMC42YzAuNiwwLjQsMSwxLjEsMSwxLjlzLTAuMywxLjUtMSwxLjljLTAuNiwwLjQtMS41LDAuNi0yLjcsMC42CgkJCWgtNC43VjkuM0gxMTQuNHogTTExNy45LDIxYy0wLjcsMC40LTEuNiwwLjYtMi45LDAuNmgtNS4zdi01LjRoNS4zYzEuMywwLDIuMiwwLjIsMi45LDAuNmMwLjcsMC40LDEsMS4xLDEsMgoJCQlDMTE4LjksMTkuOSwxMTguNiwyMC42LDExNy45LDIxeiIvPjwvZz48L2c+PC9zdmc+" alt="KORB Health" class="nav-logo"></a>
     <div class="nav-links">
-      <a href="#longevity" onclick="return korbGo('longevity');">Your Program</a>
+      <a href="#foundation" onclick="return korbGo('foundation');">Foundation</a>
+      <a href="#gateway" onclick="return korbGo('gateway');">Gateway</a>
+      <a href="#peak" onclick="return korbGo('peak');">Peak</a>
     </div>
     <div class="nav-res">
       <a class="nav-jump" href="#resources" onclick="return korbGo('resources');">Guides</a>
@@ -724,10 +741,10 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 <div class="hero">
   <div class="wrap">
     <div>
-      <div class="eyebrow hero-eyebrow">Patient Resources</div>
-      <h1>Functional Health &amp; Longevity</h1>
-      <p class="lead">Your program guides, videos and tools, all in one place.</p>
-      <p class="lead">Start with the welcome video, then find your program option, your medication guides and your treatment tools.</p>
+      <div class="eyebrow hero-eyebrow">Functional Health &amp; Longevity</div>
+      <h1>Hello. Everything for your program is here.</h1>
+      <p class="lead">Your guides, videos and tools for Functional Health &amp; Longevity, all in one place, from your first lab draw through each 16-week cycle.</p>
+      <p class="lead">Start with the welcome video below, or choose your program option to go straight to its guides.</p>
       <blockquote class="hero-quote">
         <p>&ldquo;Good care starts with getting to know you. We listen to what you&rsquo;re
         experiencing, what matters to you, what you want to change, and what fits your
@@ -736,10 +753,19 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
       </blockquote>
     </div>
     <div class="phase-ring-wrap">
-      <div style="display:grid;grid-template-columns:1fr;gap:16px;width:100%;max-width:260px;">
-        <a class="ptile" href="#longevity" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#d98f1f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('longevity');">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 15.5a3.5 3.5 0 1 1 0-7c2.5 0 4 2 5.5 3.5s3 3.5 5.5 3.5a3.5 3.5 0 1 0 0-7c-2.5 0-4 2-5.5 3.5s-3 3.5-5.5 3.5z"/></svg>
-          <div style="font-size:14.5px;font-weight:800;text-align:center;">Go to your program</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:520px;">
+        <a class="ptile" href="#foundation" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#d98f1f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('foundation');">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/></svg>
+          <div style="font-size:14.5px;font-weight:800;text-align:center;">Foundation</div>
+        </a>
+        <a class="ptile" href="#gateway" style="text-decoration:none;background:linear-gradient(150deg,#00B2C3,#00838f);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('gateway');">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="12" r="5"/><circle cx="15.5" cy="12" r="5"/></svg>
+          <div style="font-size:14.5px;font-weight:800;text-align:center;">Gateway</div>
+        </a>
+        <div style="grid-column:1/-1;text-align:center;font-size:13px;font-weight:700;color:var(--mu);padding:2px 0;">Three program options. Your provider recommends one.</div>
+        <a class="ptile" href="#peak" style="grid-column:1/-1;text-decoration:none;background:linear-gradient(150deg,#21275B,#141834);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('peak');">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-11 4 6 3-4 5 9z"/></svg>
+          <div style="font-size:14.5px;font-weight:800;text-align:center;">Peak</div>
         </a>
       </div>
     </div>
@@ -797,7 +823,7 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
     </div>
 
     <div class="card-row">
-      <div class="pcard accent-top" style="--accent:var(--lg)">
+      <div class="pcard accent-top" id="foundation" style="--accent:var(--lg);scroll-margin-top:96px;">
         <div class="eyebrow">One medication</div>
         <h4>Foundation Program</h4>
         <p>One medication at a time, chosen by your provider: Sermorelin, CJC-1295 / Ipamorelin, BPC-157, or GHK-Cu.</p>
@@ -809,7 +835,7 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
           <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_GHK_Cu.html">GHK-Cu Guide</a>
         </div>
       </div>
-      <div class="pcard accent-top" style="--accent:var(--lg)">
+      <div class="pcard accent-top" id="gateway" style="--accent:var(--lg);scroll-margin-top:96px;">
         <div class="eyebrow">Two medications</div>
         <h4>Gateway Program</h4>
         <p>Sermorelin, with BPC-157 added later in your cycle. GHK-Cu can be added if your provider recommends it.</p>
@@ -820,7 +846,7 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
           <a target="_blank" href="https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_Patient_Ed_GHK_Cu.html">GHK-Cu Guide (Add-On)</a>
         </div>
       </div>
-      <div class="pcard accent-top" style="--accent:var(--lg)">
+      <div class="pcard accent-top" id="peak" style="--accent:var(--lg);scroll-margin-top:96px;">
         <div class="eyebrow">Two medications, performance focus</div>
         <h4>Peak Program</h4>
         <p>CJC-1295 / Ipamorelin or Tesamorelin, with BPC-157 added later in your cycle and optional GHK-Cu.</p>
@@ -1021,5 +1047,5 @@ document.addEventListener("click", function(e){
     KORB_VIDEO.mount(document);
   }());
 </script>
-<script src="korb-count.js"></script>
+<script src="korb-count.js?v=d1502d86"></script>
 </body>
