@@ -615,6 +615,15 @@ var KORB_GLP1 = {
           "note": "Re-signed 2026-10-25 on Don's approval in chat (\"Approved as drafted. Merge to main, re-sign the eight pages and push.\") of the new sections: why your pharmacy changed and what to expect from the switch (FarmaKeio links only), what the added vitamin is for, the 12-week start window (Premier injectables), and what to expect with same-day symptoms read from the signed handouts. Rendered and checked on all 52 conversion links and every bare page."
         }
       },
+      "medpage:farmakeio_oral_semaglutide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-21",
+        "fingerprint": "fp-da9ff848-1635",
+        "covers": "1546 characters, 1 dose cases",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "First signature, 2026-11-21, on Don's instruction in chat (\"Sign the FarmaKeio oral semaglutide page\"). Arkansas only: 1 mg RDT #90 (farmakeio_oral_sema_ar, v2.38). One dose case and no switch section, since Arkansas patients stay on FarmaKeio, which is why it is short. Checked rendered at ?dose=1 before signing: dose, how to take, contents, side effects read from the signed semaglutide handout, ER signs, contact. Not yet in CLAUDE.md's release table."
+      },
       "medpage:premier_oral_tirzepatide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
