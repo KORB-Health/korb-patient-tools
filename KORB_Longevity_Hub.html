@@ -716,6 +716,27 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 .nav-links{justify-self:start;}
 /* Visit-counting notice (korb-count.js). Small, but readable on the dark footer. */
 .count-note{display:block;margin-top:8px;max-width:520px;font-size:11px;line-height:1.5;color:#9AA0C0;}
+/* BANNER PHOTO, Don 2026-11-21. One photo over the three option tiles, in the
+   Patient Hub's card style. One photo, not three: Foundation, Gateway and Peak
+   are levels of one program, not three audiences. The photo is the current
+   korbhealth.com home page share image. The quote takes the hero's right column;
+   on tablets and phones the banner and tiles come before it, as on the
+   Patient Hub. */
+.hero-side{display:flex;justify-content:center;}
+.hero-side .hero-quote{margin:0;}
+.hub-cards-wrap{max-width:1140px;margin:44px auto 0;padding:0 28px;}
+.lg-banner{display:block;width:100%;height:auto;aspect-ratio:16/6;object-fit:cover;border-radius:28px 6px 6px 6px;margin-bottom:16px;}
+.hub-cards-wrap .ptile{padding:22px 10px!important;}
+@media (max-width:900px){
+  .hero{display:flex;flex-direction:column;}
+  .hero>.wrap{display:contents;}
+  .hero>.wrap>div:first-child{order:1;padding:0 28px;max-width:1140px;}
+  .hub-cards-wrap{order:2;width:100%;box-sizing:border-box;}
+  .hero-side{order:3;padding:0 28px;margin-top:32px;}
+}
+@media (max-width:700px){.hub-cards-wrap{margin-top:28px;padding:0 16px;}
+  .lg-banner{aspect-ratio:16/9;}
+  .hero>.wrap>div:first-child,.hero-side{padding:0 16px;}}
 /* TABLETS AND TOUCH, Don 2026-11-20. Identical in KORB_Patient_Hub.html and
    KORB_Longevity_Hub.html: change both together.
    A row of three cards fell to two columns between about 550 and 900px and
@@ -756,6 +777,8 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
       <h1>Hello. Everything for your program is <span class="h1-accent">here.</span></h1>
       <p class="lead">Your guides, videos and tools for Functional Health &amp; Longevity, all in one place, from your first lab draw through each 16-week cycle.</p>
       <p class="lead">Start with the welcome video below, or choose your program option to go straight to its guides.</p>
+    </div>
+    <div class="hero-side">
       <blockquote class="hero-quote">
         <p>&ldquo;Good care starts with getting to know you. We listen to what you&rsquo;re
         experiencing, what matters to you, what you want to change, and what fits your
@@ -763,8 +786,10 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
         <cite>Don Stevenson, PA-C<span>Director of Clinical Operations, KORB Health</span></cite>
       </blockquote>
     </div>
-    <div class="phase-ring-wrap">
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:540px;">
+  </div>
+  <div class="hub-cards-wrap">
+    <img class="lg-banner" src="img/hub-longevity-banner.webp" alt="" width="1440" height="540" loading="eager">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;">
         <a class="ptile" href="#foundation" style="text-decoration:none;background:linear-gradient(150deg,#FBB040,#F2A12E);border-radius:18px;padding:30px 10px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#21275B;" onclick="return korbGo('foundation');">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#21275B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/></svg>
           <div style="font-size:14.5px;font-weight:800;text-align:center;">Foundation</div>
@@ -779,7 +804,6 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
         </a>
         <div style="grid-column:1/-1;text-align:center;font-size:13px;font-weight:700;color:var(--mu);padding:4px 0 0;">Three program options. Your provider recommends one.</div>
       </div>
-    </div>
   </div>
 </div>
 
