@@ -42,6 +42,15 @@ var KORB_PATIENT_ED = {
      patients can actually see, and a signature here does not move it. */
   artifactSignoff: {
     records: {
+      "page:our_programs": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-21",
+        "fingerprint": "fp-c63ae3f8-5051",
+        "covers": "4551 characters, 18 headings",
+        "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+        "note": "First signature, 2026-11-21, on Don's instruction in chat (\"Sign Our Programs\"). Signed as it reads, including the Functional Health & Longevity section (four programs, each peptide, links to the peptide handouts and tracker). Asked first because FH&L came off the main hub on 2026-11-20 for LegitScript; Don chose to sign as is. Signing is not releasing: the page stays unlinked and marked No in CLAUDE.md's release table."
+      },
       "page:glossary_of_terms": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
