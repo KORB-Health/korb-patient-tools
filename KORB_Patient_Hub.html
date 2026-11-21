@@ -694,6 +694,11 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 .nav-jump{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:600;border-radius:999px;}
 @media (hover:hover){.nav-jump:hover{background:var(--teal);border-color:var(--teal);}}
 .nav-links{color:var(--site-text);font-weight:600;}
+/* Links sit left, beside the logo, the way korbhealth.com sets them (Don,
+   2026-11-21). Replaces the centred row described near the top of the nav
+   rules. Desktop only in effect: below the tablet breakpoint the nav is flex. */
+.nav .wrap{grid-template-columns:auto 1fr auto;column-gap:44px;}
+.nav-links{justify-self:start;}
 /* Visit-counting notice (korb-count.js). Small, but readable on the dark footer. */
 .count-note{display:block;margin-top:8px;max-width:520px;font-size:11px;line-height:1.5;color:#9AA0C0;}
 /* TABLETS AND TOUCH, Don 2026-11-20. Identical in KORB_Patient_Hub.html and
