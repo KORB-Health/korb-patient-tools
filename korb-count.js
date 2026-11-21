@@ -20,13 +20,14 @@
    OPT OUT. A browser with Do Not Track or Global Privacy Control turned on is
    never counted. Neither is localhost, so testing does not pollute the numbers.
 
-   OFF UNTIL CONFIGURED. SITE is empty until Don creates the GoatCounter
-   account; with no SITE this file does nothing at all.
+   ON SINCE 21 NOV 2026. Don created korbhub.goatcounter.com; the dashboard is
+   there. Set SITE back to '' to switch counting off; with no SITE this file
+   does nothing at all.
    ========================================================================== */
 (function () {
   'use strict';
 
-  var SITE = '';   // the GoatCounter code, e.g. 'korbhub' for korbhub.goatcounter.com
+  var SITE = 'korbhub';   // korbhub.goatcounter.com, account created by Don 21 Nov 2026
 
   var nav = window.navigator || {};
   var optedOut = nav.doNotTrack === '1' || window.doNotTrack === '1' ||
