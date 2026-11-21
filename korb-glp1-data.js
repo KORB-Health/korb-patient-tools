@@ -627,20 +627,30 @@ var KORB_GLP1 = {
       "medpage:premier_semaglutide_glycine": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-11-18",
-        "fingerprint": "fp-b9a32ac1-24420",
-        "covers": "24340 characters, 7 dose cases",
+        "date": "2026-11-21",
+        "fingerprint": "fp-85ace7b9-24968",
+        "covers": "24888 characters, 7 dose cases",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-11-18 on Don's approval in chat (\"Sign and push\") after 4.5 mg and 6 mg were added: two new dose cases, with the higher-dose line telling the patient to follow the provider's escalation instructions.",
+        "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the Premier glycine semaglutide page\") after the v2.43 glycine two-vial wording of 2026-11-19: 1 mL vials only, so every 4.5 mg and 6 mg dose uses two vials and the patient keeps the half vial.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-25",
-          "fingerprint": "fp-bdc79519-16844",
-          "covers": "16764 characters, 5 dose cases",
+          "date": "2026-11-18",
+          "fingerprint": "fp-b9a32ac1-24420",
+          "covers": "24340 characters, 7 dose cases",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\"). New page, built for educational send-outs and the prescription message tool; not a FarmaKeio conversion target."
+          "note": "Re-signed 2026-11-18 on Don's approval in chat (\"Sign and push\") after 4.5 mg and 6 mg were added: two new dose cases, with the higher-dose line telling the patient to follow the provider's escalation instructions.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-10-25",
+            "fingerprint": "fp-bdc79519-16844",
+            "covers": "16764 characters, 5 dose cases",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Signed 2026-10-25 on Don's approval in chat 2026-10-25 (\"Approved. Sign the five pages and push patient-tools live.\"). New page, built for educational send-outs and the prescription message tool; not a FarmaKeio conversion target."
+        
         }
+      }
       },
       "tool:glp1routing": {
         "signedBy": "Donald Stevenson, PA-C",
