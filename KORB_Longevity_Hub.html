@@ -725,7 +725,7 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 .hero-side{display:flex;justify-content:center;}
 .hero-side .hero-quote{margin:0;}
 .hub-cards-wrap{max-width:1140px;margin:44px auto 0;padding:0 28px;}
-.lg-banner{display:block;width:100%;height:auto;aspect-ratio:16/6;object-fit:cover;border-radius:28px 6px 6px 6px;margin-bottom:16px;}
+.lg-banner{display:block;width:100%;height:auto;aspect-ratio:4/1;object-fit:cover;object-position:50% 28%;border-radius:28px 6px 6px 6px;margin-bottom:16px;}
 .hub-cards-wrap .ptile{padding:22px 10px!important;}
 @media (max-width:900px){
   .hero{display:flex;flex-direction:column;}
@@ -737,6 +737,12 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 @media (max-width:700px){.hub-cards-wrap{margin-top:28px;padding:0 16px;}
   .lg-banner{aspect-ratio:16/9;}
   .hero>.wrap>div:first-child,.hero-side{padding:0 16px;}}
+/* Logo the size korbhealth.com uses: 120px wide, which is 31.5px tall for
+   this mark (Don, 2026-11-21). Applies at every width. */
+.nav-logo{height:31.5px;}
+/* Banner a third shorter (Don, 2026-11-21) so the option tiles stay on a
+   laptop's first screen; the crop sits high to keep both faces. */
+@media (min-width:701px) and (max-width:900px){.lg-banner{aspect-ratio:3/1;}}
 /* TABLETS AND TOUCH, Don 2026-11-20. Identical in KORB_Patient_Hub.html and
    KORB_Longevity_Hub.html: change both together.
    A row of three cards fell to two columns between about 550 and 900px and
