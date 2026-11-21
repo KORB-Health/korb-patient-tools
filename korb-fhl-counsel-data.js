@@ -67,10 +67,10 @@ var KORB_FHL_COUNSEL = {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
         "date": "2026-11-21",
-        "fingerprint": "fp-3b362f9e-16566",
-        "covers": "15440 characters, 30 headings",
+        "fingerprint": "fp-caede2b3-16443",
+        "covers": "15317 characters, 30 headings",
         "attests": "Reviewed this provider document as rendered - the program structure, the agent positioning, every question and answer, the regulatory language, the safety, contraindication, documentation and escalation lists, and the approved and forbidden wording - and approve it for use by the provider team.",
-        "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the FH&L Peptide Q&A and Counseling Guide\"). The rendered page was compared with the one signed 2026-10-13 (commit b5a42c7) and the ONLY difference is the live version line: korb-dosing-data.js v2.15 to v2.19 and korb-pharmacies.js v1.7 to v1.17. Every question, answer and language list is word for word what Don signed. Clinical and compliance review, as before.",
+        "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the FH&L Peptide Q&A and Counseling Guide\"). The rendered page was compared with the one signed 2026-10-13 (commit b5a42c7) and the ONLY difference is the live version line: korb-dosing-data.js v2.15 to v2.19 and korb-pharmacies.js v1.7 to v1.17. Every question, answer and language list is word for word what Don signed. Clinical and compliance review, as before. RE-FINGERPRINTED the same day, no new reading: at Don's request artifact-signoff.js stopped reading the live version line (.live), so the fingerprint was taken again over the same wording without that line (was fp-3b362f9e-16566 over 15440 characters; the 123 removed are the version line).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",

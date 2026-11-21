@@ -1448,6 +1448,12 @@ This repo has real self-checks. Use them, and prove they have teeth.
   the more interesting one: dropping CA from the Schedule III states reported STALE
   while still showing 46 blocks, which is the proof that the routing half has teeth
   and not merely the blocks.
+  **The static probe skips the live version line** (`.live`, "Live - reflects
+  <file> vN as of this page load"), as it skips the feedback footer (Don,
+  2026-11-21). It named data file versions, so every pharmacy or state update
+  marked the FH&L counseling guide stale with its wording untouched.
+  Negative-tested both halves: a dosing version bump alone left it signed, and
+  "28 days" changed to "29 days" in its storage list marked it stale.
 - **`check-charges.ps1` runs the whole thing unattended**, daily at 07:30, from
   the Windows Task Scheduler entry "KORB charge codes". It fetches the published
   Clinical Export CSV with `Invoke-WebRequest`, runs `build-charges.py --check`,

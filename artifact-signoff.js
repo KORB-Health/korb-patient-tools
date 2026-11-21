@@ -341,9 +341,16 @@ const PROBES = {};
    added 2026-09-25 at Kris's request. It carries no clinical content, and
    leaving it in expired 24 handout signatures at once for a button - the
    re-sign-without-reading habit this register exists to prevent. The footer's
-   wording lives in korb-patient-ed-data.js shared.feedback. */
+   wording lives in korb-patient-ed-data.js shared.feedback.
+
+   AND the live version line (.live), "Live - reflects <file> vN ... as of
+   this page load" on the generated references. It names data file VERSIONS,
+   so every pharmacy or state update marked the FH&L counseling guide stale
+   with its wording untouched: on 2026-11-21 its only change since 10/13 was
+   v2.15 to v2.19 and v1.7 to v1.17 on that line (Don). A real change to the
+   data still moves the fingerprint, because it moves the text it renders. */
 PROBES.static = function () {
-  [].forEach.call(document.querySelectorAll('.k-feedback'), function (e) { e.remove(); });
+  [].forEach.call(document.querySelectorAll('.k-feedback, .live'), function (e) { e.remove(); });
   return {
     kind: 'handout',
     title: document.title,
