@@ -45,11 +45,20 @@ var KORB_PATIENT_ED = {
       "page:glossary_of_terms": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-24",
-        "fingerprint": "fp-53b31e89-6973",
-        "covers": "6776 characters, 7 headings",
+        "date": "2026-11-21",
+        "fingerprint": "fp-26822f92-6228",
+        "covers": "6031 characters, 7 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "First sign-off. New page from Kris Mulkey's second review, 2026-09-24: 51 terms in five groups, definitions taken from the guides' own first-use wording, NP added alongside PA-C. Don, 2026-09-24: \"All of these have been reviewed and signed off on.\""
+        "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the Glossary\") after the FH&L terms moved to the Longevity Hub on 2026-11-20 (peptide, growth hormone-releasing peptide, program option, cycle, IGF-1, ceruloplasmin) and Add-on's example changed from GHK-Cu to hair loss or skin care.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-24",
+          "fingerprint": "fp-53b31e89-6973",
+          "covers": "6776 characters, 7 headings",
+          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+          "note": "First sign-off. New page from Kris Mulkey's second review, 2026-09-24: 51 terms in five groups, definitions taken from the guides' own first-use wording, NP added alongside PA-C. Don, 2026-09-24: \"All of these have been reviewed and signed off on.\""
+        }
       },
       "page:foundation_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
