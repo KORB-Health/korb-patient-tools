@@ -167,6 +167,7 @@ function excluded(f) {
   if (/^Provider_Reference\/KORB_FHL_.*_Provider_Reference\.html$/.test(f))
     return 'generated document - rx-signoff.js';
   if (f === 'KORB_Patient_Hub.html') return 'patient-facing, not a provider tool';
+  if (f === 'KORB_Longevity_Hub.html') return 'patient-facing, not a provider tool (the FH&L half of the hub, 2026-11-20)';
   if (f === 'Provider_Reference/KORB_AddOn_Selector.html')
     return 'redirect to KORB_Optimization_Products.html, no content of its own';
   if (f === 'Provider_Reference/KORB_GLP1_Provider_Tool.html')

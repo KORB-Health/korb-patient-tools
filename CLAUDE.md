@@ -158,6 +158,36 @@ are not decided; do not touch add-on routing until Don says.
   NovoCare, local) stay. Add-ons are NOT changed until the FarmaKeio add-on
   review is done.
 
+## FH&L HAS ITS OWN HUB. THE MAIN HUB CARRIES NO PEPTIDES. (Don, 2026-11-20)
+
+Functional Health & Longevity came off korbhealth.com for LegitScript
+certification, and the Patient Hub is linked from the website, so the FH&L
+section moved whole to `KORB_Longevity_Hub.html`. The main hub now shows
+Weight Loss, Men's Health and Women's Health only, and its rendered text has
+no peptide, agent or Longevity wording.
+
+- **Old links still work.** `KORB_Patient_Hub.html#longevity` was sent by text
+  and email. A fragment never reaches the server, so the hub's first script
+  forwards that one anchor with `location.replace()`. Do not remove it while
+  those texts are in circulation. `KORB_Welcome_Letter.html` (the retired FH&L
+  letter) redirects to the new page too.
+- **It is not hidden.** The forward names the new file in the hub's source,
+  the peptide handouts and FH&L tools are on the same public Pages address, and
+  git history keeps the old hub. This takes FH&L off the page the website
+  links to; it does not make it unfindable. Don's call as compliance.
+- **Never link the FH&L hub, a peptide handout or an FH&L tool from
+  `KORB_Patient_Hub.html`.** Check its rendered text for peptide words after any
+  hub edit.
+- **Still on the main hub's path, flagged to Don:** the Glossary (linked from
+  Guides) defines peptide, program option, cycle and the FH&L agents;
+  `korb-video.js` lists the FH&L welcome video by name; and the Welcome to KORB
+  video walks through the four-program page as it was.
+- The new page's styles are a copy of the hub's, taken 2026-11-20. Its feedback
+  link pre-fills "Functional Health Hub". To combine them again, move the
+  `#longevity` section back and delete the forward.
+
+---
+
 ## TRT SCHEDULING: NEXT VISIT FROM THE VISIT DATE (Don, 2026-11-12)
 
 The Men's Health tool counted the next visit, lab order and next prescription
@@ -300,6 +330,7 @@ to check a single document against, which is the whole reason this table exists.
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
 | `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |
 | `KORB_Patient_Hub.html` | **Yes**, 2026-09-19 |
+| `KORB_Longevity_Hub.html` | **Yes**, 2026-11-20. The Functional Health & Longevity half of the hub, split out for LegitScript. Sent to FH&L patients; `KORB_Patient_Hub.html#longevity` and the retired FH&L welcome letter both forward here |
 | `KORB_Patient_Treatment_Schedule.html` | **Yes**, 2026-09-19 |
 | `KORB_Schedule_Your_Lab_Appointment.html` | **Yes**, 2026-09-19 |
 | `KORB_Testosterone_Tracker.html` | **Yes**, 2026-09-19 |
@@ -311,7 +342,7 @@ to check a single document against, which is the whole reason this table exists.
 | `404.html` | **Served**, 2026-09-21. Not a link anyone is sent - GitHub Pages shows it for any missing path |
 | `index.html` | **Served**, 2026-09-28. Redirect from the bare site address to the hub. Holds no content. It also keeps GitHub Pages from promoting `README.md` to the home page; `_config.yml` excludes `README.md` and `CLAUDE.md` from the site as well |
 
-47 rows: 44 published pages, 1 PDF, the 404 page and the index redirect. If a file exists and is not on this list, the
+48 rows: 45 published pages, 1 PDF, the 404 page and the index redirect. If a file exists and is not on this list, the
 list is wrong, not the file.
 
 ---
