@@ -3548,6 +3548,20 @@ var KORB_PATIENT_ED = {
          'schedule. Your prescription label always reflects your correct dose and volume for ' +
          'your pharmacy. For a quick reference showing injection volume and syringe markings by ' +
          'pharmacy and dose, [open My GLP-1 Dose & Injection Guide](https://korb-health.github.io/korb-patient-tools/KORB_GLP1_Dose_Guide.html) on the Patient Hub.'],
+        /* ORAL SEMAGLUTIDE. Don, 2026-11-21: Dots patients are growing and this
+           guide read as injection-only. It points to the medication pages,
+           which carry the doses and full instructions, rather than copying
+           them. Compounded under-the-tongue tablets only: the brand Wegovy
+           tablet is swallowed with water and follows different rules. */
+        ['If you take semaglutide by mouth',
+         'Some patients take semaglutide as a small tablet that dissolves under the tongue ' +
+         'instead of a weekly injection. Premier Pharmacy calls these Dots. Take your dose once ' +
+         'a day on an empty stomach, let it dissolve fully, and do not eat or drink for 15 minutes ' +
+         'after. Your label is always the instruction to follow. The injection, syringe and ' +
+         'vial storage steps in this guide do not apply to tablets. [Open the Premier ' +
+         'semaglutide tablets page](https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_My_GLP1_Premier_Oral_Semaglutide.html) ' +
+         'or, for any other pharmacy, [find your medication](https://korb-health.github.io/korb-patient-tools/Patient_Education/KORB_My_GLP1.html) ' +
+         'for your dose and how to take it.'],
         /* TWO-VIAL DOSES. Added 2026-09-23 with Premier 4.5 mg, where Premier fills
            four weeks as a 3.6 ml and a 2.4 ml vial and the fourth dose is what is
            left in both. Don: providers must tell patients to use the leftovers, and

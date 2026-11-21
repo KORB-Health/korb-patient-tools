@@ -101,7 +101,7 @@ body.korb-site .supply-row button.active:hover{background:var(--ks-teal);border-
 <!-- Both MUST load before the inline script below: the dose table is built
      from them at load and this page throws if korb-glp1-data.js is absent. -->
 <script src="korb-pharmacies.js?v=fa6c7d55"></script>
-<script src="korb-glp1-data.js?v=68f8cb44"></script>
+<script src="korb-glp1-data.js?v=842d13e1"></script>
 <script src="korb-syringe.js?v=85a23abb"></script>
 <script>
 /* ── THE DOSE TABLE IS NOT TYPED HERE ──────────────────────────────────────
@@ -254,7 +254,12 @@ function renderResult(){
   html+='<div class="stat"><div class="lbl">Draw To</div><div class="val">'+d.units+' units</div></div>';
   html+='<div class="stat"><div class="lbl">'+supply+'-Week Supply</div><div class="val" style="font-size:13px;">'+(supply===12?d.v12:supply===8?d.v8:d.v4)+'</div></div></div>';
   html+='<div style="font-size:11px;color:var(--mu);text-align:center;">'+(d.units>100 ? 'This dose requires <strong style="color:var(--teal);">2 standard insulin syringes</strong> (100 units each) — KORB does not ship 3 mL syringes.' : 'Draw up to <strong style="color:var(--teal);">'+d.units+' units</strong> on a standard 100-unit (1 mL) insulin syringe')+'</div>';
-  html+=syringeSVG(d.units,'#00B2C3');
+  /* Red-pink liquid for a B-12 product, teal otherwise, from
+     KORB_GLP1.medPage.b12Colour (Don, 2026-11-21). The colour sentence in
+     the Contains box means colour is never the only signal. */
+  const BC=(KORB_GLP1.medPage||{}).b12Colour||{};
+  const isB12=/B-?12|cobalamin/i.test(pdata.additive||'');
+  html+=syringeSVG(d.units,isB12&&BC.syringe?BC.syringe:(BC.plain||'#00B2C3'));
   /* A dose drawn from two vials cannot follow the drawing above, because the
      open vial holds less than a full syringe. Say which dose and how. */
   const xv=supply===12?d.x12:supply===8?d.x8:d.x4;
@@ -265,7 +270,7 @@ function renderResult(){
   /* Units are syringe marks, not milligrams. Mixing the two is the classic
      overdose error with compounded GLP-1s. Said on the result, 2026-09-22. */
   html+='<div class="info-box teal"><strong>Units are not milligrams.</strong> Units are the tick marks on your insulin syringe. Always draw to the units number shown here and on your label, never to the mg number.</div>';
-  html+='<div class="info-box teal" style="margin-top:16px;"><strong>'+medLabel+' — '+pdata.label+'</strong><br>Contains: '+pdata.additive+'<br>Concentration: '+(d.conc?d.conc:pdata.concentration)+'</div>';
+  html+='<div class="info-box teal" style="margin-top:16px;"><strong>'+medLabel+' — '+pdata.label+'</strong><br>Contains: '+pdata.additive+'<br>Concentration: '+(d.conc?d.conc:pdata.concentration)+(isB12&&BC.vial?'<br>'+BC.vial:'')+'</div>';
   html+='<div class="info-box amber">Discard 28 days after first use — even if medication remains. Your prescription label is always the final word on your dose and volume.</div>';
   html+='<div class="info-box teal">Put used needles and syringes straight into a sharps container. <a href="https://safeneedledisposal.org/" target="_blank" rel="noopener">Find sharps disposal near you</a> by ZIP code.</div>';
   html+='</div></div>';

@@ -719,7 +719,7 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.43',
+    version: '2.44',
     created: '2026-08-06',
     lastUpdated: '2026-11-19',
     owner: 'Director of Clinical Operations',
@@ -739,6 +739,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-11-21 (v2.44): B-12 SYRINGE COLOUR (Don, 21 Nov). medPage.b12Colour gains syringe (#D6336C) and plain (#00B2C3). The medication pages and the Dose Guide fill the syringe drawing red-pink for any product whose additive names B-12 (Premier semaglutide, glycine semaglutide and tirzepatide, Belmar semaglutide) and teal for the rest, including the FarmaKeio Before syringe on a conversion. Drawing only: no patient wording changed. Don Stevenson, PA-C.',
       '2026-11-19 (v2.43): GLYCINE TWO-VIAL WORDING FOR PATIENTS (Don, 19 Nov). Glycine semaglutide comes in 1 mL vials only, so at 4.5 mg every dose uses two vials and the patient keeps the half vial, and at 6 mg every dose uses two full vials. The provider reference already said so (PREMIER-GLYCINE-45-SPLIT-VIAL); the patient medication page and the portal messages did not. New glycineVials text and glycineVialNote(), read by korb-med-page.js and KORB_GLP1_Patient_Message_Builder.html. No dose, product or price change. Don Stevenson, PA-C.',
       '2026-11-18 (v2.42): GLYCINE SEMAGLUTIDE 4.5 MG AND 6 MG (Don, 18 Nov). Premier now offers both doses in all three semaglutide products. B-12 has had them since v2.24 and B-6 derives from B-12, so glycine was the gap. Glycine comes in 1 ml vials only (Don): 4.5 mg is 6 / 12 / 18 vials and every dose draws from two vials, recorded as acceptedLimitations PREMIER-GLYCINE-45-SPLIT-VIAL with patientUsesLeftover so the Dose Guide shows the two-vial note; 6 mg is 8 / 16 / 24 vials, two whole vials a dose. priceBand max, the existing FITSema001MAX / FITSemaMNTMAX / FITSema12wkMAX codes, no price or code changed. 8-week sigs drop "Maintenance - " (150 of 140 with it), as the 12-week glycine sigs already did. highDose.appliesTo gains premier_sema_glycine, so the provider escalation warning and patient line apply. Don Stevenson, PA-C.',
       '2026-11-13 (v2.41): DOTS PRICES FROM THE CHARGE SHEET. The four Dots codes (FITSemOrlLOW_30, FITSemOrlLOW_90, FITSemOrlMID_90, FITSemOrlHIGH_90) reached the sheet in a new Oral Semaglutide section and are added to pricing.oral, so priceForCode() finds them; prices are filled from korb-charges.js, none typed here. Don Stevenson, PA-C.',
@@ -7770,6 +7771,13 @@ KORB_GLP1.medPage = {
      note that says do not use a discolored solution. Shown on every page whose
      product has B-12; the switch line only on a ?was= link. */
   b12Colour: {
+    /* The liquid in the syringe drawing (korb-syringe.js, drawn at 22%
+       opacity) on every B-12 product, on the medication pages and the Dose
+       Guide. Everything else stays KORB teal. Don, 2026-11-21: a converting
+       patient should SEE that the new medication looks different. Colour is
+       never the only signal: the vial sentence below sits beside it. */
+    syringe: '#D6336C',
+    plain: '#00B2C3',
     vial: 'Your vial is amber (brown) glass. The medication inside is red or pink because of the vitamin B-12. That color is normal.',
     switchLine: 'Your new medication will be red or pink. That is the vitamin B-12 and is expected.',
     /* Replaces the shared "cloudy or discolored" storage note on B-12 pages. */

@@ -54,6 +54,12 @@
   if (/glycine/i.test(P.additive || '')) adds.push('glycine');
   var addName = adds.join(' and ');
   var hasB12 = adds.indexOf('vitamin B-12') !== -1;
+  /* Syringe liquid: red-pink on a B-12 product, teal otherwise (Don,
+     2026-11-21). Read from medPage.b12Colour; the FarmaKeio Before syringe on
+     a conversion is always plain, because FarmaKeio GLP-1 was all B-6. */
+  var BC = (G.medPage || {}).b12Colour || {};
+  var plainHex = BC.plain || '#00B2C3';
+  var fillHex = hasB12 && BC.syringe ? BC.syringe : plainHex;
   var num = function (d) { return String(d.dose).replace(/\s*\(.*\)\s*$/, '').replace(/\s*mg\s*$/i, ''); };
   /* Strength per mL from the formulation the pharmacy labels, not dose divided
      by units: units are rounded to whole marks, so the division gave 18.2 mg/mL
@@ -125,7 +131,7 @@
     h += '<div class="kmp-dose"><div class="kmp-row">' +
          '<div><div class="kmp-lbl">Your weekly dose</div><div class="kmp-big">' + esc(dose.dose) + '</div></div>' +
          '<div><div class="kmp-lbl">Draw to</div><div class="kmp-big teal">' + esc(dose.units) + ' units</div></div></div>' +
-         KORB_SYRINGE.svg(dose.units, '#00B2C3') +
+         KORB_SYRINGE.svg(dose.units, fillHex) +
          (dose.units > 100 ? '<p class="kmp-how"><strong>This dose takes two syringes.</strong> Fill the first one completely (100 units), then fill the second to ' + esc(dose.units - 100) + ' units.</p>'
                            : '<p class="kmp-how">Draw to the <strong>' + esc(dose.units) + '</strong> line on a standard 100-unit insulin syringe, once a week.</p>') +
          '</div>';
@@ -182,9 +188,11 @@
            '<tr><td>Before, FarmaKeio</td><td>' + esc(perMl(sOld)) + '</td><td>' + esc(was.dose) + '</td><td>' + esc(was.units) + ' units</td></tr>' +
            '<tr class="now"><td>Now, ' + esc(pharmacy) + '</td><td>' + esc(perMl(sNew)) + '</td><td>' + esc(dose.dose) + '</td><td>' + esc(dose.units) + ' units</td></tr></table>' +
            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0">' +
-             /* Same colour both sides (Don, 2026-11-09): grey fill at the drawing's
-                light opacity read as an empty syringe. The labels say which is which. */
-             syr('Before, FarmaKeio', was, '#00B2C3') + syr('Now, ' + pharmacy, dose, '#00B2C3') + '</div>' +
+             /* Never grey (Don, 2026-11-09): grey fill at the drawing's light
+                opacity read as an empty syringe. Since 2026-11-21 (Don) the new
+                side is red-pink when it carries B-12, so the patient sees the
+                change; FarmaKeio was B-6 and stays teal. Labels say which is which. */
+             syr('Before, FarmaKeio', was, plainHex) + syr('Now, ' + pharmacy, dose, fillHex) + '</div>' +
            why.map(function (t, i) { return '<p>' + (i === why.length - 1 ? '<strong>' + esc(t) + '</strong>' : esc(t)) + '</p>'; }).join('') +
            (same ? '' : '<p><strong>Your number of units has changed.</strong> Draw to ' + esc(dose.units) + ' units, not your old ' + esc(was.units) + '.</p>') +
            '<p><strong>Finish your FarmaKeio supply first</strong>, using your FarmaKeio instructions. Then start your new ' + esc(pharmacy) + ' medication at the units on this page. Do not use these instructions with a FarmaKeio vial.</p></div>';

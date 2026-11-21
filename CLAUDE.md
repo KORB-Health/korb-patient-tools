@@ -137,6 +137,16 @@ are not decided; do not touch add-on routing until Don says.
   is red or pink. Every B-12 page says so, replaces the shared "discolored" storage
   note with one that allows for it, and a converted patient is told in the switch
   section and the portal message. All FarmaKeio GLP-1 was B-6.
+  **The syringe drawing follows it** (Don, 2026-11-21, v2.44): red-pink
+  (`medPage.b12Colour.syringe`) on any product whose additive names B-12, on the
+  medication pages and the Dose Guide; teal (`plain`) otherwise, and always teal
+  for the FarmaKeio Before syringe on a conversion. Never grey (it read as
+  empty). The colour sentence always sits beside it; colour is never the only
+  signal. Drawing only, so no medication page signature moved.
+- **Oral Dots on the patient side** (Don, 2026-11-21): the Semaglutide Guide
+  has an "If you take semaglutide by mouth" note pointing to the Premier tablets
+  page and the chooser, and the hub's Weight Loss guides list links the Premier
+  tablets page directly. The guide does not copy doses or strengths.
 - The syringe drawing is `korb-syringe.js`, shared with the Dose Guide.
 - **Patient page wording is `KORB_GLP1.medPage`** (Don approved 2026-10-25): why the
   pharmacy changed and what to expect from the switch (only on `?was=` links), what
