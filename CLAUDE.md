@@ -196,6 +196,33 @@ no peptide, agent or Longevity wording.
   link pre-fills "Functional Health Hub". To combine them again, move the
   `#longevity` section back and delete the forward.
 
+## PATIENT DOCUMENTS MATCH THE WEBSITE (Don, 2026-11-20)
+
+Every page `build-patient-ed.js` writes (25: handouts, program overviews,
+guides) now carries the korbhealth.com look the Patient Hub took the same day
+(`8fd4924`): DM Sans text in `#5A6080`, Cormorant headings in navy with a
+hairline under each section instead of a navy bar, a white page on light grey
+`#F6F6F8`, grey panels, navy pill buttons. Sampled on the Weight Loss overview
+at 375, 768 and 1366px and approved by Don before rollout.
+
+- **Lives in `SITE` in `build-patient-ed.js`**, scoped to `body.site` and
+  `@media screen`. The provider documents share the stylesheet in
+  `provider-doc-render.js` and do not change. **Print is unchanged**: the old
+  house print style, white page, navy section bars.
+- Colours are overridden through the shared custom properties (`--rule`,
+  `--zebra`, `--cream`, `--sans`), set on `body.site`, so the shared rules
+  repaint without being restated. Table column headers (`thead`) stay navy.
+- Fonts come from Google Fonts. The page falls back to Arial and Georgia if
+  they are blocked.
+- **Never put `text-transform` on patient text.** `artifact-signoff.js`
+  fingerprints `innerText`, and `innerText` follows `text-transform`: an
+  uppercase subtitle in the first sample made the signed Weight Loss page read
+  as changed. Removed. A style-only change made nothing stale.
+- Title is navy, not the site's teal h1, because teal on white is about 2.5:1
+  at document-title size.
+- **Not yet done:** the hand-built patient tools (`korb-page-chrome.css`,
+  `body.korb-sheet`) still have the cream desk. That is the second pass.
+
 ---
 
 ## TRT SCHEDULING: NEXT VISIT FROM THE VISIT DATE (Don, 2026-11-12)
