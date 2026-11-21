@@ -96,7 +96,8 @@ are not decided; do not touch add-on routing until Don says.
   inside a choice (Text Blaze splits on it), a duplicate field or shortcut, non-ASCII,
   or a Reason for Compounding choice over 30. Every justification asks for the real
   result, date and source; the page warns while any box still holds its placeholder.
-  No PHI, prices or charge codes. Not signed (artifact-signoff lists it unclassified).
+  No PHI, prices or charge codes. **Signed 2026-11-21** (Don), first signature,
+  `doc:dotssnippets` in `korb-dots-snippets.js`; a wording or choice change marks it stale.
 - `korb-glp1-data.js` `farmakeioConversion` holds the dose rules: same step for
   semaglutide, nearest lower for tirzepatide, same dose for oral. Both the
   provider tool and the patient pages read it. `selfCheck()` fails if a dose

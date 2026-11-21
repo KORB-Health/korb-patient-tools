@@ -148,7 +148,24 @@ var KORB_DOTS_SNIPPETS = {
       when: 'After prescribing the 1 mg Dot.',
       text: 'I sent your semaglutide prescription to {formmenu: Premier Pharmacy; Belmar Pharmacy; FarmaKeio Pharmacy; name=ppharm}: one 1 mg tablet under your tongue each morning on an empty stomach. Let it dissolve fully, and wait 15 minutes before you eat or drink. This is a low daily dose. Most people have mild or no side effects; the most common are nausea, fullness or constipation, usually early on. If you have severe stomach pain, pain that goes to your back, or vomiting you cannot stop, stop the medication and contact us or go to the ER.'
     }
-  ]
+  ],
+
+  /* Read by artifact-signoff.js (PROBES.dotsSnippets): the page text plus
+     every snippet's shortcut, label, group, when and full Text Blaze text,
+     drop-down choices and defaults included. */
+  artifactSignoff: {
+    records: {
+      "doc:dotssnippets": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-21",
+        "fingerprint": "fp-d399f325-14039",
+        "covers": "13918 characters, 1 headings",
+        "attests": "Reviewed this provider document as rendered - every snippet's chart and patient wording, its drop-down choices and defaults, its shortcut and when it applies - and approve it for use by the provider team.",
+        "note": "First signature, 2026-11-21, on Don's instruction in chat (\"Sign the GLP-1 Dots Chart Snippets\"). Built 2026-10-29; korb-dots-snippets.js v1.1 of 2026-11-02. The attestation is worded for snippets rather than the counseling-guide default the register prints for kind 'document'."
+      }
+    }
+  }
 };
 
 /* Parse one snippet into parts: plain text, and fields with their options. */
