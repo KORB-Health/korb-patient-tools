@@ -12,22 +12,21 @@ if (location.hash === '#longevity') location.replace('KORB_Longevity_Hub.html');
 <title>KORB Health — Patient Resources</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Cormorant:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Cormorant:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#21275B;--teal:#00B2C3;--cream:#ECE9D1;--orange:#FBB040;
   --lt:#E8F8FA;--bd:#E1E0D2;--bd2:#DADCE8;--mu:#6B6F84;--ink:#1D2140;
-  --wl:#00B2C3;--mh:#21275B;--wh:#B0498B;
+  --wl:#00B2C3;--mh:#21275B;--wh:#FBB040;
   --sheet:#F7F5EC;   /* the band tint. LIGHTER than --cream, which is the
                           accent 53 elements on this page are painted with */
   --shadow:0 18px 40px -12px rgba(33,39,91,.18);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Montserrat',Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
-h1,h2,h3,h4{font-family:'Montserrat',Arial,sans-serif;}
+body{font-family:'DM Sans',Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 a{color:inherit;text-decoration:none;}
 img{max-width:100%;display:block;}
 .wrap{max-width:1140px;margin:0 auto;padding:0 28px;}
@@ -154,7 +153,7 @@ button{font-family:inherit;cursor:pointer;}
 @media (hover:hover){.prog-card:hover{transform:translateY(-3px);}}
 .prog-card.wl{background:linear-gradient(150deg,#00B2C3,#00838f);}
 .prog-card.mh{background:linear-gradient(150deg,#21275B,#141834);}
-.prog-card.wh{background:linear-gradient(150deg,#B0498B,#7c2f61);}
+.prog-card.wh{background:linear-gradient(150deg,#FBB040,#F2A12E);color:#21275B;}
 .prog-card.lg{background:linear-gradient(150deg,#FBB040,#d98f1f);}
 .prog-card .tag{font-size:10.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;opacity:.85;}
 .prog-card h3{font-size:18px;font-weight:800;margin-top:6px;}
@@ -684,6 +683,11 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 .hero h1{font-family:'Cormorant',Georgia,serif;color:var(--teal);font-weight:600;
   font-size:clamp(36px,4.6vw,54px);line-height:1.05;}
 .hero p.lead{color:var(--site-text);}
+/* The site's headline move: last word in navy italic over an orange swoosh
+   ("All we have is now" on korbhealth.com). */
+.hero h1 .h1-accent{color:var(--navy);font-style:italic;position:relative;display:inline-block;padding-bottom:.08em;}
+.hero h1 .h1-accent::after{content:"";position:absolute;left:2%;right:4%;bottom:-.06em;height:.16em;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M2 7 Q 50 1 98 5' fill='none' stroke='%23FBB040' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center/100% 100%;}
 .hero-quote p{color:var(--site-text);}
 .btn{font-weight:600;border-radius:999px;}
 /* The nav pill now reads like the site's own "Book free consultation" button. */
@@ -729,7 +733,7 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
   <div class="wrap">
     <div>
       <div class="eyebrow hero-eyebrow">Patient Resources</div>
-      <h1>Hello. How can we help you today?</h1>
+      <h1>Hello. How can we help you <span class="h1-accent">today?</span></h1>
       <p class="lead">Whether you&rsquo;re here to check in on your program, find an answer, or learn about another way KORB can support your health, you&rsquo;re in the right place.</p>
       <p class="lead">Everything you need is organized by program, so it&rsquo;s easy to find what you&rsquo;re looking for. Choose a program to get started.</p>
       <blockquote class="hero-quote">
@@ -750,8 +754,8 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
           <div style="font-size:14.5px;font-weight:800;text-align:center;">Men's Health</div>
         </a>
         <div style="grid-column:1/-1;text-align:center;font-size:13px;font-weight:700;color:var(--mu);padding:2px 0;">Three programs, one place to manage them all</div>
-        <a class="ptile" href="#womenshealth" style="grid-column:1/-1;text-decoration:none;background:linear-gradient(150deg,#B0498B,#7c2f61);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff;" onclick="return korbGo('womenshealth');">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg>
+        <a class="ptile" href="#womenshealth" style="grid-column:1/-1;text-decoration:none;background:linear-gradient(150deg,#FBB040,#F2A12E);border-radius:18px;padding:34px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#21275B;" onclick="return korbGo('womenshealth');">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#21275B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg>
           <div style="font-size:14.5px;font-weight:800;text-align:center;">Women's Health</div>
         </a>
       </div>
@@ -995,7 +999,7 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
 <div class="psec" id="womenshealth">
   <div class="wrap">
     <div class="psec-head">
-      <div class="psec-badge" style="background:var(--wh);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg></div>
+      <div class="psec-badge" style="background:var(--wh);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#21275B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7"/><path d="M8.5 19h7"/></svg></div>
       <div>
         <h2>Women's Health</h2>
         <p>Hormone-guided care through every stage of perimenopause, menopause, and beyond.</p>
