@@ -1422,6 +1422,16 @@ This repo has real self-checks. Use them, and prove they have teeth.
   themselves; `node stamp-icons.js` stamps hand-built pages. A new page fails
   this check until it has them. The frozen intake prototype and redirects are
   skipped on purpose.
+- `node stamp-count.js --check`: expect "all 44 released page(s) load
+  korb-count.js", exit 0. Added 2026-11-21 (Don): every page released to
+  patients counts its visits in GoatCounter (korbhub.goatcounter.com, cookieless,
+  no IP addresses, Do Not Track and Global Privacy Control honored). The pages
+  come from the RELEASE STATUS table, so a newly released page fails this check
+  until it has the tag. `build-patient-ed.js` and `build-med-pages.js` write it
+  themselves; `node stamp-count.js` stamps hand-built pages. `korb-count.js` adds
+  the privacy line under each page's feedback button, so the line and the code
+  that counts live in one file. The hub carries its own line in its footer. To
+  switch counting off everywhere, set `SITE` to `''` in `korb-count.js`.
 - `node check-pages.js` — expect "every dependency present and in order", exit 0.
   Every other check in this repo reads DATA. This one asks whether a generated
   page can run at all. On 2026-09-14 the Add-On Clinical Reference shipped to

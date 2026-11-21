@@ -39,6 +39,7 @@
    ============================================================================ */
 
 const ICONS = require('./stamp-icons.js').TAGS; // KORB tab and home-screen icon
+const COUNT = require('./korb-count.js').TAG;    // visit counter, every patient page (21 Nov 2026)
 const fs = require('fs');
 const path = require('path');
 const R = require('./patient-ed-render.js');
@@ -291,6 +292,7 @@ function shell(t) {
 <html lang="en"><head>
 <meta charset="utf-8">
 ${ICONS}
+${COUNT}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- iOS DATA DETECTORS OFF. Don, on an iPad Air, 2026-09-21: the Quest codes in
      the lab table carried dotted underlines and tapping one opened Google Maps.

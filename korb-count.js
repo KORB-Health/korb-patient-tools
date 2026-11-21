@@ -29,12 +29,45 @@
 
   var SITE = 'korbhub';   // korbhub.goatcounter.com, account created by Don 21 Nov 2026
 
+  /* EVERY PAGE RELEASED TO PATIENTS loads this file (Don, 21 Nov 2026), not just
+     the hub. The builders (build-patient-ed.js, build-med-pages.js) put TAG in
+     their head; stamp-count.js adds it to hand-built pages and is the check that
+     catches a page without it. The hub loads it at the end of its body instead.
+     Absolute URL so one string works at every folder depth, like the icons. */
+  var TAG = '<script defer src="https://korb-health.github.io/korb-patient-tools/korb-count.js"></script>';
+
+  /* THE PRIVACY LINE. The hub writes its own in its footer. Every other page
+     gets this one added under its feedback button (.k-feedback), so the line
+     always travels with the code that does the counting. If what is sent ever
+     changes, change this line and the hub's together. */
+  var NOTE = 'We count visits to this page and which links are opened, so we know what helps. ' +
+    'No cookies, no names, no IP addresses, nothing you type, and nothing is used for advertising. ' +
+    "If your browser's Do Not Track or Global Privacy Control setting is on, your visit is not counted.";
+
+  if (typeof window === 'undefined') { module.exports = { TAG: TAG, NOTE: NOTE }; return; }
+  if (!SITE) return;
+
+  function addNote() {
+    if (document.querySelector('.count-note')) return;
+    var box = document.querySelector('.k-feedback');
+    if (!box) return;
+    var p = document.createElement('p');
+    p.className = 'count-note';
+    p.textContent = NOTE;
+    p.style.cssText = 'margin:12px 0 0;font-size:11.5px;line-height:1.5;color:#7A80A0;';
+    box.appendChild(p);
+  }
+  /* korb-feedback.js may draw the footer after this file runs, so try again
+     once the page has finished loading. */
+  addNote();
+  window.addEventListener('load', addNote);
+
   var nav = window.navigator || {};
   var optedOut = nav.doNotTrack === '1' || window.doNotTrack === '1' ||
                  nav.globalPrivacyControl === true;
   var local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) ||
               location.protocol === 'file:';
-  if (!SITE || optedOut || local) return;
+  if (optedOut || local) return;
 
   window.goatcounter = { no_onload: false };
   var s = document.createElement('script');
