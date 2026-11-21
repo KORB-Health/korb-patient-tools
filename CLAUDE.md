@@ -178,10 +178,14 @@ no peptide, agent or Longevity wording.
 - **Never link the FH&L hub, a peptide handout or an FH&L tool from
   `KORB_Patient_Hub.html`.** Check its rendered text for peptide words after any
   hub edit.
-- **Still on the main hub's path, flagged to Don:** the Glossary (linked from
-  Guides) defines peptide, program option, cycle and the FH&L agents;
-  `korb-video.js` lists the FH&L welcome video by name; and the Welcome to KORB
-  video walks through the four-program page as it was.
+- **The Glossary carries no FH&L terms** (Don, 2026-11-20). Peptide, growth
+  hormone-releasing peptide, program option, cycle, IGF-1 and ceruloplasmin
+  moved, same wording, to the "Words you'll see" card (`#terms`) on the FH&L
+  hub, and Add-on's example changed from GHK-Cu to hair loss or skin care. The
+  Glossary signature went stale with it and needs Don's re-read.
+- **Still on the main hub's path, flagged to Don:** `korb-video.js` lists the
+  FH&L welcome video by name, and the Welcome to KORB video walks through the
+  four-program page as it was.
 - **Its layout mirrors the hub's**: Foundation, Gateway and Peak are its menu
   links and hero tiles (`#foundation`, `#gateway`, `#peak`), as the three
   programs are on the main hub. Checked at 375, 768, 1024 and 1366px.

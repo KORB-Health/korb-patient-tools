@@ -2440,7 +2440,13 @@ var KORB_PATIENT_ED = {
          already uses the first time it names the term, so a patient who meets a
          word in a guide and looks it up here reads the same sentence. Change a
          definition in a guide and change it here, or the two will disagree.
-         Medication names are left to their own guides on purpose. */
+         Medication names are left to their own guides on purpose.
+
+         NO FUNCTIONAL HEALTH & LONGEVITY TERMS HERE (Don, 2026-11-20). The
+         main Patient Hub links this page and FH&L came off it for LegitScript.
+         Peptide, growth hormone-releasing peptide, cycle, program option, IGF-1
+         and ceruloplasmin moved to the "Words you'll see" card on
+         KORB_Longevity_Hub.html, same wording. Do not add them back. */
       program: 'All Programs',
       title: 'Glossary of Terms',
       disclaimer: "This guide is for educational reference only. It is not medical advice. Your prescription label and your provider's instructions come first. If you have questions, contact KORB.",
@@ -2451,13 +2457,11 @@ var KORB_PATIENT_ED = {
         {
           h: 'Your care',
           items: [
-            "**Add-on:** an optional treatment your provider may add alongside your program, such as GHK-Cu.",
+            "**Add-on:** an optional treatment your provider may add alongside your program, such as a hair loss or skin care treatment.",
             "**Baseline labs:** your first blood tests, before any treatment.",
-            "**Cycle:** in Functional Health & Longevity, a 16-week block of treatment, with a follow-up visit and new labs before the next one.",
             "**NP:** a nurse practitioner, a licensed clinician who diagnoses, treats and prescribes. You may also see APRN or FNP-C after a nurse practitioner's name.",
             "**PA-C:** a certified physician assistant, a licensed clinician who diagnoses, treats and prescribes.",
             "**Patient Portal:** your secure online KORB account, for messages and appointment details. There is a sign-in link on every guide.",
-            "**Program option:** in Functional Health & Longevity, one of three ways to structure treatment: Foundation, Gateway or Peak. Your provider recommends one once your baseline labs are back.",
             "**Provider:** the licensed clinician who reviews your health history, orders your labs and prescribes your treatment. At KORB, that is usually a nurse practitioner (NP) or a physician assistant (PA-C).",
             "**Telemedicine:** care by video, phone or secure message rather than in person. Because we cannot examine you, some symptoms need urgent care or the emergency room instead.",
             "**Urgent care:** a walk-in clinic for problems that need to be seen the same day but are not life-threatening. For an emergency, call 911 or go to the emergency room."
@@ -2471,12 +2475,10 @@ var KORB_PATIENT_ED = {
             "**Estradiol:** the main estrogen, given as a patch or a cream.",
             "**FDA-approved:** the FDA has reviewed a medication for a specific use and approved it for that use. A medication can be approved for one use and not another. When a guide says a medication is not FDA-approved for a use, that use has not been through that review.",
             "**GLP-1:** a group of medications that copy a natural gut hormone that slows digestion, reduces appetite and helps you feel fuller longer after eating. Semaglutide and tirzepatide are GLP-1s.",
-            "**Growth hormone-releasing peptide:** a peptide that prompts your own body to release more growth hormone, rather than replacing it. Sermorelin, CJC-1295 / Ipamorelin and Tesamorelin work this way.",
             "**Hormone therapy:** treatment that replaces hormones your body has stopped making in the amounts it used to.",
             "**Maintenance dose:** the steady dose you stay on once you and your provider are happy with how treatment is going.",
             "**mg, mL, mcg and units:** mg (milligram) is an amount of medication. mL (milliliter) is an amount of liquid. mcg (microgram) is one-thousandth of a milligram. Units are the markings on some syringes. The same number means a different amount in each, so always follow the dose and units on your prescription label.",
             "**Oral:** taken by mouth.",
-            "**Peptide:** a small, protein-like molecule that acts as a signal in the body.",
             "**Progesterone:** a hormone taken as a capsule at night by women who still have a uterus, to protect the lining of the uterus while taking estrogen.",
             "**Side effect:** an unwanted effect of a medication. Many settle on their own. Each guide lists which ones to message us about and which need care the same day.",
             "**Titration:** raising your dose gradually, in steps, so your body can adjust. Your provider decides each step. Never raise your own dose.",
@@ -2499,11 +2501,9 @@ var KORB_PATIENT_ED = {
           h: 'Labs',
           items: [
             "**CBC:** blood counts.",
-            "**Ceruloplasmin:** the protein that carries copper in your blood.",
             "**CMP:** a panel that checks your kidneys, liver and blood salts.",
             "**Fasting:** no food or drink other than water for a set time before a lab draw, usually 8 to 12 hours. Follow your lab order if it says otherwise.",
             "**HbA1c:** your average blood sugar over the past three months.",
-            "**IGF-1:** a blood marker that reflects your growth hormone activity. It is checked when you take a growth hormone-releasing peptide.",
             "**Lipid panel:** cholesterol tests.",
             "**PSA:** a prostate blood test.",
             "**Quest Diagnostics:** the lab company where you have your blood drawn. The Schedule Your Quest Lab Appointment guide shows you how to book.",
