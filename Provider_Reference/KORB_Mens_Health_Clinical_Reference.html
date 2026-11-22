@@ -427,20 +427,20 @@
      page, generated or hand-built, so a guide, a medication page, a tool and
      the hub read as one set. Title 46px, section 30px (the h1 and h2 rules
      below), sub-heading 17px, body 16px, buttons 16px, fine print 13px.
-     body.site.patient is written by build-patient-ed.js only; the provider
+     body.site is written by build-patient-ed.js only; the provider
      documents keep their denser 14px reference scale. korb-site.css carries
      the same scale for the hand-built patient pages: KEEP THE TWO IN STEP. */
-  body.site.patient { font-size:16px; }
-  body.site.patient p, body.site.patient li, body.site.patient td,
-  body.site.patient .kv td, body.site.patient .grid td,
-  body.site.patient .callout p, body.site.patient .callout li { font-size:16px; }
-  body.site.patient .kv th, body.site.patient .grid th { font-size:14px; }
-  body.site.patient h3, body.site.patient .callout h3 { font-size:17px; }
-  body.site.patient h4 { font-size:16px; }
-  body.site.patient .fine, body.site.patient .foot, body.site.patient .callout .fine,
-  body.site.patient p.k-fine { font-size:13px; }
-  body.site.patient .k-pill, body.site.patient .k-step, body.site.patient .k-pill-n { font-size:16px; }
-  body.site.patient .k-pill-d { font-size:13px; }
+  body.site { font-size:16px; }
+  body.site p, body.site li, body.site td,
+  body.site .kv td, body.site .grid td, body.site .rxb-tbl td,
+  body.site .callout p, body.site .callout li { font-size:16px; }
+  body.site .kv th, body.site .grid th, body.site .rxb-tbl th { font-size:14px; }
+  body.site h3, body.site .callout h3 { font-size:17px; }
+  body.site h4 { font-size:16px; }
+  body.site .fine, body.site .foot, body.site .callout .fine,
+  body.site p.k-fine { font-size:13px; }
+  body.site .k-pill, body.site .k-step, body.site .k-pill-n { font-size:16px; }
+  body.site .k-pill-d { font-size:13px; }
   body.site strong { color:var(--ink); }
   body.site .mast { border-bottom:1px solid #E4E6EE; padding-bottom:12px; margin-bottom:26px; }
   body.site .mast .tools { font-family:var(--sans); }
@@ -505,7 +505,7 @@
 <script src="../korb-pharmacies.js?v=fa6c7d55"></script>
 <script src="../korb-rx-block.js?v=c20c31df"></script>
 <script src="../korb-mens-data.js?v=87dca215"></script>
-<script src="../provider-doc-render.js?v=0dafb9e5"></script>
+<script src="../provider-doc-render.js?v=b4d4a290"></script>
 <script src="../clinical-doc-render.js?v=01dbf27c"></script>
 <script>
   /* Renders from the data files at page load, so this document is never stale.

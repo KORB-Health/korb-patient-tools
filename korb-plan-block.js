@@ -146,13 +146,13 @@ var KORB_PLAN = (function () {
       '.korb-plan{border:1.5px solid #D6E0E3;border-radius:9px;overflow:hidden;' +
         'background:#fff;margin:18px 0 0;}' +
       '.korb-plan-hdr{display:flex;align-items:center;justify-content:space-between;' +
-        'gap:10px;padding:11px 13px;background:#21275B;color:#fff;font-size:13px;' +
+        'gap:10px;padding:11px 13px;background:#21275B;color:#fff;font-size:16px;' +
         'font-weight:700;flex-wrap:wrap;}' +
       '.korb-plan-copy{border:0;border-radius:999px;padding:7px 15px;cursor:pointer;' +
-        'background:#00B2C3;color:#fff;font:inherit;font-size:12px;font-weight:700;}' +
+        'background:#00B2C3;color:#fff;font:inherit;font-size:14px;font-weight:700;}' +
       '.korb-plan-copy.done{background:#0F7B5A;}' +
       '.korb-plan-body{margin:0;padding:13px;font-family:Consolas,"Courier New",monospace;' +
-        'font-size:12.5px;line-height:1.55;color:#1A1A2E;white-space:pre-wrap;' +
+        'font-size:14px;line-height:1.55;color:#1A1A2E;white-space:pre-wrap;' +
         'word-break:break-word;background:#FBFAF6;}' +
       '@media print{.korb-plan-copy{display:none;}}';
     document.head.appendChild(css);

@@ -14,7 +14,7 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{-webkit-text-size-adjust:100%;}
 body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
- font-size:15px;color:#1A1A2E;background:#fff;line-height:1.55;}
+ font-size:16px;color:#1A1A2E;background:#fff;line-height:1.55;}
 .wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 64px;}
 /* The brand cream as the page ground with the content on white. Every other
    tool in the set took this on 2026-09-16 and this one did not, which is why
@@ -32,16 +32,16 @@ body{background:var(--cream);}
 .crow{border:1.5px solid var(--bd);border-radius:9px;background:#fff;overflow:hidden;}
 .crow.on{border-color:var(--teal);border-width:2px;box-shadow:0 0 0 3px rgba(0,178,195,.12);}
 .crow > label{display:flex;align-items:center;gap:11px;padding:12px 14px;cursor:pointer;
-  font-size:14px;font-weight:700;color:var(--navy);min-height:48px;}
+  font-size:16px;font-weight:700;color:var(--navy);min-height:48px;}
 .crow.on > label{background:var(--lt);}
 .crow input{width:20px;height:20px;flex:none;accent-color:var(--teal);cursor:pointer;}
-.crow .sub{display:block;font-weight:400;color:var(--mu);font-size:11.5px;margin-top:2px;}
+.crow .sub{display:block;font-weight:400;color:var(--mu);font-size:13px;margin-top:2px;}
 .crow .pickwrap{padding:0 14px 13px;}
-.crow .pickwrap label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.crow .pickwrap label{display:block;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:5px;}
 .crow select{width:100%;min-height:44px;padding:9px 11px;border:1.5px solid var(--teal);
-  border-radius:8px;font-size:15px;color:var(--navy);background:#fff;font-family:inherit;}
-.crow .none{font-size:11.5px;color:var(--red);padding:0 14px 13px;}
-.catlbl{font-size:11.5px;font-weight:700;color:var(--navy);}
+  border-radius:8px;font-size:16px;color:var(--navy);background:#fff;font-family:inherit;}
+.crow .none{font-size:13px;color:var(--red);padding:0 14px 13px;}
+.catlbl{font-size:13px;font-weight:700;color:var(--navy);}
 
 /* Navy masthead. The tool already speaks navy on its section bars and card
    headers; the title block now matches instead of sitting on white. */
@@ -49,11 +49,11 @@ body{background:var(--cream);}
  padding:20px 16px 18px;margin-bottom:0;}
 .top .inner{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;
  align-items:flex-start;flex-wrap:wrap;gap:12px;}
-.top .eyebrow{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--teal);
+.top .eyebrow{font-size:12px;font-weight:800;letter-spacing:1.4px;color:var(--teal);
  text-transform:uppercase;margin-bottom:5px;}
 .top h1{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.15;}
-.top p{font-size:13px;color:#C3CBE8;margin-top:6px;max-width:60ch;}
-.tag{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;font-size:10px;
+.top p{font-size:16px;color:#C3CBE8;margin-top:6px;max-width:60ch;}
+.tag{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;font-size:12px;
  font-weight:800;letter-spacing:.9px;padding:7px 13px;border-radius:20px;white-space:nowrap;
  align-self:center;}
 
@@ -62,38 +62,38 @@ body{background:var(--cream);}
 .filter{position:sticky;top:0;z-index:20;background:var(--cream);
  border-bottom:1.5px solid var(--bd);padding:11px 16px;margin-bottom:18px;}
 .filter .inner{max-width:900px;margin:0 auto;}
-.filter .lbl{font-size:10px;font-weight:800;letter-spacing:1px;color:var(--navy);
+.filter .lbl{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--navy);
  text-transform:uppercase;margin-bottom:8px;}
 .chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-.chip{font-family:inherit;font-size:13px;font-weight:700;color:var(--navy);background:#fff;
+.chip{font-family:inherit;font-size:16px;font-weight:700;color:var(--navy);background:#fff;
  border:1.5px solid var(--bd);border-radius:22px;padding:9px 15px;min-height:42px;cursor:pointer;
  display:inline-flex;align-items:center;gap:8px;line-height:1;}
-.chip .n{font-size:11px;font-weight:800;background:var(--bd);color:var(--navy);
+.chip .n{font-size:13px;font-weight:800;background:var(--bd);color:var(--navy);
  border-radius:11px;padding:2px 7px;min-width:20px;text-align:center;}
 .chip[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy);}
 .chip[aria-pressed="true"] .n{background:var(--teal);color:var(--navy);}
 .chip:focus-visible,.linkbtn:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
-.linkbtn{font-family:inherit;font-size:12px;font-weight:700;color:var(--navy);background:none;
+.linkbtn{font-family:inherit;font-size:14px;font-weight:700;color:var(--navy);background:none;
  border:0;text-decoration:underline;cursor:pointer;padding:8px 4px;min-height:40px;}
-.count{font-size:12px;color:var(--mu);margin-top:9px;}
+.count{font-size:14px;color:var(--mu);margin-top:9px;}
 .count b{color:var(--navy);}
 
 /* Group heading, so a filtered list still reads as organised sections */
 .grp{display:flex;align-items:center;gap:10px;margin:26px 0 12px;}
-.grp span{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+.grp span{font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
  color:var(--navy);white-space:nowrap;}
 .grp .rule{flex:1;height:2px;background:var(--teal);opacity:.5;}
 
 /* Charge code, matching the code-chip pattern in the GLP-1 Provider Reference */
 .codewrap{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;}
-.code-chip{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:13px;
+.code-chip{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:16px;
  font-weight:600;background:var(--cream);color:var(--navy);border:1px solid var(--bd);
  border-radius:6px;padding:4px 9px;letter-spacing:.3px;}
 .panel{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:15px 14px;margin-bottom:16px;}
 .grid{display:grid;grid-template-columns:1fr;gap:13px;}
 @media(min-width:640px){.grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}}
 .f{display:flex;flex-direction:column;gap:5px;min-width:0;}
-.f label{font-size:12.5px;font-weight:700;color:var(--navy);}
+.f label{font-size:14px;font-weight:700;color:var(--navy);}
 .f select{width:100%;min-height:46px;padding:10px 12px;border:1.5px solid var(--teal);border-radius:8px;
  font-size:16px;color:var(--navy);background:#fff;font-family:inherit;-webkit-appearance:none;appearance:none;
  background-image:linear-gradient(45deg,transparent 50%,var(--navy) 50%),linear-gradient(135deg,var(--navy) 50%,transparent 50%);
@@ -102,63 +102,63 @@ body{background:var(--cream);}
 .chk{display:flex;align-items:flex-start;gap:10px;margin-top:13px;padding:11px 13px;background:#fff;
  border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;}
 .chk input{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--teal);}
-.chk span{font-size:13px;color:var(--navy);}
-.sec{font-size:14px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
+.chk span{font-size:16px;color:var(--navy);}
+.sec{font-size:16px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
  padding:10px 14px;margin:22px 0 12px;border-radius:4px;}
 .route{border-radius:10px;padding:15px 16px;margin-bottom:14px;border:2px solid var(--teal);background:var(--lt);}
 .route.block{background:var(--redbg);border-color:var(--red);}
-.route .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;color:var(--mu);}
+.route .k{font-size:12px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;color:var(--mu);}
 .route .v{font-size:20px;font-weight:800;color:var(--navy);margin:4px 0 3px;}
 .route.block .v{color:var(--red);}
-.route .s{font-size:13px;color:var(--mu);}
+.route .s{font-size:16px;color:var(--mu);}
 .card{border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:13px;}
 .card.off{opacity:.72;}
 .chdr{background:var(--navy);color:#fff;padding:11px 15px;display:flex;justify-content:space-between;
  align-items:center;gap:10px;flex-wrap:wrap;}
 .card.off .chdr{background:#6E7288;}
-.chdr strong{font-size:14px;}
-.pill{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:14px;white-space:nowrap;}
+.chdr strong{font-size:16px;}
+.pill{font-size:12px;font-weight:800;padding:4px 10px;border-radius:14px;white-space:nowrap;}
 .pill.yes{background:var(--teal);color:var(--navy);}
 .pill.no{background:#fff;color:var(--red);}
 .cbody{padding:14px 15px;background:#fff;}
-table.d{width:100%;border-collapse:collapse;font-size:13px;}
+table.d{width:100%;border-collapse:collapse;font-size:16px;}
 table.d td{padding:7px 0;border-bottom:1px solid var(--bd);vertical-align:top;}
 table.d td.l{color:var(--mu);width:38%;padding-right:12px;}
 table.d tr:last-child td{border-bottom:0;}
-.box{border-radius:8px;padding:11px 14px;margin-top:12px;font-size:12.5px;line-height:1.7;}
+.box{border-radius:8px;padding:11px 14px;margin-top:12px;font-size:14px;line-height:1.7;}
 .box.teal{background:var(--lt);border:1px solid var(--teal);}
 .box.amber{background:var(--amber);border:1px solid var(--amberbd);}
 .box.red{background:var(--redbg);border:1px solid var(--red);color:#7A1F1F;}
 .copybox{background:var(--gb);border:1px solid var(--bd);border-radius:8px;padding:13px 14px;
- font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;
+ font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:14px;line-height:1.7;white-space:pre-wrap;
  overflow-wrap:anywhere;margin-top:10px;}
 .copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;min-height:40px;
- padding:8px 18px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;}
+ padding:8px 18px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;}
 .copybtn.done{background:var(--green);color:#fff;}
 
 .fldwrap{border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-top:8px;}
-table.fld{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.fld{width:100%;border-collapse:collapse;font-size:14px;}
 table.fld td{padding:8px 9px;border-bottom:1px solid var(--bd);vertical-align:top;}
 table.fld tr:last-child td{border-bottom:0;}
 table.fld td.k{width:34%;font-weight:700;color:var(--navy);background:var(--gb);}
 table.fld td.v{overflow-wrap:anywhere;}
 table.fld td.b{width:70px;text-align:right;}
 .cbtn{background:var(--teal);color:var(--navy);border:0;border-radius:16px;min-height:32px;
- padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;}
+ padding:5px 12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;}
 .cbtn.done{background:var(--green);color:#fff;}
-.cc{display:block;font-size:10.5px;color:var(--mu);margin-top:3px;}
+.cc{display:block;font-size:12px;color:var(--mu);margin-top:3px;}
 .cc.over{color:var(--red);font-weight:800;}
 .fv.pending{color:var(--mu);font-style:italic;font-weight:600;}
 @media(max-width:520px){table.fld td.k{width:42%;}table.fld td.b{width:58px;}.cbtn{padding:5px 8px;}}
 .empty{border:1.5px dashed var(--bd);border-radius:10px;padding:30px 18px;text-align:center;color:var(--mu);}
-footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size:12px;color:var(--mu);
+footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size:14px;color:var(--mu);
  text-align:center;line-height:1.75;}
 
 /* Product picker and strength control. Added 2026-09-17. The picker reuses the
    chip look so the two rows read as one control in two steps, and the picked
    state uses the same pressed styling a category chip already has. */
 .chip.prod{ font-weight:600; }
-.pickhead{ flex-basis:100%; font-size:12px; font-weight:700; color:var(--navy);
+.pickhead{ flex-basis:100%; font-size:14px; font-weight:700; color:var(--navy);
   display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
 .pickhead .hint{ font-weight:400; }
 /* The strength control is a DECISION, not a caption. Don, 2026-09-17: he had to
@@ -168,18 +168,18 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
 .strengthrow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   margin:10px 0 0; padding:11px 13px; background:var(--lt);
   border:1.5px solid var(--teal); border-left-width:5px; border-radius:9px; }
-.strengthrow label{ font-size:12px; font-weight:800; color:var(--navy);
+.strengthrow label{ font-size:14px; font-weight:800; color:var(--navy);
   text-transform:uppercase; letter-spacing:.4px; }
 .strengthrow select{ min-height:40px; padding:8px 11px; font-family:inherit;
-  font-size:15px; font-weight:700; color:var(--navy); background:#fff;
+  font-size:16px; font-weight:700; color:var(--navy); background:#fff;
   border:1.5px solid var(--teal); border-radius:7px; min-width:118px; }
-.strengthrow .hint{ font-size:11.5px; }
+.strengthrow .hint{ font-size:13px; }
 .strengthrow .cnt{ display:inline-block; background:var(--teal); color:#fff;
-  font-size:11px; font-weight:800; border-radius:999px; padding:2px 9px; }
-.selnote{ display:block; margin-top:3px; font-size:11.5px; font-weight:700;
+  font-size:13px; font-weight:800; border-radius:999px; padding:2px 9px; }
+.selnote{ display:block; margin-top:3px; font-size:13px; font-weight:700;
   color:#B26A00; }
 </style>
-<script src="../korb-plan-block.js?v=e4167983"></script>
+<script src="../korb-plan-block.js?v=9363a086"></script>
 <script src="../korb-pharmacies.js?v=fa6c7d55"></script>
 <link rel="stylesheet" href="../korb-site.css?v=f8760a42">
 </head>
@@ -707,7 +707,7 @@ function cardsFor(all, prog){
     /* A COMMERCIAL product is not a Compounded Drug Favorite, and a header
        saying it is sends a provider to the wrong Tebra screen. */
     h+='<div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">'+
-       '<span style="font-size:12.5px;font-weight:700;color:var(--navy);">'+
+       '<span style="font-size:14px;font-weight:700;color:var(--navy);">'+
        (p.commercial ? 'Tebra Standard prescription' : 'Tebra Compounded Drug Favorite')+'</span>'+
        '<button class="copybtn" onclick="copyAll(this,\'tb'+i+'\')">Copy all fields</button></div>';
 

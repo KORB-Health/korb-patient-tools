@@ -22,31 +22,31 @@
     --ok:#2E7D32;--oklt:#E8F5E9;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;color:var(--tx);background:#fff;}
+  body{font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;color:var(--tx);background:#fff;}
   .wrap{max-width:980px;margin:0 auto;padding:24px 20px 48px;}
 
   /* Header */
   .top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-bottom:14px;border-bottom:2.5px solid var(--teal);margin-bottom:20px;}
   .top-bar img{height:34px;}
   .top-bar-title h1{font-size:20px;font-weight:700;color:var(--navy);}
-  .top-bar-title p{font-size:12px;color:var(--mu);margin-top:2px;}
-  .badge{background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .top-bar-title p{font-size:14px;color:var(--mu);margin-top:2px;}
+  .badge{background:var(--navy);color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 
   /* Controls */
   .controls{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:16px 18px;margin-bottom:16px;}
   .ctrl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;align-items:start;}
   .cg{display:flex;flex-direction:column;gap:5px;}
-  .cg label{font-size:12px;font-weight:700;color:var(--navy);}
-  .cg select{padding:7px 10px;border:1.5px solid var(--teal);border-radius:6px;font-size:13px;color:var(--navy);background:#fff;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
+  .cg label{font-size:14px;font-weight:700;color:var(--navy);}
+  .cg select{padding:7px 10px;border:1.5px solid var(--teal);border-radius:6px;font-size:16px;color:var(--navy);background:#fff;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
   .cg select:disabled{background:var(--gb);color:var(--mu);border-color:var(--bd);}
-  .cg .hint{font-size:11px;color:var(--mu);}
+  .cg .hint{font-size:13px;color:var(--mu);}
   .btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
-  .print-btn{background:var(--navy);color:#fff;border:none;border-radius:6px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:700;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
-  .reset-btn{background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:6px;padding:8px 16px;font-size:13px;cursor:pointer;font-weight:700;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
+  .print-btn{background:var(--navy);color:#fff;border:none;border-radius:6px;padding:9px 18px;font-size:16px;cursor:pointer;font-weight:700;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
+  .reset-btn{background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:6px;padding:8px 16px;font-size:16px;cursor:pointer;font-weight:700;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
 
   /* Compatibility banner */
-  .compat{border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;border:1.5px solid;display:none;}
-  .compat strong{display:block;font-size:13px;margin-bottom:3px;}
+  .compat{border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:16px;border:1.5px solid;display:none;}
+  .compat strong{display:block;font-size:16px;margin-bottom:3px;}
   .compat.ok{background:var(--oklt);border-color:var(--ok);color:#1B5E20;}
   .compat.info{background:var(--lt);border-color:var(--teal);color:#004E58;}
   .compat.warning{background:var(--amber);border-color:var(--amberbd);color:#5D3A00;}
@@ -54,9 +54,9 @@
 
   /* Pharmacy banner */
   .pharm-banner{display:none;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1.5px solid;}
-  .pharm-banner h3{font-size:14px;font-weight:700;margin-bottom:4px;}
-  .pharm-banner .meta{font-size:12px;color:var(--mu);margin-bottom:8px;}
-  .pharm-banner ul{margin:0 0 0 18px;font-size:12px;line-height:1.6;}
+  .pharm-banner h3{font-size:16px;font-weight:700;margin-bottom:4px;}
+  .pharm-banner .meta{font-size:14px;color:var(--mu);margin-bottom:8px;}
+  .pharm-banner ul{margin:0 0 0 18px;font-size:14px;line-height:1.6;}
   .pb-premier{background:var(--premierlt);border-color:var(--premier);}
   .pb-premier h3{color:var(--premier);}
   .pb-belmar{background:var(--belmarlt);border-color:var(--belmar);}
@@ -67,19 +67,19 @@
   .pb-greenwich h3{color:var(--greenwich);}
 
   /* Fill-structure notice: quantity flags and live transitions */
-  .fillnotice{display:none;background:var(--amber);border:2px solid var(--amberbd);border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#5D3A00;}
-  .fillnotice strong{display:block;font-size:14px;margin-bottom:5px;color:#8A5A00;}
+  .fillnotice{display:none;background:var(--amber);border:2px solid var(--amberbd);border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:16px;color:#5D3A00;}
+  .fillnotice strong{display:block;font-size:16px;margin-bottom:5px;color:#8A5A00;}
   .fillnotice ul{margin:6px 0 0 18px;line-height:1.6;}
 
   /* Sections */
-  .sec{font-size:15px;font-weight:700;color:var(--navy);border-left:4px solid var(--teal);padding-left:10px;margin:24px 0 12px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .sec{font-size:16px;font-weight:700;color:var(--navy);border-left:4px solid var(--teal);padding-left:10px;margin:24px 0 12px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .csec-hdr{cursor:pointer;user-select:none;}
-  .csec-hdr .tog{float:right;font-size:11px;font-weight:400;color:var(--mu);}
+  .csec-hdr .tog{float:right;font-size:13px;font-weight:400;color:var(--mu);}
   .csec-body.collapsed{display:none;}
 
   /* Tables */
-  table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;}
-  th{background:var(--navy);color:#fff;text-align:left;padding:7px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  table{width:100%;border-collapse:collapse;font-size:16px;margin-bottom:8px;}
+  th{background:var(--navy);color:#fff;text-align:left;padding:7px 10px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   td{padding:7px 10px;border-bottom:1px solid var(--bd);vertical-align:top;}
   tr:last-child td{border-bottom:none;}
   tr.selected td{background:var(--lt);font-weight:700;}
@@ -88,36 +88,36 @@
 
   /* Rx block */
   .rx-block{display:none;border:1.5px solid var(--navy);border-radius:8px;overflow:hidden;margin-bottom:8px;}
-  .rx-hdr{background:var(--navy);color:#fff;padding:9px 14px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .rx-hdr{background:var(--navy);color:#fff;padding:9px 14px;font-size:16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .rx-row{display:grid;grid-template-columns:190px 1fr auto;gap:10px;align-items:start;padding:8px 14px;border-bottom:1px solid var(--bd);}
   .rx-row:last-child{border-bottom:none;}
-  .rx-lbl{font-size:12px;font-weight:700;color:var(--navy);}
-  .rx-val{font-size:12.5px;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.012em;word-break:break-word;color:var(--tx);}
-  .copy-btn{background:var(--teal);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;white-space:nowrap;}
+  .rx-lbl{font-size:14px;font-weight:700;color:var(--navy);}
+  .rx-val{font-size:14px;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.012em;word-break:break-word;color:var(--tx);}
+  .copy-btn{background:var(--teal);color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;white-space:nowrap;}
   .copy-btn.ok{background:var(--ok);}
-  .copy-all{background:#fff;color:var(--navy);border:none;border-radius:4px;padding:4px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
+  .copy-all{background:#fff;color:var(--navy);border:none;border-radius:4px;padding:4px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;}
 
   /* Pricing */
   .pricing-panel{border:1.5px solid var(--navy);border-radius:8px;padding:14px 16px;margin-bottom:8px;}
-  .pricing-note{font-size:11.5px;color:var(--mu);margin-top:10px;line-height:1.55;}
-  .code-chip{display:inline-block;background:#FFF6DF;color:#8A5A00;border:1px solid #F0D98C;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;}
+  .pricing-note{font-size:13px;color:var(--mu);margin-top:10px;line-height:1.55;}
+  .code-chip{display:inline-block;background:#FFF6DF;color:#8A5A00;border:1px solid #F0D98C;border-radius:4px;padding:2px 8px;font-size:13px;font-weight:700;}
   .code-chip.pending{background:var(--errlt);color:#7A1F1F;border-color:var(--errbd);}
-  .tier-chip{display:inline-block;background:var(--navy);color:#fff;border-radius:4px;padding:2px 9px;font-size:11.5px;font-weight:700;letter-spacing:.4px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .tier-head{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px;}
-  .ops-chip{display:inline-block;background:var(--ln);color:var(--mu);border:1px solid var(--bd);border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;}
+  .tier-chip{display:inline-block;background:var(--navy);color:#fff;border-radius:4px;padding:2px 9px;font-size:13px;font-weight:700;letter-spacing:.4px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .tier-head{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+  .ops-chip{display:inline-block;background:var(--ln);color:var(--mu);border:1px solid var(--bd);border-radius:4px;padding:2px 8px;font-size:13px;font-weight:700;}
 
   /* Misc */
-  .note{background:var(--ln);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:8px;}
+  .note{background:var(--ln);border-radius:6px;padding:10px 14px;font-size:14px;color:var(--mu);line-height:1.6;margin-bottom:8px;}
   .cols2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-  .cols2 ul{margin-left:18px;font-size:12.5px;line-height:1.65;}
-  .cols2 h4{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:6px;}
-  .empty{background:var(--ln);border:1px dashed var(--bd);border-radius:8px;padding:26px;text-align:center;color:var(--mu);font-size:13px;}
-  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu);line-height:1.6;}
-  .openflag{background:var(--amber);border:1px solid var(--amberbd);border-radius:6px;padding:9px 13px;font-size:11.5px;color:#5D3A00;margin-top:10px;line-height:1.6;}
+  .cols2 ul{margin-left:18px;font-size:14px;line-height:1.65;}
+  .cols2 h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .empty{background:var(--ln);border:1px dashed var(--bd);border-radius:8px;padding:26px;text-align:center;color:var(--mu);font-size:16px;}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--bd);font-size:13px;color:var(--mu);line-height:1.6;}
+  .openflag{background:var(--amber);border:1px solid var(--amberbd);border-radius:6px;padding:9px 13px;font-size:13px;color:#5D3A00;margin-top:10px;line-height:1.6;}
   /* Link to the FarmaKeio conversion tool. Screen only. */
-  .convert-link{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;background:var(--farmakeiolt);border:1.5px solid var(--farmakeio);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#5D3A00;line-height:1.5;}
+  .convert-link{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;background:var(--farmakeiolt);border:1.5px solid var(--farmakeio);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:16px;color:#5D3A00;line-height:1.5;}
   .convert-link strong{color:var(--farmakeio);}
-  .convert-link a{display:inline-flex;align-items:center;min-height:44px;background:var(--farmakeio);color:#fff;border-radius:6px;padding:0 18px;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;}
+  .convert-link a{display:inline-flex;align-items:center;min-height:44px;background:var(--farmakeio);color:#fff;border-radius:6px;padding:0 18px;font-size:16px;font-weight:700;text-decoration:none;white-space:nowrap;}
   .convert-link a:hover{background:#C75A00;}
 
   @media(max-width:620px){
@@ -984,7 +984,7 @@ function renderProgression(){
   var pr = K.progression;
   var prod = S.product ? K.getProduct(S.product) : null;
   var isOralProd = prod && (prod.route === 'oral' || prod.route === 'sublingual');
-  var html = '<div class="pricing-note" style="font-size:13px;color:#1A1A2E;">' +
+  var html = '<div class="pricing-note" style="font-size:16px;color:#1A1A2E;">' +
              '<strong>' + esc(pr.startRule) + '</strong><br>' + esc(pr.eightWeekEligibility) +
              (pr.twelveWeekEligibility ? '<br>' + esc(pr.twelveWeekEligibility) : '') + '</div>';
   /* The dose commitment is the one thing a provider must weigh before offering

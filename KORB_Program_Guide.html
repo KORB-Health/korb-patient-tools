@@ -33,52 +33,52 @@
 <style>
 :root{--navy:#21275B;--teal:#00B2C3;--tealink:#007C87;--cream:#ECE9D1;--orange:#FBB040;--ln:#F3F1E4;--bd:#D6DAE3;--tx:#1A1A2E;--mu:#5A6070;--tealbg:#EEF9FA;--orbg:#FFF4DE;--orink:#7A4E00;}
 *{box-sizing:border-box;}
-body{margin:0;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;color:var(--tx);background:#fff;line-height:1.5;}
+body{margin:0;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;color:var(--tx);background:#fff;line-height:1.5;}
 .wrap{max-width:980px;margin:0 auto;padding:24px 20px 48px;}
 .mast{border-bottom:1.5px solid var(--teal);padding-bottom:8px;margin-bottom:16px;}
 .mast img{height:34px;display:block;}
 .titleband{background:var(--navy);color:#fff;padding:22px 24px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 .titleband h1{margin:0;font-size:28px;font-weight:800;}
-.titleband .sub{margin:6px 0 0;color:var(--teal);font-weight:600;font-size:14px;}
+.titleband .sub{margin:6px 0 0;color:var(--teal);font-weight:600;font-size:16px;}
 .lede{margin:16px 0 6px;max-width:70ch;}
 .facts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0;padding:0;list-style:none;}
-.facts li{background:var(--ln);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;color:var(--navy);}
+.facts li{background:var(--ln);border-radius:999px;padding:5px 12px;font-size:16px;font-weight:600;color:var(--navy);}
 
 nav.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:22px 0 4px;}
-nav.tiles a{display:flex;flex-direction:column;justify-content:space-between;min-height:92px;padding:12px 14px;border:1px solid var(--bd);border-top:4px solid var(--teal);background:#fff;text-decoration:none;color:var(--navy);font-weight:800;font-size:15px;line-height:1.25;}
-nav.tiles a span{display:block;font-weight:600;font-size:12px;color:var(--mu);margin-top:6px;}
+nav.tiles a{display:flex;flex-direction:column;justify-content:space-between;min-height:92px;padding:12px 14px;border:1px solid var(--bd);border-top:4px solid var(--teal);background:#fff;text-decoration:none;color:var(--navy);font-weight:800;font-size:16px;line-height:1.25;}
+nav.tiles a span{display:block;font-weight:600;font-size:14px;color:var(--mu);margin-top:6px;}
 nav.tiles a:hover{background:var(--tealbg);}
 nav.tiles a[aria-current="true"]{background:var(--navy);color:#fff;border-top-color:var(--orange);}
 nav.tiles a[aria-current="true"] span{color:#C9CCE6;}
 nav.tiles a:focus-visible{outline:3px solid var(--orange);outline-offset:2px;}
-.showall{margin:8px 0 0;font-size:13px;} .showall a{color:var(--tealink);font-weight:700;}
+.showall{margin:8px 0 0;font-size:16px;} .showall a{color:var(--tealink);font-weight:700;}
 
 section.prog{margin-top:26px;scroll-margin-top:12px;}
 section.prog > h2{background:var(--navy);color:#fff;font-size:20px;font-weight:800;margin:0;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-section.prog > h2 small{font-weight:600;font-size:13px;color:var(--teal);}
+section.prog > h2 small{font-weight:600;font-size:16px;color:var(--teal);}
 .about{margin:12px 0 4px;max-width:72ch;}
-.incl{margin:6px 0 0;font-size:13px;color:var(--mu);}
-h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);margin:20px 0 8px;}
+.incl{margin:6px 0 0;font-size:16px;color:var(--mu);}
+h3{font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);margin:20px 0 8px;}
 .tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;}
-th{background:var(--navy);color:#fff;text-align:left;font-size:12px;padding:7px 10px;vertical-align:bottom;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+th{background:var(--navy);color:#fff;text-align:left;font-size:14px;padding:7px 10px;vertical-align:bottom;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 td{padding:7px 10px;border:1px solid var(--bd);vertical-align:top;}
 tbody tr:nth-child(even) td{background:#FAF9F3;}
-tr.group td{background:var(--ln)!important;font-weight:800;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);}
+tr.group td{background:var(--ln)!important;font-weight:800;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);}
 td.price{font-weight:800;color:var(--navy);white-space:nowrap;}
 td.price .ask{font-weight:600;color:var(--mu);}
-.avail{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.avail{display:inline-block;font-size:14px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;}
 .avail.all{background:var(--tealbg);color:var(--tealink);}
 .avail.some{background:var(--orbg);color:var(--orink);}
-.note{border-left:4px solid var(--teal);background:var(--tealbg);padding:10px 14px;margin:12px 0 0;font-size:14px;}
+.note{border-left:4px solid var(--teal);background:var(--tealbg);padding:10px 14px;margin:12px 0 0;font-size:16px;}
 .note.warm{border-left-color:var(--orange);background:var(--orbg);}
 .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
 .compare > div{border:1px solid var(--bd);padding:14px;}
 .compare b.big{display:block;font-size:26px;color:var(--navy);}
-.states{font-size:13px;color:var(--mu);}
-.fine{font-size:12px;color:var(--mu);margin-top:26px;border-top:1px solid var(--bd);padding-top:12px;}
+.states{font-size:16px;color:var(--mu);}
+.fine{font-size:14px;color:var(--mu);margin-top:26px;border-top:1px solid var(--bd);padding-top:12px;}
 .err{background:#FDECEA;border:1.5px solid #E57373;color:#7A1F1F;padding:12px 16px;border-radius:6px;font-weight:600;}
-.tools{float:right;font-size:12px;} .tools a{color:var(--navy);}
+.tools{float:right;font-size:14px;} .tools a{color:var(--navy);}
 @media print{.tools,nav.tiles,.showall{display:none!important;} section.prog[hidden]{display:block!important;} body{font-size:11px;} .wrap{padding:0;} section.prog{margin-top:14px;} section.prog > h2{font-size:15px;padding:6px 10px;} td,th{padding:3px 7px;} tr{break-inside:avoid;} h3{break-after:avoid;}}
 @media(max-width:640px){.compare{grid-template-columns:1fr;} .titleband h1{font-size:22px;}}
 </style>

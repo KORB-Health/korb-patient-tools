@@ -384,7 +384,16 @@ and both hubs use the same sizes on screen. On a laptop:
 - **The hub hero headline is the one exception**: it stays at the korbhealth.com
   headline size (54px), matched to the site on purpose. Nav links and the
   Testosterone Tracker's weekday chips are controls, not text, and keep theirs.
-- Provider pages keep their denser 14px reference scale.
+- **Provider pages take 16px body text too** (Don, 2026-11-21). The 21 generated
+  provider documents share the scale above (`body.site`, prescribing block cells
+  included, column headers 14px). The 23 hand-built provider tools set sizes rule
+  by rule, so each file's sizes were remapped on one ladder that keeps their
+  hierarchy: 13 to 15px became 16px, 12px became 14px, 11px became 13px, under
+  11px became 12px; 16px and up and anything in `@media print` unchanged.
+  `korb-plan-block.js` and the internal pricing page took the same ladder.
+  **A new provider tool should start at 16px body, 14px labels.** Titles keep
+  their 34 to 40px. No signature moved; 45 provider pages checked at 375, 768
+  and 1366px.
 - Size only: no fingerprint moved. Checked at 375, 768 and 1366px on all 47
   patient pages: no sideways scroll, no script errors.
 

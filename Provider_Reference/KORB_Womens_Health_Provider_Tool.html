@@ -17,39 +17,39 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{-webkit-text-size-adjust:100%;}
 body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
- font-size:15px;color:#1A1A2E;background:#fff;line-height:1.55;}
+ font-size:16px;color:#1A1A2E;background:#fff;line-height:1.55;}
 .wrap{max-width:960px;margin:0 auto;padding:18px 14px 64px;}
 
 .top-bar{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;
   padding-bottom:14px;border-bottom:2.5px solid var(--teal);margin-bottom:20px;}
 .top-bar h1{font-size:19px;font-weight:700;color:var(--navy);}
-.top-bar p{font-size:12px;color:var(--mu);margin-top:3px;max-width:640px;}
-.badge-internal{background:var(--navy);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.5px;
+.top-bar p{font-size:14px;color:var(--mu);margin-top:3px;max-width:640px;}
+.badge-internal{background:var(--navy);color:#fff;font-size:12px;font-weight:800;letter-spacing:.5px;
   padding:5px 11px;border-radius:20px;white-space:nowrap;}
 
 .controls{background:var(--lt);border:1px solid var(--teal);border-radius:10px;padding:16px 18px;margin-bottom:18px;}
 .ctrl-grid{display:grid;grid-template-columns:1fr;gap:13px;}
 @media(min-width:600px){.ctrl-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}}
 .cg{display:flex;flex-direction:column;gap:5px;min-width:0;}
-.cg label{font-size:11.5px;font-weight:700;color:var(--navy);}
+.cg label{font-size:13px;font-weight:700;color:var(--navy);}
 .cg select,.cg input{width:100%;max-width:100%;min-height:46px;padding:10px 12px;
   border:1.5px solid var(--teal);border-radius:8px;font-size:16px;color:var(--navy);
   background:#fff;font-family:inherit;-webkit-appearance:none;appearance:none;}
 .cg input[type="date"]{display:block;text-align:left;}
-.cg .hint{font-size:10.5px;color:var(--mu);}
-.ctrl-note{font-size:11px;color:var(--mu);margin-top:11px;line-height:1.6;}
+.cg .hint{font-size:12px;color:var(--mu);}
+.ctrl-note{font-size:13px;color:var(--mu);margin-top:11px;line-height:1.6;}
 
-.sec{font-size:13.5px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
+.sec{font-size:16px;font-weight:700;color:#fff;background:var(--navy);border-left:5px solid var(--teal);
   padding:8px 14px;margin:26px 0 12px;border-radius:4px;}
 
 .empty{border:1.5px dashed var(--bd);border-radius:10px;padding:34px 20px;text-align:center;color:var(--mu);}
-.empty h2{font-size:15px;color:var(--navy);margin-bottom:6px;}
+.empty h2{font-size:16px;color:var(--navy);margin-bottom:6px;}
 
 .card{border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:14px;}
 .card-hdr{background:var(--navy);color:#fff;padding:11px 16px;display:flex;justify-content:space-between;
   align-items:center;flex-wrap:wrap;gap:8px;}
-.card-hdr strong{font-size:13.5px;}
-.card-hdr span{font-size:11.5px;opacity:.85;}
+.card-hdr strong{font-size:16px;}
+.card-hdr span{font-size:13px;opacity:.85;}
 .card-body{padding:16px;background:#fff;}
 
 .date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
@@ -58,25 +58,25 @@ body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,
 .dcell{border:1px solid var(--bd);border-radius:8px;padding:11px 13px;background:var(--gb);}
 .dcell.key{background:var(--lt);border-color:var(--teal);border-width:2px;}
 .dcell.warn{background:var(--redbg);border-color:var(--red);border-width:2px;}
-.dcell .lbl{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
-.dcell .val{font-size:15px;font-weight:800;color:var(--navy);margin-top:3px;}
+.dcell .lbl{font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+.dcell .val{font-size:16px;font-weight:800;color:var(--navy);margin-top:3px;}
 .dcell.warn .val{color:var(--red);}
-.dcell .sub{font-size:10.5px;color:var(--mu);margin-top:2px;}
+.dcell .sub{font-size:12px;color:var(--mu);margin-top:2px;}
 
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
 @media(min-width:600px){.stat-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}}
 .stat{background:var(--gb);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;text-align:center;}
-.stat .lbl{font-size:9.5px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+.stat .lbl{font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
 .stat .val{font-size:17px;font-weight:800;color:var(--navy);margin-top:3px;}
 
 .pmp-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;}
-.pmp-links .lbl{font-size:11.5px;font-weight:700;color:var(--navy);margin-right:2px;}
+.pmp-links .lbl{font-size:13px;font-weight:700;color:var(--navy);margin-right:2px;}
 .pmp-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:8px;
-  border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-size:14px;font-weight:700;text-decoration:none;}
+  border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-size:16px;font-weight:700;text-decoration:none;}
 .pmp-btn:hover,.pmp-btn.on{background:var(--navy);color:#fff;}
-.pmp-btn .unv{font-weight:600;font-size:11.5px;margin-left:6px;opacity:.8;}
+.pmp-btn .unv{font-weight:600;font-size:13px;margin-left:6px;opacity:.8;}
 .info-box .pmp-btn{margin-top:8px;}
-.info-box{border-radius:8px;padding:11px 15px;margin-top:12px;font-size:12px;line-height:1.7;}
+.info-box{border-radius:8px;padding:11px 15px;margin-top:12px;font-size:14px;line-height:1.7;}
 /* One vertical rhythm inside a card: spacing comes from each block's own top
    margin, so no pair of blocks can end up touching because one of them only
    set a bottom margin. The first child sits flush on the card padding. */
@@ -87,43 +87,43 @@ body{font-family:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,
 .info-box.green{background:var(--greenbg);border:1px solid var(--green);}
 
 .copybox{position:relative;background:var(--gb);border:1px solid var(--bd);border-radius:8px;
-  padding:14px 15px;font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:12px;line-height:1.75;
+  padding:14px 15px;font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:14px;line-height:1.75;
   white-space:pre-wrap;overflow-wrap:anywhere;color:#1A1A2E;margin-top:4px;}
 .copybtn{background:var(--teal);color:var(--navy);border:0;border-radius:22px;
-  min-height:42px;padding:9px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;}
+  min-height:42px;padding:9px 20px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;}
 .copybtn:hover{background:var(--navy);color:#fff;}
 .copybtn.done{background:var(--green);color:#fff;}
 
 .tablewrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-table.ref{width:100%;border-collapse:collapse;font-size:13px;min-width:520px;}
-table.ref th{background:var(--cream);color:var(--navy);text-align:left;padding:7px 9px;font-size:11px;
+table.ref{width:100%;border-collapse:collapse;font-size:16px;min-width:520px;}
+table.ref th{background:var(--cream);color:var(--navy);text-align:left;padding:7px 9px;font-size:13px;
   border-bottom:1.5px solid var(--bd);}
 table.ref td{padding:9px 9px;border-bottom:1px solid var(--bd);}
 table.ref tr.hi td{background:var(--lt);font-weight:700;}
 
 
 .fldwrap{border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-top:4px;}
-table.fld{width:100%;border-collapse:collapse;font-size:13px;}
+table.fld{width:100%;border-collapse:collapse;font-size:16px;}
 table.fld td{padding:9px 10px;border-bottom:1px solid var(--bd);vertical-align:top;}
 table.fld tr:last-child td{border-bottom:0;}
 table.fld td.k{width:33%;font-weight:700;color:var(--navy);background:var(--gb);}
 table.fld td.v{overflow-wrap:anywhere;}
 table.fld td.b{width:74px;text-align:right;}
 .cbtn{background:var(--teal);color:var(--navy);border:0;border-radius:16px;min-height:32px;
- padding:5px 13px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;}
+ padding:5px 13px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;}
 .cbtn.done{background:var(--green);color:#fff;}
 .codewrap{display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;}
-.code-chip{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:13px;
+.code-chip{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;font-size:16px;
  font-weight:600;background:var(--cream);color:var(--navy);border:1px solid var(--bd);
  border-radius:6px;padding:4px 9px;letter-spacing:.3px;}
-.cc{display:block;font-size:10.5px;color:var(--mu);margin-top:3px;}
+.cc{display:block;font-size:12px;color:var(--mu);margin-top:3px;}
 .cc.over{color:var(--red);font-weight:800;}
 @media(max-width:520px){
   table.fld td.k{width:40%;}
   table.fld td.b{width:62px;}
-  .cbtn{padding:5px 9px;font-size:11px;}
+  .cbtn{padding:5px 9px;font-size:13px;}
 }
-footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu);
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size:13px;color:var(--mu);
   text-align:center;line-height:1.8;}
 
 
@@ -132,14 +132,14 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--bd);font-size
  padding:20px 16px 18px;margin:0 0 20px;}
 .korb-top .inner{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;
  align-items:flex-start;flex-wrap:wrap;gap:12px;}
-.korb-top .eyebrow{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--teal);
+.korb-top .eyebrow{font-size:12px;font-weight:800;letter-spacing:1.4px;color:var(--teal);
  text-transform:uppercase;margin-bottom:5px;}
 .korb-top h1{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.15;}
-.korb-top p{font-size:13px;color:#C3CBE8;margin-top:6px;max-width:60ch;}
+.korb-top p{font-size:16px;color:#C3CBE8;margin-top:6px;max-width:60ch;}
 .korb-top .tagpill{background:rgba(255,255,255,.14);border:1.5px solid var(--teal);color:#fff;
- font-size:10px;font-weight:800;letter-spacing:.9px;padding:7px 13px;border-radius:20px;
+ font-size:12px;font-weight:800;letter-spacing:.9px;padding:7px 13px;border-radius:20px;
  white-space:nowrap;align-self:center;}
-  .selnote{display:block;margin-top:4px;font-size:10.5px;font-weight:700;
+  .selnote{display:block;margin-top:4px;font-size:12px;font-weight:700;
     color:#A15C07;letter-spacing:.01em;}
 
 /* The brand cream as the page ground with the content on white, which is what
@@ -156,10 +156,10 @@ body{background:var(--cream);}
 @media(min-width:620px){.hormone-grid{grid-template-columns:1fr 1fr;}}
 .hormone-grid label{display:flex;align-items:flex-start;gap:9px;background:#fff;
   border:1.5px solid var(--bd);border-radius:8px;padding:10px 12px;cursor:pointer;
-  font-size:13px;color:var(--navy);font-weight:600;min-height:46px;}
+  font-size:16px;color:var(--navy);font-weight:600;min-height:46px;}
 .hormone-grid label:hover{border-color:var(--teal);}
 .hormone-grid input{margin-top:2px;width:18px;height:18px;flex:none;accent-color:var(--teal);}
-.hormone-grid small{display:block;font-weight:400;color:var(--mu);font-size:11px;margin-top:2px;}
+.hormone-grid small{display:block;font-weight:400;color:var(--mu);font-size:13px;margin-top:2px;}
 /* Hormone pickers. The old checkboxes gave no visible checked state - Don could
    not tell whether he had selected anything - so the whole row lights up and the
    product select only exists once it is on. */
@@ -167,21 +167,21 @@ body{background:var(--cream);}
 .hrow{border:1.5px solid var(--bd);border-radius:9px;background:#fff;overflow:hidden;}
 .hrow.on{border-color:var(--teal);border-width:2px;box-shadow:0 0 0 3px rgba(0,178,195,.12);}
 .hrow > label{display:flex;align-items:center;gap:11px;padding:12px 14px;cursor:pointer;
-  font-size:14px;font-weight:700;color:var(--navy);min-height:48px;}
+  font-size:16px;font-weight:700;color:var(--navy);min-height:48px;}
 .hrow.on > label{background:var(--lt);}
 .hrow input{width:20px;height:20px;flex:none;accent-color:var(--teal);cursor:pointer;}
-.hrow .sub{display:block;font-weight:400;color:var(--mu);font-size:11.5px;margin-top:2px;}
+.hrow .sub{display:block;font-weight:400;color:var(--mu);font-size:13px;margin-top:2px;}
 .hrow .pickwrap{padding:0 14px 13px;}
-.hrow .pickwrap label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.hrow .pickwrap label{display:block;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:5px;}
 .hrow select{width:100%;min-height:44px;padding:9px 11px;border:1.5px solid var(--teal);
-  border-radius:8px;font-size:15px;color:var(--navy);background:#fff;font-family:inherit;}
-.hrow .none{font-size:11.5px;color:var(--red);padding:0 14px 13px;}
+  border-radius:8px;font-size:16px;color:var(--navy);background:#fff;font-family:inherit;}
+.hrow .none{font-size:13px;color:var(--red);padding:0 14px 13px;}
 /* A hormone the provider may not prescribe in this state. Greyed and not
    tickable, with the reason on the row - see gateHormones(). */
 .hrow.blocked{background:var(--gb);border-color:var(--bd);opacity:.72;}
 .hrow.blocked > label{cursor:not-allowed;color:var(--mu);}
 .hrow.blocked input{cursor:not-allowed;}
-.hrow .blockwhy{display:block;font-size:11.5px;font-weight:600;color:var(--red);
+.hrow .blockwhy{display:block;font-size:13px;font-weight:600;color:var(--red);
   padding:0 14px 12px;line-height:1.55;}
 
 /* Top-level rhythm in the output. Every block gets its spacing from one rule
@@ -197,12 +197,12 @@ body{background:var(--cream);}
    that the full-width reference tables use. */
 .card-body table.ref{min-width:0;}
 .card-body .tablewrap{margin-top:14px;}
-.cardsub{font-size:11px;color:var(--mu);font-weight:700;text-transform:uppercase;
+.cardsub{font-size:13px;color:var(--mu);font-weight:700;text-transform:uppercase;
   letter-spacing:.4px;margin-bottom:10px;}
 .stat .val.code{font-family:"IBM Plex Mono",ui-monospace,"Courier New",monospace;
-  font-size:14px;font-weight:600;letter-spacing:.3px;}
+  font-size:16px;font-weight:600;letter-spacing:.3px;}
 </style>
-<script src="../korb-plan-block.js?v=e4167983"></script>
+<script src="../korb-plan-block.js?v=9363a086"></script>
 <link rel="stylesheet" href="../korb-site.css?v=f8760a42">
 </head>
 <body class="korb-site">
@@ -253,7 +253,7 @@ body{background:var(--cream);}
          2026-09-16: "If I choose estradiol it should pop up and say patch or
          cream, and then I should have the option of selecting the strength." -->
     <div style="margin-top:16px;">
-      <label style="font-size:11.5px;font-weight:700;color:var(--navy);">Hormones for this visit</label>
+      <label style="font-size:13px;font-weight:700;color:var(--navy);">Hormones for this visit</label>
       <div id="hormones" class="hpick"></div>
       <span class="hint">Tick a hormone, then choose the exact product</span>
     </div>
