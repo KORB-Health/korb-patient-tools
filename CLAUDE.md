@@ -391,6 +391,10 @@ and both hubs use the same sizes on screen. On a laptop:
   hierarchy: 13 to 15px became 16px, 12px became 14px, 11px became 13px, under
   11px became 12px; 16px and up and anything in `@media print` unchanged.
   `korb-plan-block.js` and the internal pricing page took the same ladder.
+  **Copy-and-paste boxes are 16px too** (Don, 2026-11-21): the plan note in
+  `korb-plan-block.js` (Men's, Women's, Add-On and FH&L intake tools), the
+  Message Builder and Patient Page Links boxes, the Lab tool and FH&L Clinical
+  Reference note boxes, and the Tebra copy values on both provider references.
   **A new provider tool should start at 16px body, 14px labels.** Titles keep
   their 34 to 40px. No signature moved; 45 provider pages checked at 375, 768
   and 1366px.
