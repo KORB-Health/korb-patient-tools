@@ -538,48 +538,25 @@
            buttons([{ href: t.href, value: t.buttonLabel || t.linkLabel }]);
   }
 
-  /* A way to reach a human, as a table rather than a paragraph.
-
-     .kv is the label/value table the rest of the patient set already uses, so
-     this needs no new rules and picks up the row treatment corrected on
-     2026-09-18. A value with an href is a link; Hours has none and stays text,
-     which is the whole point of storing value and href separately. */
-  /* A VALUE goes in a row. A DESTINATION gets a button.
-
-     Phone, email and hours are values: a patient reads them, copies them, or
-     taps the native affordance a phone already gives tel: and mailto:. A portal
-     sign-in is a place you go, and Don asked on 2026-09-18 for those to be
-     buttons rather than an underlined phrase to hunt for in a line of text.
-
-     They are split rather than mixed, because a one-row table whose only cell
-     holds a button looks like a mistake - which is exactly how the Patient
-     Portal row rendered on the first attempt. */
-  function ways(list, inline) {
+  /* A way to reach a human, as a row rather than a paragraph. Superseded:
+     until 2026-11-21 values went in a .kv table and the portal became a
+     button (Don, 2026-09-18). Don then chose the medication pages' clean rows
+     for every page, portal included, so they read as one contact block. */
+  function ways(list) {
+    /* THE CONTACT ROWS, one renderer for every page (Don, 2026-11-21). The
+       contact footer and the When to Contact KORB or the ER guide both draw
+       their phone, email, hours and portal lines here, as the same clean rows
+       the My GLP-1 medication pages draw: label muted, value in navy, a line
+       between rows, the portal a row like the rest. Until this date When to
+       Contact still drew the older bordered table with a separate portal
+       button, which Don found after the footer had been changed. */
     if (!list || !list.length) { return ''; }
-    var rows = [], btns = [];
-    list.forEach(function (w) {
-      (w.href && /^https?:/i.test(w.href) ? btns : rows).push(w);
-    });
-
-    var h = '';
-    if (rows.length) {
-      h += inline
-        ? rows.map(function (w) {
-            return '<p><strong>' + esc(w.label) + ':</strong> ' + valueOf(w) + '</p>';
-          }).join('')
-        : '<table class="kv"><tbody>' + rows.map(function (w) {
-            return '<tr><th>' + esc(w.label) + '</th><td>' + valueOf(w) + '</td></tr>';
-          }).join('') + '</tbody></table>';
-    }
-    if (btns.length) { h += buttons(btns); }
-    return h;
-  }
-
-  function valueOf(w) {
-    if (!w.href) { return esc(w.value); }
-    /* k-val, because a bare inline <a> in a table cell is an 18px tap target
-       and this is the phone number a patient presses. */
-    return '<a class="k-val" href="' + esc(w.href) + '">' + esc(w.value) + '</a>';
+    return '<ul class="kmp-ways">' + list.map(function (w) {
+      return '<li><span>' + esc(w.label) + '</span>' +
+        (w.href ? '<a href="' + esc(w.href) + '"' +
+           (/^https?:/i.test(w.href) ? ' target="_blank" rel="noopener"' : '') +
+           '>' + esc(w.value) + '</a>' : esc(w.value)) + '</li>';
+    }).join('') + '</ul>';
   }
 
   /* CENTRED, like every other button in the patient set.
@@ -633,13 +610,7 @@
        each a row, the portal a row rather than a button. The emergency line
        sits under the rows as small print, on both kinds of page. */
     var all = (C.operations.ways || []).concat(C.portal.ways || []);
-    return '<h2>Questions? Contact KORB</h2><ul class="kmp-ways">' +
-           all.map(function (w) {
-             return '<li><span>' + esc(w.label) + '</span>' +
-               (w.href ? '<a href="' + esc(w.href) + '"' +
-                  (/^https?:/i.test(w.href) ? ' target="_blank" rel="noopener"' : '') +
-                  '>' + esc(w.value) + '</a>' : esc(w.value)) + '</li>';
-           }).join('') + '</ul>' +
+    return '<h2>Questions? Contact KORB</h2>' + ways(all) +
            (C.emergencyNote ? '<p class="k-fine">' + esc(C.emergencyNote) + '</p>' : '');
   }
 

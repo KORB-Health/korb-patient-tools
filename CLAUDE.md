@@ -355,6 +355,18 @@ for emergencies..." as small print under the rows, on both kinds of page.
   laptop), so the two kinds of page read as one set.
 - The Men's Health overview no longer mentions Functional Health & Longevity
   (LegitScript: the main hub links it).
+- **When to Contact KORB or the ER draws the same rows** (Don, 2026-11-21):
+  its "Who to contact, and for what" section had kept the old bordered table
+  and portal button after the footer changed. `ways()` in `patient-ed-render.js`
+  is now the one contact-row renderer for both; the dead `valueOf()` helper
+  went with the old table.
+- **`cdn.realfood.gov` stopped resolving by 2026-11-21**, so the hub's Daily
+  Servings and Protein guidance links were dead. Both PDFs moved, unchanged, to
+  `www.realfood.gov/documents/` (page 3 is still the protein page). A full
+  link sweep the same day found no other dead link: 61 of 63 outside links
+  answer a script, and the two Quest pages refuse scripts but load in a
+  browser. **Nothing checks outside links automatically**; sweep them after
+  any hub or guide edit.
 - The text changed, so 38 signed pages went to SIGNED THEN CHANGED and need
   Don's re-read (none were stale before). rx-signoff unchanged.
 
@@ -3087,8 +3099,8 @@ testosterone" was either already gone or never in it.
 
    | link | what it actually is |
    |---|---|
-   | `cdn.realfood.gov/Daily%20Serving%20Sizes.pdf` | *Daily Servings by Calorie Level*, 3pp. A table across **twelve** calorie levels, 1,000 to 3,200 |
-   | `cdn.realfood.gov/DGA.pdf` | *Dietary Guidelines for Americans, 2025-2030*, 10pp. Page 3 is the protein page |
+   | `www.realfood.gov/documents/Daily%20Serving%20Sizes.pdf` (was `cdn.realfood.gov`) | *Daily Servings by Calorie Level*, 3pp. A table across **twelve** calorie levels, 1,000 to 3,200 |
+   | `www.realfood.gov/documents/DGA.pdf` (was `cdn.realfood.gov`) | *Dietary Guidelines for Americans, 2025-2030*, 10pp. Page 3 is the protein page |
    | `nal.usda.gov/.../Protein.pdf` | A 2019 **database dump**, 20pp, unformatted. See below |
 
    **The servings card printed one column of a twelve-column table as universal
