@@ -365,8 +365,8 @@ for emergencies..." as small print under the rows, on both kinds of page.
   `www.realfood.gov/documents/` (page 3 is still the protein page). A full
   link sweep the same day found no other dead link: 61 of 63 outside links
   answer a script, and the two Quest pages refuse scripts but load in a
-  browser. **Nothing checks outside links automatically**; sweep them after
-  any hub or guide edit.
+  browser. `node check-links.js` now does that sweep; see Verification
+  discipline.
 - The text changed, so 38 signed pages went to SIGNED THEN CHANGED and need
   Don's re-read (none were stale before). rx-signoff unchanged.
 
@@ -1611,6 +1611,18 @@ This repo has real self-checks. Use them, and prove they have teeth.
   **Foundation bills PER AGENT from 2026-10-13**: P01 BPC-157, P02 Sermorelin,
   P03 CJC, P04 GHK-Cu, verified against the Tebra extract in Nick's workbook.
   FH&L provider pages show the partner rate and code only.
+- `node check-links.js` — every link on every tracked page, opened in Chromium
+  because the generated pages build their links in the browser. A link to a
+  page here must name a file that exists; a link anywhere else must answer
+  2xx or 3xx. Expect "0 missing" and "0 dead", exit 0, in about a minute.
+  `--local-only` skips the network. Added 2026-11-21 after `cdn.realfood.gov`
+  stopped resolving and the hub's two USDA buttons sat dead until Don clicked
+  them; its first run also found the retired GLP-1 Provider Tool page linking a
+  folder Pages cannot serve. Quest's booking pages refuse scripts and are
+  listed as BLOCKS SCRIPTS for a hand check, never passed silently.
+  **Run it after any edit to a link, the hub or a guide.** Negative-tested both
+  halves: a planted missing page and a planted dead address each failed by
+  name, and restoring them passed.
 - `node check-feedback.js` — every released patient page ends with the feedback
   button, and `korb-feedback.js` matches `shared.feedback`. Expect "all 30",
   exit 0. See the house rule near the top of this file.
