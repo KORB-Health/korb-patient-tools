@@ -393,8 +393,9 @@ and both hubs use the same sizes on screen. On a laptop:
   pages through `build-med-pages.js`), and the block marked "ONE PATIENT TYPE
   SCALE" at the end of each hub's `<style>`. `korb-feedback.js` draws the
   footer at the same sizes.
-- **The hub hero headline is the one exception**: it stays at the korbhealth.com
-  headline size (54px), matched to the site on purpose. Nav links and the
+- **The hub hero headline is 46px too** (Don, 2026-11-21; it was 54px to match
+  the korbhealth.com headline). It keeps the site's teal, navy italic accent and
+  orange swoosh. Nav links and the
   Testosterone Tracker's weekday chips are controls, not text, and keep theirs.
 - **Provider pages take 16px body text too** (Don, 2026-11-21). The 21 generated
   provider documents share the scale above (`body.site`, prescribing block cells
