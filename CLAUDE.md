@@ -450,6 +450,10 @@ pages do not.
   feedback button) and in both hubs' footers: "...which links are opened and
   how far each video is watched...". Change all three together.
 - The injection video sits in three sections, so its counts are one total.
+- **Tagged links** (`?utm_source=text`, `email`, `intranet`, `jumpdesk`) show as
+  their own referrer. The list is `korb-clinical-docs/docs/KORB_Tagged_Links_GoatCounter_2026-11-21.md`.
+  The tag goes before any `#section`. The hub's `#longevity` forward keeps the tag
+  (`location.search`) since 2026-11-21; keep it that way.
 - Tested 2026-11-21 against the real Vimeo player: 25, 50, 75 and 100 each fired
   once; with GoatCounter's script stubbed, a milestone reached the count call
   from a non-local address and nothing was sent from localhost.
