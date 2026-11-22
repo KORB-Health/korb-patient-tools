@@ -43,6 +43,55 @@
   'use strict';
 
   var KORB_VIDEO = {
+    /* HOW FAR EACH VIDEO IS WATCHED (Don, 2026-11-21). Vimeo's own stats do not
+       see these plays: the player is opened with dnt=1, which keeps Vimeo's
+       cookies off patients and, per Vimeo, also blocks its video stats. So the
+       page listens to the player itself, through Vimeo's postMessage API (no
+       extra script), and announces 25%, 50%, 75% and the end ONCE per play as a
+       "korb:video" event on window. This file only announces; korb-count.js
+       decides whether to send it to GoatCounter, so the Do Not Track, Global
+       Privacy Control and localhost rules live in one place. What is sent is
+       the video's label and the milestone, nothing about the viewer. */
+    watch: function (frame, label) {
+      if (!label || typeof window === 'undefined' || !window.addEventListener) { return; }
+      var ORIGIN = 'https://player.vimeo.com';
+      var hit = {};
+      function post(msg) {
+        try { frame.contentWindow.postMessage(JSON.stringify(msg), ORIGIN); } catch (e) {}
+      }
+      function mark(pct) {
+        if (hit[pct]) { return; }
+        hit[pct] = true;
+        var ev;
+        try { ev = new CustomEvent('korb:video', { detail: { label: label, pct: pct } }); }
+        catch (e) { ev = document.createEvent('CustomEvent'); ev.initCustomEvent('korb:video', false, false, { label: label, pct: pct }); }
+        window.dispatchEvent(ev);
+      }
+      window.addEventListener('message', function (e) {
+        if (e.origin !== ORIGIN || e.source !== frame.contentWindow) { return; }
+        var d = e.data;
+        if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return; } }
+        if (!d || !d.event) { return; }
+        if (d.event === 'ready') {
+          /* Both the current event names and the older ones, so a player on
+             either API version reports. */
+          ['timeupdate', 'playProgress', 'ended', 'finish'].forEach(function (n) {
+            post({ method: 'addEventListener', value: n });
+          });
+          return;
+        }
+        if (d.event === 'timeupdate' || d.event === 'playProgress') {
+          var pc = d.data && (typeof d.data.percent === 'number' ? d.data.percent :
+                   (d.data.duration ? d.data.seconds / d.data.duration : 0));
+          if (pc >= 0.25) { mark(25); }
+          if (pc >= 0.5) { mark(50); }
+          if (pc >= 0.75) { mark(75); }
+          if (pc >= 0.99) { mark(100); }
+        }
+        if (d.event === 'ended' || d.event === 'finish') { mark(25); mark(50); mark(75); mark(100); }
+      });
+    },
+
     meta: {
       version: '1.0',
       host: 'Vimeo',
@@ -177,7 +226,9 @@
                   '?autoplay=1&byline=0&portrait=0&title=0&dnt=1';
           f.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
           f.setAttribute('allowfullscreen', '');
+          var lab = (b.getAttribute('aria-label') || '').replace(/^Play:\s*/, '');
           b.parentNode.replaceChild(f, b);
+          self.watch(f, lab);
         });
       }
       return nodes.length;

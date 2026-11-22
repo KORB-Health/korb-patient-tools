@@ -9,6 +9,8 @@
    WHAT IS SENT, and nothing else:
      - the page path, and for clicks a short label: the guide, tool or video
        name, or "call" / "email" / "portal" for contact links
+     - for a video, the video's name when it reaches 25%, 50%, 75% and the end
+       (added 21 Nov 2026, Don as Privacy Officer; korb-video.js announces it)
      - where the visit came from (referrer), and a campaign tag if the link
        carried one, such as ?utm_source=provider
      - screen size, browser and country, which GoatCounter derives itself
@@ -40,7 +42,7 @@
      gets this one added under its feedback button (.k-feedback), so the line
      always travels with the code that does the counting. If what is sent ever
      changes, change this line and the hub's together. */
-  var NOTE = 'We count visits to this page and which links are opened, so we know what helps. ' +
+  var NOTE = 'We count visits to this page, which links are opened and how far each video is watched, so we know what helps. ' +
     'No cookies, no names, no IP addresses, nothing you type, and nothing is used for advertising. ' +
     "If your browser's Do Not Track or Global Privacy Control setting is on, your visit is not counted.";
 
@@ -108,4 +110,15 @@
     if (!name || !window.goatcounter || !window.goatcounter.count) return;
     window.goatcounter.count({ path: 'click: ' + name, title: document.title, event: true });
   }, true);
+
+  /* HOW FAR A VIDEO IS WATCHED. korb-video.js announces each milestone once
+     per play; it is sent only here, after the opt-out and localhost rules above
+     have let this page count at all. One entry per video and milestone, e.g.
+     "video: How to Give Your Injection 75%". */
+  window.addEventListener('korb:video', function (ev) {
+    var d = ev.detail || {};
+    if (!d.label || !d.pct || !window.goatcounter || !window.goatcounter.count) return;
+    window.goatcounter.count({ path: 'video: ' + String(d.label).slice(0, 60) + ' ' + d.pct + '%',
+      title: document.title, event: true });
+  });
 }());

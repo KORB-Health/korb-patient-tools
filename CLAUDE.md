@@ -429,6 +429,33 @@ and both hubs use the same sizes on screen. On a laptop:
 
 ---
 
+## GOATCOUNTER COUNTS VIDEO PLAYS AND HOW FAR THEY ARE WATCHED (Don, 2026-11-21)
+
+Dashboard: https://korbhub.goatcounter.com (site code `korbhub` in `korb-count.js`;
+on Don's Jump Desk under 01 Daily Operations). Every page released to patients
+loads the counter (`node stamp-count.js --check`); provider pages and unreleased
+pages do not.
+
+- **A play** is the click on the video's play button: "click: tap Play: <video>".
+- **How far** (added 2026-11-21, Don as Privacy Officer): `korb-video.js` listens
+  to the Vimeo player through its postMessage API and announces 25%, 50%, 75% and
+  100% once per play as a `korb:video` event; `korb-count.js` sends it as
+  "video: <video> 75%", subject to the same Do Not Track, Global Privacy
+  Control and localhost rules. Only the video's name and the milestone are sent.
+- **Vimeo's own stats do not see these plays.** The player opens with `dnt=1`,
+  which keeps Vimeo's cookies off patients and, per Vimeo, also blocks its video
+  stats. GoatCounter is the record. Do not drop `dnt=1` to get Vimeo numbers
+  without Don's say as Privacy Officer.
+- The privacy line changed with it, in `korb-count.js` (`NOTE`, shown under every
+  feedback button) and in both hubs' footers: "...which links are opened and
+  how far each video is watched...". Change all three together.
+- The injection video sits in three sections, so its counts are one total.
+- Tested 2026-11-21 against the real Vimeo player: 25, 50, 75 and 100 each fired
+  once; with GoatCounter's script stubbed, a milestone reached the count call
+  from a non-local address and nothing was sent from localhost.
+
+---
+
 ## TRT SCHEDULING: NEXT VISIT FROM THE VISIT DATE (Don, 2026-11-12)
 
 The Men's Health tool counted the next visit, lab order and next prescription
