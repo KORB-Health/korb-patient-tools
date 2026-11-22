@@ -628,11 +628,19 @@
   function contactFooter(S, doc) {
     var C = S && S.contact;
     if (!C || (doc && doc.key === 'contact')) { return ''; }
+    /* ONE CONTACT BLOCK, Don 2026-11-21. Same heading, rows and order as the My
+       GLP-1 medication pages (korb-med-page.js): Phone, Email, Hours, Portal,
+       each a row, the portal a row rather than a button. The emergency line
+       sits under the rows as small print, on both kinds of page. */
     var all = (C.operations.ways || []).concat(C.portal.ways || []);
-    return '<h2>How to reach KORB</h2>' +
-           ways(all) +
-           (C.emergencyNote ? '<div class="callout warn"><p>' +
-              esc(C.emergencyNote) + '</p></div>' : '');
+    return '<h2>Questions? Contact KORB</h2><ul class="kmp-ways">' +
+           all.map(function (w) {
+             return '<li><span>' + esc(w.label) + '</span>' +
+               (w.href ? '<a href="' + esc(w.href) + '"' +
+                  (/^https?:/i.test(w.href) ? ' target="_blank" rel="noopener"' : '') +
+                  '>' + esc(w.value) + '</a>' : esc(w.value)) + '</li>';
+           }).join('') + '</ul>' +
+           (C.emergencyNote ? '<p class="k-fine">' + esc(C.emergencyNote) + '</p>' : '');
   }
 
   /* THE FEEDBACK FOOTER, below the page body on every patient page.

@@ -275,6 +275,9 @@
     h += '<h2>Questions? Contact KORB</h2><ul class="kmp-ways">' + ways.map(function (w) {
       return '<li><span>' + esc(w.label) + '</span>' + (w.href ? '<a href="' + esc(w.href) + '">' + esc(w.value) + '</a>' : esc(w.value)) + '</li>';
     }).join('') + '</ul>';
+    /* The emergency line every patient page carries under its contact rows
+       (Don, 2026-11-21), from shared.contact like the rows above. */
+    if (C.emergencyNote) { h += '<p class="kmp-fine">' + esc(C.emergencyNote) + '</p>'; }
   }
   h += '<p class="kmp-fine">General information for KORB patients. Your prescription label and your KORB provider are always the final word on your dose.</p>';
   host.innerHTML = h;

@@ -330,6 +330,27 @@ standard for a prescribing block is unchanged.
 
 ---
 
+## ONE CONTACT BLOCK ON EVERY PATIENT PAGE (Don, 2026-11-21)
+
+The 24 generated patient pages said "How to reach KORB" over a bordered table,
+a separate portal button and an amber box; the 16 My GLP-1 medication pages said
+"Questions? Contact KORB" over clean rows. Don found the mismatch and chose the
+clean one. Now every one of the 40 reads the same: **"Questions? Contact KORB"**,
+four rows (Phone, Email, Hours, Portal) with a hairline between them, muted
+labels, navy values at 16px, and the line "Phone and email are not appropriate
+for emergencies..." as small print under the rows, on both kinds of page.
+
+- Two renderers, one output: `contactFooter()` in `patient-ed-render.js` and
+  step 5 of `korb-med-page.js`. Both read `shared.contact`. The row styles exist
+  twice, `.kmp-ways` in `provider-doc-render.js` (generated pages) and in
+  `build-med-pages.js` (medication pages): **keep the two in step.**
+- When to Contact KORB or the ER keeps its own detailed triage section on
+  purpose and suppresses the footer.
+- The text changed, so 36 signed pages went to SIGNED THEN CHANGED and need
+  Don's re-read (none were stale before). rx-signoff unchanged.
+
+---
+
 ## TRT SCHEDULING: NEXT VISIT FROM THE VISIT DATE (Don, 2026-11-12)
 
 The Men's Health tool counted the next visit, lab order and next prescription

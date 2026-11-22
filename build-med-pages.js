@@ -64,6 +64,8 @@ h2{color:var(--navy);font-size:17px;margin:22px 0 6px;}
 ul{padding-left:20px;margin:6px 0;}
 li{margin:4px 0;}
 .kmp-btn{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;margin:4px 6px 4px 0;border:1.5px solid var(--teal);border-radius:8px;color:var(--navy);font-weight:700;text-decoration:none;}
+/* Contact rows. The generated patient pages draw the same rows from .kmp-ways
+   in provider-doc-render.js (Don, 2026-11-21): KEEP THE TWO IN STEP. */
 .kmp-ways{list-style:none;padding:0;}
 .kmp-ways li{display:flex;gap:10px;min-height:44px;align-items:center;border-bottom:1px solid var(--rule);margin:0;}
 .kmp-ways span{width:70px;color:var(--mu);font-size:13px;}

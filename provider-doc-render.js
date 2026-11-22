@@ -370,6 +370,24 @@ const CSS = RXB.CSS + `
     table.grid,table.datatbl{display:block;max-width:100%;overflow-x:auto;
       -webkit-overflow-scrolling:touch;}
     body{overflow-wrap:break-word;}
+  }
+
+  /* CONTACT ROWS, the "Questions? Contact KORB" block at the foot of every
+     patient page (Don, 2026-11-21). The same rows the My GLP-1 medication pages
+     draw from .kmp-ways in build-med-pages.js, so the two kinds of page show
+     one contact block. KEEP THE TWO IN STEP. A row per way to reach us, a
+     hairline between rows, the label muted and the value in navy. */
+  .kmp-ways{list-style:none;padding:0;margin:6pt 0;}
+  .kmp-ways li{display:flex;gap:10px;align-items:center;border-bottom:0.6pt solid var(--rule);
+    margin:0;padding:3pt 0;}
+  .kmp-ways span{flex:0 0 70px;color:#5A6070;}
+  .kmp-ways a{color:var(--navy);font-weight:700;}
+  .k-fine{color:#5A6070;margin-top:12px;}
+  @media screen{
+    .kmp-ways li{min-height:44px;padding:0;font-size:16px;}
+    .kmp-ways span{font-size:13px;}
+    .kmp-ways a{display:inline-flex;align-items:center;min-height:44px;flex:1;}
+    .k-fine{font-size:12px;}
   }`;
 
 /* WEBSITE LOOK (Don, 2026-11-20). The Patient Hub took the korbhealth.com look
