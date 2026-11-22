@@ -140,6 +140,11 @@
   /* The Program Guide's intro gets a teal edge from the ks-doc rule, so it
      needs the padding that edge assumes. */
   body.korb-site.ks-doc .lede { padding: 12px 16px; }
+  /* TABLE LINES (Don, 2026-11-21): one grey for every table cell line, the
+     same #CDD1DE as provider-doc-render.js and build-med-pages.js. The tools
+     drew theirs in six greys, two of them leftover cream. */
+  body.korb-site td, body.korb-site tbody th { border-color: #CDD1DE; }
+
   /* ONE PATIENT TYPE SCALE (Don, 2026-11-21). The hand-built patient pages
      (the four tools, Our Programs and the My GLP-1 pages) mark <body> with
      korb-patient as well as korb-site. Same sizes as the generated patient

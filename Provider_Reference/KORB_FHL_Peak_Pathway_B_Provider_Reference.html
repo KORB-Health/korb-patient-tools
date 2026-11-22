@@ -143,7 +143,7 @@
   .grid th{background:var(--navy);color:#fff;font-family:var(--sans);
            font-size:8pt;text-align:left;padding:5pt 8pt;font-weight:600;
            border:0.6pt solid var(--navy);}
-  .grid td{border:0.6pt solid var(--rule);padding:5pt 8pt;font-size:8.6pt;}
+  .grid td{border:0.6pt solid var(--rule);padding:5pt 8pt;font-size:8.6pt;vertical-align:top;}
   .grid tr:nth-child(even) td{background:var(--zebra);}
 
   /* A COLUMN HEADER IS NAVY. A ROW LABEL IS NOT.
@@ -369,7 +369,7 @@
      one contact block. KEEP THE TWO IN STEP. A row per way to reach us, a
      hairline between rows, the label muted and the value in navy. */
   .kmp-ways{list-style:none;padding:0;margin:6pt 0;}
-  .kmp-ways li{display:flex;gap:10px;align-items:center;border-bottom:0.6pt solid var(--rule);
+  .kmp-ways li{display:flex;gap:10px;align-items:center;border-bottom:0.6pt solid #CDD1DE;
     margin:0;padding:3pt 0;}
   .kmp-ways span{flex:0 0 70px;color:#5A6070;}
   .kmp-ways a{color:var(--navy);font-weight:700;}
@@ -422,6 +422,14 @@
     font-family:var(--sans); color:var(--site-text); background:#fff;
     border-color:#E4E6EE; line-height:1.6; }
   body.site p, body.site li, body.site td { color:var(--site-text); }
+
+  /* TABLE LINES, Don 2026-11-21. The site hairline #E4E6EE is about 1.2:1 on
+     white: right for the line under a heading, too faint to separate the
+     columns of a table, where it all but disappeared. Every table cell line on
+     every page is #CDD1DE (the form-field outline grey), the same value in
+     korb-site.css and build-med-pages.js, and cells align to the top so every
+     column starts under its heading. Navy header rows are untouched. */
+  body.site td, body.site tbody th { border-color:#CDD1DE; vertical-align:top; }
 
   /* ONE PATIENT TYPE SCALE (Don, 2026-11-21): the same sizes on every patient
      page, generated or hand-built, so a guide, a medication page, a tool and
@@ -505,7 +513,7 @@
 <script src="../korb-pharmacies.js?v=fa6c7d55"></script>
 <script src="../korb-dosing-data.js?v=44acbe61"></script>
 <script src="../korb-rx-block.js?v=c20c31df"></script>
-<script src="../provider-doc-render.js?v=b4d4a290"></script>
+<script src="../provider-doc-render.js?v=47258122"></script>
 <script src="../fhl-doc-render.js?v=57331b1a"></script>
 <script>
   /* Renders from the data file at page load, so this document is never stale.

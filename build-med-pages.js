@@ -91,7 +91,7 @@ body.korb-site .k-feedback h2{font-size:clamp(26px,3.4vw,30px);}
 body.korb-site .kmp-dose{border:1px solid var(--ks-line);background:var(--ks-grey);border-radius:16px;}
 body.korb-site .kmp-box.teal{background:var(--ks-grey);border-left:3px solid var(--ks-teal);border-radius:0 12px 12px 0;}
 body.korb-site .kmp-box.amber,body.korb-site .kmp-box.red{border-radius:0 12px 12px 0;}
-body.korb-site .kmp-cmp th,body.korb-site .kmp-cmp td,body.korb-site .kmp-ways li{border-bottom-color:var(--ks-line);}
+body.korb-site .kmp-cmp th,body.korb-site .kmp-cmp td,body.korb-site .kmp-ways li{border-bottom-color:#CDD1DE;}
 body.korb-site .kmp-cards div{border-color:var(--ks-line);background:var(--ks-grey);border-radius:12px;}
 body.korb-site .kmp-select{border-color:#CDD1DE;border-radius:10px;}
 body.korb-site .kmp-btn{border-radius:999px;border-color:var(--ks-navy);font-weight:600;}

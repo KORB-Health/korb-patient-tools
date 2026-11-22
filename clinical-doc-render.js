@@ -744,7 +744,7 @@ function renderBody(data, pharmacies, doc) {
        'font-size:11px;letter-spacing:.02em;padding:7px 12px;}' +
        '.datatbl td{padding:6px 12px;vertical-align:top;border-top:1px solid #E7EBF3;}' +
        '.datatbl tbody tr:nth-child(even){background:#EDF1F8;}' +
-       '.datatbl th+th,.datatbl td+td{border-left:1px solid #D7DCE8;}' +
+       '.datatbl th+th,.datatbl td+td{border-left:1px solid #CDD1DE;}' +
        '.stategroup{border:1px solid #D7DCE8;background:#fff;border-radius:3px;' +
        'padding:9pt 11pt;margin:9pt 0;break-inside:avoid;}' +
        '.stategroup h3{margin:0 0 5pt;font-size:12px;color:#21275B;}' +

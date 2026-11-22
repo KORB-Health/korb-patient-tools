@@ -394,6 +394,19 @@ and both hubs use the same sizes on screen. On a laptop:
   **A new provider tool should start at 16px body, 14px labels.** Titles keep
   their 34 to 40px. No signature moved; 45 provider pages checked at 375, 768
   and 1366px.
+- **Table lines are #CDD1DE, and table cells align to the top** (Don,
+  2026-11-21). The site hairline #E4E6EE (about 1.2:1 on white) made table
+  borders all but disappear, and the cells were centred vertically, so a short
+  column floated in the middle of a tall row. One grey for every table cell
+  line on every page, patient and provider: `body.site td` in `SITE_CSS`,
+  `body.korb-site td` in `korb-site.css`, `.kmp-cmp` and `.kmp-ways` in
+  `build-med-pages.js`, `.datatbl` in `clinical-doc-render.js`, the pricing
+  page's light theme. The contact rows use it too. The line under a heading
+  stays the lighter site hairline on purpose. Navy header rows unchanged. The
+  one darker line left is deliberate: the divider before the result columns of
+  the FH&L lab tables (`.labtbl`, #9AA3BD).
+- The standalone BMI calculator's copy of `korb-site.css` was re-pasted the
+  same day.
 - Size only: no fingerprint moved. Checked at 375, 768 and 1366px on all 47
   patient pages: no sideways scroll, no script errors.
 
