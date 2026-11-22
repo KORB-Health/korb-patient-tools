@@ -15,7 +15,7 @@
 (function () {
   var F = {
     heading: 'Help us make KORB better',
-    lead: 'Your experience matters to us. If something was especially helpful, confusing, frustrating, or you have an idea that could make your experience better, we want to hear it. Please do not include your name or any health details. For questions about your care, call our Care Team at 888-959-7299 or email info@korbhealth.com.',
+    lead: 'Your experience matters to us. If something was especially helpful, confusing, frustrating, or you have an idea that could make your experience better, we want to hear it. Please do not include your name or any health details. For questions about your care, call our Care Team at (888) 959-7299 or email info@korbhealth.com.',
     label: 'Share your feedback →',
     url: 'https://docs.google.com/forms/d/e/1FAIpQLSeLCEIpK8ae1Xud7d4UqeATkqb45gW-wO0lFVxToTUROQ8_Qw/viewform',
     pageField: 'entry.1732430176'

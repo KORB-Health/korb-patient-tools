@@ -883,7 +883,7 @@ var KORB_PATIENT_ED = {
             'confusing, frustrating, or you have an idea that could make your ' +
             'experience better, we want to hear it. Please do not include your ' +
             'name or any health details. For questions about your care, call our ' +
-            'Care Team at 888-959-7299 or email info@korbhealth.com.',
+            'Care Team at (888) 959-7299 or email info@korbhealth.com.',
       label: 'Share your feedback →',
       url: 'https://docs.google.com/forms/d/e/1FAIpQLSeLCEIpK8ae1Xud7d4UqeATkqb45gW-wO0lFVxToTUROQ8_Qw/viewform',
       pageField: 'entry.1732430176'
@@ -891,7 +891,7 @@ var KORB_PATIENT_ED = {
 
     contact: {
       operations: {
-        title: 'Contact KORB Operations',
+        title: 'Contact our Care Team',
         /* STRUCTURED, BECAUSE THESE WERE PRINTED AND NOT REACHABLE.
            'Email: info@korbhealth.com' was a string in a paragraph on every page
            that renders this block. It read as contact information and none of it
@@ -943,7 +943,7 @@ var KORB_PATIENT_ED = {
         'on their clinic days, so a message sent on a day your provider is not in ' +
         'clinic is not read until the next one. If you are not sure which days ' +
         'those are, ask at your next visit. For anything that does not need your ' +
-        'provider’s direct medical judgment, contact KORB Operations by phone or ' +
+        'provider’s direct medical judgment, contact our Care Team by phone or ' +
         'email instead.',
       emergencyNote:
         'Phone and email are not appropriate for emergencies. When in doubt, go to ' +
@@ -1026,10 +1026,10 @@ var KORB_PATIENT_ED = {
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
-      pricing: 'For current Foundation Program pricing, contact KORB Operations or ask your provider at your visit.',
+      pricing: 'For current Foundation Program pricing, contact our Care Team or ask your provider at your visit.',
       cycle: [
         'Baseline visit, labs only. No prescription is sent at your first visit.',
-        'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
+        'Once your baseline labs are back, our Care Team schedules the visit that starts your 16-week cycle.',
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
@@ -1056,7 +1056,7 @@ var KORB_PATIENT_ED = {
         'Your provider selects your Foundation medication. This guide is a general orientation, not personalized medical advice.',
         'Only one medication is active at a time. You may switch to a different medication at your next follow-up if you and your provider agree.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
-        'For current program pricing, contact KORB Operations or ask your provider.'
+        'For current program pricing, contact our Care Team or ask your provider.'
       ]
     },
 
@@ -1115,10 +1115,10 @@ var KORB_PATIENT_ED = {
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
-      pricing: 'For current Gateway Program pricing, contact KORB Operations or ask your provider at your visit.',
+      pricing: 'For current Gateway Program pricing, contact our Care Team or ask your provider at your visit.',
       cycle: [
         'Baseline visit, labs only. No prescription is sent at your first visit.',
-        'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
+        'Once your baseline labs are back, our Care Team schedules the visit that starts your 16-week cycle.',
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
@@ -1147,7 +1147,7 @@ var KORB_PATIENT_ED = {
         'GHK-Cu is optional and only included if prescribed.',
         'Your provider sets your schedule. This guide is a general orientation, not personalized medical advice.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
-        'For current program pricing, contact KORB Operations or ask your provider.'
+        'For current program pricing, contact our Care Team or ask your provider.'
       ]
     },
 
@@ -1217,10 +1217,10 @@ var KORB_PATIENT_ED = {
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
-      pricing: 'For current Peak Program pricing, contact KORB Operations or ask your provider at your visit.',
+      pricing: 'For current Peak Program pricing, contact our Care Team or ask your provider at your visit.',
       cycle: [
         'Baseline visit, labs only. No prescription is sent at your first visit.',
-        'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
+        'Once your baseline labs are back, our Care Team schedules the visit that starts your 16-week cycle.',
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
@@ -1248,7 +1248,7 @@ var KORB_PATIENT_ED = {
         'Your provider selects your pathway. Pathways A and B are alternatives, not a combination.',
         'GHK-Cu is optional and only included if prescribed.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
-        'For current program pricing, contact KORB Operations or ask your provider.'
+        'For current program pricing, contact our Care Team or ask your provider.'
       ]
     },
 
@@ -1312,10 +1312,10 @@ var KORB_PATIENT_ED = {
           '**Hair loss prescriptions are not interchangeable between people.** The men’s oral treatment, finasteride, must never be taken by a woman who is or could become pregnant, because it can cause serious birth defects. Never take, share or borrow someone else’s prescription, including a partner’s.'
         ]
       },
-      pricing: 'For current pricing on any program option, contact KORB Operations or ask your provider at your visit.',
+      pricing: 'For current pricing on any program option, contact our Care Team or ask your provider at your visit.',
       cycle: [
         'Baseline visit, labs only. No prescription is sent at your first visit.',
-        'Once your baseline labs are back, KORB Operations schedules the visit that starts your 16-week cycle.',
+        'Once your baseline labs are back, our Care Team schedules the visit that starts your 16-week cycle.',
         'At that visit your provider reviews your labs and starts your treatment.',
         'A lab order is placed at the beginning of your cycle for a draw at Quest Diagnostics, to be completed between weeks 12 and 14, so results are back before your follow-up visit.',
         'At your 16-week follow-up your provider reviews your labs and your response, then continues or changes your treatment for the next cycle.',
@@ -1342,7 +1342,7 @@ var KORB_PATIENT_ED = {
         'Your provider recommends your program option after your intake and labs. This guide is a general orientation, not personalized medical advice.',
         'All three program options run on the same 16-week cycle with a lab draw between weeks 12 and 14.',
         'Baseline visit is labs only. No prescription is sent at your first visit.',
-        'For current program pricing, contact KORB Operations or ask your provider.'
+        'For current program pricing, contact our Care Team or ask your provider.'
       ]
     }
   },
@@ -1867,7 +1867,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Pricing',
           paras: [
-            'For current Weight Loss Program pricing, contact KORB Operations or ask your provider at your visit.'
+            'For current Weight Loss Program pricing, contact our Care Team or ask your provider at your visit.'
           ]
         }
       ],
@@ -1875,7 +1875,7 @@ var KORB_PATIENT_ED = {
         'Compounded medication is not FDA-approved. The active ingredient is the same one used in the brand-name product.',
         'If you have diabetes or pre-diabetes, keep that care with the clinician who manages it.',
         'Your dose increases gradually. Do not change it on your own.',
-        'For current pricing, contact KORB Operations or ask your provider.'
+        'For current pricing, contact our Care Team or ask your provider.'
       ]
     },
 
@@ -1892,7 +1892,7 @@ var KORB_PATIENT_ED = {
         'KORB\'s Men\'s Health Program is care for adult men with low testosterone. Treatment is testosterone replacement therapy (TRT), started only after lab work confirms your levels are low, and prescribed and monitored by a licensed KORB provider.',
         'Most men come to us for ongoing fatigue, reduced strength or muscle, more body fat, low sex drive, low mood or motivation, or slow recovery from exercise. You do not need to have all of them. What matters is how you feel and what your labs show.',
         'Four optional optimization products are available alongside it: KORB Rise, a sexual health treatment for men; hair loss treatment; skin care; and anti-aging.',
-        'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss & Metabolic Health, or with Functional Health & Longevity. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
+        'Men\'s Health also works alongside other KORB programs. Many men combine it with Weight Loss & Metabolic Health. Your provider will confirm the combination is appropriate and make sure nothing conflicts.'
       ],
       sections: [
         {
@@ -1969,7 +1969,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Pricing',
           paras: [
-            'For current Men\'s Health Program pricing, contact KORB Operations or ask your provider at your visit.'
+            'For current Men\'s Health Program pricing, contact our Care Team or ask your provider at your visit.'
           ]
         }
       ],
@@ -2064,7 +2064,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Pricing',
           paras: [
-            'For current Women\'s Health Program pricing, contact KORB Operations or ask your provider at your visit.'
+            'For current Women\'s Health Program pricing, contact our Care Team or ask your provider at your visit.'
           ]
         }
       ],
@@ -2135,7 +2135,7 @@ var KORB_PATIENT_ED = {
           items: [
             'Baseline visit. Labs only. No prescription is sent at this visit.',
             'Your labs come back, usually within about a week.',
-            'KORB Operations schedules the visit that starts your 16-week cycle.',
+            'Our Care Team schedules the visit that starts your 16-week cycle.',
             'At that visit your provider reviews your labs and confirms your program option and your medication.',
             'Your medication ships from the pharmacy with its own instructions.',
             'A lab order is placed for a draw between weeks 12 and 14, so results are back before your follow-up.',
@@ -2247,7 +2247,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'What to bring',
           paras: [
-            'A photo ID. If the Quest site cannot find your lab order, contact KORB Operations.'
+            'A photo ID. If the Quest site cannot find your lab order, contact our Care Team.'
           ]
         },
         {
@@ -2996,7 +2996,7 @@ var KORB_PATIENT_ED = {
         'Your break from injections is intentional. Do not restart early.',
         'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
         'Response varies, and more is not better. Do not adjust your dose unless your provider tells you to.',
-        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Contact our Care Team for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
     },
@@ -3123,7 +3123,7 @@ var KORB_PATIENT_ED = {
         'Write the open date on your vial and discard 28 days after first use.',
         'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
         'Your break from injections is intentional. Do not restart early.',
-        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Contact our Care Team for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
     },
@@ -3243,7 +3243,7 @@ var KORB_PATIENT_ED = {
         'Write the open date on your vial and discard 28 days after first use.',
         'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
         'Your break from injections is intentional. Do not restart early.',
-        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Contact our Care Team for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
     },
@@ -3351,7 +3351,7 @@ var KORB_PATIENT_ED = {
         'Write the open date on your vial and discard 28 days after first use.',
         'Labs between weeks 12 and 14 are required before your 16-week follow-up visit.',
         'Do not restart your course early after the off weeks.',
-        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Contact our Care Team for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
     },
@@ -3474,7 +3474,7 @@ var KORB_PATIENT_ED = {
         'Never use it if you have Wilson\u2019s disease.',
         'Copper, zinc and ceruloplasmin are watched closely and may end therapy if they rise.',
         'Write the open date on your vial and discard 28 days after first use.',
-        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Contact our Care Team for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
     },
@@ -3744,7 +3744,7 @@ var KORB_PATIENT_ED = {
         'Write the open date on your vial and discard 28 days after first use.',
         'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
         'KORB does not order labs for this program. Lab work is a conversation with your primary care provider.',
-        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Contact our Care Team for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
     },
@@ -3984,7 +3984,7 @@ var KORB_PATIENT_ED = {
         'Write the open date on your vial and discard 28 days after first use.',
         'Most patients do well when they follow the nutrition guidance above. Tell your provider if nausea is severe or persistent.',
         'KORB does not order labs for this program. Lab work is a conversation with your primary care provider.',
-        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Contact our Care Team for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
     },
@@ -4224,7 +4224,7 @@ var KORB_PATIENT_ED = {
         'Discard your vial 90 days after first use, even if medication is left.',
         'Never increase your own dose. Higher is not better and carries real risk.',
         'Store at room temperature, not in the refrigerator.',
-        'Contact KORB Operations for non-urgent questions, your provider through the ' +
+        'Contact our Care Team for non-urgent questions, your provider through the ' +
         'Patient Portal for medical questions, and emergency care for severe symptoms.'
       ]
     }

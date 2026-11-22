@@ -346,7 +346,16 @@ for emergencies..." as small print under the rows, on both kinds of page.
   `build-med-pages.js` (medication pages): **keep the two in step.**
 - When to Contact KORB or the ER keeps its own detailed triage section on
   purpose and suppresses the footer.
-- The text changed, so 36 signed pages went to SIGNED THEN CHANGED and need
+- **"Our Care Team", never "KORB Operations", on anything a patient reads** (Don,
+  2026-11-21). Phone and email are "our Care Team"; medical questions go to
+  "your provider" through the Patient Portal. The phone number is written
+  (888) 959-7299 everywhere, the feedback footers included. Provider pages and
+  the Director of Clinical Operations title keep "Operations".
+- The medication pages' h1 and h2 take the guides' sizes (46px and 30px on a
+  laptop), so the two kinds of page read as one set.
+- The Men's Health overview no longer mentions Functional Health & Longevity
+  (LegitScript: the main hub links it).
+- The text changed, so 38 signed pages went to SIGNED THEN CHANGED and need
   Don's re-read (none were stale before). rx-signoff unchanged.
 
 ---

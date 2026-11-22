@@ -83,11 +83,11 @@ li{margin:4px 0;}
 body.korb-site .kmp-mast{border-bottom:1px solid var(--ks-line);padding-bottom:10px;}
 body.korb-site .kmp-tools a{color:var(--ks-navy);}
 body.korb-site .kmp-by{color:#7A809C;}
-body.korb-site .kmp-title h1{font-size:40px;line-height:1.05;margin-top:22px;}
+body.korb-site .kmp-title h1{font-size:clamp(34px,5vw,46px);line-height:1.05;margin-top:22px;}
 body.korb-site .kmp-title p{color:var(--ks-teal-ink);font-weight:600;margin-top:8px;}
-body.korb-site h2{font-family:var(--ks-serif);font-weight:700;font-size:26px;line-height:1.15;color:var(--ks-navy);
+body.korb-site h2{font-family:var(--ks-serif);font-weight:700;font-size:clamp(26px,3.4vw,30px);line-height:1.15;color:var(--ks-navy);
   margin:34px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--ks-line);}
-body.korb-site .k-feedback h2{font-size:28px;}
+body.korb-site .k-feedback h2{font-size:clamp(26px,3.4vw,30px);}
 body.korb-site .kmp-dose{border:1px solid var(--ks-line);background:var(--ks-grey);border-radius:16px;}
 body.korb-site .kmp-box.teal{background:var(--ks-grey);border-left:3px solid var(--ks-teal);border-radius:0 12px 12px 0;}
 body.korb-site .kmp-box.amber,body.korb-site .kmp-box.red{border-radius:0 12px 12px 0;}
