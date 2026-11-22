@@ -140,6 +140,19 @@
   /* The Program Guide's intro gets a teal edge from the ks-doc rule, so it
      needs the padding that edge assumes. */
   body.korb-site.ks-doc .lede { padding: 12px 16px; }
+  /* ONE PATIENT TYPE SCALE (Don, 2026-11-21). The hand-built patient pages
+     (the four tools, Our Programs and the My GLP-1 pages) mark <body> with
+     korb-patient as well as korb-site. Same sizes as the generated patient
+     pages (body.site.patient in provider-doc-render.js): KEEP THE TWO IN STEP.
+     Title 46px, section 30px, body 16px. Body text is set with :where() so it
+     has no more weight than a bare p: a tool's own fine print and labels,
+     which carry a class, keep their sizes. Provider tools never take this. */
+  body.korb-site.korb-patient h1 { font-size: clamp(34px, 5vw, 46px); line-height: 1.05; }
+  body.korb-site.korb-patient .ks-head, body.korb-site.korb-patient .sec { font-size: clamp(26px, 3.4vw, 30px); }
+  :where(body.korb-site.korb-patient) p, :where(body.korb-site.korb-patient) li { font-size: 16px; }
+  /* Buttons 16px, weight 600, as on the generated pages and the hubs. The
+     Testosterone Tracker's weekday chips (.day) are a picker, not buttons. */
+  body.korb-site.korb-patient :is(button, .btn, .btn-primary, .top-btn):not(.day) { font-size: 16px; font-weight: 600; }
 }
 /* NO ZOOM ON TAP. iPhone Safari zooms the whole page when someone taps a field
    whose text is under 16px, and does not zoom back out. Several tools set 13 to

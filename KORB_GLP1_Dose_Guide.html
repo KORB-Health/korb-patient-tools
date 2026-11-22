@@ -45,13 +45,14 @@ body{font-family:Arial,sans-serif;font-size:14px;color:#1A1A2E;background:#fff;}
 footer{margin-top:30px;font-size:11px;color:var(--mu);text-align:center;line-height:1.8;}
 </style>
 <link rel="stylesheet" href="korb-page-chrome.css?v=07993117">
-<link rel="stylesheet" href="korb-site.css?v=44f0c287">
+<link rel="stylesheet" href="korb-site.css?v=f8760a42">
 <style>
 /* WEBSITE LOOK, 2026-11-20. korb-site.css sets the fonts and surfaces; these
    map this page's own classes onto it. Screen only; print is unchanged. */
 @media screen{
 body.korb-site .top-bar{border-bottom:1px solid var(--ks-line);}
-body.korb-site .top-bar-title h1{font-family:var(--ks-serif);font-size:36px;line-height:1.08;}
+body.korb-site .top-bar-title h1{font-family:var(--ks-serif);font-size:clamp(34px,5vw,46px);line-height:1.05;}
+body.korb-site .empty h2{font-size:17px;font-weight:700;}
 body.korb-site .top-bar-title p{color:var(--ks-text);font-size:14px;margin-top:4px;}
 body.korb-site .controls{background:var(--ks-grey);border:1px solid var(--ks-line);border-radius:16px;}
 body.korb-site .cg select,body.korb-site .cg input{border-color:#CDD1DE;border-radius:10px;padding:10px 12px;font-size:14px;}
@@ -69,7 +70,7 @@ body.korb-site .supply-row button.active:hover{background:var(--ks-teal);border-
 }
 </style>
 </head>
-<body class="korb-sheet korb-site">
+<body class="korb-sheet korb-site korb-patient">
 <div class="wrap">
   <div class="top-bar">
     <div class="top-bar-title">
@@ -278,6 +279,6 @@ function renderResult(){
   output.innerHTML=html;
 }
 </script>
-<script src="korb-feedback.js?v=5e73feaf" data-page="My GLP-1 Dose &amp; Injection Guide"></script>
+<script src="korb-feedback.js?v=773068d4" data-page="My GLP-1 Dose &amp; Injection Guide"></script>
 </body>
 </html>

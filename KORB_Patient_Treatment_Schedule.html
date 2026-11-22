@@ -154,13 +154,14 @@ table.wk tr.washout-row td{background:#F3E8FA;-webkit-print-color-adjust:exact;p
 }
 </style>
 <link rel="stylesheet" href="korb-page-chrome.css?v=07993117">
-<link rel="stylesheet" href="korb-site.css?v=44f0c287">
+<link rel="stylesheet" href="korb-site.css?v=f8760a42">
 <style>
 /* WEBSITE LOOK, 2026-11-20. korb-site.css sets the fonts and surfaces; these
    map this page's own classes onto it. Screen only; print is unchanged. */
 @media screen{
 body.korb-site .top-bar{border-bottom:1px solid var(--ks-line);}
-body.korb-site .top-bar-title h1{font-family:var(--ks-serif);font-size:36px;line-height:1.08;}
+body.korb-site .top-bar-title h1{font-family:var(--ks-serif);font-size:clamp(34px,5vw,46px);line-height:1.05;}
+body.korb-site .empty h2{font-size:17px;font-weight:700;}
 body.korb-site .top-bar-title p{color:var(--ks-text);font-size:14px;margin-top:4px;}
 body.korb-site .controls{background:var(--ks-grey);border:1px solid var(--ks-line);border-radius:16px;}
 body.korb-site .cg select,body.korb-site .cg input{border-color:#CDD1DE;border-radius:10px;padding:10px 12px;font-size:14px;}
@@ -170,7 +171,7 @@ body.korb-site .stat{background:var(--ks-grey);border-color:var(--ks-line);}
 body.korb-site .result-card{border-color:var(--ks-line);border-radius:16px;}
 body.korb-site .ks-rule{height:1px !important;background:var(--ks-line) !important;}
 body.korb-site .ks-band{background:none !important;padding:4px 0 0 !important;}
-body.korb-site .ks-band-t{font-family:var(--ks-serif) !important;color:var(--ks-navy) !important;font-size:40px !important;line-height:1.05 !important;}
+body.korb-site .ks-band-t{font-family:var(--ks-serif) !important;color:var(--ks-navy) !important;font-size:clamp(34px,5vw,46px) !important;line-height:1.05 !important;}
 body.korb-site .ks-band-s{color:var(--ks-teal-ink) !important;font-size:14px !important;font-weight:600 !important;margin-top:8px !important;}
 body.korb-site .ks-stamp{background:none !important;text-align:left !important;padding:4px 0 0 !important;color:#7A809C !important;}
 body.korb-site .top-btn{border-radius:999px;background:#fff;color:var(--ks-navy);border:1.5px solid var(--ks-navy);font-weight:600;padding:8px 16px;}
@@ -184,7 +185,7 @@ body.korb-site .top-btn:hover{background:var(--ks-navy);color:#fff;}
 }
 </style>
 </head>
-<body class="korb-sheet korb-site">
+<body class="korb-sheet korb-site korb-patient">
 <div class="wrap">
 
 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
@@ -849,6 +850,6 @@ function buildWeekTable(start,prog,agentKeys,ghkOn){
   return html;
 }
 </script>
-<script src="korb-feedback.js?v=5e73feaf" data-page="My Treatment Schedule"></script>
+<script src="korb-feedback.js?v=773068d4" data-page="My Treatment Schedule"></script>
 </body>
 </html>

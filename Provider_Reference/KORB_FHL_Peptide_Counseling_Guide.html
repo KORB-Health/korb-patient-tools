@@ -422,6 +422,25 @@
     font-family:var(--sans); color:var(--site-text); background:#fff;
     border-color:#E4E6EE; line-height:1.6; }
   body.site p, body.site li, body.site td { color:var(--site-text); }
+
+  /* ONE PATIENT TYPE SCALE (Don, 2026-11-21): the same sizes on every patient
+     page, generated or hand-built, so a guide, a medication page, a tool and
+     the hub read as one set. Title 46px, section 30px (the h1 and h2 rules
+     below), sub-heading 17px, body 16px, buttons 16px, fine print 13px.
+     body.site.patient is written by build-patient-ed.js only; the provider
+     documents keep their denser 14px reference scale. korb-site.css carries
+     the same scale for the hand-built patient pages: KEEP THE TWO IN STEP. */
+  body.site.patient { font-size:16px; }
+  body.site.patient p, body.site.patient li, body.site.patient td,
+  body.site.patient .kv td, body.site.patient .grid td,
+  body.site.patient .callout p, body.site.patient .callout li { font-size:16px; }
+  body.site.patient .kv th, body.site.patient .grid th { font-size:14px; }
+  body.site.patient h3, body.site.patient .callout h3 { font-size:17px; }
+  body.site.patient h4 { font-size:16px; }
+  body.site.patient .fine, body.site.patient .foot, body.site.patient .callout .fine,
+  body.site.patient p.k-fine { font-size:13px; }
+  body.site.patient .k-pill, body.site.patient .k-step, body.site.patient .k-pill-n { font-size:16px; }
+  body.site.patient .k-pill-d { font-size:13px; }
   body.site strong { color:var(--ink); }
   body.site .mast { border-bottom:1px solid #E4E6EE; padding-bottom:12px; margin-bottom:26px; }
   body.site .mast .tools { font-family:var(--sans); }
@@ -433,7 +452,7 @@
   body.site h1 { font-family:var(--serif); font-weight:700; color:var(--navy);
     font-size:clamp(34px,5vw,46px); line-height:1.05; letter-spacing:0; }
   body.site .titleband .sub { font-family:var(--sans); color:#00808D; font-weight:600;
-    font-size:14px; letter-spacing:.01em; margin:12px 0 0; }
+    font-size:15px; letter-spacing:.01em; margin:12px 0 0; }
   /* NO text-transform here, or on anything a patient reads. artifact-signoff.js
      fingerprints innerText, and innerText follows text-transform: an uppercase
      subtitle made this signed page read as changed. Found on the sample. */
@@ -487,7 +506,7 @@
 <script src="../korb-rx-block.js?v=c20c31df"></script>
 <script src="../korb-dosing-data.js?v=44acbe61"></script>
 <script src="../korb-fhl-counsel-data.js?v=f0849f58"></script>
-<script src="../provider-doc-render.js?v=b51ff040"></script>
+<script src="../provider-doc-render.js?v=0dafb9e5"></script>
 <script src="../clinical-doc-render.js?v=01dbf27c"></script>
 <script>
   /* Renders from the data files at page load, so this document is never stale.

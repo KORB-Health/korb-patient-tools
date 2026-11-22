@@ -360,6 +360,36 @@ for emergencies..." as small print under the rows, on both kinds of page.
 
 ---
 
+## ONE TYPE SCALE ON EVERY PATIENT PAGE (Don, 2026-11-21)
+
+Guides, medication pages, the four patient tools, Our Programs, the 404 page
+and both hubs use the same sizes on screen. On a laptop:
+
+| | |
+|---|---|
+| Page title (h1) | Cormorant 700, `clamp(34px,5vw,46px)` (34px on a phone) |
+| Section heading (h2) | Cormorant 700, `clamp(26px,3.4vw,30px)` |
+| Sub-heading, card title, tool prompt | DM Sans 700, 17px |
+| Body text | DM Sans 400, 16px |
+| Buttons | DM Sans 600, 16px |
+| Fine print | 12 to 13px |
+
+- **Where it lives, three places, keep them in step:** `body.site.patient` in
+  `SITE_CSS` (`provider-doc-render.js`; `build-patient-ed.js` writes the
+  `patient` class), `body.korb-site.korb-patient` in `korb-site.css` (the
+  hand-built patient pages carry `korb-patient` on `<body>`, the medication
+  pages through `build-med-pages.js`), and the block marked "ONE PATIENT TYPE
+  SCALE" at the end of each hub's `<style>`. `korb-feedback.js` draws the
+  footer at the same sizes.
+- **The hub hero headline is the one exception**: it stays at the korbhealth.com
+  headline size (54px), matched to the site on purpose. Nav links and the
+  Testosterone Tracker's weekday chips are controls, not text, and keep theirs.
+- Provider pages keep their denser 14px reference scale.
+- Size only: no fingerprint moved. Checked at 375, 768 and 1366px on all 47
+  patient pages: no sideways scroll, no script errors.
+
+---
+
 ## TRT SCHEDULING: NEXT VISIT FROM THE VISIT DATE (Don, 2026-11-12)
 
 The Men's Health tool counted the next visit, lab order and next prescription

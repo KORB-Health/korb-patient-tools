@@ -1663,7 +1663,7 @@ var KORB_PATIENT_ED = {
         {
           h: 'Getting refills',
           paras: [
-            'There is no lab work and no scheduled follow-up for this treatment. When you need more, send a message through the patient portal and your provider will review it. Do not wait until you are completely out.'
+            'There is no lab work and no scheduled follow-up for this treatment. When you need more, send a message through the Patient Portal and your provider will review it. Do not wait until you are completely out.'
           ]
         }
       ,
@@ -1676,7 +1676,7 @@ var KORB_PATIENT_ED = {
         'Never combine with nitrates for chest pain. This can be life-threatening.',
         'Take about 30 minutes before sexual activity. The effect lasts up to 36 hours.',
         'An erection lasting more than 4 hours is a medical emergency. Go to the emergency room.',
-        'No lab work and no scheduled follow-up. Request refills through the portal before you run out.'
+        'No lab work and no scheduled follow-up. Request refills through the Patient Portal before you run out.'
       ]
     },
 

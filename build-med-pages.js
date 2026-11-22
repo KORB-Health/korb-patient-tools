@@ -134,7 +134,7 @@ ${CSS}
 <link rel="stylesheet" href="../korb-page-chrome.css">
 <link rel="stylesheet" href="../korb-site.css">
 </head>
-<body class="korb-sheet korb-site">
+<body class="korb-sheet korb-site korb-patient">
 <div class="wrap">
 <header class="kmp-mast"><img src="${LOGO_URI}" alt="KORB Health"><div class="kmp-tools"><a href="#" onclick="window.print();return false;">Print</a></div></header>
 <p class="kmp-by">KORB Health Medical Texas PA · Patient education</p>

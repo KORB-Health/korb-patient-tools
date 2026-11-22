@@ -314,7 +314,7 @@ ${SCREEN}
 ${R.CHOICE_CSS}
 ${site ? SITE : ''}
 </style>
-</head><body${site ? ' class="site"' : ''}>
+</head><body${site ? ' class="site patient"' : ''}>
 <div id="doc"></div>
 <!-- provider-doc-render.js is NOT loaded here. Its CSS and logo are inlined
      into this page at build time, so nothing needs it at runtime - and it

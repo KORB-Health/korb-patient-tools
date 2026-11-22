@@ -35,13 +35,13 @@
     css.textContent =
       '.k-feedback{margin:40px 0 8px;padding-top:18px;border-top:1px solid #E4E6EE;' +
       'font-family:"DM Sans",Arial,sans-serif;}' +
-      '.k-feedback h2{margin:0 0 10px;background:none;color:#21275B;font-size:28px;font-weight:700;' +
+      '.k-feedback h2{margin:0 0 10px;background:none;color:#21275B;font-size:clamp(26px,3.4vw,30px);font-weight:700;' +
       'font-family:Cormorant,Georgia,"Times New Roman",serif;line-height:1.15;' +
       'padding:0 0 7px;border-bottom:1px solid #E4E6EE;}' +
-      '.k-feedback p{margin:0 0 14px;font-size:14px;line-height:1.6;color:#5A6080;}' +
+      '.k-feedback p{margin:0 0 14px;font-size:16px;line-height:1.6;color:#5A6080;}' +
       '.k-feedback a{display:block;box-sizing:border-box;width:100%;max-width:420px;margin:0 auto;' +
       'padding:12px 18px;min-height:44px;text-align:center;background:#21275B;color:#fff;' +
-      'border:2px solid #21275B;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;}' +
+      'border:2px solid #21275B;border-radius:999px;text-decoration:none;font-weight:600;font-size:16px;}' +
       '.k-feedback a:focus-visible{outline:3px solid #00B2C3;outline-offset:2px;}' +
       '@media (hover:hover){.k-feedback a:hover{background:#00B2C3;color:#21275B;border-color:#00B2C3;}}' +
       '@media print{.k-feedback{display:none;}}';

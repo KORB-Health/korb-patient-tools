@@ -762,6 +762,30 @@ h3,h4{font-family:'DM Sans',Arial,sans-serif;}
   .nav-links > a{padding:12px 0;}
   .nav-jump,.tool-card a.launch,.res-card a.dl,.sitelink,.safety-inner a{min-height:44px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;}
 }
+/* ONE PATIENT TYPE SCALE (Don, 2026-11-21). The same sizes as every other
+   patient page (body.site.patient in provider-doc-render.js, korb-patient in
+   korb-site.css): section 30px, card title 17px, body 16px, buttons 16px,
+   fine print 13px. The hero headline stays at the korbhealth.com size: it is
+   the site's own headline, matched on purpose. Identical in KORB_Patient_Hub.html
+   and KORB_Longevity_Hub.html: change both together. */
+body .psec-head h2, body .sec-head h2, body .safety h2, body .hub-fb h2,
+body .wrap > h2 { font-size:clamp(26px,3.4vw,30px); }
+body .pcard h4, body .video-block h4, body .tool-card h3, body .res-card h4,
+body .prog-card h3 { font-size:17px; }
+body .pcard p, body .video-block p, body .tool-card p, body .res-card p,
+body .sec-head p, body .psec-head p, body .safety-inner .m, body .wrap > p,
+body .pcard li, body .hub-terms p { font-size:16px; }
+body .pcard .links a, body .pcard .links a .lname, body .addon-strip .links a,
+body .jbtn, body .tool-card a.launch, body .res-card a.dl, body .vb-btn,
+body .sitelink, body .hub-feedback, body .safety-inner a { font-size:16px; }
+body .count-note, body .hub-cards-cap { font-size:13px; }
+body .video-block a.vb-btn, body .safety-inner a { font-size:16px; }
+/* One weight too: buttons 600 and card titles 700, as on the guides. */
+body .pcard .links a, body .pcard .links a .lname, body .jbtn, body .tool-card a.launch,
+body .res-card a.dl, body .video-block a.vb-btn, body .sitelink, body .hub-feedback,
+body .safety-inner a { font-weight:600; }
+body .pcard h4, body .video-block h4, body .tool-card h3, body .res-card h4,
+body .prog-card h3 { font-weight:700; }
 </style>
 </head>
 <body>
