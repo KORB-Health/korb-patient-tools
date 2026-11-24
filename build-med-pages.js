@@ -146,7 +146,7 @@ ${CSS}
 <script src="../korb-quest.js"></script>
 <script src="../korb-patient-ed-data.js"></script>
 <script src="../korb-med-page.js" data-product="${key}"></script>
-<script src="../korb-feedback.js" data-page="${t}"></script>
+<script src="../korb-feedback.js" data-page="${t}" data-seal="legitscript"></script>
 </body>
 </html>
 `;

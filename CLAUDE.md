@@ -883,6 +883,26 @@ set. Worth reconciling, but not by moving them casually — they are live, so th
 URLs are in circulation.
 
 ---
+## LEGITSCRIPT SEAL: CERTIFIED PROGRAMS ONLY, NEVER FH&L (Lindsay via Don, 2026-11-24)
+
+korbhealth.com is LegitScript Certified (Pharmacy, secondary Telemedicine;
+Don checked the listing 2026-11-24). The seal is `img/legitscript-certified.png`
+and always links to
+`https://www.legitscript.com/websites/?checker_keywords=korbhealth.com`.
+
+- **Where it is:** the Patient Hub footer (hand-written); under the feedback
+  block on generated pages whose `program` is Weight Loss, Men's Health,
+  Women's Health, All Programs or All Injectable Programs
+  (`sealAllowed()` in `patient-ed-render.js`); and on hand-built pages whose
+  `korb-feedback.js` tag carries `data-seal="legitscript"` (GLP-1 Dose Guide,
+  Testosterone Tracker, the 14 My GLP-1 pages via `build-med-pages.js`).
+- **Never on Functional Health & Longevity** (Longevity Hub, program overviews,
+  peptide handouts, Start Here, Functional Health Tracker, Treatment Schedule)
+  **or the add-on pages** (Program Optimization). FH&L came off korbhealth.com
+  for LegitScript. Both code paths also refuse the seal if the page names a
+  peptide or Longevity, so a new FH&L page cannot pick it up by accident.
+- Generated pages bake `R.CSS` at build time, so the seal carries inline styles.
+
 ## EVERY PATIENT-FACING PAGE ENDS WITH THE FEEDBACK BUTTON
 
 Don, 2026-09-26, from Kris Mulkey's hub review of 2026-09-25. **Part of the

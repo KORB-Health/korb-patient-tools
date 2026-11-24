@@ -620,6 +620,30 @@
      every signed handout SIGNED THEN CHANGED for a button. The shell appends
      this after the body instead. The page title goes into the form's first
      question; a title is not personal data. */
+  /* THE LEGITSCRIPT SEAL (Lindsay via Don, 2026-11-24). korbhealth.com is
+     certified; the seal links to its verification page. It goes under the
+     feedback block on Weight Loss, Men's Health, Women's Health and the shared
+     all-program pages ONLY. Never on Functional Health & Longevity or the
+     add-on (Program Optimization) pages: FH&L came off korbhealth.com for
+     LegitScript, and the add-on pages sit outside the certified programs. Allowed by
+     program name, never by default, and refused anyway if the page names a
+     peptide, so a new FH&L page cannot pick it up by accident. */
+  var SEAL_PROGRAMS = ['Weight Loss & Metabolic Health', "Men's Health", "Women's Health",
+                       'All Programs', 'All Injectable Programs'];
+  var SEAL_BLOCK_WORDS = /peptide|sermorelin|tesamorelin|ipamorelin|bpc-?157|ghk-?cu|longevity/i;
+  /* Inline styles on purpose: generated pages bake R.CSS in at build time, so
+     a rule added there would not reach a page until it is rebuilt. */
+  var SEAL_HTML = '<a class="k-seal" style="display:block;width:max-content;margin:22px auto 0;line-height:0;" target="_blank" rel="noopener" ' +
+    'href="https://www.legitscript.com/websites/?checker_keywords=korbhealth.com" ' +
+    'title="Verify LegitScript certification for korbhealth.com" data-korb-count="legitscript">' +
+    '<img src="https://korb-health.github.io/korb-patient-tools/img/legitscript-certified.png" ' +
+    'alt="LegitScript Certified. Verify certification for korbhealth.com" width="73" height="79" loading="lazy" style="width:73px;height:auto;"></a>';
+  function sealAllowed(doc) {
+    if (!doc || SEAL_PROGRAMS.indexOf(doc.program) < 0) { return false; }
+    var probe = Object.assign({}, doc); delete probe.alsoLoad;
+    return !SEAL_BLOCK_WORDS.test(JSON.stringify(probe));
+  }
+
   function feedbackFooter(DATA, doc) {
     var F = DATA && DATA.shared && DATA.shared.feedback;
     if (!F || !F.url) { return ''; }
@@ -630,7 +654,8 @@
            '<p>' + esc(F.lead) + '</p>' +
            '<div class="linklist" style="margin:10px 0 4px;">' +
            '<a class="k-step" target="_blank" rel="noopener" href="' + esc(href) + '">' +
-           esc(F.label) + '</a></div></div>';
+           esc(F.label) + '</a></div>' +
+           (sealAllowed(doc) ? SEAL_HTML : '') + '</div>';
   }
 
   function sharedBlock(DATA, name) {
@@ -1483,7 +1508,7 @@
 
   var DOCS = ['sermorelin'];
 
-  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, renderHubBody: renderHubBody, agentFacts: agentFacts, feedbackFooter: feedbackFooter,
+  return { DOCS: DOCS, esc: esc, renderBody: renderBody, renderProgramBody: renderProgramBody, renderGuideBody: renderGuideBody, renderHubBody: renderHubBody, agentFacts: agentFacts, feedbackFooter: feedbackFooter, sealAllowed: sealAllowed,
            contraindications: contraindications,
            CSS: CSS, CHOICE_CSS: CHOICE_CSS, LOGO_URI: LOGO_URI,
            /* Exported so build-patient-ed.js enforces the same list rather than

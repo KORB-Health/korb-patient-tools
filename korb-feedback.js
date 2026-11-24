@@ -57,6 +57,26 @@
     a.textContent = F.label;
     box.appendChild(h); box.appendChild(p); box.appendChild(a);
 
+    /* LegitScript seal, 2026-11-24. OPT-IN: only a page whose tag carries
+       data-seal="legitscript" shows it, and it is refused anyway if the page
+       names a peptide. Never add the attribute to a Functional Health &
+       Longevity page. Same rule and link as patient-ed-render.js. */
+    if (me && me.getAttribute('data-seal') === 'legitscript' &&
+        !/peptide|sermorelin|tesamorelin|ipamorelin|bpc-?157|ghk-?cu|longevity/i.test(document.body.innerText || '')) {
+      css.textContent += '.k-seal{display:block;width:max-content;margin:22px auto 0;line-height:0;}' +
+        '.k-seal img{width:73px;height:auto;}';
+      var s = document.createElement('a');
+      s.className = 'k-seal'; s.target = '_blank'; s.rel = 'noopener';
+      s.href = 'https://www.legitscript.com/websites/?checker_keywords=korbhealth.com';
+      s.title = 'Verify LegitScript certification for korbhealth.com';
+      s.setAttribute('data-korb-count', 'legitscript');
+      var im = document.createElement('img');
+      im.src = 'https://korb-health.github.io/korb-patient-tools/img/legitscript-certified.png';
+      im.alt = 'LegitScript Certified. Verify certification for korbhealth.com';
+      im.width = 73; im.height = 79; im.loading = 'lazy';
+      s.appendChild(im); box.appendChild(s);
+    }
+
     var cols = document.querySelectorAll('body > .wrap');
     (cols.length ? cols[cols.length - 1] : document.body).appendChild(box);
   }
