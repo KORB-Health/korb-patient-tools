@@ -108,13 +108,14 @@
 
 var KORB_PHARMACIES = {
   meta: {
-    version: "1.17",
+    version: "1.18",
     created: "2026-09-11",
-    updated: "2026-11-19",
+    updated: "2026-11-25",
     owner: "Director of Clinical Operations",
     derivedFrom: "korb-glp1-data.js v2.15",
     note: "Products live in the per-program files. This file holds pharmacies and states only.",
     changelog: [
+      "2026-11-25 (v1.18): GREENWICH RETIRED IN EVERY PROGRAM. Greenwich Rx issued a voluntary nationwide recall of its compounded sterile products on 2026-11-20 (potential lack of sterility assurance). Effective 2026-11-25 KORB sends nothing to Greenwich in any program (Don Stevenson, PA-C). Greenwich status is now retired and programs.peptides is retired, so statesFor('greenwich', any program) is empty and no tool can offer it. GLP-1 was already retired here on 2026-09-11. FH&L peptides go to Premier only. Every open FH&L state was already routed to Premier, so no open state changes pharmacy; AR, CA and WA stay closed because no KORB peptide pharmacy is licensed there, and the 30 to 60 day Greenwich restore framing is withdrawn. The footprint is kept as a record of the licence. selfCheck() no longer requires a retired pharmacy to offer an active program, and crossCheck() now fails if korb-dosing-data.js prescribes from a pharmacy whose peptide program is not active.",
       "2026-11-19 (v1.17): MISSISSIPPI WOMEN'S HEALTH TO BELMAR. Don, 2026-11-19, on review of the Women's Health tool: Premier womens excludes MS, so Mississippi routes to Belmar for Women's Health as it already does for GLP-1 and peptides. Premier's MS licence is non-sterile only and the Women's Health products are non-sterile, so Premier could fill them; this is Don's choice of one pharmacy per state, not a licence fact. Women's Health: Premier 40 states and DC, Belmar only in AL, AR, CA, HI, MA, MI, MS, SC, VA, WA.",
       "2026-11-19 (v1.16): PREMIER LOSES MICHIGAN AND MASSACHUSETTS. Premier weekly, 2026-11-18 (Miguel Sanchez): Premier is no longer licensed in Michigan, which now requires NABP accreditation, and it has switched Massachusetts off in its portal after another telehealth company sent scripts for states it is not licensed in; Massachusetts orders already received were filled, future ones go elsewhere. MI and MA removed from the Premier footprint and preferredStates and added to footprintExcludes; Belmar preferredStates gains both. The Michigan licencePending caution is removed: the answer came. Every program on the footprint follows, as with Virginia on 2026-10-16: GLP-1 and Women's Health route MI and MA to Belmar; add-ons and peptides can no longer reach them through Premier. Premier 41 for GLP-1, Belmar 9 (AL, CA, HI, MA, MI, MS, SC, VA, WA), FarmaKeio 1 (AR). Effective 2026-11-19 (Don). Don Stevenson, PA-C.",
       "2026-11-12 (v1.15): PRESCRIPTION MONITORING DATABASES. pdmp holds the name and login link of each state's prescription-monitoring database, for the states where KORB writes a controlled substance (testosterone, TX and CA). Moved here from korb-mens-data.js so the Men's and Women's Health provider tools read one entry; both show a button per state. Texas link from Don. California is CURES, run by the California Department of Justice; Don opened the link and confirmed it the same day. selfCheck fails if a state where any pharmacy offers TRT has no database or no https link. No pharmacy, footprint or routing changed. Don Stevenson, PA-C.",
@@ -551,8 +552,8 @@ var KORB_PHARMACIES = {
       "color": "#2E7D32",
       "type": "compounding",
       "visibility": "provider",
-      "status": "peptides-only",
-      "statusNote": "NOT USED FOR GLP-1 AT ALL as of 2026-09-11. Greenwich tirzepatide is retired in every state, not only California — all tirzepatide moves to Belmar. Greenwich is a Functional Health & Longevity peptide pharmacy only. Do not route any GLP-1 patient here, new or established, and do not offer it as a GLP-1 option anywhere.",
+      "status": "retired",
+      "statusNote": "RETIRED IN EVERY PROGRAM, effective 2026-11-25 (Don Stevenson, PA-C). Greenwich Rx issued a voluntary nationwide recall of its compounded sterile products on 2026-11-20 for potential lack of sterility assurance. KORB sends nothing to Greenwich in any program: no new order, no refill, no continuation. GLP-1 was already retired here on 2026-09-11. Functional Health & Longevity peptides go to Premier only. Do not offer, name or route to Greenwich anywhere.",
       "orderVia": "Tebra Compound",
       "billing": "Bill to KORB Health Group, ship to patient",
       "footprint": [
@@ -610,7 +611,7 @@ var KORB_PHARMACIES = {
         "WA",
         "WV"
       ],
-      "footprintNote": "Restricted to 23 states effective 2026-09-11. Eight states lost their peptide source because Premier's licensed footprint does not cover them either: AL, AR, CA, IN, MN, NH, SC and WA. This is a pause, not a withdrawal — Greenwich expects to restore coverage in 30 to 60 days from 2026-09-11. AL and SC are separately and permanently excluded for compliance, so they do not come back with the restore. Five states are served by Greenwich alone with no Premier backup: AK, HI, IA, ID and MA. Confirmed with Don Stevenson 2026-09-12.",
+      "footprintNote": "Kept as a record of Greenwich's own licensed footprint as of 2026-09-11. It routes nothing: every program here is retired as of 2026-11-25 (recall of 2026-11-20), so statesFor() returns no state for Greenwich in any program.",
       "preferredStates": [],
       "programs": {
         "glp1": {
@@ -622,8 +623,12 @@ var KORB_PHARMACIES = {
           "opsAction": "Every established Greenwich tirzepatide patient is moved to Belmar at their next fill, California first. Do not place another Greenwich GLP-1 order."
         },
         "peptides": {
-          "status": "active",
-          "note": "Greenwich ended its central-fill arrangements with affiliated pharmacies after Board of Pharmacy guidance, effective 11:59pm on 2026-09-11, and now dispenses only into the states where it is itself licensed. That is a licensure change, not a commercial pause: the footprint above IS the new licence. Applications are pending elsewhere and Greenwich expects to substantially resume within 30 to 60 days. AL and SC are separately and permanently excluded for compliance and will not return with the rest."
+          "status": "retired",
+          "retiredOn": "2026-11-25",
+          "movesTo": "premier",
+          "decidedBy": "Don Stevenson",
+          "reason": "Greenwich Rx issued a voluntary nationwide recall of its compounded sterile products on 2026-11-20 (potential lack of sterility assurance). Effective 2026-11-25 KORB sends nothing to Greenwich in any program, and Functional Health & Longevity peptides go to Premier only. Every open FH&L state was already routed to Premier, so no open state changes pharmacy.",
+          "opsAction": "Place no Greenwich order of any kind. Any peptide prescription goes to Premier. AR, CA and WA stay closed for FH&L: no KORB peptide pharmacy is licensed there."
         },
         "addons": {
           "status": "not-offered"
@@ -636,18 +641,8 @@ var KORB_PHARMACIES = {
         }
       },
       "notes": [
-        "Ships FedEx next-day only, Monday through Thursday. Patient should receive within three business days of order.",
-        "The patient does not receive a shipping confirmation from the pharmacy.",
-        "Ships in disposable coolers with ice packs in summer, Kangaroo Pouch Mailers the rest of the year.",
-        "Will NOT accept a do-not-fill date.",
-        "B-12 only. No other added formulations.",
-        "Patient is automatically shipped a 10-pack of 50-unit insulin syringes.",
-        "Ordering 4 mL on the prescription ships two 2 mL vials.",
-        "Dose is set by concentration, not volume.",
-        "HISTORICAL — GLP-1 only, and GLP-1 at Greenwich ended 2026-09-11: every Greenwich GLP-1 dose was exactly 50 units in a 50-unit syringe, and the 100-UNIT SYRINGE callout used for Functional Health peptides was deliberately kept off those sigs. Kept for anyone reading an order placed before the retirement. It says nothing about peptide sigs, which follow the FH&L syringe rule.",
-        "Greenwich dispenses to 23 states only as of 11:59 pm 11 Sept 2026. Of what it dropped, AR, CA, IN, NH and WA are the states Premier cannot cover, so those five have no peptide pharmacy at all. Treat as a pause with an expected 30 to 60 day restore, not a discontinuation. AL, MN and SC also lost Greenwich but were already out of the peptide program and stay closed regardless of the restore.",
-        "Prescriptions received before 11:59 pm 11 Sept 2026 were filled and shipped by 13 Sept with tracking by 14 Sept. No reshipments approved or shipped after 14 Sept 2026.",
-        "AK, HI, IA, ID and MA are served by Greenwich alone. Premier is not licensed in any of them, so there is no second route if Greenwich changes again. IA and ID are the two that are live and taking patients."
+        "RETIRED 2026-11-25 in every program after the Greenwich Rx recall of compounded sterile products on 2026-11-20. Send nothing here. FH&L peptides go to Premier only.",
+        "HISTORICAL, kept as a record: GLP-1 at Greenwich ended 2026-09-11, and on 2026-09-11 Greenwich restricted itself to the 23 states where it is directly licensed. The restore framing used for AR, CA and WA from then until 2026-11-25 no longer applies; those three stay closed because no KORB peptide pharmacy is licensed there."
       ]
     },
     "lillydirect": {
@@ -996,7 +991,9 @@ var KORB_PHARMACIES = {
           }
         });
       });
-      if (p.type === "compounding" && p.programs &&
+      /* A pharmacy retired outright (Greenwich, 2026-11-25) offers nothing by
+         design. Every other compounding pharmacy must offer something. */
+      if (p.type === "compounding" && p.programs && p.status !== "retired" &&
           !Object.keys(p.programs).some(function (pr) { return p.programs[pr].status === "active"; })) {
         problems.push(k + ": compounding pharmacy offering no active program");
       }
@@ -1136,6 +1133,21 @@ var KORB_PHARMACIES = {
       Object.keys(seen).forEach(function (k) {
         if (!self.pharmacies[k]) {
           problems.push('korb-dosing-data.js prescribes from pharmacy "' + k + '" which this file does not have');
+          return;
+        }
+        /* 2026-11-25: a pharmacy whose peptide program is not active must not
+           carry a Tebra favorite in the FH&L file. Greenwich was retired that
+           day after its recall; this is what keeps it from coming back by a
+           pasted entry. */
+        var pp = (self.pharmacies[k].programs || {}).peptides;
+        if (!pp || pp.status !== 'active') {
+          problems.push('korb-dosing-data.js prescribes from pharmacy "' + k + '" whose peptide program is ' + (pp ? pp.status : 'not declared'));
+        }
+      });
+      Object.keys(sources.dosing.pharmacies || {}).forEach(function (k) {
+        var pp = self.pharmacies[k] && (self.pharmacies[k].programs || {}).peptides;
+        if (!pp || pp.status !== 'active') {
+          problems.push('korb-dosing-data.js lists pharmacy "' + k + '" whose peptide program is ' + (pp ? pp.status : 'not declared'));
         }
       });
     }

@@ -242,7 +242,6 @@ body.korb-site .btn-ghost:hover,body.korb-site .btn-download:hover{background:va
     <select id="selPharmacy">
       <option value="">Select your pharmacy…</option>
       <option value="premier">Premier Pharmacy</option>
-      <option value="greenwich">Greenwich Pharmacy</option>
     </select>
 
     <label for="startDate">When did you start this cycle?</label>
@@ -307,8 +306,8 @@ body.korb-site .btn-ghost:hover,body.korb-site .btn-download:hover{background:va
 
 </div>
 
-<script src="korb-pharmacies.js?v=fa6c7d55"></script>
-<script src="korb-dosing-data.js?v=44acbe61"></script>
+<script src="korb-pharmacies.js?v=a9ab50f3"></script>
+<script src="korb-dosing-data.js?v=82765324"></script>
 <script>
 /* ============================================================================
    KORB FUNCTIONAL HEALTH TRACKER
@@ -354,11 +353,10 @@ function unitsFor(agentKey, pharmacyKey){
 }
 
 // ── Syringe visual ───────────────────────────────────────────────────────
-// Premier ships standard 100-unit (1 mL) syringes across the board. Greenwich
-// ships 50-unit (0.5 mL) syringes, except for doses over 50 units — those
-// patients are supplied a 100-unit syringe instead (currently only affects
-// Tesamorelin 2 mg, dosed at 67 units on Greenwich). Mirrors the same logic
-// used in the patient treatment schedule tool so the two stay consistent.
+// Premier ships standard 100-unit (1 mL) syringes across the board. The
+// 50-unit branch below was for Greenwich, retired 2026-11-25 after its recall;
+// it is unreachable while Premier is the only pharmacy offered. Mirrors the
+// same logic used in the patient treatment schedule tool.
 function syringeCapacity(pharmacyKey, units){
   if(pharmacyKey === 'premier') return 100;
   if(units !== null && parseFloat(units) > 50) return 100;
@@ -498,6 +496,10 @@ function buildState(sel){
   if(!window.KORB_DOSING) return null;
   if(!sel || !sel.prog || !sel.pharm || !sel.start) return null;
   if(!KORB_DOSING.programs[sel.prog]) return null;
+  /* A pharmacy that is no longer offered (Greenwich, retired 2026-11-25 after its
+     recall) has no directions in the data file. Send the patient back to setup
+     rather than draw a schedule with no units. */
+  if(!KORB_DOSING.pharmacies[sel.pharm]) return null;
 
   var agents = [];
   if(sel.prog === 'foundation'){
@@ -567,7 +569,7 @@ function addDays(dateStr, n){
   return d;
 }
 // Local-date formatter. Deliberately NOT toISOString(), which converts to UTC
-// and shifts the date by a day for anyone east of Greenwich (including a
+// and shifts the date by a day for anyone east of UTC (including a
 // patient who travels). Storage keys and calendar dates must follow the
 // calendar the patient is actually looking at.
 function iso(d){

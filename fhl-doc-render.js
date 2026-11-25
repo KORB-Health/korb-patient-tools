@@ -250,7 +250,11 @@ function sectionGlance(doc) {
     ['Structure', esc(structure)],
     ['Cycle length', '16 weeks'],
     ['Agents in this document', esc(groupAgentEntries(agentKeyList))],
-    ['Pharmacies', esc(pharmKeys().map(pharmName).join(' and ')) + ' — routed by patient state']
+    /* One pharmacy since 2026-11-25 (Greenwich retired after its recall), so
+       "routed by patient state" only applies when there is a choice. */
+    pharmKeys().length > 1
+      ? ['Pharmacies', esc(pharmKeys().map(pharmName).join(' and ')) + ' — routed by patient state']
+      : ['Pharmacy', esc(pharmKeys().map(pharmName).join('')) + ' only']
   ]) + '</table>';
 }
 
@@ -327,8 +331,8 @@ function sectionLadder(doc) {
          2026-09-15 whether the amount-first form was intentional. It was not -
          this cell simply bypassed the display logic.
 
-         Both strengths are still shown, because they are two drugs and
-         Greenwich stocks them matched and unmatched. Only the repeated names
+         Both strengths are still shown, because they are two drugs and a
+         pharmacy may stock them matched or unmatched. Only the repeated names
          go, and they go because the heading above already carries them in the
          same order the strengths are written in. */
       return '<tr><td>' + esc(agentParts(key).dose || a.dose || dv) + '</td>' + cells +
@@ -348,7 +352,8 @@ function sectionLadder(doc) {
 
     return '<h2>Dose ladder — ' + esc(famLabel) + '</h2>' + note +
            '<table class="grid"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>' +
-           '<div class="callout"><p>The milligram dose is what is prescribed. The unit count is what the patient draws, and it differs by pharmacy.</p></div>';
+           '<div class="callout"><p>The milligram dose is what is prescribed. The unit count is what the patient draws' +
+           (keys.length > 1 ? ', and it differs by pharmacy' : '') + '.</p></div>';
   }).join('');
 }
 
@@ -461,57 +466,22 @@ function sectionStates() {
      appear even if Premier could physically ship to it. */
   const premierOpen = (S.premierRouting || []).filter(function (s) { return unavailable.indexOf(s) === -1; });
 
-  /* What Greenwich covers is now stated as a rule rather than a state list:
-     everything not defaulting to Premier, except what it cannot ship to and
-     except what FH&L is closed in. */
-  const gw = K.pharmacies.greenwich ? 'Greenwich Pharmacy' : 'the non-Premier pharmacy';
-
+  /* Premier is the only FH&L peptide pharmacy since 2026-11-25: Greenwich was
+     retired in every program after its recall of 2026-11-20 (Don). There is no
+     "everywhere else" pharmacy, so a state Premier cannot reach is closed, and
+     korb-dosing-data.js selfCheck() fails any open state outside premierRouting.
+     The Greenwich pause and single-source blocks that used to follow are gone
+     with it: AR, CA and WA are closed with no restore date, like VA and MI. */
   let h = '<h2>Which pharmacy, and where you can prescribe</h2>';
   h += '<table class="kv">' + kvRows([
-    ['Defaults to Premier', esc(stateList(premierOpen))],
-    ['Everywhere else', esc(gw) + ', for every state not listed as closed'],
+    ['Send to Premier', esc(stateList(premierOpen))],
     ['Functional Health & Longevity is not offered in these states', '<strong>' + esc(stateList(unavailable)) + '</strong>']
   ]) + '</table>';
 
-  /* Only the Greenwich pause list gets the pause story. A no-pharmacy state outside it
-     (Virginia, 2026-10-16: Premier lost its licence) is closed with no restore date. */
-  const pausedList = (S.pausedPharmacy && S.pausedPharmacy.states) || [];
-  const closedNoPharm = noPharm.filter(function (s) { return pausedList.indexOf(s) === -1; });
-  if (closedNoPharm.length) {
-    h += '<div class="callout warn"><h3>Closed — no pharmacy can fill — ' + esc(stateList(closedNoPharm)) + '</h3>' +
+  if (noPharm.length) {
+    h += '<div class="callout warn"><h3>Closed — no pharmacy can fill — ' + esc(stateList(noPharm)) + '</h3>' +
          '<p>No peptide pharmacy KORB works with is licensed to ship here. No visit, no prescription, no shipment. ' +
          'There is no restore date.</p></div>';
-  }
-  if (noPharm.length - closedNoPharm.length) {
-    const paused = S.pausedPharmacy || null;
-    h += '<div class="callout warn"><h3>Paused — no pharmacy can fill — ' +
-         esc(stateList(noPharm.filter(function (s) { return pausedList.indexOf(s) !== -1; }))) + '</h3>' +
-         '<p>Greenwich stopped relying on central-fill arrangements on 11 September 2026 and now dispenses only into ' +
-         'the 23 states where it is directly licensed. Premier is not licensed in any of these, ' +
-         'so there is no peptide source while the restriction holds. No visit, no prescription, no shipment.</p>';
-    if (paused && paused.expectedRestore) {
-      h += '<p><strong>This is a pause, not a withdrawal.</strong> Greenwich expects to restore coverage in ' +
-           esc(paused.expectedRestore) + '. Tell a patient the program is temporarily unavailable in their state and that ' +
-           'coverage is expected back. Do not tell them it has been discontinued. Operations reviews this by ' +
-           esc(paused.reviewBy || 'the restore date') + '.</p>';
-    }
-    if (paused && (paused.alsoLostGreenwichButAlreadyExcluded || []).length) {
-      h += '<p>' + esc(stateList(paused.alsoLostGreenwichButAlreadyExcluded)) + ' also lost Greenwich, but each was already ' +
-           'out of the peptide program before this change and stays closed regardless of the restore. They are not listed ' +
-           'here.</p>';
-    }
-    h += '</div>';
-  }
-
-  /* Open states with no second pharmacy. Not a block — a caution. A provider
-     reading this is allowed to prescribe; they just cannot promise a date. */
-  const single = S.singleSourceGreenwich || null;
-  const singleLive = single ? (single.liveStates || []).filter(function (s) { return unavailable.indexOf(s) === -1; }) : [];
-  if (singleLive.length) {
-    h += '<div class="callout"><h3>Single-source states — ' + esc(stateList(singleLive)) + '</h3>' +
-         '<p>These states are open and taking patients. Greenwich is the only pharmacy licensed to fill a peptide there and ' +
-         'Premier cannot cover them, so there is no fallback if Greenwich restricts again. ' +
-         esc(single.providerLine || '') + '</p></div>';
   }
   if (noShip.length) {
     h += '<div class="callout warn"><h3>Excluded from the offering — ' + esc(stateList(noShip)) + '</h3>' +
@@ -524,17 +494,17 @@ function sectionStates() {
          'coverage. Do not proceed until Operations confirms.</p></div>';
   }
 
-  h += '<div class="callout"><p>Unit counts differ between the pharmacies for the same milligram dose. Always read the units off ' +
-       'the row for the patient’s pharmacy, never from the other column.</p></div>';
+  if (pharmKeys().length > 1) {
+    h += '<div class="callout"><p>Unit counts differ between the pharmacies for the same milligram dose. Always read the units off ' +
+         'the row for the patient’s pharmacy, never from the other column.</p></div>';
+  }
   return h;
 }
 
 function sectionRx(doc) {
   const keys = pharmKeys();
   let h = '<h2>Tebra Compounded Drug Favorite — exact fields</h2>' +
-          '<p class="fine">Copy these values literally. Do not paraphrase, and do not adjust quantity, refill or days supply. ' +
-          'Greenwich requires “as directed by provider” in Patient Instructions because KORB does not follow their ' +
-          'protocols — the full direction still goes to the patient through their treatment schedule.</p>';
+          '<p class="fine">Copy these values literally. Do not paraphrase, and do not adjust quantity, refill or days supply.</p>';
 
   /* ONE COMPLETE BLOCK PER STRENGTH. Deliberately not grouped, and not to be
      "tidied" later: a provider works from this block to enter a real

@@ -58,8 +58,8 @@ const REND_REL = '../fhl-doc-render.js';
 const K = (function () {
   /* korb-pharmacies.js first, into the same scope. Since open item 4 the FH&L
      file takes premierRouting from it at load. Without this the Premier
-     footprint comes back empty, every FH&L patient routes to Greenwich, and
-     the build still exits 0 - the silent-success shape CLAUDE.md warns about.
+     footprint comes back empty, every FH&L state reads as having no pharmacy
+     (before 2026-11-25 it silently routed to Greenwich), and the build still exits 0 - the silent-success shape CLAUDE.md warns about.
      The hydrated assertion below is what stops that being possible. */
   const sandbox = {};
   const phSrc = fs.readFileSync(path.join(REPO, 'korb-pharmacies.js'), 'utf8');
@@ -224,18 +224,16 @@ async function main() {
       gate.push(s + ' is in premierRouting and also flagged no-pharmacy, which cannot both be true');
     }
   });
-  /* A paused state must also be a blocked state, or the document tells a
-     provider to wait while the tool lets them prescribe. And a single-source
-     state is open by definition, so it must not appear in a blocking list. */
-  ((S.pausedPharmacy && S.pausedPharmacy.states) || []).forEach(s => {
-    if ((S.unavailableNoPharmacy || []).indexOf(s) === -1) gate.push(s + ' is flagged paused but is not in states.unavailableNoPharmacy');
-  });
-  ((S.pausedPharmacy && S.pausedPharmacy.alsoLostGreenwichButAlreadyExcluded) || []).forEach(s => {
-    if ((S.unavailable || []).indexOf(s) === -1) gate.push(s + ' is recorded as already-excluded but is not in states.unavailable');
-    if ((S.unavailableNoPharmacy || []).indexOf(s) !== -1) gate.push(s + ' is recorded as already-excluded but is also flagged no-pharmacy, which puts it on the restore clock');
-  });
-  ((S.singleSourceGreenwich && S.singleSourceGreenwich.liveStates) || []).forEach(s => {
-    if ((S.unavailable || []).indexOf(s) !== -1) gate.push(s + ' is listed as a live single-source state but is also in states.unavailable');
+  /* Every open state needs a pharmacy. Premier is the only FH&L peptide
+     pharmacy since Greenwich was retired on 2026-11-25 after its recall, so an
+     open state outside premierRouting would put a visit on the page with
+     nowhere to send the prescription. (The Greenwich pause and single-source
+     gates that stood here went with states.pausedPharmacy and
+     states.singleSourceGreenwich.) */
+  Object.keys(global.KORB_PHARMACIES.stateNames).forEach(s => {
+    if ((S.unavailable || []).indexOf(s) === -1 && (S.premierRouting || []).indexOf(s) === -1) {
+      gate.push(s + ' is open for FH&L but Premier does not ship peptides there, and there is no other peptide pharmacy');
+    }
   });
 
   if (gate.length) {

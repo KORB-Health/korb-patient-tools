@@ -36,6 +36,34 @@ checked for in the others, because nobody could say what had been pushed where.
 
 ---
 
+## GREENWICH IS RETIRED IN EVERY PROGRAM. PEPTIDES GO TO PREMIER ONLY. (Don, 2026-11-25)
+
+Greenwich Rx issued a voluntary nationwide recall of its compounded sterile
+products on 2026-11-20 (potential lack of sterility assurance). From 2026-11-25
+KORB sends nothing to Greenwich in any program. GLP-1 was already off Greenwich
+since 2026-09-11.
+
+- `korb-pharmacies.js` v1.18: Greenwich `status` is `retired` and
+  `programs.peptides` is retired, so `statesFor('greenwich', ...)` is empty
+  everywhere. The footprint is kept as a record only.
+- `korb-dosing-data.js` v2.20: the Greenwich pharmacy entry, its 13 sigs in
+  `instructions` and `instructionsRx`, its 13 Tebra favorites, its 50-unit
+  syringe standard, `states.pausedPharmacy` and `states.singleSourceGreenwich`
+  are gone. No dose, quantity or Premier field changed.
+- Every open FH&L state was already Premier, so nothing opened or closed.
+  **AR, CA and WA stay closed with no restore date**, like VA and MI. The
+  "temporarily unavailable, Greenwich expects to restore" framing is withdrawn.
+- Guards added so it cannot come back quietly: `crossCheck()` fails if the FH&L
+  file lists or prescribes from a pharmacy whose peptide program is not active;
+  `KORB_DOSING.selfCheck()` and `build-fhl-docs.js` fail any open FH&L state
+  that Premier does not ship to; the Provider Clinical Reference blocks such a
+  state as no-pharmacy.
+- Both FH&L patient tools offer Premier only. A tracker saved with Greenwich
+  goes back to setup instead of drawing a schedule.
+- **Sign-offs this moves (need Don):** the four FH&L prescribing documents in
+  `node rx-signoff.js` (16/12/10/10 blocks to 8/6/5/5) and `tool:fhltracker` in
+  `node artifact-signoff.js`. `tool:fhlschedule` was already stale before this.
+
 ## GLP-1: FARMAKEIO OUT, PREMIER OR BELMAR. LIVE 2026-10-23. (Don, 2026-10-22)
 
 Premier wherever Premier can fill GLP-1 (41 states, no backup); Belmar
@@ -164,8 +192,8 @@ are not decided; do not touch add-on routing until Don says.
   routing page shows only Send to / Do not send to. Women's Health: the tool
   offers only the routed pharmacy, plus the patient's own pharmacy for
   commercial products. FH&L: the "patient prefers Greenwich" override is gone;
-  Premier wherever it ships peptides (every open FH&L state today, since the
-  Greenwich-only states HI and MA are closed). Brand routes (LillyDirect,
+  Premier wherever it ships peptides, and since 2026-11-25 Premier only
+  (Greenwich retired, see the section above). Brand routes (LillyDirect,
   NovoCare, local) stay. Add-ons are NOT changed until the FarmaKeio add-on
   review is done.
 

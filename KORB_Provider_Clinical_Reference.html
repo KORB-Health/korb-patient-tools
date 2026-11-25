@@ -12,7 +12,6 @@
     --navy:#1E2D5B;--teal:#00B4C8;--lt:#E0F6F9;--ln:#EEF0F7;--bd:#D6E0E3;
     --tx:#1A1A2E;--mu:#5A6070;--gb:#F5F5F5;--amber:#FFF8E1;--amberbd:#F9A825;
     --premier:#1565C0;--premierlt:#E3F2FD;
-    --greenwich:#2E7D32;--greenwichlt:#E8F5E9;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:Arial,sans-serif;font-size:16px;color:var(--tx);background:#fff;}
@@ -53,7 +52,6 @@
 
   .pharm-banner{display:none;border-radius:8px;padding:12px 16px;margin-bottom:20px;border:1.5px solid;}
   .pharm-banner.premier{background:#E3F2FD;border-color:#1565C0;}
-  .pharm-banner.greenwich{background:#E8F5E9;border-color:#2E7D32;}
   .pharm-banner h3{font-size:16px;font-weight:700;margin-bottom:2px;}
   .pharm-banner p{font-size:14px;color:var(--mu);}
 
@@ -178,7 +176,6 @@
   .pcp{background:#E65100;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .psf{background:#6A1B9A;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .p-prem{background:var(--premier);color:#fff;}
-  .p-gren{background:var(--greenwich);color:#fff;}
 
   /* Week-by-week collapsible */
   .wk-sec{margin-bottom:16px;}
@@ -326,9 +323,9 @@
       <div class="cg"><label for="sd">Visit date (starts this cycle)</label><input type="date" id="sd"></div>
       <div class="cg"><label style="visibility:hidden;">Reset</label><button class="reset-btn" onclick="resetFilters()">&#8635; Reset</button></div>
     </div>
-    <!-- The "Patient prefers Greenwich" override was removed 2026-10-22 (Don):
-         one pharmacy per state, no override. Premier wherever Premier ships
-         peptides, Greenwich only where Premier cannot. -->
+    <!-- One pharmacy per state, no override (Don, 2026-10-22). Since 2026-11-25
+         Premier is the only FH&L peptide pharmacy (Greenwich retired after its
+         recall); a state Premier cannot ship to is closed. -->
     <div class="override-row" id="ghkRow" style="display:none;">
       <label><input type="checkbox" id="ghkChk"> Add GHK-Cu (optional add-on — Weeks 5–8 of this cycle)</label>
     </div>
@@ -405,8 +402,8 @@
   </div>
 </div>
 
-<script src="korb-pharmacies.js?v=fa6c7d55"></script>
-<script src="korb-dosing-data.js?v=44acbe61"></script>
+<script src="korb-pharmacies.js?v=a9ab50f3"></script>
+<script src="korb-dosing-data.js?v=82765324"></script>
 <script>
 // ─── LOGO ────────────────────────────────────────────────────────────────────
 var LOGO_B64 = 'PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgMTIyIDMyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMwMEIxQzM7fQoJLnN0MXtmaWxsOiMyMTI3NUI7fQo8L3N0eWxlPjxnPjxnPjxnPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS43LDIzLjdsNi44LDcuM2w1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNmwtNS4xLTUuNGw1LjEtNS40YzEuMi0xLjMsMS4yLTMuMywwLTQuNkwzMi41LDBsLTYuOCw3LjMKCQkJCUMyMS40LDExLjgsMjEuNCwxOS4yLDI1LjcsMjMuN3oiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMi41LDE4LjhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xbC0yLjEtMi4yYy0wLjUtMC42LTEuNC0wLjYtMS45LDBsLTIuMSwyLjIKCQkJCWMtMC41LDAuNi0wLjUsMS41LDAsMi4xTDIuNSwxOC44eiIvPjwvZz48Zz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNOS45LDE1LjVsLTUuMSw1LjRjLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMzFsNi44LTcuM2M0LjMtNC41LDQuMy0xMS45LDAtMTYuNUw5LjksMEw0LjgsNS40CgkJCQljLTEuMiwxLjMtMS4yLDMuMywwLDQuNkw5LjksMTUuNUw5LjksMTUuNXoiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMzcuNiwxMi4ybC0yLjEsMi4yYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFsMi4xLDIuMmMwLjUsMC42LDEuNCwwLjYsMS45LDBsMi4xLTIuMmMwLjUtMC42LDAuNS0xLjUsMC0yLjEKCQkJCWwtMi4xLTIuMkMzOSwxMS43LDM4LjEsMTEuNywzNy42LDEyLjJ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTIwLDhjMC41LDAuNiwxLjQsMC42LDEuOSwwbDIuMS0yLjJjMC41LTAuNiwwLjUtMS41LDAtMi4xTDIyLDEuNUMyMS40LDEsMjAuNiwxLDIwLDEuNWwtMi4xLDIuMgoJCQkJYy0wLjUsMC42LTAuNSwxLjUsMCwyLjFMMjAsOHoiLz48L2c+PC9nPjxnPjxwb2x5Z29uIGNsYXNzPSJzdDEiIHBvaW50cz0iNjkuMSw3LjQgNjYuNSw3LjQgNTcuNywxNi40IDU3LjcsNy40IDU1LjQsNy40IDU1LjQsMjMuNSA1Ny43LDIzLjUgNTcuNywxOS4zIDYwLjcsMTYuMyA2Ni44LDIzLjUgCgkJCTY5LjUsMjMuNSA2Mi4yLDE0LjcgCQkiLz48cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTAwLjYsMTcuOWMxLTAuNCwxLjgtMS4xLDIuMy0xLjljMC41LTAuOCwwLjgtMS44LDAuOC0zYzAtMS4yLTAuMy0yLjItMC44LTNjLTAuNS0wLjgtMS4zLTEuNS0yLjMtMS45CgkJCWMtMS0wLjQtMi4yLTAuNy0zLjYtMC43aC02LjN2MTYuMUg5M3YtNC45aDRjMC40LDAsMC43LDAsMSwwbDMuNSw0LjloMi41bC0zLjgtNS40QzEwMC4zLDE4LDEwMC40LDE4LDEwMC42LDE3Ljl6IE05Ni45LDE2LjZIOTMKCQkJVjkuNGgzLjljMS41LDAsMi42LDAuMywzLjMsMC45YzAuOCwwLjYsMS4yLDEuNSwxLjIsMi43YzAsMS4xLTAuNCwyLTEuMiwyLjdDOTkuNSwxNi4zLDk4LjQsMTYuNiw5Ni45LDE2LjZ6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTg0LjcsOS42Qzg0LDguOCw4My4xLDguMiw4Miw3LjhjLTEtMC40LTIuMi0wLjYtMy40LTAuNmMtMS4yLDAtMi40LDAuMi0zLjQsMC42Yy0xLDAuNC0xLjksMS0yLjcsMS43CgkJCWMtMC44LDAuNy0xLjQsMS42LTEuOCwyLjZjLTAuNCwxLTAuNiwyLjEtMC42LDMuM2MwLDEuMiwwLjIsMi4zLDAuNiwzLjNjMC40LDEsMSwxLjksMS44LDIuNmMwLjgsMC43LDEuNywxLjMsMi43LDEuNwoJCQljMS4xLDAuNCwyLjIsMC42LDMuNCwwLjZjMS4yLDAsMi40LTAuMiwzLjQtMC42YzEtMC40LDEuOS0xLDIuNy0xLjdjMC44LTAuOCwxLjQtMS42LDEuOC0yLjZjMC40LTEsMC42LTIuMSwwLjYtMy4zCgkJCXMtMC4yLTIuMy0wLjYtMy4zQzg2LjEsMTEuMiw4NS41LDEwLjMsODQuNyw5LjZ6IE04NC40LDE3LjljLTAuMywwLjgtMC43LDEuNC0xLjMsMmMtMC42LDAuNi0xLjIsMS0yLDEuMwoJCQljLTAuOCwwLjMtMS42LDAuNS0yLjUsMC41Yy0wLjksMC0xLjctMC4yLTIuNS0wLjVjLTAuOC0wLjMtMS40LTAuNy0yLTEuM2MtMC42LTAuNi0xLTEuMi0xLjMtMmMtMC4zLTAuOC0wLjUtMS42LTAuNS0yLjUKCQkJczAuMi0xLjcsMC41LTIuNWMwLjMtMC44LDAuOC0xLjQsMS4zLTJjMC42LTAuNiwxLjItMSwyLTEuM2MwLjgtMC4zLDEuNi0wLjUsMi41LTAuNWMwLjksMCwxLjcsMC4yLDIuNSwwLjUKCQkJYzAuOCwwLjMsMS40LDAuNywyLDEuM2MwLjYsMC42LDEsMS4yLDEuMywyYzAuMywwLjgsMC41LDEuNiwwLjUsMi41Uzg0LjcsMTcuMiw4NC40LDE3Ljl6Ii8+PHBhdGggY2xhc3M9InN0MSIgZD0iTTEyMC42LDE2LjljLTAuNC0wLjYtMS0xLjEtMS43LTEuNGMtMC4yLTAuMS0wLjUtMC4yLTAuNy0wLjNjMCwwLDAsMCwwLDBjMC43LTAuMywxLjItMC44LDEuNi0xLjQKCQkJYzAuNC0wLjYsMC42LTEuMywwLjYtMi4yYzAtMS4zLTAuNS0yLjMtMS41LTNjLTEtMC44LTIuNC0xLjEtNC4zLTEuMWgtNy4ydjE2LjFoNy43YzIsMCwzLjYtMC40LDQuNi0xLjFjMS0wLjgsMS42LTEuOCwxLjYtMy4yCgkJCUMxMjEuMiwxOC4yLDEyMSwxNy41LDEyMC42LDE2Ljl6IE0xMTQuNCw5LjNjMS4yLDAsMi4xLDAuMiwyLjcsMC42YzAuNiwwLjQsMSwxLjEsMSwxLjlzLTAuMywxLjUtMSwxLjljLTAuNiwwLjQtMS41LDAuNi0yLjcsMC42CgkJCWgtNC43VjkuM0gxMTQuNHogTTExNy45LDIxYy0wLjcsMC40LTEuNiwwLjYtMi45LDAuNmgtNS4zdi01LjRoNS4zYzEuMywwLDIuMiwwLjIsMi45LDAuNmMwLjcsMC40LDEsMS4xLDEsMgoJCQlDMTE4LjksMTkuOSwxMTguNiwyMC42LDExNy45LDIxeiIvPjwvZz48L2c+PC9zdmc+';
@@ -451,9 +448,7 @@ var FOUNDATION_AGENTS = KORB_DOSING.foundationAgents
   sel.appendChild(c);
 })()
 
-// Real patient-facing injection directions for display purposes (the Tebra "Patient Instructions"
-// field for Greenwich is intentionally generic — "Inject as directed by prescriber" — because
-// dosing directions live in the pharmacy's own system. This map supplies the actual directions
+// Real patient-facing injection directions for display purposes. This map supplies the actual directions
 // for on-screen provider reference / Rx snapshot cards / copy-paste notes, decoupled from any
 // program-specific week-range language.
 var ACTUAL_DIRECTIONS = KORB_DOSING.instructionsRx
@@ -675,7 +670,9 @@ var todayStr=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago'}).forma
 
 function getPharm(){
   var st=document.getElementById('st').value;if(!st)return null;
-  return PREMIER.has(st)?'premier':'greenwich';   // one pharmacy per state, no override (2026-10-22)
+  /* Premier or nothing since 2026-11-25 (Greenwich retired after its recall). An open
+     state outside PREMIER is gated as no-pharmacy in build() before this is asked. */
+  return PREMIER.has(st)?'premier':null;
 }
 
 /* The Foundation dose ladder comes from the data file, never from a list typed
@@ -739,7 +736,7 @@ function build(){
   document.getElementById('pageTitle').textContent='Functional Health & Longevity — Provider Clinical & Prescribing Reference';
 
   var stCheck=document.getElementById('st').value;
-  if(stCheck && UNAVAILABLE_STATES.indexOf(stCheck)!==-1){
+  if(stCheck && (UNAVAILABLE_STATES.indexOf(stCheck)!==-1 || !PREMIER.has(stCheck))){
     document.getElementById('stateBlockTop').style.display='';
     document.getElementById('stateBlockTop').innerHTML='<div class="state-blocked-top'+stateBlockedClass(stCheck)+'"><strong>\u26A0 '+stateBlockedHeading(stCheck)+'</strong>'+stateBlockedMessage(stCheck)+'</div>';
     document.getElementById('pricingBox').innerHTML='<div class="info-box">Pricing is not shown — '+(UNAVAILABLE_STATES_NO_SHIP.indexOf(stCheck)!==-1 ? 'this state is excluded from the Functional Health &amp; Longevity offering' : 'this program is not yet offered in the selected state')+'. See banner above.</div>';
@@ -823,8 +820,8 @@ function buildGateway(){
     banner.style.display='';banner.className='pharm-banner '+pk;
     document.getElementById('pbTitle').textContent='Assigned Pharmacy: '+ph.name;
     document.getElementById('pbSub').textContent=pk==='premier'
-      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier. Do not send to Greenwich.'
-      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy. Send to Greenwich.':'Select the patient state.');
+      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier.'
+      :'Select the patient state.';
   } else {banner.style.display='none';}
 
   var activeKeys=[sermKey, bpcKey];
@@ -991,8 +988,8 @@ function buildFoundation(){
     banner.style.display='';banner.className='pharm-banner '+pk;
     document.getElementById('pbTitle').textContent='Assigned Pharmacy: '+ph.name;
     document.getElementById('pbSub').textContent=pk==='premier'
-      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier. Do not send to Greenwich.'
-      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy. Send to Greenwich.':'Select the patient state.');
+      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier.'
+      :'Select the patient state.';
   } else { banner.style.display='none'; }
 
   if(agentSel==='compare'){
@@ -1207,8 +1204,8 @@ function buildPeak(pathwayKey){
     banner.style.display='';banner.className='pharm-banner '+pk;
     document.getElementById('pbTitle').textContent='Assigned Pharmacy: '+ph.name;
     document.getElementById('pbSub').textContent=pk==='premier'
-      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier. Do not send to Greenwich.'
-      :(st&&!PREMIER.has(st)?'Patient state ('+st+') is served by Greenwich Pharmacy. Send to Greenwich.':'Select the patient state.');
+      ?'Patient state ('+st+') is in the Premier Pharmacy network. Send to Premier.'
+      :'Select the patient state.';
   } else { banner.style.display='none'; }
 
   var activeKeys=[primaryKey,bpcKey];
@@ -1359,8 +1356,8 @@ var FIELD_LEGEND = {
 function renderPrescribing(pharm, keys, scheduleOverride){
   keys = keys || ['sermorelin','bpc157'];
   var container = document.getElementById('rxFieldsContainer');
-  var pharmName = pharm==='premier' ? 'Premier Pharmacy' : 'Greenwich Pharmacy';
-  var pharmColor = pharm==='premier' ? 'var(--premier)' : 'var(--greenwich)';
+  var pharmName = (PHARM[pharm] || {}).name || pharm;
+  var pharmColor = 'var(--premier)';
   var html = '';
   keys.forEach(function(key){
     var d = RX[key];
@@ -1424,8 +1421,8 @@ function renderCounseling(keys){
 // ─── FOUNDATION: single-agent prescribing & counseling renderers ────────────────
 function renderFoundationPrescribing(pharm, key, agentMeta){
   var container = document.getElementById('rxFieldsContainer');
-  var pharmName = pharm==='premier' ? 'Premier Pharmacy' : 'Greenwich Pharmacy';
-  var pharmColor = pharm==='premier' ? 'var(--premier)' : 'var(--greenwich)';
+  var pharmName = (PHARM[pharm] || {}).name || pharm;
+  var pharmColor = 'var(--premier)';
   var d = RX[key], rx = d[pharm];
   var secId = 'rx-'+key;
   var html = '<div class="sec csec-hdr" style="margin-top:0;" onclick="togSec(\''+secId+'\')">'+d.name+' — Tebra Prescribing Reference<span class="tog" id="tog-'+secId+'">&#9660; collapse</span></div>';
@@ -1499,7 +1496,7 @@ function renderLabs(){
 
   html += '<div class="sec csec-hdr" style="background:var(--navy);color:#fff;font-size:16px;font-weight:700;padding:10px 14px;border-radius:8px;margin-top:20px;margin-bottom:0;" onclick="togSec(\'labsStates\')">Premier Pharmacy — State Shipping Reference<span class="tog" id="tog-labsStates" style="color:#fff;">&#9658; expand</span></div>';
   html += '<div class="csec-body collapsed" id="body-labsStates" style="padding-top:12px;">';
-  html += '<div style="font-size:14px;color:var(--mu);margin-bottom:8px;">Premier is the default pharmacy where available. Use Greenwich for all other states — but as of 11 Sep 2026 Greenwich only dispenses to the 23 states where it is directly licensed. Where Premier is also not licensed there is no peptide source at all, and those states are listed below as paused. States where KORB does not offer Functional Health &amp; Longevity are not listed here, whatever the pharmacy can ship.</div>';
+  html += '<div style="font-size:14px;color:var(--mu);margin-bottom:8px;">Premier is the only Functional Health &amp; Longevity peptide pharmacy. Where Premier is not licensed there is no peptide source, and those states are listed below as closed. States where KORB does not offer Functional Health &amp; Longevity are not listed here, whatever the pharmacy can ship.</div>';
   html += '<div class="state-grid">';
   // Filter out any state FH&L is not offered in. A provider scanning this grid
   // reads a checkmark as "you can send it there" — showing a blocked state here
@@ -1519,38 +1516,10 @@ function renderLabs(){
     html += '<div style="margin-top:12px;padding:10px 14px;background:#FFF4E5;border:2px solid #B45309;border-radius:8px;font-size:14px;color:#7A3E00;">';
     html += '<strong style="display:block;color:#B45309;margin-bottom:4px;">&#9888; Closed — no pharmacy can fill — '
          + UNAVAILABLE_STATES_NO_PHARMACY.join(', ') + '</strong>';
-    /* Split 2026-11-19 (Don): only the Greenwich-paused states get the Greenwich story and
-       the restore promise. VA (2026-10-16) and MI (2026-11-19) closed because Premier lost
-       its licence, with no restore date. Same split as the per-state message below. */
-    var fnm = function(list){ return list.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', '); };
-    var pausedSt = UNAVAILABLE_STATES_NO_PHARMACY.filter(function(s){ return !!(PAUSED && (PAUSED.states||[]).indexOf(s) !== -1); });
-    var lostSt = UNAVAILABLE_STATES_NO_PHARMACY.filter(function(s){ return pausedSt.indexOf(s) === -1; });
-    html += 'No peptide pharmacy KORB uses can fill in these states, so Functional Health &amp; Longevity is closed there: no visit, no prescription, no shipment.';
-    if(lostSt.length){
-      html += '<br><br><strong>No restore date: ' + fnm(lostSt) + '.</strong> Premier is no longer licensed in these states and no other peptide pharmacy KORB uses ships there. Do not tell a patient coverage is coming back.';
-    }
-    if(pausedSt.length){
-      html += '<br><br><strong>Greenwich pause: ' + fnm(pausedSt) + '.</strong> Greenwich restricted itself on 11 Sep 2026 to the 23 states where it is directly licensed, and Premier is not licensed in these.';
-      if(PAUSED && PAUSED.expectedRestore){
-        html += ' This is a pause, not a withdrawal. Greenwich expects to restore coverage in '
-             + PAUSED.expectedRestore + '. Tell a patient the program is temporarily unavailable in their state and that coverage is expected back. Do not tell them it has been discontinued. Ops reviews this by '
-             + (PAUSED.reviewBy || 'the restore date') + '.';
-      }
-    }
-    if(PAUSED && (PAUSED.alsoLostGreenwichButAlreadyExcluded||[]).length){
-      html += '<br><br>' + PAUSED.alsoLostGreenwichButAlreadyExcluded.join(', ')
-           + ' also lost Greenwich, but each was already out of the peptide program before this change and stays closed regardless of the restore.';
-    }
-    html += '</div>';
-  }
-  if(SINGLE_SOURCE_LIVE.length){
-    html += '<div style="margin-top:12px;padding:10px 14px;background:#E6F7F9;border:2px solid #00B2C3;border-radius:8px;font-size:14px;color:#21275B;">';
-    html += '<strong style="display:block;color:#21275B;margin-bottom:4px;">Single-source states — '
-         + SINGLE_SOURCE_LIVE.join(', ') + '</strong>';
-    html += 'These states are open and taking patients. Greenwich is the only pharmacy licensed to fill a peptide in '
-         + SINGLE_SOURCE_LIVE.map(function(s){ return (STATES[s]||s)+' ('+s+')'; }).join(', ')
-         + ' and Premier cannot cover them, so there is no fallback if Greenwich restricts again. '
-         + (SINGLE_SOURCE.providerLine || '');
+    /* 2026-11-25: one message for every no-pharmacy state. The Greenwich pause story
+       and restore promise for AR, CA and WA, and the IA/ID single-source caution, were
+       removed when Greenwich was retired after its recall. */
+    html += 'No peptide pharmacy KORB uses can fill in these states, so Functional Health &amp; Longevity is closed there: no visit, no prescription, no shipment. There is no restore date. Do not tell a patient coverage is coming back.';
     html += '</div>';
   }
   html += '</div>'; // end body-labsStates
@@ -1664,6 +1633,12 @@ var visitType = 'routine';
 // only pharmacy licensed there and there is no fallback. The "45 states + DC"
 // figure above is superseded. Source: Don Stevenson, 2026-09-12.
 //
+// 2026-11-25: SUPERSEDES the pause and single-source notes above. Greenwich
+// Rx recalled its compounded sterile products on 2026-11-20 and KORB sends
+// nothing to Greenwich in any program from 2026-11-25 (Don). Premier is the
+// only FH&L peptide pharmacy. AR, CA and WA stay closed with no restore date,
+// like VA and MI; the temporarily unavailable framing is withdrawn.
+//
 // 2026-08-24: MS added and flagged no-ship alongside AL and SC, which were
 // already blocked but were showing the generic bandwidth message. MS was also
 // removed from the Premier routing set, so it can no longer appear as a
@@ -1672,43 +1647,29 @@ var UNAVAILABLE_STATES = KORB_DOSING.states.unavailable;
 var UNAVAILABLE_STATES_NO_SHIP = KORB_DOSING.states.unavailableNoShip || [];
 var UNAVAILABLE_STATES_NO_PHARMACY = KORB_DOSING.states.unavailableNoPharmacy || [];
 var UNAVAILABLE_STATES_LAB_WORKFLOW = KORB_DOSING.states.unavailableLabWorkflow;
-/* The pause is a presentation fact, not a routing one. A paused state blocks
-   exactly like any other no-pharmacy state — the difference is only what the
-   provider is told to say to the patient. */
-var PAUSED = KORB_DOSING.states.pausedPharmacy || null;
-var SINGLE_SOURCE = KORB_DOSING.states.singleSourceGreenwich || null;
-/* Single-source states are OPEN. Filter against unavailable so a state that
-   later closes for another reason cannot show up here as bookable. */
-var SINGLE_SOURCE_LIVE = SINGLE_SOURCE
-  ? (SINGLE_SOURCE.liveStates || []).filter(function(s){ return UNAVAILABLE_STATES.indexOf(s) === -1; })
-  : [];
+/* An open state Premier cannot ship to has no pharmacy, since Greenwich was retired on
+   2026-11-25. korb-dosing-data.js selfCheck() fails that case; this makes the tool
+   block it as no-pharmacy too rather than offer a visit with nowhere to send it. */
+function noPharmacyState(st){
+  return UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1 ||
+         (UNAVAILABLE_STATES.indexOf(st) === -1 && !PREMIER.has(st));
+}
 function stateBlockedHeading(st){
   if (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1) return 'Do Not Ship — State Excluded';
-  if (UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1) return 'No Pharmacy — Cannot Be Filled';
+  if (noPharmacyState(st)) return 'No Pharmacy — Cannot Be Filled';
   return 'State Not Yet Available';
 }
 function stateBlockedClass(st){
   return (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1 ||
-          UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1) ? ' state-noship' : '';
+          noPharmacyState(st)) ? ' state-noship' : '';
 }
 function stateBlockedMessage(st){
   var name = STATES[st] || st;
   if (UNAVAILABLE_STATES_NO_SHIP.indexOf(st) !== -1) {
-    return name+' is excluded from the Functional Health &amp; Longevity offering. Peptides and all other Functional Health &amp; Longevity products may NOT be shipped to '+name+'. Do not start a visit, do not prescribe, and do not send an order to either pharmacy. This is not a launch-sequencing item and will not clear on its own — route any question to Ops or Compliance.';
+    return name+' is excluded from the Functional Health &amp; Longevity offering. Peptides and all other Functional Health &amp; Longevity products may NOT be shipped to '+name+'. Do not start a visit, do not prescribe, and do not send an order to any pharmacy. This is not a launch-sequencing item and will not clear on its own — route any question to Ops or Compliance.';
   }
-  if (UNAVAILABLE_STATES_NO_PHARMACY.indexOf(st) !== -1) {
-    /* Only a state on the Greenwich pause list gets the Greenwich story and the restore
-       promise. Virginia (2026-10-16) closed because Premier lost its licence there, with no
-       restore date, and was being told it would come back. */
-    var paused = !!(PAUSED && (PAUSED.states || []).indexOf(st) !== -1);
-    if (!paused) {
-      return name+' cannot be filled by any pharmacy KORB uses: no peptide pharmacy KORB works with is licensed to ship to '+name+'. Do not start a visit, do not prescribe, and do not send an order. There is no restore date - route any question to Ops.';
-    }
-    var msg = name+' cannot be filled by any pharmacy KORB uses. Greenwich restricted itself on 11 September 2026 to the 23 states where it is directly licensed and no longer ships to '+name+', and Premier is not licensed there, so there is no peptide source while the restriction holds. Do not start a visit, do not prescribe, and do not send an order.';
-    if (PAUSED && PAUSED.expectedRestore) {
-      msg += ' This is a pause, not a withdrawal. Greenwich expects to restore coverage in '+PAUSED.expectedRestore+'. Tell the patient the program is temporarily unavailable in '+name+' and that coverage is expected back — do not tell them it has been discontinued.';
-    }
-    return msg;
+  if (noPharmacyState(st)) {
+    return name+' cannot be filled by any pharmacy KORB uses: no peptide pharmacy KORB works with is licensed to ship to '+name+'. Do not start a visit, do not prescribe, and do not send an order. There is no restore date - route any question to Ops.';
   }
   if (UNAVAILABLE_STATES_LAB_WORKFLOW.indexOf(st) !== -1) {
     return 'KORB is not yet launching the Functional Health & Longevity program in '+name+' during Phase 1. The team is still working through a different lab workflow required by '+name+'-specific legislation. Do not proceed with a visit or prescription until this is confirmed with Ops.';

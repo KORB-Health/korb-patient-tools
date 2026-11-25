@@ -738,9 +738,9 @@ var KORB_GLP1 = {
 
 
   meta: {
-    version: '2.44',
+    version: '2.45',
     created: '2026-08-06',
-    lastUpdated: '2026-11-19',
+    lastUpdated: '2026-11-25',
     owner: 'Director of Clinical Operations',
     signoff: {
       clinical: 'Clinical Director — dosing, titration, contraindications',
@@ -758,6 +758,7 @@ var KORB_GLP1 = {
       'Zepbound_and_Oral_Wegovy'
     ],
     changelog: [
+      '2026-11-25 (v2.45): GREENWICH RETIRED IN EVERY PROGRAM. NO GLP-1 ROUTING, DOSE, PRICE OR CODE CHANGE. Greenwich Rx issued a voluntary nationwide recall of its compounded sterile products on 2026-11-20 and KORB sends nothing to Greenwich in any program from 2026-11-25 (Don Stevenson, PA-C; korb-pharmacies.js v1.18). Greenwich GLP-1 was already retired on 2026-09-11, so nothing here routes differently. The Greenwich record statusNote, shipsToNote and last note no longer say it remains a peptide pharmacy, and the California routing note no longer names it.',
       '2026-11-21 (v2.44): B-12 SYRINGE COLOUR (Don, 21 Nov). medPage.b12Colour gains syringe (#D6336C) and plain (#00B2C3). The medication pages and the Dose Guide fill the syringe drawing red-pink for any product whose additive names B-12 (Premier semaglutide, glycine semaglutide and tirzepatide, Belmar semaglutide) and teal for the rest, including the FarmaKeio Before syringe on a conversion. Drawing only: no patient wording changed. Don Stevenson, PA-C.',
       '2026-11-19 (v2.43): GLYCINE TWO-VIAL WORDING FOR PATIENTS (Don, 19 Nov). Glycine semaglutide comes in 1 mL vials only, so at 4.5 mg every dose uses two vials and the patient keeps the half vial, and at 6 mg every dose uses two full vials. The provider reference already said so (PREMIER-GLYCINE-45-SPLIT-VIAL); the patient medication page and the portal messages did not. New glycineVials text and glycineVialNote(), read by korb-med-page.js and KORB_GLP1_Patient_Message_Builder.html. No dose, product or price change. Don Stevenson, PA-C.',
       '2026-11-18 (v2.42): GLYCINE SEMAGLUTIDE 4.5 MG AND 6 MG (Don, 18 Nov). Premier now offers both doses in all three semaglutide products. B-12 has had them since v2.24 and B-6 derives from B-12, so glycine was the gap. Glycine comes in 1 ml vials only (Don): 4.5 mg is 6 / 12 / 18 vials and every dose draws from two vials, recorded as acceptedLimitations PREMIER-GLYCINE-45-SPLIT-VIAL with patientUsesLeftover so the Dose Guide shows the two-vial note; 6 mg is 8 / 16 / 24 vials, two whole vials a dose. priceBand max, the existing FITSema001MAX / FITSemaMNTMAX / FITSema12wkMAX codes, no price or code changed. 8-week sigs drop "Maintenance - " (150 of 140 with it), as the 12-week glycine sigs already did. highDose.appliesTo gains premier_sema_glycine, so the provider escalation warning and patient line apply. Don Stevenson, PA-C.',
@@ -1884,7 +1885,7 @@ var KORB_GLP1 = {
       { states: ['CA'],                   pharmacy: 'belmar', backup: null,
         basis: 'sole California pharmacy \u2014 semaglutide and tirzepatide',
         note: 'Belmar is the only California option. Premier cannot ship to CA, and ' +
-              'FarmaKeio and Greenwich no longer fill GLP-1 in any state.' },
+              'no other compounding pharmacy KORB uses fills GLP-1 there.' },
       /* 2026-10-28: ARKANSAS GOES TO FARMAKEIO (Don). Belmar cannot collect
          payment from KORB for an Arkansas prescription: Arkansas only lets it
          collect from the patient. FarmaKeio fills Arkansas, injectable
@@ -2198,12 +2199,10 @@ var KORB_GLP1 = {
       type: 'compounding',
       visibility: 'provider',
       status: 'glp1-retired',
-      statusNote: 'NOT A GLP-1 PHARMACY as of 2026-09-11. Greenwich tirzepatide is ' +
-                  'retired in every state, not California only, and there is no ' +
-                  'continuation route. All tirzepatide moves to Belmar. Greenwich ' +
-                  'remains a Functional Health & Longevity peptide pharmacy and nothing ' +
-                  'else. Do not route any GLP-1 patient here, new or established, and do ' +
-                  'not offer it as a GLP-1 option in any state.',
+      statusNote: 'RETIRED IN EVERY PROGRAM as of 2026-11-25, after the Greenwich Rx ' +
+                  'recall of compounded sterile products on 2026-11-20. GLP-1 was ' +
+                  'already retired here on 2026-09-11 and all tirzepatide moved to ' +
+                  'Belmar. Send nothing here, GLP-1 or peptide, new or established.',
       glp1Retired: {
         retired: true,
         retiredOn: '2026-09-11',
@@ -2224,10 +2223,8 @@ var KORB_GLP1 = {
       /* FILLED BY hydrate(). Everything outside the GLP-1 footprint, whether that
          is a licensure exclusion or the program being retired. */
       hardExcludes: [],
-      shipsToNote: 'Ships to 45 states and DC as of 2026-09-11 \u2014 Greenwich stopped ' +
-                   'shipping to AR, CA, IN, NH and WA. This list now governs peptides ' +
-                   'only. For GLP-1 the ship-to list is irrelevant: Greenwich fills no ' +
-                   'GLP-1 anywhere.',
+      shipsToNote: 'Irrelevant: Greenwich is retired in every program as of 2026-11-25 ' +
+                   'and fills nothing for KORB anywhere.',
       address: 'Greenwich Rx, 9733 FM 2920 Rd, Suite 100, Tomball, TX 77375',
       orderVia: 'Tebra Compound',
       orderViaNote: 'Moved from MDToolbox to Tebra Compound. MDToolbox is being turned ' +
@@ -2250,8 +2247,8 @@ var KORB_GLP1 = {
         'was deliberately kept off those sigs. Greenwich GLP-1 ended 2026-09-11; this ' +
         'is here for anyone reading an order placed before then. It says nothing about ' +
         'peptide sigs, which do follow the FH&L syringe rule.',
-        'AR, CA, IN, NH and WA \u2014 send nothing here, peptide or otherwise. Greenwich ' +
-        'stopped shipping to these five states on 2026-09-11.'
+        'Send nothing here, peptide or otherwise, in any state: retired 2026-11-25 ' +
+        'after the recall of 2026-11-20.'
       ]
     },
 

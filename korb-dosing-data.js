@@ -21,9 +21,9 @@
      `instructions`   patient-facing phrasing (Patient Treatment Schedule, Tracker)
      `instructionsRx` provider phrasing shown in the Provider Reference
      `prescribing[].fields 'Patient Instructions'` the actual Tebra value sent to the
-       pharmacy. Premier carries the full direction; Greenwich carries
-       "as directed by provider" because Greenwich requires it, KORB not following
-       their protocols. The provider still sees the full direction in instructionsRx.
+       pharmacy. Premier carries the full direction. (Greenwich, retired
+       2026-11-25 after its recall, carried "as directed by provider".)
+       The provider still sees the full direction in instructionsRx.
      Same clinical content, different words. Unit counts are identical and are
      verified by KORB_DOSING.selfCheck(). They are kept separate so that wiring
      the tools together did not silently rewrite prescription text. Unify only
@@ -307,13 +307,14 @@ var KORB_DOSING = {
   },
 
   meta: {
-    version: '2.19',
+    version: '2.20',
     lastVerified: '2026-08-12',
     verifiedAgainst: [
       'KORB_Patient_Treatment_Schedule.html',
       'KORB_Provider_Clinical_Reference.html'
     ],
     changelog: [
+      '2026-11-25 (v2.20): GREENWICH REMOVED FROM FUNCTIONAL HEALTH & LONGEVITY. NO DOSE, AGENT, QUANTITY OR PREMIER FIELD CHANGED. Greenwich Rx issued a voluntary nationwide recall of its compounded sterile products on 2026-11-20 (potential lack of sterility assurance), and effective 2026-11-25 KORB sends nothing to Greenwich in any program (Don Stevenson, PA-C; korb-pharmacies.js v1.18). FH&L peptides go to Premier only. Removed: the Greenwich pharmacy entry, all 13 Greenwich patient and provider sigs (instructions, instructionsRx), the 13 GREENWICH Tebra Compounded Drug Favorites in prescribing, the Greenwich 50-unit syringe standard, the Greenwich CJC/Ipamorelin dose label, states.pausedPharmacy and states.singleSourceGreenwich. Every open FH&L state was already routed to Premier, so no open state changes pharmacy and none opens or closes. AR, CA and WA stay in unavailable and unavailableNoPharmacy with no restore date: no KORB peptide pharmacy is licensed there, and the temporarily unavailable framing is withdrawn. selfCheck() now loops over the pharmacies this file declares and fails any open state that is not in premierRouting. The FH&L prescribing sign-offs and the two FH&L patient tool sign-offs go stale with this change and need Don to re-read and re-sign.',
       '2026-11-19 (v2.19): FUNCTIONAL HEALTH & LONGEVITY CLOSES IN MICHIGAN. Premier is no longer licensed in Michigan, which now requires NABP accreditation (Premier weekly, 2026-11-18; korb-pharmacies.js v1.16). Premier was the only peptide pharmacy KORB had in MI, so MI joins unavailable and unavailableNoPharmacy. It is NOT in pausedPharmacy: there is no restore date. Don decided 2026-11-19. Open FH&L states go from 34 to 33. Don Stevenson, PA-C.',
       '2026-10-22 (v2.18): FUNCTIONAL HEALTH & LONGEVITY REOPENS IN INDIANA. IN was closed on 2026-09-11 for the pharmacy reason only, never for providers. Premier ships peptides to Indiana and IN was already in premierRouting, so the unavailableNoPharmacy flag was stale, and it made build-fhl-docs.js refuse to build. IN leaves unavailable, unavailableNoPharmacy and pausedPharmacy and routes to Premier. Providers: Fatou Thiam (CNP, staffs IN) and Kim Hildebrant (backup), both with collaboration agreements. Open FH&L states go from 33 to 34. Don Stevenson, PA-C.',
       '2026-10-22 (v2.17): FUNCTIONAL HEALTH & LONGEVITY REOPENS IN NEW HAMPSHIRE. NH was closed on 2026-09-11 for one reason only: Greenwich stopped shipping there and Premier was not licensed, so no peptide pharmacy could fill. Premier is now licensed in NH (NR2802, expires 2028-10-21; korb-pharmacies.js v1.12), so NH leaves unavailable, unavailableNoPharmacy and pausedPharmacy and routes to Premier. Providers: Kim Yartklang and Kim Hildebrant, NH APRN, full practice authority. Open FH&L states go from 32 to 33. Don Stevenson, PA-C.',
@@ -434,8 +435,10 @@ var KORB_DOSING = {
 
   // ── PHARMACIES ────────────────────────────────────────────────────────────
   pharmacies: {
-    premier:   { name: 'Premier Pharmacy',   color: '#1565C0' },
-    greenwich: { name: 'Greenwich Pharmacy', color: '#2E7D32' }
+    /* Greenwich removed 2026-11-25 (recall of 2026-11-20, Don). Premier is the
+       only FH&L peptide pharmacy. Every renderer reads this list, so removing the
+       key removes Greenwich from every FH&L page. */
+    premier:   { name: 'Premier Pharmacy',   color: '#1565C0' }
   },
 
   // ── INJECTION INSTRUCTIONS (per agent/dose key, per pharmacy) ────────────
@@ -444,122 +447,96 @@ var KORB_DOSING = {
   // Reference's ACTUAL_DIRECTIONS block on 2026-07-31.
   instructions: {
     sermorelin: {
-      premier:   'Inject 20 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-      greenwich: 'Inject 7 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+      premier:   'Inject 20 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
     },
     sermorelin300: {
-      premier:   'Inject 30 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-      greenwich: 'Inject 10 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+      premier:   'Inject 30 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
     },
     sermorelin400: {
-      premier:   'Inject 40 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-      greenwich: 'Inject 13 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+      premier:   'Inject 40 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
     },
     sermorelin500: {
-      premier:   'Inject 50 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-      greenwich: 'Inject 17 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+      premier:   'Inject 50 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
     },
     bpc157: {
-      premier:   'Inject 13 units subcutaneously once daily.',
-      greenwich: 'Inject 17 units subcutaneously once daily.'
+      premier:   'Inject 13 units subcutaneously once daily.'
     },
     cjcipam: {
-      premier:   'Inject 5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-      greenwich: 'Inject 5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+      premier:   'Inject 5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
     },
     cjcipam150: {
-      premier:   'Inject 7.5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-      greenwich: 'Inject 7.5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+      premier:   'Inject 7.5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
     },
     cjcipam200: {
-      premier:   'Inject 10 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-      greenwich: 'Inject 10 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+      premier:   'Inject 10 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
     },
     ghkcu: {
-      premier:   'Inject 20 units subcutaneously three times weekly in the evening.',
-      greenwich: 'Inject 20 units subcutaneously three times weekly in the evening.'
+      premier:   'Inject 20 units subcutaneously three times weekly in the evening.'
     },
     ghkcu1mg: {
-      premier:   'Inject 10 units subcutaneously once daily in the evening.',
-      greenwich: 'Inject 10 units subcutaneously once daily in the evening.'
+      premier:   'Inject 10 units subcutaneously once daily in the evening.'
     },
     tesamorelin1mg: {
-      premier:   'Inject 20 units subcutaneously in the evening, 6 days on, 1 day off.',
-      greenwich: 'Inject 33 units subcutaneously in the evening, 6 days on, 1 day off.'
+      premier:   'Inject 20 units subcutaneously in the evening, 6 days on, 1 day off.'
     },
     tesamorelin15mg: {
-      premier:   'Inject 30 units subcutaneously in the evening, 6 days on, 1 day off.',
-      greenwich: 'Inject 50 units subcutaneously in the evening, 6 days on, 1 day off.'
+      premier:   'Inject 30 units subcutaneously in the evening, 6 days on, 1 day off.'
     },
     tesamorelin2mg: {
-      premier:   'Inject 40 units subcutaneously in the evening, 6 days on, 1 day off.',
-      greenwich: 'Inject 67 units subcutaneously in the evening, 6 days on, 1 day off.'
+      premier:   'Inject 40 units subcutaneously in the evening, 6 days on, 1 day off.'
     }
   },
 
   // ── SYRINGE STANDARDS BY PHARMACY ───────────────────────────────
   // Premier ships 100-unit syringes as standard for every prescription, so no
-  // dose requires a label callout. Greenwich ships 50-unit syringes as standard,
-  // so any dose that fills or exceeds that barrel must state 100-UNIT SYRINGES
-  // in its Pharmacy Instructions. Enforced by selfCheck().
+  // dose requires a label callout. A pharmacy shipping a smaller standard
+  // syringe would set calloutAtOrAbove, and selfCheck() would then require
+  // 100-UNIT SYRINGES in its Pharmacy Instructions for any dose at or above it.
+  // (Greenwich, the 50-unit pharmacy, was retired 2026-11-25.)
   syringes: {
-    premier:   { standardUnits: 100, calloutAtOrAbove: null },
-    greenwich: { standardUnits: 50,  calloutAtOrAbove: 50 }
+    premier:   { standardUnits: 100, calloutAtOrAbove: null }
   },
 
   // ── PROVIDER / TEBRA INSTRUCTION PHRASING ────────────────────────
   instructionsRx: {
   sermorelin: {
-    premier:'Inject 20 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-    greenwich:'Inject 7 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+    premier:'Inject 20 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
   },
   sermorelin300: {
-    premier:'Inject 30 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-    greenwich:'Inject 10 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+    premier:'Inject 30 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
   },
   sermorelin400: {
-    premier:'Inject 40 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-    greenwich:'Inject 13 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+    premier:'Inject 40 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
   },
   sermorelin500: {
-    premier:'Inject 50 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-    greenwich:'Inject 17 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+    premier:'Inject 50 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
   },
   bpc157: {
-    premier:'Inject 13 units subcutaneously once daily.',
-    greenwich:'Inject 17 units subcutaneously once daily.'
+    premier:'Inject 13 units subcutaneously once daily.'
   },
   cjcipam: {
-    premier:'Inject 5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-    greenwich:'Inject 5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+    premier:'Inject 5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
   },
   cjcipam150: {
-    premier:'Inject 7.5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-    greenwich:'Inject 7.5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+    premier:'Inject 7.5 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
   },
   cjcipam200: {
-    premier:'Inject 10 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.',
-    greenwich:'Inject 10 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
+    premier:'Inject 10 units subcutaneously at bedtime, 6 days on, 1 day off, on an empty stomach.'
   },
   ghkcu: {
-    premier:'Inject 20 units subcutaneously three times weekly in the evening.',
-    greenwich:'Inject 20 units subcutaneously three times weekly in the evening.'
+    premier:'Inject 20 units subcutaneously three times weekly in the evening.'
   },
   ghkcu1mg: {
-    premier:'Inject 10 units subcutaneously once daily in the evening.',
-    greenwich:'Inject 10 units subcutaneously once daily in the evening.'
+    premier:'Inject 10 units subcutaneously once daily in the evening.'
   },
   tesamorelin1mg: {
-    premier:'Inject 20 units subcutaneously in the evening, 6 days on, 1 day off.',
-    greenwich:'Inject 33 units subcutaneously in the evening, 6 days on, 1 day off.'
+    premier:'Inject 20 units subcutaneously in the evening, 6 days on, 1 day off.'
   },
   tesamorelin15mg: {
-    premier:'Inject 30 units subcutaneously in the evening, 6 days on, 1 day off.',
-    greenwich:'Inject 50 units subcutaneously in the evening, 6 days on, 1 day off.'
+    premier:'Inject 30 units subcutaneously in the evening, 6 days on, 1 day off.'
   },
   tesamorelin2mg: {
-    premier:'Inject 40 units subcutaneously in the evening, 6 days on, 1 day off.',
-    greenwich:'Inject 67 units subcutaneously in the evening, 6 days on, 1 day off.'
+    premier:'Inject 40 units subcutaneously in the evening, 6 days on, 1 day off.'
   }
 },
 
@@ -587,21 +564,6 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
-    greenwich: {
-      label: 'GREENWICH - Sermorelin 200 mcg SQ Injection',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - Sermorelin 200 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '15', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
-      ]
-    },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active all 16 weeks of cycle',
     timing: 'Bedtime, on an empty stomach (\u22652 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
@@ -623,21 +585,6 @@ var KORB_DOSING = {
         { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT SERMORELIN 30 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
-      ]
-    },
-    greenwich: {
-      label: 'GREENWICH - Sermorelin 300 mcg SQ Injection',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - Sermorelin 300 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '15', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active all 16 weeks of cycle',
@@ -663,21 +610,6 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
-    greenwich: {
-      label: 'GREENWICH - Sermorelin 400 mcg SQ Injection',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - Sermorelin 400 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '15', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
-      ]
-    },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active all 16 weeks of cycle',
     timing: 'Bedtime, on an empty stomach (\u22652 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
@@ -701,21 +633,6 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
-    greenwich: {
-      label: 'GREENWICH - Sermorelin 500 mcg SQ Injection',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH   Sermorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - Sermorelin 500 mcg SQ Injection', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '15', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
-      ]
-    },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active all 16 weeks of cycle',
     timing: 'Bedtime, on an empty stomach (\u22652 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
@@ -737,21 +654,6 @@ var KORB_DOSING = {
         { field: 'Patient Instructions', val: 'DISPENSE 60 INSULIN SYRINGES. INJECT 13 UNITS SUBCUTANEOUSLY ONCE DAILY', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
-      ]
-    },
-    greenwich: {
-      label: 'GREENWICH - BPC-157 500 mcg SQ Inj',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH   BPC-157 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - BPC-157 500 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '10', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '56', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
       ]
     },
     schedule: 'Daily SQ · Weeks 3–8 of each 16-week cycle (starts 2 weeks after Sermorelin)',
@@ -793,21 +695,6 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
-    greenwich: {
-      label: 'GREENWICH - CJC/Ipam 100 mcg/100 mcg SQ Inj',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH CJC/Ipamorelin 2mg/2mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - CJC/Ipam 100 mcg/100 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '15', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
-      ]
-    },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
@@ -829,21 +716,6 @@ var KORB_DOSING = {
         { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT 7.5 UNITS SUBCUTANEOUSLY AT BEDTIME, 6 DAYS ON 1 DAY OFF, ON AN EMPTY STOMACH', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
-      ]
-    },
-    greenwich: {
-      label: 'GREENWICH - CJC/Ipam 150 mcg/150 mcg SQ Inj',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH CJC/Ipamorelin 2mg/2mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - CJC/Ipam 150 mcg/150 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '15', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
@@ -869,21 +741,6 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
-    greenwich: {
-      label: 'GREENWICH - CJC/Ipam 200 mcg/200 mcg SQ Inj',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH CJC/Ipamorelin 2mg/2mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - CJC/Ipam 200 mcg/200 mcg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '15', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
-      ]
-    },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
@@ -905,21 +762,6 @@ var KORB_DOSING = {
         { field: 'Patient Instructions', val: 'DISPENSE 20 INSULIN SYRINGES. INJECT 20 UNITS SUBCUTANEOUSLY THREE TIMES WEEKLY IN THE EVENING', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
-      ]
-    },
-    greenwich: {
-      label: 'GREENWICH - GHK-Cu 2mg SQ Inj',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH GHK-Cu 10mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - GHK-Cu 2mg SQ Inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '5', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '28', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
       ]
     },
     /* Said "Active Weeks 1-4, off Weeks 5-16" until 2026-10-13, contradicting
@@ -973,21 +815,6 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
-    greenwich: {
-      label: 'GREENWICH - GHK-Cu 1mg SQ Inj Daily',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH GHK-Cu 10mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - GHK-Cu 1mg SQ Inj Daily', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '15', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
-      ]
-    },
     schedule: 'Daily SQ (evening) · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing: 'Evening, at a consistent time each day',
     storage: 'Refrigerate (36–46 °F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
@@ -1023,21 +850,6 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
-    greenwich: {
-      label: 'GREENWICH - Tesamorelin SQ 1 mg inj',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH Tesamorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - Tesamorelin SQ 1 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '30', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing', copy: true },
-      ]
-    },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
@@ -1061,21 +873,6 @@ var KORB_DOSING = {
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
       ]
     },
-    greenwich: {
-      label: 'GREENWICH - Tesamorelin SQ 1.5 mg inj',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH Tesamorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - Tesamorelin SQ 1.5 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '45', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. DISPENSE 100-UNIT SYRINGES - the 50-unit dose fills a 50-unit syringe with no headroom.', copy: true },
-      ]
-    },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
     timing: 'Bedtime, on an empty stomach (≥2 hrs post-meal)',
     storage: 'Refrigerate (36\u201346 \u00b0F). Do not freeze. Protect from light. Discard 28 days after initial puncture.',
@@ -1097,21 +894,6 @@ var KORB_DOSING = {
         { field: 'Patient Instructions', val: 'DISPENSE 80 INSULIN SYRINGES. INJECT 40 UNITS SUBCUTANEOUSLY IN THE EVENING, 6 DAYS ON 1 DAY OFF', copy: true },
         { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
         { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing.', copy: true },
-      ]
-    },
-    greenwich: {
-      label: 'GREENWICH - Tesamorelin SQ 2 mg inj',
-      fields: [
-        { field: 'Drug Formulation', val: 'KBH Tesamorelin 3mg/mL', copy: true },
-        { field: 'Name', val: 'GREENWICH - Tesamorelin SQ 2 mg inj', copy: true },
-        { field: 'Allow Substitution', val: 'Yes - select Allow Substitution', copy: false },
-        { field: 'Quantity', val: '60', copy: true },
-        { field: 'Unit', val: 'ml', copy: true },
-        { field: 'Refill', val: '0', copy: true },
-        { field: 'Days Supply', val: '84', copy: true },
-        { field: 'Patient Instructions', val: 'Inject as directed by provider. Follow your KORB treatment schedule.', copy: true },
-        { field: 'Reason for Compounding', val: 'Customized peptide dosing', copy: true },
-        { field: 'Pharmacy Instructions', val: 'Bill to KORB Health Group and ship to the patient. Customized peptide dosing. DISPENSE 100-UNIT SYRINGES - the 67-unit dose exceeds a 50-unit syringe.', copy: true },
       ]
     },
     schedule: 'Nightly SQ · 6 days ON / 1 day OFF · Active Weeks 1–12, off Weeks 13–16 of cycle',
@@ -1145,7 +927,7 @@ var KORB_DOSING = {
     timing:'Any consistent time daily. No food restriction.' },
   cjcipam: { key:'cjcipam', label:'CJC-1295 / Ipamorelin', onWeeks:[1,12],
     doseLabel:'100 mcg / 100 mcg (starting dose)',
-    doseLabelByPharm:{ greenwich:'100 mcg CJC-1295 / 100 mcg Ipamorelin', premier:'100 mcg CJC-1295 / 100 mcg Ipamorelin' },
+    doseLabelByPharm:{ premier:'100 mcg CJC-1295 / 100 mcg Ipamorelin' },
     titrate:true,
     titrationLadder:['100','150','200'],
     titrationNote:'Titrate 100 → 150 → 200 mcg at 16-week visits. All three doses ' +
@@ -1508,12 +1290,11 @@ var KORB_DOSING = {
 
   // ── STATE ROUTING AND AVAILABILITY ────────────────────────────────────────
   // premierRouting: states that default to Premier. NOT WRITTEN HERE - see
-  // hydrate() below; korb-pharmacies.js owns it. Everything else goes to
-  // Greenwich, which is the only other peptide source. Greenwich dispenses to
-  // only 23 states as of 2026-09-11. Where Premier is not licensed either, the
-  // state has no peptide source at all - see unavailableNoPharmacy and
-  // pausedPharmacy below. Where Greenwich is the ONLY licensed pharmacy, the
-  // state is open but has no fallback - see singleSourceGreenwich.
+  // hydrate() below; korb-pharmacies.js owns it. Since 2026-11-25 Premier is
+  // the ONLY FH&L peptide pharmacy (Greenwich retired after its recall of
+  // 2026-11-20). A state Premier cannot ship peptides to has no peptide source
+  // and must be in unavailable and unavailableNoPharmacy; selfCheck() fails
+  // any open state that is not in premierRouting.
   // unavailable: FH&L is not offered in these states. This is the list the
   //   provider tool blocks on - if a state is here, no visit, no prescription,
   //   no shipment.
@@ -1539,17 +1320,12 @@ var KORB_DOSING = {
   // generic "provider coverage and operational bandwidth" line. Source: notice
   // to Don, 2026-08-24, that MS, AL and SC are out of the FH&L offering.
   //
-  // pausedPharmacy: the subset of unavailableNoPharmacy that is expected to
-  //   come back. Greenwich has given a 30 to 60 day restore estimate, so these
-  //   states are presented as TEMPORARILY unavailable. A state in this list
-  //   still blocks the same way - no visit, no prescription, no shipment - the
-  //   difference is only what the provider and the patient are told. Never say
-  //   discontinued for a paused state.
-  // singleSourceGreenwich: states Greenwich serves where Premier is not
-  //   licensed. These are OPEN and not blocked. They have no second route, so
-  //   a further Greenwich change closes them immediately. IA and ID are the two
-  //   that are live and taking patients and they carry a provider-facing
-  //   caution; AK, HI and MA are already in unavailable for other reasons.
+  // pausedPharmacy and singleSourceGreenwich: REMOVED 2026-11-25. They carried
+  //   the Greenwich 30 to 60 day restore framing for AR, CA and WA and a
+  //   single-source caution for IA and ID. Greenwich is retired in every
+  //   program, so nothing is coming back from it: AR, CA and WA stay closed
+  //   because no KORB peptide pharmacy is licensed there, with no restore
+  //   date, the same as VA and MI. The dated notes below are kept as history.
   //
   // 2026-09-11: AR, CA, IN, NH and WA added to unavailable and to the new
   // unavailableNoPharmacy list. Greenwich stopped shipping to these five
@@ -1590,30 +1366,10 @@ var KORB_DOSING = {
        same day, and no KORB pharmacy ships peptides there. Not paused - there is no
        restore date. */
     unavailableNoPharmacy: ['AR','CA','MI','VA','WA'],
-    unavailableLabWorkflow: ['NY','NJ','RI'],
-    pausedPharmacy: {
-      states: ['AR','CA','WA'],
-      effective: '2026-09-11',
-      effectiveTime: '11:59 pm 11 September 2026',
-      expectedRestore: '30 to 60 days from 11 September 2026',
-      reviewBy: '10 November 2026',
-      reason: 'Greenwich restricted itself to the 23 states where it is directly licensed, having stopped relying on central-fill arrangements with affiliated pharmacies. Premier is not licensed in any of these states, so there is no peptide source while the restriction holds.',
-      providerLine: 'Functional Health and Longevity is temporarily unavailable in this state. Greenwich has applications pending and expects to substantially resume coverage within 30 to 60 days of 11 Sept 2026. Do not tell a patient the program has been discontinued.',
-      /* AL, MN and SC also lost Greenwich, but every one of them was already
-         out of the peptide program before this happened — AL and SC as
-         compliance exclusions, MN from Phase One. The prior reason is the
-         governing one and none of the three is on the restore clock, because
-         Greenwich coming back does not reopen them. */
-      alsoLostGreenwichButAlreadyExcluded: ['AL','MN','SC'],
-      fillCutoff: 'Prescriptions received before 11:59 pm 11 Sept 2026 were filled and shipped by 13 Sept, tracking by 14 Sept. No reshipments approved or shipped after 14 Sept 2026.'
-    },
-    singleSourceGreenwich: {
-      states: ['AK','HI','IA','ID','MA'],
-      liveStates: ['IA','ID'],
-      blocking: false,
-      note: 'Greenwich is the only pharmacy licensed for peptides in these states. Premier cannot cover them, so a further Greenwich change closes them with no fallback. AK, HI and MA are already in unavailable for other reasons; IA and ID are open and taking patients.',
-      providerLine: 'Greenwich is mid-restriction, so confirm the fill before promising a patient a start date.'
-    }
+    unavailableLabWorkflow: ['NY','NJ','RI']
+    /* AR, CA and WA: closed since 2026-09-11 and, from 2026-11-25, with no
+       restore date. They were framed as a Greenwich pause until Greenwich was
+       retired after its recall; no KORB peptide pharmacy is licensed there. */
   },
 
   // ── HELPERS ───────────────────────────────────────────────────────────────
@@ -1653,8 +1409,8 @@ var KORB_DOSING = {
 
      LOAD ORDER. korb-pharmacies.js must load first. If it has not,
      requireHydrated() throws naming the missing script rather than answering
-     from an empty list - "Premier ships nowhere" would silently route every
-     FH&L patient to Greenwich. */
+     from an empty list - "Premier ships nowhere" would silently close, or
+     before 2026-11-25 misroute, every FH&L patient. */
   hydrated: false,
 
   hydrate: function (PH) {
@@ -1729,7 +1485,7 @@ KORB_DOSING.selfCheck = function(){
   var problems = [];
   var units = function(t){ var m = t && t.match(/([0-9]+(?:\.[0-9]+)?)\s*units/i); return m ? m[1] : null; };
   Object.keys(KORB_DOSING.instructions).forEach(function(k){
-    ['premier','greenwich'].forEach(function(ph){
+    Object.keys(KORB_DOSING.pharmacies).forEach(function(ph){
       var a = KORB_DOSING.instructions[k] && KORB_DOSING.instructions[k][ph];
       var b = KORB_DOSING.instructionsRx[k] && KORB_DOSING.instructionsRx[k][ph];
       if (a && b && units(a) !== units(b)) {
@@ -1738,7 +1494,7 @@ KORB_DOSING.selfCheck = function(){
     });
   });
   Object.keys(KORB_DOSING.prescribing).forEach(function(k){
-    ['premier','greenwich'].forEach(function(ph){
+    Object.keys(KORB_DOSING.pharmacies).forEach(function(ph){
       var e = KORB_DOSING.prescribing[k] && KORB_DOSING.prescribing[k][ph];
       if (!e || !e.fields) return;
       e.fields.forEach(function(f){
@@ -1773,7 +1529,7 @@ KORB_DOSING.selfCheck = function(){
      Daily records only; the weekly and 6-on/1-off agents are covered by their own
      quantities. */
   Object.keys(KORB_DOSING.prescribing).forEach(function(k){
-    ['premier','greenwich'].forEach(function(ph){
+    Object.keys(KORB_DOSING.pharmacies).forEach(function(ph){
       var e = KORB_DOSING.prescribing[k] && KORB_DOSING.prescribing[k][ph];
       if (!e || !e.fields) return;
       var g = function(f){ var x = e.fields.filter(function(y){return y.field===f;})[0]; return x ? x.val : null; };
@@ -1919,6 +1675,23 @@ KORB_DOSING.selfCheck = function(){
       if (f.agentChoices.indexOf(k) === -1) problems.push('FOUNDATION CODE ' + k + ': has a code but Foundation does not offer it');
     });
   })();
+
+  /* EVERY OPEN STATE HAS A PHARMACY, 2026-11-25. When Greenwich was retired
+     after its recall, Premier became the only FH&L peptide pharmacy. An open
+     state Premier cannot ship to would offer a visit with nowhere to send the
+     prescription. Checked only when hydrated, since premierRouting is filled
+     from korb-pharmacies.js at load. */
+  if (KORB_DOSING.hydrated) {
+    var NAMES = (typeof KORB_PHARMACIES !== 'undefined' && KORB_PHARMACIES.stateNames) || {};
+    var routed = KORB_DOSING.states.premierRouting || [];
+    var closed = KORB_DOSING.states.unavailable || [];
+    Object.keys(NAMES).forEach(function (st) {
+      if (closed.indexOf(st) === -1 && routed.indexOf(st) === -1) {
+        problems.push('NO PHARMACY ' + st + ': FH&L is open here but Premier does not ship peptides to it. ' +
+                      'Add it to states.unavailable and states.unavailableNoPharmacy.');
+      }
+    });
+  }
 
   if (!problems.length) console.log('KORB_DOSING selfCheck: OK');
   else problems.forEach(function(p){ console.warn('KORB_DOSING selfCheck: ' + p); });
