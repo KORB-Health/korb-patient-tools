@@ -231,13 +231,15 @@
         return size ? { size: size, count: cm ? parseInt(cm[1], 10) : 1 } : null;
       }).filter(Boolean);
     };
-    var words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
-    var nw = function (n) { return words[n] || String(n); };
+    /* Digits, not words, and every size spelled out (Don, 2026-11-25): a
+       patient counting vials against the page needs "4 vials: 2 of 1 mL and
+       2 of 2 mL", for every program length and for glycine's 1 mL packs. */
     var vialLine = function (str) {
       var segs = parseV(str), total = 0;
       segs.forEach(function (x) { total += x.count; });
-      var parts = segs.map(function (x) { return nw(x.count) + ' ' + x.size + ' mL vial' + (x.count === 1 ? '' : 's'); });
-      return { total: total, text: parts.length > 1 ? parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1] : (parts[0] || '') };
+      return { total: total, sizes: segs.map(function (x) {
+        return x.count + ' vial' + (x.count === 1 ? '' : 's') + ' of ' + x.size + ' mL';
+      }) };
     };
     var lengths = [4, 8, 12].filter(function (w) { return dose['vials' + w]; });
     var wk = parseInt(qs.wk, 10);
@@ -249,13 +251,17 @@
                  '<strong>If you cannot find every vial, contact KORB right away at (888) 959-7299.</strong></p>';
       if (vrows.length === 1) {
         var v1 = vrows[0];
-        h += '<div class="kmp-box amber"><strong>Check that you have ' + (v1.total === 2 ? 'both vials' : 'all ' + esc(nw(v1.total)) + ' vials') + '.</strong> ' +
-             'Your ' + esc(v1.w) + '-week supply of ' + esc(dose.dose) + ' comes as ' + esc(v1.text) + '.' + tail + '</div>';
+        h += '<div class="kmp-box amber"><strong>Your box should have ' + esc(v1.total) + ' vial' + (v1.total === 1 ? '' : 's') + '.</strong> ' +
+             'Your ' + esc(v1.w) + '-week supply of ' + esc(dose.dose) + ' comes as:' +
+             '<ul>' + v1.sizes.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' + tail + '</div>';
       } else {
         h += '<div class="kmp-box amber"><strong>Check that you have all your vials.</strong> ' +
              'How many come in your box depends on your program length:' +
              '<table class="kmp-cmp"><tr><th>Program</th><th>Vials in the box</th></tr>' +
-             vrows.map(function (v) { return '<tr><td>' + esc(v.w) + ' weeks</td><td>' + esc(v.total) + ' (' + esc(v.text) + ')</td></tr>'; }).join('') +
+             vrows.map(function (v) {
+               return '<tr><td>' + esc(v.w) + ' weeks</td><td><strong>' + esc(v.total) + ' vial' + (v.total === 1 ? '' : 's') + '</strong>: ' +
+                      esc(v.sizes.join(' and ')) + '</td></tr>';
+             }).join('') +
              '</table>' + tail + '</div>';
       }
     }
