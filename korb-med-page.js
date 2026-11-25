@@ -217,6 +217,50 @@
     h += '<h2>What to expect from the switch</h2><ul>' + sx.map(function (p) { return '<li>' + esc(fill(p)) + '</li>'; }).join('') + '</ul>';
   }
 
+  /* 2c. CHECK YOUR VIALS (Don, 2026-11-25). Patients miss a vial stacked in a
+     corner of the box and think it never came. Shown only when the supply has
+     more than one vial. Counts come from the dose record's vials4 / vials8 /
+     vials12, the same strings the provider reference shows; the link's &wk=
+     says which program, and without it every length is listed. */
+  if (!oral) {
+    var parseV = function (str) {
+      return String(str || '').split('&').map(function (seg) {
+        seg = seg.trim();
+        var size = (seg.match(/^([\d.]+)\s*m[lL]/) || [])[1];
+        var cm = seg.match(/x\s*(\d+)/i);
+        return size ? { size: size, count: cm ? parseInt(cm[1], 10) : 1 } : null;
+      }).filter(Boolean);
+    };
+    var words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+    var nw = function (n) { return words[n] || String(n); };
+    var vialLine = function (str) {
+      var segs = parseV(str), total = 0;
+      segs.forEach(function (x) { total += x.count; });
+      var parts = segs.map(function (x) { return nw(x.count) + ' ' + x.size + ' mL vial' + (x.count === 1 ? '' : 's'); });
+      return { total: total, text: parts.length > 1 ? parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1] : (parts[0] || '') };
+    };
+    var lengths = [4, 8, 12].filter(function (w) { return dose['vials' + w]; });
+    var wk = parseInt(qs.wk, 10);
+    var vrows = (lengths.indexOf(wk) >= 0 ? [wk] : lengths).map(function (w) {
+      var v = vialLine(dose['vials' + w]); v.w = w; return v;
+    }).filter(function (v) { return v.total > 0; });
+    if (vrows.some(function (v) { return v.total > 1; })) {
+      var tail = '<p>Vials are small and often sit stacked in a bottom corner of the box, so look carefully before you throw any packing away. ' +
+                 '<strong>If you cannot find every vial, contact KORB right away at (888) 959-7299.</strong></p>';
+      if (vrows.length === 1) {
+        var v1 = vrows[0];
+        h += '<div class="kmp-box amber"><strong>Check that you have ' + (v1.total === 2 ? 'both vials' : 'all ' + esc(nw(v1.total)) + ' vials') + '.</strong> ' +
+             'Your ' + esc(v1.w) + '-week supply of ' + esc(dose.dose) + ' comes as ' + esc(v1.text) + '.' + tail + '</div>';
+      } else {
+        h += '<div class="kmp-box amber"><strong>Check that you have all your vials.</strong> ' +
+             'How many come in your box depends on your program length:' +
+             '<table class="kmp-cmp"><tr><th>Program</th><th>Vials in the box</th></tr>' +
+             vrows.map(function (v) { return '<tr><td>' + esc(v.w) + ' weeks</td><td>' + esc(v.total) + ' (' + esc(v.text) + ')</td></tr>'; }).join('') +
+             '</table>' + tail + '</div>';
+      }
+    }
+  }
+
   /* 3. WHAT IS IN IT, and what the label shows. */
   if (oral) {
     h += '<h2>What is in it</h2><p>' + esc(drug) + ', taken by mouth and dissolved under your tongue. ' +

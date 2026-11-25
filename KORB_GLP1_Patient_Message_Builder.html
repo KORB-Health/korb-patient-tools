@@ -281,8 +281,17 @@ a{color:var(--navy)}
   var mode = /[?&]mode=convert\b/.test(location.search) ? 'convert' : 'new';
   var chosenSup = 'supply4', chosenStep = 0, chosenVit = 'b12';
 
-  function patientLink(key, dose, wasDose){
-    return C.siteBase + C.patientPages[key] + '?dose=' + encodeURIComponent(num(dose)) + (wasDose ? '&was=' + encodeURIComponent(num(wasDose)) : '');
+  /* wk = program length in weeks, so the page can say how many vials are in the
+     box (Don, 2026-11-25). The page works without it and then lists every length. */
+  function weeksOf(sup){ return (String(sup || '').match(/supply(\d+)/) || [])[1] || ''; }
+  function patientLink(key, dose, wasDose, sup){
+    var wk = weeksOf(sup);
+    return C.siteBase + C.patientPages[key] + '?dose=' + encodeURIComponent(num(dose)) + (wasDose ? '&was=' + encodeURIComponent(num(wasDose)) : '') +
+      (wk ? '&wk=' + wk : '');
+  }
+  function withWeeks(link, sup){
+    var wk = weeksOf(sup);
+    return link && wk ? link + '&wk=' + wk : link;
   }
   function today(){ var d = new Date(); return (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear(); }
 
@@ -421,7 +430,7 @@ a{color:var(--navy)}
      the link opens the patient's page at this dose. */
   function newMessage(prod, dose, supKey){
     var ph = phName(prod.pharmacy), drug = drugName(prod), oral = isOral(prod), L = [];
-    var link = patientLink(prod.key, dose);
+    var link = patientLink(prod.key, dose, null, supKey);
     if (oral){
       var sig = String((dose.rx || {}).ptInstructions || '').toLowerCase().replace(/(^|\.\s+)([a-z])/g, function(m,a,b){ return a + b.toUpperCase(); });
       L.push('I sent your ' + drug + ' tablets prescription to ' + ph + '. Check your label against the details below before your first dose, and message me with any questions.');
@@ -454,6 +463,9 @@ a{color:var(--navy)}
     }
     L.push('');
     L.push('Your instructions' + (oral ? '' : ', with a picture of your syringe') + ', copy and paste into your browser:');
+    /* A blank line before the link so a patient copies the link and nothing
+       else (Don, 2026-11-25: he was adding it by hand). */
+    L.push('');
     L.push(link);
     return ascii(L.join('\n'));
   }
@@ -501,7 +513,7 @@ a{color:var(--navy)}
     h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', ascii(summary));
     h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', ascii(plan));
     h += msgBoxes('new', msg);
-    h += '<div class="panel"><a href="' + esc(patientLink(prod.key, dose)) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
+    h += '<div class="panel"><a href="' + esc(patientLink(prod.key, dose, null, sup)) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
     out.innerHTML = h;
   }
 
@@ -573,7 +585,7 @@ a{color:var(--navy)}
       (high ? '\n\nHIGHER DOSE: follow your provider\'s instructions for this dose. Unsure? Contact KORB before your next injection.' : '') +
       (C.glycineVialNote && C.glycineVialNote(c.toProduct.key, t, 'message') ? ' ' + C.glycineVialNote(c.toProduct.key, t, 'message') : '') +
       (sup === 'supply12' ? '\n\n12-week supply: start your first dose within 5 days of delivery.' : '') +
-      '\n\nYour instructions' + (oral ? '' : ' and syringe picture') + ' (copy and paste into your browser):\n' + c.patientLink +
+      '\n\nYour instructions' + (oral ? '' : ' and syringe picture') + ' (copy and paste into your browser):\n\n' + withWeeks(c.patientLink, sup) +
       '\n\nFinish your FarmaKeio supply first, at your current FarmaKeio dose. Then start ' + ph + ' with the new instructions. Questions? Reply here.';
     return { summary: ascii(summary), plan: ascii(plan), msg: ascii(msg), rec: rec, unitsNote: unitsNote, high: high, ruleText: ruleText, stepWord: stepWord, eu: eu, fu: fu, tu: tu };
   }
@@ -622,7 +634,7 @@ a{color:var(--navy)}
     h += copyBox('cbSum', 'Running summary', 'One line for the running summary in the note.', T.summary);
     h += copyBox('cbPlan', 'Plan', 'Paste into the plan. Fill in anything in brackets.', T.plan);
     h += msgBoxes('convert', T.msg);
-    h += '<div class="panel"><a href="' + esc(c.patientLink) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
+    h += '<div class="panel"><a href="' + esc(withWeeks(c.patientLink, $('sup').value)) + '" target="_blank" rel="noopener">Preview the patient page</a></div>';
     out.innerHTML = h;
   }
 

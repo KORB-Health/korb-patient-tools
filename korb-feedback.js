@@ -61,9 +61,13 @@
        data-seal="legitscript" shows it, and it is refused anyway if the page
        names a peptide. Never add the attribute to a Functional Health &
        Longevity page. Same rule and link as patient-ed-render.js. */
+    /* The seal goes AFTER the feedback block, not inside it: inside, the
+       '.k-feedback a' rule turned it into a big navy pill (Don, 2026-11-25). */
+    var seal = null;
     if (me && me.getAttribute('data-seal') === 'legitscript' &&
         !/peptide|sermorelin|tesamorelin|ipamorelin|bpc-?157|ghk-?cu|longevity/i.test(document.body.innerText || '')) {
-      css.textContent += '.k-seal{display:block;width:max-content;margin:22px auto 0;line-height:0;}' +
+      css.textContent += '.k-seal{display:block;width:max-content;margin:18px auto 8px;line-height:0;background:none;border:0;padding:0;}' +
+        '@media print{.k-seal{display:none;}}' +
         '.k-seal img{width:73px;height:auto;}';
       var s = document.createElement('a');
       s.className = 'k-seal'; s.target = '_blank'; s.rel = 'noopener';
@@ -74,11 +78,13 @@
       im.src = 'https://korb-health.github.io/korb-patient-tools/img/legitscript-certified.png';
       im.alt = 'LegitScript Certified. Verify certification for korbhealth.com';
       im.width = 73; im.height = 79; im.loading = 'lazy';
-      s.appendChild(im); box.appendChild(s);
+      s.appendChild(im); seal = s;
     }
 
     var cols = document.querySelectorAll('body > .wrap');
-    (cols.length ? cols[cols.length - 1] : document.body).appendChild(box);
+    var col = cols.length ? cols[cols.length - 1] : document.body;
+    col.appendChild(box);
+    if (seal) { col.appendChild(seal); }
   }
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', render); }
   else { render(); }
