@@ -170,83 +170,123 @@ var KORB_DOSING = {
        - "Tesamorelin 1, 1.5, 2 mg" under "Dose ladder - Tesamorelin", where
        both had previously carried a strength twice. */
       "fhl:peakB": {
-      "signedBy": "Donald Stevenson, PA-C",
-      "role": "Director of Clinical Operations and Lead Provider",
-      "date": "2026-09-20",
-      "dataVersion": "2.14",
-      "fingerprint": "fp-3b96cb3c-23457",
-      "blocks": 10,
-      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-      "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
-      "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-15",
-          "dataVersion": "2.13",
-          "fingerprint": "fp-fded1e3c-23457",
-          "blocks": 10,
-          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
-        }
-    },
-      "fhl:peakA": {
-      "signedBy": "Donald Stevenson, PA-C",
-      "role": "Director of Clinical Operations and Lead Provider",
-      "date": "2026-09-20",
-      "dataVersion": "2.14",
-      "fingerprint": "fp-e4d99efc-23521",
-      "blocks": 10,
-      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-      "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
-      "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-15",
-          "dataVersion": "2.13",
-          "fingerprint": "fp-d2d5fd02-23521",
-          "blocks": 10,
-          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
-        }
-    },
-      "fhl:gateway": {
-      "signedBy": "Donald Stevenson, PA-C",
-      "role": "Director of Clinical Operations and Lead Provider",
-      "date": "2026-09-20",
-      "dataVersion": "2.14",
-      "fingerprint": "fp-b560d5c4-28165",
-      "blocks": 12,
-      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-      "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
-      "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-15",
-          "dataVersion": "2.13",
-          "fingerprint": "fp-651fd946-28165",
-          "blocks": 12,
-          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
-        }
-    },
-      "fhl:foundation": {
-      "signedBy": "Donald Stevenson, PA-C",
-      "role": "Director of Clinical Operations and Lead Provider",
-      "date": "2026-10-13",
-      "dataVersion": "2.15",
-      "fingerprint": "fp-04ede32c-37783",
-      "blocks": 16,
-      "document": "Foundation",
-      "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
-      "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: two new entries, PREMIER - GHK-Cu 1 mg SQ Inj Daily (18 ml, 84 days, 90 syringes) and GREENWICH - GHK-Cu 1mg SQ Inj Daily (15 ml, 84 days), 14 existing entries unchanged. Same review covered the per-agent charge codes (P01 BPC-157, P02 Sermorelin, P03 CJC, P04 GHK-Cu) and the removal of website pricing. Don reviewed it on screen and said \"approved\".",
-      "superseded": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "dataVersion": "2.20",
+        "fingerprint": "fp-73a082d7-11679",
+        "blocks": 5,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Re-signed 2026-11-25 after Greenwich was retired in every program (Greenwich Rx voluntary nationwide recall of compounded sterile products, 2026-11-20). Every GREENWICH entry was removed and FH&L peptides go to Premier only. The Premier entries, doses, quantities, sigs and charge codes are unchanged; the block count halved because only the Greenwich half was removed. Don asked for the re-sign in chat on 2026-11-25.",
+        "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
           "date": "2026-09-20",
           "dataVersion": "2.14",
-          "fingerprint": "fp-d09fe8ba-33170",
-          "blocks": 14,
-          "document": "Foundation",
+          "fingerprint": "fp-3b96cb3c-23457",
+          "blocks": 10,
           "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
           "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
           "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-15",
+            "dataVersion": "2.13",
+            "fingerprint": "fp-fded1e3c-23457",
+            "blocks": 10,
+            "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+          }
+        }
+      },
+      "fhl:peakA": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "dataVersion": "2.20",
+        "fingerprint": "fp-a23e0940-11961",
+        "blocks": 5,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Re-signed 2026-11-25 after Greenwich was retired in every program (Greenwich Rx voluntary nationwide recall of compounded sterile products, 2026-11-20). Every GREENWICH entry was removed and FH&L peptides go to Premier only. The Premier entries, doses, quantities, sigs and charge codes are unchanged; the block count halved because only the Greenwich half was removed. Don asked for the re-sign in chat on 2026-11-25.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "dataVersion": "2.14",
+          "fingerprint": "fp-e4d99efc-23521",
+          "blocks": 10,
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+          "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-15",
+            "dataVersion": "2.13",
+            "fingerprint": "fp-d2d5fd02-23521",
+            "blocks": 10,
+            "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+          }
+        }
+      },
+      "fhl:gateway": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "dataVersion": "2.20",
+        "fingerprint": "fp-7b9d39ba-14334",
+        "blocks": 6,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "note": "Re-signed 2026-11-25 after Greenwich was retired in every program (Greenwich Rx voluntary nationwide recall of compounded sterile products, 2026-11-20). Every GREENWICH entry was removed and FH&L peptides go to Premier only. The Premier entries, doses, quantities, sigs and charge codes are unchanged; the block count halved because only the Greenwich half was removed. Don asked for the re-sign in chat on 2026-11-25.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-20",
+          "dataVersion": "2.14",
+          "fingerprint": "fp-b560d5c4-28165",
+          "blocks": 12,
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+          "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-15",
+            "dataVersion": "2.13",
+            "fingerprint": "fp-651fd946-28165",
+            "blocks": 12,
+            "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing."
+          }
+        }
+      },
+      "fhl:foundation": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "dataVersion": "2.20",
+        "fingerprint": "fp-546feb6d-19246",
+        "blocks": 8,
+        "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+        "document": "Foundation",
+        "note": "Re-signed 2026-11-25 after Greenwich was retired in every program (Greenwich Rx voluntary nationwide recall of compounded sterile products, 2026-11-20). Every GREENWICH entry was removed and FH&L peptides go to Premier only. The Premier entries, doses, quantities, sigs and charge codes are unchanged; the block count halved because only the Greenwich half was removed. Don asked for the re-sign in chat on 2026-11-25.",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-10-13",
+          "dataVersion": "2.15",
+          "fingerprint": "fp-04ede32c-37783",
+          "blocks": 16,
+          "document": "Foundation",
+          "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+          "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: two new entries, PREMIER - GHK-Cu 1 mg SQ Inj Daily (18 ml, 84 days, 90 syringes) and GREENWICH - GHK-Cu 1mg SQ Inj Daily (15 ml, 84 days), 14 existing entries unchanged. Same review covered the per-agent charge codes (P01 BPC-157, P02 Sermorelin, P03 CJC, P04 GHK-Cu) and the removal of website pricing. Don reviewed it on screen and said \"approved\".",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "dataVersion": "2.14",
+            "fingerprint": "fp-d09fe8ba-33170",
+            "blocks": 14,
+            "document": "Foundation",
+            "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
+            "note": "Re-signed after the 2026-09-20 syringe change. The syringe COUNT moved from Pharmacy Instructions to the front of Patient Instructions on the Premier peptide entries, at the pharmacy's request - they were missing it where it sat and shipping one pack of 10 against prescriptions calling for far more. Counts are unchanged and the block count is unchanged. The two Greenwich tesamorelin entries were deliberately left alone: theirs is a syringe SIZE instruction, not a count. Don reviewed all four on the live site and confirmed 2026-09-20: \"they're up to date, and they look good\".",
+            "superseded": {
               "signedBy": "Donald Stevenson, PA-C",
               "role": "Director of Clinical Operations and Lead Provider",
               "date": "2026-09-15",
@@ -257,8 +297,9 @@ var KORB_DOSING = {
               "attests": "Reviewed the prescribing blocks on this document as rendered - drug formulation, Tebra favorite name, quantity, unit, refill, days supply, patient instructions, reason for compounding, pharmacy instructions and the charge codes - and approve them for use in prescribing.",
               "note": "Approved 2026-09-15 after the duplicated doses in headings were fixed, pricing moved to the top, and the Foundation charge codes were corrected to FndnPeptideP02 / FndnPeptide002: \"Perfect.\""
             }
+          }
         }
-    },
+      },
     }
   },
 
@@ -270,37 +311,55 @@ var KORB_DOSING = {
       "tool:fhltracker": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-13",
-        "fingerprint": "fp-63bd1432-116991",
-        "covers": "56 states, 0 prescribing blocks",
+        "date": "2026-11-25",
+        "fingerprint": "fp-2157515a-58683",
+        "covers": "28 states, 0 prescribing blocks",
         "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
-        "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: GHK-Cu 1 mg is a fourth Foundation medication, daily, 10 units, Weeks 1-12, at Premier and Greenwich (54 states to 56). The Gateway/Peak GHK-Cu add-on is unchanged. Don used the tool and said \"approved\".",
+        "note": "Re-signed 2026-11-25 after Greenwich was retired in every program (recall of 2026-11-20). The tool now offers Premier only, so the state x pharmacy combinations halve (56 to 28). No program, medication, dose, schedule, units or injection days changed for Premier. Don asked for the re-sign in chat on 2026-11-25.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-26",
-          "fingerprint": "fp-3a39c13c-113256",
-          "covers": "54 states, 0 prescribing blocks",
+          "date": "2026-10-13",
+          "fingerprint": "fp-63bd1432-116991",
+          "covers": "56 states, 0 prescribing blocks",
           "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
-          "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the probe was added that day (commit 89bdf45)."
+          "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: GHK-Cu 1 mg is a fourth Foundation medication, daily, 10 units, Weeks 1-12, at Premier and Greenwich (54 states to 56). The Gateway/Peak GHK-Cu add-on is unchanged. Don used the tool and said \"approved\".",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-26",
+            "fingerprint": "fp-3a39c13c-113256",
+            "covers": "54 states, 0 prescribing blocks",
+            "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
+            "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the probe was added that day (commit 89bdf45)."
+          }
         }
       },
       "tool:fhlschedule": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-13",
-        "fingerprint": "fp-1fff97ce-460598",
-        "covers": "56 states, 0 prescribing blocks",
+        "date": "2026-11-25",
+        "fingerprint": "fp-1aa1e1fd-230364",
+        "covers": "28 states, 0 prescribing blocks",
         "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
-        "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: the Foundation medication picker now reads programs.foundation.agentChoices (four, GHK-Cu last) instead of typed options, and GHK-Cu shows daily, 10 units, Weeks 1-12 at both pharmacies. The Gateway/Peak add-on is unchanged. Don used the tool and said \"approved\".",
+        "note": "Re-signed 2026-11-25 after Greenwich was retired in every program (recall of 2026-11-20). The tool now offers Premier only, so the state x pharmacy combinations halve (56 to 28). No program, medication, dose, schedule, units or injection days changed for Premier. Don asked for the re-sign in chat on 2026-11-25.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-26",
-          "fingerprint": "fp-8b33ef00-447371",
-          "covers": "54 states, 0 prescribing blocks",
+          "date": "2026-10-13",
+          "fingerprint": "fp-1fff97ce-460598",
+          "covers": "56 states, 0 prescribing blocks",
           "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
-          "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the Gateway, Peak A and Peak B dose lists moved from typed <option> tags to programs.<x>.primaryDoseOptions (commit 89bdf45)."
+          "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: the Foundation medication picker now reads programs.foundation.agentChoices (four, GHK-Cu last) instead of typed options, and GHK-Cu shows daily, 10 units, Weeks 1-12 at both pharmacies. The Gateway/Peak add-on is unchanged. Don used the tool and said \"approved\".",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-26",
+            "fingerprint": "fp-8b33ef00-447371",
+            "covers": "54 states, 0 prescribing blocks",
+            "attests": "Reviewed this patient tool as rendered - every program, medication, dose and pharmacy it offers, and the schedule, units to draw and injection days it shows for each - and approve it for use by patients.",
+            "note": "First signature. Signed 2026-09-25 on Don's instruction in chat, after the Gateway, Peak A and Peak B dose lists moved from typed <option> tags to programs.<x>.primaryDoseOptions (commit 89bdf45)."
+          }
         }
       }
     }
