@@ -54,53 +54,71 @@ var KORB_PATIENT_ED = {
       "page:glossary_of_terms": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-11-21",
-        "fingerprint": "fp-26822f92-6228",
-        "covers": "6031 characters, 7 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-b223452f-6245",
+        "covers": "6042 characters, 7 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the Glossary\") after the FH&L terms moved to the Longevity Hub on 2026-11-20 (peptide, growth hormone-releasing peptide, program option, cycle, IGF-1, ceruloplasmin) and Add-on's example changed from GHK-Cu to hair loss or skin care.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-24",
-          "fingerprint": "fp-53b31e89-6973",
-          "covers": "6776 characters, 7 headings",
+          "date": "2026-11-21",
+          "fingerprint": "fp-26822f92-6228",
+          "covers": "6031 characters, 7 headings",
           "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-          "note": "First sign-off. New page from Kris Mulkey's second review, 2026-09-24: 51 terms in five groups, definitions taken from the guides' own first-use wording, NP added alongside PA-C. Don, 2026-09-24: \"All of these have been reviewed and signed off on.\""
+          "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the Glossary\") after the FH&L terms moved to the Longevity Hub on 2026-11-20 (peptide, growth hormone-releasing peptide, program option, cycle, IGF-1, ceruloplasmin) and Add-on's example changed from GHK-Cu to hair loss or skin care.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-24",
+            "fingerprint": "fp-53b31e89-6973",
+            "covers": "6776 characters, 7 headings",
+            "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+            "note": "First sign-off. New page from Kris Mulkey's second review, 2026-09-24: 51 terms in five groups, definitions taken from the guides' own first-use wording, NP added alongside PA-C. Don, 2026-09-24: \"All of these have been reviewed and signed off on.\""
+          }
         }
       },
       "page:foundation_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-13",
-        "fingerprint": "fp-43189fe8-7340",
-        "covers": "6939 characters, 15 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-8e35eebd-7351",
+        "covers": "6944 characters, 15 headings",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation as a fourth medication option: daily in the evening, Weeks 1-12, copper watched on labs. Don read it on screen and said \"approved\".",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-24",
-          "fingerprint": "fp-3e55f26d-7013",
-          "covers": "6621 characters, 14 headings",
-          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-          "note": "Re-read after Kris Mulkey's second review: the opening paragraphs trimmed to her wording, the peptide definition kept, \"Baseline lab work is required\" added, and \"walk you through\" changed to \"explain\". Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
+          "date": "2026-10-13",
+          "fingerprint": "fp-43189fe8-7340",
+          "covers": "6939 characters, 15 headings",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation as a fourth medication option: daily in the evening, Weeks 1-12, copper watched on labs. Don read it on screen and said \"approved\".",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-23",
-            "fingerprint": "fp-4ca04f0a-7151",
-            "covers": "6759 characters, 14 headings",
+            "date": "2026-09-24",
+            "fingerprint": "fp-3e55f26d-7013",
+            "covers": "6621 characters, 14 headings",
             "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-            "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes and the optimization link relabelling. Don: \"Foundation program overview is good to sign off on.\"",
+            "note": "Re-read after Kris Mulkey's second review: the opening paragraphs trimmed to her wording, the peptide definition kept, \"Baseline lab work is required\" added, and \"walk you through\" changed to \"explain\". Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
             "superseded": {
               "signedBy": "Donald Stevenson, PA-C",
               "role": "Director of Clinical Operations and Lead Provider",
-              "date": "2026-09-20",
-              "fingerprint": "fp-c618be0b-6499",
-              "covers": "6140 characters, 13 headings",
-              "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+              "date": "2026-09-23",
+              "fingerprint": "fp-4ca04f0a-7151",
+              "covers": "6759 characters, 14 headings",
+              "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+              "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes and the optimization link relabelling. Don: \"Foundation program overview is good to sign off on.\"",
+              "superseded": {
+                "signedBy": "Donald Stevenson, PA-C",
+                "role": "Director of Clinical Operations and Lead Provider",
+                "date": "2026-09-20",
+                "fingerprint": "fp-c618be0b-6499",
+                "covers": "6140 characters, 13 headings",
+                "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+                "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+              }
             }
           }
         }
@@ -108,80 +126,107 @@ var KORB_PATIENT_ED = {
       "page:gateway_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-24",
-        "fingerprint": "fp-93aa2973-6413",
-        "covers": "6045 characters, 14 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-cb9ab482-6424",
+        "covers": "6050 characters, 14 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read after Kris Mulkey's second review: the two opening paragraphs merged into one in her wording, the baseline labs definition kept, and \"walk you through\" changed to \"explain\". Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-23",
-          "fingerprint": "fp-afa9061f-6693",
-          "covers": "6325 characters, 14 headings",
+          "date": "2026-09-24",
+          "fingerprint": "fp-93aa2973-6413",
+          "covers": "6045 characters, 14 headings",
           "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes and the optimization link relabelling. Don: \"Gateway program overview is good to sign off on.\"",
+          "note": "Re-read after Kris Mulkey's second review: the two opening paragraphs merged into one in her wording, the baseline labs definition kept, and \"walk you through\" changed to \"explain\". Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-20",
-            "fingerprint": "fp-5550a518-6091",
-            "covers": "5751 characters, 13 headings",
-            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            "date": "2026-09-23",
+            "fingerprint": "fp-afa9061f-6693",
+            "covers": "6325 characters, 14 headings",
+            "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes and the optimization link relabelling. Don: \"Gateway program overview is good to sign off on.\"",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-20",
+              "fingerprint": "fp-5550a518-6091",
+              "covers": "5751 characters, 13 headings",
+              "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            }
           }
         }
       },
       "page:injection_storage_safety_guide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-44d82e65-6184",
-        "covers": "5780 characters, 12 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-1df68fd8-6201",
+        "covers": "5791 characters, 12 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. The shared sharps sentence is no longer printed here. This page has its own fuller Sharps disposal section, so the rule and the locator link were appearing twice; it now takes the sharps-free injection-safety block and keeps its own section.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-21",
-          "fingerprint": "fp-865b338b-6138",
-          "covers": "5730 characters, 12 headings",
-          "attests": "Reviewed this patient page as rendered and approve it for release to patients, including the testosterone callout added the same day.",
-          "note": "Signed 2026-09-21 after the testosterone callout was added at Don's request. The page is written for insulin-syringe patients and never said so, so a Men's Health patient was being told to use the wrong device. The callout names the draw-up needle and the injection needle, says never to draw up through the injection needle, and confirms that the rest of the page applies unchanged. Don, 2026-09-21: read it that afternoon and confirmed it was good. This page could not be signed before today because the register could not see it."
+          "date": "2026-09-23",
+          "fingerprint": "fp-44d82e65-6184",
+          "covers": "5780 characters, 12 headings",
+          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. The shared sharps sentence is no longer printed here. This page has its own fuller Sharps disposal section, so the rule and the locator link were appearing twice; it now takes the sharps-free injection-safety block and keeps its own section.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-21",
+            "fingerprint": "fp-865b338b-6138",
+            "covers": "5730 characters, 12 headings",
+            "attests": "Reviewed this patient page as rendered and approve it for release to patients, including the testosterone callout added the same day.",
+            "note": "Signed 2026-09-21 after the testosterone callout was added at Don's request. The page is written for insulin-syringe patients and never said so, so a Men's Health patient was being told to use the wrong device. The callout names the draw-up needle and the injection needle, says never to draw up through the injection needle, and confirms that the rest of the page applies unchanged. Don, 2026-09-21: read it that afternoon and confirmed it was good. This page could not be signed before today because the register could not see it."
+          }
         }
       },
       "page:longevity_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-13",
-        "fingerprint": "fp-d0dcc675-6803",
-        "covers": "6384 characters, 14 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-07f45478-6814",
+        "covers": "6389 characters, 14 headings",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-13: the Foundation tier now names GHK-Cu as a fourth medication choice. Don read it on screen and said \"approved\".",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-24",
-          "fingerprint": "fp-a512cc9a-6795",
-          "covers": "6376 characters, 14 headings",
-          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-          "note": "Re-read after Kris Mulkey's second review: \"walk you through\" changed to \"explain\" in the shared research sentence. Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
+          "date": "2026-10-13",
+          "fingerprint": "fp-d0dcc675-6803",
+          "covers": "6384 characters, 14 headings",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Re-signed 2026-10-13: the Foundation tier now names GHK-Cu as a fourth medication choice. Don read it on screen and said \"approved\".",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-23",
-            "fingerprint": "fp-355ea93c-6804",
-            "covers": "6385 characters, 14 headings",
+            "date": "2026-09-24",
+            "fingerprint": "fp-a512cc9a-6795",
+            "covers": "6376 characters, 14 headings",
             "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-            "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes, the optimization link relabelling, and the Peak pathway naming added the same day at Don's request. Don: \"functional health all look good.\"",
+            "note": "Re-read after Kris Mulkey's second review: \"walk you through\" changed to \"explain\" in the shared research sentence. Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
             "superseded": {
               "signedBy": "Donald Stevenson, PA-C",
               "role": "Director of Clinical Operations and Lead Provider",
-              "date": "2026-09-20",
-              "fingerprint": "fp-e682b48b-5927",
-              "covers": "5518 characters, 13 headings",
-              "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+              "date": "2026-09-23",
+              "fingerprint": "fp-355ea93c-6804",
+              "covers": "6385 characters, 14 headings",
+              "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+              "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes, the optimization link relabelling, and the Peak pathway naming added the same day at Don's request. Don: \"functional health all look good.\"",
+              "superseded": {
+                "signedBy": "Donald Stevenson, PA-C",
+                "role": "Director of Clinical Operations and Lead Provider",
+                "date": "2026-09-20",
+                "fingerprint": "fp-e682b48b-5927",
+                "covers": "5518 characters, 13 headings",
+                "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+                "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+              }
             }
           }
         }
@@ -189,387 +234,539 @@ var KORB_PATIENT_ED = {
       "page:menshealth_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-01e4daa1-3634",
-        "covers": "3412 characters, 6 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-daced0f3-3610",
+        "covers": "3382 characters, 6 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-31acc47a-3420",
-          "covers": "3192 characters, 6 headings",
-          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          "date": "2026-09-23",
+          "fingerprint": "fp-01e4daa1-3634",
+          "covers": "3412 characters, 6 headings",
+          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+          "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-31acc47a-3420",
+            "covers": "3192 characters, 6 headings",
+            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          }
         }
       },
       "page:peak_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-24",
-        "fingerprint": "fp-25e6fe2f-6780",
-        "covers": "6337 characters, 16 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-f1a9186c-6791",
+        "covers": "6342 characters, 16 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read after Kris Mulkey's second review: the opening in her wording with Pathway A and Pathway B on lines of their own, the body composition and baseline labs definitions kept, \"your provider selects your pathway\" said once, and \"walk you through\" changed to \"explain\". Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-23",
-          "fingerprint": "fp-6e95c7eb-7000",
-          "covers": "6557 characters, 16 headings",
+          "date": "2026-09-24",
+          "fingerprint": "fp-25e6fe2f-6780",
+          "covers": "6337 characters, 16 headings",
           "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes, the optimization link relabelling, and the pathway naming added the same day: Pathway A is CJC-1295 / Ipamorelin with BPC-157, Pathway B is Tesamorelin with BPC-157. Don: \"Peak program overview: good to sign off on.\"",
+          "note": "Re-read after Kris Mulkey's second review: the opening in her wording with Pathway A and Pathway B on lines of their own, the body composition and baseline labs definitions kept, \"your provider selects your pathway\" said once, and \"walk you through\" changed to \"explain\". Don, 2026-09-24: \"All of these have been reviewed and signed off on.\"",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-20",
-            "fingerprint": "fp-742b8ef5-6382",
-            "covers": "5936 characters, 15 headings",
-            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            "date": "2026-09-23",
+            "fingerprint": "fp-6e95c7eb-7000",
+            "covers": "6557 characters, 16 headings",
+            "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-23 after the Kris Mulkey review changes, the optimization link relabelling, and the pathway naming added the same day: Pathway A is CJC-1295 / Ipamorelin with BPC-157, Pathway B is Tesamorelin with BPC-157. Don: \"Peak program overview: good to sign off on.\"",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-20",
+              "fingerprint": "fp-742b8ef5-6382",
+              "covers": "5936 characters, 15 headings",
+              "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            }
           }
         }
       },
       "page:start_here_guide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-13",
-        "fingerprint": "fp-e4240da8-3465",
-        "covers": "3214 characters, 7 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-85d5ed17-3480",
+        "covers": "3223 characters, 7 headings",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-13: the medication guide button reads GHK-Cu rather than GHK-Cu (Add-On), since the guide now covers the Foundation course too. Don read it on screen: \"This looks great.\"",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-23",
-          "fingerprint": "fp-b2e7921e-3474",
-          "covers": "3223 characters, 7 headings",
-          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. The three programme choices split into a name and a caption - \"Foundation\" with \"One medication\" beneath - matching the treatment the optimization buttons got the same day.",
+          "date": "2026-10-13",
+          "fingerprint": "fp-e4240da8-3465",
+          "covers": "3214 characters, 7 headings",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Re-signed 2026-10-13: the medication guide button reads GHK-Cu rather than GHK-Cu (Add-On), since the guide now covers the Foundation course too. Don read it on screen: \"This looks great.\"",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-20",
-            "fingerprint": "fp-64bd476d-3380",
-            "covers": "3129 characters, 7 headings",
-            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            "date": "2026-09-23",
+            "fingerprint": "fp-b2e7921e-3474",
+            "covers": "3223 characters, 7 headings",
+            "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. The three programme choices split into a name and a caption - \"Foundation\" with \"One medication\" beneath - matching the treatment the optimization buttons got the same day.",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-20",
+              "fingerprint": "fp-64bd476d-3380",
+              "covers": "3129 characters, 7 headings",
+              "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+            }
           }
         }
       },
       "page:weightloss_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-c5b93f28-5737",
-        "covers": "5382 characters, 10 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-0c87ece9-5750",
+        "covers": "5389 characters, 10 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-60cb3a90-4949",
-          "covers": "4635 characters, 10 headings",
-          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          "date": "2026-09-23",
+          "fingerprint": "fp-c5b93f28-5737",
+          "covers": "5382 characters, 10 headings",
+          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+          "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-60cb3a90-4949",
+            "covers": "4635 characters, 10 headings",
+            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          }
         }
       },
       "page:when_to_contact_korb_or_er": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-9778f32a-3365",
-        "covers": "2979 characters, 9 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-2b25b473-3366",
+        "covers": "2982 characters, 9 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Read and approved unchanged. Don: \"that was all good.\"",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-4f97b920-3341",
-          "covers": "2955 characters, 9 headings",
-          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          "date": "2026-09-23",
+          "fingerprint": "fp-9778f32a-3365",
+          "covers": "2979 characters, 9 headings",
+          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Read and approved unchanged. Don: \"that was all good.\"",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-4f97b920-3341",
+            "covers": "2955 characters, 9 headings",
+            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          }
         }
       },
       "page:womenshealth_program_overview": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-e7aba570-4491",
-        "covers": "4202 characters, 9 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-f7a5e08f-4506",
+        "covers": "4211 characters, 9 headings",
         "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
-        "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-42a82329-4415",
-          "covers": "4118 characters, 9 headings",
-          "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          "date": "2026-09-23",
+          "fingerprint": "fp-e7aba570-4491",
+          "covers": "4202 characters, 9 headings",
+          "attests": "Reviewed this patient page as rendered and approve it for release to patients.",
+          "note": "Re-read on 2026-09-23 after the Kris Mulkey review changes of 2026-09-22 and the optimization link relabelling of 2026-09-23, in which each button became the guide's own title with its qualifier as a caption beneath. Don approved all three in one pass: \"good to sign off on.\"",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-42a82329-4415",
+            "covers": "4118 characters, 9 headings",
+            "attests": "Reviewed this patient page as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the page was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, dated to when the reading happened. This page was ticked complete in the KORB Build Review artifact and that record was invisible to this register, which until 2026-09-21 enumerated only files named KORB_Patient_Ed_*. Verified unchanged since: rendered at commit 65b8a52 and compared against the current build, byte-identical in rendered text."
+          }
         }
       },
       "handout:anti_aging": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-76deed28-6019",
-        "covers": "5801 characters, 9 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-caee023f-6036",
+        "covers": "5812 characters, 9 headings",
         "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Gains a Storage and travel section and the shared airport screening sentence, because NAD+ injection is an injectable and this guide had neither. It states NO storage temperature, deliberately: korb-addons-data.js records none for any of the four products, so the label governs. Don is getting the beyond-use and storage figures at his next meeting with the pharmacy and they will be added then. Also gains the state-availability disclaimer.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-7d258f21-4431",
-          "covers": "4281 characters, 6 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          "date": "2026-09-23",
+          "fingerprint": "fp-76deed28-6019",
+          "covers": "5801 characters, 9 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Gains a Storage and travel section and the shared airport screening sentence, because NAD+ injection is an injectable and this guide had neither. It states NO storage temperature, deliberately: korb-addons-data.js records none for any of the four products, so the label governs. Don is getting the beyond-use and storage figures at his next meeting with the pharmacy and they will be added then. Also gains the state-availability disclaimer.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-7d258f21-4431",
+            "covers": "4281 characters, 6 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
         }
       },
       "handout:bpc157": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-cd853b7b-10170",
-        "covers": "9761 characters, 16 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-db004f28-10181",
+        "covers": "9766 characters, 16 headings",
         "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", baseline labs are stated, and the injection-site infection and rash rows now send the patient to be evaluated rather than to send a message.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-c7ea2b97-9151",
-          "covers": "8728 characters, 16 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          "date": "2026-09-23",
+          "fingerprint": "fp-cd853b7b-10170",
+          "covers": "9761 characters, 16 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", baseline labs are stated, and the injection-site infection and rash rows now send the patient to be evaluated rather than to send a message.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-c7ea2b97-9151",
+            "covers": "8728 characters, 16 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
         }
       },
       "handout:cjc_ipamorelin": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-7b2fd004-11132",
-        "covers": "10621 characters, 18 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-3cfb0ef9-11143",
+        "covers": "10626 characters, 18 headings",
         "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", and baseline labs are now stated before the test list.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-db49cab3-10293",
-          "covers": "9768 characters, 18 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          "date": "2026-09-23",
+          "fingerprint": "fp-7b2fd004-11132",
+          "covers": "10621 characters, 18 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", and baseline labs are now stated before the test list.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-db49cab3-10293",
+            "covers": "9768 characters, 18 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
         }
       },
       "handout:ghk_cu": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-13",
-        "fingerprint": "fp-514048ff-11587",
-        "covers": "10952 characters, 21 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-68cdd8ca-11598",
+        "covers": "10957 characters, 21 headings",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: the guide now covers both uses, with one schedule per program read from the dosing data (Foundation daily Weeks 1-12; Gateway/Peak add-on three times weekly Weeks 5-8), Foundation and add-on timing notes, a timeline row that fits both, and a key reminder for both. Don read it on screen and said \"approved\".",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-23",
-          "fingerprint": "fp-0126bdb8-10853",
-          "covers": "10367 characters, 18 headings",
-          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", baseline labs are stated, and the hives row now sends the patient to be evaluated.",
+          "date": "2026-10-13",
+          "fingerprint": "fp-514048ff-11587",
+          "covers": "10952 characters, 21 headings",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Re-signed 2026-10-13 after GHK-Cu joined Foundation: the guide now covers both uses, with one schedule per program read from the dosing data (Foundation daily Weeks 1-12; Gateway/Peak add-on three times weekly Weeks 5-8), Foundation and add-on timing notes, a timeline row that fits both, and a key reminder for both. Don read it on screen and said \"approved\".",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-20",
-            "fingerprint": "fp-6853e060-10105",
-            "covers": "9605 characters, 18 headings",
-            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+            "date": "2026-09-23",
+            "fingerprint": "fp-0126bdb8-10853",
+            "covers": "10367 characters, 18 headings",
+            "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", baseline labs are stated, and the hives row now sends the patient to be evaluated.",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-20",
+              "fingerprint": "fp-6853e060-10105",
+              "covers": "9605 characters, 18 headings",
+              "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+            }
           }
         }
       },
       "handout:hair_loss": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-15b91bf5-4214",
-        "covers": "3938 characters, 9 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-6e1c7dce-4231",
+        "covers": "3949 characters, 9 headings",
         "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. \"How to use it\" became \"How to use the topical\", because that section is entirely about the topical on a page that also covers an oral tablet. Scalp redness drops \"Common\". Gains the state-availability disclaimer.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-ae9ff1f8-3722",
-          "covers": "3489 characters, 7 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          "date": "2026-09-23",
+          "fingerprint": "fp-15b91bf5-4214",
+          "covers": "3938 characters, 9 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. \"How to use it\" became \"How to use the topical\", because that section is entirely about the topical on a page that also covers an oral tablet. Scalp redness drops \"Common\". Gains the state-availability disclaimer.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-ae9ff1f8-3722",
+            "covers": "3489 characters, 7 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
         }
       },
       "handout:semaglutide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-11-21",
-        "fingerprint": "fp-cc248eee-17017",
-        "covers": "16339 characters, 25 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-c90a9d17-17028",
+        "covers": "16344 characters, 25 headings",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the Semaglutide Guide\") after the \"If you take semaglutide by mouth\" section was added, pointing oral Dots patients to the Premier tablets page and the chooser. Covers the edits that had made it stale before that day too.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-11-21",
+          "fingerprint": "fp-cc248eee-17017",
+          "covers": "16339 characters, 25 headings",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the Semaglutide Guide\") after the \"If you take semaglutide by mouth\" section was added, pointing oral Dots patients to the Premier tablets page and the chooser. Covers the edits that had made it stale before that day too.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-10-29",
+            "fingerprint": "fp-f398cb78-16357",
+            "covers": "15714 characters, 24 headings",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Re-signed 2026-10-29 on Don's approval in chat (\"Sign and push\") after B-6 became an ordinary choice: the sentence tying B-6 to not tolerating B-12 was removed.",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-10-22",
+              "fingerprint": "fp-88843907-16392",
+              "covers": "15749 characters, 24 headings",
+              "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+              "note": "Re-signed 2026-10-22 on Don's review in chat (\"signed, routing tool and both handouts\") for the B-6 sentence: B-12 is usual, B-6 if the patient does not tolerate B-12, and the label names what is in theirs.",
+              "superseded": {
+                "signedBy": "Donald Stevenson, PA-C",
+                "role": "Director of Clinical Operations and Lead Provider",
+                "date": "2026-09-23",
+                "fingerprint": "fp-fc75aa2b-16236",
+                "covers": "15593 characters, 24 headings",
+                "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+                "note": "Re-signed after the \"If your dose uses two vials\" row was added with Premier semaglutide 4.5 mg, where the fourth dose of every four weeks is the leftover of both vials. Don reviewed on the live site and approved 2026-09-23: \"they look good. go ahead and sign off on them for me now. Good to go\".",
+                "superseded": {
+                  "signedBy": "Donald Stevenson, PA-C",
+                  "role": "Director of Clinical Operations and Lead Provider",
+                  "date": "2026-09-23",
+                  "fingerprint": "fp-7ed57fe2-15798",
+                  "covers": "15185 characters, 23 headings",
+                  "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+                  "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. On this guide: the fluid target, \"May occur\" in place of \"Common\" on the nausea row, sentence case in the fact table, and the rewritten escalation - pancreatitis, gallbladder and dehydration now send the patient to urgent care or the ER the same day rather than to a message.",
+                  "superseded": {
+                    "signedBy": "Donald Stevenson, PA-C",
+                    "role": "Director of Clinical Operations and Lead Provider",
+                    "date": "2026-09-20",
+                    "fingerprint": "fp-45b0129c-14243",
+                    "covers": "13608 characters, 22 headings",
+                    "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+                    "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "handout:sermorelin": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "fingerprint": "fp-a740c744-11090",
+        "covers": "10640 characters, 17 headings",
+        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-23",
+          "fingerprint": "fp-f1d1b631-11079",
+          "covers": "10635 characters, 17 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", and the labs section now states plainly that baseline labs are required before starting, with the draw repeated at weeks 12 to 14 of each 16-week cycle.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-ad920930-10553",
+            "covers": "10095 characters, 17 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
+        }
+      },
+      "handout:sexual_health": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "fingerprint": "fp-1ec2c125-6261",
+        "covers": "6008 characters, 9 headings",
+        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-23",
+          "fingerprint": "fp-14757c41-6236",
+          "covers": "5989 characters, 9 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Stuffy nose and upset stomach drop \"Common\" for \"May occur\". Gains the state-availability disclaimer.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-191275c6-5484",
+            "covers": "5264 characters, 8 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
+        }
+      },
+      "handout:skin_care": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "fingerprint": "fp-b7309b82-3837",
+        "covers": "3613 characters, 8 headings",
+        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-23",
+          "fingerprint": "fp-74b54da9-3820",
+          "covers": "3602 characters, 8 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Gains the state-availability disclaimer. Its two \"Common\" cells are KEPT deliberately, against the general rule: retinoid redness at first and the acne purge as pores clear are near-universal, and understating them risks a patient stopping treatment when the expected thing happens.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-332a2641-3381",
+            "covers": "3171 characters, 7 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
+        }
+      },
+      "handout:tesamorelin": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "fingerprint": "fp-9873c2f2-11646",
+        "covers": "11163 characters, 18 headings",
+        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
+        "superseded": {
+          "signedBy": "Donald Stevenson, PA-C",
+          "role": "Director of Clinical Operations and Lead Provider",
+          "date": "2026-09-23",
+          "fingerprint": "fp-6d35bac9-11635",
+          "covers": "11158 characters, 18 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", and baseline labs are now stated before the test list.",
+          "superseded": {
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-20",
+            "fingerprint": "fp-7ab398c0-10894",
+            "covers": "10403 characters, 18 headings",
+            "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+            "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
+          }
+        }
+      },
+      "handout:tirzepatide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-25",
+        "fingerprint": "fp-98cc839d-15745",
+        "covers": "15126 characters, 23 headings",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
           "date": "2026-10-29",
-          "fingerprint": "fp-f398cb78-16357",
-          "covers": "15714 characters, 24 headings",
+          "fingerprint": "fp-70e831b4-15734",
+          "covers": "15121 characters, 23 headings",
           "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
           "note": "Re-signed 2026-10-29 on Don's approval in chat (\"Sign and push\") after B-6 became an ordinary choice: the sentence tying B-6 to not tolerating B-12 was removed.",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
             "date": "2026-10-22",
-            "fingerprint": "fp-88843907-16392",
-            "covers": "15749 characters, 24 headings",
+            "fingerprint": "fp-4eadf219-15769",
+            "covers": "15156 characters, 23 headings",
             "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
             "note": "Re-signed 2026-10-22 on Don's review in chat (\"signed, routing tool and both handouts\") for the B-6 sentence: B-12 is usual, B-6 if the patient does not tolerate B-12, and the label names what is in theirs.",
             "superseded": {
               "signedBy": "Donald Stevenson, PA-C",
               "role": "Director of Clinical Operations and Lead Provider",
               "date": "2026-09-23",
-              "fingerprint": "fp-fc75aa2b-16236",
-              "covers": "15593 characters, 24 headings",
+              "fingerprint": "fp-c52c0fad-15613",
+              "covers": "15000 characters, 23 headings",
               "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-              "note": "Re-signed after the \"If your dose uses two vials\" row was added with Premier semaglutide 4.5 mg, where the fourth dose of every four weeks is the leftover of both vials. Don reviewed on the live site and approved 2026-09-23: \"they look good. go ahead and sign off on them for me now. Good to go\".",
+              "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Same changes as the Semaglutide guide: fluid target, \"May occur\" on the nausea row, sentence case in the fact table, and the rewritten escalation to urgent care or the ER.",
               "superseded": {
                 "signedBy": "Donald Stevenson, PA-C",
                 "role": "Director of Clinical Operations and Lead Provider",
-                "date": "2026-09-23",
-                "fingerprint": "fp-7ed57fe2-15798",
-                "covers": "15185 characters, 23 headings",
-                "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-                "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. On this guide: the fluid target, \"May occur\" in place of \"Common\" on the nausea row, sentence case in the fact table, and the rewritten escalation - pancreatitis, gallbladder and dehydration now send the patient to urgent care or the ER the same day rather than to a message.",
-                "superseded": {
-                  "signedBy": "Donald Stevenson, PA-C",
-                  "role": "Director of Clinical Operations and Lead Provider",
-                  "date": "2026-09-20",
-                  "fingerprint": "fp-45b0129c-14243",
-                  "covers": "13608 characters, 22 headings",
-                  "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-                  "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
-                }
+                "date": "2026-09-20",
+                "fingerprint": "fp-834d23a8-14238",
+                "covers": "13603 characters, 22 headings",
+                "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
+                "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
               }
-            }
-        
-        }
-      }
-      },
-      "handout:sermorelin": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-f1d1b631-11079",
-        "covers": "10635 characters, 17 headings",
-        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", and the labs section now states plainly that baseline labs are required before starting, with the draw repeated at weeks 12 to 14 of each 16-week cycle.",
-        "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-ad920930-10553",
-          "covers": "10095 characters, 17 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
-        }
-      },
-      "handout:sexual_health": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-14757c41-6236",
-        "covers": "5989 characters, 9 headings",
-        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Stuffy nose and upset stomach drop \"Common\" for \"May occur\". Gains the state-availability disclaimer.",
-        "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-191275c6-5484",
-          "covers": "5264 characters, 8 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
-        }
-      },
-      "handout:skin_care": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-74b54da9-3820",
-        "covers": "3602 characters, 8 headings",
-        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Gains the state-availability disclaimer. Its two \"Common\" cells are KEPT deliberately, against the general rule: retinoid redness at first and the acne purge as pores clear are near-universal, and understating them risks a patient stopping treatment when the expected thing happens.",
-        "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-332a2641-3381",
-          "covers": "3171 characters, 7 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
-        }
-      },
-      "handout:tesamorelin": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-6d35bac9-11635",
-        "covers": "11158 characters, 18 headings",
-        "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction drops \"Common\", and baseline labs are now stated before the test list.",
-        "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-20",
-          "fingerprint": "fp-7ab398c0-10894",
-          "covers": "10403 characters, 18 headings",
-          "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-          "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
-        }
-      },
-      "handout:tirzepatide": {
-        "signedBy": "Donald Stevenson, PA-C",
-        "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-10-29",
-        "fingerprint": "fp-70e831b4-15734",
-        "covers": "15121 characters, 23 headings",
-        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Re-signed 2026-10-29 on Don's approval in chat (\"Sign and push\") after B-6 became an ordinary choice: the sentence tying B-6 to not tolerating B-12 was removed.",
-        "superseded": {
-          "signedBy": "Donald Stevenson, PA-C",
-          "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-10-22",
-          "fingerprint": "fp-4eadf219-15769",
-          "covers": "15156 characters, 23 headings",
-          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Re-signed 2026-10-22 on Don's review in chat (\"signed, routing tool and both handouts\") for the B-6 sentence: B-12 is usual, B-6 if the patient does not tolerate B-12, and the label names what is in theirs.",
-          "superseded": {
-            "signedBy": "Donald Stevenson, PA-C",
-            "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-23",
-            "fingerprint": "fp-c52c0fad-15613",
-            "covers": "15000 characters, 23 headings",
-            "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-            "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Same changes as the Semaglutide guide: fluid target, \"May occur\" on the nausea row, sentence case in the fact table, and the rewritten escalation to urgent care or the ER.",
-            "superseded": {
-              "signedBy": "Donald Stevenson, PA-C",
-              "role": "Director of Clinical Operations and Lead Provider",
-              "date": "2026-09-20",
-              "fingerprint": "fp-834d23a8-14238",
-              "covers": "13603 characters, 22 headings",
-              "attests": "Reviewed this patient handout as rendered, document by document, during the Build Review pass of 2026-09-19 and 2026-09-20. Corrections identified during that read were made and re-checked before the document was marked complete, and approve it for release to patients.",
-              "note": "RECORDED 2026-09-21 FROM A REVIEW DONE 2026-09-19 AND 2026-09-20, and dated to when the reading happened rather than when the record was written. Don worked through every patient page in the KORB Build Review artifact, raised corrections as he went, verified each one after it was made, and then marked the document complete. His marks saved into that artifact's own state and this register never saw them, which is why it read 'never signed' for two days. THE CONTENT WAS PROVEN UNCHANGED BEFORE THIS WAS WRITTEN, not assumed: every patient page was rendered at commit 65b8a52, the last commit before 2026-09-21, and compared against the current build. 21 of 23 are byte-identical in rendered text. The two that moved are the Testosterone handout and the Injection, Storage and Safety Guide, and neither is covered by this batch. So the fingerprint below is over the same words Don read."
             }
           }
         }
@@ -577,34 +774,43 @@ var KORB_PATIENT_ED = {
       "handout:testosterone": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-26",
-        "fingerprint": "fp-6444f642-13630",
-        "covers": "13142 characters, 19 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-61f860bf-13641",
+        "covers": "13147 characters, 19 headings",
         "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-        "note": "Signed 2026-09-25 on Don's instruction in chat. What moved since the 2026-09-23 signature: labs are drawn about halfway between two injections, not on an injection day before the dose, in the labs section, the timeline, the safety list and the key reminders.",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-23",
-          "fingerprint": "fp-8d215228-13564",
-          "covers": "13076 characters, 19 headings",
-          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction and acne both drop \"Common\" for \"May occur\", at Don's instruction - his patients have not had these problems and one had acne that needed treating.",
+          "date": "2026-09-26",
+          "fingerprint": "fp-6444f642-13630",
+          "covers": "13142 characters, 19 headings",
+          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+          "note": "Signed 2026-09-25 on Don's instruction in chat. What moved since the 2026-09-23 signature: labs are drawn about halfway between two injections, not on an injection day before the dose, in the labs section, the timeline, the safety list and the key reminders.",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-21",
-            "fingerprint": "fp-54025f00-12865",
-            "covers": "12380 characters, 18 headings",
-            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-            "note": "Re-read on the live Pages site 2026-09-21 and approved: \"that Testosterone hand out is good now.\" DON FOUND A DEFECT ON THE FIRST READ AND IT IS WHY THIS SIGNATURE EXISTS. Under Safety reminders the handout carried the shared line 'Use a new insulin needle and syringe for every injection', appended directly beneath this handout's own correct sentence, so a patient was told both. Testosterone cypionate is a thick oil drawn with a draw-up needle and given through an injection needle on a Luer lock syringe; an insulin syringe has a fixed needle and is marked in units. The device sentence is now shared.injectionSafetyDevice and this handout declares ownInjectionDevice. Also covered by this reading: the needle renaming to draw-up and injection needle, and the gauge rule.",
+            "date": "2026-09-23",
+            "fingerprint": "fp-8d215228-13564",
+            "covers": "13076 characters, 19 headings",
+            "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Injection site reaction and acne both drop \"Common\" for \"May occur\", at Don's instruction - his patients have not had these problems and one had acne that needed treating.",
             "superseded": {
               "signedBy": "Donald Stevenson, PA-C",
               "role": "Director of Clinical Operations and Lead Provider",
-              "date": "2026-09-17",
-              "fingerprint": "fp-982b0eb4-11974",
-              "covers": "11509 characters, 17 headings",
-              "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+              "date": "2026-09-21",
+              "fingerprint": "fp-54025f00-12865",
+              "covers": "12380 characters, 18 headings",
+              "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+              "note": "Re-read on the live Pages site 2026-09-21 and approved: \"that Testosterone hand out is good now.\" DON FOUND A DEFECT ON THE FIRST READ AND IT IS WHY THIS SIGNATURE EXISTS. Under Safety reminders the handout carried the shared line 'Use a new insulin needle and syringe for every injection', appended directly beneath this handout's own correct sentence, so a patient was told both. Testosterone cypionate is a thick oil drawn with a draw-up needle and given through an injection needle on a Luer lock syringe; an insulin syringe has a fixed needle and is marked in units. The device sentence is now shared.injectionSafetyDevice and this handout declares ownInjectionDevice. Also covered by this reading: the needle renaming to draw-up and injection needle, and the gauge rule.",
+              "superseded": {
+                "signedBy": "Donald Stevenson, PA-C",
+                "role": "Director of Clinical Operations and Lead Provider",
+                "date": "2026-09-17",
+                "fingerprint": "fp-982b0eb4-11974",
+                "covers": "11509 characters, 17 headings",
+                "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+              }
             }
           }
         }
@@ -612,26 +818,35 @@ var KORB_PATIENT_ED = {
       "handout:hormonetherapy": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-09-23",
-        "fingerprint": "fp-a9fc4104-13578",
-        "covers": "13035 characters, 19 headings",
+        "date": "2026-11-25",
+        "fingerprint": "fp-9722f113-13591",
+        "covers": "13042 characters, 19 headings",
         "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
-        "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Breast tenderness and bloating drop \"Common\" for \"May occur\".",
+        "note": "Re-signed 2026-11-25 on Don's instruction in chat (\"Sign all 38\") after a sentence-level review of every change since his last signature, each before-render verified against the signed fingerprint: the 2026-11-21 contact block (\"Questions? Contact KORB\", four rows, emergency line), \"our Care Team\" in place of \"KORB Operations\", the Men's Health overview no longer naming Functional Health & Longevity, \"Patient Portal\" capitalised on the Sexual Health handout, and on the injectable GLP-1 medication pages the vial check box of 2026-11-25 (ee82a16).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-21",
-          "fingerprint": "fp-6b671e2f-12372",
-          "covers": "11832 characters, 18 headings",
-          "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
-          "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: the estradiol patch is now stated as TWO patches that are not interchangeable, one changed once a week and one twice a week, with the label telling the patient which. Don: \"hormone therapy is good.\"",
+          "date": "2026-09-23",
+          "fingerprint": "fp-a9fc4104-13578",
+          "covers": "13035 characters, 19 headings",
+          "attests": "Reviewed this patient guide as rendered and approve it for release to patients.",
+          "note": "Re-read on the live Pages site 2026-09-23 and approved in one pass, after the Kris Mulkey review changes of 2026-09-22 and the run of corrections Don called while reading on 2026-09-23. Breast tenderness and bloating drop \"Common\" for \"May occur\".",
           "superseded": {
             "signedBy": "Donald Stevenson, PA-C",
             "role": "Director of Clinical Operations and Lead Provider",
-            "date": "2026-09-17",
-            "fingerprint": "fp-174b6821-11389",
-            "covers": "10869 characters, 17 headings",
-            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+            "date": "2026-09-21",
+            "fingerprint": "fp-6b671e2f-12372",
+            "covers": "11832 characters, 18 headings",
+            "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+            "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: the estradiol patch is now stated as TWO patches that are not interchangeable, one changed once a week and one twice a week, with the label telling the patient which. Don: \"hormone therapy is good.\"",
+            "superseded": {
+              "signedBy": "Donald Stevenson, PA-C",
+              "role": "Director of Clinical Operations and Lead Provider",
+              "date": "2026-09-17",
+              "fingerprint": "fp-174b6821-11389",
+              "covers": "10869 characters, 17 headings",
+              "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients."
+            }
           }
         }
       }
