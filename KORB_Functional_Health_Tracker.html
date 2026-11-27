@@ -36,7 +36,10 @@
   h2.ct{margin:0 0 4px; font-size:1.05em; color:var(--navy); font-weight:800;}
   .sub{color:var(--mu); font-size:.85em; margin:0 0 14px;}
   label{font-weight:700; font-size:.82em; color:var(--navy); display:block; margin:14px 0 6px;}
-  label:first-of-type{margin-top:0;}
+  /* Only the card's own first label. A bare label:first-of-type also matched the
+     label inside each picker wrapper, so "My medication" and the dose label sat
+     flush against the field above them (Don, 2026-11-27). */
+  #setup > label:first-of-type{margin-top:0;}
   select, input[type="date"]{
     width:100%; padding:11px 12px; border-radius:9px; border:1.5px solid var(--bd);
     font-size:1em; background:#fff; color:var(--ink); font-family:inherit;
