@@ -157,28 +157,37 @@ var KORB_ADDONS = {
       "tool:addons": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-11-19",
-        "fingerprint": "fp-2e4de0c1-27442",
+        "date": "2026-11-27",
+        "fingerprint": "fp-bce8727b-27276",
         "covers": "51 states, 17 prescribing blocks",
         "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-        "note": "Re-signed 2026-11-19 on Don's review of the live tool in chat (Sign 3, add-on optimization products). What moved: Michigan and Massachusetts no longer reach Premier (korb-pharmacies.js v1.16).",
+        "note": "Re-signed 2026-11-27 on Don's instruction in chat (\"re-sign the add-on tool\"). What moved since the 2026-11-19 signature: FarmaKeio add-ons on hold (korb-pharmacies.js v1.19), the Arkansas keep-at-FarmaKeio checkbox removed, and Arkansas now shows no add-ons for now (0152de3, 7089a38).",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-21",
-          "fingerprint": "fp-0d47f553-30714",
-          "covers": "51 states, 25 prescribing blocks",
+          "date": "2026-11-19",
+          "fingerprint": "fp-2e4de0c1-27442",
+          "covers": "51 states, 17 prescribing blocks",
           "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-          "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: the shared plan note, added the same day it was signed and not covered by that signature. Don: the plan note reads the same as the others, good to go.",
+          "note": "Re-signed 2026-11-19 on Don's review of the live tool in chat (Sign 3, add-on optimization products). What moved: Michigan and Massachusetts no longer reach Premier (korb-pharmacies.js v1.16).",
           "superseded": {
-                  "signedBy": "Donald Stevenson, PA-C",
-                  "role": "Director of Clinical Operations and Lead Provider",
-                  "date": "2026-09-17",
-                  "fingerprint": "fp-dedb8d10-30710",
-                  "covers": "51 states, 25 prescribing blocks",
-                  "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-                  "note": "Approved 2026-09-17 after the afternoon's rebuild: the panel layout, gender gating the programme, category-then-product selection, the strength selector, and nine products moved to Tebra Standard prescriptions. Don: \"we just sent time on this afternoon working on so it is good.\""
-                }
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-21",
+            "fingerprint": "fp-0d47f553-30714",
+            "covers": "51 states, 25 prescribing blocks",
+            "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+            "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: the shared plan note, added the same day it was signed and not covered by that signature. Don: the plan note reads the same as the others, good to go.",
+            "superseded": {
+                    "signedBy": "Donald Stevenson, PA-C",
+                    "role": "Director of Clinical Operations and Lead Provider",
+                    "date": "2026-09-17",
+                    "fingerprint": "fp-dedb8d10-30710",
+                    "covers": "51 states, 25 prescribing blocks",
+                    "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+                    "note": "Approved 2026-09-17 after the afternoon's rebuild: the panel layout, gender gating the programme, category-then-product selection, the strength selector, and nine products moved to Tebra Standard prescriptions. Don: \"we just sent time on this afternoon working on so it is good.\""
+                  }
+          }
         }
       }
     }
