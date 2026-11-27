@@ -274,12 +274,14 @@ var ALL = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL"
 
 /* ADD-ON ROUTING, Don 2026-11-06. FarmaKeio is out for add-ons, as it already was
    for GLP-1 (2026-10-22). Premier wherever it is licensed; Belmar everywhere else,
-   which today is AL, AR, CA, HI, MA, MI, MS, SC, VA and WA. This replaces the
+   which today is AL, CA, HI, MA, MI, MS, SC, VA and WA. This replaces the
    2026-09-10 rule "follow the GLP-1 pharmacy, otherwise Premier".
-   2026-11-27 (Don): no FarmaKeio add-ons at all, Arkansas included. The Arkansas
-   "keep add-ons at FarmaKeio" checkbox is gone; Arkansas routes to Belmar like
-   any other state Premier cannot reach. FarmaKeio is used only for Arkansas
-   semaglutide and tirzepatide injections. */
+   ARKANSAS, Don 2026-11-27: FarmaKeio is the only pharmacy that ships to
+   Arkansas (it has a pharmacy there), and nothing for Arkansas goes to Premier,
+   Belmar or anyone else. FarmaKeio add-ons are on hold until KORB decides on
+   them, so Arkansas gets no add-ons for now: the tool says so and offers
+   nothing. The old "keep add-ons at FarmaKeio" checkbox is gone. FarmaKeio is
+   used for Arkansas semaglutide and tirzepatide injections. */
 
 var sel=document.getElementById("st");
 ALL.forEach(function(s){ var o=document.createElement("option"); o.value=s; o.textContent=stName(s); sel.appendChild(o); });
@@ -575,6 +577,18 @@ function render(){
   var inP = PREMIER.indexOf(st)>-1;
   var ph, why, h;
 
+  if(st==="AR"){
+    out.innerHTML='<div class="route block"><div class="k">Route to</div>'+
+      '<div class="v">No add-ons in Arkansas for now</div><div class="s">FarmaKeio is the only '+
+      'pharmacy that ships to Arkansas, and FarmaKeio add-ons are on hold until KORB decides on them. '+
+      'Do not send an Arkansas add-on to Premier, Belmar or any other pharmacy.</div></div>'+
+      '<div class="box teal"><b>Commercial generics can go to a local pharmacy.</b> Finasteride 1 mg, '+
+      'spironolactone 50 mg and metformin ER 500 mg are standard prescriptions, not compounds. If the patient '+
+      'wants one, prescribe it to their local pharmacy. KORB does not dispense it.</div>';
+    paintCats([]);
+    document.getElementById("count").textContent = "No add-ons for Arkansas right now.";
+    return;
+  }
   if(inP){
     ph="Premier";
     why="Premier is licensed in "+STATE_NAME[st]+".";

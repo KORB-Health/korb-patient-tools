@@ -82,9 +82,11 @@ Premier the same day: licence NR2802, expires 2028-10-21 (Miguel, Premier). Miss
 Premier because its Mississippi licence is non-sterile only. **FarmaKeio
 ADD-ONS RETIRED 2026-11-27** (Don): FarmaKeio is used only for Arkansas
 semaglutide and tirzepatide injections. Add-ons are Premier, with Belmar for
-PT-141 nasal and the two NAD+ forms where Premier is not licensed (Arkansas
-included). `farmakeio.programs.addons` is retired (korb-pharmacies.js v1.19) and
-the Arkansas FarmaKeio checkbox is gone from KORB_Optimization_Products.html.
+PT-141 nasal and the two NAD+ forms where Premier is not licensed. **Arkansas
+gets no add-ons for now**: FarmaKeio is the only pharmacy that ships there, and
+nothing for Arkansas goes to Premier, Belmar or anyone else (Don).
+`farmakeio.programs.addons` is retired (korb-pharmacies.js v1.19) and the tool
+shows "No add-ons in Arkansas for now" until KORB decides on FarmaKeio add-ons.
 
 - **ARKANSAS BACK TO FARMAKEIO** (Don, 2026-10-28). Belmar cannot collect
   payment from KORB for Arkansas prescriptions: Arkansas only lets it collect
