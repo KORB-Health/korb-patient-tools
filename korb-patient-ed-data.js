@@ -2675,6 +2675,131 @@ var KORB_PATIENT_ED = {
         'Tell us which product you took, how much, and when, so your provider can answer in one reply.'
       ]
     },
+    /* ------------------------------------------------------------------------
+       BREAK WEEKS - FH&L washout, drafted 2026-11-27 at Don's request while he
+       reviewed the FH&L Day 84 journey email. NOT RELEASED: see RELEASE STATUS
+       in CLAUDE.md. `unreleased: true` keeps the visit counter off it.
+
+       Why a page: the Day 84 email's "See My Break Weeks" button went to the
+       tracker, which opens on setup or today's doses, and on a second device
+       opens empty. The tracker's washout cards (WASHOUT_FOCUS in
+       KORB_Functional_Health_Tracker.html) carry one line each; this is where
+       the same four habits get room. Same four, same order of ideas.
+
+       Don's rulings it follows: the washout is for sleep, stress, movement and
+       eating (2026-11-27); patients are not sent to the provider through the
+       Portal for new feelings or changes, those wait for the follow-up, is this
+       normal goes to the Care Team, emergencies to 911 or the ER (2026-11-27).
+       That is why the contact section is written out here and does NOT use
+       shared: 'contact', which offers the Portal to the provider.
+
+       Weeks 13 to 16 and "do not restart early" match the peptide handouts'
+       timelines. Foundation BPC-157 and the Gateway BPC-157 run shorter active
+       windows, hence "your break can be longer". Lifestyle advice is general
+       and needs Don's read, and Robin's if she wants it, before release.
+       ------------------------------------------------------------------------ */
+    break_weeks: {
+      key: 'break_weeks',
+      file: 'Patient_Education/KORB_Break_Weeks_Guide',
+      unreleased: true,
+      program: 'Functional Health & Longevity',
+      title: 'Your Break Weeks',
+      disclaimer: 'This guide is for educational reference only. It is not medical advice. Your provider\'s instructions come first. If you have questions, contact KORB.',
+      intro: [
+        'Your break weeks are the part of your cycle with no injections, before your 16-week follow-up. They are part of the plan, not time off from it.',
+        'This is the time to work on the habits that help your results last: sleep, stress, movement and how you eat.'
+      ],
+      sections: [
+        {
+          h: 'When your break is',
+          paras: [
+            'For most medications the active weeks are 1 to 12, and weeks 13 to 16 are the break. Some medications start later or stop sooner, so your break can be longer. Your peptide tracker shows your exact dates, and suggests one habit to focus on each break week.',
+            'Your labs are drawn between weeks 12 and 14, and your provider reviews them before your follow-up.',
+            'Do not restart early unless your provider tells you to.'
+          ],
+          links: [
+            { href: '../KORB_Functional_Health_Tracker.html', label: 'Open My Peptide Tracker' }
+          ]
+        },
+        {
+          h: 'Protect your sleep',
+          lead: 'Sleep is when your body does much of its recovery, and it is the habit that slips first.',
+          items: [
+            'Go to bed and get up at the same time every day, weekends included.',
+            'Keep your bedroom dark, quiet and cool.',
+            'Put screens away 30 to 60 minutes before bed.',
+            'Have your last caffeine by early afternoon, and keep alcohol light, especially in the evening.',
+            'Get outside in daylight in the morning, even for a few minutes.'
+          ],
+          after: [
+            'If you snore loudly, someone has noticed you stop breathing in your sleep, or you wake up tired however long you sleep, bring it up at your follow-up.'
+          ]
+        },
+        {
+          h: 'Manage stress',
+          lead: 'Stress that goes on for weeks works against sleep, recovery and energy. A few minutes every day does more than an occasional big effort.',
+          items: [
+            'Take a 10-minute walk outside, without your phone if you can.',
+            'Try slow breathing for a few minutes: in for a count of 4, out for a count of 6.',
+            'Write down what is on your mind before bed, so it is on paper and not going round in your head.',
+            'Set aside some time each day away from screens and the news.',
+            'Make time for people whose company you enjoy.'
+          ]
+        },
+        {
+          h: 'Move more',
+          lead: 'Doing it often matters more than doing it hard.',
+          items: [
+            'Walk most days. A short walk counts.',
+            'Add strength work two or three times a week: squats, push-ups against a wall or counter, or light weights.',
+            'Stretch for a few minutes after you move, or before bed.',
+            'If you already exercise, keep your routine going.'
+          ],
+          after: [
+            'If you have not exercised in a while, or you have a heart or joint condition, start gently and build up slowly.'
+          ]
+        },
+        {
+          h: 'Eat mindfully',
+          lead: 'No tracking and no restriction. The goal is to notice.',
+          items: [
+            'Slow down at meals, and put your fork down between bites.',
+            'Eat away from screens when you can.',
+            'Before you eat, check whether you are actually hungry. Stop when you start to feel full.',
+            'Build your meals around protein, vegetables and whole foods.',
+            'Drink water through the day.'
+          ]
+        },
+        {
+          h: 'Before your follow-up',
+          items: [
+            'Make sure your lab draw is done. Results take about a week.',
+            'Write down how you have been sleeping, your energy and stress, and anything else you have noticed, with dates.',
+            'Bring your questions.',
+            'If your follow-up is not booked yet, call our Care Team.'
+          ]
+        },
+        {
+          h: 'Questions during your break',
+          paras: [
+            'Things you have noticed that are not urgent can wait for your follow-up. Not sure whether something is normal? Call or email our Care Team.'
+          ],
+          links: [
+            { href: 'tel:+18889597299', label: '(888) 959-7299' },
+            { href: 'mailto:info@korbhealth.com', label: 'info@korbhealth.com' }
+          ],
+          after: [
+            'In an emergency, call 911 or go to the nearest emergency room or urgent care.'
+          ]
+        }
+      ],
+      keyReminders: [
+        'Your break is part of your plan. Do not restart early unless your provider tells you to.',
+        'Your tracker shows your break dates and one habit to focus on each week.',
+        'Labs between weeks 12 and 14 are required before your 16-week follow-up.',
+        'Not sure whether something is normal? Call our Care Team. In an emergency, call 911.'
+      ]
+    },
     glossary: {
       key: 'glossary',
       file: 'Patient_Education/KORB_Glossary_of_Terms',

@@ -627,6 +627,7 @@ to check a single document against, which is the whole reason this table exists.
 | `Patient_Education/KORB_My_GLP1_FarmaKeio_Tirzepatide.html` | **Yes**, 2026-10-28. For Arkansas patients, who stay on FarmaKeio. Signed and pushed the same day |
 | `Patient_Education/KORB_My_GLP1_FarmaKeio_Oral_Semaglutide.html` | **Yes**, 2026-11-21 (recorded). Arkansas oral 1 mg, built 2026-11-02 (v2.38). Missing from this table until 2026-11-21, when Don confirmed it is released to patients; first signed the same day |
 | `Patient_Education/KORB_Our_Programs.html` | **No.** Built 2026-11-04 and pushed on Don's OK the same day, so it is reachable on Pages, but it is not linked from the hub or sent to patients yet. The no-price twin of the partner guide `KORB_Program_Guide.html`: programs as tiles (`#weight-loss`, `#longevity`, `#mens`, `#womens`, `#add-ons`), linking to the signed handouts. No prices, no mg doses, no state lists; `KORB_OUR_PROGRAMS_SELFCHECK()` fails on any of them or on korb-charges.js being loaded, negative-tested both halves. Has the feedback button |
+| `Patient_Education/KORB_Break_Weeks_Guide.html` | **No.** Drafted 2026-11-27 at Don's request: the FH&L washout (weeks 13 to 16) as the time for sleep, stress, movement and mindful eating, the tracker's four washout habits with room to explain. `guides.break_weeks` in `korb-patient-ed-data.js`, `unreleased: true` so it carries no visit counter. Needs Don's read (and Robin's if she wants it). On release: set this row to Yes, drop `unreleased`, rebuild, link it from the tracker's washout cards and the FH&L hub, and point the Day 84 journey email's "See My Break Weeks" button at it |
 | `KORB_Functional_Health_Tracker.html` | **Yes**, 2026-09-19 |
 | `KORB_GLP1_Dose_Guide.html` | **Yes**, 2026-09-19 |
 | `KORB_Lab_Interpretation_Tool.html` | **No. Provider tool, internal use only.** Don, 2026-09-22: it is public only because providers need to reach it, and it is not for patients. Do not link it from anything patient-facing, and leave it out of patient-language passes |
@@ -643,7 +644,7 @@ to check a single document against, which is the whole reason this table exists.
 | `404.html` | **Served**, 2026-09-21. Not a link anyone is sent - GitHub Pages shows it for any missing path |
 | `index.html` | **Served**, 2026-09-28. Redirect from the bare site address to the hub. Holds no content. It also keeps GitHub Pages from promoting `README.md` to the home page; `_config.yml` excludes `README.md` and `CLAUDE.md` from the site as well |
 
-54 rows: 51 published pages, 1 PDF, the 404 page and the index redirect (recounted 2026-11-21; it read 48 while the table had grown to 53). If a file exists and is not on this list, the
+55 rows: 52 published pages, 1 PDF, the 404 page and the index redirect (recounted 2026-11-21; it read 48 while the table had grown to 53. 55 on 2026-11-27 with the Break Weeks guide). If a file exists and is not on this list, the
 list is wrong, not the file.
 
 ---
