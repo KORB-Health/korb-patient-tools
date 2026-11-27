@@ -121,27 +121,36 @@ var KORB_WOMENS = {
       "tool:womens": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
-        "date": "2026-11-21",
-        "fingerprint": "fp-e80c424b-91535",
+        "date": "2026-11-27",
+        "fingerprint": "fp-4112c4d3-91047",
         "covers": "51 states, 46 prescribing blocks",
         "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-        "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the Women's Health Provider Tool\"). Fingerprinted at every commit since the 2026-09-21 signature; seven moved it, all routing: 62dc81e (10/15, Premier adds AK ID IA IN MN), 9381e77 (10/16, Premier loses VA), f0e66a2 (10/22, one pharmacy per state: the tool offers only the routed pharmacy, plus the patient's own pharmacy for commercial products, no override), fc02dd1 (10/22, Premier gains NH), de2bb82 (10/29, MA to Premier), 0fcddad (11/19, MI and MA to Belmar), 2b725a3 (11/19, MS to Belmar). Net since 9/21: to Premier AK IA ID IN MN NH; to Belmar MI MS VA; Premier 38 to 41 states, Belmar 13 to 10. Still 46 Tebra blocks.",
+        "note": "Re-signed 2026-11-27 on Don's instruction in chat (\"re-sign the Women's Health Provider Tool\"). One change since the 2026-11-21 signature: 3b2a4d5 (11/27), Arkansas Women's Health is the patient's own pharmacy only, for commercial products; Belmar no longer offered in Arkansas (states.localOnly). Belmar 10 states to 9.",
         "superseded": {
           "signedBy": "Donald Stevenson, PA-C",
           "role": "Director of Clinical Operations and Lead Provider",
-          "date": "2026-09-21",
-          "fingerprint": "fp-14380620-109338",
+          "date": "2026-11-21",
+          "fingerprint": "fp-e80c424b-91535",
           "covers": "51 states, 46 prescribing blocks",
           "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
-          "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: the shared plan note, added the same day it was signed and not covered by that signature. Don drove a state and hormone selection and read the resulting note.",
+          "note": "Re-signed 2026-11-21 on Don's instruction in chat (\"Re-sign the Women's Health Provider Tool\"). Fingerprinted at every commit since the 2026-09-21 signature; seven moved it, all routing: 62dc81e (10/15, Premier adds AK ID IA IN MN), 9381e77 (10/16, Premier loses VA), f0e66a2 (10/22, one pharmacy per state: the tool offers only the routed pharmacy, plus the patient's own pharmacy for commercial products, no override), fc02dd1 (10/22, Premier gains NH), de2bb82 (10/29, MA to Premier), 0fcddad (11/19, MI and MA to Belmar), 2b725a3 (11/19, MS to Belmar). Net since 9/21: to Premier AK IA ID IN MN NH; to Belmar MI MS VA; Premier 38 to 41 states, Belmar 13 to 10. Still 46 Tebra blocks.",
           "superseded": {
-                  "signedBy": "Donald Stevenson, PA-C",
-                  "role": "Director of Clinical Operations and Lead Provider",
-                  "date": "2026-09-17",
-                  "fingerprint": "fp-222659c0-108302",
-                  "covers": "51 states, 46 prescribing blocks",
-                  "attests": "Reviewed this tool as rendered - the states and destinations it offers, the products it puts in front of a provider for each of them, the hormones it gates, and the Tebra prescribing blocks it produces - and approve it for use by the provider team."
-                }
+            "signedBy": "Donald Stevenson, PA-C",
+            "role": "Director of Clinical Operations and Lead Provider",
+            "date": "2026-09-21",
+            "fingerprint": "fp-14380620-109338",
+            "covers": "51 states, 46 prescribing blocks",
+            "attests": "Reviewed this tool as rendered - the states it covers, the pharmacies and products it offers for each of them, what it blocks and where, and the Tebra prescribing blocks it produces - and approve it for use by the provider team.",
+            "note": "Re-read on the live Pages site 2026-09-21 and approved. What moved since the 2026-09-17 signature: the shared plan note, added the same day it was signed and not covered by that signature. Don drove a state and hormone selection and read the resulting note.",
+            "superseded": {
+                    "signedBy": "Donald Stevenson, PA-C",
+                    "role": "Director of Clinical Operations and Lead Provider",
+                    "date": "2026-09-17",
+                    "fingerprint": "fp-222659c0-108302",
+                    "covers": "51 states, 46 prescribing blocks",
+                    "attests": "Reviewed this tool as rendered - the states and destinations it offers, the products it puts in front of a provider for each of them, the hormones it gates, and the Tebra prescribing blocks it produces - and approve it for use by the provider team."
+                  }
+          }
         }
       }
     }
