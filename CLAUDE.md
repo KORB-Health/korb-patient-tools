@@ -79,8 +79,12 @@ Premier confirmed it can send sterile products there; it had been held back
 because the 10/15 licence list showed MA as non-sterile only. Every program
 follows, except FH&L, which stays closed in MA for provider coverage. New Hampshire moved to
 Premier the same day: licence NR2802, expires 2028-10-21 (Miguel, Premier). Mississippi left
-Premier because its Mississippi licence is non-sterile only. FarmaKeio ADD-ONS
-are not decided; do not touch add-on routing until Don says.
+Premier because its Mississippi licence is non-sterile only. **FarmaKeio
+ADD-ONS RETIRED 2026-11-27** (Don): FarmaKeio is used only for Arkansas
+semaglutide and tirzepatide injections. Add-ons are Premier, with Belmar for
+PT-141 nasal and the two NAD+ forms where Premier is not licensed (Arkansas
+included). `farmakeio.programs.addons` is retired (korb-pharmacies.js v1.19) and
+the Arkansas FarmaKeio checkbox is gone from KORB_Optimization_Products.html.
 
 - **ARKANSAS BACK TO FARMAKEIO** (Don, 2026-10-28). Belmar cannot collect
   payment from KORB for Arkansas prescriptions: Arkansas only lets it collect
@@ -194,8 +198,7 @@ are not decided; do not touch add-on routing until Don says.
   commercial products. FH&L: the "patient prefers Greenwich" override is gone;
   Premier wherever it ships peptides, and since 2026-11-25 Premier only
   (Greenwich retired, see the section above). Brand routes (LillyDirect,
-  NovoCare, local) stay. Add-ons are NOT changed until the FarmaKeio add-on
-  review is done.
+  NovoCare, local) stay. Add-ons: no FarmaKeio since 2026-11-27 (see above).
 
 ## FH&L HAS ITS OWN HUB. THE MAIN HUB CARRIES NO PEPTIDES. (Don, 2026-11-20)
 

@@ -234,10 +234,6 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--bd);font-size
         </select>
       </div>
     </div>
-    <label class="chk" id="fkoRow" style="display:none;">
-      <input type="checkbox" id="fko">
-      <span>Arkansas only: patient's GLP-1 already comes from FarmaKeio. Route add-ons to FarmaKeio to keep one pharmacy.</span>
-    </label>
 
     <!-- The add-on choice lives INSIDE the panel with the patient details.
          It used to sit in a sticky bar above the header, where a provider
@@ -278,21 +274,17 @@ var ALL = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL"
 
 /* ADD-ON ROUTING, Don 2026-11-06. FarmaKeio is out for add-ons, as it already was
    for GLP-1 (2026-10-22). Premier wherever it is licensed; Belmar everywhere else,
-   which today is AL, AR, CA, HI, MS, SC, VA and WA. The one exception is Arkansas:
-   a patient whose GLP-1 still comes from FarmaKeio may keep add-ons there, so the
-   FarmaKeio checkbox shows for Arkansas only. Patients already on a FarmaKeio
-   add-on move at their next refill. This replaces the 2026-09-10 rule "follow the
-   GLP-1 pharmacy, otherwise Premier". */
+   which today is AL, AR, CA, HI, MA, MI, MS, SC, VA and WA. This replaces the
+   2026-09-10 rule "follow the GLP-1 pharmacy, otherwise Premier".
+   2026-11-27 (Don): no FarmaKeio add-ons at all, Arkansas included. The Arkansas
+   "keep add-ons at FarmaKeio" checkbox is gone; Arkansas routes to Belmar like
+   any other state Premier cannot reach. FarmaKeio is used only for Arkansas
+   semaglutide and tirzepatide injections. */
 
 var sel=document.getElementById("st");
 ALL.forEach(function(s){ var o=document.createElement("option"); o.value=s; o.textContent=stName(s); sel.appendChild(o); });
-["st","prog","sex","fko"].forEach(function(id){
+["st","prog","sex"].forEach(function(id){
   document.getElementById(id).addEventListener("change", function(){ gateGender(); render(); });
-});
-document.getElementById("st").addEventListener("change", function(){
-  var ar = document.getElementById("st").value === "AR";
-  document.getElementById("fkoRow").style.display = ar ? "" : "none";
-  if(!ar) document.getElementById("fko").checked = false;
 });
 
 /* GENDER GATES THE PROGRAMME. A male patient is not in Women's Health and a
@@ -485,7 +477,7 @@ var ADDONS = [{"key":"farmakeio_nad","pharmacy":"farmakeio","sex":"any","cat":"A
    set. It is now a filter over the generated ADDONS array above, which comes
    from korb-addons-data.js. Add or change a product there, not here. */
 function products(ph, sex){
-  var pharmacy = (ph==="Premier") ? "premier" : (ph==="Belmar") ? "belmar" : "farmakeio";
+  var pharmacy = (ph==="Premier") ? "premier" : "belmar";
   return ADDONS.filter(function(p){
     if(p.pharmacy !== pharmacy) return false;
     return p.sex === "any" || p.sex === sex;
@@ -567,7 +559,6 @@ function render(){
   var st=document.getElementById("st").value,
       prog=document.getElementById("prog").value,
       sex=document.getElementById("sex").value,
-      preferFko=document.getElementById("fko").checked,
       out=document.getElementById("out");
 
   if(!st||!prog||!sex){
@@ -584,10 +575,7 @@ function render(){
   var inP = PREMIER.indexOf(st)>-1;
   var ph, why, h;
 
-  if(st==="AR" && preferFko){
-    ph="FarmaKeio";
-    why="Arkansas patient whose GLP-1 already comes from FarmaKeio. Add-ons go to FarmaKeio to keep one pharmacy.";
-  } else if(inP){
+  if(inP){
     ph="Premier";
     why="Premier is licensed in "+STATE_NAME[st]+".";
   } else {
@@ -605,8 +593,6 @@ function render(){
       '<div class="box teal"><b>Commercial generics can go to a local pharmacy.</b> Finasteride 1 mg, '+
       'spironolactone 50 mg and metformin ER 500 mg are standard prescriptions, not compounds. If the patient '+
       'wants one, prescribe it to their local pharmacy. KORB does not dispense it.</div>'+
-      (st==="AR" ? '<div class="box amber">If this patient\'s GLP-1 still comes from FarmaKeio, tick the box above '+
-      'to keep their add-ons at FarmaKeio.</div>' : '')+
       '<div class="sec">Available for '+prog+' · '+stName(st)+'</div>'+
       cardsFor(products("Belmar", sex), prog);
     out.innerHTML=h;
@@ -616,10 +602,6 @@ function render(){
   h='<div class="route"><div class="k">Route to</div><div class="v">'+ph+' Pharmacy</div>'+
         '<div class="s">'+why+'</div></div>';
 
-  if(ph==="FarmaKeio"){
-    h+='<div class="box amber"><b>Skin care is not available through FarmaKeio,</b> and Premier does not ship to '+
-       'Arkansas, so this patient cannot receive tretinoin, estriol or combo cream.</div>';
-  }
   if(ph==="Premier" && PH.pharmacies.premier.licencePending && PH.pharmacies.premier.licencePending[st]){
     h+='<div class="box amber">'+esc(PH.pharmacies.premier.licencePending[st])+'</div>';
   }
