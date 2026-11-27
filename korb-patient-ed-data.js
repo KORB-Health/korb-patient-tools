@@ -2364,6 +2364,11 @@ var KORB_PATIENT_ED = {
             'Nutrition. Adequate protein, and enough total food to support recovery.',
             'Movement. Strength training, with weights or your own body weight, if you are able, plus regular general activity.',
             'Recovery. Consistent sleep, and honest management of stress and alcohol.'
+          ],
+          /* Added 2026-11-27 with the Break Weeks guide's release (Don): one line,
+             the content stays on that page. */
+          links: [
+            { href: 'KORB_Break_Weeks_Guide.html', label: 'Weeks 13 to 16 are a break from injections: how to use them' }
           ]
         },
         {
@@ -2677,8 +2682,8 @@ var KORB_PATIENT_ED = {
     },
     /* ------------------------------------------------------------------------
        BREAK WEEKS - FH&L washout, drafted 2026-11-27 at Don's request while he
-       reviewed the FH&L Day 84 journey email. NOT RELEASED: see RELEASE STATUS
-       in CLAUDE.md. `unreleased: true` keeps the visit counter off it.
+       reviewed the FH&L Day 84 journey email. RELEASED 2026-11-27 (Don), linked
+       from the tracker's washout cards, the Longevity Hub and Start Here.
 
        Why a page: the Day 84 email's "See My Break Weeks" button went to the
        tracker, which opens on setup or today's doses, and on a second device
@@ -2701,7 +2706,6 @@ var KORB_PATIENT_ED = {
     break_weeks: {
       key: 'break_weeks',
       file: 'Patient_Education/KORB_Break_Weeks_Guide',
-      unreleased: true,
       program: 'Functional Health & Longevity',
       title: 'Your Break Weeks',
       disclaimer: 'This guide is for educational reference only. It is not medical advice. Your provider\'s instructions come first. If you have questions, contact KORB.',
