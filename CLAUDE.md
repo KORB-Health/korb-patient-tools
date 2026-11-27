@@ -100,9 +100,13 @@ shows "No add-ons in Arkansas for now" until KORB decides on FarmaKeio add-ons.
   sent to Belmar after 10/23. `selfCheck()` fails if any state but Arkansas
   routes to FarmaKeio, or Arkansas does not; negative-tested both halves.
   Two patient pages, `KORB_My_GLP1_FarmaKeio_Semaglutide` and `_Tirzepatide`.
-  **Not changed, and flagged to Don:** Women's Health and add-ons in Arkansas
-  still name Belmar, and the same payment limit may apply; the GLP-1 Pharmacy
-  Selection Policy in korb-governance still says Premier or Belmar.
+  **Arkansas is FarmaKeio only, for everything (Don, 2026-11-27):** FarmaKeio is
+  the only pharmacy that ships there, and nothing for Arkansas goes to Premier,
+  Belmar or anyone else. Add-ons: none in Arkansas for now. Women's Health:
+  the patient's own pharmacy only, for commercial products
+  (`korb-womens-data.js` `states.localOnly`, and Belmar `womens` excludes AR).
+  Still open: the GLP-1 Pharmacy Selection Policy in korb-governance says
+  Premier or Belmar.
 - **SEMAGLUTIDE DOTS LIVE 2026-10-28** (Don, v2.35). Premier oral semaglutide is
   1 mg #90 (`FITSemOrl90`, low-dose pathway and maintenance only), 5 mg #30
   starter, 5 mg #90, 10 mg #90, 20 mg #90. The 30-day 5 mg is a separate record

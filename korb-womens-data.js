@@ -1218,7 +1218,14 @@ var KORB_WOMENS = {
     /* COMPUTED AT LOAD: { AZ:'premier', ..., CA:'belmar', ... } for all 51. */
     routing: {},
     premierStates: [],
-    belmarStates: []
+    belmarStates: [],
+    /* LOCAL PHARMACY ONLY (Don, 2026-11-27). Arkansas: FarmaKeio is the only
+       pharmacy that ships there and it does not do Women's Health, and nothing
+       for Arkansas goes to Premier or Belmar. So the only route is the
+       patient's own pharmacy, for commercial products. A programme decision,
+       to keep things simple until KORB says otherwise. */
+    localOnly: ['AR'],
+    localStates: []
   },
 
   /* -- THE STANDALONE DOCUMENT ------------------------------------------------
@@ -1343,13 +1350,16 @@ var KORB_WOMENS = {
            short list where it can be seen, and the names are spelled out because
            nobody carries all 51 abbreviations in their head. */
         body: ['Premier is the default wherever Premier is licensed. Belmar covers ' +
-               'every remaining state. Both lists are computed from the shared ' +
-               'pharmacy layer, not maintained here.'],
+               'every remaining state except Arkansas, which is the patient’s own ' +
+               'pharmacy only, for commercial products. The lists are computed from ' +
+               'the shared pharmacy layer, not maintained here.'],
         groups: [
           { pharmacy: 'Premier Pharmacy', count: W.states.premierStates.length,
             states: W.states.premierStates.map(nameOf) },
           { pharmacy: 'Belmar Pharmacy', count: W.states.belmarStates.length,
-            states: W.states.belmarStates.map(nameOf) }
+            states: W.states.belmarStates.map(nameOf) },
+          { pharmacy: 'Patient’s own pharmacy only (commercial products)', count: W.states.localStates.length,
+            states: W.states.localStates.map(nameOf) }
         ],
         callouts: [
           W.belmarAddress.warning + ' ' + W.belmarAddress.address + '. ' + W.belmarAddress.why
@@ -1501,8 +1511,9 @@ var KORB_WOMENS = {
     if (!PH || !PH.pharmacies) throw new Error(
       'korb-womens-data.js: korb-pharmacies.js must be loaded first.');
     var premier = PH.statesFor('premier', 'womens');
-    var routing = {}, belmarStates = [];
+    var routing = {}, belmarStates = [], localStates = [], localOnly = this.states.localOnly;
     PH.states.korbActive.forEach(function (st) {
+      if (localOnly.indexOf(st) > -1) { routing[st] = 'local'; localStates.push(st); return; }
       if (premier.indexOf(st) > -1) { routing[st] = 'premier'; return; }
       if (PH.servesState('belmar', st, 'womens')) { routing[st] = 'belmar'; belmarStates.push(st); return; }
       throw new Error('korb-womens-data.js: ' + st + ' routes to neither Premier nor ' +
@@ -1512,6 +1523,7 @@ var KORB_WOMENS = {
     this.states.routing = routing;
     this.states.premierStates = premier.slice().sort();
     this.states.belmarStates = belmarStates.sort();
+    this.states.localStates = localStates.sort();
     this.hydrated = true;
     return this;
   },
@@ -1546,8 +1558,9 @@ var KORB_WOMENS = {
     if (this.hydrated) {
       var n = Object.keys(this.states.routing).length;
       if (n !== 51) problems.push('routing covers ' + n + ' states, not 51');
-      if (this.states.premierStates.length + this.states.belmarStates.length !== n) {
-        problems.push('premierStates and belmarStates do not partition the routing');
+      if (this.states.premierStates.length + this.states.belmarStates.length +
+          this.states.localStates.length !== n) {
+        problems.push('premierStates, belmarStates and localStates do not partition the routing');
       }
       /* A state cannot be in both lists. The two are a partition, and an overlap
          would mean a provider could be shown either answer. */

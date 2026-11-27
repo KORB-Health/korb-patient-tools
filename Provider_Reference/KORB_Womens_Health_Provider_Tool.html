@@ -280,8 +280,8 @@ body{background:var(--cream);}
      to sexual health. It reads the data file now.
      ORDER MATTERS - korb-pharmacies.js must load first or the data file
      throws by name rather than routing from an empty footprint. -->
-<script src="../korb-pharmacies.js?v=a9ab50f3"></script>
-<script src="../korb-womens-data.js?v=d5973c96"></script>
+<script src="../korb-pharmacies.js?v=5b9ac047"></script>
+<script src="../korb-womens-data.js?v=cf4b0df4"></script>
 <script>
 if (typeof KORB_WOMENS === "undefined" || typeof KORB_PHARMACIES === "undefined") {
   document.addEventListener("DOMContentLoaded", function () {
@@ -440,7 +440,10 @@ function fillDests() {
     return !ok.some(function (o) { return o.key === d.key; });
   });
   if (blocked.length) {
-    note.textContent = "Do not send to " + blocked.map(function (d) { return d.label; }).join(" or ")
+    note.textContent = (W.states.routing[st] === "local"
+      ? STATE_NAME[st] + ": the patient’s own pharmacy only, for commercial products. No compounded hormones here for now. "
+      : "")
+      + "Do not send to " + blocked.map(function (d) { return d.label; }).join(" or ")
       + " for " + STATE_NAME[st] + ". One pharmacy per state, no override.";
     note.hidden = false;
   } else {
@@ -731,7 +734,7 @@ function render(){
     + billingTable(dest, n, tier);
   if (dest !== W.states.routing[st]) {
     h += '<div class="info-box amber"><b>' + esc(STATE_NAME[st]) + ' normally routes to '
-       + esc({premier:"Premier",belmar:"Belmar"}[W.states.routing[st]] || "") + '.</b> '
+       + esc({premier:"Premier",belmar:"Belmar",local:"the patient’s own pharmacy"}[W.states.routing[st]] || "") + '.</b> '
        + 'You have selected ' + esc(destName) + '. Confirm that is deliberate.</div>';
   }
   h += '</div></div>';
