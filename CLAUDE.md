@@ -565,6 +565,19 @@ It has already broken once. See "Known failure" below.
 
 ---
 
+## QUEUED FOR THE NEXT VERSION OF SIGNED PATIENT DOCUMENTS
+
+Changes Don has approved for a signed patient document but that have not been made yet, so a
+signature is not silently invalidated. Make each one at that document's next version, re-sign,
+and delete the row.
+
+| Document | Change | Why |
+|---|---|---|
+| Hormone Therapy Guide (`docs.hormone_therapy`, "How to use a patch" callout) | Replace "put a new one on straight away... Do not wait for your next change day" with: put it on clean, dry skin with no lotion or oil and press for about 10 seconds; if the edges lift, press them down or tape around the edges without covering the whole patch; if it falls off, stick the same patch back on first; only if it won't stay on, put a new one on a different spot and still change it on the usual day; a replacement uses a patch from the 12-week supply, so call the Care Team after one. | Don, 2026-11-27, from the estradiol patch labels (reattach first, keep the original schedule). Replacing straight away runs the 84-day supply out early and throws off the patch and capsule cadence. Already the wording of the Women's Health Day 30 journey email. |
+| When to Contact KORB or the ER (`guides.contact`, "Not an emergency, but worth a message") | Stop routing sleep changes, flushing and mild rash to a provider message; those wait for the next visit, and "is this normal" goes to the Care Team by phone or email. | Don, 2026-11-27: providers do not answer open-ended symptom messages. Draft rule PM-D5 in `korb-governance/rules/patient_messaging.md`. |
+
+---
+
 ## RELEASE STATUS — read before sending anyone a link
 
 **Nothing in this repo distinguishes a document that is live from one that is
