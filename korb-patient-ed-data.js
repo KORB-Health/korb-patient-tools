@@ -294,6 +294,15 @@ var KORB_PATIENT_ED = {
           }
         }
       },
+      "page:break_weeks_guide": {
+        "signedBy": "Donald Stevenson, PA-C",
+        "role": "Director of Clinical Operations and Lead Provider",
+        "date": "2026-11-27",
+        "fingerprint": "fp-f9d4c36a-4216",
+        "covers": "3942 characters, 10 headings",
+        "attests": "Reviewed this patient handout as rendered - the clinical content, the dosing and administration guidance, the storage and travel instructions, the side effect and safety sections and the instructions on when to make contact - and approve it for release to patients.",
+        "note": "First signature, 2026-11-27, on Don's instruction in chat (\"sign the Break Weeks guide\"). Released the same day."
+      },
       "page:start_here_guide": {
         "signedBy": "Donald Stevenson, PA-C",
         "role": "Director of Clinical Operations and Lead Provider",
